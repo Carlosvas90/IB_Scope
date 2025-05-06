@@ -408,7 +408,7 @@ export class DataService {
   }
 
   /**
-   * Filtra los errores por estado
+   * Filtra los errores por estado y los ordena por hora (ascendente)
    */
   getFilteredErrors(statusFilter = "all") {
     console.time("GetFilteredErrors");
@@ -432,6 +432,16 @@ export class DataService {
           : error.feedback_status.toLowerCase() !== "done"
       );
     }
+
+    // Ordenar por hora (ascendente - más antiguo primero)
+    result = [...result].sort((a, b) => {
+      // Convertir string de tiempo a objeto Date para comparación
+      const timeA = new Date(`${a.date || ""} ${a.time || ""}`);
+      const timeB = new Date(`${b.date || ""} ${b.time || ""}`);
+
+      // Ordenar ascendente (más antiguo primero)
+      return timeA - timeB;
+    });
 
     // Almacenar en caché
     if (!this.cache.processedErrors) {
