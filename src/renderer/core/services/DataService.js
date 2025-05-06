@@ -6,8 +6,14 @@
 export class DataService {
   constructor() {
     this.errors = [];
-    this.filePath =
-      "C:\\Users\\carlo\\Downloads\\0-Proyecto_IB_Scope\\Analisis\\error_tracker.json"; // Ruta por defecto
+    this.dataPaths = [
+      "\\\\ant\\dept-eu\\VLC1\\Public\\Apps_Tools\\chuecc\\IB_Scope\\Data\\",
+      "C:\\Users\\carlo\\Downloads\\0-Proyecto_IB_Scope\\Analisis\\Data\\",
+    ];
+    this.currentDataPath = null;
+    this.fileNames = {
+      errors: "error_tracker.json",
+    };
     this.lastUpdateTime = null;
     this.isRefreshing = false;
     this.autoRefreshInterval = null;
@@ -23,13 +29,25 @@ export class DataService {
       try {
         const config = await window.api.getConfig();
 
-        // Establecer ruta de archivo
-        if (config && config.error_tracker_path) {
-          this.filePath = config.error_tracker_path;
+        // Establecer rutas de datos
+        if (config && config.data_paths && Array.isArray(config.data_paths)) {
+          this.dataPaths = config.data_paths;
           console.log(
-            "Ruta de archivo cargada de configuración:",
-            this.filePath
+            "Rutas de datos cargadas de configuración:",
+            this.dataPaths
           );
+        }
+
+        // Cargar nombres de archivos si están configurados
+        if (
+          config &&
+          config.apps &&
+          config.apps["feedback-tracker"] &&
+          config.apps["feedback-tracker"].files
+        ) {
+          const files = config.apps["feedback-tracker"].files;
+          this.fileNames = { ...this.fileNames, ...files };
+          console.log("Nombres de archivos cargados:", this.fileNames);
         }
 
         // Configurar autorefresh si está configurado
@@ -55,6 +73,49 @@ export class DataService {
   }
 
   /**
+   * Construye la ruta completa para un archivo
+   * @param {string} fileName - Nombre del archivo
+   * @param {string} dataPath - Ruta base de datos (opcional)
+   * @returns {string} Ruta completa
+   */
+  buildFilePath(fileName, dataPath = null) {
+    const basePath = dataPath || this.currentDataPath || this.dataPaths[0];
+    // Asegurar que la ruta termina con barra
+    const normalizedPath = basePath.endsWith("\\") ? basePath : basePath + "\\";
+    return normalizedPath + fileName;
+  }
+
+  /**
+   * Intenta leer un archivo desde múltiples rutas
+   * @param {string} fileName - Nombre del archivo a leer
+   * @returns {Promise<Object>} Resultado de la lectura
+   */
+  async tryReadFile(fileName) {
+    for (const dataPath of this.dataPaths) {
+      const filePath = this.buildFilePath(fileName, dataPath);
+      console.log(`Intentando leer archivo desde: ${filePath}`);
+
+      try {
+        const result = await window.api.readJson(filePath);
+        if (result.success) {
+          // Guardar la ruta exitosa para futuros accesos
+          this.currentDataPath = dataPath;
+          console.log(`Archivo leído correctamente desde: ${filePath}`);
+          return result;
+        }
+      } catch (error) {
+        console.warn(`No se pudo leer desde: ${filePath}`, error);
+        // Continuar intentando con la siguiente ruta
+      }
+    }
+
+    // Si llega aquí, no se pudo leer de ninguna ruta
+    throw new Error(
+      `No se pudo leer el archivo ${fileName} desde ninguna ruta`
+    );
+  }
+
+  /**
    * Actualiza los datos desde el archivo JSON
    */
   async refreshData() {
@@ -62,19 +123,11 @@ export class DataService {
 
     try {
       this.isRefreshing = true;
-
-      // Verificar si tenemos una ruta de archivo
-      if (!this.filePath) {
-        this.filePath =
-          "C:\\Users\\carlo\\Downloads\\0-Proyecto_IB_Scope\\Analisis\\error_tracker.json";
-        console.log("Usando ruta por defecto:", this.filePath);
-      }
-
-      // Leer el archivo JSON
-      console.log("Intentando leer archivo:", this.filePath);
+      console.log("Intentando cargar datos desde el archivo...");
 
       try {
-        const result = await window.api.readJson(this.filePath);
+        // Intentar leer el archivo de errores
+        const result = await this.tryReadFile(this.fileNames.errors);
 
         if (result.success) {
           this.errors = result.data.errors || [];
@@ -303,17 +356,21 @@ export class DataService {
    */
   async saveData() {
     try {
-      // Verificar si tenemos una ruta de archivo
-      if (!this.filePath) {
-        throw new Error("No se ha configurado una ruta de archivo");
+      // Verificar si tenemos una ruta de datos
+      if (!this.currentDataPath) {
+        // Usar la primera ruta disponible si no hay una actual
+        this.currentDataPath = this.dataPaths[0];
       }
+
+      const filePath = this.buildFilePath(this.fileNames.errors);
+      console.log(`Guardando datos en: ${filePath}`);
 
       // Preparar datos para guardar
       const data = { errors: this.errors };
 
       // Guardar archivo
       try {
-        const result = await window.api.saveJson(this.filePath, data);
+        const result = await window.api.saveJson(filePath, data);
 
         if (!result.success) {
           throw new Error(result.error || "Error al guardar archivo");
@@ -325,7 +382,38 @@ export class DataService {
         return true;
       } catch (saveError) {
         console.error("Error al guardar archivo:", saveError);
+
+        // Intentar con la siguiente ruta si está disponible
+        for (let i = 0; i < this.dataPaths.length; i++) {
+          // Saltarse la ruta actual que falló
+          if (this.dataPaths[i] === this.currentDataPath) continue;
+
+          const altFilePath = this.buildFilePath(
+            this.fileNames.errors,
+            this.dataPaths[i]
+          );
+          console.log(`Intentando guardar en ruta alternativa: ${altFilePath}`);
+
+          try {
+            const altResult = await window.api.saveJson(altFilePath, data);
+            if (altResult.success) {
+              // Guardar la nueva ruta como actual
+              this.currentDataPath = this.dataPaths[i];
+              this.lastUpdateTime = new Date();
+              return true;
+            }
+          } catch (altError) {
+            console.warn(
+              `No se pudo guardar en ruta alternativa: ${altFilePath}`,
+              altError
+            );
+          }
+        }
+
         // En modo desarrollo, simular éxito
+        console.warn(
+          "No se pudo guardar en ninguna ruta, simulando éxito en modo desarrollo"
+        );
         this.lastUpdateTime = new Date();
         return true;
       }
@@ -387,6 +475,13 @@ export class DataService {
     if (!this.lastUpdateTime) return "Nunca";
 
     return this.lastUpdateTime.toLocaleString();
+  }
+
+  /**
+   * Obtiene la ruta de datos actual que se está utilizando
+   */
+  getCurrentDataPath() {
+    return this.currentDataPath || "No establecido";
   }
 
   /**

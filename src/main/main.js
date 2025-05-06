@@ -11,10 +11,30 @@ let mainWindow;
 // Configuración global
 const configPath = path.join(app.getPath("userData"), "config.json");
 let config = {
-  error_tracker_path:
-    "C:\\Users\\carlo\\Downloads\\0-Proyecto_IB_Scope\\Analisis\\error_tracker.json",
+  data_paths: [
+    "\\\\ant\\dept-eu\\VLC1\\Public\\Apps_Tools\\chuecc\\IB_Scope\\Data\\",
+    "C:\\Users\\carlo\\Downloads\\0-Proyecto_IB_Scope\\Analisis\\Data\\",
+  ],
   preferred_theme: "light",
   auto_refresh: 60,
+  app_name: "Inbound Scope",
+  version: "1.0.0",
+  default_app: "dashboard",
+  apps: {
+    dashboard: {
+      name: "Inicio",
+      icon: "home",
+      default: true,
+    },
+    "feedback-tracker": {
+      name: "Feedback Tracker",
+      icon: "alert-triangle",
+      files: {
+        errors: "error_tracker.json",
+      },
+      views: ["errors", "stats", "settings"],
+    },
+  },
 };
 
 // Función para crear la ventana principal
@@ -78,14 +98,104 @@ function loadConfig() {
     if (fs.existsSync(configPath)) {
       const data = fs.readFileSync(configPath, "utf-8");
       const loadedConfig = JSON.parse(data);
-      config = { ...config, ...loadedConfig };
+
+      // Fusionar configuración existente con la cargada
+      config = mergeConfigs(config, loadedConfig);
+
+      console.log("Configuración cargada:", config);
     } else {
       // Si no existe, crear archivo con configuración por defecto
       saveConfig(config);
+      console.log("Configuración por defecto creada");
     }
+
+    // Verificar que las rutas de datos existen
+    validateDataPaths();
   } catch (error) {
     console.error("Error al cargar configuración:", error);
   }
+}
+
+// Fusionar configuraciones conservando estructura
+function mergeConfigs(defaultConfig, loadedConfig) {
+  // Copia profunda del config por defecto
+  const result = JSON.parse(JSON.stringify(defaultConfig));
+
+  // Recorrer el config cargado
+  Object.keys(loadedConfig).forEach((key) => {
+    if (key === "apps" && result.apps && loadedConfig.apps) {
+      // Fusionar apps manteniendo estructura
+      Object.keys(loadedConfig.apps).forEach((appKey) => {
+        if (result.apps[appKey]) {
+          // Fusionar app existente
+          result.apps[appKey] = {
+            ...result.apps[appKey],
+            ...loadedConfig.apps[appKey],
+          };
+        } else {
+          // Añadir app nueva
+          result.apps[appKey] = loadedConfig.apps[appKey];
+        }
+      });
+    } else if (key === "data_paths" && Array.isArray(loadedConfig.data_paths)) {
+      // Usar las rutas cargadas, pero asegurar que hay al menos una por defecto
+      result.data_paths =
+        loadedConfig.data_paths.length > 0
+          ? loadedConfig.data_paths
+          : result.data_paths;
+    } else {
+      // Para el resto de campos, sobreescribir
+      result[key] = loadedConfig[key];
+    }
+  });
+
+  return result;
+}
+
+// Validar que las rutas de datos existen
+function validateDataPaths() {
+  if (!config.data_paths || !Array.isArray(config.data_paths)) {
+    console.warn(
+      "No hay rutas de datos configuradas, usando valores por defecto"
+    );
+    return;
+  }
+
+  // Filtrar rutas válidas
+  const validPaths = [];
+
+  for (const dataPath of config.data_paths) {
+    try {
+      if (fs.existsSync(dataPath)) {
+        validPaths.push(dataPath);
+        console.log(`Ruta de datos válida: ${dataPath}`);
+      } else {
+        console.warn(`Ruta de datos no encontrada: ${dataPath}`);
+      }
+    } catch (error) {
+      console.warn(`Error al verificar ruta de datos: ${dataPath}`, error);
+    }
+  }
+
+  // Si no hay rutas válidas, añadir una en el directorio de usuario
+  if (validPaths.length === 0) {
+    const localDataPath = path.join(app.getPath("documents"), "IB_Scope_Data");
+
+    try {
+      // Crear directorio si no existe
+      if (!fs.existsSync(localDataPath)) {
+        fs.mkdirSync(localDataPath, { recursive: true });
+      }
+
+      validPaths.push(localDataPath);
+      console.log(`Creada ruta de datos local: ${localDataPath}`);
+    } catch (error) {
+      console.error("Error al crear directorio de datos local:", error);
+    }
+  }
+
+  // Actualizar config con rutas válidas
+  config.data_paths = validPaths;
 }
 
 // Guardar configuración
@@ -161,6 +271,12 @@ ipcMain.handle("read-json", async (event, filePath) => {
 
 ipcMain.handle("save-json", async (event, filePath, data) => {
   try {
+    // Asegurar que el directorio existe
+    const directory = path.dirname(filePath);
+    if (!fs.existsSync(directory)) {
+      fs.mkdirSync(directory, { recursive: true });
+    }
+
     const jsonString = JSON.stringify(data, null, 2);
     fs.writeFileSync(filePath, jsonString, "utf-8");
     return { success: true };

@@ -8,7 +8,7 @@
     "dev": "electron . --dev",
     "build": "electron-builder --win portable"
   },
-  "author": "",
+  "author": "Chuecc",
   "license": "MIT",
   "dependencies": {
     "echarts": "^5.4.3",
@@ -26,27 +26,17 @@
       "output": "dist"
     },
     "win": {
-      "target": "portable",
-      "icon": "assets/icons/app-icon.ico",
-      "extraResources": [
-        {
-          "from": "node_modules/ffmpeg-static/bin/win32/x64/ffmpeg.exe",
-          "to": "ffmpeg.exe"
-        }
+      "target": [
+        "portable"
       ],
-      "artifactName": "${productName}-${version}.${ext}"
+      "icon": "assets/icons/app-icon.ico",
+      "publisherName": "IB Scope"
     },
     "files": [
-      "**/*",
-      "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
-      "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
-      "!**/node_modules/*.d.ts",
-      "!**/node_modules/.bin",
-      "!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}",
-      "!.editorconfig",
-      "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS}"
+      "**/*"
     ],
-    "asar": false,
+    "asar": true,
+    "forceCodeSigning": false,
     "compression": "maximum"
   }
 }

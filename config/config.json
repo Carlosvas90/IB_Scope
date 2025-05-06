@@ -1,5 +1,8 @@
 {
-  "error_tracker_path": "C:\\Users\\carlo\\Downloads\\0-Proyecto_IB_Scope\\Analisis\\error_tracker.json",
+  "data_paths": [
+    "\\\\ant\\dept-eu\\VLC1\\Public\\Apps_Tools\\chuecc\\IB_Scope\\Data\\",
+    "C:\\Users\\carlo\\Downloads\\0-Proyecto_IB_Scope\\Analisis\\Data\\"
+  ],
   "preferred_theme": "light",
   "auto_refresh": 60,
   "app_name": "Inbound Scope",
@@ -14,6 +17,9 @@
     "feedback-tracker": {
       "name": "Feedback Tracker",
       "icon": "alert-triangle",
+      "files": {
+        "errors": "error_tracker.json"
+      },
       "views": ["errors", "stats", "settings"]
     }
   }
