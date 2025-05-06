@@ -1,30 +1,26 @@
-/* 
- * Estilos para la tabla de errores
- * src/renderer/apps/feedback-tracker/css/table.css
- */
+/* Optimized table.css */
 
-/* Importar variables */
+/* Import variables only once at the top */
 @import url("../../../css/themes/variables.css");
 
-/* Contenedor de la tabla con scroll */
+/* Base table container - simplified */
 .table-container {
   width: calc(100% - var(--spacing-lg) * 2);
   overflow-x: auto;
   border-radius: var(--border-radius-md);
   border: 1px solid var(--border-color);
-  margin-bottom: var(--spacing-lg);
+  margin: 0 var(--spacing-lg) 2rem;
   position: relative;
-  margin: 0 var(--spacing-lg);
 }
 
-/* Tabla base */
+/* Base table styles - flattened selectors */
 .data-table {
   width: 100%;
   border-collapse: collapse;
   font-size: var(--font-size-sm);
 }
 
-/* Encabezados */
+/* Header styles - combined properties */
 .data-table thead {
   position: sticky;
   top: 0;
@@ -41,7 +37,7 @@
   white-space: nowrap;
 }
 
-/* Filas */
+/* Row styles - simplified */
 .data-table tbody tr {
   transition: background-color var(--transition-fast);
   border-bottom: 1px solid var(--border-color);
@@ -55,7 +51,7 @@
   background-color: var(--hover-bg);
 }
 
-/* Celdas */
+/* Cell styles - simplified */
 .data-table td {
   padding: var(--spacing-md);
   border-right: 1px solid var(--border-color);
@@ -66,16 +62,16 @@
   border-right: none;
 }
 
-/* Filas según estado */
-.data-table tr.row-pending {
-  background-color: var(--status-pending);
+/* Status rows - simplified */
+.row-pending {
+  background-color: var(--status-pending) !important;
 }
 
-.data-table tr.row-done {
-  background-color: var(--status-done);
+.row-done {
+  background-color: var(--status-done) !important;
 }
 
-/* Botón de estado */
+/* Status button - combined styles */
 .status-btn {
   display: inline-flex;
   align-items: center;
@@ -85,10 +81,9 @@
   font-size: var(--font-size-xs);
   font-weight: 500;
   cursor: pointer;
-  transition: background-color var(--transition-fast),
-    color var(--transition-fast), transform var(--transition-fast);
   border: none;
   outline: none;
+  transition: all var(--transition-fast);
 }
 
 .status-btn:hover {
@@ -99,40 +94,38 @@
   transform: translateY(0);
 }
 
-/* Estilos para el estado pendiente */
-.status-btn.status-pending {
+/* Status styles - simplified */
+.status-pending {
   background-color: var(--status-pending);
   color: var(--status-pending-text);
 }
 
-.status-btn.status-pending:hover {
-  background-color: var(--status-pending-text);
-  color: white;
-}
-
-/* Estilos para el estado completado */
-.status-btn.status-done {
+.status-done {
   background-color: var(--status-done);
   color: var(--status-done-text);
 }
 
-.status-btn.status-done:hover {
+.status-pending:hover {
+  background-color: var(--status-pending-text);
+  color: white;
+}
+
+.status-done:hover {
   background-color: var(--status-done-text);
   color: white;
 }
 
-/* Iconos de estado */
+/* Icon styles - combined */
 .status-icon {
   width: 16px;
   height: 16px;
 }
 
-/* Celda de estado */
 .status-cell {
   min-width: 120px;
 }
 
-/* Enlace ASIN */
+/* Links styling */
 .asin-link {
   color: var(--link-color);
   text-decoration: none;
@@ -145,32 +138,20 @@
   text-decoration: underline;
 }
 
-/* Estilo para la celda de login */
-.login-cell {
-  position: relative;
-  cursor: pointer;
-}
-
-.login-cell:hover {
-  color: var(--text-highlight);
-}
-
-/* Popup para imagen de usuario */
+/* User image popup - optimized */
 .user-image-popup {
   position: absolute;
   z-index: 100;
-  background-color: var(--popup-bg);
+  background-color: var(--popup-bg, white);
   border-radius: var(--border-radius-md);
   box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.15);
   padding: var(--spacing-sm);
   opacity: 0;
   visibility: hidden;
-  transition: opacity var(--transition-medium),
-    visibility var(--transition-medium);
+  transition: opacity 0.2s, visibility 0.2s;
   max-width: 10rem;
   left: 50%;
   transform: translateX(-50%);
-  top: calc(100% + 0.5rem);
 }
 
 .user-image-popup.visible {
@@ -180,7 +161,7 @@
 
 .user-image-container {
   width: 9rem;
-  height: 6.75rem;
+  height: 12rem;
   overflow: hidden;
   border-radius: var(--border-radius-sm);
   display: flex;
@@ -191,7 +172,7 @@
 .user-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .popup-arrow {
@@ -200,13 +181,13 @@
   height: 0;
   border-left: 0.5rem solid transparent;
   border-right: 0.5rem solid transparent;
-  border-bottom: 0.5rem solid var(--popup-bg);
+  border-bottom: 0.5rem solid var(--popup-bg, white);
   top: -0.5rem;
   left: 50%;
   transform: translateX(-50%);
 }
 
-/* Filas expandibles */
+/* Expandable rows - combined styles */
 .expandable-row {
   cursor: pointer;
 }
@@ -224,6 +205,7 @@
   padding: var(--spacing-md);
 }
 
+/* Details grid - simplified */
 .details-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -244,7 +226,7 @@
   font-size: var(--font-size-sm);
 }
 
-/* Lista de ocurrencias */
+/* Occurrences list - simplified */
 .occurrences-list {
   list-style: none;
   padding: 0;
@@ -265,7 +247,7 @@
   border-bottom: none;
 }
 
-/* Estado de carga */
+/* Loading state - simplified */
 .loading {
   display: flex;
   align-items: center;
@@ -277,8 +259,8 @@
 .loading-spinner {
   width: 20px;
   height: 20px;
-  border: 2px solid var(--element-secondary);
-  border-top-color: var(--accent-blue);
+  border: 2px solid var(--element-secondary, #eee);
+  border-top-color: var(--accent-blue, #2196f3);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -289,24 +271,22 @@
   }
 }
 
-/* Mensaje vacío */
+/* Empty message */
 .empty-message {
   text-align: center;
   padding: var(--spacing-xl);
   color: var(--text-secondary);
 }
 
-/* Responsive para tablas */
+/* Responsive adjustments - simplified */
 @media (max-width: 768px) {
   .data-table {
     font-size: var(--font-size-xs);
   }
-
   .data-table th,
   .data-table td {
     padding: var(--spacing-sm);
   }
-
   .details-grid {
     grid-template-columns: 1fr;
   }

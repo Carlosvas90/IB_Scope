@@ -144,14 +144,58 @@ export class UserImageService {
    */
   positionPopup(popup, loginCell) {
     const cellRect = loginCell.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
 
-    // Posicionar horizontalmente centrado bajo la celda
+    // Temporalmente hacemos el popup visible pero oculto para medir sus dimensiones
+    popup.style.opacity = "0";
+    popup.style.display = "block";
+    popup.style.visibility = "hidden";
+    popup.style.top = "0";
+    const popupHeight = popup.offsetHeight;
+
+    // Calcular espacio disponible arriba y abajo
+    const spaceBelow = windowHeight - cellRect.bottom;
+    const spaceAbove = cellRect.top;
+
+    // Obtener la flecha del popup
+    const arrow = popup.querySelector(".popup-arrow");
+
+    // Posicionar horizontalmente centrado con la celda
     popup.style.left = `${cellRect.left + cellRect.width / 2}px`;
 
-    // Posicionar verticalmente bajo la celda
-    popup.style.top = `${cellRect.bottom + window.scrollY + 10}px`;
+    // Decidir si el popup va arriba o abajo basado en el espacio disponible
+    if (spaceBelow >= popupHeight || spaceBelow >= spaceAbove) {
+      // Posicionar abajo si hay suficiente espacio o más que arriba
+      popup.style.top = `${cellRect.bottom + window.scrollY + 10}px`;
+      popup.style.bottom = "auto";
 
-    // Comprobar si el popup se sale de la ventana
+      // Configurar flecha para apuntar hacia arriba
+      if (arrow) {
+        arrow.style.top = "-8px";
+        arrow.style.bottom = "auto";
+        arrow.style.borderTop = "none";
+        arrow.style.borderBottom = "8px solid var(--popup-bg, white)";
+      }
+    } else {
+      // Posicionar arriba si hay más espacio que abajo
+      popup.style.bottom = `${window.innerHeight - cellRect.top + 10}px`;
+      popup.style.top = "auto";
+
+      // Configurar flecha para apuntar hacia abajo
+      if (arrow) {
+        arrow.style.bottom = "-8px";
+        arrow.style.top = "auto";
+        arrow.style.borderBottom = "none";
+        arrow.style.borderTop = "8px solid var(--popup-bg, white)";
+      }
+    }
+
+    // Restaurar visibilidad
+    popup.style.opacity = "";
+    popup.style.display = "";
+    popup.style.visibility = "";
+
+    // Ajustar si se sale de los bordes
     setTimeout(() => {
       const popupRect = popup.getBoundingClientRect();
 
@@ -163,6 +207,18 @@ export class UserImageService {
       // Ajustar si se sale por la izquierda
       if (popupRect.left < 0) {
         popup.style.left = "10px";
+      }
+
+      // Ajustar si se sale por arriba
+      if (popupRect.top < 0) {
+        popup.style.top = "10px";
+        popup.style.bottom = "auto";
+      }
+
+      // Ajustar si se sale por abajo
+      if (popupRect.bottom > windowHeight) {
+        popup.style.bottom = "10px";
+        popup.style.top = "auto";
       }
     }, 0);
   }
