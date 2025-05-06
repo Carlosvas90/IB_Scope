@@ -1,6 +1,7 @@
 /**
  * app-loader.js
  * Carga dinámicamente las aplicaciones y gestiona su ciclo de vida
+ * Versión optimizada para rendimiento
  */
 
 import { router } from "./router.js";
@@ -34,19 +35,91 @@ class AppLoader {
 
     // Mantener registro de estilos cargados
     this.loadedStyles = {};
+
+    // Estado de precarga
+    this.preloadedStyles = {};
   }
 
   /**
    * Inicializa el cargador de aplicaciones
    */
   init() {
+    console.time("AppLoader:Init");
+
     // Escuchar eventos del router
     router.on("app:loaded", this.handleAppLoaded.bind(this));
 
     // Inicializar el router
     router.init();
 
+    // Detectar app actual desde URL
+    this.detectCurrentApp();
+
+    // Precarga de estilos para apps
+    this.preloadAppStyles();
+
+    console.timeEnd("AppLoader:Init");
     return true;
+  }
+
+  /**
+   * Detecta la app actual basándose en la URL
+   */
+  detectCurrentApp() {
+    const currentPath = window.location.pathname;
+    const appMatch = currentPath.match(/apps\/([^\/]+)/);
+    if (appMatch && appMatch[1]) {
+      this.currentApp = appMatch[1];
+      console.log(`App actual detectada: ${this.currentApp}`);
+    }
+  }
+
+  /**
+   * Precarga estilos de aplicaciones para mejorar rendimiento
+   */
+  preloadAppStyles() {
+    // Primero precargar la app actual para priorizar su carga
+    if (this.currentApp) {
+      this.preloadCurrentAppStyles();
+    }
+
+    // En segundo plano, precargar otras apps
+    if (window.cssOptimizer) {
+      setTimeout(() => {
+        const allAppStyles = window.cssOptimizer.preloadAllApps();
+        this.preloadedStyles = { ...this.preloadedStyles, ...allAppStyles };
+        console.log("Estilos de todas las apps precargados en segundo plano");
+      }, 1000); // Retrasar 1 segundo para priorizar la carga inicial
+    }
+  }
+
+  /**
+   * Precarga estilos para la aplicación actual
+   */
+  preloadCurrentAppStyles() {
+    if (!this.currentApp || !window.cssOptimizer) return;
+
+    console.time(`CSS:Preload:${this.currentApp}`);
+
+    // Precargar estilos combinados
+    if (typeof window.cssOptimizer.preloadStyles === "function") {
+      const styles = window.cssOptimizer.preloadStyles(this.currentApp);
+      if (styles) {
+        // Insertar estilos inmediatamente
+        const styleEl = document.createElement("style");
+        styleEl.id = `preloaded-styles-${this.currentApp}`;
+        styleEl.textContent = styles;
+        document.head.appendChild(styleEl);
+
+        // Marcar como precargados
+        this.preloadedStyles[this.currentApp] = true;
+        this.loadedStyles[this.currentApp] = true;
+
+        console.log(`Estilos para ${this.currentApp} precargados e inyectados`);
+      }
+    }
+
+    console.timeEnd(`CSS:Preload:${this.currentApp}`);
   }
 
   /**
@@ -61,8 +134,15 @@ class AppLoader {
       return;
     }
 
-    // Cargar estilos de la aplicación
-    this.loadAppStyles(app);
+    // Establecer como app actual
+    this.currentApp = app;
+
+    // Cargar estilos de la aplicación (solo si no han sido precargados)
+    if (!this.preloadedStyles[app]) {
+      this.loadAppStyles(app);
+    } else {
+      console.log(`Estilos de ${app} ya estaban precargados, omitiendo carga`);
+    }
 
     // Inicializar la aplicación
     this.initializeApp(app, view);
@@ -72,14 +152,18 @@ class AppLoader {
    * Carga los estilos de una aplicación
    */
   loadAppStyles(appName) {
+    console.time(`CSS:Load:${appName}`);
+
     const app = this.apps[appName];
     if (!app || !app.styles || !app.styles.length) {
+      console.timeEnd(`CSS:Load:${appName}`);
       return;
     }
 
     // Si los estilos ya están cargados, no hacer nada
     if (this.loadedStyles[appName]) {
       console.log(`Estilos para ${appName} ya cargados`);
+      console.timeEnd(`CSS:Load:${appName}`);
       return;
     }
 
@@ -99,19 +183,28 @@ class AppLoader {
       link.href = styleUrl;
       link.setAttribute("data-app", appName);
 
+      // Usar técnica de carga diferida para no bloquear
+      link.media = "print";
+      link.onload = function () {
+        this.media = "all";
+        console.log(`Estilo cargado: ${styleUrl}`);
+      };
+
       // Añadir al head
       document.head.appendChild(link);
-      console.log(`Estilo cargado: ${styleUrl}`);
     });
 
     // Marcar estilos como cargados
     this.loadedStyles[appName] = true;
+    console.timeEnd(`CSS:Load:${appName}`);
   }
 
   /**
    * Inicializa una aplicación
    */
   initializeApp(appName, viewName) {
+    console.time(`App:Init:${appName}`);
+
     const app = this.apps[appName];
 
     // Verificar si hay una función inicializadora
@@ -124,11 +217,12 @@ class AppLoader {
         this.currentApp = appName;
 
         console.log(`Aplicación ${appName} inicializada correctamente`);
-
+        console.timeEnd(`App:Init:${appName}`);
         return result;
       } catch (error) {
         console.error(`Error al inicializar ${appName}:`, error);
         this.handleLoadError(appName, error);
+        console.timeEnd(`App:Init:${appName}`);
       }
     } else {
       console.warn(
@@ -137,6 +231,7 @@ class AppLoader {
 
       // Establecer como aplicación actual de todas formas
       this.currentApp = appName;
+      console.timeEnd(`App:Init:${appName}`);
     }
   }
 

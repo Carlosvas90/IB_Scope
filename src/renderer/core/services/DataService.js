@@ -1,11 +1,16 @@
 /**
  * DataService.js
  * Servicio para el manejo de datos, lectura/escritura de archivos JSON y procesamiento
+ * Versión optimizada para rendimiento
  */
 
 export class DataService {
   constructor() {
     this.errors = [];
+    this.cache = {
+      processedErrors: null,
+      statistics: null,
+    };
     this.dataPaths = [
       "\\\\ant\\dept-eu\\VLC1\\Public\\Apps_Tools\\chuecc\\IB_Scope\\Data\\",
       "C:\\Users\\carlo\\Downloads\\0-Proyecto_IB_Scope\\Analisis\\Data\\",
@@ -18,12 +23,14 @@ export class DataService {
     this.isRefreshing = false;
     this.autoRefreshInterval = null;
     this.autoRefreshTime = 60; // segundos
+    this.refreshListeners = [];
   }
 
   /**
    * Inicializa el servicio de datos
    */
   async init() {
+    console.time("DataService:Init");
     try {
       // Intentar cargar configuración
       try {
@@ -62,13 +69,87 @@ export class DataService {
         // Continuamos con los valores por defecto
       }
 
-      // Cargar errores iniciales
-      await this.refreshData();
+      // Cargar errores iniciales (con caché en localStorage si está disponible)
+      await this.loadInitialData();
 
+      console.timeEnd("DataService:Init");
       return true;
     } catch (error) {
       console.error("Error al inicializar el servicio de datos:", error);
+      console.timeEnd("DataService:Init");
       return false;
+    }
+  }
+
+  /**
+   * Carga datos iniciales con soporte para caché
+   */
+  async loadInitialData() {
+    // Primer intento: Cargar desde localStorage para renderizado inmediato
+    if (this.loadFromCache()) {
+      console.log("Datos cargados desde caché local");
+
+      // En segundo plano, refrescar datos desde archivo
+      setTimeout(() => {
+        this.refreshData().then((success) => {
+          if (success) {
+            console.log("Datos actualizados desde archivo JSON");
+          }
+        });
+      }, 500);
+
+      return true;
+    }
+
+    // Si no hay caché, cargar directamente desde archivo
+    return await this.refreshData();
+  }
+
+  /**
+   * Carga datos desde caché en localStorage
+   * @returns {boolean} Si se cargaron datos desde caché
+   */
+  loadFromCache() {
+    try {
+      const cachedData = localStorage.getItem("feedback_tracker_data");
+      if (!cachedData) return false;
+
+      const data = JSON.parse(cachedData);
+      if (!data || !data.errors || !Array.isArray(data.errors)) return false;
+
+      this.errors = data.errors;
+      this.lastUpdateTime = new Date(data.lastUpdate || Date.now());
+
+      // Normalizar datos
+      this.normalizeErrors();
+
+      // Invalidar caché
+      this.invalidateCache();
+
+      // Notificar carga
+      this.notifyDataUpdated(true);
+
+      return true;
+    } catch (error) {
+      console.warn("Error cargando desde caché:", error);
+      return false;
+    }
+  }
+
+  /**
+   * Guarda datos en caché local
+   */
+  saveToCache() {
+    try {
+      const cacheData = {
+        errors: this.errors,
+        lastUpdate: this.lastUpdateTime?.toISOString(),
+      };
+
+      localStorage.setItem("feedback_tracker_data", JSON.stringify(cacheData));
+      console.log("Datos guardados en caché local");
+    } catch (error) {
+      console.warn("Error guardando en caché:", error);
     }
   }
 
@@ -91,7 +172,30 @@ export class DataService {
    * @returns {Promise<Object>} Resultado de la lectura
    */
   async tryReadFile(fileName) {
+    console.time("FileRead");
+
+    // Si hay una ruta actual exitosa, intentar primero esa
+    if (this.currentDataPath) {
+      const filePath = this.buildFilePath(fileName, this.currentDataPath);
+      console.log(`Intentando leer desde ruta actual: ${filePath}`);
+
+      try {
+        const result = await window.api.readJson(filePath);
+        if (result.success) {
+          console.timeEnd("FileRead");
+          return result;
+        }
+      } catch (error) {
+        console.warn(`No se pudo leer desde ruta actual: ${filePath}`, error);
+        // Continuar con otras rutas
+      }
+    }
+
+    // Intentar todas las rutas
     for (const dataPath of this.dataPaths) {
+      // Saltar la ruta actual que ya probamos
+      if (dataPath === this.currentDataPath) continue;
+
       const filePath = this.buildFilePath(fileName, dataPath);
       console.log(`Intentando leer archivo desde: ${filePath}`);
 
@@ -101,6 +205,7 @@ export class DataService {
           // Guardar la ruta exitosa para futuros accesos
           this.currentDataPath = dataPath;
           console.log(`Archivo leído correctamente desde: ${filePath}`);
+          console.timeEnd("FileRead");
           return result;
         }
       } catch (error) {
@@ -110,6 +215,7 @@ export class DataService {
     }
 
     // Si llega aquí, no se pudo leer de ninguna ruta
+    console.timeEnd("FileRead");
     throw new Error(
       `No se pudo leer el archivo ${fileName} desde ninguna ruta`
     );
@@ -136,17 +242,18 @@ export class DataService {
           // Normalizar los datos
           this.normalizeErrors();
 
+          // Invalidar caché
+          this.invalidateCache();
+
+          // Guardar en caché local
+          this.saveToCache();
+
           console.log(
             `Datos cargados correctamente: ${this.errors.length} errores`
           );
 
           // Emitir evento de datos actualizados
-          if (window.ipcRenderer) {
-            window.ipcRenderer.send("data:updated", {
-              count: this.errors.length,
-              timestamp: this.lastUpdateTime,
-            });
-          }
+          this.notifyDataUpdated();
 
           this.isRefreshing = false;
           return true;
@@ -167,6 +274,59 @@ export class DataService {
       this.isRefreshing = false;
       return false;
     }
+  }
+
+  /**
+   * Notifica que los datos han sido actualizados
+   * @param {boolean} fromCache - Si los datos vienen de caché
+   */
+  notifyDataUpdated(fromCache = false) {
+    // Notificar a través de ipcRenderer
+    if (window.ipcRenderer) {
+      window.ipcRenderer.send("data:updated", {
+        count: this.errors.length,
+        timestamp: this.lastUpdateTime,
+        fromCache: fromCache,
+      });
+    }
+
+    // Notificar a los listeners registrados
+    this.refreshListeners.forEach((callback) => {
+      try {
+        callback(this.errors, this.lastUpdateTime);
+      } catch (error) {
+        console.warn("Error en listener de actualización:", error);
+      }
+    });
+  }
+
+  /**
+   * Registra un callback para notificaciones de actualización
+   * @param {Function} callback - Función a llamar cuando los datos se actualicen
+   */
+  onRefresh(callback) {
+    if (typeof callback === "function") {
+      this.refreshListeners.push(callback);
+    }
+  }
+
+  /**
+   * Elimina un callback registrado
+   * @param {Function} callback - Función a eliminar
+   */
+  offRefresh(callback) {
+    const index = this.refreshListeners.indexOf(callback);
+    if (index !== -1) {
+      this.refreshListeners.splice(index, 1);
+    }
+  }
+
+  /**
+   * Invalida la caché interna
+   */
+  invalidateCache() {
+    this.cache.processedErrors = null;
+    this.cache.statistics = null;
   }
 
   /**
@@ -214,6 +374,9 @@ export class DataService {
       },
     ];
     this.lastUpdateTime = new Date();
+
+    // Invalidar caché
+    this.invalidateCache();
   }
 
   /**
@@ -248,21 +411,50 @@ export class DataService {
    * Filtra los errores por estado
    */
   getFilteredErrors(statusFilter = "all") {
-    if (statusFilter === "all") {
-      return this.errors;
+    console.time("GetFilteredErrors");
+
+    // Usar caché si está disponible
+    if (
+      this.cache.processedErrors &&
+      this.cache.processedErrors[statusFilter]
+    ) {
+      console.timeEnd("GetFilteredErrors");
+      return this.cache.processedErrors[statusFilter];
     }
 
-    return this.errors.filter((error) =>
-      statusFilter === "done"
-        ? error.feedback_status.toLowerCase() === "done"
-        : error.feedback_status.toLowerCase() !== "done"
-    );
+    let result;
+    if (statusFilter === "all") {
+      result = this.errors;
+    } else {
+      result = this.errors.filter((error) =>
+        statusFilter === "done"
+          ? error.feedback_status.toLowerCase() === "done"
+          : error.feedback_status.toLowerCase() !== "done"
+      );
+    }
+
+    // Almacenar en caché
+    if (!this.cache.processedErrors) {
+      this.cache.processedErrors = {};
+    }
+    this.cache.processedErrors[statusFilter] = result;
+
+    console.timeEnd("GetFilteredErrors");
+    return result;
   }
 
   /**
    * Devuelve estadísticas sobre los errores
    */
   getStatistics() {
+    console.time("GetStatistics");
+
+    // Usar caché si está disponible
+    if (this.cache.statistics) {
+      console.timeEnd("GetStatistics");
+      return this.cache.statistics;
+    }
+
     const stats = {
       total: this.errors.length,
       pending: 0,
@@ -273,7 +465,9 @@ export class DataService {
     };
 
     // Calcular estadísticas
-    this.errors.forEach((error) => {
+    for (let i = 0; i < this.errors.length; i++) {
+      const error = this.errors[i];
+
       // Contar por estado
       if (error.feedback_status.toLowerCase() === "done") {
         stats.done++;
@@ -292,8 +486,12 @@ export class DataService {
       // Contar por bin
       const binId = error.bin_id;
       stats.byBin[binId] = (stats.byBin[binId] || 0) + 1;
-    });
+    }
 
+    // Guardar en caché
+    this.cache.statistics = stats;
+
+    console.timeEnd("GetStatistics");
     return stats;
   }
 
@@ -341,6 +539,9 @@ export class DataService {
         this.errors[errorIndex].feedback_comment = "";
       }
 
+      // Invalidar caché
+      this.invalidateCache();
+
       // Guardar cambios
       await this.saveData();
 
@@ -355,6 +556,7 @@ export class DataService {
    * Guarda los datos en el archivo JSON
    */
   async saveData() {
+    console.time("SaveData");
     try {
       // Verificar si tenemos una ruta de datos
       if (!this.currentDataPath) {
@@ -379,6 +581,10 @@ export class DataService {
         // Actualizar timestamp
         this.lastUpdateTime = new Date();
 
+        // Guardar en caché local
+        this.saveToCache();
+
+        console.timeEnd("SaveData");
         return true;
       } catch (saveError) {
         console.error("Error al guardar archivo:", saveError);
@@ -400,6 +606,11 @@ export class DataService {
               // Guardar la nueva ruta como actual
               this.currentDataPath = this.dataPaths[i];
               this.lastUpdateTime = new Date();
+
+              // Guardar en caché local
+              this.saveToCache();
+
+              console.timeEnd("SaveData");
               return true;
             }
           } catch (altError) {
@@ -415,10 +626,16 @@ export class DataService {
           "No se pudo guardar en ninguna ruta, simulando éxito en modo desarrollo"
         );
         this.lastUpdateTime = new Date();
+
+        // Guardar en caché local
+        this.saveToCache();
+
+        console.timeEnd("SaveData");
         return true;
       }
     } catch (error) {
       console.error("Error al guardar datos:", error);
+      console.timeEnd("SaveData");
       return false;
     }
   }
@@ -553,5 +770,8 @@ export class DataService {
       clearInterval(this.autoRefreshInterval);
       this.autoRefreshInterval = null;
     }
+
+    // Limpiar callbacks
+    this.refreshListeners = [];
   }
 }

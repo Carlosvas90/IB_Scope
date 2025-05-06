@@ -48,6 +48,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
+      sandbox: false,
       preload: path.join(__dirname, "../preload/preload.js"),
     },
     show: false, // No mostrar hasta que esté lista para evitar parpadeos

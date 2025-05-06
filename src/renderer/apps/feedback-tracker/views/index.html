@@ -4,7 +4,53 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Feedback Tracker - Inbound Scope</title>
-    <link rel="stylesheet" href="../css/feedback-tracker.css" />
+
+    <!-- Script de precarga CSS optimizada -->
+    <script>
+      console.time("CSS:Total:Load");
+      // Inyectar CSS crítico al inicio para renderizado rápido
+      if (window.cssOptimizer) {
+        const appName = "feedback-tracker";
+        try {
+          // Comprobar si hay un elemento de estilo precargado (desde app-loader)
+          const preloadedStyle = document.getElementById(
+            `preloaded-styles-${appName}`
+          );
+          if (!preloadedStyle) {
+            // No hay estilo precargado, crear uno
+            const styles = window.cssOptimizer.preloadStyles(appName);
+            if (styles) {
+              const styleEl = document.createElement("style");
+              styleEl.id = `inline-styles-${appName}`;
+              styleEl.textContent = styles;
+              document.head.appendChild(styleEl);
+              console.log("CSS inyectado inline para carga rápida");
+            }
+          } else {
+            console.log("Usando CSS precargado por app-loader");
+          }
+        } catch (error) {
+          console.warn("Error al inyectar CSS:", error);
+          // Fallback a carga normal
+          loadFallbackCSS();
+        }
+      } else {
+        // Sin optimizador, usar carga normal
+        loadFallbackCSS();
+      }
+
+      // Función de fallback para carga CSS tradicional
+      function loadFallbackCSS() {
+        const links = ["../css/feedback-tracker.css", "../css/table.css"];
+        links.forEach((href) => {
+          const link = document.createElement("link");
+          link.rel = "stylesheet";
+          link.href = href;
+          document.head.appendChild(link);
+        });
+        console.log("CSS cargado mediante método tradicional");
+      }
+    </script>
   </head>
   <body>
     <!-- Vista de errores -->
@@ -243,6 +289,15 @@
         </div>
       </div>
     </div>
+
+    <!-- Script para medir tiempo de carga -->
+    <script>
+      // Registrar tiempo de carga completa
+      window.addEventListener("load", () => {
+        console.timeEnd("CSS:Total:Load");
+        console.log("Página completamente cargada");
+      });
+    </script>
 
     <!-- Scripts específicos de la aplicación -->
     <script type="module" src="../js/feedback-tracker.js"></script>
