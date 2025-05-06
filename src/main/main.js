@@ -1,6 +1,6 @@
 // src/main/main.js
 
-const { app, BrowserWindow, ipcMain, dialog } = require("electron");
+const { app, BrowserWindow, ipcMain, dialog, shell } = require("electron");
 const path = require("path");
 const fs = require("fs");
 const os = require("os");
@@ -109,6 +109,29 @@ ipcMain.handle("get-username", () => {
 
 ipcMain.handle("get-app-path", () => {
   return app.getAppPath();
+});
+
+// Abrir enlaces externos
+ipcMain.handle("open-external-link", async (event, url) => {
+  try {
+    if (url && typeof url === "string") {
+      // Validar que la URL comienza con http:// o https://
+      if (url.startsWith("http://") || url.startsWith("https://")) {
+        await shell.openExternal(url);
+        return { success: true };
+      } else {
+        return {
+          success: false,
+          error: "URL inválida: debe comenzar con http:// o https://",
+        };
+      }
+    } else {
+      return { success: false, error: "URL no válida" };
+    }
+  } catch (error) {
+    console.error("Error al abrir enlace externo:", error);
+    return { success: false, error: error.message };
+  }
 });
 
 // Configuración

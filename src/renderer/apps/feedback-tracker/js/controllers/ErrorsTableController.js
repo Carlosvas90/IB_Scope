@@ -116,7 +116,7 @@ export class ErrorsTableController {
     const isDone = button.classList.contains("status-done");
     const newStatus = isDone ? "pending" : "done";
 
-    // Si se cambia a "done", mostrar modal de feedback
+    // Solo mostrar modal si se cambia a "done"
     if (newStatus === "done" && window.feedbackModalController) {
       window.feedbackModalController.show(errorId, (feedbackData) => {
         this.statusService.updateStatusButton(button, newStatus);
@@ -130,13 +130,15 @@ export class ErrorsTableController {
         );
       });
     } else {
+      // Si cambia a pending, actualizar directamente sin modal
       this.statusService.updateStatusButton(button, newStatus);
       row.classList.toggle("row-done");
       row.classList.toggle("row-pending");
       this.statusService.updateErrorStatus(
         errorId,
         newStatus,
-        this.updateCounters.bind(this)
+        this.updateCounters.bind(this),
+        null // Sin comentario para cambio a pending
       );
     }
   }

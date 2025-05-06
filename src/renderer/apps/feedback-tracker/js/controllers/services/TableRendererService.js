@@ -88,11 +88,33 @@ export class TableRendererService {
     const asinCell = row.querySelector(".asin-cell");
     asinCell.innerHTML = ""; // Limpiar contenido
 
-    const asinLink = document.createElement("a");
-    asinLink.href = `http://fcresearch-eu.aka.amazon.com/VLC1/results?s=${error.asin}`;
+    const asinLink = document.createElement("span");
     asinLink.className = "asin-link";
     asinLink.textContent = this.escapeHtml(error.asin);
-    asinLink.target = "_blank";
+
+    // Añadir evento de clic para abrir en navegador externo
+    asinLink.addEventListener("click", (e) => {
+      e.stopPropagation(); // Evitar que se expanda la fila
+
+      // Crear URL completa
+      const url = `http://fcresearch-eu.aka.amazon.com/VLC1/results?s=${error.asin}`;
+
+      // Usar la API para abrir la URL en el navegador externo
+      window.api
+        .openExternalLink(url)
+        .then((result) => {
+          if (!result.success) {
+            console.error("Error al abrir enlace:", result.error);
+          }
+        })
+        .catch((err) => {
+          console.error("Error al llamar a openExternalLink:", err);
+        });
+    });
+
+    // Hacer que se vea como un enlace
+    asinLink.style.cursor = "pointer";
+
     asinCell.appendChild(asinLink);
   }
 

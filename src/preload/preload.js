@@ -1,30 +1,26 @@
 // src/preload/preload.js
-
 const { contextBridge, ipcRenderer } = require("electron");
-
 console.log("Cargando script de preload...");
 
 // Exponer APIs protegidas a través del puente de contexto
 contextBridge.exposeInMainWorld("api", {
   // Sistema
   getUsername: () => ipcRenderer.invoke("get-username"),
-
   // Archivos
   readJson: (filePath) => ipcRenderer.invoke("read-json", filePath),
   saveJson: (filePath, data) => ipcRenderer.invoke("save-json", filePath, data),
   exportToCsv: (data) => ipcRenderer.invoke("export-to-csv", data),
-
   // Diálogos
   showOpenDialog: (options) => ipcRenderer.invoke("show-open-dialog", options),
   showSaveDialog: (options) => ipcRenderer.invoke("show-save-dialog", options),
   showMessageBox: (options) => ipcRenderer.invoke("show-message-box", options),
-
   // Configuración
   getConfig: () => ipcRenderer.invoke("get-config"),
   saveConfig: (config) => ipcRenderer.invoke("save-config", config),
-
   // Utilidades
   getAppPath: () => ipcRenderer.invoke("get-app-path"),
+  // Enlaces externos
+  openExternalLink: (url) => ipcRenderer.invoke("open-external-link", url),
 });
 
 // Exponer objeto para comunicación directa entre aplicaciones
@@ -72,6 +68,5 @@ contextBridge.exposeInMainWorld("router", {
 
 // Informar que el preload ha sido cargado
 console.log("Preload cargado correctamente");
-
 // Enviar evento de preload cargado al proceso principal
 ipcRenderer.send("preload:loaded");
