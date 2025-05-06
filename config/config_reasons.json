@@ -1,0 +1,24 @@
+{
+  "feedback_reasons": [
+    {
+      "id": "desconocimiento",
+      "label": "Desconocimiento (no sabía)"
+    },
+    {
+      "id": "filtro_incorrecto",
+      "label": "Filtro incorrecto"
+    },
+    {
+      "id": "reincidente",
+      "label": "Persona reincidente"
+    },
+    {
+      "id": "bins_llenas",
+      "label": "Bins llenas"
+    },
+    {
+      "id": "otro",
+      "label": "Otro motivo"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+<!-- 
+    Modal para comentarios de feedback 
+    Ruta: /src/renderer/apps/feedback-tracker/views/feedback-modal.html
+-->
+
+<div id="feedback-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Agregar comentario de feedback</h2>
+      <button class="close-btn" id="modal-close-btn">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="feedback-form">
+        <div class="form-group">
+          <label for="feedback-reason">Razón:</label>
+          <select id="feedback-reason" class="form-control" required>
+            <option value="" disabled selected>Seleccionar razón...</option>
+            <!-- Las opciones se cargarán dinámicamente -->
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="feedback-comment">Comentario adicional (opcional):</label>
+          <textarea
+            id="feedback-comment"
+            class="form-control"
+            rows="3"
+            placeholder="Agregar detalles adicionales..."
+          ></textarea>
+        </div>
+        <div class="modal-actions">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            id="cancel-feedback-btn"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            id="submit-feedback-btn"
+          >
+            Guardar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,76 @@
+/* reset.css
+ * Normalización y reseteo básico para todos los elementos
+ */
+
+@import url("themes/variables.css");
+
+/* Reset básico para todos los elementos */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Estilos base para HTML y Body */
+html,
+body {
+  font-family: var(--font-family);
+  height: 100%;
+  width: 100%;
+  font-size: 16px;
+  line-height: 1.5;
+  transition: background-color var(--transition-normal);
+  overflow: hidden;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+}
+
+/* Reset para listas */
+ul,
+ol {
+  list-style: none;
+}
+
+/* Reset para hipervínculos */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Reset para imágenes */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Reset para input y botones */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Accesibilidad para elementos ocultos */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

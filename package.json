@@ -1,0 +1,32 @@
+{
+  "name": "feedback-tracker",
+  "version": "1.0.0",
+  "description": "Aplicación para seguimiento y feedback de errores",
+  "main": "src/main/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "echarts": "^5.4.3",
+    "electron-store": "^8.1.0"
+  },
+  "devDependencies": {
+    "electron": "^28.2.1",
+    "electron-builder": "^24.6.4"
+  },
+  "build": {
+    "appId": "com.feedback.tracker",
+    "productName": "Feedback Tracker",
+    "directories": {
+      "output": "build"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icons/app-icon.ico"
+    }
+  }
+}

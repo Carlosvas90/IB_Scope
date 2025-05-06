@@ -1,0 +1,79 @@
+/* layout.css
+ * Estilos para estructura general y contenedores principales
+ */
+
+@import url("themes/variables.css");
+
+/* Contenedor principal de la aplicación */
+.app-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Contenido principal */
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+}
+
+#app-container {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+/* Vistas */
+.view {
+  display: none;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.view.active {
+  display: block;
+}
+
+/* Layouts de tarjetas y contenedores */
+.card {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--box-shadow-sm);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+/* Layouts para headers de página */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-lg);
+}
+
+.page-title {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Contenedores de acciones */
+.actions-bar {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: center;
+}
+
+/* Layouts flexibles */
+.flex-row {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}

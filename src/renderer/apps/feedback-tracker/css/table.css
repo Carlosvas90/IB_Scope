@@ -1,0 +1,233 @@
+/* Estilos para la tabla de errores */
+@import url("../../../css/themes/variables.css");
+
+/* Contenedor de la tabla con scroll */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--border-color);
+  margin-bottom: var(--spacing-lg);
+  position: relative;
+}
+
+/* Tabla base */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+}
+
+/* Encabezados */
+.data-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.data-table th {
+  text-align: left;
+  padding: var(--spacing-md);
+  background-color: var(--sidebar-bg);
+  color: var(--text-primary);
+  font-weight: 600;
+  border-bottom: 1px solid var(--border-color);
+  white-space: nowrap;
+}
+
+/* Filas */
+.data-table tbody tr {
+  transition: background-color var(--transition-fast);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.data-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.data-table tbody tr:hover {
+  background-color: var(--hover-bg);
+}
+
+/* Celdas */
+.data-table td {
+  padding: var(--spacing-md);
+  border-right: 1px solid var(--border-color);
+  vertical-align: middle;
+}
+
+.data-table td:last-child {
+  border-right: none;
+}
+
+/* Filas según estado */
+.data-table tr.row-pending {
+  background-color: var(--status-pending);
+}
+
+.data-table tr.row-done {
+  background-color: var(--status-done);
+}
+
+/* Botón de estado */
+.status-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color var(--transition-fast),
+    color var(--transition-fast), transform var(--transition-fast);
+  border: none;
+  outline: none;
+}
+
+.status-btn:hover {
+  transform: translateY(-1px);
+}
+
+.status-btn:active {
+  transform: translateY(0);
+}
+
+/* Estilos para el estado pendiente */
+.status-btn.status-pending {
+  background-color: var(--status-pending);
+  color: var(--status-pending-text);
+}
+
+.status-btn.status-pending:hover {
+  background-color: var(--status-pending-text);
+  color: white;
+}
+
+/* Estilos para el estado completado */
+.status-btn.status-done {
+  background-color: var(--status-done);
+  color: var(--status-done-text);
+}
+
+.status-btn.status-done:hover {
+  background-color: var(--status-done-text);
+  color: white;
+}
+
+/* Iconos de estado */
+.status-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* Celda de estado */
+.status-cell {
+  min-width: 120px;
+}
+
+/* Filas expandibles */
+.expandable-row {
+  cursor: pointer;
+}
+
+.error-details-row {
+  display: none;
+  background-color: var(--card-bg);
+}
+
+.error-details-row.expanded {
+  display: table-row;
+}
+
+.error-details {
+  padding: var(--spacing-md);
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--spacing-md);
+}
+
+.detail-item {
+  margin-bottom: var(--spacing-sm);
+}
+
+.detail-label {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.detail-value {
+  font-size: var(--font-size-sm);
+}
+
+/* Lista de ocurrencias */
+.occurrences-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 150px;
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+}
+
+.occurrences-list li {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-bottom: 1px solid var(--border-color);
+  font-size: var(--font-size-xs);
+}
+
+.occurrences-list li:last-child {
+  border-bottom: none;
+}
+
+/* Estado de carga */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-lg);
+}
+
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--element-secondary);
+  border-top-color: var(--accent-blue);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Mensaje vacío */
+.empty-message {
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--text-secondary);
+}
+
+/* Responsive para tablas */
+@media (max-width: 768px) {
+  .data-table {
+    font-size: var(--font-size-xs);
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: var(--spacing-sm);
+  }
+
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+}

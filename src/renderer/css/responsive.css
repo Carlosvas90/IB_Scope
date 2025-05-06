@@ -1,0 +1,88 @@
+/* responsive.css
+ * Estilos responsivos para adaptación a diferentes dispositivos
+ */
+
+@import url("themes/variables.css");
+
+/* Tablets y pantallas medianas */
+@media (max-width: 1024px) {
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+  }
+
+  .actions-bar {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .card {
+    padding: var(--spacing-md);
+  }
+}
+
+/* Móviles y pantallas pequeñas */
+@media (max-width: 768px) {
+  /* Ajustes del sidebar */
+  .sidebar {
+    width: 60px;
+  }
+
+  .logo-text,
+  .sidebar-nav span,
+  .submenu-arrow {
+    display: none;
+  }
+
+  .sidebar-nav svg {
+    margin-right: 0;
+  }
+
+  .sidebar-nav a {
+    justify-content: center;
+    padding: var(--spacing-sm);
+  }
+
+  /* Ajustes para submenús */
+  .has-submenu.open .submenu {
+    position: absolute;
+    left: 60px;
+    background-color: var(--card-bg);
+    box-shadow: var(--box-shadow-md);
+    border-radius: var(--border-radius-md);
+    z-index: 100;
+  }
+
+  .submenu a {
+    width: 200px;
+  }
+
+  /* Ajustes para contenedores flexibles */
+  .flex-row {
+    flex-direction: column;
+  }
+
+  /* Ajustes para botones */
+  .actions-bar {
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+}
+
+/* Pantallas muy pequeñas */
+@media (max-width: 480px) {
+  .card {
+    padding: var(--spacing-sm);
+    border-radius: var(--border-radius-md);
+  }
+
+  .toast {
+    left: 20px;
+    right: 20px;
+    width: auto;
+  }
+}

@@ -1,0 +1,133 @@
+/* Dashboard CSS */
+@import url("../../../css/themes/variables.css");
+
+.dashboard-container {
+  padding: var(--spacing-lg);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-header {
+  margin-bottom: var(--spacing-xl);
+  text-align: center;
+}
+
+.dashboard-header h1 {
+  font-size: var(--font-size-xxl);
+  color: var(--accent-blue);
+  margin-bottom: var(--spacing-sm);
+}
+
+.welcome-message {
+  color: var(--text-secondary);
+  font-size: var(--font-size-lg);
+}
+
+.apps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+  flex: 1;
+}
+
+.app-card {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--box-shadow-sm);
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  transition: transform var(--transition-normal),
+    box-shadow var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.app-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--box-shadow-lg);
+}
+
+.app-card:hover::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background-color: var(--accent-blue);
+}
+
+.app-icon {
+  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-md);
+  border-radius: 50%;
+  background-color: var(--bg-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-icon svg {
+  color: var(--accent-blue);
+}
+
+.app-info h2 {
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--spacing-sm);
+  color: var(--text-primary);
+}
+
+.app-info p {
+  color: var(--text-secondary);
+  font-size: var(--font-size-md);
+}
+
+.app-card-placeholder {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.app-card-placeholder:hover {
+  transform: none;
+  box-shadow: var(--box-shadow-sm);
+}
+
+.app-card-placeholder:hover::before {
+  display: none;
+}
+
+.placeholder-icon svg {
+  color: var(--element-secondary);
+}
+
+.dashboard-status {
+  display: flex;
+  justify-content: space-between;
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.status-item {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+@media (max-width: 768px) {
+  .apps-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-status {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+}

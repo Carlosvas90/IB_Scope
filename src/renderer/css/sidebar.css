@@ -1,0 +1,82 @@
+/* sidebar.css
+ * Estilos específicos para el sidebar y sus componentes
+ */
+
+@import url("themes/variables.css");
+
+/* Contenedor del sidebar */
+.sidebar {
+  width: 240px;
+  height: 100%;
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  transition: background-color var(--transition-normal),
+    width var(--transition-normal);
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 10;
+}
+
+/* Contenedor del logo */
+.logo-container {
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Estilos del logo */
+.logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo svg {
+  width: 60px;
+  height: 60px;
+  margin-bottom: var(--spacing-sm);
+  color: var(--accent-blue);
+}
+
+.logo-text {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--accent-blue);
+  text-align: center;
+}
+
+/* Footer del sidebar */
+.sidebar-footer {
+  padding: var(--spacing-md);
+  border-top: 1px solid var(--border-color);
+  margin-top: auto;
+}
+
+/* Información de usuario */
+.username {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+/* Toggle de tema (en sidebar) */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--spacing-sm);
+  cursor: pointer;
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius-md);
+  background-color: var(--element-secondary);
+  transition: background-color var(--transition-fast);
+}
+
+.theme-toggle:hover {
+  background-color: var(--hover-bg);
+}

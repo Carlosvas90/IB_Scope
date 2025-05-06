@@ -1,0 +1,20 @@
+{
+  "error_tracker_path": "C:\\Users\\carlo\\Downloads\\0-Proyecto_IB_Scope\\Analisis\\error_tracker.json",
+  "preferred_theme": "light",
+  "auto_refresh": 60,
+  "app_name": "Inbound Scope",
+  "version": "1.0.0",
+  "default_app": "dashboard",
+  "apps": {
+    "dashboard": {
+      "name": "Inicio",
+      "icon": "home",
+      "default": true
+    },
+    "feedback-tracker": {
+      "name": "Feedback Tracker",
+      "icon": "alert-triangle",
+      "views": ["errors", "stats", "settings"]
+    }
+  }
+}

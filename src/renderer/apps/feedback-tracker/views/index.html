@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Feedback Tracker - Inbound Scope</title>
+    <link rel="stylesheet" href="../css/feedback-tracker.css" />
+  </head>
+  <body>
+    <!-- Vista de errores -->
+    <section id="errors-view" class="view active">
+      <div class="page-header">
+        <h1 class="page-title">Errores de Feedback</h1>
+        <div class="actions-bar">
+          <button id="refresh-btn" class="btn btn-primary">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M23 4v6h-6"></path>
+              <path d="M1 20v-6h6"></path>
+              <path
+                d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"
+              ></path>
+            </svg>
+            Actualizar
+          </button>
+          <button id="export-btn" class="btn btn-secondary">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Exportar a CSV
+          </button>
+        </div>
+      </div>
+
+      <!-- Filtros -->
+      <div class="filters">
+        <div class="filter-group">
+          <span class="filter-label">Filtrar por estado:</span>
+          <label>
+            <input type="radio" name="status-filter" value="all" checked />
+            Todos
+          </label>
+          <label>
+            <input type="radio" name="status-filter" value="pending" />
+            Pendientes
+          </label>
+          <label>
+            <input type="radio" name="status-filter" value="done" /> Completados
+          </label>
+        </div>
+      </div>
+
+      <!-- Resumen de estadísticas -->
+      <div class="stats-overview">
+        <div class="stat-item">
+          <span class="stat-label">Total:</span>
+          <span class="stat-value" id="total-errors">-</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Pendientes:</span>
+          <span class="stat-value" id="pending-errors">-</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Completados:</span>
+          <span class="stat-value" id="done-errors">-</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Última actualización:</span>
+          <span class="stat-value" id="last-update">-</span>
+        </div>
+      </div>
+
+      <!-- Tabla de errores con estructura modificada -->
+      <div class="table-container">
+        <table class="data-table" id="errors-table">
+          <thead>
+            <tr>
+              <th>Estado</th>
+              <th>Login</th>
+              <th>ASIN</th>
+              <th>Qty</th>
+              <th>Bin ID</th>
+              <th>Hora</th>
+              <th>Error</th>
+            </tr>
+          </thead>
+          <tbody id="errors-table-body">
+            <tr>
+              <td colspan="7" class="loading">
+                <div class="loading-spinner"></div>
+                <span>Cargando datos...</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Template para las filas de la tabla (se utilizará en JavaScript) -->
+      <template id="error-row-template">
+        <tr class="expandable-row" data-id="">
+          <td class="status-cell">
+            <!-- Botón de estado que cambia entre pendiente y completado -->
+            <button class="status-btn status-pending">
+              <!-- Icono para pendiente (reloj) -->
+              <svg
+                class="status-icon pending-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              <!-- Icono para completado (check) - oculto por defecto -->
+              <svg
+                class="status-icon done-icon"
+                style="display: none"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+              <span class="status-text">Pending</span>
+            </button>
+          </td>
+          <td class="login-cell"></td>
+          <td class="asin-cell"></td>
+          <td class="qty-cell"></td>
+          <td class="bin-id-cell"></td>
+          <td class="time-cell"></td>
+          <td class="error-cell"></td>
+        </tr>
+      </template>
+
+      <!-- Template para fila expandida con detalles adicionales -->
+      <template id="error-details-template">
+        <tr class="error-details-row">
+          <td colspan="7">
+            <div class="error-details">
+              <div class="details-grid">
+                <div class="detail-item">
+                  <div class="detail-label">ID:</div>
+                  <div class="detail-value id-value"></div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Fecha:</div>
+                  <div class="detail-value date-value"></div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Notificaciones:</div>
+                  <div class="detail-value notifications-value"></div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Ocurrencias:</div>
+                  <div class="occurrences-list"></div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </template>
+    </section>
+
+    <!-- Modal para feedback -->
+    <div id="feedback-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Agregar comentario de feedback</h2>
+          <button class="close-btn" id="modal-close-btn">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="feedback-form">
+            <div class="form-group">
+              <label for="feedback-reason">Razón:</label>
+              <select id="feedback-reason" class="form-control" required>
+                <option value="" disabled selected>Seleccionar razón...</option>
+                <!-- Las opciones se cargarán dinámicamente -->
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="feedback-comment"
+                >Comentario adicional (opcional):</label
+              >
+              <textarea
+                id="feedback-comment"
+                class="form-control"
+                rows="3"
+                placeholder="Agregar detalles adicionales..."
+              ></textarea>
+            </div>
+            <div class="modal-actions">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                id="cancel-feedback-btn"
+              >
+                Cancelar
+              </button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                id="submit-feedback-btn"
+              >
+                Guardar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts específicos de la aplicación -->
+    <script type="module" src="../js/feedback-tracker.js"></script>
+  </body>
+</html>
