@@ -4,38 +4,12 @@ const { app, BrowserWindow, ipcMain, dialog, shell } = require("electron");
 const path = require("path");
 const fs = require("fs");
 const os = require("os");
+const configService = require("./services/config");
+const configHandler = require("./handlers/config");
+const filesHandler = require("./handlers/files");
 
 // Variable para mantener referencia global a la ventana
 let mainWindow;
-
-// Configuración global
-const configPath = path.join(app.getPath("userData"), "config.json");
-let config = {
-  data_paths: [
-    "\\\\ant\\dept-eu\\VLC1\\Public\\Apps_Tools\\chuecc\\IB_Scope\\Data\\",
-    "C:\\Users\\carlo\\Downloads\\0-Proyecto_IB_Scope\\Analisis\\Data\\",
-  ],
-  preferred_theme: "light",
-  auto_refresh: 60,
-  app_name: "Inbound Scope",
-  version: "1.0.0",
-  default_app: "dashboard",
-  apps: {
-    dashboard: {
-      name: "Inicio",
-      icon: "home",
-      default: true,
-    },
-    "feedback-tracker": {
-      name: "Feedback Tracker",
-      icon: "alert-triangle",
-      files: {
-        errors: "error_tracker.json",
-      },
-      views: ["errors", "stats", "settings"],
-    },
-  },
-};
 
 // Función para crear la ventana principal
 function createWindow() {
@@ -74,9 +48,9 @@ function createWindow() {
 }
 
 // Crear ventana cuando la app está lista
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   // Cargar configuración antes de iniciar
-  loadConfig();
+  await configService.load();
 
   // Crear la ventana
   createWindow();
@@ -93,125 +67,7 @@ app.on("activate", () => {
   if (BrowserWindow.getAllWindows().length === 0) createWindow();
 });
 
-// Cargar configuración
-function loadConfig() {
-  try {
-    if (fs.existsSync(configPath)) {
-      const data = fs.readFileSync(configPath, "utf-8");
-      const loadedConfig = JSON.parse(data);
-
-      // Fusionar configuración existente con la cargada
-      config = mergeConfigs(config, loadedConfig);
-
-      console.log("Configuración cargada:", config);
-    } else {
-      // Si no existe, crear archivo con configuración por defecto
-      saveConfig(config);
-      console.log("Configuración por defecto creada");
-    }
-
-    // Verificar que las rutas de datos existen
-    validateDataPaths();
-  } catch (error) {
-    console.error("Error al cargar configuración:", error);
-  }
-}
-
-// Fusionar configuraciones conservando estructura
-function mergeConfigs(defaultConfig, loadedConfig) {
-  // Copia profunda del config por defecto
-  const result = JSON.parse(JSON.stringify(defaultConfig));
-
-  // Recorrer el config cargado
-  Object.keys(loadedConfig).forEach((key) => {
-    if (key === "apps" && result.apps && loadedConfig.apps) {
-      // Fusionar apps manteniendo estructura
-      Object.keys(loadedConfig.apps).forEach((appKey) => {
-        if (result.apps[appKey]) {
-          // Fusionar app existente
-          result.apps[appKey] = {
-            ...result.apps[appKey],
-            ...loadedConfig.apps[appKey],
-          };
-        } else {
-          // Añadir app nueva
-          result.apps[appKey] = loadedConfig.apps[appKey];
-        }
-      });
-    } else if (key === "data_paths" && Array.isArray(loadedConfig.data_paths)) {
-      // Usar las rutas cargadas, pero asegurar que hay al menos una por defecto
-      result.data_paths =
-        loadedConfig.data_paths.length > 0
-          ? loadedConfig.data_paths
-          : result.data_paths;
-    } else {
-      // Para el resto de campos, sobreescribir
-      result[key] = loadedConfig[key];
-    }
-  });
-
-  return result;
-}
-
-// Validar que las rutas de datos existen
-function validateDataPaths() {
-  if (!config.data_paths || !Array.isArray(config.data_paths)) {
-    console.warn(
-      "No hay rutas de datos configuradas, usando valores por defecto"
-    );
-    return;
-  }
-
-  // Filtrar rutas válidas
-  const validPaths = [];
-
-  for (const dataPath of config.data_paths) {
-    try {
-      if (fs.existsSync(dataPath)) {
-        validPaths.push(dataPath);
-        console.log(`Ruta de datos válida: ${dataPath}`);
-      } else {
-        console.warn(`Ruta de datos no encontrada: ${dataPath}`);
-      }
-    } catch (error) {
-      console.warn(`Error al verificar ruta de datos: ${dataPath}`, error);
-    }
-  }
-
-  // Si no hay rutas válidas, añadir una en el directorio de usuario
-  if (validPaths.length === 0) {
-    const localDataPath = path.join(app.getPath("documents"), "IB_Scope_Data");
-
-    try {
-      // Crear directorio si no existe
-      if (!fs.existsSync(localDataPath)) {
-        fs.mkdirSync(localDataPath, { recursive: true });
-      }
-
-      validPaths.push(localDataPath);
-      console.log(`Creada ruta de datos local: ${localDataPath}`);
-    } catch (error) {
-      console.error("Error al crear directorio de datos local:", error);
-    }
-  }
-
-  // Actualizar config con rutas válidas
-  config.data_paths = validPaths;
-}
-
-// Guardar configuración
-function saveConfig(newConfig) {
-  try {
-    fs.writeFileSync(configPath, JSON.stringify(newConfig, null, 2), "utf-8");
-    config = newConfig;
-    return true;
-  } catch (error) {
-    console.error("Error al guardar configuración:", error);
-    return false;
-  }
-}
-
-// ==== MANEJADORES DE IPC ====
+// ==== MANEJADORES DE IPC RESTANTES ====
 
 // Sistema
 ipcMain.handle("get-username", () => {
@@ -241,71 +97,6 @@ ipcMain.handle("open-external-link", async (event, url) => {
     }
   } catch (error) {
     console.error("Error al abrir enlace externo:", error);
-    return { success: false, error: error.message };
-  }
-});
-
-// Configuración
-ipcMain.handle("get-config", () => {
-  return config;
-});
-
-ipcMain.handle("save-config", (event, newConfig) => {
-  const success = saveConfig(newConfig);
-  return { success };
-});
-
-// Archivos
-ipcMain.handle("read-json", async (event, filePath) => {
-  try {
-    if (fs.existsSync(filePath)) {
-      const data = fs.readFileSync(filePath, "utf-8");
-      return { success: true, data: JSON.parse(data) };
-    } else {
-      return { success: false, error: "Archivo no encontrado" };
-    }
-  } catch (error) {
-    console.error("Error al leer el archivo:", error);
-    return { success: false, error: error.message };
-  }
-});
-
-ipcMain.handle("save-json", async (event, filePath, data) => {
-  try {
-    // Asegurar que el directorio existe
-    const directory = path.dirname(filePath);
-    if (!fs.existsSync(directory)) {
-      fs.mkdirSync(directory, { recursive: true });
-    }
-
-    const jsonString = JSON.stringify(data, null, 2);
-    fs.writeFileSync(filePath, jsonString, "utf-8");
-    return { success: true };
-  } catch (error) {
-    console.error("Error al guardar el archivo:", error);
-    return { success: false, error: error.message };
-  }
-});
-
-ipcMain.handle("export-to-csv", async (event, data) => {
-  try {
-    // Mostrar diálogo para guardar archivo
-    const { canceled, filePath } = await dialog.showSaveDialog({
-      title: "Exportar a CSV",
-      defaultPath: `errores_${new Date().toISOString().replace(/:/g, "-")}.csv`,
-      filters: [{ name: "CSV", extensions: ["csv"] }],
-    });
-
-    if (canceled) {
-      return { success: false, error: "Operación cancelada por el usuario" };
-    }
-
-    // Guardar archivo
-    fs.writeFileSync(filePath, data, "utf-8");
-
-    return { success: true, filePath };
-  } catch (error) {
-    console.error("Error al exportar a CSV:", error);
     return { success: false, error: error.message };
   }
 });
