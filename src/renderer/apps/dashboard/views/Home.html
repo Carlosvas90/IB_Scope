@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - Inbound Scope</title>
+    <link rel="stylesheet" href="../css/dashboard.css" />
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <header class="dashboard-header">
+        <h1>Bienvenido a Inbound Scope</h1>
+        <p class="welcome-message">
+          Plataforma integrada para gestión de procesos
+        </p>
+      </header>
+
+      <div class="apps-grid">
+        <div class="app-card" data-app="feedback-tracker">
+          <div class="app-icon">
+            <img
+              src="../../../assets/svg/feedback.svg"
+              alt="Feedback Tracker"
+              width="48"
+              height="48"
+            />
+          </div>
+          <div class="app-info">
+            <h2>Feedback Tracker</h2>
+            <p>Seguimiento y gestión de errores de feedback</p>
+          </div>
+        </div>
+        <div class="app-card" data-app="activity-scope">
+          <div class="app-icon">
+            <img
+              src="../../../assets/svg/activity.svg"
+              alt="Activity Scope"
+              width="48"
+              height="48"
+            />
+          </div>
+          <div class="app-info">
+            <h2>Activity Scope</h2>
+            <p>Visualización y análisis de actividad de usuarios</p>
+          </div>
+        </div>
+        <div class="app-card" data-app="idle-time">
+          <div class="app-icon">
+            <img
+              src="../../../assets/svg/idle.svg"
+              alt="IdleTime"
+              width="48"
+              height="48"
+            />
+          </div>
+          <div class="app-info">
+            <h2>IdleTime</h2>
+            <p>Control y análisis de tiempos muertos y correcciones</p>
+          </div>
+        </div>
+        <div class="app-card" data-app="space-heatmap">
+          <div class="app-icon">
+            <img
+              src="../../../assets/svg/heatmap.svg"
+              alt="SpaceHeatMap"
+              width="48"
+              height="48"
+            />
+          </div>
+          <div class="app-info">
+            <h2>SpaceHeatMap</h2>
+            <p>Mapa de calor de espacios y zonas del almacén</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-status">
+        <div class="status-item">
+          <div class="status-label">Última actualización:</div>
+          <div class="status-value" id="last-update">-</div>
+        </div>
+        <div class="status-item">
+          <div class="status-label">Versión:</div>
+          <div class="status-value">1.0.0</div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="../js/dashboard.js"></script>
+    <script>
+      // Hacer las cards clicables para navegar a cada app
+      document.querySelectorAll(".app-card").forEach((card) => {
+        card.addEventListener("click", () => {
+          const app = card.getAttribute("data-app");
+          if (app) {
+            window.dispatchEvent(
+              new CustomEvent("navigate", { detail: { app } })
+            );
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

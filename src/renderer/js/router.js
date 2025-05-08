@@ -7,7 +7,7 @@ class Router {
   constructor() {
     this.routes = {
       dashboard: {
-        path: "../apps/dashboard/views/index.html",
+        path: "../apps/dashboard/views/Home.html",
         default: true,
         scripts: ["../apps/dashboard/js/dashboard.js"],
       },
@@ -21,6 +21,18 @@ class Router {
         defaultView: "errors",
         scripts: ["../apps/feedback-tracker/js/feedback-tracker.js"],
         hasSubmenu: true,
+      },
+      "activity-scope": {
+        path: "../apps/activity-scope/views/activity-scope.html",
+        scripts: [],
+      },
+      "idle-time": {
+        path: "../apps/idle-time/views/idle-time.html",
+        scripts: [],
+      },
+      "space-heatmap": {
+        path: "../apps/space-heatmap/views/space-heatmap.html",
+        scripts: [],
       },
       // Aquí se pueden añadir más aplicaciones en el futuro
     };
