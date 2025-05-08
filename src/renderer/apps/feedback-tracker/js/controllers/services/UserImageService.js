@@ -4,6 +4,8 @@
  * Ruta: /src/renderer/apps/feedback-tracker/js/controllers/services/UserImageService.js
  */
 
+import { getUserPhotoUrl } from "../../../../../core/utils/linkUtils.js";
+
 export class UserImageService {
   constructor() {
     this.activePopup = null;
@@ -119,7 +121,7 @@ export class UserImageService {
     // Añadir imagen
     const image = document.createElement("img");
     image.className = "user-image";
-    image.src = `https://internal-cdn.amazon.com/badgephotos.amazon.com/?uid=${login}`;
+    image.src = getUserPhotoUrl(login);
     image.alt = `Foto de ${login}`;
 
     // Manejar error de carga de imagen

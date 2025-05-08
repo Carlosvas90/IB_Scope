@@ -4,6 +4,11 @@
  * Ruta: /src/renderer/apps/feedback-tracker/js/controllers/services/TableRendererService.js
  */
 
+import {
+  getAsinResearchUrl,
+  openExternalLink,
+} from "../../../../../core/utils/linkUtils.js";
+
 export class TableRendererService {
   constructor(tableController) {
     this.tableController = tableController;
@@ -97,19 +102,10 @@ export class TableRendererService {
       e.stopPropagation(); // Evitar que se expanda la fila
 
       // Crear URL completa
-      const url = `http://fcresearch-eu.aka.amazon.com/VLC1/results?s=${error.asin}`;
+      const url = getAsinResearchUrl(error.asin);
 
       // Usar la API para abrir la URL en el navegador externo
-      window.api
-        .openExternalLink(url)
-        .then((result) => {
-          if (!result.success) {
-            console.error("Error al abrir enlace:", result.error);
-          }
-        })
-        .catch((err) => {
-          console.error("Error al llamar a openExternalLink:", err);
-        });
+      openExternalLink(url);
     });
 
     // Hacer que se vea como un enlace
