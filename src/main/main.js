@@ -55,7 +55,7 @@ function createWindow() {
   });
 
   // Cargar el archivo HTML principal
-  mainWindow.loadFile(path.join(__dirname, "../renderer/views/index.html"));
+  mainWindow.loadFile(path.join(__dirname, "../renderer/views/Sidebar.html"));
 
   // Abrir DevTools solo en modo desarrollo
   if (process.argv.includes("--dev")) {

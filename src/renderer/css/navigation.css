@@ -15,12 +15,14 @@
 }
 
 .sidebar-nav > ul > li {
+  display: block;
   margin-bottom: var(--spacing-sm);
 }
 
 .sidebar-nav a {
   display: flex;
   align-items: center;
+  width: 100%;
   padding: var(--spacing-md);
   border-radius: var(--border-radius-md);
   color: var(--text-primary);
@@ -46,7 +48,7 @@
 
 /* Submenús */
 .has-submenu > a {
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 .submenu-arrow {

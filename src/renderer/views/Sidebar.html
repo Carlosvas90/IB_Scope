@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sidebar - Inbound Scope</title>
+    <!-- CSS modularizado -->
+    <link rel="stylesheet" href="../css/themes/variables.css" />
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/sidebar.css" />
+    <link rel="stylesheet" href="../css/navigation.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
+    <!-- Fuentes -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="app-container">
+      <!-- Sidebar principal -->
+      <div class="sidebar">
+        <div class="logo-container">
+          <!-- Aquí irá el logo SVG de IBScope -->
+          <div class="logo">
+            <!-- Espacio para el SVG que proporcionarás -->
+            <span class="logo-text">Inbound Scope</span>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <ul>
+            <li>
+              <a href="#" data-app="dashboard"
+                ><img
+                  src="../../../assets/svg/dashboard.svg"
+                  alt="Dashboard"
+                  class="sidebar-icon"
+                />Inicio</a
+              >
+            </li>
+            <li class="has-submenu">
+              <a href="#" data-app="feedback-tracker"
+                ><img
+                  src="../../../assets/svg/feedback.svg"
+                  alt="Feedback Tracker"
+                  class="sidebar-icon"
+                />Feedback Tracker</a
+              >
+              <ul class="submenu">
+                <li>
+                  <a href="#" data-app="feedback-tracker" data-view="errors"
+                    >Errores</a
+                  >
+                </li>
+                <li>
+                  <a href="#" data-app="feedback-tracker" data-view="stats"
+                    >Estadísticas</a
+                  >
+                </li>
+              </ul>
+            </li>
+            <li class="has-submenu">
+              <a href="#" data-app="activity-scope"
+                ><img
+                  src="../../../assets/svg/activity.svg"
+                  alt="Activity Scope"
+                  class="sidebar-icon"
+                />Activity Scope</a
+              >
+              <ul class="submenu">
+                <li>
+                  <a
+                    href="#"
+                    data-app="activity-scope"
+                    data-view="user-activity"
+                    >User Activity</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    data-app="activity-scope"
+                    data-view="user-moveheatmap"
+                    >User MoveHeatmap</a
+                  >
+                </li>
+                <li>
+                  <a href="#" data-app="activity-scope" data-view="carts-data"
+                    >Carts Data</a
+                  >
+                </li>
+              </ul>
+            </li>
+            <li class="has-submenu">
+              <a href="#" data-app="idle-time"
+                ><img
+                  src="../../../assets/svg/idle.svg"
+                  alt="IdleTime"
+                  class="sidebar-icon"
+                />IdleTime</a
+              >
+              <ul class="submenu">
+                <li>
+                  <a href="#" data-app="idle-time" data-view="desviaciones"
+                    >Desviaciones</a
+                  >
+                </li>
+                <li>
+                  <a href="#" data-app="idle-time" data-view="corecciones"
+                    >Corecciones</a
+                  >
+                </li>
+              </ul>
+            </li>
+            <li class="has-submenu">
+              <a href="#" data-app="space-heatmap"
+                ><img
+                  src="../../../assets/svg/heatmap.svg"
+                  alt="SpaceHeatMap"
+                  class="sidebar-icon"
+                />SpaceHeatMap</a
+              >
+              <ul class="submenu">
+                <li>
+                  <a href="#" data-app="space-heatmap" data-view="p1">P1</a>
+                </li>
+                <li>
+                  <a href="#" data-app="space-heatmap" data-view="p2">P2</a>
+                </li>
+                <li>
+                  <a href="#" data-app="space-heatmap" data-view="p3">P3</a>
+                </li>
+                <li>
+                  <a href="#" data-app="space-heatmap" data-view="p4">P4</a>
+                </li>
+                <li>
+                  <a href="#" data-app="space-heatmap" data-view="p5">P5</a>
+                </li>
+                <li>
+                  <a href="#" data-app="space-heatmap" data-view="high-rack"
+                    >High Rack</a
+                  >
+                </li>
+                <li>
+                  <a href="#" data-app="space-heatmap" data-view="pallet-land"
+                    >Pallet Land</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+          <!-- Toggle de tema -->
+          <div class="theme-toggle" id="theme-toggle">
+            <svg
+              id="light-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg
+              id="dark-icon"
+              style="display: none"
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </div>
+
+          <div class="username" id="username">Usuario: Cargando...</div>
+        </div>
+      </div>
+
+      <!-- Contenido principal - Contenedor de aplicaciones -->
+      <div class="main-content">
+        <div id="app-container">
+          <!-- Aquí se cargará el contenido de las aplicaciones dinámicamente -->
+          <div class="loading-app">
+            <div class="loading-spinner"></div>
+            <p>Cargando aplicación...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast para notificaciones -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Scripts principales -->
+    <script src="../js/router.js" type="module"></script>
+    <script src="../js/app-loader.js" type="module"></script>
+    <script src="../js/app.js" type="module"></script>
+  </body>
+</html>
