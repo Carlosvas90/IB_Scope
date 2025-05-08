@@ -1,31 +1,68 @@
 // src/preload/preload.js
+// -------------------------------------------------------------
+// Este script se ejecuta antes que cualquier otro en el renderer.
+// Su función es exponer APIs seguras y controladas desde el main process
+// al renderer, usando contextBridge y evitando exponer Node.js directamente.
+// -------------------------------------------------------------
+
 const { contextBridge, ipcRenderer } = require("electron");
 console.log("Cargando script de preload...");
 
-// Exponer APIs protegidas a través del puente de contexto
+// -------------------------------------------------------------
+// API principal: window.api
+// Expone métodos seguros para acceder a funcionalidades del main process
+// -------------------------------------------------------------
 contextBridge.exposeInMainWorld("api", {
-  // Sistema
+  // --- Sistema ---
+  /**
+   * Obtiene el nombre de usuario del sistema operativo.
+   * @returns {Promise<string>}
+   */
   getUsername: () => ipcRenderer.invoke("get-username"),
-  // Archivos
+
+  // --- Archivos ---
+  /**
+   * Lee un archivo JSON desde el sistema de archivos.
+   * @param {string} filePath
+   * @returns {Promise<object>}
+   */
   readJson: (filePath) => ipcRenderer.invoke("read-json", filePath),
+  /**
+   * Guarda un objeto como JSON en el sistema de archivos.
+   * @param {string} filePath
+   * @param {object} data
+   * @returns {Promise<object>}
+   */
   saveJson: (filePath, data) => ipcRenderer.invoke("save-json", filePath, data),
+  /**
+   * Exporta datos a un archivo CSV.
+   * @param {string} data
+   * @returns {Promise<object>}
+   */
   exportToCsv: (data) => ipcRenderer.invoke("export-to-csv", data),
-  // Diálogos
+
+  // --- Diálogos del sistema ---
   showOpenDialog: (options) => ipcRenderer.invoke("show-open-dialog", options),
   showSaveDialog: (options) => ipcRenderer.invoke("show-save-dialog", options),
   showMessageBox: (options) => ipcRenderer.invoke("show-message-box", options),
-  // Configuración
+
+  // --- Configuración ---
   getConfig: () => ipcRenderer.invoke("get-config"),
   saveConfig: (config) => ipcRenderer.invoke("save-config", config),
-  // Utilidades
+
+  // --- Utilidades ---
   getAppPath: () => ipcRenderer.invoke("get-app-path"),
-  // Enlaces externos
+
+  // --- Enlaces externos ---
   openExternalLink: (url) => ipcRenderer.invoke("open-external-link", url),
 });
 
-// Exponer objeto para comunicación directa entre aplicaciones
+// -------------------------------------------------------------
+// Comunicación directa entre renderer y main (solo canales seguros)
+// window.ipcRenderer
+// -------------------------------------------------------------
 contextBridge.exposeInMainWorld("ipcRenderer", {
-  // Solo implementaciones seguras
+  // Solo permite enviar en canales validados
   send: (channel, ...args) => {
     const validChannels = ["app:initialized", "app:error", "config:changed"];
     if (validChannels.includes(channel)) {
@@ -35,14 +72,12 @@ contextBridge.exposeInMainWorld("ipcRenderer", {
   on: (channel, callback) => {
     const validChannels = ["app:ready", "data:updated", "theme:changed"];
     if (validChannels.includes(channel)) {
-      // Envolver para evitar prototipo expuesto
       ipcRenderer.on(channel, (event, ...args) => callback(...args));
     }
   },
   once: (channel, callback) => {
     const validChannels = ["app:ready", "data:updated", "theme:changed"];
     if (validChannels.includes(channel)) {
-      // Envolver para evitar prototipo expuesto
       ipcRenderer.once(channel, (event, ...args) => callback(...args));
     }
   },
@@ -54,10 +89,17 @@ contextBridge.exposeInMainWorld("ipcRenderer", {
   },
 });
 
-// Exponer el router como un objeto global para que las aplicaciones puedan utilizarlo
+// -------------------------------------------------------------
+// Exponer el router como un objeto global para navegación centralizada
+// window.router.navigateTo(app, view)
+// -------------------------------------------------------------
 contextBridge.exposeInMainWorld("router", {
+  /**
+   * Navega a una app/vista usando el sistema de eventos global.
+   * @param {string} app
+   * @param {string} view
+   */
   navigateTo: (app, view) => {
-    // Enviar un mensaje al frontend para que maneje la navegación
     window.dispatchEvent(
       new CustomEvent("navigate", {
         detail: { app, view },
@@ -66,7 +108,8 @@ contextBridge.exposeInMainWorld("router", {
   },
 });
 
+// -------------------------------------------------------------
 // Informar que el preload ha sido cargado
+// -------------------------------------------------------------
 console.log("Preload cargado correctamente");
-// Enviar evento de preload cargado al proceso principal
 ipcRenderer.send("preload:loaded");
