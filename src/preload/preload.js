@@ -61,6 +61,17 @@ contextBridge.exposeInMainWorld("api", {
   maximize: () => ipcRenderer.invoke("maximize-window"),
   close: () => ipcRenderer.invoke("close-window"),
 
+  // Saber si la ventana está maximizada
+  isWindowMaximized: () => ipcRenderer.invoke("is-window-maximized"),
+
+  // Escuchar eventos de maximizar/restaurar
+  onWindowMaximized: (callback) => {
+    ipcRenderer.on("window:maximized", callback);
+  },
+  onWindowRestored: (callback) => {
+    ipcRenderer.on("window:restored", callback);
+  },
+
   // APIs de tema
   onThemeChange: (callback) => {
     ipcRenderer.on("theme-changed", (_, theme) => callback(theme));

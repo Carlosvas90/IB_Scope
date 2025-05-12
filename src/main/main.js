@@ -42,6 +42,14 @@ function createWindow() {
     mainWindow.show();
   });
 
+  // Emitir eventos de maximizar/restaurar
+  mainWindow.on("maximize", () => {
+    mainWindow.webContents.send("window:maximized");
+  });
+  mainWindow.on("unmaximize", () => {
+    mainWindow.webContents.send("window:restored");
+  });
+
   // Cerrar referencia cuando la ventana se cierra
   mainWindow.on("closed", () => {
     mainWindow = null;
@@ -145,6 +153,11 @@ ipcMain.handle("maximize-window", () => {
 
 ipcMain.handle("close-window", () => {
   mainWindow.close();
+});
+
+// IPC para saber si la ventana está maximizada
+ipcMain.handle("is-window-maximized", () => {
+  return mainWindow.isMaximized();
 });
 
 // Eventos generales
