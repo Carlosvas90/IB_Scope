@@ -1,44 +1,150 @@
 # IB_Scope
 
-## Descripción
-
-IB_Scope es una aplicación Electron que contiene varias aplicaciones como Feedback Tracker, Dashboard/Home, Activity Scope, IdleTime y SpaceHeatMap. Este proyecto está en proceso de optimización y modularización para mejorar su mantenibilidad y rendimiento.
-
-## Plan de Optimización
-
-El proyecto sigue un plan de optimización que incluye:
-
-1. **Refactorización de Componentes JavaScript**: Dividir archivos grandes en módulos más pequeños.
-2. **Arquitectura de Microservicios Frontend**: Implementar un EventBus centralizado para la comunicación entre componentes.
-3. **Implementación de API Bridge**: Separar la lógica de negocio del frontend, considerando la integración con Python.
-4. **Arquitectura de Contenedores para Vistas**: Convertir componentes en Web Components y optimizar la carga de módulos.
-5. **Testing y Prevención de Regresiones**: Crear pruebas unitarias y de integración.
-6. **Integración de Python (Server-Side)**: Desarrollar microservicios en Python para análisis de datos.
-7. **Monitoreo y Telemetría**: Implementar un sistema de métricas de rendimiento en tiempo real.
-8. **Optimización de Recursos**: Comprimir assets estáticos y optimizar la carga de fuentes e iconos.
-9. **Gestión de Estado Centralizada**: Implementar un store centralizado para manejar el estado de la aplicación.
-10. **Sistema de Actualización de Componentes**: Crear un mecanismo para actualizar componentes individualmente.
+Aplicación de escritorio para gestión y seguimiento de procesos de Inbound.
 
 ## Estructura del Proyecto
 
-- `src/`: Contiene el código fuente de la aplicación.
-  - `main/`: Proceso principal de Electron.
-  - `renderer/`: Código del lado del cliente.
-    - `apps/`: Aplicaciones individuales.
-    - `core/`: Módulos centrales y utilidades.
-    - `js/`: Scripts globales.
-    - `views/`: Vistas HTML.
-    - `css/`: Estilos globales.
-  - `preload/`: Scripts de preload.
-- `config/`: Archivos de configuración.
-- `assets/`: Recursos gráficos y multimedia.
+```
+IB_Scope/
+├── src/
+│   ├── main/                 # Proceso principal de Electron
+│   │   ├── handlers/        # Manejadores IPC
+│   │   ├── services/        # Servicios del proceso principal
+│   │   └── main.js          # Punto de entrada del proceso principal
+│   │
+│   ├── renderer/            # Proceso de renderizado
+│   │   ├── apps/           # Aplicaciones individuales
+│   │   │   ├── dashboard/  # Panel de control principal
+│   │   │   ├── feedback-tracker/  # Seguimiento de errores
+│   │   │   ├── activity-scope/    # Alcance de actividad
+│   │   │   ├── idle-time/         # Tiempo de inactividad
+│   │   │   └── space-heatmap/     # Mapa de calor de espacio
+│   │   │
+│   │   ├── core/           # Componentes y utilidades compartidas
+│   │   │   ├── controllers/  # Controladores reutilizables
+│   │   │   ├── services/     # Servicios compartidos
+│   │   │   └── utils/        # Utilidades comunes
+│   │   │
+│   │   ├── css/            # Estilos globales
+│   │   ├── js/             # Scripts globales
+│   │   └── views/          # Vistas compartidas
+│   │
+│   └── preload/            # Scripts de precarga
+│
+├── assets/                 # Recursos estáticos
+│   ├── icons/             # Iconos de la aplicación
+│   └── animations/        # Animaciones Lottie
+│
+└── config/                # Configuración de la aplicación
+    └── apps/             # Configuración por aplicación
+```
 
-## Instrucciones de Uso
+## Aplicaciones
 
-1. Clona el repositorio.
-2. Instala las dependencias con `npm install`.
-3. Ejecuta la aplicación con `npm start`.
+### Dashboard
+
+Panel de control principal que muestra métricas y resúmenes de todas las aplicaciones.
+
+### Feedback Tracker
+
+Sistema de seguimiento y gestión de errores de feedback, con:
+
+- Tabla de errores con filtros
+- Estadísticas en tiempo real
+- Exportación a CSV
+- Sistema de comentarios
+
+### Activity Scope
+
+Visualización y análisis del alcance de actividad.
+
+### Idle Time
+
+Monitoreo y análisis de tiempos de inactividad.
+
+### Space Heatmap
+
+Visualización de la distribución y uso del espacio.
+
+## Tecnologías
+
+- Electron
+- HTML5/CSS3
+- JavaScript (ES6+)
+- Lottie para animaciones
+
+## Desarrollo
+
+```bash
+# Instalar dependencias
+npm install
+
+# Iniciar en modo desarrollo
+npm run dev
+
+# Construir aplicación
+npm run build
+```
+
+## Plan de Optimización
+
+### 1. Modularización y Estructura ✅
+
+- [x] Separación de procesos principal y renderizado
+- [x] Estructura modular de aplicaciones
+- [x] Sistema de rutas centralizado
+- [x] Utilidades compartidas en core
+
+### 2. Rendimiento
+
+- [ ] Optimización de carga inicial
+- [ ] Lazy loading de aplicaciones
+- [ ] Caché de datos
+- [ ] Compresión de assets
+
+### 3. UI/UX
+
+- [ ] Sistema de temas (claro/oscuro)
+- [ ] Animaciones de transición
+- [ ] Feedback visual mejorado
+- [ ] Responsive design
+
+### 4. Seguridad
+
+- [ ] Validación de datos
+- [ ] Sanitización de inputs
+- [ ] Manejo seguro de archivos
+- [ ] Protección contra inyección
+
+### 5. Testing
+
+- [ ] Tests unitarios
+- [ ] Tests de integración
+- [ ] Tests E2E
+- [ ] Coverage reports
+
+### 6. Documentación
+
+- [x] README principal
+- [x] Documentación por módulo
+- [ ] Guías de desarrollo
+- [ ] API documentation
+
+### 7. CI/CD
+
+- [ ] Pipeline de construcción
+- [ ] Automatización de releases
+- [ ] Control de versiones
+- [ ] Monitoreo de errores
 
 ## Contribución
 
-Las contribuciones son bienvenidas. Por favor, sigue el plan de optimización y asegúrate de que tu código esté bien documentado y probado.
+1. Fork el repositorio
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+## Licencia
+
+Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE.md](LICENSE.md) para más detalles.
