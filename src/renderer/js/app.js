@@ -5,7 +5,7 @@
 
 // Importar servicios centrales
 import { ThemeService } from "../core/services/ThemeService.js";
-import { DataService } from "../core/services/DataService.js";
+import { DataService } from "../apps/feedback-tracker/js/services/DataService.js";
 import { router } from "./router.js";
 import { appLoader } from "./app-loader.js";
 
