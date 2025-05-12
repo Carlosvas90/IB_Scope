@@ -55,6 +55,16 @@ contextBridge.exposeInMainWorld("api", {
 
   // --- Enlaces externos ---
   openExternalLink: (url) => ipcRenderer.invoke("open-external-link", url),
+
+  // APIs del titlebar
+  minimize: () => ipcRenderer.invoke("minimize-window"),
+  maximize: () => ipcRenderer.invoke("maximize-window"),
+  close: () => ipcRenderer.invoke("close-window"),
+
+  // APIs de tema
+  onThemeChange: (callback) => {
+    ipcRenderer.on("theme-changed", (_, theme) => callback(theme));
+  },
 });
 
 // -------------------------------------------------------------

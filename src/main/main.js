@@ -19,6 +19,7 @@ function createWindow() {
     height: 720,
     minWidth: 800,
     minHeight: 600,
+    frame: false, // Ocultar el frame nativo
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -127,6 +128,23 @@ ipcMain.handle("show-message-box", async (event, options) => {
     console.error("Error en diálogo de mensaje:", error);
     return { response: 0, error: error.message };
   }
+});
+
+// Titlebar controls
+ipcMain.handle("minimize-window", () => {
+  mainWindow.minimize();
+});
+
+ipcMain.handle("maximize-window", () => {
+  if (mainWindow.isMaximized()) {
+    mainWindow.unmaximize();
+  } else {
+    mainWindow.maximize();
+  }
+});
+
+ipcMain.handle("close-window", () => {
+  mainWindow.close();
 });
 
 // Eventos generales

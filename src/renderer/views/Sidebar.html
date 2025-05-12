@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="../css/navigation.css" />
     <link rel="stylesheet" href="../css/components.css" />
     <link rel="stylesheet" href="../css/responsive.css" />
+    <link rel="stylesheet" href="../css/titlebar.css" />
     <!-- Fuentes -->
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
@@ -20,6 +21,49 @@
     />
   </head>
   <body>
+    <!-- Titlebar -->
+    <div class="titlebar">
+      <!-- Área de arrastre y logo -->
+      <div class="titlebar-drag-region">
+        <div class="titlebar-logo">
+          <img src="../../../assets/logos/logo.svg" alt="IB_Scope Logo" />
+          <span>IB_Scope</span>
+        </div>
+      </div>
+
+      <!-- Botones de control de ventana -->
+      <div class="titlebar-controls">
+        <button id="minimize-button" class="titlebar-button">
+          <svg viewBox="0 0 12 12">
+            <rect x="2" y="5" width="8" height="2" fill="currentColor" />
+          </svg>
+        </button>
+        <button id="maximize-button" class="titlebar-button">
+          <svg viewBox="0 0 12 12">
+            <rect
+              x="2"
+              y="2"
+              width="8"
+              height="8"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1"
+            />
+          </svg>
+        </button>
+        <button id="close-button" class="titlebar-button">
+          <svg viewBox="0 0 12 12">
+            <path
+              d="M3 3L9 9M9 3L3 9"
+              stroke="currentColor"
+              stroke-width="1.5"
+              fill="none"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+
     <div class="app-container">
       <!-- Sidebar principal -->
       <div class="sidebar">
@@ -225,6 +269,7 @@
     <div class="toast" id="toast"></div>
 
     <!-- Scripts principales -->
+    <script src="../js/titlebar.js" type="module"></script>
     <script src="../js/router.js" type="module"></script>
     <script src="../js/app-loader.js" type="module"></script>
     <script src="../js/app.js" type="module"></script>

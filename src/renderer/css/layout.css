@@ -7,8 +7,10 @@
 /* Contenedor principal de la aplicación */
 .app-container {
   display: flex;
-  height: 100vh;
+  height: calc(100vh - 32px);
+  min-height: calc(100vh - 32px);
   width: 100vw;
+  box-sizing: border-box;
 }
 
 /* Contenido principal */
@@ -16,6 +18,9 @@
   flex: 1;
   overflow-y: auto;
   position: relative;
+  height: 100%;
+  box-sizing: border-box;
+  padding-bottom: 32px;
 }
 
 #app-container {
@@ -76,4 +81,16 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
+}
+
+/* Si hay un footer específico, asegúrate de que tenga margen superior */
+.sidebar-footer {
+  margin-top: 16px;
+}
+
+.sidebar {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
