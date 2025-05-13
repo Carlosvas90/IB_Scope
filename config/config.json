@@ -22,5 +22,7 @@
       },
       "views": ["errors", "stats", "settings"]
     }
-  }
+  },
+  "permisosUrl": "https://drive.google.com/uc?export=download&id=1UtRX956fpK3a_1YskRqbSHdOY9lULAns",
+  "permisosPath": "C:\\Users\\carlo\\Downloads\\0-Proyecto_IB_Scope\\Analisis\\Data\\permisos.json"
 }

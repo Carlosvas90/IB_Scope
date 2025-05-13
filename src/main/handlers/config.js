@@ -9,7 +9,9 @@ class ConfigHandler {
   setupHandlers() {
     // Obtener configuración
     ipcMain.handle("get-config", async () => {
-      return configService.getConfig();
+      const config = configService.getConfig();
+      console.log("[IPC get-config] config:", config);
+      return config;
     });
 
     // Guardar configuración

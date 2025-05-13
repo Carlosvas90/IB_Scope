@@ -6,6 +6,8 @@
 // -------------------------------------------------------------
 
 const { contextBridge, ipcRenderer } = require("electron");
+const fs = require("fs");
+const path = require("path");
 console.log("Cargando script de preload...");
 
 // -------------------------------------------------------------
@@ -75,6 +77,43 @@ contextBridge.exposeInMainWorld("api", {
   // APIs de tema
   onThemeChange: (callback) => {
     ipcRenderer.on("theme-changed", (_, theme) => callback(theme));
+  },
+
+  /**
+   * Obtiene los permisos de apps desde la URL o desde el archivo local.
+   * @returns {Promise<object>} El objeto de permisos
+   */
+  getPermisos: async () => {
+    // Obtener la configuración desde el main
+    const config = await ipcRenderer.invoke("get-config");
+    const url = config.permisosUrl;
+    const localPath = config.permisosPath;
+
+    // 1. Intentar leer desde la URL
+    try {
+      const response = await fetch(url);
+      if (response.ok) {
+        const data = await response.json();
+        return data;
+      }
+    } catch (e) {
+      // Si falla, continúa al siguiente paso
+    }
+
+    // 2. Si falla, intentar leer desde el archivo local (main)
+    try {
+      console.log("[getPermisos] localPath:", localPath);
+      const result = await ipcRenderer.invoke("read-json", localPath);
+      console.log("[getPermisos] Resultado de read-json:", result);
+      if (result && result.success) {
+        return result.data;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      // Si falla, retorna null
+      return null;
+    }
   },
 });
 

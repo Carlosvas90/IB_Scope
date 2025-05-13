@@ -60,6 +60,7 @@ function createWindow() {
 app.whenReady().then(async () => {
   // Cargar configuración antes de iniciar
   await configService.load();
+  configService.getConfig(); // Forzar log para depuración
 
   // Crear la ventana
   createWindow();
