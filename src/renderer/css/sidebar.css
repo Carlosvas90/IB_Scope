@@ -88,3 +88,19 @@
   display: inline-block;
   vertical-align: middle;
 }
+
+.sidebar-nav .app-locked {
+  opacity: 0.5;
+  cursor: pointer;
+  pointer-events: auto; /* Permitimos el click para mostrar mensaje, pero no navegación */
+  position: relative;
+}
+
+.sidebar-nav .app-locked .lock-icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 6px;
+  opacity: 0.4;
+  width: 16px;
+  height: 16px;
+}

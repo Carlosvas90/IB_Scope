@@ -3,6 +3,8 @@
  * Sistema de enrutamiento para manejar la navegación entre aplicaciones
  */
 
+import { permisosService } from "../core/services/PermisosService.js";
+
 class Router {
   constructor() {
     this.routes = {
@@ -143,6 +145,15 @@ class Router {
    * Navega a una aplicación/vista específica
    */
   navigateTo(appName, viewName = null, updateHistory = true) {
+    // Bloqueo de permisos (app o submenú)
+    if (permisosService && !permisosService.tienePermiso(appName, viewName)) {
+      if (window.showToast) {
+        window.showToast("No tienes acceso a esta app o sección.", "error");
+      } else {
+        alert("No tienes acceso a esta app o sección.");
+      }
+      return false;
+    }
     console.log(`Navegando a: ${appName}${viewName ? " - " + viewName : ""}`);
 
     // Verificar si la aplicación existe

@@ -8,6 +8,8 @@ import { ThemeService } from "../core/services/ThemeService.js";
 import { DataService } from "../apps/feedback-tracker/js/services/DataService.js";
 import { router } from "./router.js";
 import { appLoader } from "./app-loader.js";
+import { permisosService } from "../core/services/PermisosService.js";
+import { PermisosController } from "../core/controllers/PermisosController.js";
 
 // Clase principal de la aplicación
 class InboundScope {
@@ -120,7 +122,30 @@ window.inboundScope = new InboundScope();
 
 // Al cargar el documento
 document.addEventListener("DOMContentLoaded", async () => {
-  // Inicializar la aplicación
+  await permisosService.init();
+
+  // Bloquear visualmente apps y submenús sin permiso en el sidebar
+  const navLinks = document.querySelectorAll(".sidebar-nav a[data-app]");
+  navLinks.forEach((link) => {
+    const appName = link.getAttribute("data-app");
+    const viewName = link.getAttribute("data-view") || null;
+    if (!permisosService.tienePermiso(appName, viewName)) {
+      link.classList.add("app-locked");
+      // Añadir candado SVG si no existe ya
+      if (!link.querySelector(".lock-icon")) {
+        const lockSvg = document.createElement("span");
+        lockSvg.className = "lock-icon";
+        lockSvg.innerHTML = `<svg viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"4\" y=\"7\" width=\"8\" height=\"5\" rx=\"1.5\" stroke=\"currentColor\" stroke-width=\"1.2\"/><path d=\"M6 7V5.5A2 2 0 0 1 10 5.5V7\" stroke=\"currentColor\" stroke-width=\"1.2\"/></svg>`;
+        link.appendChild(lockSvg);
+      }
+    }
+  });
+
+  // Inicializar el controlador de permisos
+  new PermisosController();
+
+  // Inicializar el router y la app principal solo después de los permisos
+  appLoader.init();
   await window.inboundScope.init();
 });
 
