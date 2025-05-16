@@ -223,19 +223,6 @@ export class DataService {
   }
 
   /**
-   * Construye la ruta completa para un archivo
-   * @param {string} fileName - Nombre del archivo
-   * @param {string} dataPath - Ruta base de datos (opcional)
-   * @returns {string} Ruta completa
-   */
-  buildFilePath(fileName, dataPath = null) {
-    const basePath = dataPath || this.currentDataPath || this.dataPaths[0];
-    // Si basePath termina siendo undefined (p.ej. this.dataPaths está vacío y currentDataPath es null)
-    // fileService.buildFilePath lanzará un error, lo cual es el comportamiento deseado.
-    return this.fileService.buildFilePath(basePath, fileName);
-  }
-
-  /**
    * Intenta leer un archivo desde múltiples rutas
    * @param {string} fileName - Nombre del archivo a leer
    * @returns {Promise<Object>} Resultado de la lectura
@@ -293,83 +280,89 @@ export class DataService {
     return result; // Devuelve el resultado de FileService ({success, data, error, pathUsed?})
   }
 
+  _processSuccessfullyLoadedData(rawErrorData) {
+    console.log(
+      "DataService._processSuccessfullyLoadedData: Procesando datos cargados exitosamente."
+    );
+    this.errors = rawErrorData || [];
+    this.lastUpdateTime = new Date();
+
+    // Normalizar los datos
+    this.normalizeErrors();
+
+    // Invalidar caché interna de resultados procesados
+    this.invalidateCache();
+
+    // Guardar en caché de localStorage
+    this.saveToCache();
+
+    console.log(
+      `DataService: Datos procesados y cacheados. ${this.errors.length} errores.`
+    );
+
+    // Emitir evento de datos actualizados
+    this.notifyDataUpdated();
+  }
+
   /**
    * Actualiza los datos desde el archivo JSON
    */
   async refreshData() {
     await this.ensureInitialized();
-    if (this.isRefreshing) return false;
+    if (this.isRefreshing) {
+      console.warn(
+        "DataService.refreshData: Ya hay una actualización en progreso. Omitiendo."
+      );
+      return false;
+    }
 
     console.log(
       "%cDataService.refreshData: INICIANDO refreshData",
       "color: green; font-weight: bold;"
     );
 
+    let success = false;
     try {
       this.isRefreshing = true;
       console.log(
         "DataService.refreshData: Intentando cargar datos desde el archivo..."
       );
 
-      try {
-        console.log(
-          "%cDataService.refreshData: ANTES de llamar a this.tryReadFile",
-          "color: orange; font-weight: bold;"
-        );
-        // Intentar leer el archivo de errores
-        const result = await this.tryReadFile(this.fileNames.errors);
+      const result = await this.tryReadFile(this.fileNames.errors);
 
-        if (result.success) {
-          this.errors = result.data.errors || [];
-          this.lastUpdateTime = new Date();
-
-          // Normalizar los datos
-          this.normalizeErrors();
-
-          // Invalidar caché
-          this.invalidateCache();
-
-          // Guardar en caché local
-          this.saveToCache();
-
-          console.log(
-            `Datos cargados correctamente: ${this.errors.length} errores`
-          );
-
-          // Emitir evento de datos actualizados
-          this.notifyDataUpdated();
-
-          this.isRefreshing = false;
-          return true;
-        } else {
-          console.error("Error al leer el archivo:", result.error);
-          this.isRefreshing = false;
-          return false;
-        }
-      } catch (readError) {
+      if (result.success) {
+        this._processSuccessfullyLoadedData(result.data.errors);
+        success = true;
+      } else {
         console.error(
-          "%cDataService.refreshData: ERROR CAPTURADO en try-catch interno (leyendo archivo)",
-          "color: red; font-weight: bold;",
-          readError
+          "DataService.refreshData: Error al leer el archivo (reportado por tryReadFile):",
+          result.error
         );
-        // Si falla la lectura, usar datos de ejemplo para desarrollo
-        console.log(
-          "%cDataService.refreshData: Llamando a createSampleData() debido al error de lectura.",
-          "color: red; font-style: italic;"
-        );
-        this.createSampleData();
-        this.isRefreshing = false;
-        return false;
+        // No se cargaron datos de archivo, no se llama a createSampleData aquí,
+        // se deja que el estado actual persista o se maneje por una carga inicial fallida si es el caso.
+        // Si la intención es cargar datos de ejemplo SIEMPRE que falle la lectura, se movería createSampleData aquí.
+        // Por ahora, createSampleData se llama en el CATCH si tryReadFile u _processSuccessfullyLoadedData fallan.
+        success = false;
       }
     } catch (error) {
       console.error(
-        "%cDataService.refreshData: ERROR CAPTURADO en try-catch externo",
+        "%cDataService.refreshData: ERROR CAPTURADO durante refreshData (lectura o procesamiento).",
         "color: red; font-weight: bold;",
         error
       );
+      // Si falla la lectura o el procesamiento posterior, usar datos de ejemplo para desarrollo
+      console.log(
+        "%cDataService.refreshData: Llamando a createSampleData() debido al error.",
+        "color: red; font-style: italic;"
+      );
+      this.createSampleData();
+      this.notifyDataUpdated(); // Notificar que se han cargado datos (de ejemplo en este caso)
+      success = false;
+    } finally {
       this.isRefreshing = false;
-      return false;
+      console.log(`DataService.refreshData: Finalizado. Éxito: ${success}`);
     }
+    return success;
   }
 
   /**
@@ -421,8 +414,10 @@ export class DataService {
     this.errors = this.errorProcessor.generateSampleData();
     this.lastUpdateTime = new Date();
 
-    // Invalidar caché
+    // Invalidar caché interna de resultados procesados
     this.invalidateCache();
+    // Nota: createSampleData por sí mismo no guarda en localStorage ni notifica.
+    // La notificación ahora se hace en el llamador (refreshData) si es necesario.
   }
 
   /**
@@ -695,7 +690,6 @@ export class DataService {
       this.notificationService = null;
     }
 
-    // Limpiar callbacks
     // this.refreshListeners = []; // Ya no existe
   }
 }
