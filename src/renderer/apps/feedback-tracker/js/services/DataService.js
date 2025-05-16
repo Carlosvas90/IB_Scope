@@ -639,57 +639,40 @@ export class DataService {
       // Obtener errores filtrados
       const filteredErrors = this.getFilteredErrors(statusFilter);
 
-      if (filteredErrors.length === 0) {
+      if (!filteredErrors || filteredErrors.length === 0) {
+        console.log(
+          "DataService.exportToCsv: No hay datos filtrados para exportar."
+        );
         return { success: false, error: "No hay datos para exportar" };
       }
 
-      // Crear cabeceras CSV
-      const headers = [
-        "ID",
-        "Usuario",
-        "Fecha",
-        "Hora",
-        "ASIN",
-        "Bin ID",
-        "Infracción",
-        "Estado",
-        "Cantidad",
-        "Fecha Feedback",
-        "Completado por",
-        "Comentario",
-      ];
+      // Generar contenido CSV usando ErrorDataProcessorService
+      const csvContent = this.errorProcessor.generateCsvContent(filteredErrors);
 
-      // Crear filas
-      const rows = [headers.join(",")];
-
-      filteredErrors.forEach((error) => {
-        const row = [
-          `"${error.id}"`,
-          `"${error.user_id}"`,
-          `"${error.date}"`,
-          `"${error.time}"`,
-          `"${error.asin}"`,
-          `"${error.bin_id}"`,
-          `"${error.violation}"`,
-          `"${error.feedback_status === "done" ? "Completado" : "Pendiente"}"`,
-          `"${error.quantity || 1}"`,
-          `"${error.feedback_date || ""}"`,
-          `"${error.feedback_user || ""}"`,
-          `"${error.feedback_comment || ""}"`,
-        ];
-
-        rows.push(row.join(","));
-      });
-
-      // Crear contenido CSV
-      const csvContent = rows.join("\n");
+      if (
+        csvContent === "" ||
+        csvContent === null ||
+        typeof csvContent === "undefined"
+      ) {
+        console.log(
+          "DataService.exportToCsv: ErrorDataProcessorService no generó contenido CSV (o estaba vacío)."
+        );
+        return {
+          success: false,
+          error: "No se pudo generar el contenido CSV o estaba vacío",
+        };
+      }
 
       // Exportar a archivo (usando FileService)
+      console.log(
+        "DataService.exportToCsv: Pasando contenido CSV a FileService para exportación."
+      );
       return await this.fileService.exportToCsv(csvContent);
     } catch (error) {
-      console.error("DataService.exportToCsv: Error al exportar a CSV:", error);
-      // FileService.exportToCsv ya devuelve un objeto { success, error },
-      // pero si hay una excepción aquí antes de llamarlo, la capturamos.
+      console.error(
+        "DataService.exportToCsv: Error durante el proceso de exportación a CSV:",
+        error
+      );
       return {
         success: false,
         error:

@@ -191,4 +191,74 @@ export class ErrorDataProcessorService {
     }
     return true;
   }
+
+  generateCsvContent(errorsToExport) {
+    if (!Array.isArray(errorsToExport)) {
+      console.warn(
+        "ErrorDataProcessorService.generateCsvContent: errorsToExport no es un array."
+      );
+      return ""; // Devuelve una cadena vacía si no hay datos o son inválidos
+    }
+
+    if (errorsToExport.length === 0) {
+      console.log(
+        "ErrorDataProcessorService.generateCsvContent: No hay errores para exportar a CSV."
+      );
+      return ""; // Devuelve una cadena vacía si no hay errores
+    }
+
+    console.log(
+      `ErrorDataProcessorService.generateCsvContent: Generando contenido CSV para ${errorsToExport.length} errores.`
+    );
+
+    // Crear cabeceras CSV
+    const headers = [
+      "ID",
+      "Usuario",
+      "Fecha",
+      "Hora",
+      "ASIN",
+      "Bin ID",
+      "Infracción",
+      "Estado",
+      "Cantidad",
+      "Fecha Feedback",
+      "Completado por",
+      "Comentario",
+    ];
+
+    // Crear filas
+    const rows = [headers.join(",")];
+
+    errorsToExport.forEach((error) => {
+      // Asegurarse de que los valores undefined o null se traten como cadenas vacías para el CSV
+      const ensureString = (value) =>
+        value === undefined || value === null ? "" : String(value);
+
+      // Escapar comillas dobles dentro de los campos y rodear el campo con comillas dobles
+      const escapeCsvField = (value) =>
+        `"${ensureString(value).replace(/"/g, '""')}"`;
+
+      const row = [
+        escapeCsvField(error.id),
+        escapeCsvField(error.user_id),
+        escapeCsvField(error.date),
+        escapeCsvField(error.time),
+        escapeCsvField(error.asin),
+        escapeCsvField(error.bin_id),
+        escapeCsvField(error.violation),
+        escapeCsvField(
+          error.feedback_status === "done" ? "Completado" : "Pendiente"
+        ),
+        escapeCsvField(error.quantity), // quantity ya debería ser un número o normalizado a 1
+        escapeCsvField(error.feedback_date),
+        escapeCsvField(error.feedback_user),
+        escapeCsvField(error.feedback_comment),
+      ];
+      rows.push(row.join(","));
+    });
+
+    // Crear contenido CSV
+    return rows.join("\n");
+  }
 }
