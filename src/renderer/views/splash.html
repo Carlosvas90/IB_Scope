@@ -46,10 +46,20 @@
         position: relative;
       }
 
-      /* Modificar las capas de fondo del Lottie para hacerlas transparentes */
-      :root .Screen {
+      /* Hacer transparentes los fondos del Lottie */
+      :root #lottie-container svg #Screen,
+      :root #lottie-container svg rect,
+      :root #lottie-container svg .Screen,
+      :root #lottie-container [data-name="Screen"],
+      :root #lottie-container [data-name="Screen Group"] {
         opacity: 0 !important;
-        visibility: hidden !important;
+        fill: transparent !important;
+        background-color: transparent !important;
+      }
+
+      /* Hacer que Path 1 sea transparente */
+      :root #lottie-container [data-name="Path 1"] {
+        fill: transparent !important;
       }
 
       .logo-glow {
@@ -138,18 +148,42 @@
       window.onload = () => {
         console.log("Splashscreen cargado - window.onload");
 
-        // Cargar animación Lottie
+        // Cargar animación Lottie con fondo transparente
         animation = lottie.loadAnimation({
           container: document.getElementById("lottie-container"),
           renderer: "svg",
           loop: true,
           autoplay: true,
           path: "../../../assets/animations/Animated2.json",
+          rendererSettings: {
+            clearCanvas: false,
+            progressiveLoad: true,
+            preserveAspectRatio: "xMidYMid meet",
+            backgroundColor: "transparent",
+          },
         });
 
         // Notificar cuando la animación esté lista
         animation.addEventListener("DOMLoaded", () => {
           console.log("Animación Lottie cargada");
+
+          // Eliminar fondos manualmente después de cargar
+          setTimeout(() => {
+            const svgElement = document.querySelector("#lottie-container svg");
+            if (svgElement) {
+              // Establecer fondo transparente en el SVG principal
+              svgElement.style.backgroundColor = "transparent";
+
+              // Buscar y hacer transparentes todas las capas de fondo
+              const screenElements = svgElement.querySelectorAll(
+                '[data-name="Screen"], [data-name="Screen Group"], rect, #Screen'
+              );
+              screenElements.forEach((el) => {
+                el.style.opacity = 0;
+                el.style.fill = "transparent";
+              });
+            }
+          }, 100);
         });
 
         // Notificar al proceso principal cuando el splashscreen está listo

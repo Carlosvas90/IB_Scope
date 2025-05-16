@@ -18,11 +18,12 @@ function createSplashWindow() {
     width: 500,
     height: 400,
     transparent: true,
-    backgroundColor: "#00000000",
     frame: false,
     alwaysOnTop: true,
     resizable: false,
     skipTaskbar: true,
+    backgroundColor: "#00000000",
+    hasShadow: false,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
