@@ -5,6 +5,7 @@
  */
 
 import { CacheService } from "./CacheService.js";
+import { AutoRefreshService } from "./AutoRefreshService.js";
 
 export class DataService {
   constructor() {
@@ -23,10 +24,9 @@ export class DataService {
     };
     this.lastUpdateTime = null;
     this.isRefreshing = false;
-    this.autoRefreshInterval = null;
-    this.autoRefreshTime = 60; // segundos
     this.refreshListeners = [];
-    this.cacheService = new CacheService("feedback_tracker_data"); // Instancia de CacheService
+    this.cacheService = new CacheService("feedback_tracker_data");
+    this.autoRefreshService = new AutoRefreshService();
   }
 
   /**
@@ -61,8 +61,16 @@ export class DataService {
         }
 
         // Configurar autorefresh si está configurado
-        if (config && config.auto_refresh) {
-          this.setupAutoRefresh(config.auto_refresh);
+        if (config && typeof config.auto_refresh === "number") {
+          this.autoRefreshService.configure(
+            config.auto_refresh,
+            this.refreshData.bind(this),
+            window.api.saveConfig
+          );
+        } else {
+          console.log(
+            "DataService: Auto-refresh no configurado o valor no numérico en config."
+          );
         }
       } catch (configError) {
         console.warn(
@@ -673,46 +681,20 @@ export class DataService {
 
   /**
    * Configura la actualización automática
+   * @param {number} seconds - Intervalo en segundos.
+   * @param {Function} [callback] - Función a llamar después de cada actualización exitosa (opcional, ya no se usa directamente aquí).
    */
   setupAutoRefresh(seconds, callback) {
-    // Limpiar intervalo existente
-    if (this.autoRefreshInterval) {
-      clearInterval(this.autoRefreshInterval);
-      this.autoRefreshInterval = null;
-    }
+    this.autoRefreshService.configure(
+      seconds,
+      this.refreshData.bind(this),
+      window.api.saveConfig
+    );
 
-    // Si es 0, deshabilitar actualización automática
-    if (seconds <= 0) return;
-
-    this.autoRefreshTime = seconds;
-
-    // Configurar nuevo intervalo
-    this.autoRefreshInterval = setInterval(async () => {
-      const success = await this.refreshData();
-      if (success && typeof callback === "function") {
-        callback();
-      }
-    }, seconds * 1000);
-
-    // Guardar en configuración
-    this.saveAutoRefreshToConfig(seconds);
-  }
-
-  /**
-   * Guarda el tiempo de actualización automática en la configuración
-   */
-  async saveAutoRefreshToConfig(seconds) {
-    try {
-      // Obtener configuración actual
-      const config = await window.api.getConfig();
-
-      // Actualizar tiempo de autorefresh
-      const updatedConfig = { ...config, auto_refresh: seconds };
-
-      // Guardar configuración
-      await window.api.saveConfig(updatedConfig);
-    } catch (error) {
-      console.warn("Error al guardar tiempo de actualización en config", error);
+    if (typeof callback === "function") {
+      console.warn(
+        "DataService.setupAutoRefresh: El argumento 'callback' para notificar a la UI después del refresh ya no es soportado directamente por este método al usar AutoRefreshService. La UI debe usar listeners como onRefresh o el evento 'data:updated'."
+      );
     }
   }
 
@@ -797,9 +779,9 @@ export class DataService {
    * Limpia recursos al cerrar
    */
   dispose() {
-    if (this.autoRefreshInterval) {
-      clearInterval(this.autoRefreshInterval);
-      this.autoRefreshInterval = null;
+    if (this.autoRefreshService) {
+      this.autoRefreshService.dispose();
+      this.autoRefreshService = null;
     }
 
     // Limpiar callbacks
