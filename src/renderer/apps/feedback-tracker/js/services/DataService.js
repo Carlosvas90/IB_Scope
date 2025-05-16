@@ -8,6 +8,8 @@ import { CacheService } from "./CacheService.js";
 import { AutoRefreshService } from "./AutoRefreshService.js";
 import { ErrorDataProcessorService } from "./ErrorDataProcessorService.js";
 import { FileService } from "./FileService.js";
+import { NotificationService } from "./NotificationService.js";
+import { ConfigService } from "./ConfigService.js";
 
 export class DataService {
   constructor() {
@@ -18,16 +20,15 @@ export class DataService {
     };
     this.dataPaths = [];
     this.currentDataPath = null;
-    this.fileNames = {
-      errors: "error_tracker.json",
-    };
+    this.fileNames = {};
     this.lastUpdateTime = null;
     this.isRefreshing = false;
-    this.refreshListeners = [];
     this.cacheService = new CacheService("feedback_tracker_data");
     this.autoRefreshService = new AutoRefreshService();
     this.errorProcessor = new ErrorDataProcessorService();
     this.fileService = new FileService();
+    this.notificationService = new NotificationService();
+    this.configService = new ConfigService();
     this.isInitialized = false;
     this.initializationPromise = null;
   }
@@ -72,83 +73,40 @@ export class DataService {
     console.log("DataService.init: Iniciando inicialización...");
     console.time("DataService:Init");
     try {
-      // Rutas de datos se determinarán desde config o fallback
-      let loadedDataPaths = null;
+      // Cargar configuración usando ConfigService
+      const appConfig = await this.configService.loadAppConfig();
 
-      // Intentar cargar configuración
-      try {
-        const config = await window.api.getConfig();
-        console.log(
-          "DataService: Objeto config RECIBIDO de window.api.getConfig():",
-          JSON.stringify(config, null, 2)
-        );
-
-        // Establecer rutas de datos desde config
-        if (
-          config &&
-          config.data_paths &&
-          Array.isArray(config.data_paths) &&
-          config.data_paths.length > 0
-        ) {
-          loadedDataPaths = config.data_paths;
-          console.log(
-            "DataService: Rutas de datos cargadas de config.json:",
-            loadedDataPaths
-          );
-        } else {
-          console.warn(
-            "DataService: 'data_paths' no encontradas o vacías en config.json. Verifique el objeto config recibido arriba."
-          );
-        }
-
-        // Cargar nombres de archivos si están configurados
-        if (
-          config &&
-          config.apps &&
-          config.apps["feedback-tracker"] &&
-          config.apps["feedback-tracker"].files
-        ) {
-          const files = config.apps["feedback-tracker"].files;
-          this.fileNames = { ...this.fileNames, ...files };
-          console.log("Nombres de archivos cargados:", this.fileNames);
-        }
-
-        // Configurar autorefresh si está configurado
-        if (config && typeof config.auto_refresh === "number") {
-          this.autoRefreshService.configure(
-            config.auto_refresh,
-            this.refreshData.bind(this),
-            window.api.saveConfig
-          );
-        } else {
-          console.log(
-            "DataService: Auto-refresh no configurado o valor no numérico en config."
-          );
-        }
-      } catch (configError) {
-        console.warn(
-          "Error al cargar configuración, usando valores por defecto:",
-          configError
-        );
-        // Continuamos con los valores por defecto
-      }
-
-      // Usar rutas cargadas o definir un fallback si no se cargaron de config
-      if (loadedDataPaths && loadedDataPaths.length > 0) {
-        this.dataPaths = loadedDataPaths;
-      } else {
-        console.warn(
-          "DataService: No se cargaron rutas de datos desde config.json o estaban vacías. this.dataPaths permanecerá vacío."
-        );
-      }
+      // Aplicar configuración cargada
+      this.dataPaths = appConfig.dataPaths || [];
+      this.fileNames = appConfig.fileNames || { errors: "error_tracker.json" };
 
       console.log(
-        "DataService: Rutas de datos finales a utilizar:",
+        "DataService: Rutas de datos establecidas desde ConfigService:",
         this.dataPaths
       );
+      console.log(
+        "DataService: Nombres de archivo establecidos desde ConfigService:",
+        this.fileNames
+      );
 
-      // Cargar errores iniciales (con caché en localStorage si está disponible)
-      // await this.loadInitialData(); // ELIMINADO PARA EVITAR DEADLOCK
+      // Configurar autorefresh si está configurado
+      if (appConfig.autoRefreshSeconds && appConfig.autoRefreshSeconds > 0) {
+        this.autoRefreshService.configure(
+          appConfig.autoRefreshSeconds,
+          this.refreshData.bind(this),
+          window.api.saveConfig
+        );
+        console.log(
+          `DataService: Auto-refresh configurado para ${appConfig.autoRefreshSeconds} segundos.`
+        );
+      } else {
+        console.log(
+          "DataService: Auto-refresh no configurado o valor inválido desde ConfigService. Auto-refresh deshabilitado."
+        );
+      }
+
+      // La lógica de fallback para dataPaths y fileNames ahora está en ConfigService.
+      // El console.warn sobre usar rutas de fallback también se movió a ConfigService.
 
       console.log("DataService.init: Inicialización completada.");
       console.timeEnd("DataService:Init");
@@ -157,9 +115,15 @@ export class DataService {
       return true;
     } catch (error) {
       console.error(
-        "DataService.init: Error al inicializar el servicio de datos:",
+        "DataService.init: Error al inicializar el servicio de datos (posiblemente desde ConfigService o aplicando config):",
         error
       );
+      // En caso de error durante la carga de configuración crítica, DataService podría quedar en un estado inoperable.
+      // Aseguramos que dataPaths y fileNames tengan al menos un valor usable para evitar errores en cascada,
+      // aunque ConfigService ya debería proveer fallbacks.
+      this.dataPaths = this.dataPaths || [];
+      this.fileNames = this.fileNames || { errors: "error_tracker.json" };
+
       console.timeEnd("DataService:Init");
       this.isInitialized = false;
       this.initializationPromise = null;
@@ -453,23 +417,13 @@ export class DataService {
    * @param {boolean} fromCache - Si los datos vienen de caché
    */
   notifyDataUpdated(fromCache = false) {
-    // Notificar a través de ipcRenderer
-    if (window.ipcRenderer) {
-      window.ipcRenderer.send("data:updated", {
-        count: this.errors.length,
-        timestamp: this.lastUpdateTime,
-        fromCache: fromCache,
-      });
-    }
-
-    // Notificar a los listeners registrados
-    this.refreshListeners.forEach((callback) => {
-      try {
-        callback(this.errors, this.lastUpdateTime);
-      } catch (error) {
-        console.warn("Error en listener de actualización:", error);
-      }
-    });
+    const eventData = {
+      errors: this.errors, // Para los listeners locales
+      timestamp: this.lastUpdateTime, // Para los listeners locales y para IPC
+      count: this.errors.length, // Para IPC
+      fromCache: fromCache, // Para IPC
+    };
+    this.notificationService.notify(eventData);
   }
 
   /**
@@ -477,9 +431,7 @@ export class DataService {
    * @param {Function} callback - Función a llamar cuando los datos se actualicen
    */
   onRefresh(callback) {
-    if (typeof callback === "function") {
-      this.refreshListeners.push(callback);
-    }
+    this.notificationService.subscribe(callback);
   }
 
   /**
@@ -487,10 +439,7 @@ export class DataService {
    * @param {Function} callback - Función a eliminar
    */
   offRefresh(callback) {
-    const index = this.refreshListeners.indexOf(callback);
-    if (index !== -1) {
-      this.refreshListeners.splice(index, 1);
-    }
+    this.notificationService.unsubscribe(callback);
   }
 
   /**
@@ -847,8 +796,12 @@ export class DataService {
       this.autoRefreshService.dispose();
       this.autoRefreshService = null;
     }
+    if (this.notificationService) {
+      this.notificationService.dispose();
+      this.notificationService = null;
+    }
 
     // Limpiar callbacks
-    this.refreshListeners = [];
+    // this.refreshListeners = []; // Ya no existe
   }
 }
