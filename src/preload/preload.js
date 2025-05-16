@@ -11,6 +11,18 @@ const path = require("path");
 console.log("Cargando script de preload...");
 
 // -------------------------------------------------------------
+// API para el splashscreen: window.splashAPI
+// Se usa solo en la ventana de splashscreen
+// -------------------------------------------------------------
+contextBridge.exposeInMainWorld("splashAPI", {
+  // Notificar que el splashscreen está listo
+  splashReady: () => {
+    console.log("Enviando evento splash:ready desde preload");
+    ipcRenderer.send("splash:ready");
+  },
+});
+
+// -------------------------------------------------------------
 // API principal: window.api
 // Expone métodos seguros para acceder a funcionalidades del main process
 // -------------------------------------------------------------

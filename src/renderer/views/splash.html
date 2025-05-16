@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inbound Scope</title>
+    <!-- Importar biblioteca Lottie -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-color: transparent;
+        font-family: Arial, sans-serif;
+      }
+
+      .splash-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+        background-color: transparent;
+      }
+
+      .logo-container {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 30px;
+        width: 300px;
+        height: 300px;
+      }
+
+      .lottie-animation {
+        width: 100%;
+        height: 100%;
+        filter: drop-shadow(0px 0px 10px rgba(66, 133, 244, 0.8));
+        z-index: 10;
+        position: relative;
+      }
+
+      /* Modificar las capas de fondo del Lottie para hacerlas transparentes */
+      :root .Screen {
+        opacity: 0 !important;
+        visibility: hidden !important;
+      }
+
+      .logo-glow {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(66, 133, 244, 0.2) 0%,
+          rgba(66, 133, 244, 0) 70%
+        );
+        animation: glow 3s infinite ease-in-out;
+        z-index: 5;
+      }
+
+      .loading-bar {
+        width: 200px;
+        height: 4px;
+        background-color: rgba(224, 224, 224, 0.5);
+        border-radius: 4px;
+        overflow: hidden;
+        position: relative;
+        backdrop-filter: blur(5px);
+      }
+
+      .loading-progress {
+        height: 100%;
+        width: 0;
+        background-color: rgba(66, 133, 244, 0.8);
+        position: absolute;
+        border-radius: 4px;
+        animation: progress 2s ease-in-out;
+      }
+
+      .loading-text {
+        margin-top: 15px;
+        color: rgba(95, 99, 104, 0.9);
+        font-size: 14px;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+      }
+
+      @keyframes progress {
+        0% {
+          width: 0;
+        }
+        50% {
+          width: 70%;
+        }
+        100% {
+          width: 100%;
+        }
+      }
+
+      @keyframes glow {
+        0% {
+          opacity: 0.3;
+          transform: scale(0.95);
+        }
+        50% {
+          opacity: 0.6;
+          transform: scale(1.05);
+        }
+        100% {
+          opacity: 0.3;
+          transform: scale(0.95);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="splash-container">
+      <div class="logo-container">
+        <div class="logo-glow"></div>
+        <div id="lottie-container" class="lottie-animation"></div>
+      </div>
+      <div class="loading-bar">
+        <div class="loading-progress"></div>
+      </div>
+      <div class="loading-text">Cargando aplicación...</div>
+    </div>
+
+    <script>
+      // Cargar la animación Lottie
+      let animation;
+      window.onload = () => {
+        console.log("Splashscreen cargado - window.onload");
+
+        // Cargar animación Lottie
+        animation = lottie.loadAnimation({
+          container: document.getElementById("lottie-container"),
+          renderer: "svg",
+          loop: true,
+          autoplay: true,
+          path: "../../../assets/animations/Animated2.json",
+        });
+
+        // Notificar cuando la animación esté lista
+        animation.addEventListener("DOMLoaded", () => {
+          console.log("Animación Lottie cargada");
+        });
+
+        // Notificar al proceso principal cuando el splashscreen está listo
+        if (window.splashAPI) {
+          console.log("splashAPI encontrado, enviando evento splashReady");
+          window.splashAPI.splashReady();
+        } else {
+          console.error("ERROR: splashAPI no encontrado");
+        }
+      };
+
+      // Mecanismo de respaldo para garantizar que el evento se envía
+      setTimeout(() => {
+        console.log("Enviando splashReady por timeout de seguridad");
+        if (window.splashAPI) {
+          window.splashAPI.splashReady();
+        }
+      }, 1000);
+    </script>
+  </body>
+</html>

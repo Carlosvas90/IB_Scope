@@ -8,53 +8,83 @@ const configService = require("./services/config");
 const configHandler = require("./handlers/config");
 const filesHandler = require("./handlers/files");
 
-// Variable para mantener referencia global a la ventana
+// Variables para mantener referencia global a las ventanas
 let mainWindow;
+let splashWindow;
 
-// Función para crear la ventana principal
-function createWindow() {
-  // Crear la ventana del navegador
-  mainWindow = new BrowserWindow({
-    width: 1280,
-    height: 720,
-    minWidth: 800,
-    minHeight: 600,
-    frame: false, // Ocultar el frame nativo
+// Función para crear la ventana de splashscreen
+function createSplashWindow() {
+  splashWindow = new BrowserWindow({
+    width: 500,
+    height: 400,
+    transparent: true,
+    backgroundColor: "#00000000",
+    frame: false,
+    alwaysOnTop: true,
+    resizable: false,
+    skipTaskbar: true,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      sandbox: false,
       preload: path.join(__dirname, "../preload/preload.js"),
     },
-    show: false, // No mostrar hasta que esté lista para evitar parpadeos
+    show: false,
   });
 
-  // Cargar el archivo HTML principal
-  mainWindow.loadFile(path.join(__dirname, "../renderer/views/Sidebar.html"));
-
-  // Abrir DevTools solo en modo desarrollo
-  if (process.argv.includes("--dev")) {
-    mainWindow.webContents.openDevTools();
-  }
+  // Cargar el archivo HTML del splashscreen
+  splashWindow.loadFile(path.join(__dirname, "../renderer/views/splash.html"));
 
   // Mostrar la ventana cuando esté lista
-  mainWindow.once("ready-to-show", () => {
-    mainWindow.show();
-  });
-
-  // Emitir eventos de maximizar/restaurar
-  mainWindow.on("maximize", () => {
-    mainWindow.webContents.send("window:maximized");
-  });
-  mainWindow.on("unmaximize", () => {
-    mainWindow.webContents.send("window:restored");
-  });
-
-  // Cerrar referencia cuando la ventana se cierra
-  mainWindow.on("closed", () => {
-    mainWindow = null;
+  splashWindow.once("ready-to-show", () => {
+    splashWindow.show();
   });
 }
+
+// Variables para control de tiempo de splashscreen
+let appReady = false;
+let splashReady = false;
+let minTimeElapsed = false;
+const MIN_SPLASH_DURATION = 2500; // 2.5 segundos mínimo para el splashscreen
+
+// Función para cerrar el splashscreen si se cumplen todas las condiciones
+function checkAndCloseSplash() {
+  console.log(
+    `Estado de cierre: appReady=${appReady}, splashReady=${splashReady}, minTimeElapsed=${minTimeElapsed}`
+  );
+
+  if (appReady && splashReady && minTimeElapsed && splashWindow) {
+    console.log("Cerrando splashscreen y mostrando ventana principal");
+    splashWindow.destroy();
+    splashWindow = null;
+    mainWindow.show();
+  }
+
+  // Agregar un mecanismo de seguridad para forzar cierre después de 5 segundos
+  // incluso si no se cumplen todas las condiciones
+  if (splashWindow && !mainWindow.isVisible()) {
+    setTimeout(() => {
+      console.log("Forzando cierre del splashscreen por timeout de seguridad");
+      if (splashWindow) {
+        splashWindow.destroy();
+        splashWindow = null;
+        mainWindow.show();
+      }
+    }, 5000);
+  }
+}
+
+// Evento cuando el splashscreen está listo
+ipcMain.on("splash:ready", () => {
+  console.log("Splashscreen listo - evento recibido");
+  splashReady = true;
+
+  // Iniciar temporizador para tiempo mínimo
+  setTimeout(() => {
+    console.log("Tiempo mínimo de splash completado");
+    minTimeElapsed = true;
+    checkAndCloseSplash();
+  }, MIN_SPLASH_DURATION);
+});
 
 // Crear ventana cuando la app está lista
 app.whenReady().then(async () => {
@@ -62,7 +92,10 @@ app.whenReady().then(async () => {
   await configService.load();
   configService.getConfig(); // Forzar log para depuración
 
-  // Crear la ventana
+  // Crear primero el splashscreen
+  createSplashWindow();
+
+  // Luego crear la ventana principal (quedará oculta hasta que se cierre el splash)
   createWindow();
 });
 
@@ -167,3 +200,60 @@ ipcMain.on("preload:loaded", () => {
 });
 
 // ==== FIN MANEJADORES IPC ====
+
+// Función para crear la ventana principal
+function createWindow() {
+  // Crear la ventana del navegador
+  mainWindow = new BrowserWindow({
+    width: 1280,
+    height: 720,
+    minWidth: 800,
+    minHeight: 600,
+    frame: false, // Ocultar el frame nativo
+    webPreferences: {
+      nodeIntegration: false,
+      contextIsolation: true,
+      sandbox: false,
+      preload: path.join(__dirname, "../preload/preload.js"),
+    },
+    show: false, // No mostrar hasta que esté lista para evitar parpadeos
+  });
+
+  // Cargar el archivo HTML principal
+  mainWindow.loadFile(path.join(__dirname, "../renderer/views/Sidebar.html"));
+
+  // Abrir DevTools solo en modo desarrollo
+  if (process.argv.includes("--dev")) {
+    mainWindow.webContents.openDevTools();
+  }
+
+  // Cuando la ventana principal esté lista, esperar un tiempo mínimo antes de cerrar el splash
+  mainWindow.webContents.once("did-finish-load", () => {
+    // Notificar que la aplicación principal está lista
+    console.log("Ventana principal cargada completamente");
+    appReady = true;
+    checkAndCloseSplash();
+  });
+
+  // Añadir un listener alternativo por si el anterior falla
+  setTimeout(() => {
+    if (!appReady) {
+      console.log("Forzando appReady=true después de timeout");
+      appReady = true;
+      checkAndCloseSplash();
+    }
+  }, 3000);
+
+  // Emitir eventos de maximizar/restaurar
+  mainWindow.on("maximize", () => {
+    mainWindow.webContents.send("window:maximized");
+  });
+  mainWindow.on("unmaximize", () => {
+    mainWindow.webContents.send("window:restored");
+  });
+
+  // Cerrar referencia cuando la ventana se cierra
+  mainWindow.on("closed", () => {
+    mainWindow = null;
+  });
+}
