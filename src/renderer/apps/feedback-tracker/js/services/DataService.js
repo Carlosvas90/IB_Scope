@@ -15,10 +15,7 @@ export class DataService {
       processedErrors: null,
       statistics: null,
     };
-    this.dataPaths = [
-      "\\\\ant\\dept-eu\\VLC1\\Public\\Apps_Tools\\chuecc\\IB_Scope\\Data\\",
-      "C:\\Users\\carlo\\Downloads\\0-Proyecto_IB_Scope\\Analisis\\Data\\",
-    ];
+    this.dataPaths = [];
     this.currentDataPath = null;
     this.fileNames = {
       errors: "error_tracker.json",
@@ -29,24 +26,76 @@ export class DataService {
     this.cacheService = new CacheService("feedback_tracker_data");
     this.autoRefreshService = new AutoRefreshService();
     this.errorProcessor = new ErrorDataProcessorService();
+    this.isInitialized = false;
+    this.initializationPromise = null;
+  }
+
+  async ensureInitialized() {
+    if (!this.isInitialized) {
+      if (!this.initializationPromise) {
+        console.log(
+          "DataService.ensureInitialized: Llamando a init() por primera vez o después de un reinicio."
+        );
+        this.initializationPromise = this.init();
+      }
+      try {
+        await this.initializationPromise;
+      } catch (error) {
+        console.error(
+          "DataService.ensureInitialized: Error durante la inicialización controlada.",
+          error
+        );
+        this.isInitialized = false;
+        this.initializationPromise = null;
+      }
+    }
   }
 
   /**
    * Inicializa el servicio de datos
    */
   async init() {
+    if (this.isInitialized) {
+      console.log("DataService.init: Ya inicializado.");
+      return true;
+    }
+    if (this.initializationPromise && !this.isInitialized) {
+      console.log(
+        "DataService.init: Inicialización ya en progreso, esperando..."
+      );
+      await this.initializationPromise;
+      return this.isInitialized;
+    }
+
+    console.log("DataService.init: Iniciando inicialización...");
     console.time("DataService:Init");
     try {
+      // Rutas de datos se determinarán desde config o fallback
+      let loadedDataPaths = null;
+
       // Intentar cargar configuración
       try {
         const config = await window.api.getConfig();
+        console.log(
+          "DataService: Objeto config RECIBIDO de window.api.getConfig():",
+          JSON.stringify(config, null, 2)
+        );
 
-        // Establecer rutas de datos
-        if (config && config.data_paths && Array.isArray(config.data_paths)) {
-          this.dataPaths = config.data_paths;
+        // Establecer rutas de datos desde config
+        if (
+          config &&
+          config.data_paths &&
+          Array.isArray(config.data_paths) &&
+          config.data_paths.length > 0
+        ) {
+          loadedDataPaths = config.data_paths;
           console.log(
-            "Rutas de datos cargadas de configuración:",
-            this.dataPaths
+            "DataService: Rutas de datos cargadas de config.json:",
+            loadedDataPaths
+          );
+        } else {
+          console.warn(
+            "DataService: 'data_paths' no encontradas o vacías en config.json. Verifique el objeto config recibido arriba."
           );
         }
 
@@ -82,14 +131,36 @@ export class DataService {
         // Continuamos con los valores por defecto
       }
 
-      // Cargar errores iniciales (con caché en localStorage si está disponible)
-      await this.loadInitialData();
+      // Usar rutas cargadas o definir un fallback si no se cargaron de config
+      if (loadedDataPaths && loadedDataPaths.length > 0) {
+        this.dataPaths = loadedDataPaths;
+      } else {
+        console.warn(
+          "DataService: No se cargaron rutas de datos desde config.json o estaban vacías. this.dataPaths permanecerá vacío."
+        );
+      }
 
+      console.log(
+        "DataService: Rutas de datos finales a utilizar:",
+        this.dataPaths
+      );
+
+      // Cargar errores iniciales (con caché en localStorage si está disponible)
+      // await this.loadInitialData(); // ELIMINADO PARA EVITAR DEADLOCK
+
+      console.log("DataService.init: Inicialización completada.");
       console.timeEnd("DataService:Init");
+      this.isInitialized = true;
+      this.initializationPromise = null;
       return true;
     } catch (error) {
-      console.error("Error al inicializar el servicio de datos:", error);
+      console.error(
+        "DataService.init: Error al inicializar el servicio de datos:",
+        error
+      );
       console.timeEnd("DataService:Init");
+      this.isInitialized = false;
+      this.initializationPromise = null;
       return false;
     }
   }
@@ -98,6 +169,7 @@ export class DataService {
    * Carga datos iniciales con soporte para caché
    */
   async loadInitialData() {
+    await this.ensureInitialized();
     // Primer intento: Cargar desde localStorage para renderizado inmediato
     if (this.loadFromCache()) {
       console.log("Datos cargados desde caché local");
@@ -203,66 +275,109 @@ export class DataService {
    * @returns {Promise<Object>} Resultado de la lectura
    */
   async tryReadFile(fileName) {
-    console.time("FileRead");
+    await this.ensureInitialized();
+    console.log(
+      `%cDataService.tryReadFile: ================= INICIO LECTURA ${fileName} =================`,
+      "color: blue; font-weight: bold;"
+    );
+    console.log(
+      `DataService.tryReadFile: CurrentDataPath: ${
+        this.currentDataPath
+      }, All dataPaths: ${JSON.stringify(this.dataPaths)}`
+    );
+    console.time("FileReadAttempt");
 
     // Si hay una ruta actual exitosa, intentar primero esa
     if (this.currentDataPath) {
       const filePath = this.buildFilePath(fileName, this.currentDataPath);
-      console.log(`Intentando leer desde ruta actual: ${filePath}`);
-
+      console.log(
+        `DataService.tryReadFile: Intentando leer desde ruta actual: ${filePath}`
+      );
       try {
         const result = await window.api.readJson(filePath);
-        if (result.success) {
-          console.timeEnd("FileRead");
+        console.log(
+          `DataService.tryReadFile: Resultado desde ruta actual ${filePath}:`,
+          JSON.stringify(result)
+        );
+        if (result && result.success === true) {
+          console.timeEnd("FileReadAttempt");
           return result;
         }
       } catch (error) {
-        console.warn(`No se pudo leer desde ruta actual: ${filePath}`, error);
-        // Continuar con otras rutas
+        console.warn(
+          `DataService.tryReadFile: No se pudo leer desde ruta actual ${filePath}:`,
+          error
+        );
       }
     }
 
     // Intentar todas las rutas
+    console.log("DataService.tryReadFile: Iterando sobre dataPaths...");
     for (const dataPath of this.dataPaths) {
-      // Saltar la ruta actual que ya probamos
-      if (dataPath === this.currentDataPath) continue;
+      if (this.currentDataPath && dataPath === this.currentDataPath) {
+        console.log(
+          `DataService.tryReadFile: Saltando dataPath ${dataPath} (ya intentada como currentDataPath).`
+        );
+        continue;
+      }
 
       const filePath = this.buildFilePath(fileName, dataPath);
-      console.log(`Intentando leer archivo desde: ${filePath}`);
-
+      console.log(
+        `DataService.tryReadFile: Intentando leer archivo desde (bucle): ${filePath}`
+      );
       try {
         const result = await window.api.readJson(filePath);
-        if (result.success) {
-          // Guardar la ruta exitosa para futuros accesos
+        console.log(
+          `DataService.tryReadFile: Resultado desde ${filePath} (bucle):`,
+          JSON.stringify(result)
+        );
+        if (result && result.success === true) {
           this.currentDataPath = dataPath;
-          console.log(`Archivo leído correctamente desde: ${filePath}`);
-          console.timeEnd("FileRead");
+          console.log(
+            `DataService.tryReadFile: Archivo leído correctamente desde ${filePath}. Estableciendo como currentDataPath.`
+          );
+          console.timeEnd("FileReadAttempt");
           return result;
         }
       } catch (error) {
-        console.warn(`No se pudo leer desde: ${filePath}`, error);
-        // Continuar intentando con la siguiente ruta
+        console.warn(
+          `DataService.tryReadFile: No se pudo leer desde ${filePath} (bucle):`,
+          error
+        );
       }
     }
 
-    // Si llega aquí, no se pudo leer de ninguna ruta
-    console.timeEnd("FileRead");
-    throw new Error(
-      `No se pudo leer el archivo ${fileName} desde ninguna ruta`
-    );
+    console.timeEnd("FileReadAttempt");
+    const errorMessage = `DataService.tryReadFile: No se pudo leer el archivo ${fileName} desde ninguna ruta. Rutas configuradas: ${this.dataPaths.join(
+      ", "
+    )}`;
+    console.error(errorMessage);
+    throw new Error(errorMessage);
   }
 
   /**
    * Actualiza los datos desde el archivo JSON
    */
   async refreshData() {
+    await this.ensureInitialized();
     if (this.isRefreshing) return false;
+
+    console.log(
+      "%cDataService.refreshData: INICIANDO refreshData",
+      "color: green; font-weight: bold;"
+    );
 
     try {
       this.isRefreshing = true;
-      console.log("Intentando cargar datos desde el archivo...");
+      console.log(
+        "DataService.refreshData: Intentando cargar datos desde el archivo..."
+      );
 
       try {
+        console.log(
+          "%cDataService.refreshData: ANTES de llamar a this.tryReadFile",
+          "color: orange; font-weight: bold;"
+        );
         // Intentar leer el archivo de errores
         const result = await this.tryReadFile(this.fileNames.errors);
 
@@ -294,14 +409,26 @@ export class DataService {
           return false;
         }
       } catch (readError) {
-        console.error("Error al leer el archivo JSON:", readError);
+        console.error(
+          "%cDataService.refreshData: ERROR CAPTURADO en try-catch interno (leyendo archivo)",
+          "color: red; font-weight: bold;",
+          readError
+        );
         // Si falla la lectura, usar datos de ejemplo para desarrollo
+        console.log(
+          "%cDataService.refreshData: Llamando a createSampleData() debido al error de lectura.",
+          "color: red; font-style: italic;"
+        );
         this.createSampleData();
         this.isRefreshing = false;
         return false;
       }
     } catch (error) {
-      console.error("Error al actualizar los datos:", error);
+      console.error(
+        "%cDataService.refreshData: ERROR CAPTURADO en try-catch externo",
+        "color: red; font-weight: bold;",
+        error
+      );
       this.isRefreshing = false;
       return false;
     }
@@ -365,7 +492,8 @@ export class DataService {
    */
   createSampleData() {
     console.log(
-      "DataService: Creando datos de ejemplo para desarrollo usando ErrorDataProcessorService"
+      "%cDataService: Creando datos de ejemplo para desarrollo usando ErrorDataProcessorService",
+      "color: purple; font-style: italic; font-weight: bold;"
     );
     this.errors = this.errorProcessor.generateSampleData();
     this.lastUpdateTime = new Date();
@@ -442,6 +570,7 @@ export class DataService {
     username,
     feedbackComment = null
   ) {
+    await this.ensureInitialized();
     try {
       const success = this.errorProcessor.updateDetails(
         this.errors,
@@ -474,6 +603,7 @@ export class DataService {
    * Guarda los datos en el archivo JSON
    */
   async saveData() {
+    await this.ensureInitialized();
     console.time("SaveData");
     try {
       // Verificar si tenemos una ruta de datos
@@ -598,6 +728,7 @@ export class DataService {
    */
   async exportToCsv(statusFilter = "all") {
     try {
+      await this.ensureInitialized();
       // Obtener errores filtrados
       const filteredErrors = this.getFilteredErrors(statusFilter);
 
