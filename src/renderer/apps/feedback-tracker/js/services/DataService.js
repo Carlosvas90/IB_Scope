@@ -6,6 +6,7 @@
 
 import { CacheService } from "./CacheService.js";
 import { AutoRefreshService } from "./AutoRefreshService.js";
+import { ErrorDataProcessorService } from "./ErrorDataProcessorService.js";
 
 export class DataService {
   constructor() {
@@ -27,6 +28,7 @@ export class DataService {
     this.refreshListeners = [];
     this.cacheService = new CacheService("feedback_tracker_data");
     this.autoRefreshService = new AutoRefreshService();
+    this.errorProcessor = new ErrorDataProcessorService();
   }
 
   /**
@@ -362,46 +364,10 @@ export class DataService {
    * Crea datos de ejemplo para desarrollo
    */
   createSampleData() {
-    console.log("Creando datos de ejemplo para desarrollo");
-    this.errors = [
-      {
-        id: "1",
-        user_id: "usuario1",
-        date: "2025/04/19",
-        time: "13:30:10",
-        asin: "B0CMZ8D9VD",
-        bin_id: "P-3-C214A542",
-        violation: "Articulo <70cm en Barrel",
-        feedback_status: "pending",
-        quantity: 4,
-        occurrences: [
-          { date: "2025/04/19", time: "13:29:43" },
-          { date: "2025/04/19", time: "13:30:10" },
-        ],
-        feedback_notified: false,
-        feedback_user: "",
-      },
-      {
-        id: "2",
-        user_id: "usuario2",
-        date: "2025/04/19",
-        time: "14:25:39",
-        asin: "B0CMZ8D9VD",
-        bin_id: "P-3-C286A472",
-        violation: "Articulo <70cm en Barrel",
-        feedback_status: "done",
-        quantity: 2,
-        occurrences: [
-          { date: "2025/04/19", time: "14:24:29" },
-          { date: "2025/04/19", time: "14:25:39" },
-        ],
-        feedback_notified: true,
-        feedback_user: "admin",
-        feedback_date: "2025/04/30",
-        feedback_comment:
-          "Desconocimiento (no sabía): Usuario nuevo en el área - admin",
-      },
-    ];
+    console.log(
+      "DataService: Creando datos de ejemplo para desarrollo usando ErrorDataProcessorService"
+    );
+    this.errors = this.errorProcessor.generateSampleData();
     this.lastUpdateTime = new Date();
 
     // Invalidar caché
@@ -412,28 +378,7 @@ export class DataService {
    * Normaliza los datos de errores
    */
   normalizeErrors() {
-    this.errors.forEach((error) => {
-      // Asegurar que feedback_status exista y esté en minúsculas
-      error.feedback_status = (
-        error.feedback_status || "pending"
-      ).toLowerCase();
-
-      // Asegurar que occurrences es un array
-      if (!Array.isArray(error.occurrences)) {
-        error.occurrences = [{ date: error.date, time: error.time }];
-      }
-
-      // Asegurar que los campos requeridos existen
-      error.quantity = error.quantity || error.occurrences.length || 1;
-      error.feedback_notified = error.feedback_notified || false;
-      error.feedback_user = error.feedback_user || "";
-      error.times_notified = error.times_notified || 0;
-
-      // Inicializar feedback_comment si no existe
-      if (!error.feedback_comment) {
-        error.feedback_comment = "";
-      }
-    });
+    this.errorProcessor.normalize(this.errors);
   }
 
   /**
@@ -451,26 +396,7 @@ export class DataService {
       return this.cache.processedErrors[statusFilter];
     }
 
-    let result;
-    if (statusFilter === "all") {
-      result = this.errors;
-    } else {
-      result = this.errors.filter((error) =>
-        statusFilter === "done"
-          ? error.feedback_status.toLowerCase() === "done"
-          : error.feedback_status.toLowerCase() !== "done"
-      );
-    }
-
-    // Ordenar por hora (ascendente - más antiguo primero)
-    result = [...result].sort((a, b) => {
-      // Convertir string de tiempo a objeto Date para comparación
-      const timeA = new Date(`${a.date || ""} ${a.time || ""}`);
-      const timeB = new Date(`${b.date || ""} ${b.time || ""}`);
-
-      // Ordenar ascendente (más antiguo primero)
-      return timeA - timeB;
-    });
+    const result = this.errorProcessor.filterAndSort(this.errors, statusFilter);
 
     // Almacenar en caché
     if (!this.cache.processedErrors) {
@@ -494,38 +420,7 @@ export class DataService {
       return this.cache.statistics;
     }
 
-    const stats = {
-      total: this.errors.length,
-      pending: 0,
-      done: 0,
-      byUser: {},
-      byViolation: {},
-      byBin: {},
-    };
-
-    // Calcular estadísticas
-    for (let i = 0; i < this.errors.length; i++) {
-      const error = this.errors[i];
-
-      // Contar por estado
-      if (error.feedback_status.toLowerCase() === "done") {
-        stats.done++;
-      } else {
-        stats.pending++;
-      }
-
-      // Contar por usuario
-      const userId = error.user_id;
-      stats.byUser[userId] = (stats.byUser[userId] || 0) + 1;
-
-      // Contar por violación
-      const violation = error.violation;
-      stats.byViolation[violation] = (stats.byViolation[violation] || 0) + 1;
-
-      // Contar por bin
-      const binId = error.bin_id;
-      stats.byBin[binId] = (stats.byBin[binId] || 0) + 1;
-    }
+    const stats = this.errorProcessor.calculateStatistics(this.errors);
 
     // Guardar en caché
     this.cache.statistics = stats;
@@ -548,34 +443,18 @@ export class DataService {
     feedbackComment = null
   ) {
     try {
-      // Buscar el error
-      const errorIndex = this.errors.findIndex((error) => error.id === errorId);
+      const success = this.errorProcessor.updateDetails(
+        this.errors,
+        errorId,
+        newStatus,
+        username,
+        feedbackComment
+      );
 
-      if (errorIndex === -1) {
-        throw new Error(`Error no encontrado: ${errorId}`);
-      }
-
-      // Actualizar estado
-      this.errors[errorIndex].feedback_status = newStatus;
-
-      // Si es 'done', actualizar datos adicionales
-      if (newStatus === "done") {
-        this.errors[errorIndex].feedback_date = new Date()
-          .toISOString()
-          .split("T")[0];
-        this.errors[errorIndex].feedback_user = username;
-        this.errors[errorIndex].feedback_notified = false;
-
-        // Guardar comentario si existe
-        if (feedbackComment) {
-          this.errors[
-            errorIndex
-          ].feedback_comment = `${feedbackComment} - ${username}`;
-        }
-      } else {
-        this.errors[errorIndex].feedback_date = null;
-        this.errors[errorIndex].feedback_user = "";
-        this.errors[errorIndex].feedback_comment = "";
+      if (!success) {
+        throw new Error(
+          `DataService: Error no encontrado por ErrorDataProcessorService: ${errorId}`
+        );
       }
 
       // Invalidar caché
