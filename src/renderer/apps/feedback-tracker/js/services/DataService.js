@@ -4,6 +4,8 @@
  * Versión optimizada para rendimiento
  */
 
+import { CacheService } from "./CacheService.js";
+
 export class DataService {
   constructor() {
     this.errors = [];
@@ -24,6 +26,7 @@ export class DataService {
     this.autoRefreshInterval = null;
     this.autoRefreshTime = 60; // segundos
     this.refreshListeners = [];
+    this.cacheService = new CacheService("feedback_tracker_data"); // Instancia de CacheService
   }
 
   /**
@@ -111,14 +114,28 @@ export class DataService {
    */
   loadFromCache() {
     try {
-      const cachedData = localStorage.getItem("feedback_tracker_data");
-      if (!cachedData) return false;
+      const cachedData = this.cacheService.loadData();
 
-      const data = JSON.parse(cachedData);
-      if (!data || !data.errors || !Array.isArray(data.errors)) return false;
+      if (!cachedData) {
+        // console.log("No hay datos en caché local o son inválidos."); // Ya lo loguea CacheService
+        return false;
+      }
 
-      this.errors = data.errors;
-      this.lastUpdateTime = new Date(data.lastUpdate || Date.now());
+      // Validar la estructura esperada de los datos cacheados
+      if (
+        !cachedData.errors ||
+        !Array.isArray(cachedData.errors) ||
+        typeof cachedData.lastUpdate === "undefined"
+      ) {
+        console.warn(
+          "DataService: Datos de caché no válidos o corruptos. Ignorando caché."
+        );
+        this.cacheService.clearData(); // Limpiar caché si está corrupta
+        return false;
+      }
+
+      this.errors = cachedData.errors;
+      this.lastUpdateTime = new Date(cachedData.lastUpdate || Date.now());
 
       // Normalizar datos
       this.normalizeErrors();
@@ -145,11 +162,15 @@ export class DataService {
         errors: this.errors,
         lastUpdate: this.lastUpdateTime?.toISOString(),
       };
-
-      localStorage.setItem("feedback_tracker_data", JSON.stringify(cacheData));
-      console.log("Datos guardados en caché local");
+      this.cacheService.saveData(cacheData);
+      // console.log("Datos guardados en caché local via CacheService"); // Ya lo loguea CacheService
     } catch (error) {
-      console.warn("Error guardando en caché:", error);
+      // El error ya es manejado y logueado por CacheService.saveData
+      // Podríamos añadir un log específico de DataService si es necesario.
+      console.warn(
+        "DataService: Error específico al intentar guardar en caché desde DataService:",
+        error
+      );
     }
   }
 
