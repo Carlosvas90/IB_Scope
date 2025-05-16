@@ -123,4 +123,113 @@ export class FileService {
       return { success: false, error: errorMsg };
     }
   }
+
+  // Nuevos métodos
+  async tryReadJsonFromPaths(orderedBasePaths, fileName) {
+    if (!orderedBasePaths || !Array.isArray(orderedBasePaths) || !fileName) {
+      const errorMsg =
+        "FileService.tryReadJsonFromPaths: orderedBasePaths (array) y fileName son requeridos.";
+      console.error(errorMsg);
+      return { success: false, error: errorMsg, data: null };
+    }
+    if (orderedBasePaths.length === 0) {
+      const errorMsg =
+        "FileService.tryReadJsonFromPaths: orderedBasePaths está vacío, no hay rutas para intentar.";
+      console.warn(errorMsg);
+      return { success: false, error: errorMsg, data: null };
+    }
+
+    console.log(
+      `FileService.tryReadJsonFromPaths: Intentando leer '${fileName}' desde ${orderedBasePaths.length} ruta(s).`
+    );
+    for (const basePath of orderedBasePaths) {
+      if (!basePath) {
+        console.warn(
+          "FileService.tryReadJsonFromPaths: Se encontró una ruta base nula o undefined en orderedBasePaths, saltando."
+        );
+        continue;
+      }
+      try {
+        const filePath = this.buildFilePath(basePath, fileName);
+        console.log(
+          `FileService.tryReadJsonFromPaths: Intentando ruta: ${filePath}`
+        );
+        const result = await this.readJson(filePath); // readJson ya maneja su propio try/catch y logging
+        if (result && result.success) {
+          console.log(
+            `FileService.tryReadJsonFromPaths: Éxito al leer '${fileName}' desde ${filePath}.`
+          );
+          return { success: true, data: result.data, pathUsed: basePath };
+        }
+      } catch (error) {
+        // Aunque readJson/buildFilePath pueden lanzar errores, el flujo principal aquí es manejar el resultado de readJson.
+        // Los errores de buildFilePath (como basePath inválido) se propagarían y serían capturados aquí si readJson no los maneja.
+        // Sin embargo, buildFilePath ahora lanza si basePath es nulo, lo que se maneja con el 'continue' de arriba.
+        console.error(
+          `FileService.tryReadJsonFromPaths: Excepción inesperada al procesar la ruta base '${basePath}' para '${fileName}'.`,
+          error
+        );
+        // Continuar con la siguiente ruta
+      }
+    }
+
+    const finalErrorMsg = `FileService.tryReadJsonFromPaths: No se pudo leer el archivo '${fileName}' desde ninguna de las rutas proporcionadas.`;
+    console.warn(finalErrorMsg);
+    return { success: false, error: finalErrorMsg, data: null };
+  }
+
+  async trySaveJsonToPaths(orderedBasePaths, fileName, dataToSave) {
+    if (
+      !orderedBasePaths ||
+      !Array.isArray(orderedBasePaths) ||
+      !fileName ||
+      typeof dataToSave === "undefined"
+    ) {
+      const errorMsg =
+        "FileService.trySaveJsonToPaths: orderedBasePaths (array), fileName y dataToSave son requeridos.";
+      console.error(errorMsg);
+      return { success: false, error: errorMsg };
+    }
+    if (orderedBasePaths.length === 0) {
+      const errorMsg =
+        "FileService.trySaveJsonToPaths: orderedBasePaths está vacío, no hay rutas para intentar.";
+      console.warn(errorMsg);
+      return { success: false, error: errorMsg };
+    }
+
+    console.log(
+      `FileService.trySaveJsonToPaths: Intentando guardar '${fileName}' en ${orderedBasePaths.length} ruta(s).`
+    );
+    for (const basePath of orderedBasePaths) {
+      if (!basePath) {
+        console.warn(
+          "FileService.trySaveJsonToPaths: Se encontró una ruta base nula o undefined en orderedBasePaths, saltando."
+        );
+        continue;
+      }
+      try {
+        const filePath = this.buildFilePath(basePath, fileName);
+        console.log(
+          `FileService.trySaveJsonToPaths: Intentando ruta: ${filePath}`
+        );
+        const result = await this.saveJson(filePath, dataToSave); // saveJson ya maneja su propio try/catch y logging
+        if (result && result.success) {
+          console.log(
+            `FileService.trySaveJsonToPaths: Éxito al guardar '${fileName}' en ${filePath}.`
+          );
+          return { success: true, pathUsed: basePath };
+        }
+      } catch (error) {
+        console.error(
+          `FileService.trySaveJsonToPaths: Excepción inesperada al procesar la ruta base '${basePath}' para '${fileName}'.`,
+          error
+        );
+        // Continuar con la siguiente ruta
+      }
+    }
+
+    const finalErrorMsg = `FileService.trySaveJsonToPaths: No se pudo guardar el archivo '${fileName}' en ninguna de las rutas proporcionadas.`;
+    console.warn(finalErrorMsg);
+    return { success: false, error: finalErrorMsg };
+  }
 }

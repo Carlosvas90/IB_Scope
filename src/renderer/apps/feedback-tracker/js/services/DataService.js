@@ -243,94 +243,54 @@ export class DataService {
   async tryReadFile(fileName) {
     await this.ensureInitialized();
     console.log(
-      `%cDataService.tryReadFile: ================= INICIO LECTURA ${fileName} =================`,
+      `%cDataService.tryReadFile: Iniciando intento de lectura múltiple para ${fileName} via FileService`,
       "color: blue; font-weight: bold;"
     );
-    console.log(
-      `DataService.tryReadFile: CurrentDataPath: ${
-        this.currentDataPath
-      }, All dataPaths: ${JSON.stringify(this.dataPaths)}`
-    );
-    console.time("FileReadAttempt");
+    console.time(`DataService:TryReadFile:${fileName}`);
 
-    // Si hay una ruta actual exitosa, intentar primero esa
+    const orderedPaths = [];
     if (this.currentDataPath) {
-      const filePath = this.fileService.buildFilePath(
-        this.currentDataPath,
-        fileName
-      );
-      console.log(
-        `DataService.tryReadFile: Intentando leer desde ruta actual: ${filePath}`
-      );
-      try {
-        const result = await this.fileService.readJson(filePath);
-        console.log(
-          `DataService.tryReadFile: Resultado desde ruta actual ${filePath}:`
-          // JSON.stringify(result) // FileService ya loguea esto
-        );
-        if (result && result.success === true) {
-          console.timeEnd("FileReadAttempt");
-          return result;
+      orderedPaths.push(this.currentDataPath);
+    }
+    if (this.dataPaths && this.dataPaths.length > 0) {
+      this.dataPaths.forEach((dp) => {
+        if (dp && !orderedPaths.includes(dp)) {
+          orderedPaths.push(dp);
         }
-      } catch (error) {
-        // FileService.readJson ya maneja y loguea la excepción, devolviendo un objeto de error.
-        // Aquí solo registramos que el intento falló para esta ruta específica.
-        console.warn(
-          `DataService.tryReadFile: No se pudo leer desde ruta actual ${filePath} (excepción propagada o resultado de error de FileService):`,
-          error // Esto podría ser el objeto de error de FileService o una excepción si algo más falló.
-        );
-      }
+      });
     }
 
-    // Intentar todas las rutas
-    console.log("DataService.tryReadFile: Iterando sobre dataPaths...");
-    if (!this.dataPaths || this.dataPaths.length === 0) {
+    if (orderedPaths.length === 0) {
+      const errorMsg = `DataService.tryReadFile: No hay rutas de datos (currentDataPath o dataPaths) configuradas para leer '${fileName}'.`;
+      console.error(errorMsg);
+      console.timeEnd(`DataService:TryReadFile:${fileName}`);
+      return { success: false, error: errorMsg, data: null };
+    }
+
+    console.log(
+      `DataService.tryReadFile: Rutas ordenadas para intento: ${JSON.stringify(
+        orderedPaths
+      )}`
+    );
+
+    const result = await this.fileService.tryReadJsonFromPaths(
+      orderedPaths,
+      fileName
+    );
+
+    if (result.success) {
+      console.log(
+        `DataService.tryReadFile: Éxito. '${fileName}' leído desde '${result.pathUsed}'. Actualizando currentDataPath.`
+      );
+      this.currentDataPath = result.pathUsed;
+    } else {
       console.warn(
-        "DataService.tryReadFile: No hay dataPaths configuradas para iterar."
+        `DataService.tryReadFile: Falló la lectura de '${fileName}' desde todas las rutas. Error: ${result.error}`
       );
     }
 
-    for (const dataPath of this.dataPaths) {
-      if (this.currentDataPath && dataPath === this.currentDataPath) {
-        console.log(
-          `DataService.tryReadFile: Saltando dataPath ${dataPath} (ya intentada como currentDataPath).`
-        );
-        continue;
-      }
-
-      const filePath = this.fileService.buildFilePath(dataPath, fileName);
-      console.log(
-        `DataService.tryReadFile: Intentando leer archivo desde (bucle): ${filePath}`
-      );
-      try {
-        const result = await this.fileService.readJson(filePath);
-        console.log(
-          `DataService.tryReadFile: Resultado desde ${filePath} (bucle):`
-          // JSON.stringify(result) // FileService ya loguea esto
-        );
-        if (result && result.success === true) {
-          this.currentDataPath = dataPath;
-          console.log(
-            `DataService.tryReadFile: Archivo leído correctamente desde ${filePath}. Estableciendo como currentDataPath.`
-          );
-          console.timeEnd("FileReadAttempt");
-          return result;
-        }
-      } catch (error) {
-        console.warn(
-          `DataService.tryReadFile: No se pudo leer desde ${filePath} (bucle, excepción propagada o resultado de error de FileService):`,
-          error
-        );
-      }
-    }
-
-    console.timeEnd("FileReadAttempt");
-    const errorMessage = `DataService.tryReadFile: No se pudo leer el archivo ${fileName} desde ninguna ruta. Rutas configuradas: ${
-      this.dataPaths?.join(", ") || "ninguna"
-    }`;
-    console.error(errorMessage);
-    // Devolver un objeto de error consistente con lo que FileService.readJson devolvería en caso de fallo total.
-    return { success: false, error: errorMessage, data: null };
+    console.timeEnd(`DataService:TryReadFile:${fileName}`);
+    return result; // Devuelve el resultado de FileService ({success, data, error, pathUsed?})
   }
 
   /**
@@ -567,119 +527,70 @@ export class DataService {
    */
   async saveData() {
     await this.ensureInitialized();
-    console.time("SaveData");
+    console.time("DataService:SaveData");
+    console.log(
+      "%cDataService.saveData: Iniciando intento de guardado múltiple via FileService",
+      "color: magenta; font-weight: bold;"
+    );
+
+    const dataToSave = { errors: this.errors };
+
+    const orderedPaths = [];
+    if (this.currentDataPath) {
+      orderedPaths.push(this.currentDataPath);
+    }
+    if (this.dataPaths && this.dataPaths.length > 0) {
+      this.dataPaths.forEach((dp) => {
+        if (dp && !orderedPaths.includes(dp)) {
+          orderedPaths.push(dp);
+        }
+      });
+    }
+
+    if (orderedPaths.length === 0) {
+      const errorMsg =
+        "DataService.saveData: No hay rutas de datos (currentDataPath o dataPaths) configuradas para guardar.";
+      console.error(errorMsg);
+      console.timeEnd("DataService:SaveData");
+      // Devolver false es consistente con el comportamiento anterior en caso de fallo total.
+      return false;
+    }
+
+    console.log(
+      `DataService.saveData: Rutas ordenadas para intento de guardado: ${JSON.stringify(
+        orderedPaths
+      )}`
+    );
+
     try {
-      // Verificar si tenemos una ruta de datos
-      if (
-        !this.currentDataPath &&
-        this.dataPaths &&
-        this.dataPaths.length > 0
-      ) {
-        // Usar la primera ruta disponible si no hay una actual y hay dataPaths
-        this.currentDataPath = this.dataPaths[0];
-      } else if (
-        !this.currentDataPath &&
-        (!this.dataPaths || this.dataPaths.length === 0)
-      ) {
-        const errorMsg =
-          "DataService.saveData: No hay currentDataPath ni dataPaths configuradas para guardar.";
-        console.error(errorMsg);
-        throw new Error(errorMsg); // Lanzar error si no hay dónde guardar.
-      }
-
-      const filePath = this.fileService.buildFilePath(
-        this.currentDataPath,
-        this.fileNames.errors
+      const result = await this.fileService.trySaveJsonToPaths(
+        orderedPaths,
+        this.fileNames.errors,
+        dataToSave
       );
-      console.log(`Guardando datos en: ${filePath}`);
 
-      // Preparar datos para guardar
-      const dataToSave = { errors: this.errors }; // Aseguramos que pasamos el objeto esperado
-
-      // Guardar archivo
-      try {
-        const result = await this.fileService.saveJson(filePath, dataToSave);
-
-        if (!result.success) {
-          // FileService ya loguea el error específico.
-          // Lanzamos un error aquí para que el bloque catch externo lo maneje (intento de rutas alternativas).
-          throw new Error(
-            result.error ||
-              "Error desconocido al guardar archivo via FileService"
-          );
-        }
-
-        // Actualizar timestamp
-        this.lastUpdateTime = new Date();
-
-        // Guardar en caché local
-        this.saveToCache();
-
-        console.timeEnd("SaveData");
-        return true;
-      } catch (saveError) {
-        console.error(
-          "DataService.saveData: Error al guardar archivo en la ruta principal, intentando alternativas:",
-          saveError.message
+      if (result.success) {
+        console.log(
+          `DataService.saveData: Éxito. Datos guardados en '${result.pathUsed}'. Actualizando currentDataPath.`
         );
-
-        // Intentar con la siguiente ruta si está disponible
-        for (const dataPath of this.dataPaths) {
-          // Saltarse la ruta actual que falló
-          if (dataPath === this.currentDataPath) continue;
-
-          const altFilePath = this.fileService.buildFilePath(
-            dataPath,
-            this.fileNames.errors
-          );
-          console.log(`Intentando guardar en ruta alternativa: ${altFilePath}`);
-
-          try {
-            // Reintentar con saveJson del FileService
-            const altResult = await this.fileService.saveJson(
-              altFilePath,
-              dataToSave
-            );
-            if (altResult.success) {
-              // Guardar la nueva ruta como actual
-              this.currentDataPath = dataPath;
-              this.lastUpdateTime = new Date();
-
-              // Guardar en caché local
-              this.saveToCache();
-
-              console.log(
-                "DataService.saveData: Guardado exitoso en ruta alternativa."
-              );
-              console.timeEnd("SaveData");
-              return true;
-            }
-          } catch (altError) {
-            // FileService ya loguea errores de saveJson.
-            console.warn(
-              `DataService.saveData: No se pudo guardar en ruta alternativa ${altFilePath} (excepción o error de FileService):`,
-              altError.message
-            );
-          }
-        }
-
-        // Si llegamos aquí, todos los intentos de guardado fallaron.
-        const finalErrorMsg =
-          "DataService.saveData: No se pudo guardar en ninguna ruta.";
+        this.currentDataPath = result.pathUsed;
+        this.lastUpdateTime = new Date();
+        this.saveToCache();
+        console.timeEnd("DataService:SaveData");
+        return true;
+      } else {
+        const finalErrorMsg = `DataService.saveData: No se pudo guardar en ninguna ruta. Error de FileService: ${result.error}`;
         console.error(finalErrorMsg);
-        // No simular éxito, propagar el fallo.
-        // this.lastUpdateTime = new Date(); // No actualizar si no se guardó
-        // this.saveToCache(); // No guardar en caché si no se guardó en archivo
-        console.timeEnd("SaveData");
-        // Devolver false o lanzar error. Devolver false es consistente con el comportamiento previo si la simulación de éxito se elimina.
+        console.timeEnd("DataService:SaveData");
         return false;
       }
     } catch (error) {
+      // Captura de errores inesperados que puedan ocurrir en la llamada a fileService o en la lógica de DataService misma.
       console.error(
-        "DataService.saveData: Error general al guardar datos:",
-        error.message
+        "DataService.saveData: Error general inesperado durante el proceso de guardado:",
+        error
       );
-      console.timeEnd("SaveData");
+      console.timeEnd("DataService:SaveData");
       return false;
     }
   }
