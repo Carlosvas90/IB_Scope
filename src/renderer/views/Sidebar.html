@@ -19,6 +19,8 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <!-- Lottie -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
     <style>
       .titlebar-button {
         background: transparent;
@@ -38,6 +40,27 @@
 
       #close-button:hover svg path {
         stroke: white;
+      }
+
+      .logo-container {
+        position: relative;
+        width: 190px;
+        height: 170px;
+        margin: 0 auto 8px auto;
+      }
+
+      .lottie-logo {
+        width: 100%;
+        height: 100%;
+      }
+
+      .theme-toggle {
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+
+      .theme-toggle:hover {
+        transform: scale(1.1);
       }
     </style>
   </head>
@@ -89,18 +112,7 @@
       <!-- Sidebar principal -->
       <div class="sidebar">
         <div class="logo-container">
-          <div class="logo">
-            <img
-              src="../../../assets/logos/logo.svg"
-              alt="Logo Inbound Scope"
-              style="
-                width: 80px;
-                height: auto;
-                display: block;
-                margin: 0 auto 8px auto;
-              "
-            />
-          </div>
+          <div id="lottie-logo" class="lottie-logo"></div>
         </div>
 
         <nav class="sidebar-nav">
@@ -293,5 +305,98 @@
     <script src="../js/router.js" type="module"></script>
     <script src="../js/app-loader.js" type="module"></script>
     <script src="../js/app.js" type="module"></script>
+    <script>
+      let lottieAnimation;
+      let isDarkMode = localStorage.getItem("darkMode") === "true";
+      let currentLottie = isDarkMode ? "dark" : "light";
+
+      // Función para cargar el Lottie correcto según el modo
+      async function loadLottieLogo(mode) {
+        if (lottieAnimation) {
+          lottieAnimation.destroy();
+        }
+        let lottiePath = "";
+        if (mode === "light") {
+          lottiePath = "../../../assets/animations/logo_dark_to_light.json";
+        } else {
+          lottiePath = "../../../assets/animations/logo_light_to_dark.json";
+        }
+        const response = await fetch(lottiePath);
+        const jsonData = await response.json();
+        lottieAnimation = lottie.loadAnimation({
+          container: document.getElementById("lottie-logo"),
+          renderer: "svg",
+          loop: false,
+          autoplay: false,
+          animationData: jsonData,
+          rendererSettings: {
+            clearCanvas: false,
+            progressiveLoad: true,
+            preserveAspectRatio: "xMidYMid meet",
+            backgroundColor: "transparent",
+          },
+        });
+        // Detener en el último fotograma si es el modo actual
+        if (mode === (isDarkMode ? "dark" : "light")) {
+          lottieAnimation.goToAndStop(lottieAnimation.totalFrames - 1, true);
+        } else {
+          lottieAnimation.goToAndStop(0, true);
+        }
+      }
+
+      // Función para animar el cambio de modo
+      async function animateThemeChange(toDark) {
+        if (lottieAnimation) {
+          lottieAnimation.destroy();
+        }
+        let lottiePath = toDark
+          ? "../../../assets/animations/logo_light_to_dark.json"
+          : "../../../assets/animations/logo_dark_to_light.json";
+        const response = await fetch(lottiePath);
+        const jsonData = await response.json();
+        lottieAnimation = lottie.loadAnimation({
+          container: document.getElementById("lottie-logo"),
+          renderer: "svg",
+          loop: false,
+          autoplay: false,
+          animationData: jsonData,
+          rendererSettings: {
+            clearCanvas: false,
+            progressiveLoad: true,
+            preserveAspectRatio: "xMidYMid meet",
+            backgroundColor: "transparent",
+          },
+        });
+        lottieAnimation.goToAndPlay(0, true);
+      }
+
+      // Cambiar el tema y animar el logo
+      function toggleTheme() {
+        isDarkMode = !isDarkMode;
+        localStorage.setItem("darkMode", isDarkMode);
+        const lightIcon = document.getElementById("light-icon");
+        const darkIcon = document.getElementById("dark-icon");
+        lightIcon.style.display = isDarkMode ? "none" : "block";
+        darkIcon.style.display = isDarkMode ? "block" : "none";
+        animateThemeChange(isDarkMode);
+      }
+
+      // Inicializar
+      document.addEventListener("DOMContentLoaded", () => {
+        // Configurar iconos según el modo guardado
+        const lightIcon = document.getElementById("light-icon");
+        const darkIcon = document.getElementById("dark-icon");
+        lightIcon.style.display = isDarkMode ? "none" : "block";
+        darkIcon.style.display = isDarkMode ? "block" : "none";
+
+        // Cargar el logo en el estado correcto
+        loadLottieLogo(isDarkMode ? "dark" : "light");
+
+        const themeToggle = document.getElementById("theme-toggle");
+        if (themeToggle) {
+          themeToggle.addEventListener("click", toggleTheme);
+        }
+      });
+    </script>
   </body>
 </html>
