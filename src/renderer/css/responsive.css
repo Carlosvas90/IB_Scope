@@ -26,7 +26,7 @@
 @media (max-width: 768px) {
   /* Ajustes del sidebar */
   .sidebar {
-    width: 60px;
+    width: 3.75rem; /* 60px */
   }
 
   .logo-text,
@@ -47,7 +47,7 @@
   /* Ajustes para submenús */
   .has-submenu.open .submenu {
     position: absolute;
-    left: 60px;
+    left: 3.75rem; /* 60px */
     background-color: var(--card-bg);
     box-shadow: var(--box-shadow-md);
     border-radius: var(--border-radius-md);
@@ -55,7 +55,7 @@
   }
 
   .submenu a {
-    width: 200px;
+    width: 12.5rem; /* 200px */
   }
 
   /* Ajustes para contenedores flexibles */
@@ -81,8 +81,8 @@
   }
 
   .toast {
-    left: 20px;
-    right: 20px;
+    left: 1.25rem; /* 20px */
+    right: 1.25rem; /* 20px */
     width: auto;
   }
 }

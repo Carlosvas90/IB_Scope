@@ -55,8 +55,8 @@ body {
 
 .btn svg {
   margin-right: var(--spacing-sm);
-  width: 16px;
-  height: 16px;
+  width: 1rem; /* 16px */
+  height: 1rem; /* 16px */
 }
 
 .btn:disabled {
@@ -251,7 +251,7 @@ body {
   background-color: var(--card-bg);
   border-radius: var(--border-radius-lg);
   width: 90%;
-  max-width: 500px;
+  max-width: 31.25rem; /* 500px */
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: var(--box-shadow-lg);

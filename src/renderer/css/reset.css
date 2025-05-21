@@ -65,8 +65,8 @@ button {
 /* Accesibilidad para elementos ocultos */
 .sr-only {
   position: absolute;
-  width: 1px;
-  height: 1px;
+  width: 0.0625rem;
+  height: 0.0625rem;
   padding: 0;
   margin: -1px;
   overflow: hidden;

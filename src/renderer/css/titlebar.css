@@ -1,15 +1,22 @@
-/* Titlebar */
+/**
+ * titlebar.css
+ * Estilos para la barra de título de la aplicación
+ */
+
+@import url("themes/variables.css");
+
+/* Titlebar - Contenedor principal */
 .titlebar {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 32px;
+  height: 2rem; /* 32px */
   background-color: var(--bg-main);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 8px;
+  padding: 0 0.5rem; /* 8px */
   -webkit-app-region: drag; /* Permite arrastrar la ventana */
   z-index: 999; /* Reducido para que no tape el sidebar-footer */
   border-bottom: 1px solid var(--border-color);
@@ -25,7 +32,7 @@
 .titlebar-logo {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem; /* 8px */
 }
 
 .titlebar-logo img {
@@ -34,21 +41,21 @@
 }
 
 .titlebar-logo span {
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 0.875rem; /* 14px */
+  font-weight: var(--font-weight-medium);
   color: var(--text-primary);
 }
 
 /* Botones de control */
 .titlebar-controls {
   display: flex;
-  gap: 4px;
+  gap: 0.25rem; /* 4px */
   -webkit-app-region: no-drag; /* Los botones no deben arrastrar */
 }
 
 .titlebar-button {
-  width: 32px;
-  height: 32px;
+  width: 2rem; /* 32px */
+  height: 2rem; /* 32px */
   border: none;
   background: transparent;
   color: var(--text-primary);
@@ -56,7 +63,8 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s ease;
+  padding: 0.5rem; /* 8px */
+  transition: all var(--transition-fast);
 }
 
 .titlebar-button:hover {
@@ -64,9 +72,9 @@
 }
 
 .titlebar-button svg {
-  width: 12px;
-  height: 12px;
-  transition: transform 0.2s ease;
+  width: 0.75rem; /* 12px */
+  height: 0.75rem; /* 12px */
+  transition: transform var(--transition-fast);
 }
 
 /* Botón de cerrar */
@@ -75,7 +83,7 @@
 }
 
 #close-button:hover {
-  background-color: #e81123; /* Rojo de Windows */
+  background-color: #ffc2c5; /* Color personalizado de la app */
   color: white;
 }
 
@@ -83,8 +91,12 @@
   transform: scale(1.1);
 }
 
+#close-button:hover svg path {
+  stroke: white;
+}
+
 /* Ajuste del contenido principal para el titlebar */
 .app-container {
-  margin-top: 32px; /* Mismo valor que la altura del titlebar */
+  margin-top: 2rem; /* 32px - Mismo valor que la altura del titlebar */
   position: relative; /* Asegura que el sidebar-footer se posicione correctamente */
 }

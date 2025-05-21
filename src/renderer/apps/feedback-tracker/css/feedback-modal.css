@@ -32,7 +32,7 @@
   border-radius: var(--border-radius-lg);
   box-shadow: var(--box-shadow-lg);
   width: 90%;
-  max-width: 500px;
+  max-width: 31.25rem; /* 500px */
   max-height: 90%;
   display: flex;
   flex-direction: column;
@@ -110,7 +110,7 @@
 
 #feedback-form textarea.form-control {
   resize: vertical;
-  min-height: 100px;
+  min-height: 6.25rem; /* 100px */
 }
 
 /* Responsivo */

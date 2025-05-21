@@ -23,8 +23,8 @@
 
 .btn svg {
   margin-right: var(--spacing-sm);
-  width: 16px;
-  height: 16px;
+  width: 1rem;
+  height: 1rem;
 }
 
 .btn:disabled {
@@ -52,9 +52,9 @@
 
 /* Spinner de carga */
 .loading-spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid var(--element-secondary);
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 0.25rem solid var(--element-secondary);
   border-top-color: var(--accent-blue);
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -79,8 +79,8 @@
 /* Toast para notificaciones */
 .toast {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 1.25rem;
+  right: 1.25rem;
   padding: var(--spacing-md) var(--spacing-lg);
   background-color: var(--card-bg);
   border-radius: var(--border-radius-md);
@@ -102,13 +102,13 @@
 }
 
 .toast-success {
-  border-left: 4px solid var(--status-done-text);
+  border-left: 0.25rem solid var(--status-done-text);
 }
 
 .toast-error {
-  border-left: 4px solid #f44336;
+  border-left: 0.25rem solid #f44336;
 }
 
 .toast-info {
-  border-left: 4px solid var(--accent-blue);
+  border-left: 0.25rem solid var(--accent-blue);
 }

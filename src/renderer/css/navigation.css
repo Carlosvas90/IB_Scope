@@ -42,8 +42,8 @@
 
 .sidebar-nav svg {
   margin-right: var(--spacing-md);
-  width: 20px;
-  height: 20px;
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 /* Submenús */
@@ -73,7 +73,7 @@
 }
 
 .has-submenu.open .submenu {
-  max-height: 200px; /* Altura máxima aproximada */
+  max-height: 12.5rem; /* Altura máxima aproximada */
   opacity: 1;
   visibility: visible;
 }

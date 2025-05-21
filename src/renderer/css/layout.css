@@ -7,8 +7,8 @@
 /* Contenedor principal de la aplicación */
 .app-container {
   display: flex;
-  height: calc(100vh - 32px);
-  min-height: calc(100vh - 32px);
+  height: calc(100vh - 2rem);
+  min-height: calc(100vh - 2rem);
   width: 100vw;
   box-sizing: border-box;
 }
@@ -20,7 +20,7 @@
   position: relative;
   height: 100%;
   box-sizing: border-box;
-  padding-bottom: 32px;
+  padding-bottom: 2rem;
 }
 
 #app-container {
@@ -85,7 +85,7 @@
 
 /* Si hay un footer específico, asegúrate de que tenga margen superior */
 .sidebar-footer {
-  margin-top: 16px;
+  margin-top: 1rem;
 }
 
 .sidebar {
