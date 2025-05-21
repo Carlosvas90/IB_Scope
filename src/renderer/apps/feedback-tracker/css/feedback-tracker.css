@@ -1,5 +1,6 @@
 /* Estilos específicos para Feedback Tracker */
 @import url("../../../css/themes/variables.css");
+@import url("../../../css/themes/variables2.css");
 
 /* Importar estilos de tabla */
 @import url("./table.css");

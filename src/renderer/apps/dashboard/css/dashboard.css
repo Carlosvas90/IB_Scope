@@ -1,5 +1,6 @@
 /* Dashboard CSS */
 @import url("../../../css/themes/variables.css");
+@import url("../../../css/themes/variables2.css");
 
 .dashboard-container {
   padding: var(--spacing-lg);

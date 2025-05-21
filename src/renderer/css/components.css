@@ -1,23 +1,10 @@
-/**
- * components.css
- * Estilos para componentes reutilizables de la aplicación
- * 
- * Variables utilizadas:
- * - --bg-main: Color de fondo principal
- * - --text-primary: Color de texto principal
- * - --text-secondary: Color de texto secundario
- * - --accent-blue: Color de acento azul
- * - --accent-pink: Color de acento rosa
- * - --element-secondary: Color de fondo secundario
- * - --hover-bg: Color de hover
- * - --border-color: Color de bordes
- * - --shadow-sm: Sombra pequeña
- * - --shadow-md: Sombra media
- * - --transition-normal: Transición principal
- * - --transition-fast: Transición rápida
+/* components.css
+ * Componentes de UI como botones, spinners y notificaciones
+ * Ruta: src/renderer/css/components.css
  */
 
-@import url("themes/variables.optimized.css");
+@import url("themes/variables.css");
+@import url("themes/variables2.css");
 
 /* Botones */
 .btn {

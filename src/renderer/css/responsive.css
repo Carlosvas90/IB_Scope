@@ -3,7 +3,7 @@
  */
 
 @import url("themes/variables.css");
-
+@import url("themes/variables2.css");
 /* Tablets y pantallas medianas */
 @media (max-width: 1024px) {
   .page-header {

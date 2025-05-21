@@ -4,7 +4,7 @@
  */
 
 @import url("../../../css/themes/variables.css");
-
+@import url("../../../css/themes/variables2.css");
 /* Fondo del modal */
 .modal {
   display: none;

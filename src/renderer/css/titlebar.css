@@ -11,8 +11,8 @@
  * - --transition-fast: Velocidad de transición
  */
 
-@import url("themes/variables.optimized.css");
-
+@import url("themes/variables.css");
+@import url("themes/variables2.css");
 /* Titlebar - Contenedor principal */
 .titlebar {
   position: fixed;

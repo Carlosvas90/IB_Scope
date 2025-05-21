@@ -3,7 +3,7 @@
  */
 
 @import url("themes/variables.css");
-
+@import url("themes/variables2.css");
 /* Reset básico para todos los elementos */
 * {
   margin: 0;
