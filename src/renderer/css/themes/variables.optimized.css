@@ -1,0 +1,210 @@
+/**
+ * variables.optimized.css
+ * Versión optimizada de las variables CSS de la aplicación.
+ * 
+ * CÓMO USAR:
+ * 1. Importar este archivo en los CSS donde se necesitan las variables:
+ *    @import url('../themes/variables.optimized.css');
+ * 
+ * 2. Usar las variables con la sintaxis var():
+ *    color: var(--text-primary);
+ * 
+ * 3. Se puede proporcionar un valor por defecto:
+ *    color: var(--custom-color, #333);
+ */
+
+:root {
+  /*=============================================
+  =                   COLORES                   =
+  =============================================*/
+
+  /* 
+   * COLORES BASE
+   * Sistema de colores unificado con prefijos temáticos
+   */
+
+  /* Grises */
+  --color-gray-50: #f5f6f8;
+  --color-gray-100: #f2f2f7;
+  --color-gray-200: #e5e5ea;
+  --color-gray-300: #d1d1d6;
+  --color-gray-400: #c7c7cc;
+  --color-gray-500: #aeaeb2;
+  --color-gray-600: #8e8e93;
+  --color-gray-700: #6c6c70;
+  --color-gray-800: #3a3a3c;
+  --color-gray-900: #1c1c1e;
+
+  /* Azules */
+  --color-blue-primary: #2e69a5;
+  --color-blue-secondary: #81d4fa;
+  --color-blue-light: #b3e5fc;
+  --color-blue-dark: #0a1b62;
+  --color-blue-dark-light: #101d42;
+  --color-blue-dark-card: #1a2d60;
+  --color-blue-dark-hover: #263158;
+  --color-blue-dark-border: #2a3a70;
+
+  /* Estados */
+  --color-success: #4caf50;
+  --color-success-light: #c8e6c9;
+  --color-warning: #ff9800;
+  --color-warning-light: #fff9c4;
+  --color-error: #f44336;
+  --color-error-light: #ffcdd2;
+  --color-info: #2196f3;
+  --color-info-light: #e3f2fd;
+
+  /* Acentos */
+  --color-pink: #f8c8cc;
+  --color-white: #ffffff;
+
+  /*=============================================
+  =             VARIABLES SEMÁNTICAS            =
+  =============================================*/
+
+  /* 
+   * TEMA CLARO - Variables semánticas
+   */
+  --light-bg-main: var(--color-white);
+  --light-sidebar-bg: var(--color-gray-50);
+  --light-text-primary: var(--color-gray-900);
+  --light-text-secondary: var(--color-gray-700);
+  --light-element-secondary: var(--color-gray-300);
+  --light-accent-blue: var(--color-blue-primary);
+  --light-accent-blue-light: var(--color-blue-secondary);
+  --light-accent-pink: var(--color-pink);
+  --light-card-bg: var(--color-gray-50);
+  --light-border-color: var(--color-gray-200);
+  --light-hover-bg: var(--color-gray-100);
+  --light-status-pending: var(--color-warning-light);
+  --light-status-done: var(--color-success-light);
+  --light-status-pending-text: var(--color-warning);
+  --light-status-done-text: var(--color-success);
+
+  /* 
+   * TEMA OSCURO - Variables semánticas
+   */
+  --dark-bg-main: var(--color-blue-dark);
+  --dark-sidebar-bg: var(--color-blue-dark-light);
+  --dark-text-primary: var(--color-white);
+  --dark-text-secondary: var(--color-gray-700);
+  --dark-element-secondary: var(--color-gray-900);
+  --dark-accent-blue: var(--color-blue-secondary);
+  --dark-accent-blue-light: var(--color-blue-light);
+  --dark-accent-pink: var(--color-pink);
+  --dark-card-bg: var(--color-blue-dark-card);
+  --dark-border-color: var(--color-blue-dark-border);
+  --dark-hover-bg: var(--color-blue-dark-hover);
+  --dark-status-pending: var(--color-warning-light);
+  --dark-status-done: var(--color-success-light);
+  --dark-status-pending-text: var(--color-warning);
+  --dark-status-done-text: var(--color-success);
+
+  /*=============================================
+  =                 ESPACIADO                   =
+  =============================================*/
+
+  --spacing-xs: 0.25rem; /* 4px */
+  --spacing-sm: 0.5rem; /* 8px */
+  --spacing-md: 1rem; /* 16px */
+  --spacing-lg: 1.5rem; /* 24px */
+  --spacing-xl: 2rem; /* 32px */
+  --spacing-xxl: 3rem; /* 48px */
+
+  /*=============================================
+  =                TIPOGRAFÍA                   =
+  =============================================*/
+
+  --font-family: "Inter", "SF Pro Display", "Segoe UI", system-ui, -apple-system,
+    sans-serif;
+  --font-size-xs: 0.75rem; /* 12px */
+  --font-size-sm: 0.875rem; /* 14px */
+  --font-size-md: 1rem; /* 16px */
+  --font-size-lg: 1.125rem; /* 18px */
+  --font-size-xl: 1.25rem; /* 20px */
+  --font-size-xxl: 1.5rem; /* 24px */
+  --font-size-xxxl: 2rem; /* 32px */
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-loose: 1.8;
+
+  /*=============================================
+  =             BORDES Y ESQUINAS               =
+  =============================================*/
+
+  --border-radius-sm: 0.25rem; /* 4px */
+  --border-radius-md: 0.5rem; /* 8px */
+  --border-radius-lg: 0.75rem; /* 12px */
+  --border-radius-xl: 1rem; /* 16px */
+  --border-radius-full: 9999px;
+
+  --border-width-thin: 1px;
+  --border-width-medium: 2px;
+  --border-width-thick: 3px;
+
+  /*=============================================
+  =                 SOMBRAS                     =
+  =============================================*/
+
+  --box-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --box-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --box-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+
+  /*=============================================
+  =               TRANSICIONES                  =
+  =============================================*/
+
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+  --transition-slow: 0.4s ease;
+
+  /*=============================================
+  =         VARIABLES ACTIVAS DEL TEMA          =
+  =============================================*/
+
+  /* Variables globales (tema claro por defecto) */
+  --bg-main: var(--light-bg-main);
+  --sidebar-bg: var(--light-sidebar-bg);
+  --text-primary: var(--light-text-primary);
+  --text-secondary: var(--light-text-secondary);
+  --element-secondary: var(--light-element-secondary);
+  --accent-blue: var(--light-accent-blue);
+  --accent-blue-light: var(--light-accent-blue-light);
+  --accent-pink: var(--light-accent-pink);
+  --card-bg: var(--light-card-bg);
+  --border-color: var(--light-border-color);
+  --hover-bg: var(--light-hover-bg);
+  --status-pending: var(--light-status-pending);
+  --status-done: var(--light-status-done);
+  --status-pending-text: var(--light-status-pending-text);
+  --status-done-text: var(--light-status-done-text);
+}
+
+/* 
+ * TEMA OSCURO
+ * Se activa con la clase .dark-theme
+ */
+.dark-theme {
+  --bg-main: var(--dark-bg-main);
+  --sidebar-bg: var(--dark-sidebar-bg);
+  --text-primary: var(--dark-text-primary);
+  --text-secondary: var(--dark-text-secondary);
+  --element-secondary: var(--dark-element-secondary);
+  --accent-blue: var(--dark-accent-blue);
+  --accent-blue-light: var(--dark-accent-blue-light);
+  --accent-pink: var(--dark-accent-pink);
+  --card-bg: var(--dark-card-bg);
+  --border-color: var(--dark-border-color);
+  --hover-bg: var(--dark-hover-bg);
+  --status-pending: var(--dark-status-pending);
+  --status-done: var(--dark-status-done);
+  --status-pending-text: var(--dark-status-pending-text);
+  --status-done-text: var(--dark-status-done-text);
+}

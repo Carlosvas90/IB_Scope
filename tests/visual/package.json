@@ -1,0 +1,18 @@
+{
+  "name": "visual-tests",
+  "version": "1.0.0",
+  "description": "Pruebas visuales para el sistema de temas",
+  "scripts": {
+    "test": "playwright test",
+    "test:visual": "node run-tests.js",
+    "test:regression": "playwright test regression.spec.js",
+    "test:update-baseline": "playwright test regression.spec.js --update-snapshots"
+  },
+  "dependencies": {
+    "@playwright/test": "^1.40.0",
+    "playwright": "^1.40.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0"
+  }
+}

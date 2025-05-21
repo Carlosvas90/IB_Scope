@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test de Variables CSS</title>
+    <link rel="stylesheet" href="variables.optimized.css" />
+    <style>
+      body {
+        font-family: var(--font-family);
+        margin: 0;
+        padding: var(--spacing-md);
+        background-color: var(--bg-main);
+        color: var(--text-primary);
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .section {
+        margin-bottom: var(--spacing-xl);
+        padding: var(--spacing-md);
+        background-color: var(--card-bg);
+        border-radius: var(--border-radius-md);
+        border: 1px solid var(--border-color);
+      }
+
+      .color-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: var(--spacing-md);
+      }
+
+      .color-item {
+        padding: var(--spacing-sm);
+        border-radius: var(--border-radius-sm);
+        border: 1px solid var(--border-color);
+      }
+
+      .color-preview {
+        height: 100px;
+        border-radius: var(--border-radius-sm);
+        margin-bottom: var(--spacing-xs);
+      }
+
+      .color-name {
+        font-size: var(--font-size-sm);
+        color: var(--text-secondary);
+      }
+
+      .theme-toggle {
+        position: fixed;
+        top: var(--spacing-md);
+        right: var(--spacing-md);
+        padding: var(--spacing-sm) var(--spacing-md);
+        background-color: var(--accent-blue);
+        color: white;
+        border: none;
+        border-radius: var(--border-radius-md);
+        cursor: pointer;
+      }
+
+      .theme-toggle:hover {
+        background-color: var(--accent-blue-light);
+      }
+
+      .component-preview {
+        padding: var(--spacing-md);
+        margin: var(--spacing-sm) 0;
+        border-radius: var(--border-radius-md);
+        border: 1px solid var(--border-color);
+      }
+
+      .button {
+        padding: var(--spacing-sm) var(--spacing-md);
+        border: none;
+        border-radius: var(--border-radius-md);
+        cursor: pointer;
+        margin: var(--spacing-xs);
+      }
+
+      .button-primary {
+        background-color: var(--accent-blue);
+        color: white;
+      }
+
+      .button-secondary {
+        background-color: var(--accent-blue-light);
+        color: var(--text-primary);
+      }
+
+      .status-badge {
+        display: inline-block;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: var(--border-radius-sm);
+        margin: var(--spacing-xs);
+      }
+
+      .status-pending {
+        background-color: var(--status-pending);
+        color: var(--status-pending-text);
+      }
+
+      .status-done {
+        background-color: var(--status-done);
+        color: var(--status-done-text);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <button class="theme-toggle" onclick="toggleTheme()">Cambiar Tema</button>
+
+      <h1>Test de Variables CSS</h1>
+
+      <!-- Colores Base -->
+      <section class="section">
+        <h2>Colores Base</h2>
+        <div class="color-grid">
+          <div class="color-item">
+            <div
+              class="color-preview"
+              style="background-color: var(--color-gray-50)"
+            ></div>
+            <div class="color-name">--color-gray-50</div>
+          </div>
+          <div class="color-item">
+            <div
+              class="color-preview"
+              style="background-color: var(--color-gray-100)"
+            ></div>
+            <div class="color-name">--color-gray-100</div>
+          </div>
+          <div class="color-item">
+            <div
+              class="color-preview"
+              style="background-color: var(--color-gray-200)"
+            ></div>
+            <div class="color-name">--color-gray-200</div>
+          </div>
+          <div class="color-item">
+            <div
+              class="color-preview"
+              style="background-color: var(--color-gray-300)"
+            ></div>
+            <div class="color-name">--color-gray-300</div>
+          </div>
+          <div class="color-item">
+            <div
+              class="color-preview"
+              style="background-color: var(--color-gray-400)"
+            ></div>
+            <div class="color-name">--color-gray-400</div>
+          </div>
+          <div class="color-item">
+            <div
+              class="color-preview"
+              style="background-color: var(--color-gray-500)"
+            ></div>
+            <div class="color-name">--color-gray-500</div>
+          </div>
+          <div class="color-item">
+            <div
+              class="color-preview"
+              style="background-color: var(--color-gray-600)"
+            ></div>
+            <div class="color-name">--color-gray-600</div>
+          </div>
+          <div class="color-item">
+            <div
+              class="color-preview"
+              style="background-color: var(--color-gray-700)"
+            ></div>
+            <div class="color-name">--color-gray-700</div>
+          </div>
+          <div class="color-item">
+            <div
+              class="color-preview"
+              style="background-color: var(--color-gray-800)"
+            ></div>
+            <div class="color-name">--color-gray-800</div>
+          </div>
+          <div class="color-item">
+            <div
+              class="color-preview"
+              style="background-color: var(--color-gray-900)"
+            ></div>
+            <div class="color-name">--color-gray-900</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Azules -->
+      <section class="section">
+        <h2>Azules</h2>
+        <div class="color-grid">
+          <div class="color-item">
+            <div
+              class="color-preview"
+              style="background-color: var(--color-blue-primary)"
+            ></div>
+            <div class="color-name">--color-blue-primary</div>
+          </div>
+          <div class="color-item">
+            <div
+              class="color-preview"
+              style="background-color: var(--color-blue-secondary)"
+            ></div>
+            <div class="color-name">--color-blue-secondary</div>
+          </div>
+          <div class="color-item">
+            <div
+              class="color-preview"
+              style="background-color: var(--color-blue-light)"
+            ></div>
+            <div class="color-name">--color-blue-light</div>
+          </div>
+          <div class="color-item">
+            <div
+              class="color-preview"
+              style="background-color: var(--color-blue-dark)"
+            ></div>
+            <div class="color-name">--color-blue-dark</div>
+          </div>
+          <div class="color-item">
+            <div
+              class="color-preview"
+              style="background-color: var(--color-blue-dark-light)"
+            ></div>
+            <div class="color-name">--color-blue-dark-light</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Estados -->
+      <section class="section">
+        <h2>Estados</h2>
+        <div class="color-grid">
+          <div class="color-item">
+            <div
+              class="color-preview"
+              style="background-color: var(--color-success)"
+            ></div>
+            <div class="color-name">--color-success</div>
+          </div>
+          <div class="color-item">
+            <div
+              class="color-preview"
+              style="background-color: var(--color-success-light)"
+            ></div>
+            <div class="color-name">--color-success-light</div>
+          </div>
+          <div class="color-item">
+            <div
+              class="color-preview"
+              style="background-color: var(--color-warning)"
+            ></div>
+            <div class="color-name">--color-warning</div>
+          </div>
+          <div class="color-item">
+            <div
+              class="color-preview"
+              style="background-color: var(--color-warning-light)"
+            ></div>
+            <div class="color-name">--color-warning-light</div>
+          </div>
+          <div class="color-item">
+            <div
+              class="color-preview"
+              style="background-color: var(--color-error)"
+            ></div>
+            <div class="color-name">--color-error</div>
+          </div>
+          <div class="color-item">
+            <div
+              class="color-preview"
+              style="background-color: var(--color-error-light)"
+            ></div>
+            <div class="color-name">--color-error-light</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Componentes -->
+      <section class="section">
+        <h2>Componentes</h2>
+
+        <div class="component-preview">
+          <h3>Botones</h3>
+          <button class="button button-primary">Botón Primario</button>
+          <button class="button button-secondary">Botón Secundario</button>
+        </div>
+
+        <div class="component-preview">
+          <h3>Estados</h3>
+          <span class="status-badge status-pending">Pendiente</span>
+          <span class="status-badge status-done">Completado</span>
+        </div>
+
+        <div class="component-preview">
+          <h3>Tipografía</h3>
+          <p style="font-size: var(--font-size-xs)">Texto XS</p>
+          <p style="font-size: var(--font-size-sm)">Texto SM</p>
+          <p style="font-size: var(--font-size-md)">Texto MD</p>
+          <p style="font-size: var(--font-size-lg)">Texto LG</p>
+          <p style="font-size: var(--font-size-xl)">Texto XL</p>
+          <p style="font-size: var(--font-size-xxl)">Texto XXL</p>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      function toggleTheme() {
+        document.body.classList.toggle("dark-theme");
+      }
+    </script>
+  </body>
+</html>
