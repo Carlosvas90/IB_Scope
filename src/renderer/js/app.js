@@ -8,8 +8,11 @@ import { ThemeService } from "../core/services/ThemeService.js";
 import { DataService } from "../apps/feedback-tracker/js/services/DataService.js";
 import { router } from "./router.js";
 import { appLoader } from "./app-loader.js";
+// Ya no necesitamos importar lottie aquí, ya que lo cargamos desde CDN
+// import lottie from "lottie-web";
 import { permisosService } from "../core/services/PermisosService.js";
 import { PermisosController } from "../core/controllers/PermisosController.js";
+import { initializeLotties } from "./lottieManager.js";
 
 // Clase principal de la aplicación
 class InboundScope {
@@ -121,6 +124,10 @@ class InboundScope {
 window.inboundScope = new InboundScope();
 
 // Al cargar el documento
+// Inicializar Lotties
+const isDarkMode = localStorage.getItem("darkMode") === "true";
+initializeLotties(isDarkMode);
+
 document.addEventListener("DOMContentLoaded", async () => {
   await permisosService.init();
 
@@ -135,7 +142,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (!link.querySelector(".lock-icon")) {
         const lockSvg = document.createElement("span");
         lockSvg.className = "lock-icon";
-        lockSvg.innerHTML = `<svg viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"4\" y=\"7\" width=\"8\" height=\"5\" rx=\"1.5\" stroke=\"currentColor\" stroke-width=\"1.2\"/><path d=\"M6 7V5.5A2 2 0 0 1 10 5.5V7\" stroke=\"currentColor\" stroke-width=\"1.2\"/></svg>`;
+        lockSvg.innerHTML = `<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="7" width="8" height="5" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M6 7V5.5A2 2 0 0 1 10 5.5V7" stroke="currentColor" stroke-width="1.2"/></svg>`;
         link.appendChild(lockSvg);
       }
     }
