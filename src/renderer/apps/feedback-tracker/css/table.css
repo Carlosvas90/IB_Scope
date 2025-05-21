@@ -2,7 +2,7 @@
 
 /* Import variables only once at the top */
 @import url("../../../css/themes/variables.css");
-
+@import url("../../../css/themes/variables2.css");
 /* Base table container - simplified */
 .table-container {
   width: calc(100% - var(--spacing-lg) * 2);

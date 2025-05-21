@@ -3,7 +3,7 @@
  */
 
 @import url("themes/variables.css");
-
+@import url("themes/variables2.css");
 /* Navegación principal */
 .sidebar-nav {
   flex: 1;

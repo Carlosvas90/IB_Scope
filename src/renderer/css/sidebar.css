@@ -4,7 +4,7 @@
  */
 
 @import url("themes/variables.css");
-
+@import url("themes/variables2.css");
 /* Contenedor del sidebar */
 .sidebar {
   width: 15rem; /* 240px */
@@ -84,7 +84,8 @@
   padding: var(--spacing-sm);
   border-radius: var(--border-radius-md);
   background-color: var(--element-secondary);
-  transition: background-color var(--transition-fast), transform var(--transition-normal);
+  transition: background-color var(--transition-fast),
+    transform var(--transition-normal);
 }
 
 .theme-toggle:hover {
