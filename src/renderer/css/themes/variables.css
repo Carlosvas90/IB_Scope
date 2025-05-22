@@ -42,6 +42,7 @@
   --Color-Red-3: #ff3022;
   --Color-Red-4: #b31c11;
   --Color-Red-5: #660700;
+  --Color-Resaltador: #ff00ff;
 
   /*=============================================
   =                 ESPACIADO                   =
@@ -117,75 +118,66 @@
   =             VARIABLES SEMÁNTICAS            =
   =============================================*/
 
+  /* Resaltado de color */
+  --resaltado: var(--Color-Resaltador);
+
   /* TEMA CLARO - Variables semánticas */
-  --light-bg-main: var(--light-white);
-  --light-sidebar-bg: var(--light-gray-50);
-  --light-text-primary: var(--light-gray-900);
-  --light-text-secondary: var(--light-gray-700);
-  --light-element-secondary: var(--light-gray-300);
-  --light-accent-blue: var(--light-blue-primary);
-  --light-accent-blue-light: var(--light-blue-secondary);
-  --light-accent-pink: var(--light-pink);
-  --light-card-bg: var(--light-gray-50);
-  --light-border-color: var(--light-gray-200);
-  --light-hover-bg: var(--light-gray-100);
-  --light-status-pending: var(--light-warning-light);
-  --light-status-done: var(--light-success-light);
-  --light-status-pending-text: var(--light-warning);
-  --light-status-done-text: var(--light-success);
+  --light-text-one: var(--Palette-Blue-5);
+  --light-text-two: var(--Palette-Blue-7);
+  --light-text-three: var(--Palette-Blue-3);
+  --light-Sidebar_Ch: var(--Palette-Blue-7);
+  --light-Sidebar_Ch_text: var(--Palette-Blue-5);
+  --light-Cambio_Tema: var(--Palette-Blue-6);
+  --light-Cambio_Tema_stroke: var(--Palette-Blue-4);
+  --light-Cambio_Tema_hover: var(--Palette-Blue-3);
+  --light-Cambio_Tema_hover_stroke: var(--Palette-Blue-6);
+  --light-Sidebar_Boton_hover: var(--Palette-Blue-3);
+  --light-Sidebar_Boton_Active: var(--Palette-Blue-6);
+  --light-Limit-Sidebar: var(--Palette-Blue-3);
 
   /* TEMA OSCURO - Variables semánticas */
-  --dark-bg-main: var(--dark-blue-bg);
-  --dark-sidebar-bg: var(--dark-blue-bg-light);
-  --dark-text-primary: var(--dark-white);
-  --dark-text-secondary: var(--dark-gray-700);
-  --dark-element-secondary: var(--dark-gray-900);
-  --dark-accent-blue: var(--dark-blue-primary);
-  --dark-accent-blue-light: var(--dark-blue-secondary);
-  --dark-accent-pink: var(--dark-pink);
-  --dark-card-bg: var(--dark-blue-card);
-  --dark-border-color: var(--dark-blue-border);
-  --dark-hover-bg: var(--dark-blue-hover);
-  --dark-status-pending: var(--dark-warning-light);
-  --dark-status-done: var(--dark-success-light);
-  --dark-status-pending-text: var(--dark-warning);
-  --dark-status-done-text: var(--dark-success);
+  --dark-text-one: var(--Palette-Blue-5);
+  --dark-text-two: var(--Palette-Blue-7);
+  --dark-text-three: var(--Palette-Blue-3);
+  --dark-Sidebar_Ch: var(--Palette-Blue-7);
+  --dark-Sidebar_Ch_text: var(--Palette-Blue-5);
+  --dark-Cambio_Tema: var(--Palette-Blue-6);
+  --dark-Cambio_Tema_stroke: var(--Palette-Blue-4);
+  --dark-Cambio_Tema_hover: var(--Palette-Blue-3);
+  --dark-Cambio_Tema_hover_stroke: var(--Palette-Blue-6);
+  --dark-Sidebar_Boton_hover: var(--Palette-Blue-3);
+  --dark-Sidebar_Boton_Active: var(--Palette-Blue-6);
+  --dark-Limit-Sidebar: var(--Palette-Blue-3);
 
   /*=============================================
   =         VARIABLES ACTIVAS DEL TEMA          =
   =============================================*/
 
-  --bg-main: var(--light-bg-main);
-  --sidebar-bg: var(--light-sidebar-bg);
-  --text-primary: var(--light-text-primary);
-  --text-secondary: var(--light-text-secondary);
-  --element-secondary: var(--light-element-secondary);
-  --accent-blue: var(--light-accent-blue);
-  --accent-blue-light: var(--light-accent-blue-light);
-  --accent-pink: var(--light-accent-pink);
-  --card-bg: var(--light-card-bg);
-  --border-color: var(--light-border-color);
-  --hover-bg: var(--light-hover-bg);
-  --status-pending: var(--light-status-pending);
-  --status-done: var(--light-status-done);
-  --status-pending-text: var(--light-status-pending-text);
-  --status-done-text: var(--light-status-done-text);
+  --text-color-one: var(--light-text-one);
+  --text-color-two: var(--light-text-two);
+  --text-color-three: var(--light-text-three);
+  --sidebar_bg_ch: var(--light-Sidebar_Ch);
+  --sidebar_bg_ch_text: var(--light-Sidebar_Ch_text);
+  --Cambio_Tema: var(--light-Cambio_Tema);
+  --Cambio_Tema_stroke: var(--light-Cambio_Tema_stroke);
+  --Cambio_Tema_hover: var(--light-Cambio_Tema_hover);
+  --Cambio_Tema_hover_stroke: var(--light-Cambio_Tema_hover_stroke);
+  --Sidebar_Boton_hover: var(--light-Sidebar_Boton_hover);
+  --Sidebar_Boton_Active: var(--light-Sidebar_Boton_Active);
+  --Limit-Sidebar: var(--light-Limit-Sidebar);
 }
 
 .dark-theme {
-  --bg-main: var(--dark-bg-main);
-  --sidebar-bg: var(--dark-sidebar-bg);
-  --text-primary: var(--dark-text-primary);
-  --text-secondary: var(--dark-text-secondary);
-  --element-secondary: var(--dark-element-secondary);
-  --accent-blue: var(--dark-accent-blue);
-  --accent-blue-light: var(--dark-accent-blue-light);
-  --accent-pink: var(--dark-accent-pink);
-  --card-bg: var(--dark-card-bg);
-  --border-color: var(--dark-border-color);
-  --hover-bg: var(--dark-hover-bg);
-  --status-pending: var(--dark-status-pending);
-  --status-done: var(--dark-status-done);
-  --status-pending-text: var(--dark-status-pending-text);
-  --status-done-text: var(--dark-status-done-text);
+  --text-color-one: var(--dark-text-one);
+  --text-color-two: var(--dark-text-two);
+  --text-color-three: var(--dark-text-three);
+  --sidebar_bg_ch: var(--dark-Sidebar_Ch);
+  --sidebar_bg_ch_text: var(--dark-Sidebar_Ch_text);
+  --Cambio_Tema: var(--dark-Cambio_Tema);
+  --Cambio_Tema_stroke: var(--dark-Cambio_Tema_stroke);
+  --Cambio_Tema_hover: var(--dark-Cambio_Tema_hover);
+  --Cambio_Tema_hover_stroke: var(--dark-Cambio_Tema_hover_stroke);
+  --Sidebar_Boton_hover: var(--dark-Sidebar_Boton_hover);
+  --Sidebar_Boton_Active: var(--dark-Sidebar_Boton_Active);
+  --Limit-Sidebar: var(--dark-Limit-Sidebar);
 }

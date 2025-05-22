@@ -67,17 +67,46 @@
     </div>
 
     <script type="module" src="../js/dashboard.js"></script>
-    <script>
-      // Hacer las cards clicables para navegar a cada app
-      document.querySelectorAll(".app-card").forEach((card) => {
-        card.addEventListener("click", () => {
-          const app = card.getAttribute("data-app");
-          if (app) {
-            window.dispatchEvent(
-              new CustomEvent("navigate", { detail: { app } })
-            );
+    <script type="module">
+      import { updateActiveLottie } from "../../js/lottieManager.js";
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const lottieMap = {
+          "feedback-tracker": "feedback",
+          "activity-scope": "activity",
+          "idle-time": "idle",
+          "space-heatmap": "heatmap",
+        };
+
+        // Función para actualizar el estado activo
+        function updateActiveState(activeCard) {
+          // Remover clase active de todos los cards
+          document.querySelectorAll(".app-card").forEach((card) => {
+            card.classList.remove("active");
+          });
+
+          // Agregar clase active al card seleccionado
+          activeCard.classList.add("active");
+
+          // Actualizar la animación Lottie
+          const app = activeCard.getAttribute("data-app");
+          if (lottieMap[app]) {
+            updateActiveLottie(lottieMap[app]);
           }
+        }
+
+        // Agregar evento click a cada card
+        document.querySelectorAll(".app-card").forEach((card) => {
+          card.addEventListener("click", () => {
+            updateActiveState(card);
+          });
         });
+
+        // Activar el primer card por defecto
+        const firstCard = document.querySelector(".app-card");
+        if (firstCard) {
+          updateActiveState(firstCard);
+        }
       });
     </script>
   </body>

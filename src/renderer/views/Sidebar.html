@@ -252,6 +252,53 @@
     <script src="../js/router.js" type="module"></script>
     <script src="../js/app-loader.js" type="module"></script>
     <script src="../js/app.js" type="module"></script>
+    <script type="module">
+      import { updateActiveLottie } from "../js/lottieManager.js";
+
+      // Mapa de navegación a IDs de Lottie
+      const navLottieMap = {
+        dashboard: "dashboard",
+        "feedback-tracker": "feedback",
+        "activity-scope": "activity",
+        "idle-time": "idle",
+        "space-heatmap": "heatmap",
+      };
+
+      // Función para actualizar el estado activo en la navegación
+      function updateNavActiveState(activeLink) {
+        // Remover clase active de todos los enlaces
+        document.querySelectorAll(".sidebar-nav a").forEach((link) => {
+          link.classList.remove("active");
+        });
+
+        // Agregar clase active al enlace seleccionado
+        activeLink.classList.add("active");
+
+        // Actualizar la animación Lottie
+        const app = activeLink.getAttribute("data-app");
+        if (navLottieMap[app]) {
+          updateActiveLottie(navLottieMap[app]);
+        }
+      }
+
+      // Agregar eventos a los enlaces de navegación
+      document.addEventListener("DOMContentLoaded", () => {
+        document
+          .querySelectorAll(".sidebar-nav a[data-app]")
+          .forEach((link) => {
+            link.addEventListener("click", (e) => {
+              e.preventDefault();
+              updateNavActiveState(link);
+            });
+          });
+
+        // Activar el primer enlace por defecto
+        const firstNavLink = document.querySelector(".sidebar-nav a[data-app]");
+        if (firstNavLink) {
+          updateNavActiveState(firstNavLink);
+        }
+      });
+    </script>
     <script>
       let lottieAnimation;
       let isDarkMode = localStorage.getItem("darkMode") === "true";

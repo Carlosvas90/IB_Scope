@@ -37,9 +37,8 @@
   align-items: center;
   width: 100%;
   padding: var(--spacing-sm) var(--spacing-md);
-  color: var(--text-secondary);
+  color: var(--text-color-one);
   text-decoration: none;
-  border-radius: var(--border-radius-md);
   transition: background-color var(--transition-normal),
     color var(--transition-normal);
   font-size: var(--font-size-sm);
@@ -49,34 +48,19 @@
 
 .sidebar-nav a:hover,
 .sidebar-nav a:focus {
-  background-color: var(--hover-bg);
-  color: var(--text-primary);
+  background-color: var(--Sidebar_Boton_hover);
+  color: var(--text-color-two);
+  font-weight: var(--font-weight-bold);
 }
 
 .sidebar-nav a.active,
 .sidebar-nav li.active > a {
-  background-color: var(--hover-bg);
-  color: var(--accent-blue);
+  background-color: var(--Sidebar_Boton_Active);
+  color: var(--text-color-three);
   font-weight: var(--font-weight-bold);
 }
 
-/* Iconos */
-.sidebar-icon {
-  width: var(--spacing-lg);
-  height: var(--spacing-lg);
-  margin-right: var(--spacing-md);
-  display: inline-block;
-  vertical-align: middle;
-}
-
 /* Submenús */
-.has-submenu > a::after {
-  content: none;
-}
-
-.has-submenu.open > a::after {
-  transform: rotate(-180deg);
-}
 
 .submenu {
   max-height: 0;
@@ -99,19 +83,20 @@
 .submenu a {
   padding: var(--spacing-xs) var(--spacing-md);
   font-size: var(--font-size-xs);
-  color: var(--text-secondary);
+  color: var(--text-color-one);
   background: none;
 }
 
 .submenu a:hover,
 .submenu a:focus {
-  color: var(--accent-blue);
-  background-color: var(--hover-bg);
+  color: var(--text-color-two);
+  background-color: var(--Sidebar_Boton_hover);
 }
 
 .submenu a.active {
-  color: var(--accent-blue);
+  color: var(--text-color-three);
   font-weight: var(--font-weight-bold);
+  background-color: var(--Sidebar_Boton_Active);
 }
 
 /* Estado deshabilitado */
@@ -120,12 +105,4 @@
   opacity: 0.5;
   cursor: not-allowed;
   pointer-events: none;
-}
-
-/* Separador de navegación */
-.nav-divider {
-  height: 1px;
-  background-color: var(--border-color);
-  margin: var(--spacing-md) var(--spacing-md);
-  opacity: 0.2;
 }
