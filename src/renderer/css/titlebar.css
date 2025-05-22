@@ -12,7 +12,6 @@
  */
 
 @import url("themes/variables.css");
-@import url("themes/variables2.css");
 /* Titlebar - Contenedor principal */
 .titlebar {
   position: fixed;
@@ -51,7 +50,7 @@
 .titlebar-logo span {
   font-size: var(--font-size-sm); /* 14px */
   font-weight: var(--font-weight-medium);
-  color: var(--text-primary);
+  color: var(--titlebar-Botones);
 }
 
 /* Botones de control */
@@ -66,7 +65,7 @@
   height: var(--spacing-xl); /* 32px */
   border: none;
   background: transparent;
-  color: var(--text-primary);
+  color: var(--titlebar-Botones);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -76,7 +75,7 @@
 }
 
 .titlebar-button:hover {
-  background-color: var(--hover-bg);
+  background-color: var(--titlebar-Botones-hover);
 }
 
 .titlebar-button svg {
@@ -87,12 +86,11 @@
 
 /* Botón de cerrar */
 #close-button {
-  color: var(--text-primary);
+  color: var(--titlebar-Botones);
 }
 
 #close-button:hover {
-  background-color: var(--Palette-Pink-2);
-  color: var(--Color-gray-9);
+  background-color: var(--Palette-Pink-3);
 }
 
 #close-button:hover svg {
@@ -100,7 +98,7 @@
 }
 
 #close-button:hover svg path {
-  stroke: var(--Color-gray-7);
+  stroke: var(--titlebar-Close-hover);
 }
 
 /* Ajuste del contenido principal para el titlebar */

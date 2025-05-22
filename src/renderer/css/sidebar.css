@@ -14,7 +14,6 @@
  */
 
 @import url("themes/variables.css");
-@import url("themes/variables2.css");
 /* Contenedor del sidebar */
 .sidebar {
   width: 15rem; /* 240px */

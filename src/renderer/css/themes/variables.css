@@ -12,6 +12,7 @@
   --Palette-Blue-7: #030712;
   --Palette-Pink-1: #ffebec;
   --Palette-Pink-2: #ffc2c5;
+  --Palette-Pink-3: #ec8288;
 
   /*=============================================
   =            COLORES COMPLEMENTARIOS          =
@@ -137,8 +138,11 @@
   --light-Limit-Sidebar: var(--Color-gray-4);
   --light-loading: var(--Palette-Blue-5);
   --light-loading-border: var(--Color-gray-4);
-  --light-titlebar-border: var(--Palette-Blue-3);
-  --light-titlebar-BG: var(--Palette-Blue-7);
+  --light-titlebar-border: var(--Color-gray-4);
+  --light-titlebar-BG: var(--Color-gray-1);
+  --light-titlebar-Botones: var(--Color-gray-6);
+  --light-titlebar-Botones-hover: var(--Color-gray-3);
+  --light-titlebar-Close-hover: var(--Color-gray-2);
 
   /* TEMA OSCURO - Variables semánticas */
   --dark-Body-bg: var(--Palette-Blue-6);
@@ -153,11 +157,14 @@
   --dark-Cambio_Tema_hover_stroke: var(--Palette-Blue-6);
   --dark-Sidebar_Boton_hover: var(--Palette-Blue-3);
   --dark-Sidebar_Boton_Active: var(--Palette-Blue-6);
-  --dark-Limit-Sidebar: var(--Palette-Blue-3);
+  --dark-Limit-Sidebar: var(--Palette-Blue-4);
   --dark-loading: var(--Palette-Blue-3);
   --dark-loading-border: var(--Palette-Blue-5);
-  --dark-titlebar-border: var(--Palette-Blue-3);
+  --dark-titlebar-border: var(--Palette-Blue-4);
   --dark-titlebar-BG: var(--Palette-Blue-7);
+  --dark-titlebar-Botones: var(--Palette-Blue-3);
+  --dark-titlebar-Botones-hover: var(--Palette-Blue-5);
+  --light-titlebar-Close-hover: var(--Color-gray-2);
   /*=============================================
   =         VARIABLES ACTIVAS DEL TEMA          =
   =============================================*/
@@ -179,6 +186,9 @@
   --loading-border: var(--light-loading-border);
   --titlebar-border: var(--light-titlebar-border);
   --titlebar-BG: var(--light-titlebar-BG);
+  --titlebar-Botones: var(--light-titlebar-Botones);
+  --titlebar-Botones-hover: var(--light-titlebar-Botones-hover);
+  --titlebar-Close-hover: var(--light-titlebar-Close-hover);
 }
 
 .dark-theme {
@@ -199,4 +209,7 @@
   --loading-border: var(--dark-loading-border);
   --titlebar-border: var(--dark-titlebar-border);
   --titlebar-BG: var(--dark-titlebar-BG);
+  --titlebar-Botones: var(--dark-titlebar-Botones);
+  --titlebar-Botones-hover: var(--dark-titlebar-Botones-hover);
+  --titlebar-Close-hover: var(--dark-titlebar-Close-hover);
 }
