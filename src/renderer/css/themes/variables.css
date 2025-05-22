@@ -123,7 +123,7 @@
   --resaltado: var(--Color-Resaltador);
 
   /* TEMA CLARO - Variables semánticas */
-  --light-Body-bg: var(--Color-white);
+  --light-Body-bg: var(--Palette-Blue-6);
   --light-text-one: var(--Color-gray-5);
   --light-text-two: var(--Color-gray-6);
   --light-text-three: var(--Color-gray-6);
@@ -143,6 +143,12 @@
   --light-titlebar-Botones: var(--Color-gray-6);
   --light-titlebar-Botones-hover: var(--Color-gray-3);
   --light-titlebar-Close-hover: var(--Color-gray-2);
+  --light-dashboard-border: var(--Palette-Blue-4);
+  --light-dashboard-text: var(--Palette-Blue-3);
+  --light-dashboard-card: var(--Palette-Blue-7);
+  --light-dashboard-card-hover: var(--Palette-Blue-3);
+  --light-dashboard-card-text: var(--Palette-Blue-1);
+  --light-dashboard-card-text_two: var(--Palette-Blue-4);
 
   /* TEMA OSCURO - Variables semánticas */
   --dark-Body-bg: var(--Palette-Blue-6);
@@ -164,7 +170,13 @@
   --dark-titlebar-BG: var(--Palette-Blue-7);
   --dark-titlebar-Botones: var(--Palette-Blue-3);
   --dark-titlebar-Botones-hover: var(--Palette-Blue-5);
-  --light-titlebar-Close-hover: var(--Color-gray-2);
+  --dark-titlebar-Close-hover: var(--Color-gray-2);
+  --dark-dashboard-border: var(--Palette-Blue-4);
+  --dark-dashboard-text: var(--Palette-Blue-5);
+  --dark-dashboard-card: var(--Palette-Blue-7);
+  --dark-dashboard-card-hover: var(--Palette-Blue-3);
+  --dark-dashboard-card-text: var(--Palette-Blue-1);
+  --dark-dashboard-card-text_two: var(--Palette-Blue-4);
   /*=============================================
   =         VARIABLES ACTIVAS DEL TEMA          =
   =============================================*/
@@ -189,6 +201,12 @@
   --titlebar-Botones: var(--light-titlebar-Botones);
   --titlebar-Botones-hover: var(--light-titlebar-Botones-hover);
   --titlebar-Close-hover: var(--light-titlebar-Close-hover);
+  --dashboard-border: var(--light-dashboard-border);
+  --dashboard-text: var(--light-dashboard-text);
+  --dashboard-card: var(--light-dashboard-card);
+  --dashboard-card-hover: var(--light-dashboard-card-hover);
+  --dashboard-card-text: var(--light-dashboard-card-text);
+  --dashboard-card-text_two: var(--light-dashboard-card-text_two);
 }
 
 .dark-theme {
@@ -212,4 +230,10 @@
   --titlebar-Botones: var(--dark-titlebar-Botones);
   --titlebar-Botones-hover: var(--dark-titlebar-Botones-hover);
   --titlebar-Close-hover: var(--dark-titlebar-Close-hover);
+  --dashboard-border: var(--dark-dashboard-border);
+  --dashboard-text: var(--dark-dashboard-text);
+  --dashboard-card: var(--dark-dashboard-card);
+  --dashboard-card-hover: var(--dark-dashboard-card-hover);
+  --dashboard-card-text: var(--dark-dashboard-card-text);
+  --dashboard-card-text_two: var(--dark-dashboard-card-text_two);
 }

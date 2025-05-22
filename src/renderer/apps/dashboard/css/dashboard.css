@@ -2,6 +2,10 @@
 @import url("../../../css/themes/variables.css");
 @import url("../../../css/themes/variables2.css");
 
+body {
+  background-color: var(--body-bg);
+}
+
 .dashboard-container {
   padding: var(--spacing-lg);
   height: 100%;
@@ -34,7 +38,7 @@
 }
 
 .app-card {
-  background-color: var(--card-bg);
+  background-color: var(--dashboard-card);
   border-radius: var(--border-radius-lg);
   box-shadow: var(--box-shadow-sm);
   padding: var(--spacing-lg);
@@ -62,7 +66,7 @@
   left: 0;
   width: 100%;
   height: 5px;
-  background-color: var(--accent-blue);
+  background-color: var(--dashboard-card-hover);
 }
 
 .app-icon {
@@ -82,11 +86,11 @@
 .app-info h2 {
   font-size: var(--font-size-xl);
   margin-bottom: var(--spacing-sm);
-  color: var(--text-primary);
+  color: var(--dashboard-card-text_two);
 }
 
 .app-info p {
-  color: var(--text-secondary);
+  color: var(--dashboard-card-text);
   font-size: var(--font-size-md);
 }
 
@@ -112,8 +116,8 @@
   display: flex;
   justify-content: space-between;
   padding-top: var(--spacing-md);
-  border-top: 1px solid var(--border-color);
-  color: var(--text-secondary);
+  border-top: 1px solid var(--dashboard-border);
+  color: var(--dashboard-text);
   font-size: var(--font-size-sm);
 }
 
