@@ -24,7 +24,7 @@ body {
 }
 
 body {
-  background-color: var(--bg-main);
+  background-color: var(--body-bg);
   color: var(--text-primary);
 }
 

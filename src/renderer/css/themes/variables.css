@@ -11,7 +11,7 @@
   --Palette-Blue-6: #020e28;
   --Palette-Blue-7: #030712;
   --Palette-Pink-1: #ffebec;
-  --Palette-gray-2: #ffc2c5;
+  --Palette-Pink-2: #ffc2c5;
 
   /*=============================================
   =            COLORES COMPLEMENTARIOS          =
@@ -122,20 +122,26 @@
   --resaltado: var(--Color-Resaltador);
 
   /* TEMA CLARO - Variables semánticas */
-  --light-text-one: var(--Palette-Blue-5);
-  --light-text-two: var(--Palette-Blue-7);
-  --light-text-three: var(--Palette-Blue-3);
-  --light-Sidebar_Ch: var(--Palette-Blue-7);
-  --light-Sidebar_Ch_text: var(--Palette-Blue-5);
-  --light-Cambio_Tema: var(--Palette-Blue-6);
-  --light-Cambio_Tema_stroke: var(--Palette-Blue-4);
-  --light-Cambio_Tema_hover: var(--Palette-Blue-3);
-  --light-Cambio_Tema_hover_stroke: var(--Palette-Blue-6);
-  --light-Sidebar_Boton_hover: var(--Palette-Blue-3);
-  --light-Sidebar_Boton_Active: var(--Palette-Blue-6);
-  --light-Limit-Sidebar: var(--Palette-Blue-3);
+  --light-Body-bg: var(--Color-white);
+  --light-text-one: var(--Color-gray-5);
+  --light-text-two: var(--Color-gray-6);
+  --light-text-three: var(--Color-gray-6);
+  --light-Sidebar_Ch: var(--Color-gray-1);
+  --light-Sidebar_Ch_text: var(--Color-gray-5);
+  --light-Cambio_Tema: var(--Color-gray-3);
+  --light-Cambio_Tema_stroke: var(--Color-gray-6);
+  --light-Cambio_Tema_hover: var(--Color-gray-5);
+  --light-Cambio_Tema_hover_stroke: var(--Color-gray-1);
+  --light-Sidebar_Boton_hover: var(--Palette-Blue-2);
+  --light-Sidebar_Boton_Active: var(--Palette-Blue-3);
+  --light-Limit-Sidebar: var(--Color-gray-4);
+  --light-loading: var(--Palette-Blue-5);
+  --light-loading-border: var(--Color-gray-4);
+  --light-titlebar-border: var(--Palette-Blue-3);
+  --light-titlebar-BG: var(--Palette-Blue-7);
 
   /* TEMA OSCURO - Variables semánticas */
+  --dark-Body-bg: var(--Palette-Blue-6);
   --dark-text-one: var(--Palette-Blue-5);
   --dark-text-two: var(--Palette-Blue-7);
   --dark-text-three: var(--Palette-Blue-3);
@@ -148,11 +154,15 @@
   --dark-Sidebar_Boton_hover: var(--Palette-Blue-3);
   --dark-Sidebar_Boton_Active: var(--Palette-Blue-6);
   --dark-Limit-Sidebar: var(--Palette-Blue-3);
-
+  --dark-loading: var(--Palette-Blue-3);
+  --dark-loading-border: var(--Palette-Blue-5);
+  --dark-titlebar-border: var(--Palette-Blue-3);
+  --dark-titlebar-BG: var(--Palette-Blue-7);
   /*=============================================
   =         VARIABLES ACTIVAS DEL TEMA          =
   =============================================*/
 
+  --body-bg: var(--light-Body-bg);
   --text-color-one: var(--light-text-one);
   --text-color-two: var(--light-text-two);
   --text-color-three: var(--light-text-three);
@@ -165,9 +175,14 @@
   --Sidebar_Boton_hover: var(--light-Sidebar_Boton_hover);
   --Sidebar_Boton_Active: var(--light-Sidebar_Boton_Active);
   --Limit-Sidebar: var(--light-Limit-Sidebar);
+  --loading: var(--light-loading);
+  --loading-border: var(--light-loading-border);
+  --titlebar-border: var(--light-titlebar-border);
+  --titlebar-BG: var(--light-titlebar-BG);
 }
 
 .dark-theme {
+  --body-bg: var(--dark-Body-bg);
   --text-color-one: var(--dark-text-one);
   --text-color-two: var(--dark-text-two);
   --text-color-three: var(--dark-text-three);
@@ -180,4 +195,8 @@
   --Sidebar_Boton_hover: var(--dark-Sidebar_Boton_hover);
   --Sidebar_Boton_Active: var(--dark-Sidebar_Boton_Active);
   --Limit-Sidebar: var(--dark-Limit-Sidebar);
+  --loading: var(--dark-loading);
+  --loading-border: var(--dark-loading-border);
+  --titlebar-border: var(--dark-titlebar-border);
+  --titlebar-BG: var(--dark-titlebar-BG);
 }

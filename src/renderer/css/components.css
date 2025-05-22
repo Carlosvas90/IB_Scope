@@ -159,8 +159,8 @@
 .loading-spinner {
   width: 2.5rem;
   height: 2.5rem;
-  border: 0.25rem solid var(--element-secondary);
-  border-top-color: var(--accent-blue);
+  border: 0.25rem solid var(--loading-border);
+  border-top-color: var(--loading);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -178,7 +178,7 @@
   justify-content: center;
   height: 100%;
   gap: var(--spacing-md);
-  color: var(--text-secondary);
+  color: var(--text-color-three);
 }
 
 /* Toast para notificaciones */

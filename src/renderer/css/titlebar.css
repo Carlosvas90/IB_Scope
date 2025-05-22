@@ -20,14 +20,14 @@
   left: 0;
   right: 0;
   height: var(--spacing-xl); /* 32px */
-  background-color: var(--bg-main);
+  background-color: var(--titlebar-BG);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 var(--spacing-sm); /* 8px */
   -webkit-app-region: drag; /* Permite arrastrar la ventana */
   z-index: 999; /* Reducido para que no tape el sidebar-footer */
-  border-bottom: var(--border-width-thin) solid var(--border-color);
+  border-bottom: var(--border-width-thin) solid var(--titlebar-border);
 }
 
 /* Área de arrastre y logo */
@@ -91,8 +91,8 @@
 }
 
 #close-button:hover {
-  background-color: var(--color-error); /* Usando variable de color de error */
-  color: var(--color-white);
+  background-color: var(--Palette-Pink-2);
+  color: var(--Color-gray-9);
 }
 
 #close-button:hover svg {
@@ -100,7 +100,7 @@
 }
 
 #close-button:hover svg path {
-  stroke: var(--color-white);
+  stroke: var(--Color-gray-7);
 }
 
 /* Ajuste del contenido principal para el titlebar */
