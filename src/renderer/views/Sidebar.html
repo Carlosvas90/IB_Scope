@@ -276,7 +276,7 @@
         // Actualizar la animación Lottie
         const app = activeLink.getAttribute("data-app");
         if (navLottieMap[app]) {
-          updateActiveLottie(navLottieMap[app]);
+          updateActiveLottie(`lottie-${navLottieMap[app]}`, "sidebar");
         }
       }
 

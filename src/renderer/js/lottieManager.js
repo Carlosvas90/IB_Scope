@@ -25,23 +25,23 @@ const lottieFiles = {
       dark: "../../../assets/animations/heatmap_dark.json",
     },
   },
-  // Lotties para el Home (desde src/renderer/apps/dashboard/views/)
+  // Lotties para el Home (mismo contexto que Sidebar - src/renderer/views/)
   home: {
     feedback: {
-      light: "../../../../../assets/animations/feedback_light.json",
-      dark: "../../../../../assets/animations/feedback_dark.json",
+      light: "../../../assets/animations/feedback_light.json",
+      dark: "../../../assets/animations/feedback_dark.json",
     },
     activity: {
-      light: "../../../../../assets/animations/activity_light.json",
-      dark: "../../../../../assets/animations/activity_dark.json",
+      light: "../../../assets/animations/activity_light.json",
+      dark: "../../../assets/animations/activity_dark.json",
     },
     idle: {
-      light: "../../../../../assets/animations/idle_light.json",
-      dark: "../../../../../assets/animations/idle_dark.json",
+      light: "../../../assets/animations/idle_light.json",
+      dark: "../../../assets/animations/idle_dark.json",
     },
     heatmap: {
-      light: "../../../../../assets/animations/heatmap_light.json",
-      dark: "../../../../../assets/animations/heatmap_dark.json",
+      light: "../../../assets/animations/heatmap_light.json",
+      dark: "../../../assets/animations/heatmap_dark.json",
     },
   },
 };
