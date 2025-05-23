@@ -26,7 +26,7 @@ body {
 
 .welcome-message {
   color: var(--dashboard-subtitle);
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-md);
 }
 
 .apps-grid {
@@ -132,7 +132,7 @@ body {
 
 .app-info p {
   color: var(--dashboard-card-text);
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-sm);
 }
 
 .app-card-placeholder {

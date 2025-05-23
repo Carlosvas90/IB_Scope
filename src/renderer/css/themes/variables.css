@@ -123,7 +123,7 @@
   --resaltado: var(--Color-Resaltador);
 
   /* TEMA CLARO - Variables semánticas */
-  --light-Body-bg: var(--Palette-Blue-6);
+  --light-Body-bg: var(--Color-white);
   --light-text-one: var(--Color-gray-5);
   --light-text-two: var(--Color-gray-6);
   --light-text-three: var(--Color-gray-6);
@@ -143,14 +143,14 @@
   --light-titlebar-Botones: var(--Color-gray-6);
   --light-titlebar-Botones-hover: var(--Color-gray-3);
   --light-titlebar-Close-hover: var(--Color-gray-2);
-  --light-dashboard-border: var(--Palette-Blue-4);
-  --light-dashboard-text: var(--Palette-Blue-5);
-  --light-dashboard-card: var(--Palette-Blue-7);
-  --light-dashboard-card-hover: var(--Palette-Blue-3);
-  --light-dashboard-card-text: var(--Palette-Blue-1);
+  --light-dashboard-border: var(--Color-gray-4);
+  --light-dashboard-text: var(--Color-gray-5);
+  --light-dashboard-card: var(--Color-gray-1);
+  --light-dashboard-card-hover: var(--Palette-Blue-4);
+  --light-dashboard-card-text: var(--Color-gray-5);
   --light-dashboard-card-text_two: var(--Palette-Blue-4);
   --light-dashboard-title: var(--Palette-Blue-4);
-  --light-dashboard-subtitle: var(--Palette-Blue-1);
+  --light-dashboard-subtitle: var(--Color-gray-5);
 
   /* TEMA OSCURO - Variables semánticas */
   --dark-Body-bg: var(--Palette-Blue-6);
@@ -177,10 +177,10 @@
   --dark-dashboard-text: var(--Palette-Blue-5);
   --dark-dashboard-card: var(--Palette-Blue-7);
   --dark-dashboard-card-hover: var(--Palette-Blue-3);
-  --dark-dashboard-card-text: var(--Palette-Blue-1);
+  --dark-dashboard-card-text: var(--Color-gray-1);
   --dark-dashboard-card-text_two: var(--Palette-Blue-4);
   --dark-dashboard-title: var(--Palette-Blue-4);
-  --dark-dashboard-subtitle: var(--Palette-Blue-1);
+  --dark-dashboard-subtitle: var(--Color-gray-1);
   /*=============================================
   =         VARIABLES ACTIVAS DEL TEMA          =
   =============================================*/
