@@ -17,8 +17,8 @@
 
       <div class="apps-grid">
         <div class="app-card" data-app="feedback-tracker">
-          <div class="app-icon">
-            <div id="lottie-feedback" class="app-icon"></div>
+          <div class="home-icon-container">
+            <div id="home-lottie-feedback" class="home-lottie-container"></div>
           </div>
           <div class="app-info">
             <h2>Feedback Tracker</h2>
@@ -26,8 +26,8 @@
           </div>
         </div>
         <div class="app-card" data-app="activity-scope">
-          <div class="app-icon">
-            <div id="lottie-activity" class="app-icon"></div>
+          <div class="home-icon-container">
+            <div id="home-lottie-activity" class="home-lottie-container"></div>
           </div>
           <div class="app-info">
             <h2>Activity Scope</h2>
@@ -35,8 +35,8 @@
           </div>
         </div>
         <div class="app-card" data-app="idle-time">
-          <div class="app-icon">
-            <div id="lottie-idle" class="app-icon"></div>
+          <div class="home-icon-container">
+            <div id="home-lottie-idle" class="home-lottie-container"></div>
           </div>
           <div class="app-info">
             <h2>IdleTime</h2>
@@ -44,8 +44,8 @@
           </div>
         </div>
         <div class="app-card" data-app="space-heatmap">
-          <div class="app-icon">
-            <div id="lottie-heatmap" class="app-icon"></div>
+          <div class="home-icon-container">
+            <div id="home-lottie-heatmap" class="home-lottie-container"></div>
           </div>
           <div class="app-info">
             <h2>SpaceHeatMap</h2>
@@ -68,7 +68,10 @@
 
     <script type="module" src="../js/dashboard.js"></script>
     <script type="module">
-      import { updateActiveLottie } from "../../js/lottieManager.js";
+      import {
+        updateActiveLottie,
+        initializeLotties,
+      } from "../../../js/lottieManager.js";
 
       document.addEventListener("DOMContentLoaded", () => {
         const lottieMap = {
@@ -78,35 +81,71 @@
           "space-heatmap": "heatmap",
         };
 
-        // Función para actualizar el estado activo
-        function updateActiveState(activeCard) {
-          // Remover clase active de todos los cards
+        // Inicializar los Lotties de Home
+        const isDarkMode = localStorage.getItem("darkMode") === "true";
+        initializeLotties(isDarkMode, "home");
+
+        // Función para activar el Lottie en hover
+        function setupHoverEffects() {
           document.querySelectorAll(".app-card").forEach((card) => {
-            card.classList.remove("active");
+            const app = card.getAttribute("data-app");
+            const lottieId = lottieMap[app];
+
+            if (lottieId) {
+              card.addEventListener("mouseenter", () => {
+                const homeLottieId = `home-lottie-${lottieId}`;
+                updateActiveLottie(homeLottieId, "home");
+              });
+
+              card.addEventListener("mouseleave", () => {
+                // Obtener el enlace activo del sidebar
+                const activeNavLink = document.querySelector(
+                  ".sidebar-nav a.active"
+                );
+                if (activeNavLink) {
+                  const activeApp = activeNavLink.getAttribute("data-app");
+                  const activeLottieId = lottieMap[activeApp];
+                  if (activeLottieId) {
+                    updateActiveLottie(activeLottieId, "sidebar");
+                  }
+                }
+              });
+            }
           });
+        }
 
-          // Agregar clase active al card seleccionado
-          activeCard.classList.add("active");
-
-          // Actualizar la animación Lottie
-          const app = activeCard.getAttribute("data-app");
-          if (lottieMap[app]) {
-            updateActiveLottie(lottieMap[app]);
+        // Función para manejar la navegación y activar el Lottie correspondiente
+        function handleNavigation(card) {
+          const app = card.getAttribute("data-app");
+          if (app) {
+            // Activar el enlace correspondiente en el sidebar
+            const navLink = document.querySelector(
+              `.sidebar-nav a[data-app="${app}"]`
+            );
+            if (navLink) {
+              navLink.classList.add("active");
+              // Activar el Lottie correspondiente en el sidebar
+              const lottieId = lottieMap[app];
+              if (lottieId) {
+                updateActiveLottie(lottieId, "sidebar");
+              }
+            }
+            // Disparar el evento de navegación
+            window.dispatchEvent(
+              new CustomEvent("navigate", { detail: { app } })
+            );
           }
         }
 
-        // Agregar evento click a cada card
+        // Configurar eventos de click para navegación
         document.querySelectorAll(".app-card").forEach((card) => {
           card.addEventListener("click", () => {
-            updateActiveState(card);
+            handleNavigation(card);
           });
         });
 
-        // Activar el primer card por defecto
-        const firstCard = document.querySelector(".app-card");
-        if (firstCard) {
-          updateActiveState(firstCard);
-        }
+        // Configurar efectos hover
+        setupHoverEffects();
       });
     </script>
   </body>
