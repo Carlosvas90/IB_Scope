@@ -20,12 +20,12 @@ body {
 
 .dashboard-header h1 {
   font-size: var(--font-size-xxl);
-  color: var(--text-color-two);
+  color: var(--dashboard-title);
   margin-bottom: var(--spacing-sm);
 }
 
 .welcome-message {
-  color: var(--text-color-two);
+  color: var(--dashboard-subtitle);
   font-size: var(--font-size-lg);
 }
 
@@ -93,7 +93,6 @@ body {
   margin-bottom: var(--spacing-md);
   padding: var(--spacing-md);
   border-radius: 50%;
-  background-color: var(--bg-main);
   display: flex;
   align-items: center;
   justify-content: center;

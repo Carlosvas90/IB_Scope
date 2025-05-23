@@ -144,11 +144,13 @@
   --light-titlebar-Botones-hover: var(--Color-gray-3);
   --light-titlebar-Close-hover: var(--Color-gray-2);
   --light-dashboard-border: var(--Palette-Blue-4);
-  --light-dashboard-text: var(--Palette-Blue-3);
+  --light-dashboard-text: var(--Palette-Blue-5);
   --light-dashboard-card: var(--Palette-Blue-7);
   --light-dashboard-card-hover: var(--Palette-Blue-3);
   --light-dashboard-card-text: var(--Palette-Blue-1);
   --light-dashboard-card-text_two: var(--Palette-Blue-4);
+  --light-dashboard-title: var(--Palette-Blue-4);
+  --light-dashboard-subtitle: var(--Palette-Blue-1);
 
   /* TEMA OSCURO - Variables semánticas */
   --dark-Body-bg: var(--Palette-Blue-6);
@@ -177,6 +179,8 @@
   --dark-dashboard-card-hover: var(--Palette-Blue-3);
   --dark-dashboard-card-text: var(--Palette-Blue-1);
   --dark-dashboard-card-text_two: var(--Palette-Blue-4);
+  --dark-dashboard-title: var(--Palette-Blue-4);
+  --dark-dashboard-subtitle: var(--Palette-Blue-1);
   /*=============================================
   =         VARIABLES ACTIVAS DEL TEMA          =
   =============================================*/
@@ -207,6 +211,8 @@
   --dashboard-card-hover: var(--light-dashboard-card-hover);
   --dashboard-card-text: var(--light-dashboard-card-text);
   --dashboard-card-text_two: var(--light-dashboard-card-text_two);
+  --dashboard-title: var(--light-dashboard-title);
+  --dashboard-subtitle: var(--light-dashboard-subtitle);
 }
 
 .dark-theme {
@@ -236,4 +242,6 @@
   --dashboard-card-hover: var(--dark-dashboard-card-hover);
   --dashboard-card-text: var(--dark-dashboard-card-text);
   --dashboard-card-text_two: var(--dark-dashboard-card-text_two);
+  --dashboard-title: var(--dark-dashboard-title);
+  --dashboard-subtitle: var(--dark-dashboard-subtitle);
 }
