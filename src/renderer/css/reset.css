@@ -3,7 +3,6 @@
  */
 
 @import url("themes/variables.css");
-@import url("themes/variables2.css");
 /* Reset básico para todos los elementos */
 * {
   margin: 0;
@@ -25,7 +24,7 @@ body {
 
 body {
   background-color: var(--body-bg);
-  color: var(--text-primary);
+  color: var(--text-color-two);
 }
 
 /* Reset para listas */

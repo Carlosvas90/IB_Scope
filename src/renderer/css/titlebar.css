@@ -1,15 +1,4 @@
-/**
- * titlebar.css
- * Estilos para la barra de título de la aplicación
- * 
- * Variables utilizadas:
- * - --bg-main: Color de fondo
- * - --border-color: Color del borde
- * - --text-primary: Color del texto
- * - --hover-bg: Color de hover
- * - --font-weight-medium: Peso de la fuente
- * - --transition-fast: Velocidad de transición
- */
+/* titlebar.css */
 
 @import url("themes/variables.css");
 /* Titlebar - Contenedor principal */

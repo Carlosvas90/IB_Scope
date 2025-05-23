@@ -1,19 +1,7 @@
-/**
- * sidebar.css
- * Estilos específicos para el sidebar y sus componentes
- * 
- * Variables utilizadas:
- * - --sidebar-bg: Color de fondo
- * - --border-color: Color del borde
- * - --accent-blue: Color del logo y texto
- * - --text-secondary: Color del texto secundario
- * - --element-secondary: Color de fondo de elementos
- * - --hover-bg: Color de hover
- * - --transition-normal: Transición principal
- * - --transition-fast: Transición rápida
- */
+/* sidebar.css */
 
 @import url("themes/variables.css");
+
 /* Contenedor del sidebar */
 .sidebar {
   width: 15rem; /* 240px */
@@ -47,18 +35,28 @@
   height: 100%;
 }
 
-/* Footer del sidebar */
-.sidebar-footer {
-  padding: var(--spacing-md);
-  border-top: var(--border-width-thin) solid var(--Limit-Sidebar);
-  margin-top: auto;
+.sidebar-icon {
+  width: var(--spacing-xl); /* 20px */
+  height: var(--spacing-xl);
+  margin-right: var(--spacing-md);
+  display: inline-block;
+  vertical-align: middle;
 }
 
-/* Información de usuario */
-.username {
-  font-size: var(--font-size-sm);
-  color: var(--sidebar_bg_ch_text);
-  text-align: center;
+.sidebar-nav .app-locked {
+  opacity: 0.5;
+  cursor: pointer;
+  pointer-events: auto;
+  position: relative;
+}
+
+.sidebar-nav .app-locked .lock-icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 0.375rem;
+  opacity: 0.4;
+  width: var(--spacing-md);
+  height: var(--spacing-md);
 }
 
 /* Toggle de tema (en sidebar) */
@@ -88,26 +86,108 @@
   stroke: var(--Cambio_Tema_hover_stroke);
 }
 
-.sidebar-icon {
-  width: var(--spacing-xl); /* 20px */
-  height: var(--spacing-xl);
-  margin-right: var(--spacing-md);
-  display: inline-block;
-  vertical-align: middle;
+/* Información de usuario */
+.username {
+  font-size: var(--font-size-sm);
+  color: var(--sidebar_bg_ch_text);
+  text-align: center;
 }
 
-.sidebar-nav .app-locked {
-  opacity: 0.5;
-  cursor: pointer;
-  pointer-events: auto;
+/* Footer del sidebar */
+.sidebar-footer {
+  padding: var(--spacing-md);
+  border-top: var(--border-width-thin) solid var(--Limit-Sidebar);
+  margin-top: auto;
+}
+
+/* Navegación principal */
+.sidebar-nav {
+  flex: 1;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar-nav > ul > li {
+  margin-bottom: var(--spacing-xs);
+}
+
+.sidebar-nav a {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  color: var(--text-color-one);
+  text-decoration: none;
+  transition: background-color var(--transition-normal),
+    color var(--transition-normal);
+  font-size: var(--font-size-sm);
   position: relative;
+  cursor: pointer;
 }
 
-.sidebar-nav .app-locked .lock-icon {
-  display: inline-block;
-  vertical-align: middle;
-  margin-left: 0.375rem;
-  opacity: 0.4;
-  width: var(--spacing-md);
-  height: var(--spacing-md);
+.sidebar-nav a:hover,
+.sidebar-nav a:focus {
+  background-color: var(--Sidebar_Boton_hover);
+  color: var(--text-color-two);
+  font-weight: var(--font-weight-bold);
+}
+
+.sidebar-nav a.active,
+.sidebar-nav li.active > a {
+  background-color: var(--Sidebar_Boton_Active);
+  color: var(--text-color-three);
+  font-weight: var(--font-weight-bold);
+}
+
+/* Submenús */
+
+.submenu {
+  max-height: 0;
+  overflow: hidden;
+  margin-left: var(--spacing-lg);
+  background: none;
+  transition: max-height var(--transition-normal);
+  padding-left: 0;
+}
+
+.has-submenu.open > .submenu {
+  max-height: 500px;
+  transition: max-height var(--transition-normal);
+}
+
+.submenu li {
+  margin-bottom: 0;
+}
+
+.submenu a {
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: var(--font-size-xs);
+  color: var(--text-color-one);
+  background: none;
+}
+
+.submenu a:hover,
+.submenu a:focus {
+  color: var(--text-color-two);
+  background-color: var(--Sidebar_Boton_hover);
+}
+
+.submenu a.active {
+  color: var(--text-color-three);
+  font-weight: var(--font-weight-bold);
+  background-color: var(--Sidebar_Boton_Active);
+}
+
+/* Estado deshabilitado */
+.sidebar-nav a.disabled,
+.sidebar-nav li.disabled > a {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
 }
