@@ -20,6 +20,7 @@ export class ErrorsTableController {
     this.expandedRows = new Set(); // Tracking de filas expandidas
     this.isRenderingTable = false; // Control de renderizado
     this.pendingRefresh = false; // Control de refrescos pendientes
+    this.isInitialized = false; // Control de inicialización múltiple
 
     // Servicios
     this.rendererService = new TableRendererService(this);
@@ -42,6 +43,16 @@ export class ErrorsTableController {
    * Inicializa el controlador de la tabla
    */
   init() {
+    console.log("🏁 Iniciando ErrorsTableController...");
+
+    // Evitar múltiples inicializaciones
+    if (this.isInitialized) {
+      console.log(
+        "⚠️ ErrorsTableController ya estaba inicializado, saltando..."
+      );
+      return true;
+    }
+
     console.time("TableController:Init");
 
     // Inicializar elementos DOM
@@ -92,6 +103,7 @@ export class ErrorsTableController {
       console.timeEnd("TableController:Init");
     });
 
+    this.isInitialized = true;
     return true;
   }
 
@@ -240,8 +252,14 @@ export class ErrorsTableController {
    * Configura los eventos de las filas
    */
   setupRowEvents() {
+    console.log("🔧 Configurando eventos de filas...");
+
+    // LIMPIAR todos los event listeners anteriores antes de agregar nuevos
+    this.clearAllRowEventListeners();
+
     // Botones para cambiar estado
     const statusButtons = document.querySelectorAll(".status-btn");
+    console.log(`📍 Encontrados ${statusButtons.length} botones de estado`);
     statusButtons.forEach((button) => {
       button.addEventListener("click", (event) => {
         event.stopPropagation();
@@ -253,19 +271,53 @@ export class ErrorsTableController {
 
     // Expandir/colapsar detalles
     const expandableRows = document.querySelectorAll(".expandable-row");
+    console.log(`📍 Encontradas ${expandableRows.length} filas expandibles`);
     expandableRows.forEach((row) => {
       row.addEventListener("click", (event) => {
+        console.log(
+          "🖱️ Click en fila expandible:",
+          row.getAttribute("data-id")
+        );
         // No expandir si se hace clic en enlace o botón
         if (
           event.target.closest(".asin-link") ||
           event.target.closest(".status-btn")
         ) {
+          console.log("❌ Click ignorado - es en enlace o botón");
           return;
         }
         const errorId = row.getAttribute("data-id");
+        console.log("✅ Expandiendo detalles para error:", errorId);
         this.toggleErrorDetails(row, errorId);
       });
     });
+
+    console.log("✅ Eventos de filas configurados correctamente");
+  }
+
+  /**
+   * Limpia TODOS los event listeners de filas para evitar duplicados
+   */
+  clearAllRowEventListeners() {
+    console.log("🧹 Limpiando event listeners anteriores...");
+
+    // Limpiar botones de estado
+    const statusButtons = document.querySelectorAll(".status-btn");
+    statusButtons.forEach((button) => {
+      // Clonar elemento para remover todos los event listeners
+      const newButton = button.cloneNode(true);
+      button.parentNode.replaceChild(newButton, button);
+    });
+
+    // Limpiar filas expandibles
+    const expandableRows = document.querySelectorAll(".expandable-row");
+    expandableRows.forEach((row) => {
+      // Clonar elemento para remover todos los event listeners
+      const newRow = row.cloneNode(true);
+      row.parentNode.replaceChild(newRow, row);
+    });
+
+    console.log("🧹 Event listeners anteriores limpiados");
   }
 
   /**
@@ -325,6 +377,7 @@ export class ErrorsTableController {
    * Actualiza la tabla con los datos actuales
    */
   updateTable() {
+    console.log("🔄 updateTable llamado");
     console.time("UpdateTable");
 
     if (!this.tableBody) return;
@@ -446,13 +499,18 @@ export class ErrorsTableController {
    * Muestra u oculta los detalles de un error
    */
   toggleErrorDetails(row, errorId) {
+    console.log("🔍 toggleErrorDetails llamado para error:", errorId);
+
     // Manejar expansión diferente según si está virtualizada
     if (this.virtualScroll.enabled) {
+      console.log("📊 Usando modo virtualización");
       // En modo virtualización, manejar con tracking de ids expandidos
       if (this.expandedRows.has(errorId)) {
         this.expandedRows.delete(errorId);
+        console.log("➖ Contrayendo error en virtualización:", errorId);
       } else {
         this.expandedRows.add(errorId);
+        console.log("➕ Expandiendo error en virtualización:", errorId);
       }
 
       // Re-renderizar filas visibles
@@ -460,25 +518,62 @@ export class ErrorsTableController {
       return;
     }
 
+    console.log("📋 Usando modo tradicional");
     // Modo tradicional
     const nextRow = row.nextElementSibling;
+    console.log("🔍 Siguiente fila:", nextRow);
 
     // Si ya está expandido, solo alternar visibilidad
     if (nextRow && nextRow.classList.contains("error-details-row")) {
+      console.log("🔄 Alternando visibilidad de fila existente");
+      console.log("🔍 Estado antes:", {
+        classList: Array.from(nextRow.classList),
+        display: getComputedStyle(nextRow).display,
+        visible: nextRow.offsetHeight > 0,
+        height: nextRow.offsetHeight + "px",
+      });
+
       nextRow.classList.toggle("expanded");
+
+      // Verificar estado después del toggle
+      setTimeout(() => {
+        console.log("🔍 Estado después:", {
+          classList: Array.from(nextRow.classList),
+          display: getComputedStyle(nextRow).display,
+          visible: nextRow.offsetHeight > 0,
+          height: nextRow.offsetHeight + "px",
+        });
+      }, 50);
+
       return;
     }
 
     // Si no está expandido, generar y mostrar detalles
+    console.log("🆕 Creando nueva fila de detalles");
     const error = this.dataController.errors.find(
       (error) => error.id === errorId
     );
     if (!error) {
-      console.warn(`Error no encontrado: ${errorId}`);
+      console.warn(`❌ Error no encontrado: ${errorId}`);
       return;
     }
 
+    console.log("✅ Error encontrado, creando detalles:", error);
     const detailsElement = this.rendererService.createDetailsRow(error);
+    detailsElement.classList.add("expanded"); // Asegurar que se muestre por defecto
+
+    // Hacer la fila de detalles MUY VISIBLE para debug
+    detailsElement.style.backgroundColor = "#e8f5e8";
+    detailsElement.style.border = "2px solid #4CAF50";
+    detailsElement.style.fontWeight = "bold";
+
     row.parentNode.insertBefore(detailsElement, row.nextSibling);
+    console.log("✅ Fila de detalles insertada");
+    console.log("🔍 Nueva fila estado:", {
+      classList: Array.from(detailsElement.classList),
+      display: getComputedStyle(detailsElement).display,
+      visible: detailsElement.offsetHeight > 0,
+      height: detailsElement.offsetHeight + "px",
+    });
   }
 }
