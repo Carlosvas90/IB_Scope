@@ -9,6 +9,11 @@ import { getUserPhotoUrl } from "../../../../../core/utils/linkUtils.js";
 export class UserImageService {
   constructor() {
     this.activePopup = null;
+    this.currentLogin = null;
+    this.hideTimeout = null;
+    this.showTimeout = null;
+    this.isHoveringTable = false;
+    this.currentCell = null;
   }
 
   /**
@@ -18,33 +23,62 @@ export class UserImageService {
   setupPopupEvents(tableElement) {
     if (!tableElement) return;
 
-    // Manejar evento mouseover para los logins
-    tableElement.addEventListener("mouseover", (e) => {
-      const loginCell = e.target.closest(".login-cell");
-      if (loginCell) {
-        this.showUserImagePopup(loginCell);
+    // Detectar cuando el mouse entra y sale de las celdas de login específicamente
+    tableElement.addEventListener("mouseenter", (e) => {
+      if (e.target.closest(".login-cell")) {
+        this.isHoveringTable = true;
       }
     });
 
-    // Manejar mouseout
+    tableElement.addEventListener("mouseleave", (e) => {
+      // Solo considerar salida si realmente salimos de una celda de login
+      if (!e.relatedTarget || !e.relatedTarget.closest(".login-cell")) {
+        this.isHoveringTable = false;
+        this.scheduleHidePopup(200); // Dar tiempo para volver
+      }
+    });
+
+    // Manejar evento mouseover para los logins con debounce
+    tableElement.addEventListener("mouseover", (e) => {
+      const loginCell = e.target.closest(".login-cell");
+      if (loginCell) {
+        this.isHoveringTable = true;
+        const login = loginCell.textContent.trim();
+        // Siempre mostrar popup si es una celda diferente, aunque el login sea igual
+        if (login !== this.currentLogin || loginCell !== this.currentCell) {
+          this.cancelHidePopup();
+          this.showUserImagePopup(loginCell);
+        }
+      }
+    });
+
+    // Manejar mouseout con timing mejorado - solo para celdas de login
     tableElement.addEventListener("mouseout", (e) => {
       const loginCell = e.target.closest(".login-cell");
+      if (loginCell) {
+        const login = loginCell.textContent.trim();
+        // Solo programar ocultar si salimos del login actual y no hay otro login en hover
+        const nextTarget = e.relatedTarget;
+        const nextLoginCell = nextTarget?.closest?.(".login-cell");
+
+        if (!nextLoginCell) {
+          this.isHoveringTable = false;
+          this.scheduleHidePopup(150);
+        }
+      }
+    });
+
+    // Manejar eventos de los popups
+    document.addEventListener("mouseover", (e) => {
+      if (e.target.closest(".user-image-popup")) {
+        this.cancelHidePopup();
+      }
+    });
+
+    document.addEventListener("mouseout", (e) => {
       const popup = e.target.closest(".user-image-popup");
-
-      if (!popup && loginCell) {
-        const relatedPopup = document.querySelector(
-          `.user-image-popup[data-login="${loginCell.textContent.trim()}"]`
-        );
-
-        setTimeout(() => {
-          if (
-            relatedPopup &&
-            !relatedPopup.matches(":hover") &&
-            !loginCell.matches(":hover")
-          ) {
-            relatedPopup.classList.remove("visible");
-          }
-        }, 100);
+      if (popup && !e.relatedTarget?.closest?.(".user-image-popup")) {
+        this.scheduleHidePopup(100);
       }
     });
 
@@ -68,6 +102,39 @@ export class UserImageService {
   }
 
   /**
+   * Programa ocultar el popup con delay
+   * @param {number} delay - Delay en milisegundos
+   */
+  scheduleHidePopup(delay = 150) {
+    this.cancelHidePopup();
+    this.hideTimeout = setTimeout(() => {
+      if (!this.isHoveringTable) {
+        this.hideAllPopups();
+      }
+    }, delay);
+  }
+
+  /**
+   * Cancela el timeout de ocultar popup
+   */
+  cancelHidePopup() {
+    if (this.hideTimeout) {
+      clearTimeout(this.hideTimeout);
+      this.hideTimeout = null;
+    }
+  }
+
+  /**
+   * Cancela el timeout de mostrar popup
+   */
+  cancelShowPopup() {
+    if (this.showTimeout) {
+      clearTimeout(this.showTimeout);
+      this.showTimeout = null;
+    }
+  }
+
+  /**
    * Muestra el popup con la imagen del usuario
    * @param {HTMLElement} loginCell - Celda con el login
    */
@@ -75,10 +142,14 @@ export class UserImageService {
     const login = loginCell.textContent.trim();
     if (!login) return;
 
-    // Ocultar todos los popups activos
-    this.hideAllPopups();
+    this.cancelShowPopup();
+    this.currentLogin = login;
+    this.currentCell = loginCell; // Guardar referencia a la celda actual
 
-    // Comprobar si ya existe un popup para este login
+    // Solo ocultar popups de otros usuarios, no todos
+    this.hideOtherPopups(login);
+
+    // Siempre crear un nuevo popup o reusar existente y reposicionar
     let popup = document.querySelector(
       `.user-image-popup[data-login="${login}"]`
     );
@@ -88,19 +159,33 @@ export class UserImageService {
       popup = this.createImagePopup(login);
     }
 
-    // Posicionar el popup
+    // Siempre reposicionar el popup para la celda actual
     this.positionPopup(popup, loginCell);
 
-    // Hacer visible el popup
-    setTimeout(() => {
+    // Hacer visible el popup con una transición suave
+    this.showTimeout = setTimeout(() => {
       popup.classList.add("visible");
-    }, 50);
+    }, 10); // Delay más corto para respuesta inmediata
 
     this.activePopup = popup;
   }
 
   /**
-   * Crea un popup de imagen para un usuario
+   * Oculta popups de otros usuarios manteniendo el actual
+   * @param {string} currentLogin - Login del usuario actual
+   */
+  hideOtherPopups(currentLogin) {
+    const popups = document.querySelectorAll(".user-image-popup");
+    popups.forEach((popup) => {
+      const popupLogin = popup.dataset.login;
+      if (popupLogin !== currentLogin) {
+        popup.classList.remove("visible");
+      }
+    });
+  }
+
+  /**
+   * Crea un popup de imagen para un usuario (sin flecha para simplicidad)
    * @param {string} login - Login del usuario
    * @returns {HTMLElement} - Elemento DOM del popup
    */
@@ -108,21 +193,36 @@ export class UserImageService {
     const popup = document.createElement("div");
     popup.className = "user-image-popup";
     popup.dataset.login = login;
-
-    // Añadir flecha
-    const arrow = document.createElement("div");
-    arrow.className = "popup-arrow";
-    popup.appendChild(arrow);
+    // Tamaño del popup más compacto
+    popup.style.width = "120px";
+    popup.style.height = "160px";
+    popup.style.padding = "2px";
+    popup.style.margin = "0";
+    popup.style.backgroundColor = "white";
+    popup.style.border = "1px solid #ddd";
+    popup.style.borderRadius = "8px";
+    popup.style.boxShadow = "0 4px 12px rgba(0,0,0,0.15)";
+    popup.style.position = "absolute";
+    popup.style.zIndex = "1000";
 
     // Añadir contenedor de imagen
     const imageContainer = document.createElement("div");
     imageContainer.className = "user-image-container";
+    imageContainer.style.width = "100%";
+    imageContainer.style.height = "100%";
+    imageContainer.style.padding = "0";
+    imageContainer.style.margin = "0";
 
     // Añadir imagen
     const image = document.createElement("img");
     image.className = "user-image";
     image.src = getUserPhotoUrl(login);
     image.alt = `Foto de ${login}`;
+    image.style.width = "100%";
+    image.style.height = "100%";
+    image.style.objectFit = "cover";
+    image.style.borderRadius = "6px";
+    image.style.display = "block";
 
     // Manejar error de carga de imagen
     image.onerror = () => {
@@ -140,56 +240,40 @@ export class UserImageService {
   }
 
   /**
-   * Posiciona un popup en relación a una celda
+   * Posiciona un popup más cerca del login (sin flecha)
    * @param {HTMLElement} popup - Elemento del popup
    * @param {HTMLElement} loginCell - Celda de login
    */
   positionPopup(popup, loginCell) {
     const cellRect = loginCell.getBoundingClientRect();
+    const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
 
     // Temporalmente hacemos el popup visible pero oculto para medir sus dimensiones
     popup.style.opacity = "0";
     popup.style.display = "block";
     popup.style.visibility = "hidden";
-    popup.style.top = "0";
+    popup.style.left = "0";
+    const popupWidth = popup.offsetWidth;
     const popupHeight = popup.offsetHeight;
 
-    // Calcular espacio disponible arriba y abajo
-    const spaceBelow = windowHeight - cellRect.bottom;
-    const spaceAbove = cellRect.top;
+    // Calcular espacio disponible a la izquierda y derecha
+    const spaceLeft = cellRect.left;
+    const spaceRight = windowWidth - cellRect.right;
 
-    // Obtener la flecha del popup
-    const arrow = popup.querySelector(".popup-arrow");
+    // Posicionar verticalmente centrado con la celda
+    const cellCenterY = cellRect.top + cellRect.height / 2;
+    popup.style.top = `${cellCenterY - popupHeight / 2 + window.scrollY}px`;
 
-    // Posicionar horizontalmente centrado con la celda
-    popup.style.left = `${cellRect.left + cellRect.width / 2}px`;
-
-    // Decidir si el popup va arriba o abajo basado en el espacio disponible
-    if (spaceBelow >= popupHeight || spaceBelow >= spaceAbove) {
-      // Posicionar abajo si hay suficiente espacio o más que arriba
-      popup.style.top = `${cellRect.bottom + window.scrollY + 10}px`;
-      popup.style.bottom = "auto";
-
-      // Configurar flecha para apuntar hacia arriba
-      if (arrow) {
-        arrow.style.top = "-8px";
-        arrow.style.bottom = "auto";
-        arrow.style.borderTop = "none";
-        arrow.style.borderBottom = "8px solid var(--popup-bg, white)";
-      }
+    // Decidir si el popup va a la izquierda o derecha (más cerca)
+    if (spaceLeft >= popupWidth || spaceLeft >= spaceRight) {
+      // Posicionar a la izquierda (más cerca)
+      popup.style.left = `${cellRect.left - popupWidth - 5}px`;
+      popup.style.right = "auto";
     } else {
-      // Posicionar arriba si hay más espacio que abajo
-      popup.style.bottom = `${window.innerHeight - cellRect.top + 10}px`;
-      popup.style.top = "auto";
-
-      // Configurar flecha para apuntar hacia abajo
-      if (arrow) {
-        arrow.style.bottom = "-8px";
-        arrow.style.top = "auto";
-        arrow.style.borderBottom = "none";
-        arrow.style.borderTop = "8px solid var(--popup-bg, white)";
-      }
+      // Posicionar a la derecha (más cerca)
+      popup.style.left = `${cellRect.right + 5}px`;
+      popup.style.right = "auto";
     }
 
     // Restaurar visibilidad
@@ -202,8 +286,8 @@ export class UserImageService {
       const popupRect = popup.getBoundingClientRect();
 
       // Ajustar si se sale por la derecha
-      if (popupRect.right > window.innerWidth) {
-        popup.style.left = `${window.innerWidth - popupRect.width - 10}px`;
+      if (popupRect.right > windowWidth) {
+        popup.style.left = `${windowWidth - popupRect.width - 10}px`;
       }
 
       // Ajustar si se sale por la izquierda
@@ -213,14 +297,14 @@ export class UserImageService {
 
       // Ajustar si se sale por arriba
       if (popupRect.top < 0) {
-        popup.style.top = "10px";
-        popup.style.bottom = "auto";
+        popup.style.top = `${10 + window.scrollY}px`;
       }
 
       // Ajustar si se sale por abajo
       if (popupRect.bottom > windowHeight) {
-        popup.style.bottom = "10px";
-        popup.style.top = "auto";
+        popup.style.top = `${
+          windowHeight - popupRect.height - 10 + window.scrollY
+        }px`;
       }
     }, 0);
   }
@@ -229,10 +313,14 @@ export class UserImageService {
    * Oculta todos los popups de imágenes de usuario
    */
   hideAllPopups() {
+    this.cancelHidePopup();
+    this.cancelShowPopup();
     const popups = document.querySelectorAll(".user-image-popup");
     popups.forEach((popup) => {
       popup.classList.remove("visible");
     });
     this.activePopup = null;
+    this.currentLogin = null;
+    this.currentCell = null; // Limpiar referencia de celda
   }
 }
