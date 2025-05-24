@@ -40,6 +40,9 @@ export class EstadisticasController {
       // Configurar eventos
       this.setupEventListeners();
 
+      // Configurar redimensionado automático
+      this.setupResponsiveCharts();
+
       // Cargar datos iniciales
       await this.loadInitialData();
 
@@ -89,8 +92,8 @@ export class EstadisticasController {
 
     // Botones de toggle de gráficos
     document.querySelectorAll(".chart-toggle").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        this.toggleChartType(e.target);
+      btn.addEventListener("click", async (e) => {
+        await this.toggleChartType(e.target);
       });
     });
 
@@ -324,7 +327,7 @@ export class EstadisticasController {
 
     const chartData = this.data.trendData || [];
 
-    const chart = this.chartManager.createLineChart(container, {
+    const chart = await this.chartManager.createLineChart(container, {
       labels: chartData.map((item) => item.date),
       datasets: [
         {
@@ -348,7 +351,9 @@ export class EstadisticasController {
       ],
     });
 
-    this.charts.set(chartId, chart);
+    if (chart) {
+      this.charts.set(chartId, chart);
+    }
   }
 
   /**
@@ -365,7 +370,7 @@ export class EstadisticasController {
 
     const current = this.data.current;
 
-    const chart = this.chartManager.createDoughnutChart(container, {
+    const chart = await this.chartManager.createDoughnutChart(container, {
       labels: ["Pendientes", "Resueltos"],
       datasets: [
         {
@@ -375,7 +380,9 @@ export class EstadisticasController {
       ],
     });
 
-    this.charts.set(chartId, chart);
+    if (chart) {
+      this.charts.set(chartId, chart);
+    }
   }
 
   /**
@@ -392,7 +399,7 @@ export class EstadisticasController {
 
     const hourlyData = this.data.hourlyData || [];
 
-    const chart = this.chartManager.createBarChart(container, {
+    const chart = await this.chartManager.createBarChart(container, {
       labels: hourlyData.map((item) => `${item.hour}:00`),
       datasets: [
         {
@@ -403,7 +410,9 @@ export class EstadisticasController {
       ],
     });
 
-    this.charts.set(chartId, chart);
+    if (chart) {
+      this.charts.set(chartId, chart);
+    }
   }
 
   /**
@@ -420,7 +429,7 @@ export class EstadisticasController {
 
     const productData = this.data.topProducts || [];
 
-    const chart = this.chartManager.createHorizontalBarChart(container, {
+    const chart = await this.chartManager.createHorizontalBarChart(container, {
       labels: productData.map((item) => item.asin),
       datasets: [
         {
@@ -431,7 +440,9 @@ export class EstadisticasController {
       ],
     });
 
-    this.charts.set(chartId, chart);
+    if (chart) {
+      this.charts.set(chartId, chart);
+    }
   }
 
   /**
@@ -712,7 +723,7 @@ export class EstadisticasController {
   /**
    * Cambia el tipo de gráfico
    */
-  toggleChartType(button) {
+  async toggleChartType(button) {
     const chartId = button.dataset.chart;
     const chartType = button.dataset.type;
 
@@ -817,29 +828,41 @@ export class EstadisticasController {
     let newChart;
     switch (chartType) {
       case "line":
-        newChart = this.chartManager.createLineChart(container, chartData);
+        newChart = await this.chartManager.createLineChart(
+          container,
+          chartData
+        );
         break;
       case "area":
-        newChart = this.chartManager.createAreaChart(container, chartData);
+        newChart = await this.chartManager.createAreaChart(
+          container,
+          chartData
+        );
         break;
       case "bar":
-        newChart = this.chartManager.createBarChart(container, chartData);
+        newChart = await this.chartManager.createBarChart(container, chartData);
         break;
       case "horizontal-bar":
-        newChart = this.chartManager.createHorizontalBarChart(
+        newChart = await this.chartManager.createHorizontalBarChart(
           container,
           chartData
         );
         break;
       case "pie":
-        newChart = this.chartManager.createPieChart(container, chartData);
+        newChart = await this.chartManager.createPieChart(container, chartData);
         break;
       case "doughnut":
-        newChart = this.chartManager.createDoughnutChart(container, chartData);
+        newChart = await this.chartManager.createDoughnutChart(
+          container,
+          chartData
+        );
         break;
       default:
         console.warn(`Tipo de gráfico no soportado: ${chartType}`);
-        newChart = this.chartManager.createLineChart(container, chartData);
+        newChart = await this.chartManager.createLineChart(
+          container,
+          chartData
+        );
     }
 
     // Registrar el nuevo gráfico
@@ -889,6 +912,42 @@ export class EstadisticasController {
     console.error("❌", message);
     // Implementar toast o modal de error según diseño
     alert(message); // Temporal
+  }
+
+  /**
+   * Configura el redimensionado automático de gráficos
+   */
+  setupResponsiveCharts() {
+    // Configurar redimensionado automático
+    this.chartManager.setupResponsiveCharts();
+
+    // Redimensionar cuando el contenedor cambie de tamaño
+    const resizeObserver = new ResizeObserver((entries) => {
+      entries.forEach(() => {
+        // Redimensionar todos los gráficos con un pequeño delay
+        setTimeout(() => {
+          this.charts.forEach((chart) => {
+            if (chart) {
+              this.chartManager.resizeChart(chart);
+            }
+          });
+        }, 100);
+      });
+    });
+
+    // Observar el contenedor principal
+    const container = document.querySelector(".estadisticas-container");
+    if (container) {
+      resizeObserver.observe(container);
+    }
+
+    // También observar los contenedores individuales de gráficos
+    const chartContainers = document.querySelectorAll(".chart-wrapper");
+    chartContainers.forEach((container) => {
+      resizeObserver.observe(container);
+    });
+
+    console.log("📐 Sistema de redimensionado automático configurado");
   }
 }
 

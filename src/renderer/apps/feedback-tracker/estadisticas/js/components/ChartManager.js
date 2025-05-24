@@ -75,14 +75,90 @@ export class ChartManager {
   }
 
   /**
-   * Valida si ECharts está disponible
+   * Valida si ECharts está disponible y lo carga si es necesario
    */
-  validateECharts() {
-    if (typeof echarts === "undefined") {
-      console.error("❌ ECharts no está disponible");
+  async validateECharts() {
+    // Si ya está disponible, return true
+    if (typeof echarts !== "undefined") {
+      return true;
+    }
+
+    console.log("🔄 ECharts no disponible, intentando cargar...");
+
+    // Intentar cargar ECharts dinámicamente
+    try {
+      await this.loadECharts();
+      return typeof echarts !== "undefined";
+    } catch (error) {
+      console.error("❌ Error cargando ECharts:", error);
       return false;
     }
-    return true;
+  }
+
+  /**
+   * Carga ECharts dinámicamente
+   */
+  async loadECharts() {
+    return new Promise((resolve, reject) => {
+      // Verificar si ya se está cargando
+      if (window.echartsLoading) {
+        // Esperar a que termine de cargar
+        const checkInterval = setInterval(() => {
+          if (typeof echarts !== "undefined") {
+            clearInterval(checkInterval);
+            resolve();
+          } else if (!window.echartsLoading) {
+            clearInterval(checkInterval);
+            reject(new Error("ECharts falló al cargar"));
+          }
+        }, 100);
+        return;
+      }
+
+      // Verificar si el script ya existe
+      const existingScript = document.querySelector('script[src*="echarts"]');
+      if (existingScript) {
+        console.log("🔍 Script de ECharts ya existe, esperando carga...");
+
+        // Esperar a que el script existente termine de cargar
+        const checkInterval = setInterval(() => {
+          if (typeof echarts !== "undefined") {
+            clearInterval(checkInterval);
+            resolve();
+          }
+        }, 100);
+
+        // Timeout después de 10 segundos
+        setTimeout(() => {
+          clearInterval(checkInterval);
+          if (typeof echarts === "undefined") {
+            reject(new Error("Timeout esperando ECharts"));
+          }
+        }, 10000);
+        return;
+      }
+
+      // Marcar como cargando
+      window.echartsLoading = true;
+
+      // Crear y agregar script
+      const script = document.createElement("script");
+      script.src = "https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js";
+      script.async = true;
+
+      script.onload = () => {
+        window.echartsLoading = false;
+        console.log("✅ ECharts cargado dinámicamente");
+        resolve();
+      };
+
+      script.onerror = () => {
+        window.echartsLoading = false;
+        reject(new Error("Error cargando ECharts desde CDN"));
+      };
+
+      document.head.appendChild(script);
+    });
   }
 
   /**
@@ -91,8 +167,12 @@ export class ChartManager {
    * @param {Object} data - Datos del gráfico
    * @param {Object} customOptions - Opciones personalizadas
    */
-  createLineChart(container, data, customOptions = {}) {
-    if (!this.validateECharts()) return null;
+  async createLineChart(container, data, customOptions = {}) {
+    const isEChartsAvailable = await this.validateECharts();
+    if (!isEChartsAvailable) {
+      console.error("❌ No se pudo cargar ECharts");
+      return null;
+    }
 
     const chart = echarts.init(container);
 
@@ -164,8 +244,12 @@ export class ChartManager {
    * @param {Object} data - Datos del gráfico
    * @param {Object} customOptions - Opciones personalizadas
    */
-  createBarChart(container, data, customOptions = {}) {
-    if (!this.validateECharts()) return null;
+  async createBarChart(container, data, customOptions = {}) {
+    const isEChartsAvailable = await this.validateECharts();
+    if (!isEChartsAvailable) {
+      console.error("❌ No se pudo cargar ECharts");
+      return null;
+    }
 
     const chart = echarts.init(container);
 
@@ -225,8 +309,12 @@ export class ChartManager {
    * @param {Object} data - Datos del gráfico
    * @param {Object} customOptions - Opciones personalizadas
    */
-  createHorizontalBarChart(container, data, customOptions = {}) {
-    if (!this.validateECharts()) return null;
+  async createHorizontalBarChart(container, data, customOptions = {}) {
+    const isEChartsAvailable = await this.validateECharts();
+    if (!isEChartsAvailable) {
+      console.error("❌ No se pudo cargar ECharts");
+      return null;
+    }
 
     const chart = echarts.init(container);
 
@@ -293,8 +381,12 @@ export class ChartManager {
    * @param {Object} data - Datos del gráfico
    * @param {Object} customOptions - Opciones personalizadas
    */
-  createPieChart(container, data, customOptions = {}) {
-    if (!this.validateECharts()) return null;
+  async createPieChart(container, data, customOptions = {}) {
+    const isEChartsAvailable = await this.validateECharts();
+    if (!isEChartsAvailable) {
+      console.error("❌ No se pudo cargar ECharts");
+      return null;
+    }
 
     const chart = echarts.init(container);
 
@@ -362,7 +454,13 @@ export class ChartManager {
    * @param {Object} data - Datos del gráfico
    * @param {Object} customOptions - Opciones personalizadas
    */
-  createDoughnutChart(container, data, customOptions = {}) {
+  async createDoughnutChart(container, data, customOptions = {}) {
+    const isEChartsAvailable = await this.validateECharts();
+    if (!isEChartsAvailable) {
+      console.error("❌ No se pudo cargar ECharts");
+      return null;
+    }
+
     return this.createPieChart(container, data, {
       ...customOptions,
       doughnut: true,
@@ -375,7 +473,13 @@ export class ChartManager {
    * @param {Object} data - Datos del gráfico
    * @param {Object} customOptions - Opciones personalizadas
    */
-  createAreaChart(container, data, customOptions = {}) {
+  async createAreaChart(container, data, customOptions = {}) {
+    const isEChartsAvailable = await this.validateECharts();
+    if (!isEChartsAvailable) {
+      console.error("❌ No se pudo cargar ECharts");
+      return null;
+    }
+
     const areaData = {
       ...data,
       datasets: data.datasets.map((dataset) => ({

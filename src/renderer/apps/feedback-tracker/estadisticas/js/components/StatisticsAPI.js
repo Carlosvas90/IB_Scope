@@ -9,7 +9,86 @@ export class StatisticsAPI {
     this.apiBaseUrl = "/api/statistics"; // URL base de la API
     this.cache = new Map();
     this.cacheTimeout = 5 * 60 * 1000; // 5 minutos de cache
+    this.config = null;
+    this.dataPaths = [];
     console.log("🔌 StatisticsAPI inicializado");
+  }
+
+  /**
+   * Carga la configuración desde config.json
+   * @returns {Promise<Object>} - Configuración cargada
+   */
+  async loadConfig() {
+    if (this.config) return this.config;
+
+    try {
+      // Intentar cargar config desde la ruta relativa
+      const response = await fetch("../../../../config/config.json");
+      if (!response.ok) {
+        throw new Error(`Error cargando config: ${response.status}`);
+      }
+
+      this.config = await response.json();
+      this.dataPaths = this.config.data_paths || [];
+      console.log("📋 Configuración cargada:", this.dataPaths);
+      return this.config;
+    } catch (error) {
+      console.error("❌ Error cargando configuración:", error);
+      // Fallback a paths por defecto
+      this.dataPaths = [
+        "\\\\ant\\dept-eu\\VLC1\\Public\\Apps_Tools\\chuecc\\IB_Scope\\Data\\",
+        "C:\\Users\\carlo\\Downloads\\0-Proyecto_IB_Scope\\Analisis\\Data\\",
+      ];
+      return null;
+    }
+  }
+
+  /**
+   * Intenta cargar un archivo desde los data paths configurados
+   * @param {string} fileName - Nombre del archivo
+   * @returns {Promise<Object>} - Datos del archivo
+   */
+  async loadFromDataPaths(fileName) {
+    await this.loadConfig();
+
+    // Si estamos en desarrollo, intentar cargar desde la raíz del proyecto
+    if (
+      window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1"
+    ) {
+      try {
+        const response = await fetch(`/${fileName}`);
+        if (response.ok) {
+          console.log(`📁 Archivo ${fileName} cargado desde desarrollo`);
+          return await response.json();
+        }
+      } catch (error) {
+        console.log(`⚠️ No se pudo cargar ${fileName} desde desarrollo`);
+      }
+    }
+
+    // Intentar cargar desde los data paths configurados
+    for (const path of this.dataPaths) {
+      try {
+        const fullPath =
+          path.endsWith("\\") || path.endsWith("/")
+            ? `${path}${fileName}`
+            : `${path}/${fileName}`;
+
+        // En entorno web, esto necesitaría ser una API call
+        // Por ahora, simular la carga desde filesystem
+        console.log(`🔍 Intentando cargar desde: ${fullPath}`);
+
+        // Aquí iría la lógica específica de Electron para leer archivos
+        // Por ahora, lanzar error para que use datos simulados
+        throw new Error(`Carga desde filesystem no implementada: ${fullPath}`);
+      } catch (error) {
+        console.log(`❌ Error cargando desde ${path}: ${error.message}`);
+        continue;
+      }
+    }
+
+    throw new Error(`No se pudo cargar ${fileName} desde ningún data path`);
   }
 
   /**
@@ -29,16 +108,16 @@ export class StatisticsAPI {
     }
 
     try {
-      // Intentar obtener datos reales de la API
+      // Intentar obtener datos reales de los archivos JSON
       const realData = await this.fetchRealData(period);
       this.setCachedData(cacheKey, realData);
       return realData;
     } catch (error) {
       console.warn(
         "⚠️ Error obteniendo datos reales, usando datos simulados:",
-        error
+        error.message
       );
-      // Si falla la API, usar datos simulados
+      // Si falla la carga de archivos, usar datos simulados
       const simulatedData = this.generateSimulatedData(period);
       this.setCachedData(cacheKey, simulatedData);
       return simulatedData;
@@ -46,31 +125,332 @@ export class StatisticsAPI {
   }
 
   /**
-   * Obtiene datos reales de la API
+   * Obtiene datos reales de los archivos JSON
    * @param {number} period - Período en días
-   * @returns {Promise<Object>} - Datos reales
+   * @returns {Promise<Object>} - Datos reales procesados
    */
   async fetchRealData(period) {
-    // Aquí se conectaría con la API real del feedback tracker
-    // Por ahora, simular error para usar datos de prueba
-    throw new Error("API real no implementada aún");
+    console.log("📂 Cargando datos reales desde archivos JSON...");
 
-    // Código futuro para API real:
-    /*
-        const response = await fetch(`${this.apiBaseUrl}?period=${period}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
+    try {
+      // Cargar ambos archivos JSON
+      const [currentData, historicalData] = await Promise.all([
+        this.loadFromDataPaths("error_tracker.json"),
+        this.loadFromDataPaths("DB_Error_Tracker.json"),
+      ]);
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+      console.log("✅ Archivos JSON cargados exitosamente");
+
+      // Procesar los datos reales
+      return this.processRealData(currentData, historicalData, period);
+    } catch (error) {
+      console.error("❌ Error cargando archivos JSON:", error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * Procesa los datos reales de los archivos JSON
+   * @param {Object} currentData - Datos de error_tracker.json
+   * @param {Object} historicalData - Datos de DB_Error_Tracker.json
+   * @param {number} period - Período en días
+   * @returns {Object} - Datos procesados para estadísticas
+   */
+  processRealData(currentData, historicalData, period) {
+    console.log("⚙️ Procesando datos reales...");
+
+    const endDate = new Date();
+    const startDate = new Date(endDate);
+    startDate.setDate(startDate.getDate() - period);
+
+    // Combinar errores de ambas fuentes
+    const allErrors = [
+      ...(currentData.errors || []),
+      ...(historicalData.errors || []),
+    ];
+
+    // Filtrar errores por período
+    const errorsInPeriod = allErrors.filter((error) => {
+      const errorDate = new Date(error.date.replace(/\//g, "-"));
+      return errorDate >= startDate && errorDate <= endDate;
+    });
+
+    // Calcular estadísticas del período actual
+    const currentStats = this.calculatePeriodStats(errorsInPeriod);
+
+    // Calcular estadísticas del período anterior para comparación
+    const previousStartDate = new Date(startDate);
+    previousStartDate.setDate(previousStartDate.getDate() - period);
+
+    const errorsInPreviousPeriod = allErrors.filter((error) => {
+      const errorDate = new Date(error.date.replace(/\//g, "-"));
+      return errorDate >= previousStartDate && errorDate < startDate;
+    });
+
+    const previousStats = this.calculatePeriodStats(errorsInPreviousPeriod);
+
+    // Generar datos de tendencias
+    const trendData = this.generateTrendDataFromReal(
+      errorsInPeriod,
+      period,
+      endDate
+    );
+
+    // Generar datos por hora
+    const hourlyData = this.generateHourlyDataFromReal(errorsInPeriod);
+
+    // Generar top productos
+    const topProducts = this.generateTopProductsFromReal(errorsInPeriod);
+
+    // Generar ranking de usuarios
+    const usersRanking = this.generateUsersRankingFromReal(errorsInPeriod);
+
+    // Generar análisis de productos
+    const productsAnalysis =
+      this.generateProductsAnalysisFromReal(errorsInPeriod);
+
+    return {
+      period,
+      startDate: startDate.toISOString(),
+      endDate: endDate.toISOString(),
+      current: currentStats,
+      previous: previousStats,
+      trendData,
+      hourlyData,
+      topProducts,
+      usersRanking,
+      productsAnalysis,
+      generatedAt: new Date().toISOString(),
+      dataSource: "real",
+    };
+  }
+
+  /**
+   * Calcula estadísticas para un conjunto de errores
+   * @param {Array} errors - Array de errores
+   * @returns {Object} - Estadísticas calculadas
+   */
+  calculatePeriodStats(errors) {
+    const totalErrors = errors.length;
+    const resolvedErrors = errors.filter((e) => e.status === "done").length;
+    const pendingErrors = totalErrors - resolvedErrors;
+
+    // Calcular tiempo promedio de resolución
+    const resolvedWithTimes = errors.filter(
+      (e) => e.status === "done" && e.feedback_date && e.date
+    );
+
+    let avgResolutionTime = 0;
+    if (resolvedWithTimes.length > 0) {
+      const totalResolutionTime = resolvedWithTimes.reduce((sum, error) => {
+        const startDate = new Date(error.date.replace(/\//g, "-"));
+        const endDate = new Date(error.feedback_date.replace(/\//g, "-"));
+        const diffMinutes = (endDate - startDate) / (1000 * 60);
+        return sum + Math.max(diffMinutes, 0);
+      }, 0);
+
+      avgResolutionTime = totalResolutionTime / resolvedWithTimes.length;
+    }
+
+    // Errores críticos (priority high o quantity > 10)
+    const criticalErrors = errors.filter(
+      (e) => e.priority === "high" || (e.quantity && e.quantity > 10)
+    ).length;
+
+    // Usuarios únicos
+    const assignedUsers = new Set(errors.map((e) => e.user_id)).size;
+
+    // Errores de hoy
+    const today = new Date().toISOString().split("T")[0];
+    const todayFormatted = today.replace(/-/g, "/");
+    const newErrorsToday = errors.filter(
+      (e) => e.date === todayFormatted
+    ).length;
+
+    return {
+      totalErrors,
+      resolvedErrors,
+      pendingErrors,
+      avgResolutionTime,
+      newErrorsToday,
+      criticalErrors,
+      assignedUsers,
+    };
+  }
+
+  /**
+   * Genera datos de tendencias desde datos reales
+   * @param {Array} errors - Errores del período
+   * @param {number} period - Período en días
+   * @param {Date} endDate - Fecha final
+   * @returns {Array} - Datos de tendencias
+   */
+  generateTrendDataFromReal(errors, period, endDate) {
+    const trendData = [];
+
+    for (let i = period - 1; i >= 0; i--) {
+      const date = new Date(endDate);
+      date.setDate(date.getDate() - i);
+      const dateString = date
+        .toLocaleDateString("es-ES", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        })
+        .replace(/\//g, "/");
+
+      const dayErrors = errors.filter((e) => e.date === dateString);
+      const total = dayErrors.length;
+      const resolved = dayErrors.filter((e) => e.status === "done").length;
+      const pending = total - resolved;
+
+      trendData.push({
+        date: date.toLocaleDateString("es-ES", {
+          month: "short",
+          day: "numeric",
+        }),
+        total,
+        resolved,
+        pending,
+      });
+    }
+
+    return trendData;
+  }
+
+  /**
+   * Genera datos por hora desde datos reales
+   * @param {Array} errors - Errores del período
+   * @returns {Array} - Datos por hora
+   */
+  generateHourlyDataFromReal(errors) {
+    const hourlyCount = new Array(24).fill(0);
+
+    errors.forEach((error) => {
+      if (error.time) {
+        const hour = parseInt(error.time.split(":")[0]);
+        if (hour >= 0 && hour < 24) {
+          hourlyCount[hour]++;
         }
+      }
+    });
 
-        const data = await response.json();
-        return this.processRealData(data);
-        */
+    return hourlyCount.map((count, hour) => ({
+      hour,
+      count,
+    }));
+  }
+
+  /**
+   * Genera top productos desde datos reales
+   * @param {Array} errors - Errores del período
+   * @returns {Array} - Top productos
+   */
+  generateTopProductsFromReal(errors) {
+    const productCount = {};
+
+    errors.forEach((error) => {
+      if (error.asin) {
+        productCount[error.asin] =
+          (productCount[error.asin] || 0) + (error.quantity || 1);
+      }
+    });
+
+    return Object.entries(productCount)
+      .sort(([, a], [, b]) => b - a)
+      .slice(0, 10)
+      .map(([asin, count]) => ({ asin, count }));
+  }
+
+  /**
+   * Genera ranking de usuarios desde datos reales
+   * @param {Array} errors - Errores del período
+   * @returns {Array} - Ranking de usuarios
+   */
+  generateUsersRankingFromReal(errors) {
+    const userStats = {};
+
+    errors.forEach((error) => {
+      if (!userStats[error.user_id]) {
+        userStats[error.user_id] = {
+          username: error.user_id,
+          totalErrors: 0,
+          resolvedErrors: 0,
+          resolutionTimes: [],
+        };
+      }
+
+      const user = userStats[error.user_id];
+      user.totalErrors++;
+
+      if (error.status === "done") {
+        user.resolvedErrors++;
+
+        if (error.feedback_date && error.date) {
+          const startDate = new Date(error.date.replace(/\//g, "-"));
+          const endDate = new Date(error.feedback_date.replace(/\//g, "-"));
+          const diffMinutes = (endDate - startDate) / (1000 * 60);
+          if (diffMinutes > 0) {
+            user.resolutionTimes.push(diffMinutes);
+          }
+        }
+      }
+    });
+
+    return Object.values(userStats)
+      .map((user) => ({
+        ...user,
+        resolutionRate:
+          user.totalErrors > 0
+            ? Math.round((user.resolvedErrors / user.totalErrors) * 100)
+            : 0,
+        avgResolutionTime:
+          user.resolutionTimes.length > 0
+            ? user.resolutionTimes.reduce((a, b) => a + b, 0) /
+              user.resolutionTimes.length
+            : 0,
+      }))
+      .sort((a, b) => b.totalErrors - a.totalErrors)
+      .slice(0, 10);
+  }
+
+  /**
+   * Genera análisis de productos desde datos reales
+   * @param {Array} errors - Errores del período
+   * @returns {Array} - Análisis de productos
+   */
+  generateProductsAnalysisFromReal(errors) {
+    const productStats = {};
+
+    errors.forEach((error) => {
+      if (!productStats[error.asin]) {
+        productStats[error.asin] = {
+          asin: error.asin,
+          totalErrors: 0,
+          uniqueErrors: new Set(),
+          frequency: 0,
+        };
+      }
+
+      const product = productStats[error.asin];
+      product.totalErrors++;
+      product.frequency += error.quantity || 1;
+      product.uniqueErrors.add(error.id);
+    });
+
+    return Object.values(productStats)
+      .map((product) => ({
+        ...product,
+        uniqueErrors: product.uniqueErrors.size,
+        status:
+          product.frequency > 50
+            ? "critical"
+            : product.frequency > 20
+            ? "warning"
+            : "normal",
+      }))
+      .sort((a, b) => b.frequency - a.frequency)
+      .slice(0, 10);
   }
 
   /**
@@ -412,18 +792,6 @@ export class StatisticsAPI {
   clearCache() {
     this.cache.clear();
     console.log("🗑️ Cache de estadísticas limpiado");
-  }
-
-  /**
-   * Procesa datos reales de la API (para uso futuro)
-   * @param {Object} rawData - Datos crudos de la API
-   * @returns {Object} - Datos procesados
-   */
-  processRealData(rawData) {
-    // Aquí se procesarían los datos reales de la API
-    // Normalizar formato, calcular métricas derivadas, etc.
-    console.log("🔄 Procesando datos reales de la API");
-    return rawData;
   }
 
   /**
