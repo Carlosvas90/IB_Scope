@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Estadísticas de Errores - Feedback Tracker</title>
+
+    <!-- Chart.js para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/date-fns@2.29.3/index.min.js"></script>
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="../css/estadisticas.css" />
+
+    <!-- ECharts Library -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+  </head>
+  <body>
+    <div class="estadisticas-container">
+      <!-- Header -->
+      <header class="estadisticas-header">
+        <h1>
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"
+              fill="currentColor"
+            />
+          </svg>
+          Estadísticas de Errores
+        </h1>
+        <div class="header-controls">
+          <div class="date-range-selector">
+            <label for="date-range">Período:</label>
+            <select id="date-range">
+              <option value="7">Últimos 7 días</option>
+              <option value="30" selected>Últimos 30 días</option>
+              <option value="90">Últimos 90 días</option>
+              <option value="365">Último año</option>
+              <option value="custom">Personalizado</option>
+            </select>
+          </div>
+          <button class="btn-refresh" id="refresh-stats">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
+                fill="currentColor"
+              />
+            </svg>
+            Actualizar
+          </button>
+          <button class="btn-export" id="export-report">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"
+                fill="currentColor"
+              />
+            </svg>
+            Exportar
+          </button>
+        </div>
+      </header>
+
+      <!-- KPI Cards -->
+      <section class="kpi-grid">
+        <div class="kpi-card total-errors">
+          <div class="kpi-icon">
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                fill="currentColor"
+              />
+            </svg>
+          </div>
+          <div class="kpi-content">
+            <h3>Total de Errores</h3>
+            <div class="kpi-value" id="total-errors-kpi">-</div>
+            <div class="kpi-trend neutral" id="total-errors-trend">
+              Cargando...
+            </div>
+          </div>
+        </div>
+
+        <div class="kpi-card pending-errors">
+          <div class="kpi-icon">
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,7H13V13H11V7M11,15H13V17H11V15Z"
+                fill="currentColor"
+              />
+            </svg>
+          </div>
+          <div class="kpi-content">
+            <h3>Errores Pendientes</h3>
+            <div class="kpi-value" id="pending-errors-kpi">-</div>
+            <div class="kpi-trend neutral" id="pending-errors-trend">
+              Cargando...
+            </div>
+          </div>
+        </div>
+
+        <div class="kpi-card resolved-errors">
+          <div class="kpi-icon">
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z"
+                fill="currentColor"
+              />
+            </svg>
+          </div>
+          <div class="kpi-content">
+            <h3>Errores Resueltos</h3>
+            <div class="kpi-value" id="resolved-errors-kpi">-</div>
+            <div class="kpi-trend neutral" id="resolved-errors-trend">
+              Cargando...
+            </div>
+          </div>
+        </div>
+
+        <div class="kpi-card resolution-rate">
+          <div class="kpi-icon">
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M12,6A6,6 0 0,1 18,12H16A4,4 0 0,0 12,8V6Z"
+                fill="currentColor"
+              />
+            </svg>
+          </div>
+          <div class="kpi-content">
+            <h3>Tasa de Resolución</h3>
+            <div class="kpi-value" id="resolution-rate-kpi">-</div>
+            <div class="kpi-trend neutral" id="resolution-rate-trend">
+              Cargando...
+            </div>
+          </div>
+        </div>
+
+        <div class="kpi-card avg-resolution-time">
+          <div class="kpi-icon">
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C6.47,22 2,17.5 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z"
+                fill="currentColor"
+              />
+            </svg>
+          </div>
+          <div class="kpi-content">
+            <h3>Tiempo Promedio</h3>
+            <div class="kpi-value" id="avg-resolution-time-kpi">-</div>
+            <div class="kpi-trend neutral" id="avg-resolution-time-trend">
+              Cargando...
+            </div>
+          </div>
+        </div>
+
+        <div class="kpi-card daily-avg">
+          <div class="kpi-icon">
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M3,3V21H21V3H3M9,17H7V10H9V17M13,17H11V7H13V17M17,17H15V13H17V17Z"
+                fill="currentColor"
+              />
+            </svg>
+          </div>
+          <div class="kpi-content">
+            <h3>Promedio Diario</h3>
+            <div class="kpi-value" id="daily-avg-kpi">-</div>
+            <div class="kpi-trend neutral" id="daily-avg-trend">
+              Cargando...
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Charts Section -->
+      <section class="charts-section">
+        <!-- Tendencias temporales -->
+        <div class="chart-container">
+          <div class="chart-header">
+            <h3>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M16,6L18.29,8.29L13.41,13.17L9.41,9.17L2,16.59L3.41,18L9.41,12L13.41,16L19.71,9.71L22,12V6H16Z"
+                  fill="currentColor"
+                />
+              </svg>
+              Tendencias de Errores
+            </h3>
+            <div class="chart-controls">
+              <button
+                class="chart-toggle active"
+                data-chart="errors-trend"
+                data-type="line"
+              >
+                Líneas
+              </button>
+              <button
+                class="chart-toggle"
+                data-chart="errors-trend"
+                data-type="area"
+              >
+                Área
+              </button>
+              <button
+                class="chart-toggle"
+                data-chart="errors-trend"
+                data-type="bar"
+              >
+                Barras
+              </button>
+            </div>
+          </div>
+          <div class="chart-wrapper">
+            <div
+              id="errors-trend-chart"
+              style="width: 100%; height: 100%"
+            ></div>
+          </div>
+        </div>
+
+        <!-- Distribución por estado -->
+        <div class="chart-container">
+          <div class="chart-header">
+            <h3>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M11,2V22C5.9,21.5 2,17.2 2,12C2,6.8 5.9,2.5 11,2M13,2V11H22C22,6.8 18.1,2.5 13,2M13,13V22C18.1,21.5 22,17.2 22,12H13Z"
+                  fill="currentColor"
+                />
+              </svg>
+              Distribución por Estado
+            </h3>
+            <div class="chart-controls">
+              <button
+                class="chart-toggle active"
+                data-chart="status-distribution"
+                data-type="pie"
+              >
+                Pastel
+              </button>
+              <button
+                class="chart-toggle"
+                data-chart="status-distribution"
+                data-type="doughnut"
+              >
+                Dona
+              </button>
+            </div>
+          </div>
+          <div class="chart-wrapper">
+            <div
+              id="status-distribution-chart"
+              style="width: 100%; height: 100%"
+            ></div>
+          </div>
+        </div>
+
+        <!-- Errores por hora del día -->
+        <div class="chart-container">
+          <div class="chart-header">
+            <h3>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C6.47,22 2,17.5 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z"
+                  fill="currentColor"
+                />
+              </svg>
+              Errores por Hora del Día
+            </h3>
+            <div class="chart-controls">
+              <button
+                class="chart-toggle active"
+                data-chart="hourly-errors"
+                data-type="bar"
+              >
+                Barras
+              </button>
+              <button
+                class="chart-toggle"
+                data-chart="hourly-errors"
+                data-type="line"
+              >
+                Líneas
+              </button>
+            </div>
+          </div>
+          <div class="chart-wrapper">
+            <div
+              id="hourly-errors-chart"
+              style="width: 100%; height: 100%"
+            ></div>
+          </div>
+        </div>
+
+        <!-- Top 10 productos con más errores -->
+        <div class="chart-container">
+          <div class="chart-header">
+            <h3>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M5,4H19A2,2 0 0,1 21,6V18A2,2 0 0,1 19,20H5A2,2 0 0,1 3,18V6A2,2 0 0,1 5,4M5,8V12H11V8H5M13,8V12H19V8H13M5,14V18H11V14H5M13,14V18H19V14H13Z"
+                  fill="currentColor"
+                />
+              </svg>
+              Top Productos con Errores
+            </h3>
+            <div class="chart-controls">
+              <button
+                class="chart-toggle active"
+                data-chart="top-products"
+                data-type="horizontal-bar"
+              >
+                Horizontal
+              </button>
+              <button
+                class="chart-toggle"
+                data-chart="top-products"
+                data-type="bar"
+              >
+                Vertical
+              </button>
+            </div>
+          </div>
+          <div class="chart-wrapper">
+            <div
+              id="top-products-chart"
+              style="width: 100%; height: 100%"
+            ></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tables Section -->
+      <section class="tables-section">
+        <!-- Ranking de usuarios -->
+        <div class="table-container">
+          <div class="table-header">
+            <h3>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"
+                  fill="currentColor"
+                />
+              </svg>
+              Ranking de Usuarios
+            </h3>
+            <button class="btn-toggle-table">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M19,5V7H5V5H19M5,19V9H19V19H5Z"
+                  fill="currentColor"
+                />
+              </svg>
+              Ver Todo
+            </button>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Posición</th>
+                  <th>Usuario</th>
+                  <th>Total Errores</th>
+                  <th>Resueltos</th>
+                  <th>Tasa Resolución</th>
+                  <th>Tiempo Promedio</th>
+                </tr>
+              </thead>
+              <tbody id="users-ranking-body">
+                <tr>
+                  <td colspan="6" class="loading">Cargando datos...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Análisis de productos -->
+        <div class="table-container">
+          <div class="table-header">
+            <h3>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M4,6H20V16H4M20,18A2,2 0 0,0 22,16V6C22,4.89 21.1,4 20,4H4C2.89,4 2,4.89 2,6V16A2,2 0 0,0 4,18H0V20H24V18H20Z"
+                  fill="currentColor"
+                />
+              </svg>
+              Análisis de Productos (ASINs)
+            </h3>
+            <button class="btn-toggle-table">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M19,5V7H5V5H19M5,19V9H19V19H5Z"
+                  fill="currentColor"
+                />
+              </svg>
+              Ver Todo
+            </button>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Ranking</th>
+                  <th>ASIN</th>
+                  <th>Total Errores</th>
+                  <th>Errores Únicos</th>
+                  <th>Frecuencia</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody id="products-analysis-body">
+                <tr>
+                  <td colspan="6" class="loading">Cargando datos...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Summary Section -->
+      <section class="summary-section">
+        <!-- Resumen del Período -->
+        <div class="summary-card">
+          <h3>
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M14,17H7V15H14M17,13H7V11H17M17,9H7V7H17M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3Z"
+                fill="currentColor"
+              />
+            </svg>
+            Resumen del Período
+          </h3>
+          <div class="summary-content" id="period-summary">
+            <p>Cargando resumen del período...</p>
+          </div>
+        </div>
+
+        <!-- Insights Automáticos -->
+        <div class="summary-card">
+          <h3>
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12,2A2,2 0 0,1 14,4C14,4.74 13.6,5.39 13,5.73V7H14A7,7 0 0,1 21,14H22A1,1 0 0,1 23,15V18A1,1 0 0,1 22,19H21V20A2,2 0 0,1 19,22H5A2,2 0 0,1 3,20V19H2A1,1 0 0,1 1,18V15A1,1 0 0,1 2,14H3A7,7 0 0,1 10,7H11V5.73C10.4,5.39 10,4.74 10,4A2,2 0 0,1 12,2M7.5,13A2.5,2.5 0 0,0 5,15.5A2.5,2.5 0 0,0 7.5,18A2.5,2.5 0 0,0 10,15.5A2.5,2.5 0 0,0 7.5,13M16.5,13A2.5,2.5 0 0,0 14,15.5A2.5,2.5 0 0,0 16.5,18A2.5,2.5 0 0,0 19,15.5A2.5,2.5 0 0,0 16.5,13Z"
+                fill="currentColor"
+              />
+            </svg>
+            Insights Automáticos
+          </h3>
+          <div class="insights-content" id="insights-content">
+            <p>Analizando datos para generar insights...</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+      <div class="loading-spinner"></div>
+      <p>Cargando estadísticas...</p>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="../js/estadisticas.js"></script>
+  </body>
+</html>
