@@ -17,12 +17,15 @@ class Router {
         path: "../apps/feedback-tracker/views/index.html",
         views: {
           errors: "#errors-view",
-          stats: "#stats-view",
           settings: "#settings-view",
         },
         defaultView: "errors",
         scripts: ["../apps/feedback-tracker/js/feedback-tracker.js"],
         hasSubmenu: true,
+      },
+      estadisticas: {
+        path: "../apps/feedback-tracker/estadisticas/views/estadisticas.html",
+        scripts: ["../apps/feedback-tracker/estadisticas/js/estadisticas.js"],
       },
       "activity-scope": {
         path: "../apps/activity-scope/views/activity-scope.html",
@@ -359,6 +362,8 @@ class Router {
    * Cambia a una vista específica dentro de la aplicación actual
    */
   changeView(viewName) {
+    console.log(`🔄 Cambiando a vista: ${viewName}`);
+
     // Verificar si la aplicación actual tiene la vista solicitada
     const app = this.routes[this.currentApp];
 
@@ -367,19 +372,26 @@ class Router {
       return false;
     }
 
+    console.log(`📋 Vistas disponibles:`, app.views);
+
     // Ocultar todas las vistas
     const views = document.querySelectorAll(".view");
+    console.log(`👁️ Vistas encontradas en DOM:`, views.length);
     views.forEach((view) => {
       view.classList.remove("active");
+      console.log(`🚫 Ocultando vista:`, view.id);
     });
 
     // Mostrar la vista solicitada
     const selector = app.views[viewName];
+    console.log(`🎯 Buscando vista con selector:`, selector);
     const view = document.querySelector(selector);
 
     if (view) {
       view.classList.add("active");
       this.currentView = viewName;
+
+      console.log(`✅ Vista activada exitosamente:`, view.id);
 
       // Actualizar enlace activo
       this.updateActiveLink(this.currentApp, viewName);
@@ -392,7 +404,7 @@ class Router {
 
       return true;
     } else {
-      console.error(`Elemento de vista no encontrado: ${selector}`);
+      console.error(`❌ Elemento de vista no encontrado: ${selector}`);
       return false;
     }
   }

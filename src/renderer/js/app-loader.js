@@ -27,6 +27,13 @@ class AppLoader {
           "../apps/feedback-tracker/css/table.css",
         ],
       },
+      estadisticas: {
+        name: "Estadísticas",
+        description: "Dashboard de estadísticas de errores",
+        icon: "bar-chart-2",
+        initializer: "initEstadisticas",
+        styles: ["../apps/feedback-tracker/estadisticas/css/estadisticas.css"],
+      },
       // Aquí se pueden registrar más aplicaciones en el futuro
     };
 

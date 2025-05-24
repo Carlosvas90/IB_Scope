@@ -900,3 +900,25 @@ document.addEventListener("DOMContentLoaded", () => {
   // Exportar para debug
   window.estadisticasController = controller;
 });
+
+/**
+ * Función de inicialización requerida por app-loader
+ */
+window.initEstadisticas = function () {
+  console.log("🎯 initEstadisticas llamada por app-loader");
+
+  // Si ya existe un controlador, no crear otro
+  if (window.estadisticasController) {
+    console.log("✅ Controlador de estadísticas ya existe");
+    return;
+  }
+
+  // Crear e inicializar el controlador
+  const controller = new EstadisticasController();
+  controller.init();
+
+  // Exportar para debug
+  window.estadisticasController = controller;
+
+  console.log("✅ Estadísticas inicializadas por app-loader");
+};

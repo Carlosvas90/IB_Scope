@@ -157,6 +157,20 @@ body {
   display: block;
 }
 
+/* Vista de estadísticas específica */
+#stats-view {
+  padding: 0;
+  height: 100vh;
+  background: var(--bg-main);
+}
+
+#stats-view iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
 /* Tarjetas */
 .card {
   background-color: var(--card-bg);
@@ -300,17 +314,6 @@ body {
   justify-content: flex-end;
   gap: var(--spacing-md);
   margin-top: var(--spacing-lg);
-}
-
-/* Vistas */
-.view {
-  display: none;
-  height: 100%;
-  overflow-y: auto;
-}
-
-.view.active {
-  display: block;
 }
 
 /* Responsive */

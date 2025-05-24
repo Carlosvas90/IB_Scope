@@ -576,5 +576,17 @@
 
     <!-- Scripts -->
     <script type="module" src="../js/estadisticas.js"></script>
+
+    <!-- Script para ocultar overlay inicial -->
+    <script>
+      // Ocultar overlay de carga inmediatamente al cargar la página
+      document.addEventListener("DOMContentLoaded", function () {
+        const overlay = document.getElementById("loading-overlay");
+        if (overlay) {
+          overlay.classList.remove("active");
+          console.log("🎯 Loading overlay inicialmente oculto");
+        }
+      });
+    </script>
   </body>
 </html>
