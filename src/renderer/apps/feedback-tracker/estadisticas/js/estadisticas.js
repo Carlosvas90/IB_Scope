@@ -1,28 +1,22 @@
 /**
- * EstadisticasController.js
+ * estadisticas.js
  * Controlador principal para el dashboard de estadísticas
- * Maneja KPIs, gráficos, tablas y análisis de datos
+ * Integra EstadisticasDataService, AnalyticsProcessor y ChartService
  */
 
-import { KPICard } from "./components/KPICard.js";
-import { ChartManager } from "./components/ChartManager.js";
-import { StatisticsAPI } from "./components/StatisticsAPI.js";
+import { EstadisticasDataService } from "./services/EstadisticasDataService.js";
+import { AnalyticsProcessor } from "./services/AnalyticsProcessor.js";
+import { ChartService } from "./services/ChartService.js";
 
-export class EstadisticasController {
+class EstadisticasController {
   constructor() {
-    this.currentPeriod = 30; // días por defecto
+    this.dataService = new EstadisticasDataService();
+    this.analyticsProcessor = new AnalyticsProcessor();
+    this.chartService = new ChartService();
+
+    this.currentDateRange = 30; // días por defecto
     this.isLoading = false;
-    this.data = null;
-    this.charts = new Map();
-
-    // Inicializar servicios
-    this.kpiManager = new KPICard();
-    this.chartManager = new ChartManager();
-    this.apiService = new StatisticsAPI();
-
-    // Elementos DOM
-    this.loadingOverlay = null;
-    this.dateRangeSelector = null;
+    this.errors = [];
 
     console.log("📊 EstadisticasController inicializado");
   }
@@ -34,45 +28,74 @@ export class EstadisticasController {
     console.log("🚀 Inicializando dashboard de estadísticas...");
 
     try {
-      // Inicializar elementos DOM
-      this.initializeDOMElements();
+      this.showLoading(true);
+
+      // Verificar que ECharts esté disponible
+      await this.waitForECharts();
+
+      // Inicializar servicios
+      await this.dataService.init();
 
       // Configurar eventos
       this.setupEventListeners();
 
-      // Configurar redimensionado automático
-      this.setupResponsiveCharts();
-
       // Cargar datos iniciales
-      await this.loadInitialData();
+      await this.loadData();
+
+      // Configurar auto-refresh
+      this.setupAutoRefresh();
 
       console.log("✅ Dashboard de estadísticas inicializado correctamente");
     } catch (error) {
       console.error("❌ Error inicializando dashboard:", error);
       this.showError("Error al cargar el dashboard de estadísticas");
+    } finally {
+      this.showLoading(false);
     }
   }
 
   /**
-   * Inicializa elementos DOM
+   * Espera a que ECharts esté disponible
    */
-  initializeDOMElements() {
-    this.loadingOverlay = document.getElementById("loading-overlay");
-    this.dateRangeSelector = document.getElementById("date-range");
+  async waitForECharts() {
+    console.log("⏳ Verificando disponibilidad de ECharts...");
 
-    if (!this.loadingOverlay || !this.dateRangeSelector) {
-      throw new Error("Elementos DOM críticos no encontrados");
-    }
+    return new Promise((resolve, reject) => {
+      let attempts = 0;
+      const maxAttempts = 50; // 5 segundos máximo
+
+      const checkECharts = () => {
+        attempts++;
+
+        if (typeof echarts !== "undefined") {
+          console.log("✅ ECharts está disponible:", echarts.version);
+          resolve();
+        } else if (attempts >= maxAttempts) {
+          console.error("❌ Timeout esperando ECharts");
+          reject(new Error("ECharts no se cargó en el tiempo esperado"));
+        } else {
+          console.log(
+            `⏳ Esperando ECharts... intento ${attempts}/${maxAttempts}`
+          );
+          setTimeout(checkECharts, 100);
+        }
+      };
+
+      checkECharts();
+    });
   }
 
   /**
-   * Configura event listeners
+   * Configura los event listeners
    */
   setupEventListeners() {
     // Selector de período
-    this.dateRangeSelector.addEventListener("change", (e) => {
-      this.changePeriod(parseInt(e.target.value));
-    });
+    const dateRangeSelector = document.getElementById("date-range");
+    if (dateRangeSelector) {
+      dateRangeSelector.addEventListener("change", (e) => {
+        this.changeDateRange(parseInt(e.target.value));
+      });
+    }
 
     // Botón de refresh
     const refreshBtn = document.getElementById("refresh-stats");
@@ -92,357 +115,244 @@ export class EstadisticasController {
 
     // Botones de toggle de gráficos
     document.querySelectorAll(".chart-toggle").forEach((btn) => {
-      btn.addEventListener("click", async (e) => {
-        await this.toggleChartType(e.target);
+      btn.addEventListener("click", (e) => {
+        this.toggleChartType(e.target);
       });
     });
 
-    // Botones de toggle de tablas
-    document.querySelectorAll(".btn-toggle-table").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        this.toggleTableExpansion(e.target);
-      });
+    // Configurar redimensionado de ventana
+    window.addEventListener("resize", () => {
+      this.chartService.resizeAll();
     });
+
+    console.log("✅ Event listeners configurados");
   }
 
   /**
-   * Carga los datos iniciales
+   * Carga los datos
    */
-  async loadInitialData() {
-    this.showLoading(true);
-
+  async loadData() {
     try {
-      // Obtener datos de la API
-      this.data = await this.apiService.getStatisticsData(this.currentPeriod);
+      console.log("📥 Cargando datos...");
 
-      // Actualizar todos los componentes
-      await this.updateAllComponents();
+      const success = await this.dataService.loadData();
+      if (success) {
+        this.errors = this.dataService.errors;
+        console.log(`✅ Datos cargados: ${this.errors.length} registros`);
+
+        // Actualizar todos los componentes
+        this.updateAllComponents();
+      } else {
+        throw new Error("No se pudieron cargar los datos");
+      }
     } catch (error) {
-      console.error("Error cargando datos:", error);
-      throw error;
-    } finally {
-      this.showLoading(false);
+      console.error("❌ Error cargando datos:", error);
+      this.showError("Error al cargar los datos");
     }
   }
 
   /**
    * Actualiza todos los componentes del dashboard
    */
-  async updateAllComponents() {
-    if (!this.data) return;
-
+  updateAllComponents() {
     console.log("🔄 Actualizando componentes del dashboard...");
 
     // Actualizar KPIs
     this.updateKPIs();
 
     // Actualizar gráficos
-    await this.updateCharts();
+    this.updateCharts();
 
     // Actualizar tablas
     this.updateTables();
 
-    // Actualizar resumen
+    // Actualizar resumen e insights
     this.updateSummary();
 
     console.log("✅ Componentes actualizados");
   }
 
   /**
-   * Actualiza las tarjetas de KPI
+   * Actualiza los KPIs
    */
   updateKPIs() {
-    const kpis = this.calculateKPIs();
+    const kpis = this.analyticsProcessor.processKPIs(
+      this.errors,
+      this.currentDateRange
+    );
 
-    // Total errores
-    this.kpiManager.updateKPI(
-      "total-errors-kpi",
-      kpis.totalErrors.value,
-      kpis.totalErrors.trend
+    // Total de errores
+    this.updateKPI("total-errors-kpi", kpis.totalErrors.toLocaleString());
+    this.updateKPITrend(
+      "total-errors-trend",
+      "neutral",
+      "Total de errores en el período"
     );
 
     // Errores pendientes
-    this.kpiManager.updateKPI(
-      "pending-errors-kpi",
-      kpis.pendingErrors.value,
-      kpis.pendingErrors.trend
+    this.updateKPI("pending-errors-kpi", kpis.pendingErrors.toLocaleString());
+    this.updateKPITrend(
+      "pending-errors-trend",
+      "negative",
+      "Errores sin resolver"
     );
 
     // Errores resueltos
-    this.kpiManager.updateKPI(
-      "resolved-errors-kpi",
-      kpis.resolvedErrors.value,
-      kpis.resolvedErrors.trend
+    this.updateKPI("resolved-errors-kpi", kpis.resolvedErrors.toLocaleString());
+    this.updateKPITrend(
+      "resolved-errors-trend",
+      "positive",
+      "Errores resueltos"
     );
 
     // Tasa de resolución
-    this.kpiManager.updateKPI(
-      "resolution-rate-kpi",
-      kpis.resolutionRate.value + "%",
-      kpis.resolutionRate.trend
+    this.updateKPI("resolution-rate-kpi", `${kpis.resolutionRate.toFixed(1)}%`);
+    const resolutionTrend =
+      kpis.resolutionRate > 80
+        ? "positive"
+        : kpis.resolutionRate > 60
+        ? "neutral"
+        : "negative";
+    this.updateKPITrend(
+      "resolution-rate-trend",
+      resolutionTrend,
+      `Tasa de resolución`
     );
 
     // Tiempo promedio de resolución
-    this.kpiManager.updateKPI(
+    this.updateKPI(
       "avg-resolution-time-kpi",
-      kpis.avgResolutionTime.value,
-      kpis.avgResolutionTime.trend
+      `${kpis.avgResolutionTime.toFixed(1)} días`
+    );
+    const timeTrend =
+      kpis.avgResolutionTime <= 1
+        ? "positive"
+        : kpis.avgResolutionTime <= 3
+        ? "neutral"
+        : "negative";
+    this.updateKPITrend(
+      "avg-resolution-time-trend",
+      timeTrend,
+      "Tiempo promedio de resolución"
     );
 
     // Promedio diario
-    this.kpiManager.updateKPI(
-      "daily-avg-kpi",
-      kpis.dailyAverage.value,
-      kpis.dailyAverage.trend
+    this.updateKPI("daily-avg-kpi", kpis.dailyAverage.toFixed(1));
+    this.updateKPITrend(
+      "daily-avg-trend",
+      "neutral",
+      "Errores promedio por día"
     );
+
+    console.log("📊 KPIs actualizados");
   }
 
   /**
-   * Calcula todos los KPIs basados en los datos
+   * Actualiza un KPI específico
    */
-  calculateKPIs() {
-    const current = this.data.current;
-    const previous = this.data.previous;
-
-    return {
-      totalErrors: {
-        value: current.totalErrors || 0,
-        trend: this.calculateTrend(current.totalErrors, previous.totalErrors),
-      },
-      pendingErrors: {
-        value: current.pendingErrors || 0,
-        trend: this.calculateTrend(
-          current.pendingErrors,
-          previous.pendingErrors
-        ),
-      },
-      resolvedErrors: {
-        value: current.resolvedErrors || 0,
-        trend: this.calculateTrend(
-          current.resolvedErrors,
-          previous.resolvedErrors
-        ),
-      },
-      resolutionRate: {
-        value:
-          current.totalErrors > 0
-            ? Math.round((current.resolvedErrors / current.totalErrors) * 100)
-            : 0,
-        trend: this.calculateTrend(
-          current.totalErrors > 0
-            ? (current.resolvedErrors / current.totalErrors) * 100
-            : 0,
-          previous.totalErrors > 0
-            ? (previous.resolvedErrors / previous.totalErrors) * 100
-            : 0
-        ),
-      },
-      avgResolutionTime: {
-        value: this.formatTime(current.avgResolutionTime || 0),
-        trend: this.calculateTrend(
-          current.avgResolutionTime,
-          previous.avgResolutionTime
-        ),
-      },
-      dailyAverage: {
-        value:
-          Math.round(((current.totalErrors || 0) / this.currentPeriod) * 10) /
-          10,
-        trend: this.calculateTrend(
-          (current.totalErrors || 0) / this.currentPeriod,
-          (previous.totalErrors || 0) / this.currentPeriod
-        ),
-      },
-    };
-  }
-
-  /**
-   * Calcula tendencia entre dos valores
-   */
-  calculateTrend(current, previous) {
-    if (!previous || previous === 0) return "neutral";
-
-    const percentChange = ((current - previous) / previous) * 100;
-
-    if (percentChange > 5) return "positive";
-    if (percentChange < -5) return "negative";
-    return "neutral";
-  }
-
-  /**
-   * Formatea tiempo en horas/minutos
-   */
-  formatTime(minutes) {
-    if (minutes < 60) {
-      return `${Math.round(minutes)}min`;
+  updateKPI(elementId, value) {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.textContent = value;
     }
+  }
 
-    const hours = Math.floor(minutes / 60);
-    const remainingMinutes = Math.round(minutes % 60);
-
-    if (hours < 24) {
-      return remainingMinutes > 0
-        ? `${hours}h ${remainingMinutes}min`
-        : `${hours}h`;
+  /**
+   * Actualiza la tendencia de un KPI
+   */
+  updateKPITrend(elementId, trend, text) {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.className = `kpi-trend ${trend}`;
+      element.textContent = text;
     }
-
-    const days = Math.floor(hours / 24);
-    const remainingHours = hours % 24;
-    return remainingHours > 0 ? `${days}d ${remainingHours}h` : `${days}d`;
   }
 
   /**
    * Actualiza todos los gráficos
    */
-  async updateCharts() {
-    try {
-      // Gráfico de tendencias
-      await this.updateTrendChart();
+  updateCharts() {
+    console.log("📈 Actualizando gráficos...");
+    console.log("📊 Datos disponibles:", this.errors.length, "errores");
+    console.log("📅 Rango de fechas actual:", this.currentDateRange, "días");
 
-      // Gráfico de distribución por estado
-      await this.updateStatusDistributionChart();
+    // Gráfico de tendencias
+    console.log("🔄 Procesando datos de tendencias...");
+    const trendData = this.analyticsProcessor.processTrendData(
+      this.errors,
+      this.currentDateRange
+    );
+    console.log("📈 Datos de tendencias procesados:", trendData);
 
-      // Gráfico de errores por hora
-      await this.updateHourlyErrorsChart();
+    const trendChart = this.chartService.initTrendChart(
+      "errors-trend-chart",
+      trendData
+    );
+    console.log(
+      "📈 Resultado gráfico de tendencias:",
+      trendChart ? "✅ Creado" : "❌ Error"
+    );
 
-      // Gráfico de top productos
-      await this.updateTopProductsChart();
-    } catch (error) {
-      console.error("Error actualizando gráficos:", error);
-    }
-  }
+    // Gráfico de distribución por estado
+    console.log("🔄 Procesando datos de estado...");
+    const statusData = this.analyticsProcessor.processStatusDistribution(
+      this.errors,
+      this.currentDateRange
+    );
+    console.log("🥧 Datos de estado procesados:", statusData);
 
-  /**
-   * Actualiza el gráfico de tendencias
-   */
-  async updateTrendChart() {
-    const chartId = "errors-trend-chart";
-    const container = document.getElementById(chartId);
-    if (!container) return;
+    const statusChart = this.chartService.initStatusChart(
+      "status-distribution-chart",
+      statusData
+    );
+    console.log(
+      "🥧 Resultado gráfico de estado:",
+      statusChart ? "✅ Creado" : "❌ Error"
+    );
 
-    // Destruir gráfico existente
-    if (this.charts.has(chartId)) {
-      this.chartManager.destroyChart(this.charts.get(chartId));
-    }
+    // Gráfico de errores por hora
+    console.log("🔄 Procesando datos por hora...");
+    const hourlyData = this.analyticsProcessor.processHourlyData(
+      this.errors,
+      this.currentDateRange
+    );
+    console.log("⏰ Datos por hora procesados:", hourlyData);
 
-    const chartData = this.data.trendData || [];
+    const hourlyChart = this.chartService.initHourlyChart(
+      "hourly-errors-chart",
+      hourlyData
+    );
+    console.log(
+      "⏰ Resultado gráfico por hora:",
+      hourlyChart ? "✅ Creado" : "❌ Error"
+    );
 
-    const chart = await this.chartManager.createLineChart(container, {
-      labels: chartData.map((item) => item.date),
-      datasets: [
-        {
-          label: "Total Errores",
-          data: chartData.map((item) => item.total),
-          borderColor: "#4381b3",
-          backgroundColor: "rgba(67, 129, 179, 0.1)",
-        },
-        {
-          label: "Pendientes",
-          data: chartData.map((item) => item.pending),
-          borderColor: "#ff9800",
-          backgroundColor: "rgba(255, 152, 0, 0.1)",
-        },
-        {
-          label: "Resueltos",
-          data: chartData.map((item) => item.resolved),
-          borderColor: "#4caf50",
-          backgroundColor: "rgba(76, 175, 80, 0.1)",
-        },
-      ],
-    });
+    // Gráfico de top productos
+    console.log("🔄 Procesando top ASINs...");
+    const topASINs = this.analyticsProcessor.processTopASINs(
+      this.errors,
+      this.currentDateRange,
+      10
+    );
+    console.log("📦 Top ASINs procesados:", topASINs);
 
-    if (chart) {
-      this.charts.set(chartId, chart);
-    }
-  }
+    const topProductsData = topASINs.map((item) => ({
+      name: item.asin,
+      total: item.total,
+    }));
+    console.log("📦 Datos de top productos:", topProductsData);
 
-  /**
-   * Actualiza el gráfico de distribución por estado
-   */
-  async updateStatusDistributionChart() {
-    const chartId = "status-distribution-chart";
-    const container = document.getElementById(chartId);
-    if (!container) return;
+    const topChart = this.chartService.initTopChart(
+      "top-products-chart",
+      topProductsData,
+      "Top Productos con Errores"
+    );
+    console.log(
+      "📦 Resultado gráfico top productos:",
+      topChart ? "✅ Creado" : "❌ Error"
+    );
 
-    if (this.charts.has(chartId)) {
-      this.chartManager.destroyChart(this.charts.get(chartId));
-    }
-
-    const current = this.data.current;
-
-    const chart = await this.chartManager.createDoughnutChart(container, {
-      labels: ["Pendientes", "Resueltos"],
-      datasets: [
-        {
-          data: [current.pendingErrors || 0, current.resolvedErrors || 0],
-          backgroundColor: ["#ff9800", "#4caf50"],
-        },
-      ],
-    });
-
-    if (chart) {
-      this.charts.set(chartId, chart);
-    }
-  }
-
-  /**
-   * Actualiza el gráfico de errores por hora
-   */
-  async updateHourlyErrorsChart() {
-    const chartId = "hourly-errors-chart";
-    const container = document.getElementById(chartId);
-    if (!container) return;
-
-    if (this.charts.has(chartId)) {
-      this.chartManager.destroyChart(this.charts.get(chartId));
-    }
-
-    const hourlyData = this.data.hourlyData || [];
-
-    const chart = await this.chartManager.createBarChart(container, {
-      labels: hourlyData.map((item) => `${item.hour}:00`),
-      datasets: [
-        {
-          label: "Errores por Hora",
-          data: hourlyData.map((item) => item.count),
-          backgroundColor: "#74d7fb",
-        },
-      ],
-    });
-
-    if (chart) {
-      this.charts.set(chartId, chart);
-    }
-  }
-
-  /**
-   * Actualiza el gráfico de top productos
-   */
-  async updateTopProductsChart() {
-    const chartId = "top-products-chart";
-    const container = document.getElementById(chartId);
-    if (!container) return;
-
-    if (this.charts.has(chartId)) {
-      this.chartManager.destroyChart(this.charts.get(chartId));
-    }
-
-    const productData = this.data.topProducts || [];
-
-    const chart = await this.chartManager.createHorizontalBarChart(container, {
-      labels: productData.map((item) => item.asin),
-      datasets: [
-        {
-          label: "Errores",
-          data: productData.map((item) => item.count),
-          backgroundColor: "#8b5cf6",
-        },
-      ],
-    });
-
-    if (chart) {
-      this.charts.set(chartId, chart);
-    }
+    console.log("📈 Gráficos actualizados");
   }
 
   /**
@@ -460,36 +370,42 @@ export class EstadisticasController {
     const tbody = document.getElementById("users-ranking-body");
     if (!tbody) return;
 
-    const usersData = this.data.usersRanking || [];
+    const topUsers = this.analyticsProcessor.processTopUsers(
+      this.errors,
+      this.currentDateRange,
+      10
+    );
 
-    if (usersData.length === 0) {
+    if (topUsers.length === 0) {
       tbody.innerHTML =
         '<tr><td colspan="6" class="loading">No hay datos disponibles</td></tr>';
       return;
     }
 
-    tbody.innerHTML = usersData
+    tbody.innerHTML = topUsers
       .map(
         (user, index) => `
-            <tr>
-                <td><strong>${index + 1}</strong></td>
-                <td>${user.username}</td>
-                <td>${user.totalErrors}</td>
-                <td>${user.resolvedErrors}</td>
-                <td class="${
-                  user.resolutionRate >= 80
-                    ? "text-success"
-                    : user.resolutionRate >= 60
-                    ? "text-warning"
-                    : "text-danger"
-                }">
-                    ${user.resolutionRate}%
-                </td>
-                <td>${this.formatTime(user.avgResolutionTime)}</td>
-            </tr>
-        `
+      <tr>
+        <td><strong>${index + 1}</strong></td>
+        <td>${user.userId}</td>
+        <td>${user.total}</td>
+        <td>${user.resolved}</td>
+        <td class="${
+          user.resolutionRate >= 80
+            ? "text-success"
+            : user.resolutionRate >= 60
+            ? "text-warning"
+            : "text-danger"
+        }">
+          ${user.resolutionRate.toFixed(1)}%
+        </td>
+        <td>${user.avgResolutionTime.toFixed(1)} días</td>
+      </tr>
+    `
       )
       .join("");
+
+    console.log("👥 Tabla de usuarios actualizada");
   }
 
   /**
@@ -499,485 +415,280 @@ export class EstadisticasController {
     const tbody = document.getElementById("products-analysis-body");
     if (!tbody) return;
 
-    const productsData = this.data.productsAnalysis || [];
+    const topASINs = this.analyticsProcessor.processTopASINs(
+      this.errors,
+      this.currentDateRange,
+      10
+    );
 
-    if (productsData.length === 0) {
+    if (topASINs.length === 0) {
       tbody.innerHTML =
         '<tr><td colspan="6" class="loading">No hay datos disponibles</td></tr>';
       return;
     }
 
-    tbody.innerHTML = productsData
+    tbody.innerHTML = topASINs
       .map(
-        (product, index) => `
-            <tr>
-                <td><strong>${index + 1}</strong></td>
-                <td><code>${product.asin}</code></td>
-                <td>${product.totalErrors}</td>
-                <td>${product.uniqueErrors}</td>
-                <td>
-                    <div class="frequency-bar">
-                        <div class="frequency-fill" style="width: ${
-                          (product.frequency / productsData[0].frequency) * 100
-                        }%"></div>
-                        <span>${product.frequency}</span>
-                    </div>
-                </td>
-                <td>
-                    <span class="status-badge ${
-                      product.status === "critical"
-                        ? "bg-danger"
-                        : product.status === "warning"
-                        ? "bg-warning"
-                        : "bg-success"
-                    }">
-                        ${
-                          product.status === "critical"
-                            ? "Crítico"
-                            : product.status === "warning"
-                            ? "Advertencia"
-                            : "Normal"
-                        }
-                    </span>
-                </td>
-            </tr>
-        `
+        (asin, index) => `
+      <tr>
+        <td><strong>${index + 1}</strong></td>
+        <td>${asin.asin}</td>
+        <td>${asin.total}</td>
+        <td>${asin.uniqueErrors}</td>
+        <td>${asin.frequency.toFixed(1)}</td>
+        <td><span class="status-badge pending">Activo</span></td>
+      </tr>
+    `
       )
       .join("");
+
+    console.log("📦 Tabla de productos actualizada");
   }
 
   /**
-   * Actualiza el resumen del período
+   * Actualiza el resumen e insights
    */
   updateSummary() {
-    const summaryElement = document.getElementById("period-summary");
-    const insightsElement = document.getElementById("insights-content");
-
-    if (summaryElement) {
-      summaryElement.innerHTML = this.generatePeriodSummary();
-    }
-
-    if (insightsElement) {
-      insightsElement.innerHTML = this.generateInsights();
-    }
-  }
-
-  /**
-   * Genera el resumen del período
-   */
-  generatePeriodSummary() {
-    const current = this.data.current;
-    const resolutionRate =
-      current.totalErrors > 0
-        ? Math.round((current.resolvedErrors / current.totalErrors) * 100)
-        : 0;
-
-    return `
-            <ul>
-                <li><strong>Total de errores:</strong> ${
-                  current.totalErrors || 0
-                }</li>
-                <li><strong>Errores resueltos:</strong> ${
-                  current.resolvedErrors || 0
-                }</li>
-                <li><strong>Tasa de resolución:</strong> ${resolutionRate}%</li>
-                <li><strong>Tiempo promedio de resolución:</strong> ${this.formatTime(
-                  current.avgResolutionTime || 0
-                )}</li>
-                <li><strong>Promedio diario:</strong> ${
-                  Math.round(
-                    ((current.totalErrors || 0) / this.currentPeriod) * 10
-                  ) / 10
-                } errores/día</li>
-            </ul>
-        `;
-  }
-
-  /**
-   * Genera insights automáticos
-   */
-  generateInsights() {
-    const insights = [];
-    const current = this.data.current;
-    const previous = this.data.previous;
-
-    // Análisis de tendencia
-    const errorTrend = this.calculateTrend(
-      current.totalErrors,
-      previous.totalErrors
+    // Resumen del período
+    const kpis = this.analyticsProcessor.processKPIs(
+      this.errors,
+      this.currentDateRange
     );
-    if (errorTrend === "positive") {
-      insights.push(
-        "📈 El número de errores ha aumentado comparado con el período anterior."
-      );
-    } else if (errorTrend === "negative") {
-      insights.push(
-        "📉 El número de errores ha disminuido comparado con el período anterior."
-      );
+    const periodSummary = document.getElementById("period-summary");
+    if (periodSummary) {
+      const periodText =
+        this.currentDateRange === 0
+          ? "hoy"
+          : this.currentDateRange === 1
+          ? "ayer"
+          : `últimos ${this.currentDateRange} días`;
+
+      periodSummary.innerHTML = `
+        <p><strong>Período analizado:</strong> ${periodText}</p>
+        <p><strong>Total de errores:</strong> ${kpis.totalErrors} errores (${
+        kpis.totalLines
+      } registros)</p>
+        <p><strong>Tasa de resolución:</strong> ${kpis.resolutionRate.toFixed(
+          1
+        )}%</p>
+        <p><strong>Promedio diario:</strong> ${kpis.dailyAverage.toFixed(
+          1
+        )} errores por día</p>
+        <p><strong>Tiempo promedio de resolución:</strong> ${kpis.avgResolutionTime.toFixed(
+          1
+        )} días</p>
+      `;
     }
 
-    // Análisis de resolución
-    const resolutionRate =
-      current.totalErrors > 0
-        ? (current.resolvedErrors / current.totalErrors) * 100
-        : 0;
-
-    if (resolutionRate >= 90) {
-      insights.push(
-        "✅ Excelente tasa de resolución (>90%). El equipo está manejando muy bien los errores."
-      );
-    } else if (resolutionRate >= 70) {
-      insights.push(
-        "👍 Buena tasa de resolución (70-90%). Hay oportunidades de mejora."
-      );
-    } else {
-      insights.push(
-        "⚠️ La tasa de resolución es baja (<70%). Se recomienda revisar los procesos."
-      );
-    }
-
-    // Análisis de tiempo
-    if (current.avgResolutionTime > 24 * 60) {
-      // más de 24 horas
-      insights.push(
-        "🕐 El tiempo promedio de resolución es alto. Considerar optimizar el flujo de trabajo."
-      );
-    }
-
-    // Análisis de productos
-    if (this.data.topProducts && this.data.topProducts.length > 0) {
-      const topProduct = this.data.topProducts[0];
-      insights.push(
-        `🏆 El producto con más errores es ${topProduct.asin} con ${topProduct.count} errores.`
-      );
-    }
-
-    if (insights.length === 0) {
-      insights.push(
-        "📊 Los datos se están analizando. Los insights aparecerán aquí automáticamente."
-      );
-    }
-
-    return (
-      "<ul>" +
-      insights.map((insight) => `<li>${insight}</li>`).join("") +
-      "</ul>"
+    // Insights automáticos
+    const insights = this.analyticsProcessor.generateInsights(
+      this.errors,
+      this.currentDateRange
     );
+    const insightsContent = document.getElementById("insights-content");
+    if (insightsContent) {
+      insightsContent.innerHTML = insights
+        .map((insight) => `<p>${insight}</p>`)
+        .join("");
+    }
+
+    console.log("📝 Resumen e insights actualizados");
   }
 
   /**
-   * Cambia el período de análisis
+   * Cambia el rango de fechas
    */
-  async changePeriod(newPeriod) {
-    if (this.isLoading || newPeriod === this.currentPeriod) return;
+  async changeDateRange(newRange) {
+    if (newRange === this.currentDateRange) return;
 
-    this.currentPeriod = newPeriod;
-    console.log(`📅 Cambiando período a ${newPeriod} días`);
+    console.log(`📅 Cambiando rango de fechas a: ${newRange} días`);
+    this.currentDateRange = newRange;
 
-    await this.loadInitialData();
+    // Actualizar todos los componentes con el nuevo rango
+    this.updateAllComponents();
   }
 
   /**
-   * Refresca todos los datos
+   * Refresca los datos
    */
   async refreshData() {
-    if (this.isLoading) return;
-
     console.log("🔄 Refrescando datos...");
-    await this.loadInitialData();
+    this.showLoading(true);
+
+    try {
+      const success = await this.dataService.refresh();
+      if (success) {
+        this.errors = this.dataService.errors;
+        this.updateAllComponents();
+        this.showToast("Datos actualizados correctamente", "success");
+      } else {
+        throw new Error("Error al refrescar datos");
+      }
+    } catch (error) {
+      console.error("❌ Error refrescando datos:", error);
+      this.showToast("Error al actualizar datos", "error");
+    } finally {
+      this.showLoading(false);
+    }
   }
 
   /**
-   * Exporta el reporte actual
+   * Exporta el reporte
    */
   exportReport() {
-    console.log("📊 Exportando reporte...");
-
-    // Generar datos del reporte
-    const reportData = {
-      period: this.currentPeriod,
-      generatedAt: new Date().toISOString(),
-      kpis: this.calculateKPIs(),
-      data: this.data,
-    };
-
-    // Crear y descargar archivo JSON
-    const blob = new Blob([JSON.stringify(reportData, null, 2)], {
-      type: "application/json",
-    });
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `estadisticas-errores-${
-      new Date().toISOString().split("T")[0]
-    }.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-
-    console.log("✅ Reporte exportado");
+    console.log("📄 Exportando reporte...");
+    // TODO: Implementar exportación de reporte
+    this.showToast("Función de exportación en desarrollo", "info");
   }
 
   /**
-   * Cambia el tipo de gráfico
+   * Cambia el tipo de un gráfico
    */
-  async toggleChartType(button) {
-    const chartId = button.dataset.chart;
-    const chartType = button.dataset.type;
+  toggleChartType(button) {
+    const chartId = button.getAttribute("data-chart");
+    const chartType = button.getAttribute("data-type");
 
-    // Actualizar botones activos
-    document.querySelectorAll(`[data-chart="${chartId}"]`).forEach((btn) => {
-      btn.classList.remove("active");
-    });
+    // Remover clase active de otros botones del mismo grupo
+    const group = button.parentElement;
+    group
+      .querySelectorAll(".chart-toggle")
+      .forEach((btn) => btn.classList.remove("active"));
     button.classList.add("active");
 
-    // Obtener datos originales según el gráfico
-    let chartData;
-    let containerId;
-
+    // Obtener datos según el tipo de gráfico
+    let data;
     switch (chartId) {
       case "errors-trend":
-        containerId = "errors-trend-chart";
-        const trendData = this.data.trendData || [];
-        chartData = {
-          labels: trendData.map((item) => item.date),
-          datasets: [
-            {
-              label: "Total Errores",
-              data: trendData.map((item) => item.total),
-              borderColor: "#4381b3",
-              backgroundColor: "rgba(67, 129, 179, 0.1)",
-            },
-            {
-              label: "Pendientes",
-              data: trendData.map((item) => item.pending),
-              borderColor: "#ff9800",
-              backgroundColor: "rgba(255, 152, 0, 0.1)",
-            },
-            {
-              label: "Resueltos",
-              data: trendData.map((item) => item.resolved),
-              borderColor: "#4caf50",
-              backgroundColor: "rgba(76, 175, 80, 0.1)",
-            },
-          ],
-        };
+        data = this.analyticsProcessor.processTrendData(
+          this.errors,
+          this.currentDateRange
+        );
+        this.chartService.initTrendChart("errors-trend-chart", data, chartType);
         break;
-
       case "status-distribution":
-        containerId = "status-distribution-chart";
-        const current = this.data.current;
-        chartData = {
-          labels: ["Pendientes", "Resueltos"],
-          datasets: [
-            {
-              data: [current.pendingErrors || 0, current.resolvedErrors || 0],
-              backgroundColor: ["#ff9800", "#4caf50"],
-            },
-          ],
-        };
+        data = this.analyticsProcessor.processStatusDistribution(
+          this.errors,
+          this.currentDateRange
+        );
+        this.chartService.initStatusChart(
+          "status-distribution-chart",
+          data,
+          chartType
+        );
         break;
-
       case "hourly-errors":
-        containerId = "hourly-errors-chart";
-        const hourlyData = this.data.hourlyData || [];
-        chartData = {
-          labels: hourlyData.map((item) => `${item.hour}:00`),
-          datasets: [
-            {
-              label: "Errores por Hora",
-              data: hourlyData.map((item) => item.count),
-              backgroundColor: "#74d7fb",
-            },
-          ],
-        };
+        data = this.analyticsProcessor.processHourlyData(
+          this.errors,
+          this.currentDateRange
+        );
+        this.chartService.initHourlyChart(
+          "hourly-errors-chart",
+          data,
+          chartType
+        );
         break;
-
       case "top-products":
-        containerId = "top-products-chart";
-        const productData = this.data.topProducts || [];
-        chartData = {
-          labels: productData.map((item) => item.asin),
-          datasets: [
-            {
-              label: "Errores",
-              data: productData.map((item) => item.count),
-              backgroundColor: "#8b5cf6",
-            },
-          ],
-        };
+        const topASINs = this.analyticsProcessor.processTopASINs(
+          this.errors,
+          this.currentDateRange,
+          10
+        );
+        data = topASINs.map((item) => ({ name: item.asin, total: item.total }));
+        this.chartService.initTopChart(
+          "top-products-chart",
+          data,
+          "Top Productos con Errores",
+          chartType
+        );
         break;
-
-      default:
-        console.warn(`Gráfico no reconocido: ${chartId}`);
-        return;
     }
 
-    // Obtener contenedor y gráfico existente
-    const container = document.getElementById(containerId);
-    if (!container) return;
-
-    const existingChart = this.charts.get(containerId);
-    if (existingChart) {
-      this.chartManager.destroyChart(existingChart);
-    }
-
-    // Crear nuevo gráfico según el tipo
-    let newChart;
-    switch (chartType) {
-      case "line":
-        newChart = await this.chartManager.createLineChart(
-          container,
-          chartData
-        );
-        break;
-      case "area":
-        newChart = await this.chartManager.createAreaChart(
-          container,
-          chartData
-        );
-        break;
-      case "bar":
-        newChart = await this.chartManager.createBarChart(container, chartData);
-        break;
-      case "horizontal-bar":
-        newChart = await this.chartManager.createHorizontalBarChart(
-          container,
-          chartData
-        );
-        break;
-      case "pie":
-        newChart = await this.chartManager.createPieChart(container, chartData);
-        break;
-      case "doughnut":
-        newChart = await this.chartManager.createDoughnutChart(
-          container,
-          chartData
-        );
-        break;
-      default:
-        console.warn(`Tipo de gráfico no soportado: ${chartType}`);
-        newChart = await this.chartManager.createLineChart(
-          container,
-          chartData
-        );
-    }
-
-    // Registrar el nuevo gráfico
-    if (newChart) {
-      this.charts.set(containerId, newChart);
-    }
-
-    console.log(`✅ Gráfico ${chartId} cambiado a tipo ${chartType}`);
+    console.log(`🔄 Gráfico ${chartId} cambiado a tipo ${chartType}`);
   }
 
   /**
-   * Expande/contrae tablas
+   * Configura auto-refresh
    */
-  toggleTableExpansion(button) {
-    const tableWrapper = button
-      .closest(".table-container")
-      .querySelector(".table-wrapper");
-    const isExpanded = tableWrapper.style.maxHeight === "none";
+  setupAutoRefresh() {
+    // Auto-refresh cada 5 minutos
+    setInterval(() => {
+      if (!this.isLoading) {
+        this.refreshData();
+      }
+    }, 5 * 60 * 1000);
 
-    if (isExpanded) {
-      tableWrapper.style.maxHeight = "400px";
-      button.textContent = "📋 Ver Todo";
-    } else {
-      tableWrapper.style.maxHeight = "none";
-      button.textContent = "📋 Contraer";
-    }
+    console.log("⏰ Auto-refresh configurado (5 minutos)");
   }
 
   /**
-   * Muestra/oculta overlay de carga
+   * Muestra/oculta el overlay de carga
    */
   showLoading(show) {
-    this.isLoading = show;
-    if (this.loadingOverlay) {
+    const overlay = document.getElementById("loading-overlay");
+    if (overlay) {
       if (show) {
-        this.loadingOverlay.classList.add("active");
+        overlay.style.display = "flex";
+        overlay.classList.add("active");
       } else {
-        this.loadingOverlay.classList.remove("active");
+        overlay.style.display = "none";
+        overlay.classList.remove("active");
       }
     }
+    this.isLoading = show;
   }
 
   /**
-   * Muestra mensaje de error
+   * Muestra un mensaje de error
    */
   showError(message) {
-    console.error("❌", message);
-    // Implementar toast o modal de error según diseño
-    alert(message); // Temporal
+    console.error("❌ Error:", message);
+    this.showToast(message, "error");
   }
 
   /**
-   * Configura el redimensionado automático de gráficos
+   * Muestra un toast (si está disponible)
    */
-  setupResponsiveCharts() {
-    // Configurar redimensionado automático
-    this.chartManager.setupResponsiveCharts();
-
-    // Redimensionar cuando el contenedor cambie de tamaño
-    const resizeObserver = new ResizeObserver((entries) => {
-      entries.forEach(() => {
-        // Redimensionar todos los gráficos con un pequeño delay
-        setTimeout(() => {
-          this.charts.forEach((chart) => {
-            if (chart) {
-              this.chartManager.resizeChart(chart);
-            }
-          });
-        }, 100);
-      });
-    });
-
-    // Observar el contenedor principal
-    const container = document.querySelector(".estadisticas-container");
-    if (container) {
-      resizeObserver.observe(container);
+  showToast(message, type = "info") {
+    if (window.showToast) {
+      window.showToast(message, type);
+    } else {
+      console.log(`${type.toUpperCase()}: ${message}`);
     }
-
-    // También observar los contenedores individuales de gráficos
-    const chartContainers = document.querySelectorAll(".chart-wrapper");
-    chartContainers.forEach((container) => {
-      resizeObserver.observe(container);
-    });
-
-    console.log("📐 Sistema de redimensionado automático configurado");
   }
 }
 
-// Inicializar cuando el DOM esté listo
-document.addEventListener("DOMContentLoaded", () => {
-  const controller = new EstadisticasController();
-  controller.init();
+// Variable global para el controlador
+let estadisticasController = null;
 
-  // Exportar para debug
-  window.estadisticasController = controller;
-});
+// Función global de inicialización que será llamada por el app-loader
+window.initEstadisticas = async function (view) {
+  console.log("🎯 Inicializando módulo de estadísticas...", view);
 
-/**
- * Función de inicialización requerida por app-loader
- */
-window.initEstadisticas = function () {
-  console.log("🎯 initEstadisticas llamada por app-loader");
+  try {
+    // Crear nueva instancia del controlador
+    estadisticasController = new EstadisticasController();
 
-  // Si ya existe un controlador, no crear otro
-  if (window.estadisticasController) {
-    console.log("✅ Controlador de estadísticas ya existe");
-    return;
+    // Inicializar el controlador
+    await estadisticasController.init();
+
+    // Hacer el controlador accesible globalmente para debugging
+    window.estadisticasController = estadisticasController;
+
+    console.log("✅ Módulo de estadísticas inicializado correctamente");
+    return true;
+  } catch (error) {
+    console.error("❌ Error inicializando módulo de estadísticas:", error);
+    return false;
   }
-
-  // Crear e inicializar el controlador
-  const controller = new EstadisticasController();
-  controller.init();
-
-  // Exportar para debug
-  window.estadisticasController = controller;
-
-  console.log("✅ Estadísticas inicializadas por app-loader");
 };
+
+// Inicializar cuando el DOM esté listo (fallback para carga directa)
+document.addEventListener("DOMContentLoaded", async () => {
+  // Solo inicializar automáticamente si no se ha inicializado ya por el app-loader
+  if (!estadisticasController) {
+    console.log(
+      "🎯 DOM cargado, inicializando EstadisticasController automáticamente..."
+    );
+    await window.initEstadisticas();
+  }
+});
