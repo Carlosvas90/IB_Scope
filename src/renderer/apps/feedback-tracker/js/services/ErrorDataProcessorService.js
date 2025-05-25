@@ -46,7 +46,8 @@ export class ErrorDataProcessorService {
         date: "2025/04/19",
         time: "13:30:10",
         asin: "B0CMZ8D9VD",
-        bin_id: "P-3-C214A542",
+        old_container: "tspt0000369",
+        new_container: "P-3-C214A542",
         violation: "Articulo <70cm en Barrel",
         feedback_status: "pending",
         quantity: 4,
@@ -65,7 +66,8 @@ export class ErrorDataProcessorService {
         date: "2025/04/19",
         time: "14:25:39",
         asin: "B0CMZ8D9VD",
-        bin_id: "P-3-C286A472",
+        old_container: "tspt0000533",
+        new_container: "P-3-C286A472",
         violation: "Articulo <70cm en Barrel",
         feedback_status: "done",
         quantity: 2,
@@ -115,7 +117,8 @@ export class ErrorDataProcessorService {
    */
   calculateStatistics(allErrors) {
     const stats = {
-      total: allErrors.length,
+      total: 0, // Ahora será la suma de quantities
+      totalLines: allErrors.length, // Número de líneas de errores
       pending: 0,
       done: 0,
       byUser: {},
@@ -125,17 +128,26 @@ export class ErrorDataProcessorService {
 
     for (let i = 0; i < allErrors.length; i++) {
       const error = allErrors[i];
+      const quantity = error.quantity || 1; // Usar quantity o 1 por defecto
+
+      // Sumar quantity al total
+      stats.total += quantity;
+
       if (error.feedback_status.toLowerCase() === "done") {
-        stats.done++;
+        stats.done += quantity; // Sumar quantity, no 1
       } else {
-        stats.pending++;
+        stats.pending += quantity; // Sumar quantity, no 1
       }
+
       const userId = error.user_id;
-      stats.byUser[userId] = (stats.byUser[userId] || 0) + 1;
+      stats.byUser[userId] = (stats.byUser[userId] || 0) + quantity; // Sumar quantity
+
       const violation = error.violation;
-      stats.byViolation[violation] = (stats.byViolation[violation] || 0) + 1;
-      const binId = error.bin_id;
-      stats.byBin[binId] = (stats.byBin[binId] || 0) + 1;
+      stats.byViolation[violation] =
+        (stats.byViolation[violation] || 0) + quantity; // Sumar quantity
+
+      const binId = error.new_container;
+      stats.byBin[binId] = (stats.byBin[binId] || 0) + quantity; // Sumar quantity
     }
     return stats;
   }
@@ -218,7 +230,8 @@ export class ErrorDataProcessorService {
       "Fecha",
       "Hora",
       "ASIN",
-      "Bin ID",
+      "Old Container",
+      "New Container",
       "Infracción",
       "Estado",
       "Cantidad",
@@ -245,7 +258,8 @@ export class ErrorDataProcessorService {
         escapeCsvField(error.date),
         escapeCsvField(error.time),
         escapeCsvField(error.asin),
-        escapeCsvField(error.bin_id),
+        escapeCsvField(error.old_container),
+        escapeCsvField(error.new_container),
         escapeCsvField(error.violation),
         escapeCsvField(
           error.feedback_status === "done" ? "Completado" : "Pendiente"

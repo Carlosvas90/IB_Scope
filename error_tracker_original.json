@@ -1,0 +1,313 @@
+{
+  "errors": [
+    {
+      "asin": "B0CMZ8D9VD",
+      "bin_id": "P-3-C214A542",
+      "date": "2025/05/25",
+      "feedback_date": null,
+      "feedback_notified": false,
+      "feedback_status": "pending",
+      "feedback_user": "",
+      "id": "20ad1f8d-3a04-44c6-8ecf-0dd10ce8935b",
+      "occurrences": [
+        {
+          "date": "2025/05/25",
+          "time": "13:29:43"
+        },
+        {
+          "date": "2025/05/25",
+          "time": "13:29:51"
+        },
+        {
+          "date": "2025/05/25",
+          "time": "13:30:00"
+        },
+        {
+          "date": "2025/05/25",
+          "time": "13:30:10"
+        }
+      ],
+      "quantity": 4,
+      "time": "13:30:10",
+      "times_notified": 1,
+      "user_id": "chuecc",
+      "violation": "Articulo <70cm en Barrel",
+      "feedback_comment": "",
+      "timestamp": "2025-05-07T22:42:11.593Z",
+      "status": "done",
+      "priority": "medium",
+      "user": "unknown",
+      "feedback": {
+        "comment": "Filtro incorrecto",
+        "timestamp": "2025-05-07T22:46:14.090Z",
+        "user": "carlo"
+      }
+    },
+    {
+      "asin": "B0CMZ8D9VD",
+      "bin_id": "P-3-C286A472",
+      "date": "2025/05/25",
+      "feedback_date": null,
+      "feedback_notified": false,
+      "feedback_status": "pending",
+      "feedback_user": "",
+      "id": "96cec0df-d940-49e0-a696-967261b05d69",
+      "occurrences": [
+        {
+          "date": "2025/05/25",
+          "time": "14:24:29"
+        },
+        {
+          "date": "2025/05/25",
+          "time": "14:24:43"
+        },
+        {
+          "date": "2025/05/25",
+          "time": "14:25:10"
+        },
+        {
+          "date": "2025/05/25",
+          "time": "14:25:39"
+        }
+      ],
+      "quantity": 4,
+      "time": "14:25:39",
+      "times_notified": 1,
+      "user_id": "moralmaz",
+      "violation": "Articulo <70cm en Barrel",
+      "feedback_comment": "",
+      "timestamp": "2025-05-07T22:42:11.593Z",
+      "status": "done",
+      "priority": "medium",
+      "user": "unknown",
+      "feedback": {
+        "comment": "Bins llenas",
+        "timestamp": "2025-05-07T22:46:11.465Z",
+        "user": "carlo"
+      }
+    },
+    {
+      "asin": "B09GKTWB1Q",
+      "bin_id": "P-3-C188A520",
+      "date": "2025/05/25",
+      "feedback_date": null,
+      "feedback_notified": false,
+      "feedback_status": "pending",
+      "feedback_user": "",
+      "id": "5f97d0e7-6b35-40b0-8b4b-89bed653002a",
+      "occurrences": [
+        {
+          "date": "2025/05/25",
+          "time": "12:13:48"
+        },
+        {
+          "date": "2025/05/25",
+          "time": "12:13:57"
+        }
+      ],
+      "quantity": 2,
+      "time": "12:13:57",
+      "times_notified": 1,
+      "user_id": "ramicesr",
+      "violation": "Articulo <70cm en Barrel",
+      "feedback_comment": "",
+      "timestamp": "2025-05-07T22:42:11.593Z",
+      "status": "done",
+      "priority": "medium",
+      "user": "unknown",
+      "feedback": {
+        "comment": "Filtro incorrecto",
+        "timestamp": "2025-05-07T22:46:08.937Z",
+        "user": "carlo"
+      }
+    },
+    {
+      "asin": "B09GKTWB1Q",
+      "bin_id": "P-3-C188A524",
+      "date": "2025/05/25",
+      "feedback_date": null,
+      "feedback_notified": false,
+      "feedback_status": "pending",
+      "feedback_user": "",
+      "id": "4a61e5a9-b7d6-4642-8a84-11b6551cf2a8",
+      "occurrences": [
+        {
+          "date": "2025/05/25",
+          "time": "12:14:14"
+        },
+        {
+          "date": "2025/05/25",
+          "time": "12:14:26"
+        }
+      ],
+      "quantity": 2,
+      "time": "12:14:26",
+      "times_notified": 1,
+      "user_id": "ramicesr",
+      "violation": "Articulo <70cm en Barrel",
+      "feedback_comment": "",
+      "timestamp": "2025-05-07T22:42:11.593Z",
+      "status": "pending",
+      "priority": "medium",
+      "user": "unknown"
+    },
+    {
+      "asin": "B0BGN2QYRF",
+      "bin_id": "P-3-B214A270",
+      "date": "2025/05/25",
+      "feedback_date": null,
+      "feedback_notified": false,
+      "feedback_status": "pending",
+      "feedback_user": "",
+      "id": "571dcb51-88e5-4ca0-b97a-d9b96b020bd8",
+      "occurrences": [
+        {
+          "date": "2025/05/25",
+          "time": "11:57:58"
+        },
+        {
+          "date": "2025/05/25",
+          "time": "11:58:05"
+        },
+        {
+          "date": "2025/05/25",
+          "time": "11:58:14"
+        },
+        {
+          "date": "2025/05/25",
+          "time": "11:58:24"
+        },
+        {
+          "date": "2025/05/25",
+          "time": "11:58:31"
+        },
+        {
+          "date": "2025/05/25",
+          "time": "11:58:37"
+        },
+        {
+          "date": "2025/05/25",
+          "time": "11:58:46"
+        },
+        {
+          "date": "2025/05/25",
+          "time": "11:58:53"
+        },
+        {
+          "date": "2025/05/25",
+          "time": "11:59:00"
+        },
+        {
+          "date": "2025/05/25",
+          "time": "11:59:07"
+        },
+        {
+          "date": "2025/05/25",
+          "time": "11:59:16"
+        },
+        {
+          "date": "2025/05/25",
+          "time": "11:59:24"
+        },
+        {
+          "date": "2025/05/25",
+          "time": "11:59:30"
+        },
+        {
+          "date": "2025/05/25",
+          "time": "11:59:35"
+        },
+        {
+          "date": "2025/05/25",
+          "time": "11:59:46"
+        }
+      ],
+      "quantity": 15,
+      "time": "11:59:46",
+      "times_notified": 1,
+      "user_id": "sebasank",
+      "violation": "Articulo <70cm en Barrel",
+      "feedback_comment": "",
+      "timestamp": "2025-05-07T22:42:11.593Z",
+      "status": "pending",
+      "priority": "medium",
+      "user": "unknown"
+    },
+    {
+      "asin": "B0CZ86865B",
+      "bin_id": "P-3-B214A268",
+      "date": "2025/05/25",
+      "feedback_date": null,
+      "feedback_notified": false,
+      "feedback_status": "pending",
+      "feedback_user": "",
+      "id": "1c304cbd-3971-4e1f-88bf-7fd2571514cb",
+      "occurrences": [
+        {
+          "date": "2025/05/25",
+          "time": "11:59:56"
+        },
+        {
+          "date": "2025/05/25",
+          "time": "12:00:02"
+        }
+      ],
+      "quantity": 2,
+      "time": "12:00:02",
+      "times_notified": 1,
+      "user_id": "sebasank",
+      "violation": "Articulo <70cm en Barrel",
+      "feedback_comment": "",
+      "timestamp": "2025-05-07T22:42:11.593Z",
+      "status": "pending",
+      "priority": "medium",
+      "user": "unknown"
+    },
+    {
+      "asin": "B072RT8ZDM",
+      "bin_id": "P-3-B214A282",
+      "date": "2025/05/25",
+      "feedback_date": null,
+      "feedback_notified": false,
+      "feedback_status": "pending",
+      "feedback_user": "",
+      "id": "d1b9623c-78fe-49cc-aa09-e24f64a1f1d9",
+      "occurrences": [
+        {
+          "date": "2025/05/25",
+          "time": "12:12:07"
+        },
+        {
+          "date": "2025/05/25",
+          "time": "12:12:36"
+        },
+        {
+          "date": "2025/05/25",
+          "time": "12:12:42"
+        },
+        {
+          "date": "2025/05/25",
+          "time": "12:12:48"
+        },
+        {
+          "date": "2025/05/25",
+          "time": "12:12:56"
+        },
+        {
+          "date": "2025/05/25",
+          "time": "12:13:09"
+        }
+      ],
+      "quantity": 6,
+      "time": "12:13:09",
+      "times_notified": 1,
+      "user_id": "sebasank",
+      "violation": "Articulo <70cm en Barrel",
+      "feedback_comment": "",
+      "timestamp": "2025-05-07T22:42:11.593Z",
+      "status": "pending",
+      "priority": "medium",
+      "user": "unknown"
+    }
+  ]
+}

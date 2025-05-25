@@ -20,9 +20,16 @@ export class TableRendererService {
    * @returns {HTMLElement} - Elemento DOM de la fila
    */
   createTableRow(error) {
+    console.log(`🏗️ Creando fila para error:`, error.id, error);
+
     // Clonar la plantilla
     const row = this.tableController.rowTemplate.content.cloneNode(true);
     const rowElement = row.querySelector("tr");
+
+    if (!rowElement) {
+      console.error("❌ No se pudo encontrar el elemento tr en la plantilla");
+      return null;
+    }
 
     // Establecer ID del error
     rowElement.setAttribute("data-id", error.id);
@@ -33,27 +40,63 @@ export class TableRendererService {
       : "pending";
     rowElement.classList.add(status === "done" ? "row-done" : "row-pending");
 
+    console.log(`🎨 Estado del error ${error.id}: ${status}`);
+
     // Configurar el botón de estado
     this.setupStatusButton(row, error, status);
 
     // Configurar celda de login con atributo data-login
     const loginCell = row.querySelector(".login-cell");
-    loginCell.textContent = this.escapeHtml(error.user_id);
-    loginCell.setAttribute("data-login", error.user_id);
+    if (loginCell) {
+      loginCell.textContent = this.escapeHtml(error.user_id);
+      loginCell.setAttribute("data-login", error.user_id);
+    } else {
+      console.warn("⚠️ No se encontró .login-cell");
+    }
 
     // Crear enlace para ASIN en lugar de texto simple
     this.setupAsinLink(row, error);
 
     // Completar el resto de celdas
-    row.querySelector(".qty-cell").textContent = error.quantity || 1;
-    row.querySelector(".bin-id-cell").textContent = this.escapeHtml(
-      error.bin_id
-    );
-    row.querySelector(".time-cell").textContent = this.escapeHtml(error.time);
+    const qtyCell = row.querySelector(".qty-cell");
+    if (qtyCell) {
+      qtyCell.textContent = error.quantity || 1;
+    } else {
+      console.warn("⚠️ No se encontró .qty-cell");
+    }
+
+    // Agregar old_container
+    const oldContainerCell = row.querySelector(".old-container-cell");
+    if (oldContainerCell) {
+      oldContainerCell.textContent = this.escapeHtml(error.old_container || "");
+    } else {
+      console.warn("⚠️ No se encontró .old-container-cell");
+    }
+
+    // Actualizar para usar new_container en lugar de bin_id
+    const binIdCell = row.querySelector(".bin-id-cell");
+    if (binIdCell) {
+      binIdCell.textContent = this.escapeHtml(error.new_container);
+    } else {
+      console.warn("⚠️ No se encontró .bin-id-cell");
+    }
+
+    const timeCell = row.querySelector(".time-cell");
+    if (timeCell) {
+      timeCell.textContent = this.escapeHtml(error.time);
+    } else {
+      console.warn("⚠️ No se encontró .time-cell");
+    }
 
     // Usar textContent para el texto de la violación
-    row.querySelector(".error-cell").textContent = error.violation;
+    const errorCell = row.querySelector(".error-cell");
+    if (errorCell) {
+      errorCell.textContent = error.violation;
+    } else {
+      console.warn("⚠️ No se encontró .error-cell");
+    }
 
+    console.log(`✅ Fila creada exitosamente para error ${error.id}`);
     return row;
   }
 
@@ -150,6 +193,45 @@ export class TableRendererService {
     detailsRow.querySelector(".date-value").textContent = error.date;
     detailsRow.querySelector(".notifications-value").textContent =
       error.times_notified || 0;
+
+    // Agregar old_container a los detalles si existe
+    if (error.old_container) {
+      // Buscar si ya existe un contenedor para old_container
+      let oldContainerElement = detailsRow.querySelector(
+        ".detail-item.old-container"
+      );
+
+      if (!oldContainerElement) {
+        // Crear elemento para old_container
+        oldContainerElement = document.createElement("div");
+        oldContainerElement.className = "detail-item old-container";
+
+        const label = document.createElement("div");
+        label.className = "detail-label";
+        label.textContent = "Old Container:";
+
+        const value = document.createElement("div");
+        value.className = "detail-value old-container-value";
+        value.textContent = error.old_container;
+
+        oldContainerElement.appendChild(label);
+        oldContainerElement.appendChild(value);
+
+        // Añadir al contenedor de detalles
+        const detailsGrid = detailsRow.querySelector(".details-grid");
+        if (detailsGrid) {
+          detailsGrid.appendChild(oldContainerElement);
+        }
+      } else {
+        // Si ya existe, actualizar el valor
+        const oldContainerValue = oldContainerElement.querySelector(
+          ".old-container-value"
+        );
+        if (oldContainerValue) {
+          oldContainerValue.textContent = error.old_container;
+        }
+      }
+    }
   }
 
   /**

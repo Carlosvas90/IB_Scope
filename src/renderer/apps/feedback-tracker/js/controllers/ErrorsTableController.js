@@ -157,24 +157,35 @@ export class ErrorsTableController {
         this.statusFilter
       );
 
+      console.log(
+        `🔍 Renderizando filas virtuales. Errores filtrados: ${filteredErrors.length}`
+      );
+
       // Limpiar tabla
       while (this.tableBody.firstChild) {
         this.tableBody.removeChild(this.tableBody.firstChild);
       }
 
-      // Crear spacer para mantener altura de scroll
-      const totalHeight = filteredErrors.length * this.virtualScroll.rowHeight;
-      const spacer = document.createElement("tr");
-      spacer.className = "virtual-spacer";
-      spacer.style.height = `${totalHeight}px`;
-      spacer.style.padding = "0";
-      spacer.style.margin = "0";
-      this.tableBody.appendChild(spacer);
+      // Calcular índices visibles si no están establecidos
+      if (this.virtualScroll.endIndex === 0) {
+        this.virtualScroll.endIndex = Math.min(
+          filteredErrors.length,
+          this.virtualScroll.visibleRows + this.virtualScroll.bufferRows * 2
+        );
+      }
+
+      console.log(
+        `🔍 Índices virtuales: ${this.virtualScroll.startIndex} - ${this.virtualScroll.endIndex}`
+      );
 
       // Calcular índices visibles
       const visibleErrorsSlice = filteredErrors.slice(
         this.virtualScroll.startIndex,
         this.virtualScroll.endIndex
+      );
+
+      console.log(
+        `🔍 Errores visibles a renderizar: ${visibleErrorsSlice.length}`
       );
 
       // Crear fragmento para mejor rendimiento
@@ -183,32 +194,23 @@ export class ErrorsTableController {
       // Renderizar filas visibles
       visibleErrorsSlice.forEach((error, localIndex) => {
         const row = this.rendererService.createTableRow(error);
-        const globalIndex = this.virtualScroll.startIndex + localIndex;
 
-        // Posicionar fila
-        row.style.position = "absolute";
-        row.style.top = `${globalIndex * this.virtualScroll.rowHeight}px`;
-        row.style.width = "100%";
-        row.style.zIndex = "1";
-
+        // No usar posicionamiento absoluto para simplificar
         fragment.appendChild(row);
 
         // Si la fila estaba expandida, mostrar detalles
         if (this.expandedRows.has(error.id)) {
           const detailsRow = this.rendererService.createDetailsRow(error);
-          detailsRow.style.position = "absolute";
-          detailsRow.style.top = `${
-            globalIndex * this.virtualScroll.rowHeight +
-            this.virtualScroll.rowHeight
-          }px`;
-          detailsRow.style.width = "100%";
-          detailsRow.style.zIndex = "1";
           fragment.appendChild(detailsRow);
         }
       });
 
       // Añadir filas al DOM
       this.tableBody.appendChild(fragment);
+
+      console.log(
+        `✅ Filas añadidas al DOM. Total en fragment: ${fragment.childNodes.length}`
+      );
 
       // Configurar eventos
       this.setupRowEvents();
@@ -384,7 +386,9 @@ export class ErrorsTableController {
 
     // Verificar si usar virtualización
     const errors = this.dataController.errors;
-    this.virtualScroll.enabled = errors.length > 100; // Activar para conjuntos grandes
+    console.log(`📊 Total de errores: ${errors.length}`);
+    this.virtualScroll.enabled = errors.length > 1000; // Aumentar umbral para evitar problemas
+    console.log(`🔧 Virtualización activada: ${this.virtualScroll.enabled}`);
 
     if (this.virtualScroll.enabled) {
       // Usar renderizado virtual para grandes conjuntos de datos
@@ -398,11 +402,15 @@ export class ErrorsTableController {
         this.statusFilter
       );
 
+      console.log(
+        `📋 Errores filtrados (${this.statusFilter}): ${filteredErrors.length}`
+      );
+
       // Si no hay datos, mostrar mensaje
       if (filteredErrors.length === 0) {
         this.tableBody.innerHTML = `
           <tr>
-            <td colspan="7" class="empty-message">
+            <td colspan="8" class="empty-message">
               No se encontraron errores con el filtro seleccionado
             </td>
           </tr>
@@ -415,13 +423,23 @@ export class ErrorsTableController {
       const fragment = document.createDocumentFragment();
 
       // Generar filas
-      filteredErrors.forEach((error) => {
+      filteredErrors.forEach((error, index) => {
+        console.log(
+          `🔨 Creando fila ${index + 1}/${filteredErrors.length} para error:`,
+          error.id
+        );
         const row = this.rendererService.createTableRow(error);
         fragment.appendChild(row);
       });
 
+      console.log(`✅ Fragment creado con ${fragment.childNodes.length} filas`);
+
       // Añadir filas al DOM
       this.tableBody.appendChild(fragment);
+
+      console.log(
+        `✅ Filas añadidas al DOM. Tabla ahora tiene ${this.tableBody.children.length} filas`
+      );
 
       // Añadir eventos a las filas
       this.setupRowEvents();
@@ -464,7 +482,7 @@ export class ErrorsTableController {
    * Actualiza los contadores en la interfaz
    */
   updateCounters() {
-    const errors = this.dataController.errors;
+    const stats = this.dataController.getStatistics();
 
     const totalElement = document.getElementById("total-errors");
     const pendingElement = document.getElementById("pending-errors");
@@ -472,21 +490,18 @@ export class ErrorsTableController {
     const lastUpdateElement = document.getElementById("last-update");
 
     if (totalElement) {
-      totalElement.textContent = errors.length;
+      // Mostrar el total real de errores (suma de quantities)
+      totalElement.textContent = stats.total;
+      // Opcionalmente, mostrar también el número de líneas
+      totalElement.title = `${stats.total} errores totales (${stats.totalLines} líneas de datos)`;
     }
 
     if (pendingElement) {
-      const pendingCount = errors.filter(
-        (error) => error.feedback_status === "pending"
-      ).length;
-      pendingElement.textContent = pendingCount;
+      pendingElement.textContent = stats.pending;
     }
 
     if (doneElement) {
-      const doneCount = errors.filter(
-        (error) => error.feedback_status === "done"
-      ).length;
-      doneElement.textContent = doneCount;
+      doneElement.textContent = stats.done;
     }
 
     if (lastUpdateElement && this.dataController.lastUpdateTime) {
