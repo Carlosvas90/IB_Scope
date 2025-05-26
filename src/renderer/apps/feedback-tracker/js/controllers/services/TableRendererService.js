@@ -172,9 +172,9 @@ export class TableRendererService {
     // Completar datos básicos de los detalles
     this.fillBasicDetails(detailsRow, error);
 
-    // Mostrar comentario de feedback si existe
-    if (error.feedback_comment) {
-      this.addFeedbackComment(detailsRow, error.feedback_comment);
+    // Mostrar datos de feedback si existen
+    if (error.feedback_motive || error.feedback_comment) {
+      this.addFeedbackDetails(detailsRow, error);
     }
 
     // Completar lista de ocurrencias
@@ -235,44 +235,48 @@ export class TableRendererService {
   }
 
   /**
-   * Añade un comentario de feedback a los detalles
+   * Añade los detalles de feedback (motivo y comentario) a los detalles
    * @param {DocumentFragment} detailsRow - Fragmento de la fila de detalles
-   * @param {string} comment - Comentario de feedback
+   * @param {Object} error - Objeto de error con datos de feedback
    */
-  addFeedbackComment(detailsRow, comment) {
-    // Buscar contenedor de comentario o crear uno si no existe
-    let commentContainer = detailsRow.querySelector(
-      ".detail-item.feedback-comment"
-    );
+  addFeedbackDetails(detailsRow, error) {
+    const detailsGrid = detailsRow.querySelector(".details-grid");
+    if (!detailsGrid) return;
 
-    if (!commentContainer) {
-      commentContainer = document.createElement("div");
+    // Agregar motivo si existe
+    if (error.feedback_motive) {
+      const motiveContainer = document.createElement("div");
+      motiveContainer.className = "detail-item feedback-motive";
+
+      const motiveLabel = document.createElement("div");
+      motiveLabel.className = "detail-label";
+      motiveLabel.textContent = "Motivo:";
+
+      const motiveValue = document.createElement("div");
+      motiveValue.className = "detail-value feedback-motive-value";
+      motiveValue.textContent = error.feedback_motive;
+
+      motiveContainer.appendChild(motiveLabel);
+      motiveContainer.appendChild(motiveValue);
+      detailsGrid.appendChild(motiveContainer);
+    }
+
+    // Agregar comentario si existe
+    if (error.feedback_comment) {
+      const commentContainer = document.createElement("div");
       commentContainer.className = "detail-item feedback-comment";
 
-      const label = document.createElement("div");
-      label.className = "detail-label";
-      label.textContent = "Comentario:";
+      const commentLabel = document.createElement("div");
+      commentLabel.className = "detail-label";
+      commentLabel.textContent = "Comentario:";
 
-      const value = document.createElement("div");
-      value.className = "detail-value feedback-comment-value";
-      value.textContent = comment;
+      const commentValue = document.createElement("div");
+      commentValue.className = "detail-value feedback-comment-value";
+      commentValue.textContent = error.feedback_comment;
 
-      commentContainer.appendChild(label);
-      commentContainer.appendChild(value);
-
-      // Añadir al contenedor de detalles
-      const detailsGrid = detailsRow.querySelector(".details-grid");
-      if (detailsGrid) {
-        detailsGrid.appendChild(commentContainer);
-      }
-    } else {
-      // Si ya existe, simplemente actualizar el texto
-      const commentValue = commentContainer.querySelector(
-        ".feedback-comment-value"
-      );
-      if (commentValue) {
-        commentValue.textContent = comment;
-      }
+      commentContainer.appendChild(commentLabel);
+      commentContainer.appendChild(commentValue);
+      detailsGrid.appendChild(commentContainer);
     }
   }
 

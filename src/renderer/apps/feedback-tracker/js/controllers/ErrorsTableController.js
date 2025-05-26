@@ -339,7 +339,7 @@ export class ErrorsTableController {
           errorId,
           newStatus,
           this.updateCounters.bind(this),
-          feedbackData.feedbackComment
+          feedbackData // Pasar todo el objeto feedbackData
         );
       });
     } else {
@@ -351,7 +351,7 @@ export class ErrorsTableController {
         errorId,
         newStatus,
         this.updateCounters.bind(this),
-        null // Sin comentario para cambio a pending
+        null // Sin datos de feedback para cambio a pending
       );
     }
   }

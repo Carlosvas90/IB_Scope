@@ -200,20 +200,15 @@ export class FeedbackModalController {
       this.reasonSelect.options[this.reasonSelect.selectedIndex].text;
     const comment = this.commentInput.value.trim();
 
-    // Crear texto del comentario
-    let feedbackComment = `${reasonLabel}`;
-    if (comment) {
-      feedbackComment += `: ${comment}`;
-    }
-
-    // Ejecutar callback
+    // Ejecutar callback con datos separados
     if (typeof this.onSubmitCallback === "function") {
       this.onSubmitCallback({
         errorId: this.currentErrorId,
         reasonId: reasonId,
         reasonLabel: reasonLabel,
         comment: comment,
-        feedbackComment: feedbackComment,
+        // Mantener feedbackComment para compatibilidad temporal
+        feedbackComment: comment ? `${reasonLabel}: ${comment}` : reasonLabel,
       });
     }
 

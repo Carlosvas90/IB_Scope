@@ -177,8 +177,18 @@ export class AnalyticsProcessor {
       userStats[userId].violations[violation] =
         (userStats[userId].violations[violation] || 0) + quantity;
 
-      // Contar motivos (de feedback_comment antes del ":")
-      if (error.feedback_comment) {
+      // Contar motivos (de feedback_motive)
+      if (error.feedback_motive) {
+        const reason = error.feedback_motive.trim();
+        if (reason) {
+          userStats[userId].reasons[reason] =
+            (userStats[userId].reasons[reason] || 0) + quantity;
+        }
+      } else if (
+        error.feedback_comment &&
+        error.feedback_comment.includes(":")
+      ) {
+        // Fallback para compatibilidad con datos antiguos
         const reason = error.feedback_comment.split(":")[0].trim();
         if (reason) {
           userStats[userId].reasons[reason] =
@@ -237,8 +247,18 @@ export class AnalyticsProcessor {
       asinStats[asin].violations[violation] =
         (asinStats[asin].violations[violation] || 0) + quantity;
 
-      // Contar motivos (de feedback_comment antes del ":")
-      if (error.feedback_comment) {
+      // Contar motivos (de feedback_motive)
+      if (error.feedback_motive) {
+        const reason = error.feedback_motive.trim();
+        if (reason) {
+          asinStats[asin].reasons[reason] =
+            (asinStats[asin].reasons[reason] || 0) + quantity;
+        }
+      } else if (
+        error.feedback_comment &&
+        error.feedback_comment.includes(":")
+      ) {
+        // Fallback para compatibilidad con datos antiguos
         const reason = error.feedback_comment.split(":")[0].trim();
         if (reason) {
           asinStats[asin].reasons[reason] =
@@ -297,15 +317,25 @@ export class AnalyticsProcessor {
   }
 
   /**
-   * Procesa distribución de motivos (de feedback_comment)
+   * Procesa distribución de motivos (de feedback_motive)
    */
   processReasonDistribution(errors, dateRange = 30) {
     const filteredErrors = this.filterByDateRange(errors, dateRange);
     const reasonStats = {};
 
     filteredErrors.forEach((error) => {
-      if (error.feedback_comment) {
-        // Extraer la parte antes de ":" que es el motivo
+      // Usar el nuevo campo feedback_motive directamente
+      if (error.feedback_motive) {
+        const reason = error.feedback_motive.trim();
+        if (reason) {
+          reasonStats[reason] =
+            (reasonStats[reason] || 0) + (error.quantity || 1);
+        }
+      } else if (
+        error.feedback_comment &&
+        error.feedback_comment.includes(":")
+      ) {
+        // Fallback para compatibilidad con datos antiguos
         const reason = error.feedback_comment.split(":")[0].trim();
         if (reason) {
           reasonStats[reason] =

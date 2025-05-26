@@ -25,8 +25,27 @@ export class ErrorDataProcessorService {
       error.feedback_notified = error.feedback_notified || false;
       error.feedback_user = error.feedback_user || "";
       error.times_notified = error.times_notified || 0;
-      if (!error.feedback_comment) {
-        error.feedback_comment = "";
+
+      // Nuevos campos separados
+      error.feedback_motive = error.feedback_motive || "";
+      error.feedback_comment = error.feedback_comment || "";
+
+      // Mantener compatibilidad con feedback_comment antiguo si existe
+      if (
+        !error.feedback_motive &&
+        !error.feedback_comment &&
+        error.feedback_comment_old
+      ) {
+        // Si existe el campo antiguo, intentar separarlo
+        const oldComment = error.feedback_comment_old;
+        if (oldComment.includes(":")) {
+          const parts = oldComment.split(":");
+          error.feedback_motive = parts[0].trim();
+          error.feedback_comment = parts.slice(1).join(":").trim();
+        } else {
+          error.feedback_motive = oldComment;
+          error.feedback_comment = "";
+        }
       }
     });
   }
@@ -78,8 +97,8 @@ export class ErrorDataProcessorService {
         feedback_notified: true,
         feedback_user: "admin",
         feedback_date: "2025/04/30",
-        feedback_comment:
-          "Desconocimiento (no sabía): Usuario nuevo en el área - admin",
+        feedback_motive: "Desconocimiento (no sabía)",
+        feedback_comment: "Usuario nuevo en el área",
         times_notified: 1,
       },
     ];
@@ -158,16 +177,10 @@ export class ErrorDataProcessorService {
    * @param {string} errorId - ID del error a actualizar.
    * @param {string} newStatus - Nuevo estado (done/pending).
    * @param {string} username - Nombre del usuario que realiza el cambio.
-   * @param {string} [feedbackComment] - Comentario opcional de feedback.
+   * @param {Object} [feedbackData] - Datos de feedback con motivo y comentario separados.
    * @returns {boolean} True si el error fue encontrado y actualizado, false en caso contrario.
    */
-  updateDetails(
-    errorsList,
-    errorId,
-    newStatus,
-    username,
-    feedbackComment = null
-  ) {
+  updateDetails(errorsList, errorId, newStatus, username, feedbackData = null) {
     const errorIndex = errorsList.findIndex((error) => error.id === errorId);
 
     if (errorIndex === -1) {
@@ -182,24 +195,26 @@ export class ErrorDataProcessorService {
     if (newStatus.toLowerCase() === "done") {
       errorsList[errorIndex].feedback_date = new Date()
         .toISOString()
-        .split("T")[0];
+        .split("T")[0]
+        .replace(/-/g, "/");
       errorsList[errorIndex].feedback_user = username;
       errorsList[errorIndex].feedback_notified = false; // Reiniciar notificación para este estado
-      if (feedbackComment) {
-        errorsList[
-          errorIndex
-        ].feedback_comment = `${feedbackComment} - ${username}`;
+
+      if (feedbackData) {
+        // Nueva estructura con campos separados
+        errorsList[errorIndex].feedback_motive = feedbackData.reasonLabel || "";
+        errorsList[errorIndex].feedback_comment = feedbackData.comment || "";
       } else {
-        // Si no hay nuevo comentario y el estado es 'done', podríamos querer limpiar el comentario anterior
-        // o mantenerlo. El comportamiento original parece construirlo.
-        // Por ahora, si no hay feedbackComment, no se modifica el existente a menos que esté vacío.
-        // errorsList[errorIndex].feedback_comment = errorsList[errorIndex].feedback_comment || `Completado por ${username}`;
+        // Limpiar campos si no hay datos
+        errorsList[errorIndex].feedback_motive = "";
+        errorsList[errorIndex].feedback_comment = "";
       }
     } else {
       // pending u otro estado
       errorsList[errorIndex].feedback_date = null;
       errorsList[errorIndex].feedback_user = "";
-      errorsList[errorIndex].feedback_comment = ""; // Limpiar comentario si vuelve a pendiente
+      errorsList[errorIndex].feedback_motive = ""; // Limpiar motivo
+      errorsList[errorIndex].feedback_comment = ""; // Limpiar comentario
     }
     return true;
   }
@@ -237,6 +252,7 @@ export class ErrorDataProcessorService {
       "Cantidad",
       "Fecha Feedback",
       "Completado por",
+      "Motivo",
       "Comentario",
     ];
 
@@ -267,6 +283,7 @@ export class ErrorDataProcessorService {
         escapeCsvField(error.quantity), // quantity ya debería ser un número o normalizado a 1
         escapeCsvField(error.feedback_date),
         escapeCsvField(error.feedback_user),
+        escapeCsvField(error.feedback_motive),
         escapeCsvField(error.feedback_comment),
       ];
       rows.push(row.join(","));

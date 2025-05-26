@@ -480,14 +480,9 @@ export class DataService {
    * @param {string} errorId - ID del error a actualizar
    * @param {string} newStatus - Nuevo estado (done/pending)
    * @param {string} username - Nombre del usuario que realiza el cambio
-   * @param {string} [feedbackComment] - Comentario opcional de feedback
+   * @param {Object} [feedbackData] - Datos de feedback con motivo y comentario separados
    */
-  async updateErrorStatus(
-    errorId,
-    newStatus,
-    username,
-    feedbackComment = null
-  ) {
+  async updateErrorStatus(errorId, newStatus, username, feedbackData = null) {
     await this.ensureInitialized();
     try {
       const success = this.errorProcessor.updateDetails(
@@ -495,7 +490,7 @@ export class DataService {
         errorId,
         newStatus,
         username,
-        feedbackComment
+        feedbackData
       );
 
       if (!success) {

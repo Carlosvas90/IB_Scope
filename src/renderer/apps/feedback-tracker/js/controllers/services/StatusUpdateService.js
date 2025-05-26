@@ -40,13 +40,13 @@ export class StatusUpdateService {
    * @param {string} errorId - ID del error a actualizar
    * @param {string} newStatus - Nuevo estado (done/pending)
    * @param {Function} updateCallback - Función a llamar después de actualizar
-   * @param {string} [feedbackComment] - Comentario opcional de feedback
+   * @param {Object} [feedbackData] - Datos de feedback con motivo y comentario separados
    */
   async updateErrorStatus(
     errorId,
     newStatus,
     updateCallback,
-    feedbackComment = null
+    feedbackData = null
   ) {
     try {
       // Llamar al servicio de datos para actualizar el estado
@@ -54,15 +54,19 @@ export class StatusUpdateService {
         errorId,
         newStatus,
         this.currentUsername,
-        feedbackComment
+        feedbackData
       );
 
       if (success) {
         this.showSuccessMessage(newStatus);
 
         // Actualizar el comentario en la vista de detalles si está abierta
-        if (newStatus === "done" && feedbackComment) {
-          this.updateFeedbackCommentInView(errorId, feedbackComment);
+        if (newStatus === "done" && feedbackData) {
+          // Crear texto combinado para mostrar en la vista
+          const displayText = feedbackData.comment
+            ? `${feedbackData.reasonLabel}: ${feedbackData.comment}`
+            : feedbackData.reasonLabel;
+          this.updateFeedbackCommentInView(errorId, displayText);
         }
 
         // Llamar al callback para actualizar contadores, etc.
