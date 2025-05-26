@@ -152,9 +152,9 @@ export class ChartService {
   }
 
   /**
-   * Inicializa un gráfico de distribución por estado (pie/doughnut)
+   * Inicializa un gráfico de distribución por estado (siempre dona)
    */
-  initStatusChart(containerId, data, chartType = "pie") {
+  initStatusChart(containerId, data) {
     console.log(`🥧 Inicializando gráfico de estado: ${containerId}`, data);
 
     // Verificar ECharts
@@ -201,7 +201,7 @@ export class ChartService {
           {
             name: "Estado",
             type: "pie",
-            radius: chartType === "doughnut" ? ["40%", "70%"] : "70%",
+            radius: ["40%", "70%"], // Siempre dona
             center: ["50%", "50%"],
             data: data,
             emphasis: {
@@ -327,9 +327,9 @@ export class ChartService {
   }
 
   /**
-   * Inicializa un gráfico de top productos/usuarios
+   * Inicializa un gráfico de top productos/usuarios (siempre barras verticales)
    */
-  initTopChart(containerId, data, title, chartType = "horizontal-bar") {
+  initTopChart(containerId, data, title) {
     console.log(`📈 Inicializando gráfico top: ${containerId}`, data);
 
     // Verificar ECharts
@@ -357,7 +357,6 @@ export class ChartService {
 
       console.log(`📊 Gráfico ECharts inicializado: ${containerId}`);
 
-      const isHorizontal = chartType === "horizontal-bar";
       const names = data.map((item) => item.name || item.userId || item.asin);
       const values = data.map((item) => item.value || item.total);
 
@@ -372,25 +371,22 @@ export class ChartService {
           axisPointer: { type: "shadow" },
         },
         grid: {
-          left: isHorizontal ? "15%" : "3%",
+          left: "3%",
           right: "4%",
-          bottom: isHorizontal ? "3%" : "15%",
+          bottom: "15%",
           containLabel: true,
         },
         xAxis: {
-          type: isHorizontal ? "value" : "category",
-          data: isHorizontal ? undefined : names,
-          axisLabel: isHorizontal
-            ? undefined
-            : {
-                rotate: 45,
-                interval: 0,
-              },
+          type: "category",
+          data: names,
+          axisLabel: {
+            rotate: 45,
+            interval: 0,
+          },
         },
         yAxis: {
-          type: isHorizontal ? "category" : "value",
-          data: isHorizontal ? names : undefined,
-          name: isHorizontal ? undefined : "Cantidad de Errores",
+          type: "value",
+          name: "Cantidad de Errores",
         },
         series: [
           {
@@ -410,6 +406,7 @@ export class ChartService {
 
       chart.setOption(option);
       this.setupResponsive(chart);
+      console.log(`✅ Gráfico top configurado: ${containerId}`);
       return chart;
     } catch (error) {
       console.error("❌ Error al inicializar gráfico top:", error);
@@ -491,18 +488,13 @@ export class ChartService {
         this.initTrendChart(containerId, newData, chartType);
         break;
       case "status-distribution-chart":
-        this.initStatusChart(containerId, newData, chartType);
+        this.initStatusChart(containerId, newData);
         break;
       case "hourly-errors-chart":
         this.initHourlyChart(containerId, newData, chartType);
         break;
       case "top-products-chart":
-        this.initTopChart(
-          containerId,
-          newData,
-          "Top Productos con Errores",
-          chartType
-        );
+        this.initTopChart(containerId, newData, "Top Productos con Errores");
         break;
       default:
         console.warn(`Tipo de gráfico no reconocido para ${containerId}`);
@@ -574,5 +566,180 @@ export class ChartService {
   hasChart(containerId) {
     const chart = this.charts[containerId];
     return chart && !chart.isDisposed();
+  }
+
+  /**
+   * Inicializa un gráfico de distribución (errores o motivos)
+   */
+  initDistributionChart(containerId, data, title, chartType = "bar") {
+    console.log(
+      `📊 Inicializando gráfico de distribución: ${containerId}`,
+      data
+    );
+
+    // Verificar ECharts
+    if (typeof echarts === "undefined") {
+      console.error("❌ ECharts no está disponible para crear gráfico");
+      return null;
+    }
+
+    const container = document.getElementById(containerId);
+    if (!container) {
+      console.error(`❌ Container ${containerId} no encontrado`);
+      return null;
+    }
+
+    console.log(`✅ Container encontrado: ${containerId}`, container);
+
+    if (this.charts[containerId]) {
+      console.log(`🗑️ Destruyendo gráfico existente: ${containerId}`);
+      this.charts[containerId].dispose();
+    }
+
+    try {
+      const chart = echarts.init(container);
+      this.charts[containerId] = chart;
+
+      console.log(`📊 Gráfico ECharts inicializado: ${containerId}`);
+
+      let option;
+
+      if (chartType === "bar") {
+        // Gráfico de barras
+        const names = data.map((item) => item.name);
+        const values = data.map((item) => item.value);
+
+        option = {
+          title: {
+            text: title,
+            left: "center",
+            textStyle: { fontSize: 16, fontWeight: "bold" },
+          },
+          tooltip: {
+            trigger: "axis",
+            axisPointer: { type: "shadow" },
+          },
+          grid: {
+            left: "3%",
+            right: "4%",
+            bottom: "15%",
+            containLabel: true,
+          },
+          xAxis: {
+            type: "category",
+            data: names,
+            axisLabel: {
+              rotate: 45,
+              interval: 0,
+            },
+          },
+          yAxis: {
+            type: "value",
+            name: "Cantidad",
+          },
+          series: [
+            {
+              name: "Cantidad",
+              type: "bar",
+              data: values,
+              itemStyle: {
+                color: (params) => {
+                  return this.theme.colors[
+                    params.dataIndex % this.theme.colors.length
+                  ];
+                },
+              },
+            },
+          ],
+        };
+      } else if (chartType === "doughnut") {
+        // Gráfico de dona
+        option = {
+          title: {
+            text: title,
+            left: "center",
+            textStyle: { fontSize: 16, fontWeight: "bold" },
+          },
+          tooltip: {
+            trigger: "item",
+            formatter: "{a} <br/>{b}: {c} ({d}%)",
+          },
+          legend: {
+            type: "scroll",
+            orient: "vertical",
+            right: 10,
+            top: 20,
+            bottom: 20,
+            data: data.map((item) => item.name),
+          },
+          series: [
+            {
+              name: title,
+              type: "pie",
+              radius: ["40%", "70%"],
+              center: ["40%", "50%"],
+              data: data,
+              emphasis: {
+                itemStyle: {
+                  shadowBlur: 10,
+                  shadowOffsetX: 0,
+                  shadowColor: "rgba(0, 0, 0, 0.5)",
+                },
+              },
+            },
+          ],
+        };
+      } else if (chartType === "polar") {
+        // Gráfico polar
+        const names = data.map((item) => item.name);
+        const values = data.map((item) => item.value);
+
+        option = {
+          title: {
+            text: title,
+            left: "center",
+            textStyle: { fontSize: 16, fontWeight: "bold" },
+          },
+          tooltip: {
+            trigger: "axis",
+            axisPointer: { type: "cross" },
+          },
+          polar: {
+            radius: [30, "80%"],
+          },
+          radiusAxis: {
+            max: Math.max(...values) * 1.1,
+          },
+          angleAxis: {
+            type: "category",
+            data: names,
+            startAngle: 90,
+          },
+          series: [
+            {
+              name: title,
+              type: "bar",
+              data: values,
+              coordinateSystem: "polar",
+              itemStyle: {
+                color: (params) => {
+                  return this.theme.colors[
+                    params.dataIndex % this.theme.colors.length
+                  ];
+                },
+              },
+            },
+          ],
+        };
+      }
+
+      chart.setOption(option);
+      this.setupResponsive(chart);
+      console.log(`✅ Gráfico de distribución configurado: ${containerId}`);
+      return chart;
+    } catch (error) {
+      console.error("❌ Error al inicializar gráfico de distribución:", error);
+      return null;
+    }
   }
 }

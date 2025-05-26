@@ -18,7 +18,47 @@ class EstadisticasController {
     this.isLoading = false;
     this.errors = [];
 
+    // Sistema de preferencias de usuario para tipos de gráficos
+    this.userPreferences = this.loadUserPreferences();
+
     console.log("📊 EstadisticasController inicializado");
+  }
+
+  /**
+   * Carga las preferencias del usuario desde localStorage
+   */
+  loadUserPreferences() {
+    try {
+      const saved = localStorage.getItem("estadisticas_chart_preferences");
+      return saved
+        ? JSON.parse(saved)
+        : {
+            "hourly-errors": "line",
+            "error-distribution": "bar",
+            "reason-distribution": "bar",
+          };
+    } catch (error) {
+      console.warn("Error cargando preferencias:", error);
+      return {
+        "hourly-errors": "line",
+        "error-distribution": "bar",
+        "reason-distribution": "bar",
+      };
+    }
+  }
+
+  /**
+   * Guarda las preferencias del usuario en localStorage
+   */
+  saveUserPreferences() {
+    try {
+      localStorage.setItem(
+        "estadisticas_chart_preferences",
+        JSON.stringify(this.userPreferences)
+      );
+    } catch (error) {
+      console.warn("Error guardando preferencias:", error);
+    }
   }
 
   /**
@@ -125,7 +165,33 @@ class EstadisticasController {
       this.chartService.resizeAll();
     });
 
+    // Aplicar preferencias de usuario a los botones
+    this.applyUserPreferencesToButtons();
+
     console.log("✅ Event listeners configurados");
+  }
+
+  /**
+   * Aplica las preferencias de usuario a los botones de control
+   */
+  applyUserPreferencesToButtons() {
+    Object.entries(this.userPreferences).forEach(([chartId, preferredType]) => {
+      const buttons = document.querySelectorAll(`[data-chart="${chartId}"]`);
+      buttons.forEach((btn) => {
+        const btnType = btn.getAttribute("data-type");
+        if (btnType === preferredType) {
+          // Remover active de otros botones del mismo grupo
+          const group = btn.parentElement;
+          group
+            .querySelectorAll(".chart-toggle")
+            .forEach((b) => b.classList.remove("active"));
+          // Activar el botón preferido
+          btn.classList.add("active");
+        }
+      });
+    });
+
+    console.log("✅ Preferencias de usuario aplicadas a botones");
   }
 
   /**
@@ -173,7 +239,7 @@ class EstadisticasController {
   }
 
   /**
-   * Actualiza los KPIs
+   * Actualiza los KPIs (sin tiempo promedio de resolución)
    */
   updateKPIs() {
     const kpis = this.analyticsProcessor.processKPIs(
@@ -219,23 +285,6 @@ class EstadisticasController {
       `Tasa de resolución`
     );
 
-    // Tiempo promedio de resolución
-    this.updateKPI(
-      "avg-resolution-time-kpi",
-      `${kpis.avgResolutionTime.toFixed(1)} días`
-    );
-    const timeTrend =
-      kpis.avgResolutionTime <= 1
-        ? "positive"
-        : kpis.avgResolutionTime <= 3
-        ? "neutral"
-        : "negative";
-    this.updateKPITrend(
-      "avg-resolution-time-trend",
-      timeTrend,
-      "Tiempo promedio de resolución"
-    );
-
     // Promedio diario
     this.updateKPI("daily-avg-kpi", kpis.dailyAverage.toFixed(1));
     this.updateKPITrend(
@@ -276,7 +325,7 @@ class EstadisticasController {
     console.log("📊 Datos disponibles:", this.errors.length, "errores");
     console.log("📅 Rango de fechas actual:", this.currentDateRange, "días");
 
-    // Gráfico de tendencias
+    // Gráfico de tendencias (solo líneas para un día, líneas/área para más días)
     console.log("🔄 Procesando datos de tendencias...");
     const trendData = this.analyticsProcessor.processTrendData(
       this.errors,
@@ -284,16 +333,19 @@ class EstadisticasController {
     );
     console.log("📈 Datos de tendencias procesados:", trendData);
 
+    // Para un solo día, forzar tipo línea
+    const trendType = this.currentDateRange === 0 ? "line" : "line";
     const trendChart = this.chartService.initTrendChart(
       "errors-trend-chart",
-      trendData
+      trendData,
+      trendType
     );
     console.log(
       "📈 Resultado gráfico de tendencias:",
       trendChart ? "✅ Creado" : "❌ Error"
     );
 
-    // Gráfico de distribución por estado
+    // Gráfico de distribución por estado (siempre dona)
     console.log("🔄 Procesando datos de estado...");
     const statusData = this.analyticsProcessor.processStatusDistribution(
       this.errors,
@@ -318,16 +370,18 @@ class EstadisticasController {
     );
     console.log("⏰ Datos por hora procesados:", hourlyData);
 
+    const hourlyType = this.userPreferences["hourly-errors"] || "line";
     const hourlyChart = this.chartService.initHourlyChart(
       "hourly-errors-chart",
-      hourlyData
+      hourlyData,
+      hourlyType
     );
     console.log(
       "⏰ Resultado gráfico por hora:",
       hourlyChart ? "✅ Creado" : "❌ Error"
     );
 
-    // Gráfico de top productos
+    // Gráfico de top productos (siempre barras verticales)
     console.log("🔄 Procesando top ASINs...");
     const topASINs = this.analyticsProcessor.processTopASINs(
       this.errors,
@@ -352,7 +406,48 @@ class EstadisticasController {
       topChart ? "✅ Creado" : "❌ Error"
     );
 
-    console.log("📈 Gráficos actualizados");
+    // NUEVO: Gráfico de distribución de errores (violations)
+    console.log("🔄 Procesando distribución de errores...");
+    const errorDistribution = this.analyticsProcessor.processErrorDistribution(
+      this.errors,
+      this.currentDateRange
+    );
+    console.log("📊 Distribución de errores procesada:", errorDistribution);
+
+    const errorDistType = this.userPreferences["error-distribution"] || "bar";
+    const errorDistChart = this.chartService.initDistributionChart(
+      "error-distribution-chart",
+      errorDistribution,
+      "Distribución de Errores",
+      errorDistType
+    );
+    console.log(
+      "📊 Resultado gráfico distribución errores:",
+      errorDistChart ? "✅ Creado" : "❌ Error"
+    );
+
+    // NUEVO: Gráfico de distribución de motivos (feedback_comment)
+    console.log("🔄 Procesando distribución de motivos...");
+    const reasonDistribution =
+      this.analyticsProcessor.processReasonDistribution(
+        this.errors,
+        this.currentDateRange
+      );
+    console.log("📋 Distribución de motivos procesada:", reasonDistribution);
+
+    const reasonDistType = this.userPreferences["reason-distribution"] || "bar";
+    const reasonDistChart = this.chartService.initDistributionChart(
+      "reason-distribution-chart",
+      reasonDistribution,
+      "Distribución de Motivos",
+      reasonDistType
+    );
+    console.log(
+      "📋 Resultado gráfico distribución motivos:",
+      reasonDistChart ? "✅ Creado" : "❌ Error"
+    );
+
+    console.log("📈 Todos los gráficos actualizados");
   }
 
   /**
@@ -364,7 +459,7 @@ class EstadisticasController {
   }
 
   /**
-   * Actualiza la tabla de ranking de usuarios
+   * Actualiza la tabla de ranking de usuarios (Top Offenders)
    */
   updateUsersRankingTable() {
     const tbody = document.getElementById("users-ranking-body");
@@ -378,7 +473,7 @@ class EstadisticasController {
 
     if (topUsers.length === 0) {
       tbody.innerHTML =
-        '<tr><td colspan="6" class="loading">No hay datos disponibles</td></tr>';
+        '<tr><td colspan="5" class="loading">No hay datos disponibles</td></tr>';
       return;
     }
 
@@ -387,29 +482,23 @@ class EstadisticasController {
         (user, index) => `
       <tr>
         <td><strong>${index + 1}</strong></td>
-        <td>${user.userId}</td>
+        <td class="user-login" data-user="${user.userId}">${user.userId}</td>
         <td>${user.total}</td>
-        <td>${user.resolved}</td>
-        <td class="${
-          user.resolutionRate >= 80
-            ? "text-success"
-            : user.resolutionRate >= 60
-            ? "text-warning"
-            : "text-danger"
-        }">
-          ${user.resolutionRate.toFixed(1)}%
-        </td>
-        <td>${user.avgResolutionTime.toFixed(1)} días</td>
+        <td>${user.mostCommonViolation}</td>
+        <td>${user.mostCommonReason}</td>
       </tr>
     `
       )
       .join("");
 
+    // Agregar eventos para mostrar foto al pasar el mouse
+    this.setupUserHoverEvents();
+
     console.log("👥 Tabla de usuarios actualizada");
   }
 
   /**
-   * Actualiza la tabla de análisis de productos
+   * Actualiza la tabla de análisis de productos (ASINs Top Offenders)
    */
   updateProductsAnalysisTable() {
     const tbody = document.getElementById("products-analysis-body");
@@ -432,21 +521,109 @@ class EstadisticasController {
         (asin, index) => `
       <tr>
         <td><strong>${index + 1}</strong></td>
-        <td>${asin.asin}</td>
+        <td class="asin-link" data-asin="${asin.asin}">${asin.asin}</td>
         <td>${asin.total}</td>
-        <td>${asin.uniqueErrors}</td>
+        <td>${asin.mostCommonViolation}</td>
+        <td>${asin.mostCommonReason}</td>
         <td>${asin.frequency.toFixed(1)}</td>
-        <td><span class="status-badge pending">Activo</span></td>
       </tr>
     `
       )
       .join("");
 
+    // Agregar eventos para hacer click en ASIN
+    this.setupASINClickEvents();
+
     console.log("📦 Tabla de productos actualizada");
   }
 
   /**
-   * Actualiza el resumen e insights
+   * Configura eventos para mostrar foto de usuario al pasar el mouse
+   */
+  setupUserHoverEvents() {
+    const userElements = document.querySelectorAll(".user-login");
+    userElements.forEach((element) => {
+      element.addEventListener("mouseenter", (e) => {
+        const userId = e.target.getAttribute("data-user");
+        this.showUserTooltip(e.target, userId);
+      });
+
+      element.addEventListener("mouseleave", () => {
+        this.hideUserTooltip();
+      });
+    });
+  }
+
+  /**
+   * Configura eventos para hacer click en ASIN
+   */
+  setupASINClickEvents() {
+    const asinElements = document.querySelectorAll(".asin-link");
+    asinElements.forEach((element) => {
+      element.style.cursor = "pointer";
+      element.style.color = "var(--stats-primary-color)";
+      element.style.textDecoration = "underline";
+
+      element.addEventListener("click", (e) => {
+        const asin = e.target.getAttribute("data-asin");
+        this.openASINLink(asin);
+      });
+    });
+  }
+
+  /**
+   * Muestra tooltip con foto de usuario
+   */
+  showUserTooltip(element, userId) {
+    // Implementar lógica similar al feedback tracker
+    // Por ahora, mostrar un tooltip simple
+    const tooltip = document.createElement("div");
+    tooltip.className = "user-tooltip";
+    tooltip.innerHTML = `
+      <div class="user-info">
+        <img src="https://via.placeholder.com/40x40?text=${userId
+          .charAt(0)
+          .toUpperCase()}" alt="${userId}" />
+        <span>${userId}</span>
+      </div>
+    `;
+
+    tooltip.style.position = "absolute";
+    tooltip.style.background = "var(--stats-bg-primary)";
+    tooltip.style.border = "1px solid var(--stats-border-color)";
+    tooltip.style.borderRadius = "var(--stats-radius-md)";
+    tooltip.style.padding = "var(--stats-spacing-sm)";
+    tooltip.style.zIndex = "1000";
+    tooltip.style.boxShadow = "var(--stats-shadow-md)";
+
+    const rect = element.getBoundingClientRect();
+    tooltip.style.left = rect.left + "px";
+    tooltip.style.top = rect.bottom + 5 + "px";
+
+    document.body.appendChild(tooltip);
+    this.currentTooltip = tooltip;
+  }
+
+  /**
+   * Oculta tooltip de usuario
+   */
+  hideUserTooltip() {
+    if (this.currentTooltip) {
+      document.body.removeChild(this.currentTooltip);
+      this.currentTooltip = null;
+    }
+  }
+
+  /**
+   * Abre enlace de Amazon para el ASIN
+   */
+  openASINLink(asin) {
+    const amazonUrl = `https://www.amazon.com/dp/${asin}`;
+    window.open(amazonUrl, "_blank");
+  }
+
+  /**
+   * Actualiza el resumen e insights (sin tiempo promedio de resolución)
    */
   updateSummary() {
     // Resumen del período
@@ -474,9 +651,6 @@ class EstadisticasController {
         <p><strong>Promedio diario:</strong> ${kpis.dailyAverage.toFixed(
           1
         )} errores por día</p>
-        <p><strong>Tiempo promedio de resolución:</strong> ${kpis.avgResolutionTime.toFixed(
-          1
-        )} días</p>
       `;
     }
 
@@ -542,7 +716,7 @@ class EstadisticasController {
   }
 
   /**
-   * Cambia el tipo de un gráfico
+   * Cambia el tipo de un gráfico específico
    */
   toggleChartType(button) {
     const chartId = button.getAttribute("data-chart");
@@ -555,6 +729,10 @@ class EstadisticasController {
       .forEach((btn) => btn.classList.remove("active"));
     button.classList.add("active");
 
+    // Guardar preferencia del usuario
+    this.userPreferences[chartId] = chartType;
+    this.saveUserPreferences();
+
     // Obtener datos según el tipo de gráfico
     let data;
     switch (chartId) {
@@ -564,17 +742,6 @@ class EstadisticasController {
           this.currentDateRange
         );
         this.chartService.initTrendChart("errors-trend-chart", data, chartType);
-        break;
-      case "status-distribution":
-        data = this.analyticsProcessor.processStatusDistribution(
-          this.errors,
-          this.currentDateRange
-        );
-        this.chartService.initStatusChart(
-          "status-distribution-chart",
-          data,
-          chartType
-        );
         break;
       case "hourly-errors":
         data = this.analyticsProcessor.processHourlyData(
@@ -587,17 +754,27 @@ class EstadisticasController {
           chartType
         );
         break;
-      case "top-products":
-        const topASINs = this.analyticsProcessor.processTopASINs(
+      case "error-distribution":
+        data = this.analyticsProcessor.processErrorDistribution(
           this.errors,
-          this.currentDateRange,
-          10
+          this.currentDateRange
         );
-        data = topASINs.map((item) => ({ name: item.asin, total: item.total }));
-        this.chartService.initTopChart(
-          "top-products-chart",
+        this.chartService.initDistributionChart(
+          "error-distribution-chart",
           data,
-          "Top Productos con Errores",
+          "Distribución de Errores",
+          chartType
+        );
+        break;
+      case "reason-distribution":
+        data = this.analyticsProcessor.processReasonDistribution(
+          this.errors,
+          this.currentDateRange
+        );
+        this.chartService.initDistributionChart(
+          "reason-distribution-chart",
+          data,
+          "Distribución de Motivos",
           chartType
         );
         break;

@@ -177,30 +177,6 @@
           </div>
         </div>
 
-        <div class="kpi-card avg-resolution-time">
-          <div class="kpi-icon">
-            <svg
-              width="40"
-              height="40"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C6.47,22 2,17.5 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z"
-                fill="currentColor"
-              />
-            </svg>
-          </div>
-          <div class="kpi-content">
-            <h3>Tiempo Promedio</h3>
-            <div class="kpi-value" id="avg-resolution-time-kpi">-</div>
-            <div class="kpi-trend neutral" id="avg-resolution-time-trend">
-              Cargando...
-            </div>
-          </div>
-        </div>
-
         <div class="kpi-card daily-avg">
           <div class="kpi-icon">
             <svg
@@ -261,13 +237,6 @@
               >
                 Área
               </button>
-              <button
-                class="chart-toggle"
-                data-chart="errors-trend"
-                data-type="bar"
-              >
-                Barras
-              </button>
             </div>
           </div>
           <div class="chart-wrapper">
@@ -296,22 +265,6 @@
               </svg>
               Distribución por Estado
             </h3>
-            <div class="chart-controls">
-              <button
-                class="chart-toggle active"
-                data-chart="status-distribution"
-                data-type="pie"
-              >
-                Pastel
-              </button>
-              <button
-                class="chart-toggle"
-                data-chart="status-distribution"
-                data-type="doughnut"
-              >
-                Dona
-              </button>
-            </div>
           </div>
           <div class="chart-wrapper">
             <div
@@ -341,14 +294,14 @@
             </h3>
             <div class="chart-controls">
               <button
-                class="chart-toggle active"
+                class="chart-toggle"
                 data-chart="hourly-errors"
                 data-type="bar"
               >
                 Barras
               </button>
               <button
-                class="chart-toggle"
+                class="chart-toggle active"
                 data-chart="hourly-errors"
                 data-type="line"
               >
@@ -382,26 +335,110 @@
               </svg>
               Top Productos con Errores
             </h3>
+          </div>
+          <div class="chart-wrapper">
+            <div
+              id="top-products-chart"
+              style="width: 100%; height: 100%"
+            ></div>
+          </div>
+        </div>
+
+        <!-- Distribución de Errores -->
+        <div class="chart-container">
+          <div class="chart-header">
+            <h3>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z"
+                  fill="currentColor"
+                />
+              </svg>
+              Distribución de Errores
+            </h3>
             <div class="chart-controls">
               <button
                 class="chart-toggle active"
-                data-chart="top-products"
-                data-type="horizontal-bar"
+                data-chart="error-distribution"
+                data-type="bar"
               >
-                Horizontal
+                Barras
               </button>
               <button
                 class="chart-toggle"
-                data-chart="top-products"
-                data-type="bar"
+                data-chart="error-distribution"
+                data-type="doughnut"
               >
-                Vertical
+                Dona
+              </button>
+              <button
+                class="chart-toggle"
+                data-chart="error-distribution"
+                data-type="polar"
+              >
+                Polar
               </button>
             </div>
           </div>
           <div class="chart-wrapper">
             <div
-              id="top-products-chart"
+              id="error-distribution-chart"
+              style="width: 100%; height: 100%"
+            ></div>
+          </div>
+        </div>
+
+        <!-- Distribución de Motivos -->
+        <div class="chart-container">
+          <div class="chart-header">
+            <h3>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M9,5V9H21V5M9,19H21V15H9M9,14H21V10H9M4,9H8L6,7M4,19H8L6,17M4,14H8L6,12"
+                  fill="currentColor"
+                />
+              </svg>
+              Distribución de Motivos
+            </h3>
+            <div class="chart-controls">
+              <button
+                class="chart-toggle active"
+                data-chart="reason-distribution"
+                data-type="bar"
+              >
+                Barras
+              </button>
+              <button
+                class="chart-toggle"
+                data-chart="reason-distribution"
+                data-type="doughnut"
+              >
+                Dona
+              </button>
+              <button
+                class="chart-toggle"
+                data-chart="reason-distribution"
+                data-type="polar"
+              >
+                Polar
+              </button>
+            </div>
+          </div>
+          <div class="chart-wrapper">
+            <div
+              id="reason-distribution-chart"
               style="width: 100%; height: 100%"
             ></div>
           </div>
@@ -426,7 +463,7 @@
                   fill="currentColor"
                 />
               </svg>
-              Ranking de Usuarios
+              Ranking Top Offenders
             </h3>
             <button class="btn-toggle-table">
               <svg
@@ -449,16 +486,15 @@
               <thead>
                 <tr>
                   <th>Posición</th>
-                  <th>Usuario</th>
+                  <th>Login</th>
                   <th>Total Errores</th>
-                  <th>Resueltos</th>
-                  <th>Tasa Resolución</th>
-                  <th>Tiempo Promedio</th>
+                  <th>Error más común</th>
+                  <th>Motivo más común</th>
                 </tr>
               </thead>
               <tbody id="users-ranking-body">
                 <tr>
-                  <td colspan="6" class="loading">Cargando datos...</td>
+                  <td colspan="5" class="loading">Cargando datos...</td>
                 </tr>
               </tbody>
             </table>
@@ -481,7 +517,7 @@
                   fill="currentColor"
                 />
               </svg>
-              Análisis de Productos (ASINs)
+              ASINs Top Offenders
             </h3>
             <button class="btn-toggle-table">
               <svg
@@ -506,9 +542,9 @@
                   <th>Ranking</th>
                   <th>ASIN</th>
                   <th>Total Errores</th>
-                  <th>Errores Únicos</th>
+                  <th>Error más común</th>
+                  <th>Motivo más común</th>
                   <th>Frecuencia</th>
-                  <th>Estado</th>
                 </tr>
               </thead>
               <tbody id="products-analysis-body">

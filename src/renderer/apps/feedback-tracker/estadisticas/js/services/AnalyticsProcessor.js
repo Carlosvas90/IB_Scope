@@ -153,7 +153,7 @@ export class AnalyticsProcessor {
   }
 
   /**
-   * Procesa top usuarios con más errores
+   * Procesa top usuarios con más errores (actualizado para nueva estructura)
    */
   processTopUsers(errors, dateRange = 30, limit = 10) {
     const filteredErrors = this.filterByDateRange(errors, dateRange);
@@ -164,56 +164,56 @@ export class AnalyticsProcessor {
       if (!userStats[userId]) {
         userStats[userId] = {
           total: 0,
-          resolved: 0,
-          pending: 0,
-          resolutionTimes: [],
+          violations: {},
+          reasons: {},
         };
       }
 
       const quantity = error.quantity || 1;
       userStats[userId].total += quantity;
 
-      if (error.feedback_status === "done") {
-        userStats[userId].resolved += quantity;
+      // Contar violaciones (errores)
+      const violation = error.violation || "Sin especificar";
+      userStats[userId].violations[violation] =
+        (userStats[userId].violations[violation] || 0) + quantity;
 
-        // Calcular tiempo de resolución
-        if (error.feedback_date && error.date) {
-          const errorDate = new Date(error.date.replace(/\//g, "-"));
-          const resolvedDate = new Date(
-            error.feedback_date.replace(/\//g, "-")
-          );
-          const diffDays = Math.ceil(
-            (resolvedDate - errorDate) / (1000 * 60 * 60 * 24)
-          );
-          if (diffDays >= 0) {
-            userStats[userId].resolutionTimes.push(diffDays);
-          }
+      // Contar motivos (de feedback_comment antes del ":")
+      if (error.feedback_comment) {
+        const reason = error.feedback_comment.split(":")[0].trim();
+        if (reason) {
+          userStats[userId].reasons[reason] =
+            (userStats[userId].reasons[reason] || 0) + quantity;
         }
-      } else {
-        userStats[userId].pending += quantity;
       }
     });
 
-    // Convertir a array y ordenar
-    const usersArray = Object.entries(userStats).map(([userId, stats]) => ({
-      userId,
-      total: stats.total,
-      resolved: stats.resolved,
-      pending: stats.pending,
-      resolutionRate:
-        stats.total > 0 ? (stats.resolved / stats.total) * 100 : 0,
-      avgResolutionTime:
-        stats.resolutionTimes.length > 0
-          ? stats.resolutionTimes.reduce((a, b) => a + b, 0) /
-            stats.resolutionTimes.length
-          : 0,
-    }));
+    // Convertir a array y calcular más comunes
+    const usersArray = Object.entries(userStats).map(([userId, stats]) => {
+      // Encontrar violación más común
+      const mostCommonViolation = Object.entries(stats.violations).sort(
+        (a, b) => b[1] - a[1]
+      )[0];
+
+      // Encontrar motivo más común
+      const mostCommonReason = Object.entries(stats.reasons).sort(
+        (a, b) => b[1] - a[1]
+      )[0];
+
+      return {
+        userId,
+        total: stats.total,
+        mostCommonViolation: mostCommonViolation
+          ? mostCommonViolation[0]
+          : "N/A",
+        mostCommonReason: mostCommonReason ? mostCommonReason[0] : "N/A",
+      };
+    });
 
     return usersArray.sort((a, b) => b.total - a.total).slice(0, limit);
   }
 
   /**
-   * Procesa top ASINs con más errores
+   * Procesa top ASINs con más errores (actualizado para nueva estructura)
    */
   processTopASINs(errors, dateRange = 30, limit = 10) {
     const filteredErrors = this.filterByDateRange(errors, dateRange);
@@ -224,42 +224,98 @@ export class AnalyticsProcessor {
       if (!asinStats[asin]) {
         asinStats[asin] = {
           total: 0,
-          uniqueErrors: 0,
-          violations: new Set(),
+          violations: {},
+          reasons: {},
         };
       }
 
       const quantity = error.quantity || 1;
       asinStats[asin].total += quantity;
-      asinStats[asin].violations.add(error.violation);
+
+      // Contar violaciones (errores)
+      const violation = error.violation || "Sin especificar";
+      asinStats[asin].violations[violation] =
+        (asinStats[asin].violations[violation] || 0) + quantity;
+
+      // Contar motivos (de feedback_comment antes del ":")
+      if (error.feedback_comment) {
+        const reason = error.feedback_comment.split(":")[0].trim();
+        if (reason) {
+          asinStats[asin].reasons[reason] =
+            (asinStats[asin].reasons[reason] || 0) + quantity;
+        }
+      }
     });
 
-    // Convertir a array y calcular errores únicos
-    const asinsArray = Object.entries(asinStats).map(([asin, stats]) => ({
-      asin,
-      total: stats.total,
-      uniqueErrors: stats.violations.size,
-      frequency: stats.total / stats.violations.size,
-    }));
+    // Convertir a array y calcular más comunes
+    const asinsArray = Object.entries(asinStats).map(([asin, stats]) => {
+      // Encontrar violación más común
+      const mostCommonViolation = Object.entries(stats.violations).sort(
+        (a, b) => b[1] - a[1]
+      )[0];
+
+      // Encontrar motivo más común
+      const mostCommonReason = Object.entries(stats.reasons).sort(
+        (a, b) => b[1] - a[1]
+      )[0];
+
+      // Calcular frecuencia
+      const uniqueViolations = Object.keys(stats.violations).length;
+      const frequency =
+        uniqueViolations > 0 ? stats.total / uniqueViolations : 0;
+
+      return {
+        asin,
+        total: stats.total,
+        mostCommonViolation: mostCommonViolation
+          ? mostCommonViolation[0]
+          : "N/A",
+        mostCommonReason: mostCommonReason ? mostCommonReason[0] : "N/A",
+        frequency: frequency,
+      };
+    });
 
     return asinsArray.sort((a, b) => b.total - a.total).slice(0, limit);
   }
 
   /**
-   * Procesa distribución de violaciones
+   * Procesa distribución de violaciones (errores)
    */
-  processViolationDistribution(errors, dateRange = 30) {
+  processErrorDistribution(errors, dateRange = 30) {
     const filteredErrors = this.filterByDateRange(errors, dateRange);
     const violationStats = {};
 
     filteredErrors.forEach((error) => {
-      const violation = error.violation;
+      const violation = error.violation || "Sin especificar";
       violationStats[violation] =
         (violationStats[violation] || 0) + (error.quantity || 1);
     });
 
     return Object.entries(violationStats)
       .map(([violation, count]) => ({ name: violation, value: count }))
+      .sort((a, b) => b.value - a.value);
+  }
+
+  /**
+   * Procesa distribución de motivos (de feedback_comment)
+   */
+  processReasonDistribution(errors, dateRange = 30) {
+    const filteredErrors = this.filterByDateRange(errors, dateRange);
+    const reasonStats = {};
+
+    filteredErrors.forEach((error) => {
+      if (error.feedback_comment) {
+        // Extraer la parte antes de ":" que es el motivo
+        const reason = error.feedback_comment.split(":")[0].trim();
+        if (reason) {
+          reasonStats[reason] =
+            (reasonStats[reason] || 0) + (error.quantity || 1);
+        }
+      }
+    });
+
+    return Object.entries(reasonStats)
+      .map(([reason, count]) => ({ name: reason, value: count }))
       .sort((a, b) => b.value - a.value);
   }
 
@@ -350,7 +406,7 @@ export class AnalyticsProcessor {
     const kpis = this.processKPIs(errors, dateRange);
     const topUsers = this.processTopUsers(errors, dateRange, 3);
     const topASINs = this.processTopASINs(errors, dateRange, 3);
-    const violations = this.processViolationDistribution(errors, dateRange);
+    const violations = this.processErrorDistribution(errors, dateRange);
 
     const insights = [];
 
