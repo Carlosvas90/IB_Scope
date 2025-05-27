@@ -1,5 +1,5 @@
 /**
- * estadisticas.js
+ * estadisticas-controller.js
  * Controlador principal para el dashboard de estadísticas
  * Integra EstadisticasDataService, AnalyticsProcessor y ChartService
  * NUEVO: Integración con sistema modular de gráficos
@@ -8,18 +8,17 @@
 import { EstadisticasDataService } from "./services/EstadisticasDataService.js";
 import { AnalyticsProcessor } from "./services/AnalyticsProcessor.js";
 import { ChartService } from "./services/ChartService.js";
-// NUEVO: Importar sistema modular
-import chartRegistry from "./components/charts/ChartRegistry.js";
 
-class EstadisticasController {
+export class EstadisticasController {
   constructor() {
     this.dataService = new EstadisticasDataService();
     this.analyticsProcessor = new AnalyticsProcessor();
     this.chartService = new ChartService();
 
-    // NUEVO: Sistema modular de gráficos
+    // Sistema modular de gráficos
     this.modularCharts = new Map();
-    this.useModularCharts = true; // Flag para alternar entre sistemas
+    this.useModularCharts = false; // Empezar con sistema tradicional por defecto
+    this.chartRegistry = null;
 
     this.currentDateRange = 30; // días por defecto
     this.isLoading = false;
@@ -84,10 +83,8 @@ class EstadisticasController {
       // Verificar que ECharts esté disponible
       await this.waitForECharts();
 
-      // NUEVO: Inicializar sistema modular si está activado
-      if (this.useModularCharts) {
-        await this.initModularCharts();
-      }
+      // Intentar inicializar sistema modular (opcional)
+      await this.tryInitModularCharts();
 
       // Inicializar servicios
       await this.dataService.init();
@@ -111,17 +108,23 @@ class EstadisticasController {
   }
 
   /**
-   * NUEVO: Inicializa el sistema modular de gráficos
+   * Intenta inicializar el sistema modular (sin fallar si no está disponible)
    */
-  async initModularCharts() {
+  async tryInitModularCharts() {
     try {
-      console.log("🔧 Inicializando sistema modular de gráficos...");
+      console.log("🔧 Intentando inicializar sistema modular...");
+
+      // Importar dinámicamente el registro de gráficos
+      const chartRegistryModule = await import(
+        "./components/charts/ChartRegistry.js"
+      );
+      this.chartRegistry = chartRegistryModule.default;
 
       // Inicializar el registro
-      await chartRegistry.initialize();
+      await this.chartRegistry.initialize();
 
       // Configurar opciones globales
-      chartRegistry.setGlobalConfig({
+      this.chartRegistry.setGlobalConfig({
         defaultTheme: "light",
         autoRefresh: false, // Lo manejamos nosotros
         refreshInterval: 60000,
@@ -130,16 +133,19 @@ class EstadisticasController {
         errorHandling: "graceful",
       });
 
+      this.useModularCharts = true;
       console.log("✅ Sistema modular inicializado");
       console.log(
         "📊 Gráficos disponibles:",
-        chartRegistry.getAvailableChartTypes()
+        this.chartRegistry.getAvailableChartTypes()
       );
     } catch (error) {
-      console.error("❌ Error inicializando sistema modular:", error);
-      // Fallback al sistema tradicional
+      console.warn(
+        "⚠️ Sistema modular no disponible, usando tradicional:",
+        error.message
+      );
       this.useModularCharts = false;
-      console.log("🔄 Fallback al sistema tradicional de gráficos");
+      this.chartRegistry = null;
     }
   }
 
@@ -202,12 +208,15 @@ class EstadisticasController {
       });
     }
 
-    // NUEVO: Botón para alternar sistema de gráficos (para testing)
+    // Botón para alternar sistema de gráficos (solo si modular está disponible)
     const toggleSystemBtn = document.getElementById("toggle-chart-system");
-    if (toggleSystemBtn) {
+    if (toggleSystemBtn && this.chartRegistry) {
       toggleSystemBtn.addEventListener("click", () => {
         this.toggleChartSystem();
       });
+    } else if (toggleSystemBtn) {
+      // Ocultar botón si sistema modular no está disponible
+      toggleSystemBtn.style.display = "none";
     }
 
     // Botones de toggle de gráficos
@@ -219,12 +228,15 @@ class EstadisticasController {
 
     // Configurar redimensionado de ventana
     window.addEventListener("resize", () => {
-      if (this.useModularCharts) {
-        chartRegistry.resizeAll();
+      if (this.useModularCharts && this.chartRegistry) {
+        this.chartRegistry.resizeAll();
       } else {
         this.chartService.resizeAll();
       }
     });
+
+    // Configurar observer para detectar cuando los contenedores se vuelven visibles
+    this.setupVisibilityObserver();
 
     // Aplicar preferencias de usuario a los botones
     this.applyUserPreferencesToButtons();
@@ -233,14 +245,19 @@ class EstadisticasController {
   }
 
   /**
-   * NUEVO: Alterna entre sistema modular y tradicional
+   * Alterna entre sistema modular y tradicional
    */
   async toggleChartSystem() {
+    if (!this.chartRegistry) {
+      console.warn("⚠️ Sistema modular no disponible");
+      return;
+    }
+
     console.log("🔄 Alternando sistema de gráficos...");
 
     // Limpiar gráficos actuales
     if (this.useModularCharts) {
-      chartRegistry.destroyAll();
+      this.chartRegistry.destroyAll();
       this.modularCharts.clear();
     }
 
@@ -261,11 +278,6 @@ class EstadisticasController {
       toggleBtn.className = `btn ${
         this.useModularCharts ? "btn-warning" : "btn-success"
       }`;
-    }
-
-    // Re-inicializar sistema modular si es necesario
-    if (this.useModularCharts) {
-      await this.initModularCharts();
     }
 
     // Actualizar gráficos
@@ -345,7 +357,7 @@ class EstadisticasController {
   }
 
   /**
-   * Actualiza los KPIs (sin tiempo promedio de resolución)
+   * Actualiza los KPIs
    */
   updateKPIs() {
     const kpis = this.analyticsProcessor.processKPIs(
@@ -435,7 +447,7 @@ class EstadisticasController {
       this.useModularCharts ? "MODULAR" : "TRADICIONAL"
     );
 
-    if (this.useModularCharts) {
+    if (this.useModularCharts && this.chartRegistry) {
       this.updateModularCharts();
     } else {
       this.updateTraditionalCharts();
@@ -445,86 +457,28 @@ class EstadisticasController {
   }
 
   /**
-   * NUEVO: Actualiza gráficos usando el sistema modular
+   * Actualiza gráficos usando el sistema modular
    */
   async updateModularCharts() {
     try {
       console.log("🔧 Actualizando gráficos con sistema modular...");
 
-      // 1. Gráfico de tendencias
-      await this.createModularTrendChart();
+      // Solo crear gráficos que están disponibles
+      const availableTypes = this.chartRegistry.getAvailableChartTypes();
 
-      // 2. Gráfico de distribución por estado
-      await this.createModularStatusChart();
+      // Crear gráficos modulares con un pequeño delay entre cada uno
+      if (availableTypes.includes("trend")) {
+        await this.createModularTrendChart();
+        await new Promise((resolve) => setTimeout(resolve, 100)); // Delay entre gráficos
+      }
 
-      // 3. Gráfico de errores por hora (pendiente - usar sistema tradicional por ahora)
-      console.log(
-        "⏰ Gráfico por hora - usando sistema tradicional temporalmente"
-      );
-      const hourlyData = this.analyticsProcessor.processHourlyData(
-        this.errors,
-        this.currentDateRange
-      );
-      const hourlyType = this.userPreferences["hourly-errors"] || "line";
-      this.chartService.initHourlyChart(
-        "hourly-errors-chart",
-        hourlyData,
-        hourlyType
-      );
+      if (availableTypes.includes("statusdistribution")) {
+        await this.createModularStatusChart();
+        await new Promise((resolve) => setTimeout(resolve, 100)); // Delay entre gráficos
+      }
 
-      // 4. Top productos (pendiente - usar sistema tradicional por ahora)
-      console.log(
-        "📦 Top productos - usando sistema tradicional temporalmente"
-      );
-      const topASINs = this.analyticsProcessor.processTopASINs(
-        this.errors,
-        this.currentDateRange,
-        10
-      );
-      const topProductsData = topASINs.map((item) => ({
-        name: item.asin,
-        total: item.total,
-      }));
-      this.chartService.initTopChart(
-        "top-products-chart",
-        topProductsData,
-        "Top Productos con Errores"
-      );
-
-      // 5. Distribución de errores (pendiente - usar sistema tradicional por ahora)
-      console.log(
-        "📊 Distribución errores - usando sistema tradicional temporalmente"
-      );
-      const errorDistribution =
-        this.analyticsProcessor.processErrorDistribution(
-          this.errors,
-          this.currentDateRange
-        );
-      const errorDistType = this.userPreferences["error-distribution"] || "bar";
-      this.chartService.initDistributionChart(
-        "error-distribution-chart",
-        errorDistribution,
-        "Distribución de Errores",
-        errorDistType
-      );
-
-      // 6. Distribución de motivos (pendiente - usar sistema tradicional por ahora)
-      console.log(
-        "📋 Distribución motivos - usando sistema tradicional temporalmente"
-      );
-      const reasonDistribution =
-        this.analyticsProcessor.processReasonDistribution(
-          this.errors,
-          this.currentDateRange
-        );
-      const reasonDistType =
-        this.userPreferences["reason-distribution"] || "bar";
-      this.chartService.initDistributionChart(
-        "reason-distribution-chart",
-        reasonDistribution,
-        "Distribución de Motivos",
-        reasonDistType
-      );
+      // Para gráficos no disponibles, usar sistema tradicional
+      this.updateRemainingChartsTraditional();
 
       console.log("✅ Gráficos modulares actualizados");
     } catch (error) {
@@ -536,7 +490,71 @@ class EstadisticasController {
   }
 
   /**
-   * NUEVO: Crea gráfico de tendencias modular
+   * Actualiza gráficos restantes con sistema tradicional
+   */
+  updateRemainingChartsTraditional() {
+    console.log(
+      "🔄 Actualizando gráficos restantes con sistema tradicional..."
+    );
+
+    // Gráfico de errores por hora
+    const hourlyData = this.analyticsProcessor.processHourlyData(
+      this.errors,
+      this.currentDateRange
+    );
+    const hourlyType = this.userPreferences["hourly-errors"] || "line";
+    this.chartService.initHourlyChart(
+      "hourly-errors-chart",
+      hourlyData,
+      hourlyType
+    );
+
+    // Top productos
+    const topASINs = this.analyticsProcessor.processTopASINs(
+      this.errors,
+      this.currentDateRange,
+      10
+    );
+    const topProductsData = topASINs.map((item) => ({
+      name: item.asin,
+      total: item.total,
+    }));
+    this.chartService.initTopChart(
+      "top-products-chart",
+      topProductsData,
+      "Top Productos con Errores"
+    );
+
+    // Distribución de errores
+    const errorDistribution = this.analyticsProcessor.processErrorDistribution(
+      this.errors,
+      this.currentDateRange
+    );
+    const errorDistType = this.userPreferences["error-distribution"] || "bar";
+    this.chartService.initDistributionChart(
+      "error-distribution-chart",
+      errorDistribution,
+      "Distribución de Errores",
+      errorDistType
+    );
+
+    // Distribución de motivos
+    const reasonDistribution =
+      this.analyticsProcessor.processReasonDistribution(
+        this.errors,
+        this.currentDateRange
+      );
+    const reasonDistType = this.userPreferences["reason-distribution"] || "bar";
+    this.chartService.initDistributionChart(
+      "reason-distribution-chart",
+      reasonDistribution,
+      "Distribución de Motivos",
+      reasonDistType
+    );
+  }
+
+  /**
+   * Crea gráfico de tendencias modular
    */
   async createModularTrendChart() {
     try {
@@ -548,10 +566,23 @@ class EstadisticasController {
         return;
       }
 
+      // Verificar que el contenedor esté visible
+      if (!container.offsetParent) {
+        console.warn(
+          "⚠️ Contenedor errors-trend-chart no está visible, esperando..."
+        );
+        await new Promise((resolve) => setTimeout(resolve, 200));
+      }
+
       // Limpiar gráfico anterior si existe
       const existingChart = this.modularCharts.get("trend");
       if (existingChart) {
-        existingChart.destroy();
+        try {
+          existingChart.destroy();
+        } catch (e) {
+          console.warn("⚠️ Error destruyendo gráfico anterior:", e);
+        }
+        this.modularCharts.delete("trend");
       }
 
       // Obtener datos reales del sistema
@@ -560,6 +591,12 @@ class EstadisticasController {
         this.currentDateRange
       );
       console.log("📊 Datos de tendencias obtenidos:", trendData);
+
+      // Verificar que hay datos
+      if (!trendData || !trendData.dates || trendData.dates.length === 0) {
+        console.warn("⚠️ No hay datos de tendencias para mostrar");
+        return;
+      }
 
       // Determinar período y granularidad
       const period =
@@ -576,14 +613,14 @@ class EstadisticasController {
       const granularity = this.currentDateRange === 0 ? "hour" : "day";
 
       // Crear gráfico modular con datos reales
-      const trendChart = chartRegistry.create("trend", container, {
+      const trendChart = this.chartRegistry.create("trend", container, {
         title: "Tendencias de Errores",
         period: period,
         granularity: granularity,
         showArea: true,
         multiSeries: true,
         smoothCurve: true,
-        realData: trendData, // NUEVO: Pasar datos reales
+        realData: trendData,
       });
 
       // Configurar eventos
@@ -591,8 +628,27 @@ class EstadisticasController {
         console.log("🖱️ Clic en tendencias:", params);
       });
 
-      // Renderizar
-      await trendChart.render();
+      // Renderizar con retry
+      let renderAttempts = 0;
+      const maxAttempts = 3;
+
+      while (renderAttempts < maxAttempts) {
+        try {
+          await trendChart.render();
+          break; // Éxito, salir del loop
+        } catch (renderError) {
+          renderAttempts++;
+          console.warn(
+            `⚠️ Intento ${renderAttempts} de renderizado falló:`,
+            renderError
+          );
+          if (renderAttempts < maxAttempts) {
+            await new Promise((resolve) => setTimeout(resolve, 200));
+          } else {
+            throw renderError; // Re-lanzar después del último intento
+          }
+        }
+      }
 
       // Guardar referencia
       this.modularCharts.set("trend", trendChart);
@@ -600,12 +656,25 @@ class EstadisticasController {
       console.log("✅ Gráfico de tendencias modular creado");
     } catch (error) {
       console.error("❌ Error creando gráfico de tendencias modular:", error);
-      throw error;
+      // Fallback al tradicional para este gráfico
+      try {
+        const trendData = this.analyticsProcessor.processTrendData(
+          this.errors,
+          this.currentDateRange
+        );
+        this.chartService.initTrendChart(
+          "errors-trend-chart",
+          trendData,
+          "line"
+        );
+      } catch (fallbackError) {
+        console.error("❌ Error en fallback de tendencias:", fallbackError);
+      }
     }
   }
 
   /**
-   * NUEVO: Crea gráfico de distribución de estado modular
+   * Crea gráfico de distribución de estado modular
    */
   async createModularStatusChart() {
     try {
@@ -617,10 +686,23 @@ class EstadisticasController {
         return;
       }
 
+      // Verificar que el contenedor esté visible
+      if (!container.offsetParent) {
+        console.warn(
+          "⚠️ Contenedor status-distribution-chart no está visible, esperando..."
+        );
+        await new Promise((resolve) => setTimeout(resolve, 200));
+      }
+
       // Limpiar gráfico anterior si existe
       const existingChart = this.modularCharts.get("status");
       if (existingChart) {
-        existingChart.destroy();
+        try {
+          existingChart.destroy();
+        } catch (e) {
+          console.warn("⚠️ Error destruyendo gráfico anterior:", e);
+        }
+        this.modularCharts.delete("status");
       }
 
       // Obtener datos reales del sistema
@@ -630,8 +712,14 @@ class EstadisticasController {
       );
       console.log("📊 Datos de distribución obtenidos:", statusData);
 
+      // Verificar que hay datos
+      if (!statusData || statusData.length === 0) {
+        console.warn("⚠️ No hay datos de distribución para mostrar");
+        return;
+      }
+
       // Crear gráfico modular con datos reales
-      const statusChart = chartRegistry.create(
+      const statusChart = this.chartRegistry.create(
         "statusdistribution",
         container,
         {
@@ -640,7 +728,7 @@ class EstadisticasController {
           showPercentages: true,
           showValues: true,
           labelPosition: "outside",
-          realData: statusData, // NUEVO: Pasar datos reales
+          realData: statusData,
         }
       );
 
@@ -649,8 +737,27 @@ class EstadisticasController {
         console.log("🖱️ Clic en distribución:", params);
       });
 
-      // Renderizar
-      await statusChart.render();
+      // Renderizar con retry
+      let renderAttempts = 0;
+      const maxAttempts = 3;
+
+      while (renderAttempts < maxAttempts) {
+        try {
+          await statusChart.render();
+          break; // Éxito, salir del loop
+        } catch (renderError) {
+          renderAttempts++;
+          console.warn(
+            `⚠️ Intento ${renderAttempts} de renderizado falló:`,
+            renderError
+          );
+          if (renderAttempts < maxAttempts) {
+            await new Promise((resolve) => setTimeout(resolve, 200));
+          } else {
+            throw renderError; // Re-lanzar después del último intento
+          }
+        }
+      }
 
       // Guardar referencia
       this.modularCharts.set("status", statusChart);
@@ -658,7 +765,19 @@ class EstadisticasController {
       console.log("✅ Gráfico de distribución modular creado");
     } catch (error) {
       console.error("❌ Error creando gráfico de distribución modular:", error);
-      throw error;
+      // Fallback al tradicional para este gráfico
+      try {
+        const statusData = this.analyticsProcessor.processStatusDistribution(
+          this.errors,
+          this.currentDateRange
+        );
+        this.chartService.initStatusChart(
+          "status-distribution-chart",
+          statusData
+        );
+      } catch (fallbackError) {
+        console.error("❌ Error en fallback de distribución:", fallbackError);
+      }
     }
   }
 
@@ -668,127 +787,27 @@ class EstadisticasController {
   updateTraditionalCharts() {
     console.log("🔧 Actualizando gráficos con sistema tradicional...");
 
-    // Gráfico de tendencias (solo líneas para un día, líneas/área para más días)
-    console.log("🔄 Procesando datos de tendencias...");
+    // Gráfico de tendencias
     const trendData = this.analyticsProcessor.processTrendData(
       this.errors,
       this.currentDateRange
     );
-    console.log("📈 Datos de tendencias procesados:", trendData);
-
-    // Para un solo día, forzar tipo línea
     const trendType = this.currentDateRange === 0 ? "line" : "line";
-    const trendChart = this.chartService.initTrendChart(
+    this.chartService.initTrendChart(
       "errors-trend-chart",
       trendData,
       trendType
     );
-    console.log(
-      "📈 Resultado gráfico de tendencias:",
-      trendChart ? "✅ Creado" : "❌ Error"
-    );
 
-    // Gráfico de distribución por estado (siempre dona)
-    console.log("🔄 Procesando datos de estado...");
+    // Gráfico de distribución por estado
     const statusData = this.analyticsProcessor.processStatusDistribution(
       this.errors,
       this.currentDateRange
     );
-    console.log("🥧 Datos de estado procesados:", statusData);
+    this.chartService.initStatusChart("status-distribution-chart", statusData);
 
-    const statusChart = this.chartService.initStatusChart(
-      "status-distribution-chart",
-      statusData
-    );
-    console.log(
-      "🥧 Resultado gráfico de estado:",
-      statusChart ? "✅ Creado" : "❌ Error"
-    );
-
-    // Gráfico de errores por hora
-    console.log("🔄 Procesando datos por hora...");
-    const hourlyData = this.analyticsProcessor.processHourlyData(
-      this.errors,
-      this.currentDateRange
-    );
-    console.log("⏰ Datos por hora procesados:", hourlyData);
-
-    const hourlyType = this.userPreferences["hourly-errors"] || "line";
-    const hourlyChart = this.chartService.initHourlyChart(
-      "hourly-errors-chart",
-      hourlyData,
-      hourlyType
-    );
-    console.log(
-      "⏰ Resultado gráfico por hora:",
-      hourlyChart ? "✅ Creado" : "❌ Error"
-    );
-
-    // Gráfico de top productos (siempre barras verticales)
-    console.log("🔄 Procesando top ASINs...");
-    const topASINs = this.analyticsProcessor.processTopASINs(
-      this.errors,
-      this.currentDateRange,
-      10
-    );
-    console.log("📦 Top ASINs procesados:", topASINs);
-
-    const topProductsData = topASINs.map((item) => ({
-      name: item.asin,
-      total: item.total,
-    }));
-    console.log("📦 Datos de top productos:", topProductsData);
-
-    const topChart = this.chartService.initTopChart(
-      "top-products-chart",
-      topProductsData,
-      "Top Productos con Errores"
-    );
-    console.log(
-      "📦 Resultado gráfico top productos:",
-      topChart ? "✅ Creado" : "❌ Error"
-    );
-
-    // NUEVO: Gráfico de distribución de errores (violations)
-    console.log("🔄 Procesando distribución de errores...");
-    const errorDistribution = this.analyticsProcessor.processErrorDistribution(
-      this.errors,
-      this.currentDateRange
-    );
-    console.log("📊 Distribución de errores procesada:", errorDistribution);
-
-    const errorDistType = this.userPreferences["error-distribution"] || "bar";
-    const errorDistChart = this.chartService.initDistributionChart(
-      "error-distribution-chart",
-      errorDistribution,
-      "Distribución de Errores",
-      errorDistType
-    );
-    console.log(
-      "📊 Resultado gráfico distribución errores:",
-      errorDistChart ? "✅ Creado" : "❌ Error"
-    );
-
-    // NUEVO: Gráfico de distribución de motivos (feedback_comment)
-    console.log("🔄 Procesando distribución de motivos...");
-    const reasonDistribution =
-      this.analyticsProcessor.processReasonDistribution(
-        this.errors,
-        this.currentDateRange
-      );
-    console.log("📋 Distribución de motivos procesada:", reasonDistribution);
-
-    const reasonDistType = this.userPreferences["reason-distribution"] || "bar";
-    const reasonDistChart = this.chartService.initDistributionChart(
-      "reason-distribution-chart",
-      reasonDistribution,
-      "Distribución de Motivos",
-      reasonDistType
-    );
-    console.log(
-      "📋 Resultado gráfico distribución motivos:",
-      reasonDistChart ? "✅ Creado" : "❌ Error"
-    );
+    // Resto de gráficos
+    this.updateRemainingChartsTraditional();
   }
 
   /**
@@ -800,7 +819,7 @@ class EstadisticasController {
   }
 
   /**
-   * Actualiza la tabla de ranking de usuarios (Top Offenders)
+   * Actualiza la tabla de ranking de usuarios
    */
   updateUsersRankingTable() {
     const tbody = document.getElementById("users-ranking-body");
@@ -832,14 +851,12 @@ class EstadisticasController {
       )
       .join("");
 
-    // Agregar eventos para mostrar foto al pasar el mouse
     this.setupUserHoverEvents();
-
     console.log("👥 Tabla de usuarios actualizada");
   }
 
   /**
-   * Actualiza la tabla de análisis de productos (ASINs Top Offenders)
+   * Actualiza la tabla de análisis de productos
    */
   updateProductsAnalysisTable() {
     const tbody = document.getElementById("products-analysis-body");
@@ -872,9 +889,7 @@ class EstadisticasController {
       )
       .join("");
 
-    // Agregar eventos para hacer click en ASIN
     this.setupASINClickEvents();
-
     console.log("📦 Tabla de productos actualizada");
   }
 
@@ -916,8 +931,6 @@ class EstadisticasController {
    * Muestra tooltip con foto de usuario
    */
   showUserTooltip(element, userId) {
-    // Implementar lógica similar al feedback tracker
-    // Por ahora, mostrar un tooltip simple
     const tooltip = document.createElement("div");
     tooltip.className = "user-tooltip";
     tooltip.innerHTML = `
@@ -964,7 +977,7 @@ class EstadisticasController {
   }
 
   /**
-   * Actualiza el resumen e insights (sin tiempo promedio de resolución)
+   * Actualiza el resumen e insights
    */
   updateSummary() {
     // Resumen del período
@@ -1011,6 +1024,79 @@ class EstadisticasController {
   }
 
   /**
+   * Configura observer para detectar visibilidad de contenedores
+   */
+  setupVisibilityObserver() {
+    if (!window.IntersectionObserver) {
+      console.warn("⚠️ IntersectionObserver no disponible");
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && this.useModularCharts) {
+            const containerId = entry.target.id;
+            console.log(`👁️ Contenedor ${containerId} ahora es visible`);
+
+            // Verificar si necesita reparación después de un pequeño delay
+            setTimeout(() => {
+              this.verifyAndFixModularCharts();
+            }, 100);
+          }
+        });
+      },
+      {
+        threshold: 0.1, // Trigger cuando al menos 10% es visible
+        rootMargin: "50px", // Trigger un poco antes de que sea completamente visible
+      }
+    );
+
+    // Observar contenedores de gráficos modulares
+    const trendContainer = document.getElementById("errors-trend-chart");
+    const statusContainer = document.getElementById(
+      "status-distribution-chart"
+    );
+
+    if (trendContainer) observer.observe(trendContainer);
+    if (statusContainer) observer.observe(statusContainer);
+
+    // Guardar referencia para limpieza posterior
+    this.visibilityObserver = observer;
+  }
+
+  /**
+   * Verifica y corrige gráficos modulares que puedan haber desaparecido
+   */
+  async verifyAndFixModularCharts() {
+    if (!this.useModularCharts || !this.chartRegistry) {
+      return;
+    }
+
+    console.log("🔍 Verificando estado de gráficos modulares...");
+
+    // Verificar gráfico de tendencias
+    const trendContainer = document.getElementById("errors-trend-chart");
+    const trendChart = this.modularCharts.get("trend");
+
+    if (trendContainer && (!trendChart || !trendChart.chart)) {
+      console.log("🔧 Gráfico de tendencias necesita reparación");
+      await this.createModularTrendChart();
+    }
+
+    // Verificar gráfico de distribución
+    const statusContainer = document.getElementById(
+      "status-distribution-chart"
+    );
+    const statusChart = this.modularCharts.get("status");
+
+    if (statusContainer && (!statusChart || !statusChart.chart)) {
+      console.log("🔧 Gráfico de distribución necesita reparación");
+      await this.createModularStatusChart();
+    }
+  }
+
+  /**
    * Cambia el rango de fechas
    */
   async changeDateRange(newRange) {
@@ -1021,6 +1107,11 @@ class EstadisticasController {
 
     // Actualizar todos los componentes con el nuevo rango
     this.updateAllComponents();
+
+    // Verificar y corregir gráficos modulares después de un pequeño delay
+    setTimeout(() => {
+      this.verifyAndFixModularCharts();
+    }, 500);
   }
 
   /**
@@ -1035,6 +1126,12 @@ class EstadisticasController {
       if (success) {
         this.errors = this.dataService.errors;
         this.updateAllComponents();
+
+        // Verificar y corregir gráficos modulares después de actualizar
+        setTimeout(() => {
+          this.verifyAndFixModularCharts();
+        }, 300);
+
         this.showToast("Datos actualizados correctamente", "success");
       } else {
         throw new Error("Error al refrescar datos");
@@ -1052,7 +1149,6 @@ class EstadisticasController {
    */
   exportReport() {
     console.log("📄 Exportando reporte...");
-    // TODO: Implementar exportación de reporte
     this.showToast("Función de exportación en desarrollo", "info");
   }
 
@@ -1164,7 +1260,7 @@ class EstadisticasController {
   }
 
   /**
-   * Muestra un toast (si está disponible)
+   * Muestra un toast
    */
   showToast(message, type = "info") {
     if (window.showToast) {
@@ -1174,39 +1270,3 @@ class EstadisticasController {
     }
   }
 }
-
-// Variable global para el controlador
-let estadisticasController = null;
-
-// Función global de inicialización que será llamada por el app-loader
-window.initEstadisticas = async function (view) {
-  console.log("🎯 Inicializando módulo de estadísticas...", view);
-
-  try {
-    // Crear nueva instancia del controlador
-    estadisticasController = new EstadisticasController();
-
-    // Inicializar el controlador
-    await estadisticasController.init();
-
-    // Hacer el controlador accesible globalmente para debugging
-    window.estadisticasController = estadisticasController;
-
-    console.log("✅ Módulo de estadísticas inicializado correctamente");
-    return true;
-  } catch (error) {
-    console.error("❌ Error inicializando módulo de estadísticas:", error);
-    return false;
-  }
-};
-
-// Inicializar cuando el DOM esté listo (fallback para carga directa)
-document.addEventListener("DOMContentLoaded", async () => {
-  // Solo inicializar automáticamente si no se ha inicializado ya por el app-loader
-  if (!estadisticasController) {
-    console.log(
-      "🎯 DOM cargado, inicializando EstadisticasController automáticamente..."
-    );
-    await window.initEstadisticas();
-  }
-});

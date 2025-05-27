@@ -776,3 +776,94 @@ table tbody tr:hover {
     transform: translateY(0);
   }
 }
+
+/* ===== NUEVO: Estilos para botón de alternancia de sistemas ===== */
+#toggle-chart-system {
+  margin-left: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  border-radius: var(--border-radius, 6px);
+  border: 1px solid;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+#toggle-chart-system.btn-success {
+  background: var(--color-green-3, #4caf50);
+  color: white;
+  border-color: var(--color-green-3, #4caf50);
+}
+
+#toggle-chart-system.btn-warning {
+  background: var(--color-orange-3, #ff9800);
+  color: white;
+  border-color: var(--color-orange-3, #ff9800);
+}
+
+#toggle-chart-system:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+#toggle-chart-system:active {
+  transform: translateY(0);
+}
+
+/* ===== Indicador de sistema activo ===== */
+.system-indicator {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--stats-bg-primary, #ffffff);
+  border: 1px solid var(--stats-border-color, #e0e0e0);
+  border-radius: var(--border-radius, 8px);
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  z-index: 1000;
+  box-shadow: var(--shadow-sm, 0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.system-indicator.modular {
+  border-left: 4px solid var(--color-green-3, #4caf50);
+  color: var(--color-green-3, #4caf50);
+}
+
+.system-indicator.traditional {
+  border-left: 4px solid var(--color-orange-3, #ff9800);
+  color: var(--color-orange-3, #ff9800);
+}
+
+/* ===== Responsive para botón de alternancia ===== */
+@media (max-width: 768px) {
+  #toggle-chart-system {
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+
+  #toggle-chart-system svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .system-indicator {
+    top: 10px;
+    right: 10px;
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  #toggle-chart-system span {
+    display: none; /* Ocultar texto en móviles muy pequeños */
+  }
+
+  #toggle-chart-system {
+    padding: 8px;
+    min-width: 40px;
+  }
+}

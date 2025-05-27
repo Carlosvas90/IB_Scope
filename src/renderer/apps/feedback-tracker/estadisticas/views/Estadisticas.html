@@ -11,6 +11,8 @@
 
     <!-- Estilos -->
     <link rel="stylesheet" href="../css/estadisticas.css" />
+    <!-- NUEVO: Estilos para sistema modular -->
+    <link rel="stylesheet" href="../css/modular-charts.css" />
 
     <!-- ECharts Library -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
@@ -75,6 +77,26 @@
               />
             </svg>
             Exportar
+          </button>
+          <!-- NUEVO: Botón para alternar sistema de gráficos -->
+          <button
+            class="btn btn-success"
+            id="toggle-chart-system"
+            title="Alternar entre sistema modular y tradicional"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M12,6A6,6 0 0,1 18,12H16A4,4 0 0,0 12,8V6Z"
+                fill="currentColor"
+              />
+            </svg>
+            Usar Sistema Tradicional
           </button>
         </div>
       </header>
@@ -612,10 +634,13 @@
     </div>
 
     <!-- Scripts -->
-    <script type="module" src="../js/estadisticas.js"></script>
+    <script type="module" src="../js/init-estadisticas.js"></script>
 
-    <!-- Script de prueba para diagnosticar problemas con gráficos -->
-    <script src="../js/test-charts.js"></script>
+    <!-- Script de diagnóstico -->
+    <script src="../js/diagnostico.js"></script>
+
+    <!-- Script de prueba para integración modular -->
+    <script type="module" src="../js/test-modular-integration.js"></script>
 
     <!-- Script para ocultar overlay inicial -->
     <script>
