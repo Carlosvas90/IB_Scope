@@ -67,11 +67,11 @@ class Router {
       return false;
     }
 
-    // Cerrar todos los submenús al inicio
-    this.closeAllSubmenus();
+    // DESACTIVADO: Los submenus se manejan en Sidebar.html
+    // this.closeAllSubmenus();
 
-    // Configurar la navegación
-    this.setupNavigation();
+    // DESACTIVADO: La navegación se maneja en Sidebar.html
+    // this.setupNavigation();
 
     // Cargar la aplicación predeterminada
     this.loadDefaultApp();
@@ -91,23 +91,36 @@ class Router {
       }
     });
 
+    console.log(
+      "Router inicializado - navegación del sidebar manejada por Sidebar.html"
+    );
     return true;
   }
 
   /**
    * Cierra todos los submenús
+   * DESACTIVADO: Ahora se maneja en Sidebar.html
    */
   closeAllSubmenus() {
+    // DESACTIVADO: La lógica de submenus ahora se maneja en Sidebar.html
+    console.log("closeAllSubmenus() desactivado - manejado por Sidebar.html");
+    /*
     const submenus = document.querySelectorAll(".has-submenu");
     submenus.forEach((submenu) => {
       submenu.classList.remove("open");
     });
+    */
   }
 
   /**
    * Configura los eventos de navegación
+   * DESACTIVADO: Esta lógica ahora se maneja en Sidebar.html
    */
   setupNavigation() {
+    // COMENTADO: La navegación del sidebar ahora se maneja directamente en Sidebar.html
+    // para evitar conflictos con la lógica de submenus
+
+    /*
     // Enlaces de navegación principal
     const navLinks = document.querySelectorAll(".sidebar-nav a");
 
@@ -142,6 +155,9 @@ class Router {
         }
       });
     });
+    */
+
+    console.log("Navegación del sidebar manejada por Sidebar.html");
   }
 
   /**
@@ -185,10 +201,11 @@ class Router {
 
   /**
    * Actualiza el estado de los submenús según la aplicación seleccionada
+   * MODIFICADO: Simplificado para no interferir con la lógica del Sidebar.html
    */
   updateSubmenusForApp(appName) {
-    // Primero cerrar todos los submenús
-    this.closeAllSubmenus();
+    // DESACTIVADO: No cerrar todos los submenus, eso lo maneja Sidebar.html
+    // this.closeAllSubmenus();
 
     // Verificar si la app tiene submenú
     const app = this.routes[appName];
@@ -200,12 +217,14 @@ class Router {
       if (submenuItem) {
         const parentLi = submenuItem.closest(".has-submenu");
         if (parentLi) {
-          // Asegurarnos de que se abra
+          // Asegurarnos de que se abra (sin cerrar otros)
           parentLi.classList.add("open");
           console.log(`Submenú abierto para: ${appName}`);
         }
       }
     }
+
+    console.log(`updateSubmenusForApp() simplificado para: ${appName}`);
   }
 
   /**

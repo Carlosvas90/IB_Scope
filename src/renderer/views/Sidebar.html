@@ -362,6 +362,18 @@
               console.log(
                 `Elemento principal activado: ${link.textContent.trim()}`
               );
+
+              // Disparar evento de navegación
+              const app = link.getAttribute("data-app");
+              const view = link.getAttribute("data-view");
+              if (app) {
+                window.dispatchEvent(
+                  new CustomEvent("navigate", {
+                    detail: { app, view },
+                  })
+                );
+                console.log(`Navegando a: ${app}${view ? " - " + view : ""}`);
+              }
             });
           });
       }
