@@ -99,8 +99,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Función global para llamar desde dashboard.js
 window.initHomeLotties = function () {
+  console.log("Re-inicializando Lotties de Home...");
+
+  // Siempre obtener el tema actual desde localStorage
   const isDarkMode = localStorage.getItem("darkMode") === "true";
+  console.log(`Tema detectado en Home: ${isDarkMode ? "oscuro" : "claro"}`);
+
   initializeLotties(isDarkMode, "home");
   setupHomeLottieEffects();
   setupHomeNavigation();
+
+  console.log("Lotties de Home re-inicializados correctamente");
 };

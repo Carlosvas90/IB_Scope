@@ -13,6 +13,9 @@ window.initDashboard = function (view) {
   // Cargar manualmente el script home-lotties.js cuando se carga dinámicamente
   loadHomeLottiesScript();
 
+  // Configurar listener para cambios de tema
+  setupThemeListener();
+
   return true;
 };
 
@@ -111,3 +114,27 @@ window.activateDashboard = function () {
   console.log("Activando Dashboard");
   updateLastUpdate();
 };
+
+/**
+ * Configura el listener para cambios de tema
+ */
+function setupThemeListener() {
+  // Escuchar el evento personalizado de cambio de tema
+  window.addEventListener("themeChanged", (event) => {
+    console.log(
+      "Tema cambiado en Dashboard, re-inicializando lotties de Home..."
+    );
+
+    // Re-inicializar los lotties del Home con el nuevo tema
+    if (typeof window.initHomeLotties === "function") {
+      window.initHomeLotties();
+      console.log(
+        "Lotties de Home re-inicializados después del cambio de tema"
+      );
+    } else {
+      console.warn(
+        "window.initHomeLotties no está disponible durante el cambio de tema"
+      );
+    }
+  });
+}

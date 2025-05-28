@@ -87,7 +87,7 @@
             <li class="has-submenu">
               <a href="#" data-app="feedback-tracker"
                 ><div id="lottie-feedback" class="sidebar-icon"></div>
-                Feedback Tracker</a
+                Inventory Health</a
               >
               <ul class="submenu">
                 <li>
@@ -250,7 +250,10 @@
     <script src="../js/app-loader.js" type="module"></script>
     <script src="../js/app.js" type="module"></script>
     <script type="module">
-      import { updateActiveLottie } from "../js/lottieManager.js";
+      import {
+        updateActiveLottie,
+        initializeLotties,
+      } from "../js/lottieManager.js";
 
       // Mapa de navegación a IDs de Lottie
       const navLottieMap = {
@@ -278,8 +281,18 @@
         }
       }
 
+      // Función global para re-inicializar los lotties cuando cambia el tema
+      window.reinitializeSidebarLotties = function () {
+        const isDarkMode = localStorage.getItem("darkMode") === "true";
+        initializeLotties(isDarkMode, "sidebar");
+      };
+
       // Agregar eventos a los enlaces de navegación
       document.addEventListener("DOMContentLoaded", () => {
+        // Inicializar los lotties con el tema actual
+        const isDarkMode = localStorage.getItem("darkMode") === "true";
+        initializeLotties(isDarkMode, "sidebar");
+
         document
           .querySelectorAll(".sidebar-nav a[data-app]")
           .forEach((link) => {
@@ -370,6 +383,18 @@
         lightIcon.style.display = isDarkMode ? "none" : "block";
         darkIcon.style.display = isDarkMode ? "block" : "none";
         animateThemeChange(isDarkMode);
+
+        // Re-inicializar los lotties de navegación con el nuevo tema
+        if (window.reinitializeSidebarLotties) {
+          window.reinitializeSidebarLotties();
+        }
+
+        // Disparar evento personalizado para que otras partes de la app se actualicen
+        window.dispatchEvent(
+          new CustomEvent("themeChanged", {
+            detail: { isDarkMode },
+          })
+        );
       }
 
       // Inicializar
