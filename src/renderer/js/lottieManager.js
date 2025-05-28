@@ -8,6 +8,10 @@ const lottieFiles = {
       light: "../../../assets/animations/dashboard_light.json",
       dark: "../../../assets/animations/dashboard_dark.json",
     },
+    "shift-tasks": {
+      light: "../../../assets/animations/shift_tasks_light.json",
+      dark: "../../../assets/animations/shift_tasks_dark.json",
+    },
     feedback: {
       light: "../../../assets/animations/feedback_light.json",
       dark: "../../../assets/animations/feedback_dark.json",
@@ -23,10 +27,18 @@ const lottieFiles = {
     heatmap: {
       light: "../../../assets/animations/heatmap_light.json",
       dark: "../../../assets/animations/heatmap_dark.json",
+    },
+    "dock-control": {
+      light: "../../../assets/animations/dock_control_light.json",
+      dark: "../../../assets/animations/dock_control_dark.json",
     },
   },
   // Lotties para el Home (mismo contexto que Sidebar - src/renderer/views/)
   home: {
+    "shift-tasks": {
+      light: "../../../assets/animations/shift_tasks_light.json",
+      dark: "../../../assets/animations/shift_tasks_dark.json",
+    },
     feedback: {
       light: "../../../assets/animations/feedback_light.json",
       dark: "../../../assets/animations/feedback_dark.json",
@@ -42,6 +54,10 @@ const lottieFiles = {
     heatmap: {
       light: "../../../assets/animations/heatmap_light.json",
       dark: "../../../assets/animations/heatmap_dark.json",
+    },
+    "dock-control": {
+      light: "../../../assets/animations/dock_control_light.json",
+      dark: "../../../assets/animations/dock_control_dark.json",
     },
   },
 };
@@ -50,7 +66,15 @@ const lottieFiles = {
 const lottieInstances = {};
 
 // IDs de los lotties de navegación
-const NAV_LOTTIES = ["dashboard", "feedback", "activity", "idle", "heatmap"];
+const NAV_LOTTIES = [
+  "dashboard",
+  "shift-tasks",
+  "feedback",
+  "activity",
+  "idle",
+  "heatmap",
+  "dock-control",
+];
 
 async function loadLottieAnimation(id, mode, location = "sidebar") {
   console.log(

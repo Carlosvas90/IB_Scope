@@ -11,10 +11,12 @@ import {
 
 // Mapa de navegación a IDs de Lottie para Home
 const homeLottieMap = {
+  "shift-tasks": "shift-tasks",
   "feedback-tracker": "feedback",
   "activity-scope": "activity",
   "idle-time": "idle",
   "space-heatmap": "heatmap",
+  "dock-control": "dock-control",
 };
 
 // Función para actualizar el estado activo en Home

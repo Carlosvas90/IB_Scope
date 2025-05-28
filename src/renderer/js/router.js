@@ -13,6 +13,10 @@ class Router {
         default: true,
         scripts: ["../apps/dashboard/js/dashboard.js"],
       },
+      "shift-tasks": {
+        path: "../apps/shift-tasks/views/shift-tasks.html",
+        scripts: ["../apps/shift-tasks/js/shift-tasks.js"],
+      },
       "feedback-tracker": {
         path: "../apps/feedback-tracker/views/index.html",
         views: {
@@ -38,6 +42,10 @@ class Router {
       "space-heatmap": {
         path: "../apps/space-heatmap/views/space-heatmap.html",
         scripts: [],
+      },
+      "dock-control": {
+        path: "../apps/dock-control/views/dock-control.html",
+        scripts: ["../apps/dock-control/js/dock-control.js"],
       },
       // Aquí se pueden añadir más aplicaciones en el futuro
     };
