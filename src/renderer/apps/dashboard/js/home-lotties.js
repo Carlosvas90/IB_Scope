@@ -36,16 +36,19 @@ function setupHomeLottieEffects() {
       card.addEventListener("mouseenter", () => {
         const homeLottieId = `home-lottie-${lottieId}`;
         updateActiveLottie(homeLottieId, "home");
+        console.log(`Hover en tarjeta del Home: ${app}`);
       });
 
       card.addEventListener("mouseleave", () => {
-        // Obtener el enlace activo del sidebar
+        // Al salir del hover, reactivar el elemento activo actual del sidebar
         const activeNavLink = document.querySelector(".sidebar-nav a.active");
         if (activeNavLink) {
           const activeApp = activeNavLink.getAttribute("data-app");
           const activeLottieId = homeLottieMap[activeApp];
           if (activeLottieId) {
-            updateActiveLottie(activeLottieId, "sidebar");
+            // Reactivar el lottie correspondiente en el sidebar
+            updateActiveLottie(`lottie-${activeLottieId}`, "sidebar");
+            console.log(`Restaurado lottie del sidebar activo: ${activeApp}`);
           }
         }
       });
@@ -59,18 +62,27 @@ function setupHomeNavigation() {
     card.addEventListener("click", () => {
       const app = card.getAttribute("data-app");
       if (app) {
-        // Activar el enlace correspondiente en el sidebar
-        const navLink = document.querySelector(
-          `.sidebar-nav a[data-app="${app}"]`
-        );
-        if (navLink) {
-          navLink.classList.add("active");
-          // Activar el Lottie correspondiente en el sidebar
-          const lottieId = homeLottieMap[app];
-          if (lottieId) {
-            updateActiveLottie(lottieId, "sidebar");
+        console.log(`Click en tarjeta del Home: ${app}`);
+
+        // Activar el elemento correspondiente en el sidebar usando la función global
+        if (typeof window.activateSidebarItem === "function") {
+          window.activateSidebarItem(app);
+        } else {
+          console.warn("window.activateSidebarItem no está disponible");
+
+          // Fallback: método anterior (menos confiable)
+          const navLink = document.querySelector(
+            `.sidebar-nav a[data-app="${app}"]`
+          );
+          if (navLink) {
+            navLink.classList.add("active");
+            const lottieId = homeLottieMap[app];
+            if (lottieId) {
+              updateActiveLottie(`lottie-${lottieId}`, "sidebar");
+            }
           }
         }
+
         // Disparar el evento de navegación
         window.dispatchEvent(new CustomEvent("navigate", { detail: { app } }));
       }

@@ -281,10 +281,114 @@
         }
       }
 
+      // Función para manejar submenus
+      function setupSubmenuLogic() {
+        // Manejar clicks en elementos principales con submenu
+        document.querySelectorAll(".has-submenu > a").forEach((parentLink) => {
+          parentLink.addEventListener("click", (e) => {
+            e.preventDefault();
+
+            const parentLi = parentLink.parentElement;
+            const isCurrentlyOpen = parentLi.classList.contains("open");
+
+            // Cerrar todos los submenus
+            document.querySelectorAll(".has-submenu").forEach((item) => {
+              item.classList.remove("open");
+            });
+
+            // Si no estaba abierto, abrirlo
+            if (!isCurrentlyOpen) {
+              parentLi.classList.add("open");
+            }
+
+            // Activar el enlace principal
+            updateNavActiveState(parentLink);
+
+            console.log(
+              `Submenu ${
+                isCurrentlyOpen ? "cerrado" : "abierto"
+              } para: ${parentLink.textContent.trim()}`
+            );
+          });
+        });
+
+        // Manejar clicks en elementos del submenu
+        document.querySelectorAll(".submenu a").forEach((submenuLink) => {
+          submenuLink.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation(); // Evitar propagación del evento
+
+            // Mantener el submenu padre abierto
+            const parentLi = submenuLink.closest(".has-submenu");
+            if (parentLi) {
+              parentLi.classList.add("open");
+            }
+
+            // Activar el enlace del submenu
+            updateNavActiveState(submenuLink);
+
+            console.log(
+              `Elemento del submenu activado: ${submenuLink.textContent.trim()}`
+            );
+
+            // Disparar evento de navegación si tiene data-app
+            const app = submenuLink.getAttribute("data-app");
+            const view = submenuLink.getAttribute("data-view");
+            if (app) {
+              window.dispatchEvent(
+                new CustomEvent("navigate", {
+                  detail: { app, view },
+                })
+              );
+            }
+          });
+        });
+
+        // Manejar clicks en elementos principales SIN submenu (solo Inicio)
+        document
+          .querySelectorAll(
+            ".sidebar-nav > ul > li:not(.has-submenu) > a[data-app]"
+          )
+          .forEach((link) => {
+            link.addEventListener("click", (e) => {
+              e.preventDefault();
+
+              // Cerrar todos los submenus
+              document.querySelectorAll(".has-submenu").forEach((item) => {
+                item.classList.remove("open");
+              });
+
+              updateNavActiveState(link);
+              console.log(
+                `Elemento principal activado: ${link.textContent.trim()}`
+              );
+            });
+          });
+      }
+
       // Función global para re-inicializar los lotties cuando cambia el tema
       window.reinitializeSidebarLotties = function () {
         const isDarkMode = localStorage.getItem("darkMode") === "true";
         initializeLotties(isDarkMode, "sidebar");
+      };
+
+      // Función global para activar un elemento del sidebar desde otras partes de la app
+      window.activateSidebarItem = function (app) {
+        const navLink = document.querySelector(
+          `.sidebar-nav a[data-app="${app}"]`
+        );
+        if (navLink) {
+          // Si es un elemento de submenu, abrir el submenu padre
+          const parentLi = navLink.closest(".has-submenu");
+          if (parentLi && navLink.closest(".submenu")) {
+            parentLi.classList.add("open");
+          }
+
+          updateNavActiveState(navLink);
+          console.log(`Activado elemento del sidebar: ${app}`);
+        } else {
+          console.warn(`No se encontró el enlace del sidebar para: ${app}`);
+        }
       };
 
       // Agregar eventos a los enlaces de navegación
@@ -293,14 +397,8 @@
         const isDarkMode = localStorage.getItem("darkMode") === "true";
         initializeLotties(isDarkMode, "sidebar");
 
-        document
-          .querySelectorAll(".sidebar-nav a[data-app]")
-          .forEach((link) => {
-            link.addEventListener("click", (e) => {
-              e.preventDefault();
-              updateNavActiveState(link);
-            });
-          });
+        // Configurar lógica de submenus
+        setupSubmenuLogic();
 
         // Activar el primer enlace por defecto
         const firstNavLink = document.querySelector(".sidebar-nav a[data-app]");
