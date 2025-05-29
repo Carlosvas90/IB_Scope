@@ -200,63 +200,60 @@ class UpdateService {
       console.log("[UpdateService] Ejecutable actual:", currentExePath);
       console.log("[UpdateService] Nuevo ejecutable:", localUpdatePath);
 
-      // Crear script de actualización
-      const updateScriptPath = path.join(this.tempDir, "update.bat");
-      const updateScript = `
+      // Crear script batch silencioso
+      const updateBatchPath = path.join(this.tempDir, "update_silent.bat");
+      const updateBatch = `
 @echo off
-echo Actualizando Inbound Scope...
-echo Esperando a que se cierre la aplicacion...
-
 :wait
 tasklist /FI "IMAGENAME eq ${currentExeName}" 2>NUL | find /I /N "${currentExeName}">NUL
 if "%ERRORLEVEL%"=="0" (
-    timeout /t 1 >nul
+    timeout /t 1 /nobreak >nul 2>&1
     goto wait
 )
 
-echo Aplicacion cerrada. Instalando actualizacion...
-
-:: Hacer backup del ejecutable actual
-move "${currentExePath}" "${currentExePath}.old" 2>nul
-
-:: Copiar nuevo ejecutable
-copy "${localUpdatePath}" "${currentExePath}"
+move "${currentExePath}" "${currentExePath}.old" >nul 2>&1
+copy "${localUpdatePath}" "${currentExePath}" >nul 2>&1
 
 if exist "${currentExePath}" (
-    echo Actualizacion instalada correctamente
-    :: Eliminar backup
-    del "${currentExePath}.old" 2>nul
-    :: Relanzar aplicacion
+    del "${currentExePath}.old" >nul 2>&1
     start "" "${currentExePath}"
 ) else (
-    echo Error en la instalacion. Restaurando backup...
-    move "${currentExePath}.old" "${currentExePath}" 2>nul
+    move "${currentExePath}.old" "${currentExePath}" >nul 2>&1
 )
 
-:: Limpiar archivos temporales
-del "${localUpdatePath}" 2>nul
-del "%~f0" 2>nul
+del "${localUpdatePath}" >nul 2>&1
+del "${updateBatchPath}" >nul 2>&1
+del "%~f0" >nul 2>&1
 `;
 
-      // Escribir script
-      fs.writeFileSync(updateScriptPath, updateScript);
+      // Crear script VBScript para ejecutar el batch sin ventana
+      const updateVbsPath = path.join(this.tempDir, "update_invisible.vbs");
+      const updateVbs = `
+Set objShell = CreateObject("WScript.Shell")
+objShell.Run "cmd /c ""${updateBatchPath}""", 0, False
+`;
+
+      // Escribir ambos scripts
+      fs.writeFileSync(updateBatchPath, updateBatch);
+      fs.writeFileSync(updateVbsPath, updateVbs);
 
       console.log(
-        "[UpdateService] Script de actualización creado:",
-        updateScriptPath
+        "[UpdateService] Scripts de actualización creados:",
+        updateVbsPath
       );
 
-      // Ejecutar script de actualización en background
-      const updateProcess = spawn("cmd.exe", ["/c", updateScriptPath], {
+      // Ejecutar script VBS que ejecutará el batch de forma invisible
+      const updateProcess = spawn("wscript.exe", [updateVbsPath], {
         detached: true,
         stdio: "ignore",
+        windowsHide: true,
         cwd: currentDir,
       });
 
       updateProcess.unref();
 
       console.log(
-        "[UpdateService] Proceso de actualización iniciado. Cerrando aplicación..."
+        "[UpdateService] Proceso de actualización iniciado invisiblemente. Cerrando aplicación..."
       );
 
       // Cerrar la app actual después de un momento
