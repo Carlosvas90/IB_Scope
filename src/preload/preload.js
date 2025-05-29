@@ -123,6 +123,12 @@ contextBridge.exposeInMainWorld("api", {
   getUpdateConfig: () => ipcRenderer.invoke("update:get-config"),
 
   /**
+   * Obtiene la versión actual de la aplicación.
+   * @returns {Promise<object>}
+   */
+  getAppVersion: () => ipcRenderer.invoke("get-app-version"),
+
+  /**
    * Escucha notificaciones de actualizaciones disponibles.
    * @param {function} callback - Función a ejecutar cuando hay update disponible
    */

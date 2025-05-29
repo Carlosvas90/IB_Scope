@@ -1,4 +1,4 @@
-const { ipcMain } = require("electron");
+const { ipcMain, app } = require("electron");
 const updateService = require("../services/updateService");
 
 // Verificar updates disponibles
@@ -56,6 +56,26 @@ ipcMain.handle("update:check-on-startup", async () => {
   } catch (error) {
     console.error("[UpdateHandler] Error en verificación de inicio:", error);
     return { success: false, error: error.message };
+  }
+});
+
+// Handler para obtener la versión actual
+ipcMain.handle("get-app-version", async () => {
+  try {
+    console.log("🔍 [UpdateHandler] get-app-version llamado");
+    const version = app.getVersion();
+    console.log("🔍 [UpdateHandler] Versión obtenida del app:", version);
+
+    return {
+      success: true,
+      version: version,
+    };
+  } catch (error) {
+    console.error("❌ [UpdateHandler] Error obteniendo versión:", error);
+    return {
+      success: false,
+      error: error.message,
+    };
   }
 });
 

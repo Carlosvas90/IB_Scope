@@ -1,7 +1,7 @@
 {
   "name": "feedback-tracker",
-  "version": "1.0.0",
-  "description": "Aplicación para seguimiento y feedback de errores",
+  "version": "1.0.2",
+  "description": "App that uses a csv to track errors",
   "main": "src/main/main.js",
   "scripts": {
     "start": "electron .",

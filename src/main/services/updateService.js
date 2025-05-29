@@ -192,18 +192,77 @@ class UpdateService {
         throw new Error("Archivo de update no encontrado");
       }
 
-      // Ejecutar el instalador
-      const updateProcess = spawn(localUpdatePath, [], {
+      // Para aplicaciones portables, necesitamos reemplazar el ejecutable actual
+      const currentExePath = app.getPath("exe");
+      const currentDir = path.dirname(currentExePath);
+      const currentExeName = path.basename(currentExePath);
+
+      console.log("[UpdateService] Ejecutable actual:", currentExePath);
+      console.log("[UpdateService] Nuevo ejecutable:", localUpdatePath);
+
+      // Crear script de actualización
+      const updateScriptPath = path.join(this.tempDir, "update.bat");
+      const updateScript = `
+@echo off
+echo Actualizando Inbound Scope...
+echo Esperando a que se cierre la aplicacion...
+
+:wait
+tasklist /FI "IMAGENAME eq ${currentExeName}" 2>NUL | find /I /N "${currentExeName}">NUL
+if "%ERRORLEVEL%"=="0" (
+    timeout /t 1 >nul
+    goto wait
+)
+
+echo Aplicacion cerrada. Instalando actualizacion...
+
+:: Hacer backup del ejecutable actual
+move "${currentExePath}" "${currentExePath}.old" 2>nul
+
+:: Copiar nuevo ejecutable
+copy "${localUpdatePath}" "${currentExePath}"
+
+if exist "${currentExePath}" (
+    echo Actualizacion instalada correctamente
+    :: Eliminar backup
+    del "${currentExePath}.old" 2>nul
+    :: Relanzar aplicacion
+    start "" "${currentExePath}"
+) else (
+    echo Error en la instalacion. Restaurando backup...
+    move "${currentExePath}.old" "${currentExePath}" 2>nul
+)
+
+:: Limpiar archivos temporales
+del "${localUpdatePath}" 2>nul
+del "%~f0" 2>nul
+`;
+
+      // Escribir script
+      fs.writeFileSync(updateScriptPath, updateScript);
+
+      console.log(
+        "[UpdateService] Script de actualización creado:",
+        updateScriptPath
+      );
+
+      // Ejecutar script de actualización en background
+      const updateProcess = spawn("cmd.exe", ["/c", updateScriptPath], {
         detached: true,
         stdio: "ignore",
+        cwd: currentDir,
       });
 
       updateProcess.unref();
 
-      // Esperar un momento y cerrar la app actual
+      console.log(
+        "[UpdateService] Proceso de actualización iniciado. Cerrando aplicación..."
+      );
+
+      // Cerrar la app actual después de un momento
       setTimeout(() => {
         app.quit();
-      }, 2000);
+      }, 1500);
 
       return true;
     } catch (error) {

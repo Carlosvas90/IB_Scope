@@ -208,9 +208,9 @@ ipcMain.handle("read-html-file", (event, filePath) => {
 
     let fullPath;
     if (app.isPackaged) {
-      // En aplicación compilada, convertir "../apps/..." a la ruta dentro del asar
+      // En aplicación compilada, los archivos están en src/renderer/apps/ dentro del asar
       const relativePath = filePath.replace("../apps/", "apps/");
-      fullPath = path.join(__dirname, "..", relativePath);
+      fullPath = path.join(app.getAppPath(), "src", "renderer", relativePath);
     } else {
       // En desarrollo, convertir "../apps/..." a "src/renderer/apps/..."
       const relativePath = filePath.replace("../apps/", "apps/");
@@ -225,12 +225,6 @@ ipcMain.handle("read-html-file", (event, filePath) => {
       return { success: true, content };
     } else {
       console.error("[Main] ❌ Archivo no encontrado:", fullPath);
-      // Listar contenido del directorio padre para debugging
-      const parentDir = path.dirname(fullPath);
-      if (fs.existsSync(parentDir)) {
-        const files = fs.readdirSync(parentDir);
-        console.log("[Main] Archivos en directorio padre:", files);
-      }
       return { success: false, error: `Archivo no encontrado: ${fullPath}` };
     }
   } catch (error) {

@@ -16,6 +16,81 @@ window.initDashboard = function (view) {
   // Configurar listener para cambios de tema
   setupThemeListener();
 
+  // Función para obtener y mostrar la versión de la aplicación
+  async function loadAppVersion() {
+    console.log("🔍 [Dashboard] Ejecutando loadAppVersion...");
+
+    try {
+      // Verificar si window.api está disponible
+      if (!window.api) {
+        console.warn("⚠️ [Dashboard] window.api no está disponible");
+        const versionElement = document.getElementById("app-version");
+        if (versionElement) {
+          versionElement.textContent = "API no disponible";
+        }
+        return;
+      }
+
+      if (!window.api.getAppVersion) {
+        console.warn(
+          "⚠️ [Dashboard] window.api.getAppVersion no está disponible"
+        );
+        const versionElement = document.getElementById("app-version");
+        if (versionElement) {
+          versionElement.textContent = "getAppVersion no disponible";
+        }
+        return;
+      }
+
+      console.log("🔍 [Dashboard] Llamando a window.api.getAppVersion...");
+      const result = await window.api.getAppVersion();
+      console.log("🔍 [Dashboard] Resultado:", result);
+
+      if (result && result.success && result.version) {
+        console.log("✅ [Dashboard] Versión obtenida:", result.version);
+        const versionElement = document.getElementById("app-version");
+        if (versionElement) {
+          versionElement.textContent = result.version;
+        } else {
+          console.warn("⚠️ [Dashboard] Elemento #app-version no encontrado");
+        }
+      } else {
+        console.error("❌ [Dashboard] Error en resultado:", result);
+        const versionElement = document.getElementById("app-version");
+        if (versionElement) {
+          versionElement.textContent = "Error obteniendo versión";
+        }
+      }
+    } catch (error) {
+      console.error("❌ [Dashboard] Exception:", error);
+      const versionElement = document.getElementById("app-version");
+      if (versionElement) {
+        versionElement.textContent = "Error: " + error.message;
+      }
+    }
+  }
+
+  // Función para verificar si el elemento existe y ejecutar loadAppVersion
+  function checkAndLoadVersion() {
+    const versionElement = document.getElementById("app-version");
+    if (versionElement) {
+      console.log(
+        "🎯 [Dashboard] Elemento #app-version encontrado, cargando versión..."
+      );
+      loadAppVersion();
+    } else {
+      console.log(
+        "🔄 [Dashboard] Elemento #app-version no encontrado, reintentando..."
+      );
+      // Reintentar después de un breve delay
+      setTimeout(checkAndLoadVersion, 100);
+    }
+  }
+
+  // Inicializar verificación de versión
+  console.log("🚀 [Dashboard] Iniciando verificación de versión...");
+  checkAndLoadVersion();
+
   return true;
 };
 
