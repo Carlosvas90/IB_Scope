@@ -23,22 +23,49 @@
   },
   "build": {
     "appId": "com.feedback.tracker",
-    "productName": "Feedback Tracker",
+    "productName": "Inbound Scope",
     "directories": {
       "output": "dist"
     },
     "win": {
       "target": [
-        "portable"
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
       ],
       "icon": "assets/icons/app-icon.ico",
-      "publisherName": "IB Scope"
+      "publisherName": "IB Scope",
+      "requestedExecutionLevel": "asInvoker"
+    },
+    "portable": {
+      "artifactName": "${productName}.${ext}"
     },
     "files": [
-      "**/*"
+      "package.json",
+      "src/**/*",
+      "config/**/*",
+      "assets/**/*",
+      "!src/**/*.md",
+      "!**/.git/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "config",
+        "to": "config"
+      }
     ],
     "asar": true,
+    "asarUnpack": [
+      "node_modules/ffmpeg-static/**/*"
+    ],
     "forceCodeSigning": false,
-    "compression": "maximum"
+    "compression": "maximum",
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
   }
 }

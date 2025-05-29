@@ -67,6 +67,14 @@ contextBridge.exposeInMainWorld("api", {
   // --- Utilidades ---
   getAppPath: () => ipcRenderer.invoke("get-app-path"),
 
+  // --- Sistema de archivos para aplicaciones compiladas ---
+  /**
+   * Lee un archivo HTML desde el sistema de archivos (para aplicaciones compiladas).
+   * @param {string} filePath - Ruta relativa del archivo
+   * @returns {Promise<object>} - Resultado con contenido del archivo HTML
+   */
+  readHtmlFile: (filePath) => ipcRenderer.invoke("read-html-file", filePath),
+
   // --- Enlaces externos ---
   openExternalLink: (url) => ipcRenderer.invoke("open-external-link", url),
 
@@ -84,6 +92,44 @@ contextBridge.exposeInMainWorld("api", {
   },
   onWindowRestored: (callback) => {
     ipcRenderer.on("window:restored", callback);
+  },
+
+  // --- Sistema de Updates ---
+  /**
+   * Verifica si hay actualizaciones disponibles.
+   * @returns {Promise<object>}
+   */
+  checkForUpdates: () => ipcRenderer.invoke("update:check"),
+
+  /**
+   * Descarga una actualización.
+   * @param {object} updateInfo - Información de la actualización
+   * @returns {Promise<object>}
+   */
+  downloadUpdate: (updateInfo) =>
+    ipcRenderer.invoke("update:download", updateInfo),
+
+  /**
+   * Instala una actualización descargada.
+   * @param {string} localPath - Ruta local del archivo de actualización
+   * @returns {Promise<object>}
+   */
+  installUpdate: (localPath) => ipcRenderer.invoke("update:install", localPath),
+
+  /**
+   * Obtiene la configuración del sistema de updates.
+   * @returns {Promise<object>}
+   */
+  getUpdateConfig: () => ipcRenderer.invoke("update:get-config"),
+
+  /**
+   * Escucha notificaciones de actualizaciones disponibles.
+   * @param {function} callback - Función a ejecutar cuando hay update disponible
+   */
+  onUpdateAvailable: (callback) => {
+    ipcRenderer.on("update:available", (event, updateInfo) =>
+      callback(updateInfo)
+    );
   },
 
   // APIs de tema

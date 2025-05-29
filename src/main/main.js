@@ -7,6 +7,8 @@ const os = require("os");
 const configService = require("./services/config");
 const configHandler = require("./handlers/config");
 const filesHandler = require("./handlers/files");
+const updateHandler = require("./handlers/update");
+const updateService = require("./services/updateService");
 
 // Variables para mantener referencia global a las ventanas
 let mainWindow;
@@ -92,6 +94,9 @@ app.whenReady().then(async () => {
   // Cargar configuración antes de iniciar
   await configService.load();
   configService.getConfig(); // Forzar log para depuración
+
+  // Verificar updates al iniciar la app
+  await checkForUpdatesOnStartup();
 
   // Crear primero el splashscreen
   createSplashWindow();
@@ -195,6 +200,45 @@ ipcMain.handle("is-window-maximized", () => {
   return mainWindow.isMaximized();
 });
 
+// Leer archivos HTML para aplicaciones compiladas
+ipcMain.handle("read-html-file", (event, filePath) => {
+  try {
+    console.log("[Main] Leyendo archivo HTML:", filePath);
+    console.log("[Main] App empaquetada:", app.isPackaged);
+
+    let fullPath;
+    if (app.isPackaged) {
+      // En aplicación compilada, convertir "../apps/..." a la ruta dentro del asar
+      const relativePath = filePath.replace("../apps/", "apps/");
+      fullPath = path.join(__dirname, "..", relativePath);
+    } else {
+      // En desarrollo, convertir "../apps/..." a "src/renderer/apps/..."
+      const relativePath = filePath.replace("../apps/", "apps/");
+      fullPath = path.join(process.cwd(), "src", "renderer", relativePath);
+    }
+
+    console.log("[Main] Ruta completa calculada:", fullPath);
+
+    if (fs.existsSync(fullPath)) {
+      const content = fs.readFileSync(fullPath, "utf-8");
+      console.log("[Main] ✅ Archivo leído exitosamente");
+      return { success: true, content };
+    } else {
+      console.error("[Main] ❌ Archivo no encontrado:", fullPath);
+      // Listar contenido del directorio padre para debugging
+      const parentDir = path.dirname(fullPath);
+      if (fs.existsSync(parentDir)) {
+        const files = fs.readdirSync(parentDir);
+        console.log("[Main] Archivos en directorio padre:", files);
+      }
+      return { success: false, error: `Archivo no encontrado: ${fullPath}` };
+    }
+  } catch (error) {
+    console.error("[Main] Error leyendo archivo HTML:", error);
+    return { success: false, error: error.message };
+  }
+});
+
 // Eventos generales
 ipcMain.on("preload:loaded", () => {
   console.log("Preload cargado correctamente");
@@ -234,6 +278,14 @@ function createWindow() {
     console.log("Ventana principal cargada completamente");
     appReady = true;
     checkAndCloseSplash();
+
+    // Notificar sobre updates disponibles después de que la ventana esté lista
+    setTimeout(() => {
+      if (global.updateAvailable) {
+        console.log("[Main] Notificando update disponible al renderer");
+        mainWindow.webContents.send("update:available", global.updateAvailable);
+      }
+    }, 1000); // Esperar 1 segundo para que la UI esté completamente cargada
   });
 
   // Añadir un listener alternativo por si el anterior falla
@@ -257,4 +309,22 @@ function createWindow() {
   mainWindow.on("closed", () => {
     mainWindow = null;
   });
+}
+
+// Función para verificar updates al iniciar
+async function checkForUpdatesOnStartup() {
+  try {
+    console.log("[Main] Verificando updates al iniciar...");
+    const updateResult = await updateService.checkOnStartup();
+
+    if (updateResult && updateResult.available) {
+      console.log("[Main] Update disponible:", updateResult);
+      // Marcar que hay un update disponible para notificar después
+      global.updateAvailable = updateResult;
+    } else {
+      console.log("[Main] No hay updates disponibles");
+    }
+  } catch (error) {
+    console.error("[Main] Error verificando updates:", error);
+  }
 }

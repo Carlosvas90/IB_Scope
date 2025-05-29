@@ -37,6 +37,8 @@ class AppLoader {
       // Aquí se pueden registrar más aplicaciones en el futuro
     };
 
+    console.log("[AppLoader] Configuración simplificada inicializada");
+
     // Aplicación actual
     this.currentApp = null;
 

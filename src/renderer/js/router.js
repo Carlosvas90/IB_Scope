@@ -7,6 +7,17 @@ import { permisosService } from "../core/services/PermisosService.js";
 
 class Router {
   constructor() {
+    // Detección más simple y confiable
+    this.isPackaged =
+      window.process &&
+      window.process.type === "renderer" &&
+      window.location.protocol === "file:";
+
+    console.log("[Router] Detectando entorno...");
+    console.log("[Router] Protocol:", window.location.protocol);
+    console.log("[Router] Href:", window.location.href);
+    console.log("[Router] Process type:", window.process?.type);
+
     this.routes = {
       dashboard: {
         path: "../apps/dashboard/views/Home.html",
@@ -62,6 +73,8 @@ class Router {
       "view:changed": [],
       "app:ready": [],
     };
+
+    console.log("[Router] App empaquetada:", this.isPackaged);
   }
 
   /**
@@ -270,14 +283,37 @@ class Router {
         </div>
       `;
 
-      // Cargar el contenido de la aplicación
-      const response = await fetch(appPath);
+      let html;
 
-      if (!response.ok) {
-        throw new Error(`Error al cargar la aplicación: ${response.status}`);
+      // Intentar fetch primero (funciona en desarrollo y a veces en producción)
+      try {
+        console.log("[Router] Intentando fetch para:", appPath);
+        const response = await fetch(appPath);
+        if (response.ok) {
+          html = await response.text();
+          console.log("[Router] ✅ Fetch exitoso");
+        } else {
+          throw new Error(`Fetch falló: ${response.status}`);
+        }
+      } catch (fetchError) {
+        console.log(
+          "[Router] ⚠️ Fetch falló, probando método IPC:",
+          fetchError.message
+        );
+
+        // Si fetch falla, usar método IPC
+        if (window.api && window.api.readHtmlFile) {
+          const result = await window.api.readHtmlFile(appPath);
+          if (result.success) {
+            html = result.content;
+            console.log("[Router] ✅ IPC method exitoso");
+          } else {
+            throw new Error(`IPC method falló: ${result.error}`);
+          }
+        } else {
+          throw new Error("Ambos métodos de carga fallaron");
+        }
       }
-
-      const html = await response.text();
 
       // Crear un documento temporal para extraer el contenido
       const parser = new DOMParser();
