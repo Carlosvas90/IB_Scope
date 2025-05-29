@@ -6,8 +6,7 @@
 .sidebar {
   width: 15rem; /* 240px */
   height: 100%;
-  /* background-color: var(--sidebar_bg_ch);*/
-  background-color: var(--resaltado);
+  background-color: var(--sidebar_bg_ch);
   border-right: var(--border-width-thin) solid var(--border-color);
   display: flex;
   flex-direction: column;
