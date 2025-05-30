@@ -309,6 +309,40 @@ function createWindow() {
 async function checkForUpdatesOnStartup() {
   try {
     console.log("[Main] Verificando updates al iniciar...");
+
+    // Verificar si hay una actualización en progreso
+    if (updateService.isUpdateInProgress()) {
+      console.log(
+        "[Main] Actualización en progreso detectada, limpiando archivos..."
+      );
+      updateService.cleanupUpdateFiles();
+
+      // Actualizar la versión en la configuración
+      const packageInfo = require("../../package.json");
+      const currentVersion = packageInfo.version;
+
+      // Leer configuración actual
+      const configPath = path.join(
+        app.isPackaged ? path.dirname(app.getPath("exe")) : process.cwd(),
+        "resources",
+        "config",
+        "update-config.json"
+      );
+
+      try {
+        const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
+        if (config.currentVersion !== currentVersion) {
+          console.log(
+            `[Main] Actualizando versión de ${config.currentVersion} a ${currentVersion}`
+          );
+          config.currentVersion = currentVersion;
+          fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
+        }
+      } catch (error) {
+        console.error("[Main] Error actualizando versión en config:", error);
+      }
+    }
+
     const updateResult = await updateService.checkOnStartup();
 
     if (updateResult && updateResult.available) {

@@ -1,6 +1,6 @@
 {
-  "name": "feedback-tracker",
-  "version": "1.0.5",
+  "name": "inbound-scope",
+  "version": "1.0.7",
   "description": "App that uses a csv to track errors",
   "main": "src/main/main.js",
   "scripts": {

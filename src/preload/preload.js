@@ -138,6 +138,16 @@ contextBridge.exposeInMainWorld("api", {
     );
   },
 
+  /**
+   * Escucha el progreso de descarga de actualizaciones.
+   * @param {function} callback - Función a ejecutar con el progreso (0-100)
+   */
+  onUpdateDownloadProgress: (callback) => {
+    ipcRenderer.on("update:download-progress", (event, progress) =>
+      callback(progress)
+    );
+  },
+
   // APIs de tema
   onThemeChange: (callback) => {
     ipcRenderer.on("theme-changed", (_, theme) => callback(theme));

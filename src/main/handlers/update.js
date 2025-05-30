@@ -17,7 +17,19 @@ ipcMain.handle("update:check", async () => {
 ipcMain.handle("update:download", async (event, updateInfo) => {
   try {
     console.log("[UpdateHandler] Descargando update...");
-    const localPath = await updateService.downloadUpdate(updateInfo);
+
+    // Callback para reportar progreso
+    const progressCallback = (progress) => {
+      // Enviar progreso al renderer
+      if (event.sender && !event.sender.isDestroyed()) {
+        event.sender.send("update:download-progress", progress);
+      }
+    };
+
+    const localPath = await updateService.downloadUpdate(
+      updateInfo,
+      progressCallback
+    );
     return { success: true, localPath };
   } catch (error) {
     console.error("[UpdateHandler] Error descargando update:", error);
