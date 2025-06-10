@@ -66,6 +66,33 @@ export class EstadisticasDataService {
   }
 
   /**
+   * Espera a que inboundScope esté disponible (máximo 5 segundos)
+   */
+  async waitForInboundScope(timeout = 5000) {
+    return new Promise((resolve) => {
+      if (window.inboundScope && window.inboundScope.dataService) {
+        resolve(true);
+        return;
+      }
+
+      let elapsed = 0;
+      const interval = 100;
+
+      const checkInterval = setInterval(() => {
+        elapsed += interval;
+
+        if (window.inboundScope && window.inboundScope.dataService) {
+          clearInterval(checkInterval);
+          resolve(true);
+        } else if (elapsed >= timeout) {
+          clearInterval(checkInterval);
+          resolve(false);
+        }
+      }, interval);
+    });
+  }
+
+  /**
    * Carga los datos de errores
    */
   async loadData() {
@@ -78,17 +105,46 @@ export class EstadisticasDataService {
     console.log("📥 Iniciando carga de datos para estadísticas...");
 
     try {
+      // Esperar a que inboundScope esté disponible
+      console.log("⏳ Esperando a que inboundScope esté disponible...");
+      const scopeAvailable = await this.waitForInboundScope();
+
       // Intentar obtener datos del servicio principal primero (más rápido)
       if (
+        scopeAvailable &&
         window.inboundScope &&
-        window.inboundScope.dataService &&
-        window.inboundScope.dataService.errors.length > 0
+        window.inboundScope.dataService
       ) {
-        console.log("🚀 Usando datos del servicio principal (caché)");
-        this.errors = [...window.inboundScope.dataService.errors];
-        this.lastUpdateTime = window.inboundScope.dataService.lastUpdateTime;
-        this.notifyListeners();
-        return true;
+        const mainDataService = window.inboundScope.dataService;
+
+        try {
+          // Asegurar que el servicio principal esté inicializado
+          await mainDataService.ensureInitialized();
+
+          if (mainDataService.errors.length > 0) {
+            console.log("🚀 Usando datos del servicio principal (caché)");
+            this.errors = [...mainDataService.errors];
+            this.lastUpdateTime = mainDataService.lastUpdateTime;
+            this.notifyListeners();
+            return true;
+          } else {
+            // Intentar cargar datos en el servicio principal
+            console.log(
+              "📥 Intentando cargar datos en el servicio principal..."
+            );
+            const loaded = await mainDataService.loadInitialData();
+            if (loaded && mainDataService.errors.length > 0) {
+              console.log("🚀 Datos cargados en el servicio principal");
+              this.errors = [...mainDataService.errors];
+              this.lastUpdateTime = mainDataService.lastUpdateTime;
+              this.notifyListeners();
+              return true;
+            }
+          }
+        } catch (error) {
+          console.warn("⚠️ Error con el servicio principal:", error);
+          // Continuar con carga directa
+        }
       }
 
       // Si no hay datos en el servicio principal, cargar directamente
@@ -118,7 +174,37 @@ export class EstadisticasDataService {
    * Lee el archivo de datos desde las rutas configuradas
    */
   async readDataFile() {
+    // Intentar primero con la ruta actual si está disponible (más eficiente)
+    if (this.currentDataPath) {
+      try {
+        console.log(
+          `🎯 Intentando leer desde ruta actual: ${this.currentDataPath}`
+        );
+        const filePath = `${this.currentDataPath}/${this.fileName}`;
+        const data = await window.api.readJson(filePath);
+
+        if (data) {
+          console.log(
+            `✅ Archivo leído exitosamente desde ruta actual: ${this.currentDataPath}`
+          );
+          return { success: true, data };
+        }
+      } catch (error) {
+        console.warn(
+          `⚠️ Error leyendo desde ruta actual ${this.currentDataPath}:`,
+          error.message
+        );
+        // Continuar con el resto de rutas
+      }
+    }
+
+    // Intentar con todas las rutas configuradas
     for (const dataPath of this.dataPaths) {
+      // Saltar la ruta actual si ya se intentó
+      if (dataPath === this.currentDataPath) {
+        continue;
+      }
+
       try {
         console.log(`🔍 Intentando leer desde: ${dataPath}`);
         const filePath = `${dataPath}/${this.fileName}`;
@@ -137,7 +223,7 @@ export class EstadisticasDataService {
 
     return {
       success: false,
-      error: "No se pudo leer el archivo desde ninguna ruta",
+      error: "No se pudo leer el archivo desde ninguna ruta configurada",
     };
   }
 
