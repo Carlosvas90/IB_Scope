@@ -171,6 +171,7 @@ class AdminPanel {
       this.loadUsers(),
       this.loadSolicitudes(),
       this.loadAdmins(),
+      this.loadGroups(),
     ]);
   }
 
@@ -678,20 +679,35 @@ class AdminPanel {
     const modal = document.getElementById("user-modal");
     const title = document.getElementById("user-modal-title");
     const usernameInput = document.getElementById("username-input");
+    const groupSelect = document.getElementById("user-group-select");
 
     this.isEditing = username !== null;
     this.editingUser = username;
+
+    // Llenar select de grupos
+    this.populateUserGroupSelect();
 
     if (this.isEditing) {
       title.textContent = "Editar Usuario";
       usernameInput.value = username;
       usernameInput.disabled = true;
       this.populateUserPermissions(username);
+
+      // Preseleccionar grupo del usuario
+      const userGroup = this.getUserGroup(username);
+      if (groupSelect && userGroup) {
+        groupSelect.value = userGroup;
+      }
     } else {
       title.textContent = "Agregar Usuario";
       usernameInput.value = "";
       usernameInput.disabled = false;
       this.populateUserPermissions();
+
+      // Limpiar selección de grupo
+      if (groupSelect) {
+        groupSelect.value = "";
+      }
     }
 
     this.showModal(modal);
@@ -781,6 +797,8 @@ class AdminPanel {
   async saveUser() {
     try {
       const username = document.getElementById("username-input").value.trim();
+      const selectedGroup = document.getElementById("user-group-select").value;
+
       if (!username) {
         this.showError("El nombre de usuario es requerido");
         return;
@@ -822,6 +840,9 @@ class AdminPanel {
           this.permisosData[app][view].push(username);
         }
       });
+
+      // Asignar usuario a grupo
+      await this.assignUserToGroup(username, selectedGroup);
 
       // Guardar cambios
       await this.savePermisosData();
@@ -1059,6 +1080,563 @@ class AdminPanel {
       alert(message);
     }
   }
+
+  // ===== GESTIÓN DE GRUPOS =====
+
+  initializeGroups() {
+    // Inicializar estructura de grupos si no existe
+    if (!this.permisosData._user_groups) {
+      this.permisosData._user_groups = {
+        groups: {},
+        assignments: {},
+      };
+    }
+
+    this.isGroupedView = false;
+    this.selectedGroup = null;
+  }
+
+  async loadGroups() {
+    this.initializeGroups();
+
+    // Llenar filtro de grupos
+    this.populateGroupFilter();
+
+    // Configurar eventos de grupos
+    this.setupGroupEvents();
+  }
+
+  populateGroupFilter() {
+    const select = document.getElementById("group-filter");
+    if (!select) return;
+
+    const groups = this.permisosData._user_groups.groups || {};
+
+    select.innerHTML =
+      '<option value="">Todos los grupos</option>' +
+      Object.entries(groups)
+        .map(
+          ([groupId, group]) =>
+            `<option value="${groupId}">${group.name}</option>`
+        )
+        .join("");
+  }
+
+  setupGroupEvents() {
+    // Eventos ya configurados en setupEvents(), agregamos específicos de grupos
+
+    // Botón gestionar grupos
+    document
+      .getElementById("manage-groups-btn")
+      ?.addEventListener("click", () => {
+        this.showGroupsModal();
+      });
+
+    // Botón toggle agrupación
+    document
+      .getElementById("toggle-groups-btn")
+      ?.addEventListener("click", () => {
+        this.toggleGroupedView();
+      });
+
+    // Filtro por grupo
+    document.getElementById("group-filter")?.addEventListener("change", (e) => {
+      this.filterUsersByGroup(e.target.value);
+    });
+
+    // Eventos del modal de grupos
+    document
+      .getElementById("create-group-btn")
+      ?.addEventListener("click", () => {
+        this.showGroupModal();
+      });
+
+    document
+      .getElementById("close-groups-btn")
+      ?.addEventListener("click", () => {
+        this.closeModal(document.getElementById("groups-modal"));
+      });
+
+    // Eventos del modal de crear/editar grupo
+    document
+      .getElementById("cancel-group-btn")
+      ?.addEventListener("click", () => {
+        this.closeModal(document.getElementById("group-modal"));
+      });
+
+    document.getElementById("group-form")?.addEventListener("submit", (e) => {
+      e.preventDefault();
+      this.saveGroup();
+    });
+  }
+
+  toggleGroupedView() {
+    this.isGroupedView = !this.isGroupedView;
+    const btn = document.getElementById("toggle-groups-btn");
+    const usersGrid = document.getElementById("users-grid");
+
+    if (this.isGroupedView) {
+      btn.textContent = "Vista Normal";
+      usersGrid.classList.add("grouped");
+      this.renderUsersGrouped();
+    } else {
+      btn.textContent = "Agrupar por Categorías";
+      usersGrid.classList.remove("grouped");
+      this.loadUsers(); // Volver a vista normal
+    }
+  }
+
+  async renderUsersGrouped() {
+    const container = document.getElementById("users-grid");
+    if (!container) return;
+
+    try {
+      const users = this.extractUsersFromPermisos();
+      const groups = this.permisosData._user_groups.groups || {};
+      const assignments = this.permisosData._user_groups.assignments || {};
+
+      // Agrupar usuarios
+      const groupedUsers = {
+        ...Object.keys(groups).reduce((acc, groupId) => {
+          acc[groupId] = [];
+          return acc;
+        }, {}),
+        unassigned: [],
+      };
+
+      users.forEach((user) => {
+        const userGroup = assignments[user.name];
+        if (userGroup && groups[userGroup]) {
+          groupedUsers[userGroup].push(user);
+        } else {
+          groupedUsers.unassigned.push(user);
+        }
+      });
+
+      // Renderizar grupos
+      const groupSections = Object.entries(groupedUsers)
+        .map(([groupId, groupUsers]) => {
+          if (groupUsers.length === 0 && groupId !== "unassigned") return "";
+
+          const group = groups[groupId];
+          const isUnassigned = groupId === "unassigned";
+
+          const groupName = isUnassigned ? "Sin Grupo Asignado" : group.name;
+          const groupColor = isUnassigned ? "#6B7280" : group.color;
+          const groupDescription = isUnassigned
+            ? "Usuarios que no pertenecen a ningún grupo"
+            : group.description;
+
+          return `
+          <div class="group-section" data-group-id="${groupId}">
+            <div class="group-header clickable" onclick="this.parentElement.classList.toggle('collapsed')">
+              <div class="group-title">
+                <div class="group-color-indicator" style="background-color: ${groupColor};"></div>
+                <div>
+                  <h3>${groupName}</h3>
+                  ${
+                    groupDescription
+                      ? `<p class="group-description">${groupDescription}</p>`
+                      : ""
+                  }
+                </div>
+                <svg class="group-collapse-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M6 9l6 6 6-6"/>
+                </svg>
+              </div>
+              <div class="group-count">${groupUsers.length}</div>
+            </div>
+            <div class="group-users">
+              ${groupUsers.map((user) => this.renderUserCard(user)).join("")}
+            </div>
+          </div>
+        `;
+        })
+        .filter((section) => section !== "")
+        .join("");
+
+      container.innerHTML =
+        groupSections ||
+        '<div class="empty-state"><p>No hay usuarios para mostrar</p></div>';
+
+      // Reconfigurar eventos de las tarjetas
+      this.setupUserCardEvents();
+    } catch (error) {
+      console.error("Error al renderizar usuarios agrupados:", error);
+      container.innerHTML =
+        '<div class="empty-state"><p>Error al cargar vista agrupada</p></div>';
+    }
+  }
+
+  filterUsersByGroup(groupId) {
+    if (!this.isGroupedView) {
+      // En vista normal, filtrar tarjetas individuales
+      const cards = document.querySelectorAll(".user-card");
+      const assignments = this.permisosData._user_groups.assignments || {};
+
+      cards.forEach((card) => {
+        if (!groupId) {
+          card.style.display = "block";
+          return;
+        }
+
+        const username = card.getAttribute("data-username");
+        const userGroup = assignments[username];
+        const visible =
+          userGroup === groupId || (groupId === "unassigned" && !userGroup);
+        card.style.display = visible ? "block" : "none";
+      });
+    } else {
+      // En vista agrupada, mostrar/ocultar secciones de grupo
+      const groupSections = document.querySelectorAll(".group-section");
+
+      groupSections.forEach((section) => {
+        if (!groupId) {
+          section.style.display = "block";
+          return;
+        }
+
+        const sectionGroupId = section.getAttribute("data-group-id");
+        const visible = sectionGroupId === groupId;
+        section.style.display = visible ? "block" : "none";
+      });
+    }
+  }
+
+  showGroupsModal() {
+    const modal = document.getElementById("groups-modal");
+    this.renderGroupsList();
+    this.showModal(modal);
+  }
+
+  renderGroupsList() {
+    const container = document.getElementById("groups-list");
+    if (!container) return;
+
+    const groups = this.permisosData._user_groups.groups || {};
+    const assignments = this.permisosData._user_groups.assignments || {};
+
+    // Contar usuarios por grupo
+    const groupCounts = Object.keys(groups).reduce((acc, groupId) => {
+      acc[groupId] = Object.values(assignments).filter(
+        (assignedGroup) => assignedGroup === groupId
+      ).length;
+      return acc;
+    }, {});
+
+    if (Object.keys(groups).length === 0) {
+      container.innerHTML =
+        '<p style="text-align: center; color: var(--text-color-one); font-style: italic;">No hay grupos creados</p>';
+      return;
+    }
+
+    container.innerHTML = Object.entries(groups)
+      .map(
+        ([groupId, group]) => `
+      <div class="group-item" data-group-id="${groupId}" onclick="adminPanel.selectGroup('${groupId}')">
+        <div class="group-item-color" style="background-color: ${
+          group.color
+        };"></div>
+        <div class="group-item-info">
+          <p class="group-item-name">${group.name}</p>
+          <p class="group-item-count">${groupCounts[groupId] || 0} usuarios</p>
+        </div>
+      </div>
+    `
+      )
+      .join("");
+  }
+
+  selectGroup(groupId) {
+    // Actualizar selección visual
+    document.querySelectorAll(".group-item").forEach((item) => {
+      item.classList.remove("selected");
+    });
+    document
+      .querySelector(`[data-group-id="${groupId}"]`)
+      ?.classList.add("selected");
+
+    this.selectedGroup = groupId;
+    this.renderGroupDetails(groupId);
+  }
+
+  renderGroupDetails(groupId) {
+    const container = document.getElementById("group-details");
+    if (!container) return;
+
+    const group = this.permisosData._user_groups.groups[groupId];
+    const assignments = this.permisosData._user_groups.assignments || {};
+
+    // Obtener usuarios del grupo
+    const groupUsers = Object.entries(assignments)
+      .filter(([username, assignedGroup]) => assignedGroup === groupId)
+      .map(([username]) => {
+        const users = this.extractUsersFromPermisos();
+        return users.find((u) => u.name === username);
+      })
+      .filter(Boolean);
+
+    container.innerHTML = `
+      <div class="group-detail-header">
+        <div class="group-detail-info">
+          <div class="group-detail-title">
+            <div class="group-color-indicator" style="background-color: ${
+              group.color
+            };"></div>
+            ${group.name}
+          </div>
+          ${
+            group.description
+              ? `<p class="group-detail-description">${group.description}</p>`
+              : ""
+          }
+        </div>
+        <div class="group-detail-actions">
+          <button class="btn btn-small btn-secondary" onclick="adminPanel.editGroup('${groupId}')">
+            Editar
+          </button>
+          <button class="btn btn-small btn-danger" onclick="adminPanel.deleteGroup('${groupId}')">
+            Eliminar
+          </button>
+        </div>
+      </div>
+      
+      <div class="group-users-section">
+        <div class="group-users-header">
+          <h4>Usuarios del Grupo (${groupUsers.length})</h4>
+        </div>
+        <div class="group-users-list">
+          ${groupUsers
+            .map(
+              (user) => `
+            <div class="group-user-item">
+              <div class="group-user-info">
+                <div class="group-user-name">${user.name}</div>
+                <div class="group-user-permissions">
+                  ${Object.keys(user.permissions)
+                    .slice(0, 3)
+                    .map(
+                      (app) =>
+                        `<span class="group-user-tag">${this.getAppDisplayName(
+                          app
+                        )}</span>`
+                    )
+                    .join("")}
+                  ${
+                    Object.keys(user.permissions).length > 3
+                      ? `<span class="group-user-tag">+${
+                          Object.keys(user.permissions).length - 3
+                        }</span>`
+                      : ""
+                  }
+                </div>
+              </div>
+              <button class="btn btn-small btn-secondary" onclick="adminPanel.removeUserFromGroup('${
+                user.name
+              }')">
+                Remover
+              </button>
+            </div>
+          `
+            )
+            .join("")}
+          ${
+            groupUsers.length === 0
+              ? '<p style="text-align: center; color: var(--text-color-one); font-style: italic;">No hay usuarios en este grupo</p>'
+              : ""
+          }
+        </div>
+      </div>
+    `;
+  }
+
+  showGroupModal(groupId = null) {
+    const modal = document.getElementById("group-modal");
+    const title = document.getElementById("group-modal-title");
+    const nameInput = document.getElementById("group-name-input");
+    const descriptionInput = document.getElementById("group-description-input");
+    const colorInput = document.getElementById("group-color-input");
+
+    this.editingGroup = groupId;
+
+    if (groupId) {
+      const group = this.permisosData._user_groups.groups[groupId];
+      title.textContent = "Editar Grupo";
+      nameInput.value = group.name;
+      descriptionInput.value = group.description || "";
+      colorInput.value = group.color;
+    } else {
+      title.textContent = "Crear Grupo";
+      nameInput.value = "";
+      descriptionInput.value = "";
+      colorInput.value = "#3B82F6";
+    }
+
+    this.showModal(modal);
+  }
+
+  async saveGroup() {
+    try {
+      const name = document.getElementById("group-name-input").value.trim();
+      const description = document
+        .getElementById("group-description-input")
+        .value.trim();
+      const color = document.getElementById("group-color-input").value;
+
+      if (!name) {
+        this.showError("El nombre del grupo es requerido");
+        return;
+      }
+
+      const groupId = this.editingGroup || Date.now().toString();
+
+      if (!this.permisosData._user_groups.groups) {
+        this.permisosData._user_groups.groups = {};
+      }
+
+      this.permisosData._user_groups.groups[groupId] = {
+        name,
+        description,
+        color,
+        created: this.editingGroup
+          ? this.permisosData._user_groups.groups[groupId].created
+          : new Date().toISOString(),
+        modified: new Date().toISOString(),
+      };
+
+      await this.savePermisosData();
+
+      this.closeModal(document.getElementById("group-modal"));
+      this.renderGroupsList();
+      this.populateGroupFilter();
+      this.populateUserGroupSelect();
+
+      this.showSuccess(
+        `Grupo ${this.editingGroup ? "actualizado" : "creado"} correctamente`
+      );
+      this.editingGroup = null;
+    } catch (error) {
+      console.error("Error al guardar grupo:", error);
+      this.showError("Error al guardar el grupo");
+    }
+  }
+
+  editGroup(groupId) {
+    this.showGroupModal(groupId);
+  }
+
+  async deleteGroup(groupId) {
+    const group = this.permisosData._user_groups.groups[groupId];
+    const assignments = this.permisosData._user_groups.assignments || {};
+
+    // Contar usuarios asignados
+    const assignedUsers = Object.entries(assignments).filter(
+      ([, assignedGroup]) => assignedGroup === groupId
+    );
+
+    let confirmMessage = `¿Estás seguro de que quieres eliminar el grupo "${group.name}"?`;
+    if (assignedUsers.length > 0) {
+      confirmMessage += `\n\nEsto afectará a ${assignedUsers.length} usuario(s) que serán movidos a "Sin Grupo".`;
+    }
+
+    if (!confirm(confirmMessage)) return;
+
+    try {
+      // Remover grupo
+      delete this.permisosData._user_groups.groups[groupId];
+
+      // Remover asignaciones
+      Object.keys(assignments).forEach((username) => {
+        if (assignments[username] === groupId) {
+          delete assignments[username];
+        }
+      });
+
+      await this.savePermisosData();
+
+      this.renderGroupsList();
+      this.populateGroupFilter();
+      this.populateUserGroupSelect();
+
+      // Limpiar detalles si era el grupo seleccionado
+      if (this.selectedGroup === groupId) {
+        document.getElementById("group-details").innerHTML = `
+          <div class="empty-group-state">
+            <h4>Selecciona un grupo para editar</h4>
+            <p>Elige un grupo de la lista para ver y modificar sus usuarios.</p>
+          </div>
+        `;
+        this.selectedGroup = null;
+      }
+
+      this.showSuccess("Grupo eliminado correctamente");
+    } catch (error) {
+      console.error("Error al eliminar grupo:", error);
+      this.showError("Error al eliminar el grupo");
+    }
+  }
+
+  async removeUserFromGroup(username) {
+    if (!confirm(`¿Remover a ${username} del grupo?`)) return;
+
+    try {
+      if (this.permisosData._user_groups.assignments) {
+        delete this.permisosData._user_groups.assignments[username];
+      }
+
+      await this.savePermisosData();
+
+      if (this.selectedGroup) {
+        this.renderGroupDetails(this.selectedGroup);
+      }
+      this.renderGroupsList();
+
+      this.showSuccess(`Usuario ${username} removido del grupo`);
+    } catch (error) {
+      console.error("Error al remover usuario del grupo:", error);
+      this.showError("Error al remover usuario del grupo");
+    }
+  }
+
+  populateUserGroupSelect() {
+    const select = document.getElementById("user-group-select");
+    if (!select) return;
+
+    const groups = this.permisosData._user_groups.groups || {};
+
+    select.innerHTML =
+      '<option value="">Sin grupo asignado</option>' +
+      Object.entries(groups)
+        .map(
+          ([groupId, group]) =>
+            `<option value="${groupId}">${group.name}</option>`
+        )
+        .join("");
+  }
+
+  getUserGroup(username) {
+    const assignments = this.permisosData._user_groups.assignments || {};
+    return assignments[username] || null;
+  }
+
+  async assignUserToGroup(username, groupId) {
+    try {
+      if (!this.permisosData._user_groups.assignments) {
+        this.permisosData._user_groups.assignments = {};
+      }
+
+      if (groupId) {
+        this.permisosData._user_groups.assignments[username] = groupId;
+      } else {
+        delete this.permisosData._user_groups.assignments[username];
+      }
+
+      await this.savePermisosData();
+    } catch (error) {
+      console.error("Error al asignar usuario a grupo:", error);
+      throw error;
+    }
+  }
 }
 
 // Función de inicialización para ser llamada por el router
@@ -1080,7 +1658,8 @@ window.initAdminPanel = function () {
     return false;
   }
 
-  new AdminPanel();
+  // Crear instancia global para acceso desde eventos onclick
+  window.adminPanel = new AdminPanel();
   return true;
 };
 
