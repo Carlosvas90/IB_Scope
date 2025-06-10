@@ -131,6 +131,9 @@ initializeLotties(isDarkMode);
 document.addEventListener("DOMContentLoaded", async () => {
   await permisosService.init();
 
+  // Hacer permisosService disponible globalmente
+  window.permisosService = permisosService;
+
   // Bloquear visualmente apps y submenús sin permiso en el sidebar
   const navLinks = document.querySelectorAll(".sidebar-nav a[data-app]");
   navLinks.forEach((link) => {

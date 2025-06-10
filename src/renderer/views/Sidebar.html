@@ -306,6 +306,22 @@
           parentLink.addEventListener("click", (e) => {
             e.preventDefault();
 
+            // Verificar permisos antes de abrir el submenú
+            const appName = parentLink.getAttribute("data-app");
+            if (
+              appName &&
+              window.permisosService &&
+              !window.permisosService.tienePermiso(appName)
+            ) {
+              // Si no tiene permisos, mostrar mensaje y no abrir el submenú
+              if (window.showToast) {
+                window.showToast("No tienes acceso a esta app.", "error");
+              } else {
+                alert("No tienes acceso a esta app.");
+              }
+              return;
+            }
+
             const parentLi = parentLink.parentElement;
             const isCurrentlyOpen = parentLi.classList.contains("open");
 
@@ -408,9 +424,28 @@
           `.sidebar-nav a[data-app="${app}"]`
         );
         if (navLink) {
-          // Si es un elemento de submenu, abrir el submenu padre
+          // Si es un elemento de submenu, verificar permisos antes de abrir el submenu padre
           const parentLi = navLink.closest(".has-submenu");
           if (parentLi && navLink.closest(".submenu")) {
+            // Verificar permisos de la app principal antes de abrir el submenú
+            const mainAppLink = parentLi.querySelector(
+              "a[data-app]:not([data-view])"
+            );
+            const mainAppName = mainAppLink
+              ? mainAppLink.getAttribute("data-app")
+              : null;
+
+            if (
+              mainAppName &&
+              window.permisosService &&
+              !window.permisosService.tienePermiso(mainAppName)
+            ) {
+              console.warn(
+                `No se puede activar elemento del sidebar sin permisos: ${app}`
+              );
+              return;
+            }
+
             parentLi.classList.add("open");
           }
 
