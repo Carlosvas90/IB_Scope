@@ -62,6 +62,7 @@ class Router {
         name: "Gestión de Permisos",
         path: "../apps/admin-panel/views/admin-panel.html",
         scripts: ["../apps/admin-panel/js/admin-panel.js"],
+        styles: ["../apps/admin-panel/css/admin-panel.css"],
         defaultView: "usuarios",
         views: {
           usuarios: "#usuarios-view",
@@ -500,7 +501,8 @@ class Router {
       // Insertar el contenido en el contenedor
       this.appContainer.innerHTML = content;
 
-      // Cargar scripts definidos en la aplicación
+      // Cargar estilos y scripts definidos en la aplicación
+      await this.loadAppStyles(appName);
       await this.loadAppScripts(appName);
 
       // Actualizar estado
@@ -557,6 +559,55 @@ class Router {
       });
 
       return false;
+    }
+  }
+
+  /**
+   * Carga los estilos definidos para la aplicación
+   */
+  async loadAppStyles(appName) {
+    // Verificar si la app tiene estilos definidos
+    const app = this.routes[appName];
+    if (!app.styles || !app.styles.length) {
+      return;
+    }
+
+    // Cargar estilos secuencialmente
+    for (const stylePath of app.styles) {
+      try {
+        console.log(`Cargando estilo: ${stylePath}`);
+
+        // Verificar si el estilo ya está cargado
+        const existingLink = document.querySelector(
+          `link[href="${stylePath}"]`
+        );
+        if (existingLink) {
+          console.log(`Estilo ya cargado: ${stylePath}`);
+          continue;
+        }
+
+        // Crear elemento link
+        const link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.type = "text/css";
+        link.href = stylePath;
+        link.setAttribute("data-app", appName);
+
+        // Esperar a que se cargue
+        await new Promise((resolve, reject) => {
+          link.onload = resolve;
+          link.onerror = (event) => {
+            console.error(`Error al cargar estilo: ${stylePath}`, event);
+            reject(new Error(`Error al cargar estilo: ${stylePath}`));
+          };
+          document.head.appendChild(link);
+        });
+
+        console.log(`Estilo cargado correctamente: ${stylePath}`);
+      } catch (error) {
+        console.warn(`Error al cargar estilo ${stylePath}: ${error.message}`);
+        // Continuamos con el siguiente estilo aunque falle uno
+      }
     }
   }
 

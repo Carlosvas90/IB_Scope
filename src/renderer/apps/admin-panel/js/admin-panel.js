@@ -1015,9 +1015,16 @@ class AdminPanel {
         return;
       }
 
-      const hasApp = card.querySelector(
-        `.permission-tag:contains("${this.getAppDisplayName(appName)}")`
-      );
+      const displayName = this.getAppDisplayName(appName);
+      const tags = card.querySelectorAll(".permission-tag");
+      let hasApp = false;
+
+      tags.forEach((tag) => {
+        if (tag.textContent.includes(displayName)) {
+          hasApp = true;
+        }
+      });
+
       card.style.display = hasApp ? "block" : "none";
     });
   }
@@ -1060,11 +1067,13 @@ window.initAdminPanel = function () {
 
   // Verificar que el usuario tenga permisos de administrador
   if (window.permisosService && !window.permisosService.esAdmin()) {
-    document.body.innerHTML = `
-      <div style="display: flex; align-items: center; justify-content: center; height: 100vh; text-align: center;">
-        <div>
-          <h2>Acceso Denegado</h2>
-          <p>No tienes permisos para acceder al panel de administración.</p>
+    const appContainer =
+      document.getElementById("app-container") || document.body;
+    appContainer.innerHTML = `
+      <div style="display: flex; align-items: center; justify-content: center; height: 100vh; text-align: center; padding: 2rem;">
+        <div style="background: var(--sidebar_bg_ch, #f8f9fa); padding: 2rem; border-radius: 8px; border: 1px solid var(--Limit-Sidebar, #ddd);">
+          <h2 style="color: var(--text-color-three, #333); margin-bottom: 1rem;">Acceso Denegado</h2>
+          <p style="color: var(--text-color-one, #666);">No tienes permisos para acceder al panel de administración.</p>
         </div>
       </div>
     `;
@@ -1074,5 +1083,28 @@ window.initAdminPanel = function () {
   new AdminPanel();
   return true;
 };
+
+// Auto-inicialización cuando el DOM esté listo
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(() => {
+      window.initAdminPanel();
+    }, 100);
+  });
+} else {
+  // DOM ya está listo
+  setTimeout(() => {
+    window.initAdminPanel();
+  }, 100);
+}
+
+// También escuchar eventos del router
+window.addEventListener("app:ready", (event) => {
+  if (event.detail && event.detail.app === "admin-panel") {
+    setTimeout(() => {
+      window.initAdminPanel();
+    }, 100);
+  }
+});
 
 export { AdminPanel };
