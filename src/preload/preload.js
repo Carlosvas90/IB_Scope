@@ -161,7 +161,7 @@ contextBridge.exposeInMainWorld("api", {
     // Obtener la configuración desde el main
     const config = await ipcRenderer.invoke("get-config");
     const url = config.permisosUrl;
-    const localPath = config.permisosPath;
+    const localPaths = config.permisosPath;
 
     // 1. Intentar leer desde la URL
     try {
@@ -174,20 +174,86 @@ contextBridge.exposeInMainWorld("api", {
       // Si falla, continúa al siguiente paso
     }
 
-    // 2. Si falla, intentar leer desde el archivo local (main)
-    try {
-      console.log("[getPermisos] localPath:", localPath);
-      const result = await ipcRenderer.invoke("read-json", localPath);
-      console.log("[getPermisos] Resultado de read-json:", result);
-      if (result && result.success) {
-        return result.data;
-      } else {
-        return null;
+    // 2. Si falla, intentar leer desde archivos locales (main)
+    const paths = Array.isArray(localPaths) ? localPaths : [localPaths];
+
+    for (const localPath of paths) {
+      try {
+        console.log("[getPermisos] Intentando leer:", localPath);
+        const result = await ipcRenderer.invoke("read-json", localPath);
+        console.log("[getPermisos] Resultado de read-json:", result);
+        if (result && result.success) {
+          return result.data;
+        }
+      } catch (e) {
+        console.log("[getPermisos] Error al leer", localPath, ":", e.message);
+        // Continúa con la siguiente ruta
       }
-    } catch (e) {
-      // Si falla, retorna null
-      return null;
     }
+
+    console.log("[getPermisos] No se pudo leer ningún archivo de permisos");
+    return null;
+  },
+
+  /**
+   * Obtiene la ruta primaria donde se guardan/leen archivos de configuración
+   * @returns {Promise<string>} La ruta del directorio de permisos
+   */
+  getPermisosDir: async () => {
+    const config = await ipcRenderer.invoke("get-config");
+    const localPaths = config.permisosPath;
+    const paths = Array.isArray(localPaths) ? localPaths : [localPaths];
+
+    // Devolver el directorio de la primera ruta válida
+    for (const localPath of paths) {
+      try {
+        const result = await ipcRenderer.invoke("read-json", localPath);
+        if (result && result.success) {
+          // Extraer directorio eliminando el nombre del archivo
+          return localPath.replace(/[^/\\]*\.json$/, "");
+        }
+      } catch (e) {
+        // Continúa con la siguiente ruta
+      }
+    }
+
+    // Si no encuentra ninguna válida, usar la primera como fallback
+    return paths[0].replace(/[^/\\]*\.json$/, "");
+  },
+
+  /**
+   * Guarda datos de permisos en todas las rutas configuradas
+   * @param {object} data - Los datos de permisos a guardar
+   * @returns {Promise<object>} Resultado de la operación
+   */
+  savePermisos: async (data) => {
+    const config = await ipcRenderer.invoke("get-config");
+    const localPaths = config.permisosPath;
+    const paths = Array.isArray(localPaths) ? localPaths : [localPaths];
+
+    const results = [];
+
+    for (const localPath of paths) {
+      try {
+        const result = await ipcRenderer.invoke("save-json", localPath, data);
+        results.push({ path: localPath, result });
+      } catch (e) {
+        results.push({
+          path: localPath,
+          result: { success: false, error: e.message },
+        });
+      }
+    }
+
+    // Devolver éxito si al menos una operación fue exitosa
+    const successful = results.some((r) => r.result && r.result.success);
+    return {
+      success: successful,
+      results: results,
+      message: successful
+        ? "Permisos guardados correctamente"
+        : "Error al guardar permisos en todas las rutas",
+    };
   },
 });
 

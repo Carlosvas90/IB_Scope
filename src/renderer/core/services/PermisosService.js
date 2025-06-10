@@ -23,6 +23,12 @@ class PermisosService {
   tienePermiso(appName, viewName = null) {
     if (!this.permisos || !this.username) return false;
     const user = this.username.toLowerCase();
+
+    // Verificación especial para admin-panel
+    if (appName === "admin-panel") {
+      return this.esAdmin();
+    }
+
     const permisosApp = this.permisos[appName];
     if (!permisosApp) return false;
     // Permiso por submenú/vista (objeto)
@@ -58,6 +64,51 @@ class PermisosService {
       return permisosApp.some((u) => u.toLowerCase() === user);
     }
     return false;
+  }
+
+  /**
+   * Verifica si el usuario actual es un administrador (cualquier tipo)
+   * @returns {boolean}
+   */
+  esAdmin() {
+    if (!this.permisos || !this.username) return false;
+    const adminConfig = this.permisos["_admin_roles"];
+    if (!adminConfig) return false;
+
+    const user = this.username.toLowerCase();
+    return (
+      adminConfig.admins?.some((u) => u.toLowerCase() === user) ||
+      adminConfig.master?.some((u) => u.toLowerCase() === user)
+    );
+  }
+
+  /**
+   * Verifica si el usuario actual es el administrador master
+   * @returns {boolean}
+   */
+  esMasterAdmin() {
+    if (!this.permisos || !this.username) return false;
+    const adminConfig = this.permisos["_admin_roles"];
+    if (!adminConfig || !adminConfig.master) return false;
+
+    const user = this.username.toLowerCase();
+    return adminConfig.master.some((u) => u.toLowerCase() === user);
+  }
+
+  /**
+   * Obtiene el rol del usuario actual
+   * @returns {string} 'master', 'admin', 'user' o 'none'
+   */
+  getRolUsuario() {
+    if (!this.permisos || !this.username) return "none";
+
+    if (this.esMasterAdmin()) return "master";
+    if (this.esAdmin()) return "admin";
+
+    // Verificar si tiene al menos acceso al dashboard (usuario normal)
+    if (this.tienePermiso("dashboard")) return "user";
+
+    return "none";
   }
 
   /**

@@ -58,6 +58,18 @@ class Router {
         path: "../apps/dock-control/views/dock-control.html",
         scripts: ["../apps/dock-control/js/dock-control.js"],
       },
+      "admin-panel": {
+        name: "Gestión de Permisos",
+        path: "../apps/admin-panel/views/admin-panel.html",
+        scripts: ["../apps/admin-panel/js/admin-panel.js"],
+        defaultView: "usuarios",
+        views: {
+          usuarios: "#usuarios-view",
+          solicitudes: "#solicitudes-view",
+          admins: "#admins-view",
+        },
+        hasSubmenu: true,
+      },
       // Aquí se pueden añadir más aplicaciones en el futuro
     };
 
@@ -249,25 +261,190 @@ class Router {
   }
 
   /**
+   * Verifica si el usuario tiene acceso al Dashboard (requisito básico para usar la aplicación)
+   */
+  hasAccessToDashboard() {
+    if (!window.permisosService) {
+      return false;
+    }
+
+    return window.permisosService.tienePermiso("dashboard");
+  }
+
+  /**
+   * Muestra la pantalla de "Sin permisos"
+   */
+  showNoPermissionsScreen() {
+    this.appContainer.innerHTML = `
+      <div class="no-permissions">
+        <div class="no-permissions-container">
+          <div class="no-permissions-icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" stroke-width="2"/>
+              <path d="M17 11V7a5 5 0 0 0-10 0v4" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </div>
+                     <h2>Sin acceso autorizado</h2>
+           <p>No tienes permisos para acceder al Dashboard principal de la aplicación.</p>
+           <p class="no-permissions-subtext">
+             El acceso al Dashboard es requerido para usar cualquier funcionalidad. Para solicitar acceso, contacta al administrador del sistema.
+           </p>
+          <div class="no-permissions-actions">
+            <button id="request-permissions-btn" class="btn btn-primary">
+              Solicitar permisos
+            </button>
+            <button id="refresh-permissions-btn" class="btn btn-secondary">
+              Verificar nuevamente
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Configurar botones
+    document
+      .getElementById("request-permissions-btn")
+      .addEventListener("click", () => {
+        this.requestPermissions();
+      });
+
+    document
+      .getElementById("refresh-permissions-btn")
+      .addEventListener("click", () => {
+        this.refreshPermissions();
+      });
+  }
+
+  /**
+   * Maneja la solicitud de permisos
+   */
+  async requestPermissions() {
+    try {
+      // Obtener información del usuario
+      const username =
+        window.appServices?.username ||
+        window.permisosService?.username ||
+        "Usuario desconocido";
+
+      // Obtener ruta de solicitudes usando la nueva función
+      const permisosDir = await window.api.getPermisosDir();
+      const solicitudesPath = permisosDir + "solicitudes_permisos.json";
+
+      // Crear la solicitud
+      const solicitud = {
+        usuario: username,
+        fecha: new Date().toISOString(),
+        aplicacion: "dashboard",
+        motivo: "Solicitud de acceso inicial al Dashboard",
+        estado: "pendiente",
+        ip: "N/A", // Podría obtenerse si es necesario
+        computador: await window.api.getUsername(), // Nombre del usuario del sistema
+      };
+
+      // Leer solicitudes existentes
+      let solicitudes = [];
+      try {
+        const result = await window.api.readJson(solicitudesPath);
+        if (result && result.success && Array.isArray(result.data)) {
+          solicitudes = result.data;
+        }
+      } catch (e) {
+        // Archivo no existe, empezamos con array vacío
+        console.log("Archivo de solicitudes no existe, creando uno nuevo");
+      }
+
+      // Verificar si ya existe una solicitud pendiente del mismo usuario
+      const solicitudExistente = solicitudes.find(
+        (s) =>
+          s.usuario.toLowerCase() === username.toLowerCase() &&
+          s.estado === "pendiente" &&
+          s.aplicacion === "dashboard"
+      );
+
+      if (solicitudExistente) {
+        if (window.showToast) {
+          window.showToast(
+            "Ya tienes una solicitud pendiente. El administrador la revisará pronto.",
+            "info"
+          );
+        }
+        return;
+      }
+
+      // Agregar nueva solicitud
+      solicitudes.push(solicitud);
+
+      // Guardar solicitudes actualizadas
+      const saveResult = await window.api.saveJson(
+        solicitudesPath,
+        solicitudes
+      );
+
+      if (saveResult && saveResult.success) {
+        if (window.showToast) {
+          window.showToast(
+            "Solicitud registrada correctamente. El administrador será notificado.",
+            "success"
+          );
+        }
+        console.log(`Solicitud de permisos guardada para: ${username}`);
+      } else {
+        throw new Error("Error al guardar la solicitud");
+      }
+    } catch (error) {
+      console.error("Error al procesar solicitud de permisos:", error);
+      if (window.showToast) {
+        window.showToast(
+          "Error al registrar la solicitud. Contacta al administrador directamente.",
+          "error"
+        );
+      }
+    }
+  }
+
+  /**
+   * Refresca los permisos y vuelve a intentar cargar
+   */
+  async refreshPermissions() {
+    try {
+      if (window.permisosService) {
+        await window.permisosService.init();
+
+        // Intentar cargar app por defecto nuevamente
+        if (this.hasAccessToDashboard()) {
+          this.loadDefaultApp();
+        } else {
+          if (window.showToast) {
+            window.showToast(
+              "Aún no tienes permisos para acceder al Dashboard.",
+              "info"
+            );
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Error al refrescar permisos:", error);
+      if (window.showToast) {
+        window.showToast("Error al verificar permisos.", "error");
+      }
+    }
+  }
+
+  /**
    * Carga la aplicación predeterminada
    */
   loadDefaultApp() {
-    // Buscar la aplicación predeterminada
-    const defaultApp = Object.keys(this.routes).find(
-      (key) => this.routes[key].default
-    );
-
-    if (defaultApp) {
-      this.navigateTo(defaultApp);
-    } else {
-      // Si no hay aplicación predeterminada, cargar la primera
-      const firstApp = Object.keys(this.routes)[0];
-      if (firstApp) {
-        this.navigateTo(firstApp);
-      } else {
-        console.error("No se encontraron aplicaciones configuradas");
-      }
+    // Verificar si el usuario tiene acceso al Dashboard (requisito básico)
+    if (!this.hasAccessToDashboard()) {
+      console.log(
+        "Usuario sin permisos para el Dashboard - sin acceso a la aplicación"
+      );
+      this.showNoPermissionsScreen();
+      return;
     }
+
+    // Si tiene acceso al Dashboard, cargar el Dashboard por defecto
+    this.navigateTo("dashboard");
   }
 
   /**

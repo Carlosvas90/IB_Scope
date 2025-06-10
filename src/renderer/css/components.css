@@ -217,3 +217,106 @@
 .toast-info {
   border-left: 0.25rem solid var(--accent-blue);
 }
+
+/* Pantalla de Sin Permisos */
+.no-permissions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: var(--spacing-xl);
+  background: linear-gradient(
+    135deg,
+    var(--sidebar_bg_ch) 0%,
+    var(--body-bg) 100%
+  );
+}
+
+.no-permissions-container {
+  text-align: center;
+  max-width: 28rem;
+  padding: var(--spacing-xxl);
+  background-color: var(--body-bg);
+  border-radius: var(--border-lg);
+  box-shadow: var(--shadow-lg);
+  border: var(--border-width-thin) solid var(--Limit-Sidebar);
+}
+
+.no-permissions-icon {
+  width: 4rem;
+  height: 4rem;
+  margin: 0 auto var(--spacing-lg);
+  color: var(--Color-Red-3);
+  opacity: 0.8;
+}
+
+.no-permissions-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.no-permissions h2 {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-color-three);
+  margin-bottom: var(--spacing-md);
+}
+
+.no-permissions p {
+  font-size: var(--font-size-md);
+  color: var(--text-color-one);
+  margin-bottom: var(--spacing-md);
+  line-height: 1.6;
+}
+
+.no-permissions-subtext {
+  font-size: var(--font-size-sm) !important;
+  color: var(--text-color-one) !important;
+  opacity: 0.8 !important;
+  margin-bottom: var(--spacing-lg) !important;
+}
+
+.no-permissions-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.no-permissions-actions .btn {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--border-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  border: none;
+  transition: all var(--transition-normal);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 8rem;
+}
+
+.no-permissions-actions .btn-primary {
+  background-color: var(--Palette-Blue-4);
+  color: var(--Color-white);
+}
+
+.no-permissions-actions .btn-primary:hover {
+  background-color: var(--Palette-Blue-5);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(67, 129, 179, 0.3);
+}
+
+.no-permissions-actions .btn-secondary {
+  background-color: var(--sidebar_bg_ch);
+  color: var(--text-color-three);
+  border: var(--border-width-thin) solid var(--Limit-Sidebar);
+}
+
+.no-permissions-actions .btn-secondary:hover {
+  background-color: var(--Sidebar_Boton_hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
