@@ -17,6 +17,7 @@ const homeLottieMap = {
   "idle-time": "idle",
   "space-heatmap": "heatmap",
   "dock-control": "dock-control",
+  "admin-panel": "admin",
 };
 
 // Función para actualizar el estado activo en Home
