@@ -58,6 +58,10 @@ export class ChartRegistry {
   async loadAvailableCharts() {
     const chartModules = [
       "TrendChart",
+      "StatusChart",
+      "HourlyChart",
+      "TopChart",
+      // Mantener compatibilidad con nombres antiguos
       "StatusDistributionChart",
       "HourlyErrorsChart",
       "TopProductsChart",
