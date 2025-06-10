@@ -38,7 +38,6 @@ function setupHomeLottieEffects() {
       card.addEventListener("mouseenter", () => {
         const homeLottieId = `home-lottie-${lottieId}`;
         updateActiveLottie(homeLottieId, "home");
-        console.log(`Hover en tarjeta del Home: ${app}`);
       });
 
       card.addEventListener("mouseleave", () => {
@@ -50,7 +49,6 @@ function setupHomeLottieEffects() {
           if (activeLottieId) {
             // Reactivar el lottie correspondiente en el sidebar
             updateActiveLottie(`lottie-${activeLottieId}`, "sidebar");
-            console.log(`Restaurado lottie del sidebar activo: ${activeApp}`);
           }
         }
       });
@@ -64,8 +62,6 @@ function setupHomeNavigation() {
     card.addEventListener("click", () => {
       const app = card.getAttribute("data-app");
       if (app) {
-        console.log(`Click en tarjeta del Home: ${app}`);
-
         // Activar el elemento correspondiente en el sidebar usando la función global
         if (typeof window.activateSidebarItem === "function") {
           window.activateSidebarItem(app);
@@ -94,8 +90,6 @@ function setupHomeNavigation() {
 
 // Inicializar cuando el DOM esté listo (igual que en Sidebar.html)
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("Inicializando Lotties de Home...");
-
   // Obtener el modo oscuro
   const isDarkMode = localStorage.getItem("darkMode") === "true";
 
@@ -107,21 +101,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Configurar navegación
   setupHomeNavigation();
-
-  console.log("Lotties de Home inicializados correctamente");
 });
 
 // Función global para llamar desde dashboard.js
 window.initHomeLotties = function () {
-  console.log("Re-inicializando Lotties de Home...");
-
   // Siempre obtener el tema actual desde localStorage
   const isDarkMode = localStorage.getItem("darkMode") === "true";
-  console.log(`Tema detectado en Home: ${isDarkMode ? "oscuro" : "claro"}`);
 
   initializeLotties(isDarkMode, "home");
   setupHomeLottieEffects();
   setupHomeNavigation();
-
-  console.log("Lotties de Home re-inicializados correctamente");
 };

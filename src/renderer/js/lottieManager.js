@@ -77,10 +77,6 @@ const NAV_LOTTIES = [
 ];
 
 async function loadLottieAnimation(id, mode, location = "sidebar") {
-  console.log(
-    `Intentando cargar Lottie: ${id} en modo ${mode} desde ${location}`
-  );
-
   // Determinar el ID del contenedor según la ubicación
   const containerId =
     location === "home" ? `home-lottie-${id}` : `lottie-${id}`;
@@ -93,7 +89,6 @@ async function loadLottieAnimation(id, mode, location = "sidebar") {
 
   try {
     const animationData = lottieFiles[location][id][mode];
-    console.log(`Ruta del archivo Lottie: ${animationData}`);
 
     // Verificar si el archivo existe
     const response = await fetch(animationData);
@@ -103,11 +98,9 @@ async function loadLottieAnimation(id, mode, location = "sidebar") {
 
     // Si ya existe una instancia, destrúyela primero
     if (lottieInstances[containerId]) {
-      console.log(`Destruyendo instancia existente de ${containerId}`);
       lottieInstances[containerId].destroy();
     }
 
-    console.log(`Creando nueva instancia de Lottie para ${containerId}`);
     lottieInstances[containerId] = lottie.loadAnimation({
       container,
       renderer: "svg",
@@ -115,8 +108,6 @@ async function loadLottieAnimation(id, mode, location = "sidebar") {
       autoplay: false,
       path: animationData,
     });
-
-    console.log(`Lottie cargado exitosamente para ${containerId}`);
   } catch (error) {
     console.error(`Error al cargar Lottie para ${containerId}:`, error);
   }
@@ -139,7 +130,6 @@ function stopOtherAnimations(activeId) {
 
 // Función para reproducir una animación específica
 export function playLottie(id, location = "sidebar") {
-  console.log(`Reproduciendo Lottie: ${id} desde ${location}`);
   const containerId =
     location === "home" ? `home-lottie-${id}` : `lottie-${id}`;
 
@@ -153,11 +143,6 @@ export function playLottie(id, location = "sidebar") {
 
 // Función para inicializar los lotties
 export async function initializeLotties(isDarkMode, location = "sidebar") {
-  console.log(
-    `Inicializando Lotties para ${location} en modo ${
-      isDarkMode ? "dark" : "light"
-    }`
-  );
   const mode = isDarkMode ? "dark" : "light";
 
   try {
@@ -172,7 +157,6 @@ export async function initializeLotties(isDarkMode, location = "sidebar") {
 
 // Función para actualizar el estado activo de los lotties
 export function updateActiveLottie(activeId, location = "sidebar") {
-  console.log(`Actualizando Lottie activo: ${activeId} desde ${location}`);
   const ids = Object.keys(lottieFiles[location]);
 
   ids.forEach((id) => {
