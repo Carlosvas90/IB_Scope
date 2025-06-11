@@ -4,6 +4,8 @@
  * Proporciona funcionalidad común y estructura estándar
  */
 
+import { getChartThemeService } from "./ChartThemeService.js";
+
 export class BaseChart {
   constructor(container, chartId, options = {}) {
     this.container = container;
@@ -20,6 +22,9 @@ export class BaseChart {
 
     // Eventos
     this.events = new Map();
+
+    // Servicio de temas
+    this.themeService = getChartThemeService();
 
     console.log(`📊 ${this.constructor.name} inicializado con ID: ${chartId}`);
   }
@@ -73,6 +78,42 @@ export class BaseChart {
   }
 
   /**
+   * Obtiene la configuración de temas
+   */
+  getThemeConfig() {
+    return this.themeService.getCurrentThemeConfig();
+  }
+
+  /**
+   * Obtiene color del tema actual
+   */
+  getThemeColor(colorKey) {
+    const themeConfig = this.getThemeConfig();
+    return themeConfig[colorKey] || themeConfig.textColor;
+  }
+
+  /**
+   * Obtiene color de la paleta según índice
+   */
+  getColorFromPalette(index) {
+    const themeConfig = this.getThemeConfig();
+    return themeConfig.palette[index % themeConfig.palette.length];
+  }
+
+  /**
+   * Detecta el tema actual del sistema
+   */
+  getCurrentTheme() {
+    // Verificar si hay un tema forzado en la configuración local
+    if (this.config.theme && this.config.theme !== "auto") {
+      return this.config.theme;
+    }
+
+    // Usar el tema del servicio global
+    return this.themeService.getCurrentTheme();
+  }
+
+  /**
    * Inicializa el gráfico
    */
   async initialize() {
@@ -87,6 +128,9 @@ export class BaseChart {
 
       // Preparar contenedor
       this.prepareContainer();
+
+      // Registrar en el servicio de temas
+      this.themeService.registerChart(this);
 
       // Marcar como inicializado
       this.isInitialized = true;
@@ -229,6 +273,8 @@ export class BaseChart {
    * Aplica un tema al gráfico
    */
   applyTheme(theme) {
+    const oldTheme = this.getCurrentTheme();
+
     if (typeof theme === "string") {
       this.config.theme = theme;
     } else if (typeof theme === "object") {
@@ -236,12 +282,80 @@ export class BaseChart {
       this.config.theme = "custom";
     }
 
-    // Re-renderizar si está renderizado
-    if (this.isRendered) {
-      this.render();
+    const newTheme = this.getCurrentTheme();
+    console.log(`🎨 Aplicando tema ${newTheme} a ${this.constructor.name}`);
+
+    // Actualizar gráfico si está renderizado y el tema cambió
+    if (this.isRendered && this.chart && oldTheme !== newTheme) {
+      try {
+        const chartOptions = this.getChartOptions();
+        const finalOptions = this.mergeChartOptions(chartOptions);
+        this.chart.setOption(finalOptions, true); // true = notMerge para forzar actualización
+        console.log(
+          `✅ Tema aplicado correctamente a ${this.constructor.name}`
+        );
+      } catch (error) {
+        console.error(
+          `❌ Error aplicando tema a ${this.constructor.name}:`,
+          error
+        );
+      }
     }
 
-    this.emit("themeChanged", theme);
+    this.emit("themeChanged", { oldTheme, newTheme, theme });
+  }
+
+  /**
+   * Configura el listener para cambios automáticos de tema
+   */
+  setupThemeListener() {
+    // Escuchar cambios en el atributo data-theme del documento
+    if (typeof MutationObserver !== "undefined") {
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (
+            mutation.type === "attributes" &&
+            (mutation.attributeName === "data-theme" ||
+              mutation.attributeName === "class")
+          ) {
+            const currentTheme = this.getCurrentTheme();
+            if (this.lastDetectedTheme !== currentTheme) {
+              this.lastDetectedTheme = currentTheme;
+              this.applyTheme("auto"); // Usar tema automático
+            }
+          }
+        });
+      });
+
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ["data-theme", "class"],
+      });
+
+      // Guardar referencia para limpieza
+      this.themeObserver = observer;
+    }
+
+    // Escuchar cambios en las preferencias del sistema
+    if (window.matchMedia) {
+      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+      const handleSystemThemeChange = (e) => {
+        if (this.config.theme === "auto") {
+          this.applyTheme("auto");
+        }
+      };
+
+      mediaQuery.addListener(handleSystemThemeChange);
+
+      // Guardar referencia para limpieza
+      this.systemThemeListener = {
+        mediaQuery,
+        handler: handleSystemThemeChange,
+      };
+    }
+
+    // Establecer tema inicial
+    this.lastDetectedTheme = this.getCurrentTheme();
   }
 
   /**
@@ -300,6 +414,11 @@ export class BaseChart {
       if (this.refreshTimer) {
         clearInterval(this.refreshTimer);
         this.refreshTimer = null;
+      }
+
+      // Desregistrar del servicio de temas
+      if (this.themeService) {
+        this.themeService.unregisterChart(this);
       }
 
       // Destruir gráfico ECharts
