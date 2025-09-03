@@ -133,28 +133,52 @@ export class TableRendererService {
    * @param {Object} error - Objeto de error
    */
   setupAsinLink(row, error) {
+    console.log(
+      `🔧 setupAsinLink llamado para error:`,
+      error.id,
+      `ASIN: ${error.asin}`
+    );
+
     const asinCell = row.querySelector(".asin-cell");
+    if (!asinCell) {
+      console.error("❌ No se encontró .asin-cell");
+      return;
+    }
+
     asinCell.innerHTML = ""; // Limpiar contenido
+
+    // Validar que el ASIN existe ANTES de crear el elemento
+    if (!error.asin) {
+      console.log("⚠️ ASIN vacío, mostrando N/A");
+      asinCell.textContent = "N/A";
+      return;
+    }
 
     const asinLink = document.createElement("span");
     asinLink.className = "asin-link";
     asinLink.textContent = this.escapeHtml(error.asin);
+    console.log(`🏷️ Elemento ASIN creado:`, asinLink);
 
-    // Añadir evento de clic para abrir en navegador externo
-    asinLink.addEventListener("click", (e) => {
-      e.stopPropagation(); // Evitar que se expanda la fila
+    // Crear URL completa una sola vez
+    const url = getAsinResearchUrl(error.asin);
+    console.log(`🎯 URL generada: ${url}`);
 
-      // Crear URL completa
-      const url = getAsinResearchUrl(error.asin);
+    // Añadir tooltip informativo
+    asinLink.title = `Hacer clic para abrir ${error.asin} en FCResearch (navegador externo)`;
 
-      // Usar la API para abrir la URL en el navegador externo
-      openExternalLink(url);
-    });
+    // El evento de clic se maneja directamente en ErrorsTableController.js
+    console.log(
+      `✅ Enlace ASIN configurado, evento manejado por ErrorsTableController`
+    );
 
     // Hacer que se vea como un enlace
     asinLink.style.cursor = "pointer";
+    asinLink.style.textDecoration = "underline";
+    asinLink.style.color = "#0066cc";
+    console.log(`🎨 Estilos aplicados al enlace ASIN`);
 
     asinCell.appendChild(asinLink);
+    console.log(`✅ Enlace ASIN agregado a la celda para ${error.asin}`);
   }
 
   /**

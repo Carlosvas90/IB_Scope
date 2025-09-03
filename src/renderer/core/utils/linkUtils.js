@@ -23,9 +23,47 @@ export function getAsinResearchUrl(asin) {
  * @param {string} url
  */
 export function openExternalLink(url) {
+  if (!url) {
+    console.error("openExternalLink: URL no válida");
+    return;
+  }
+
+  console.log(`🔗 Intentando abrir URL externa: ${url}`);
+  console.log(`🔍 window.api disponible:`, !!window.api);
+  console.log(
+    `🔍 window.api.openExternalLink disponible:`,
+    !!(window.api && window.api.openExternalLink)
+  );
+
   if (window.api && window.api.openExternalLink) {
-    window.api.openExternalLink(url);
+    console.log(
+      "✅ Usando window.api.openExternalLink para abrir URL en navegador externo"
+    );
+
+    window.api
+      .openExternalLink(url)
+      .then((result) => {
+        console.log("📋 Resultado de openExternalLink:", result);
+        if (result && result.success) {
+          console.log("🎉 URL abierta correctamente en navegador externo");
+        } else {
+          console.error(
+            "❌ Error al abrir URL:",
+            result ? result.error : "Desconocido"
+          );
+          console.log("🔄 Intentando fallback con window.open");
+          window.open(url, "_blank");
+        }
+      })
+      .catch((error) => {
+        console.error("💥 Excepción al abrir URL:", error);
+        console.log("🔄 Usando window.open como fallback por excepción");
+        window.open(url, "_blank");
+      });
   } else {
+    console.log(
+      "⚠️ API de Electron no disponible, usando window.open como fallback"
+    );
     window.open(url, "_blank");
   }
 }

@@ -293,12 +293,53 @@ export class ErrorsTableController {
           "🖱️ Click en fila expandible:",
           row.getAttribute("data-id")
         );
-        // No expandir si se hace clic en enlace o botón
-        if (
-          event.target.closest(".asin-link") ||
-          event.target.closest(".status-btn")
-        ) {
-          console.log("❌ Click ignorado - es en enlace o botón");
+        // Manejar clic en enlace ASIN directamente aquí
+        const asinLink = event.target.closest(".asin-link");
+        if (asinLink) {
+          console.log("🔗 Clic detectado en ASIN link, manejando directamente");
+
+          // Obtener el ASIN del texto del enlace
+          const asin = asinLink.textContent.trim();
+          console.log(`🎯 ASIN detectado: ${asin}`);
+
+          // Crear URL y abrirla
+          const url = `http://fcresearch-eu.aka.amazon.com/VLC1/results?s=${asin}`;
+          console.log(`🎯 URL a abrir: ${url}`);
+
+          // Abrir en navegador externo
+          if (window.api && window.api.openExternalLink) {
+            console.log("✅ Usando window.api.openExternalLink");
+            window.api
+              .openExternalLink(url)
+              .then((result) => {
+                console.log("📋 Resultado:", result);
+                if (result && result.success) {
+                  console.log(
+                    "🎉 URL abierta correctamente en navegador externo"
+                  );
+                } else {
+                  console.error(
+                    "❌ Error:",
+                    result ? result.error : "Desconocido"
+                  );
+                  window.open(url, "_blank");
+                }
+              })
+              .catch((error) => {
+                console.error("💥 Excepción:", error);
+                window.open(url, "_blank");
+              });
+          } else {
+            console.log("⚠️ API no disponible, usando window.open");
+            window.open(url, "_blank");
+          }
+
+          return; // No expandir la fila
+        }
+
+        // No expandir si se hace clic en botón de estado
+        if (event.target.closest(".status-btn")) {
+          console.log("❌ Click ignorado - es en botón de estado");
           return;
         }
         const errorId = row.getAttribute("data-id");
