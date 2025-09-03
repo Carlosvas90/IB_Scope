@@ -147,14 +147,8 @@ export class UIController {
       });
     }
 
-    // Botón de exportar a CSV
-    const exportBtn = document.getElementById("export-btn");
-    if (exportBtn) {
-      exportBtn.addEventListener("click", () => {
-        // Implementar exportación a CSV
-        window.showToast("Exportación a CSV no implementada aún", "info");
-      });
-    }
+    // Botón de exportar a CSV - Se maneja en feedback-tracker.js
+    // Eliminado para evitar múltiples event listeners
 
     // Botón de guardar configuración
     const saveSettingsBtn = document.getElementById("save-settings-btn");

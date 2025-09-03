@@ -284,20 +284,49 @@ function setupEvents() {
   // Botón de exportar a CSV
   const exportBtn = document.getElementById("export-btn");
   if (exportBtn) {
-    exportBtn.addEventListener("click", async () => {
+    // Limpiar event listeners anteriores para evitar duplicación
+    const newExportBtn = exportBtn.cloneNode(true);
+    exportBtn.parentNode.replaceChild(newExportBtn, exportBtn);
+
+    let isExporting = false; // Flag para prevenir múltiples ejecuciones
+
+    newExportBtn.addEventListener("click", async () => {
+      if (isExporting) {
+        console.log("🚫 Exportación ya en progreso, ignorando clic adicional");
+        return;
+      }
+
+      isExporting = true;
+      newExportBtn.disabled = true;
+      newExportBtn.textContent = "Exportando...";
+
       try {
+        console.log("📤 Iniciando exportación a CSV...");
         const result = await dataService.exportToCsv(
           errorsTableController.statusFilter
         );
 
         if (result.success) {
           window.showToast(`Datos exportados a: ${result.filePath}`, "success");
+          console.log("✅ Exportación exitosa:", result.filePath);
         } else {
           window.showToast(`Error al exportar datos: ${result.error}`, "error");
+          console.error("❌ Error en exportación:", result.error);
         }
       } catch (error) {
-        console.error("Error al exportar datos:", error);
-        window.showToast("Error al exportar datos", "error");
+        console.error("💥 Error al exportar datos:", error);
+        window.showToast("Error inesperado al exportar datos", "error");
+      } finally {
+        isExporting = false;
+        newExportBtn.disabled = false;
+        newExportBtn.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Exportar a CSV
+        `;
       }
     });
   }

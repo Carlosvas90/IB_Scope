@@ -36,11 +36,18 @@ class FileSystemService {
   async exportToCsv(data) {
     try {
       // Mostrar diálogo para guardar archivo
+      // Generar fecha en formato YYYY-MM-DD
+      const today = new Date();
+      const dateString =
+        today.getFullYear() +
+        "-" +
+        String(today.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(today.getDate()).padStart(2, "0");
+
       const { canceled, filePath } = await dialog.showSaveDialog({
         title: "Exportar a CSV",
-        defaultPath: `errores_${new Date()
-          .toISOString()
-          .replace(/:/g, "-")}.csv`,
+        defaultPath: `Inventory_Health_${dateString}.csv`,
         filters: [{ name: "CSV", extensions: ["csv"] }],
       });
 
@@ -48,8 +55,13 @@ class FileSystemService {
         return { success: false, error: "Operación cancelada por el usuario" };
       }
 
-      // Guardar archivo
-      fs.writeFileSync(filePath, data, "utf-8");
+      // Guardar archivo con BOM UTF-8 para compatibilidad con Excel y caracteres especiales
+      // El BOM (\ufeff) asegura que Excel interprete correctamente los acentos y ñ
+      const bomUtf8 = "\ufeff";
+      const csvWithBom = bomUtf8 + data;
+
+      fs.writeFileSync(filePath, csvWithBom, "utf-8");
+      console.log(`CSV guardado con codificación UTF-8 + BOM en: ${filePath}`);
       return { success: true, filePath };
     } catch (error) {
       console.error("Error al exportar a CSV:", error);
