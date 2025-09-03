@@ -24,6 +24,38 @@ class PermisosService {
     if (!this.permisos || !this.username) return false;
     const user = this.username.toLowerCase();
 
+    // Caso especial para inventory-stats - usar permisos de feedback-tracker
+    if (appName === "inventory-stats") {
+      console.log(
+        "Verificando permisos para inventory-stats usando feedback-tracker"
+      );
+
+      // Primero intentamos verificar si existe inventory-stats como subcategoría
+      const permisosApp = this.permisos["feedback-tracker"];
+      if (
+        permisosApp &&
+        typeof permisosApp === "object" &&
+        !Array.isArray(permisosApp)
+      ) {
+        // Verificar si existe la subcategoría inventory-stats
+        if (permisosApp["inventory-stats"]) {
+          const arr = permisosApp["inventory-stats"];
+          if (Array.isArray(arr)) {
+            if (arr.includes("*")) return true;
+            return arr.some((u) => u.toLowerCase() === user);
+          }
+        }
+
+        // Si no existe la subcategoría específica, verificar acceso general
+        const general = permisosApp["*"];
+        if (Array.isArray(general)) {
+          if (general.includes("*")) return true;
+          return general.some((u) => u.toLowerCase() === user);
+        }
+      }
+      return false;
+    }
+
     // Verificación especial para admin-panel
     if (appName === "admin-panel") {
       return this.esAdmin();

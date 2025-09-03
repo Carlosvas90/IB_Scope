@@ -42,6 +42,12 @@ class Router {
         path: "../apps/feedback-tracker/estadisticas/views/estadisticas.html",
         scripts: ["../apps/feedback-tracker/estadisticas/js/estadisticas.js"],
       },
+      "inventory-stats": {
+        path: "../apps/feedback-tracker/Inventory-Stats/views/inventory-stats.html",
+        scripts: [
+          "../apps/feedback-tracker/Inventory-Stats/js/inventory-stats.js",
+        ],
+      },
       "activity-scope": {
         path: "../apps/activity-scope/views/activity-scope.html",
         scripts: [],
