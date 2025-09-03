@@ -13,6 +13,7 @@ export class ErrorsTableController {
   constructor(dataController) {
     this.dataController = dataController;
     this.statusFilter = "all";
+    this.shiftFilter = "day"; // Nuevo filtro por turno (default: day)
     this.tableBody = null;
     this.rowTemplate = null;
     this.detailsTemplate = null;
@@ -152,9 +153,10 @@ export class ErrorsTableController {
     console.time("RenderVisibleRows");
 
     try {
-      // Obtener errores filtrados
+      // Obtener errores filtrados por estado y turno
       const filteredErrors = this.dataController.getFilteredErrors(
-        this.statusFilter
+        this.statusFilter,
+        this.shiftFilter
       );
 
       console.log(
@@ -232,13 +234,24 @@ export class ErrorsTableController {
    * Configura los event listeners para la tabla
    */
   setupEventListeners() {
-    // Configurar filtros
-    const filterButtons = document.querySelectorAll(
+    // Configurar filtros de estado
+    const statusFilterButtons = document.querySelectorAll(
       'input[name="status-filter"]'
     );
-    filterButtons.forEach((button) => {
+    statusFilterButtons.forEach((button) => {
       button.addEventListener("change", (e) => {
         this.statusFilter = e.target.value;
+        this.filterTable();
+      });
+    });
+
+    // Configurar filtros de turno
+    const shiftFilterButtons = document.querySelectorAll(
+      'input[name="shift-filter"]'
+    );
+    shiftFilterButtons.forEach((button) => {
+      button.addEventListener("change", (e) => {
+        this.shiftFilter = e.target.value;
         this.filterTable();
       });
     });
@@ -376,6 +389,13 @@ export class ErrorsTableController {
   }
 
   /**
+   * Establece el filtro por turno
+   */
+  setShiftFilter(filter) {
+    this.shiftFilter = filter;
+  }
+
+  /**
    * Actualiza la tabla con los datos actuales
    */
   updateTable() {
@@ -397,13 +417,14 @@ export class ErrorsTableController {
       // Limpiar tabla
       this.tableBody.innerHTML = "";
 
-      // Obtener errores filtrados
+      // Obtener errores filtrados por estado y turno
       const filteredErrors = this.dataController.getFilteredErrors(
-        this.statusFilter
+        this.statusFilter,
+        this.shiftFilter
       );
 
       console.log(
-        `📋 Errores filtrados (${this.statusFilter}): ${filteredErrors.length}`
+        `📋 Errores filtrados (Estado: ${this.statusFilter}, Turno: ${this.shiftFilter}): ${filteredErrors.length}`
       );
 
       // Si no hay datos, mostrar mensaje
@@ -452,7 +473,7 @@ export class ErrorsTableController {
   }
 
   /**
-   * Filtra la tabla según el filtro seleccionado
+   * Filtra la tabla según los filtros seleccionados (estado y turno)
    */
   filterTable() {
     // Si usamos virtualización, refrescar todo el renderizado
@@ -462,17 +483,9 @@ export class ErrorsTableController {
       return;
     }
 
-    // Enfoque tradicional para conjuntos pequeños
-    const rows = this.tableBody.querySelectorAll("tr.expandable-row");
-    rows.forEach((row) => {
-      if (this.statusFilter === "all") {
-        row.style.display = "";
-      } else if (this.statusFilter === "pending") {
-        row.style.display = row.classList.contains("row-pending") ? "" : "none";
-      } else if (this.statusFilter === "done") {
-        row.style.display = row.classList.contains("row-done") ? "" : "none";
-      }
-    });
+    // Para el enfoque tradicional, necesitamos volver a cargar los datos
+    // ya que el filtro por turno requiere procesar la hora de cada error
+    this.updateTable();
 
     // Actualizar contadores visibles
     this.updateCounters();

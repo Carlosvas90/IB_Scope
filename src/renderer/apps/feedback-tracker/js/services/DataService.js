@@ -33,6 +33,20 @@ export class DataService {
     this.initializationPromise = null;
   }
 
+  /**
+   * Genera el nombre del archivo de errores con la fecha actual en formato DDMMYYYY
+   * @returns {string} Nombre del archivo con formato error_tracker_DDMMYYYY.json
+   */
+  getErrorTrackerFilename() {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, "0");
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const year = today.getFullYear();
+
+    const dateString = `${day}${month}${year}`;
+    return `error_tracker_${dateString}.json`;
+  }
+
   async ensureInitialized() {
     if (!this.isInitialized) {
       if (!this.initializationPromise) {
@@ -78,14 +92,22 @@ export class DataService {
 
       // Aplicar configuración cargada
       this.dataPaths = appConfig.dataPaths || [];
+
+      // Usar el nombre base del archivo de errores, pero el nombre real se generará dinámicamente
       this.fileNames = appConfig.fileNames || { errors: "error_tracker.json" };
+
+      // Guardar el nombre base para referencia
+      this.errorFileBaseName = this.fileNames.errors;
+
+      // Actualizar el nombre del archivo con la fecha actual
+      this.fileNames.errors = this.getErrorTrackerFilename();
 
       console.log(
         "DataService: Rutas de datos establecidas desde ConfigService:",
         this.dataPaths
       );
       console.log(
-        "DataService: Nombres de archivo establecidos desde ConfigService:",
+        "DataService: Nombres de archivo establecidos desde ConfigService (con fecha actual):",
         this.fileNames
       );
 
@@ -260,19 +282,31 @@ export class DataService {
       )}`
     );
 
+    // Si el archivo solicitado es el de errores, usar el nombre con fecha actual
+    let fileNameToUse = fileName;
+    if (
+      fileName === this.errorFileBaseName ||
+      fileName === "error_tracker.json"
+    ) {
+      fileNameToUse = this.getErrorTrackerFilename();
+      console.log(
+        `DataService.tryReadFile: Usando nombre de archivo con fecha actual: ${fileNameToUse}`
+      );
+    }
+
     const result = await this.fileService.tryReadJsonFromPaths(
       orderedPaths,
-      fileName
+      fileNameToUse
     );
 
     if (result.success) {
       console.log(
-        `DataService.tryReadFile: Éxito. '${fileName}' leído desde '${result.pathUsed}'. Actualizando currentDataPath.`
+        `DataService.tryReadFile: Éxito. '${fileNameToUse}' leído desde '${result.pathUsed}'. Actualizando currentDataPath.`
       );
       this.currentDataPath = result.pathUsed;
     } else {
       console.warn(
-        `DataService.tryReadFile: Falló la lectura de '${fileName}' desde todas las rutas. Error: ${result.error}`
+        `DataService.tryReadFile: Falló la lectura de '${fileNameToUse}' desde todas las rutas. Error: ${result.error}`
       );
     }
 
@@ -326,6 +360,12 @@ export class DataService {
       this.isRefreshing = true;
       console.log(
         "DataService.refreshData: Intentando cargar datos desde el archivo..."
+      );
+
+      // Actualizar el nombre del archivo con la fecha actual antes de intentar leerlo
+      this.fileNames.errors = this.getErrorTrackerFilename();
+      console.log(
+        `DataService.refreshData: Usando nombre de archivo actualizado: ${this.fileNames.errors}`
       );
 
       const result = await this.tryReadFile(this.fileNames.errors);
@@ -428,27 +468,34 @@ export class DataService {
   }
 
   /**
-   * Filtra los errores por estado y los ordena por hora (ascendente)
+   * Filtra los errores por estado y turno, y los ordena por hora (ascendente)
+   * @param {string} statusFilter - Filtro de estado ("all", "pending", "done")
+   * @param {string} shiftFilter - Filtro de turno ("day", "early", "late")
+   * @returns {Array<Object>} Errores filtrados y ordenados
    */
-  getFilteredErrors(statusFilter = "all") {
+  getFilteredErrors(statusFilter = "all", shiftFilter = "day") {
     console.time("GetFilteredErrors");
 
+    // Crear una clave compuesta para la caché
+    const cacheKey = `${statusFilter}_${shiftFilter}`;
+
     // Usar caché si está disponible
-    if (
-      this.cache.processedErrors &&
-      this.cache.processedErrors[statusFilter]
-    ) {
+    if (this.cache.processedErrors && this.cache.processedErrors[cacheKey]) {
       console.timeEnd("GetFilteredErrors");
-      return this.cache.processedErrors[statusFilter];
+      return this.cache.processedErrors[cacheKey];
     }
 
-    const result = this.errorProcessor.filterAndSort(this.errors, statusFilter);
+    const result = this.errorProcessor.filterAndSort(
+      this.errors,
+      statusFilter,
+      shiftFilter
+    );
 
     // Almacenar en caché
     if (!this.cache.processedErrors) {
       this.cache.processedErrors = {};
     }
-    this.cache.processedErrors[statusFilter] = result;
+    this.cache.processedErrors[cacheKey] = result;
 
     console.timeEnd("GetFilteredErrors");
     return result;
@@ -553,9 +600,19 @@ export class DataService {
     );
 
     try {
+      // Asegurar que siempre usamos el nombre de archivo con la fecha actual
+      const errorFileName = this.getErrorTrackerFilename();
+
+      // Actualizar el nombre en fileNames para mantener consistencia
+      this.fileNames.errors = errorFileName;
+
+      console.log(
+        `DataService.saveData: Guardando con nombre de archivo: ${errorFileName}`
+      );
+
       const result = await this.fileService.trySaveJsonToPaths(
         orderedPaths,
-        this.fileNames.errors,
+        errorFileName,
         dataToSave
       );
 

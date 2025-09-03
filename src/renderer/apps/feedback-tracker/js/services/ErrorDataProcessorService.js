@@ -105,12 +105,60 @@ export class ErrorDataProcessorService {
   }
 
   /**
-   * Filtra los errores por estado y los ordena por hora (ascendente).
+   * Determina si una hora está dentro del rango de un turno específico
+   * @param {string} timeString - Hora en formato HH:MM:SS
+   * @param {string} shiftType - Tipo de turno ("day", "early", "late")
+   * @returns {boolean} True si la hora está en el turno especificado
+   */
+  isTimeInShift(timeString, shiftType) {
+    if (!timeString || typeof timeString !== "string") return false;
+
+    // Extraer solo la parte de la hora (HH:MM) para comparar
+    const timeParts = timeString.split(":");
+    if (timeParts.length < 2) return false;
+
+    const hour = parseInt(timeParts[0], 10);
+    const minute = parseInt(timeParts[1], 10);
+
+    // Si no se pudo parsear la hora correctamente
+    if (isNaN(hour) || isNaN(minute)) return false;
+
+    // Convertir a minutos desde medianoche para comparación más fácil
+    const timeInMinutes = hour * 60 + minute;
+
+    switch (shiftType.toLowerCase()) {
+      case "day":
+        // Day es cualquier hora (siempre retorna true)
+        return true;
+
+      case "early":
+        // Early es desde las 05:00 hasta las 15:29
+        const earlyStart = 5 * 60; // 05:00
+        const earlyEnd = 15 * 60 + 29; // 15:29
+        return timeInMinutes >= earlyStart && timeInMinutes <= earlyEnd;
+
+      case "late":
+        // Late es desde las 15:30 hasta las 02:00 del día siguiente
+        const lateStart = 15 * 60 + 30; // 15:30
+        const lateEnd = 2 * 60; // 02:00
+
+        // Si la hora está entre 15:30 y 23:59 o entre 00:00 y 02:00
+        return timeInMinutes >= lateStart || timeInMinutes <= lateEnd;
+
+      default:
+        return false;
+    }
+  }
+
+  /**
+   * Filtra los errores por estado y turno, y los ordena por hora (ascendente).
    * @param {Array<Object>} allErrors - El array completo de errores.
    * @param {string} statusFilter - Filtro de estado ("all", "pending", "done").
+   * @param {string} shiftFilter - Filtro de turno ("day", "early", "late").
    * @returns {Array<Object>} Un nuevo array con errores filtrados y ordenados.
    */
-  filterAndSort(allErrors, statusFilter = "all") {
+  filterAndSort(allErrors, statusFilter = "all", shiftFilter = "day") {
+    // Primero filtrar por estado
     let result;
     if (statusFilter === "all") {
       result = [...allErrors]; // Crear una copia para no modificar el original si solo se va a ordenar
@@ -122,6 +170,14 @@ export class ErrorDataProcessorService {
       );
     }
 
+    // Luego filtrar por turno si no es "day" (que muestra todos)
+    if (shiftFilter !== "day") {
+      result = result.filter((error) =>
+        this.isTimeInShift(error.time, shiftFilter)
+      );
+    }
+
+    // Finalmente ordenar por fecha y hora
     return [...result].sort((a, b) => {
       const timeA = new Date(`${a.date || ""} ${a.time || ""}`);
       const timeB = new Date(`${b.date || ""} ${b.time || ""}`);
