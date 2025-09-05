@@ -1,0 +1,117 @@
+{
+  "virtualGroups": {
+    "inventory-health": {
+      "name": "Inventory Health",
+      "color": "#10B981",
+      "permissions": [
+        {
+          "app": "feedback-tracker",
+          "views": ["*"],
+          "displayName": "Feedback Tracker"
+        },
+        {
+          "app": "estadisticas",
+          "views": ["errors", "inventory"],
+          "displayName": "Gráficos"
+        },
+        {
+          "app": "estadisticas",
+          "views": ["analysis"],
+          "displayName": "Análisis"
+        }
+      ],
+      "bulkActions": {
+        "accessAll": {
+          "name": "Acceso Total",
+          "grants": [
+            "feedback-tracker:*",
+            "estadisticas:errors",
+            "estadisticas:inventory",
+            "estadisticas:analysis"
+          ]
+        }
+      }
+    },
+    "operational-control": {
+      "name": "Control Operacional",
+      "color": "#3B82F6",
+      "permissions": [
+        {
+          "app": "dashboard",
+          "views": ["*"],
+          "displayName": "Dashboard"
+        },
+        {
+          "app": "shift-tasks",
+          "views": ["*"],
+          "displayName": "Tareas de Turno"
+        },
+        {
+          "app": "dock-control",
+          "views": ["*"],
+          "displayName": "Control de Muelle"
+        }
+      ],
+      "bulkActions": {
+        "accessAll": {
+          "name": "Acceso Total",
+          "grants": ["dashboard:*", "shift-tasks:*", "dock-control:*"]
+        }
+      }
+    },
+    "monitoring-analytics": {
+      "name": "Monitoreo y Análisis",
+      "color": "#8B5CF6",
+      "permissions": [
+        {
+          "app": "activity-scope",
+          "views": ["*"],
+          "displayName": "Activity Scope"
+        },
+        {
+          "app": "idle-time",
+          "views": ["*"],
+          "displayName": "Tiempo Inactivo"
+        },
+        {
+          "app": "space-heatmap",
+          "views": ["*"],
+          "displayName": "Mapa de Calor"
+        },
+        {
+          "app": "estadisticas",
+          "views": ["productivity", "general"],
+          "displayName": "Estadísticas Generales"
+        }
+      ],
+      "bulkActions": {
+        "accessAll": {
+          "name": "Acceso Total",
+          "grants": [
+            "activity-scope:*",
+            "idle-time:*",
+            "space-heatmap:*",
+            "estadisticas:productivity",
+            "estadisticas:general"
+          ]
+        }
+      }
+    }
+  },
+  "settings": {
+    "defaultView": "grouped",
+    "allowIndividualPermissions": true,
+    "showLegacyView": true,
+    "groupExpansionState": {
+      "inventory-health": true,
+      "operational-control": true,
+      "monitoring-analytics": false
+    }
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "created": "2024-01-15T00:00:00.000Z",
+    "lastModified": "2024-01-15T00:00:00.000Z",
+    "description": "Configuración de grupos virtuales de permisos para mejorar la experiencia de gestión de permisos"
+  }
+}

@@ -462,11 +462,18 @@
   background-color: var(--body-bg);
   border-radius: var(--border-lg);
   box-shadow: var(--shadow-lg);
-  width: 90%;
-  max-width: 500px;
+  width: 95%;
+  max-width: 900px;
   max-height: 90vh;
   overflow-y: auto;
   animation: slideIn 0.15s ease;
+}
+
+/* Modal específico para gestión de usuarios con grupos virtuales */
+#user-modal .modal-content {
+  max-width: 1200px;
+  width: 98%;
+  max-height: 95vh;
 }
 
 .modal-header {
@@ -918,4 +925,102 @@
 
 .group-section.collapsed .group-collapse-icon {
   transform: rotate(-90deg);
+}
+
+/* Estilos para grupos virtuales de permisos */
+.permissions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--Limit-Sidebar);
+}
+
+/* Contenedor principal de permisos en modal */
+#app-permissions {
+  min-height: 400px;
+  max-height: 70vh;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.permissions-title h3 {
+  margin: 0;
+  color: var(--text-color-three);
+  font-size: 18px;
+}
+
+/* Secciones de grupos con estilo tradicional */
+.group-section {
+  margin-bottom: 32px;
+}
+
+.group-section .group-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-color-three);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--Limit-Sidebar);
+}
+
+.bulk-action-row {
+  margin-bottom: 16px;
+}
+
+.bulk-action-row .permission-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: 20px;
+  margin-bottom: 8px;
+}
+
+.bulk-action-row .permission-checkbox input[type="checkbox"] {
+  transform: scale(1.1);
+  accent-color: var(--accent-blue);
+}
+
+.bulk-action-row .permission-checkbox label {
+  color: var(--text-color-three);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.permissions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+/* Responsive específico para grupos virtuales */
+@media (max-width: 768px) {
+  /* Modal más pequeño en móviles */
+  #user-modal .modal-content {
+    width: 95%;
+    max-width: none;
+    margin: 10px;
+  }
+
+  #app-permissions {
+    max-height: 60vh;
+  }
+
+  .permissions-header {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .permissions-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .bulk-action-row .permission-checkbox {
+    margin-right: 16px;
+    margin-bottom: 12px;
+  }
 }
