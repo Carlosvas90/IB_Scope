@@ -62,9 +62,20 @@ window.initFeedbackTracker = function (view) {
   setupEvents();
 
   // Registrar callback para cuando terminen de cargar los datos
-  dataService.onRefresh((errors) => {
-    // Ocultar pantalla de carga cuando los datos estén listos
-    hideLoadingScreen();
+  dataService.onRefresh((data) => {
+    console.log("onRefresh callback ejecutado con status:", data.status);
+    // Verificar si hay un estado especial
+    if (data.status === "no_errors_found") {
+      console.log(
+        "Mostrando mensaje de No hay errores debido a status:",
+        data.status
+      );
+      // Mostrar mensaje de "No hay errores"
+      showNoErrorsMessage();
+    } else {
+      // Comportamiento normal: ocultar pantalla de carga cuando los datos estén listos
+      hideLoadingScreen();
+    }
   });
 
   // Cargar datos iniciales
@@ -217,6 +228,116 @@ function hideLoadingScreen() {
 }
 
 /**
+ * Muestra un mensaje de que no hay errores disponibles hoy y un botón para reintentar
+ */
+function showNoErrorsMessage() {
+  // Buscar si ya existe el overlay
+  let loadingOverlay = document.getElementById("data-loading-overlay");
+
+  // Si no existe, crear uno nuevo
+  if (!loadingOverlay) {
+    showLoadingScreen();
+    loadingOverlay = document.getElementById("data-loading-overlay");
+  }
+
+  if (!loadingOverlay) return; // No se pudo crear/encontrar
+
+  // Reemplazar el contenido del overlay
+  const loadingContainer = loadingOverlay.querySelector(".loading-container");
+  if (loadingContainer) {
+    loadingContainer.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#0078d4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+      </svg>
+      <p class="loading-text">No se encontraron errores para hoy</p>
+      <p class="loading-subtext">No hay registro de errores para el día actual</p>
+      <button id="retry-load-btn" class="btn btn-primary" style="margin-top: 16px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M23 4v6h-6"></path>
+          <path d="M1 20v-6h6"></path>
+          <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+        </svg>
+        Buscar errores nuevamente
+      </button>
+      <p class="loading-subtext" style="margin-top: 10px;">Se reintentará automáticamente en <span id="retry-countdown">300</span> segundos</p>
+    `;
+
+    // Configurar el evento del botón de reintentar
+    const retryBtn = loadingContainer.querySelector("#retry-load-btn");
+    if (retryBtn) {
+      retryBtn.addEventListener("click", handleRetryClick);
+    }
+
+    // Iniciar el contador de tiempo para auto-reintentar
+    startRetryCountdown();
+  }
+}
+
+/**
+ * Maneja el clic en el botón de reintentar
+ */
+function handleRetryClick() {
+  // Detener cualquier contador existente
+  stopRetryCountdown();
+
+  // Mostrar la pantalla de carga normal
+  const loadingOverlay = document.getElementById("data-loading-overlay");
+  if (loadingOverlay) {
+    const loadingContainer = loadingOverlay.querySelector(".loading-container");
+    if (loadingContainer) {
+      loadingContainer.innerHTML = `
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Cargando datos...</p>
+        <p class="loading-subtext">Buscando archivo de errores...</p>
+      `;
+    }
+  }
+
+  // Reintento explícito de carga de datos
+  loadData(true);
+}
+
+// Variable para el intervalo del contador
+let retryCountdownInterval = null;
+
+/**
+ * Inicia el contador para reintentar automáticamente
+ */
+function startRetryCountdown() {
+  // Detener cualquier contador previo
+  stopRetryCountdown();
+
+  let seconds = 300; // 5 minutos
+  const countdownElement = document.getElementById("retry-countdown");
+
+  if (countdownElement) {
+    countdownElement.textContent = seconds;
+
+    retryCountdownInterval = setInterval(() => {
+      seconds--;
+      if (countdownElement) {
+        countdownElement.textContent = seconds;
+      }
+
+      if (seconds <= 0) {
+        stopRetryCountdown();
+        handleRetryClick(); // Reintentar automáticamente al llegar a cero
+      }
+    }, 1000);
+  }
+}
+
+/**
+ * Detiene el contador de reintento
+ */
+function stopRetryCountdown() {
+  if (retryCountdownInterval) {
+    clearInterval(retryCountdownInterval);
+    retryCountdownInterval = null;
+  }
+}
+
+/**
  * Inicializa los controladores
  */
 function initControllers() {
@@ -246,16 +367,27 @@ function setupEvents() {
       showLoadingScreen();
 
       try {
-        // Actualizar datos
-        await dataService.refreshData();
+        // Actualizar datos (indicando que debe mostrar mensaje si no encuentra errores)
+        const result = await dataService.refreshData(true);
 
-        // Actualizar tabla
-        errorsTableController.updateTable();
+        // Evaluar el resultado
+        if (result.status === "no_errors_found") {
+          // Ya se mostrará el mensaje mediante el callback onRefresh
+          window.showToast("No se encontraron errores para hoy", "info");
+        } else if (result.success) {
+          // Actualizar tabla
+          errorsTableController.updateTable();
 
-        // Actualizar estadísticas
-        updateStats();
+          // Actualizar estadísticas
+          updateStats();
 
-        window.showToast("Datos actualizados correctamente", "success");
+          window.showToast("Datos actualizados correctamente", "success");
+        } else {
+          window.showToast(
+            `No se pudieron cargar los datos: ${result.status}`,
+            "warning"
+          );
+        }
       } catch (error) {
         console.error("Error al actualizar datos:", error);
         window.showToast("Error al actualizar datos", "error");
@@ -334,11 +466,14 @@ function setupEvents() {
 
 /**
  * Carga los datos iniciales
+ * @param {boolean} isRetry - Indica si es un intento de recarga
  */
-async function loadData() {
+async function loadData(isRetry = false) {
   try {
+    console.log("loadData iniciado, isRetry:", isRetry);
+
     // Verificar si ya hay datos cargados
-    if (dataService.errors && dataService.errors.length > 0) {
+    if (!isRetry && dataService.errors && dataService.errors.length > 0) {
       console.log(
         "Usando datos ya cargados -",
         dataService.errors.length,
@@ -349,15 +484,27 @@ async function loadData() {
       hideLoadingScreen();
     } else {
       console.log("Intentando cargar datos desde el archivo...");
-      await dataService.refreshData();
-      // La pantalla de carga se ocultará mediante el callback onRefresh
+      // Indicar que debe mostrar mensaje de "No hay errores" si corresponde
+      const result = await dataService.refreshData(true);
+
+      console.log("loadData: Resultado de refreshData:", result);
+
+      // Si el resultado indica que no se encontraron errores, mostrar mensaje adecuado
+      if (result.status === "no_errors_found") {
+        console.log("loadData: Detectado status especial:", result.status);
+        // La pantalla de carga se modificará para mostrar mensaje de "No hay errores"
+        showNoErrorsMessage();
+        return; // Salir temprano, no actualizar tabla ni stats
+      }
+      // En otros casos, la pantalla de carga se ocultará mediante el callback onRefresh
     }
 
-    // Actualizar tabla
-    errorsTableController.updateTable();
-
-    // Actualizar estadísticas
-    updateStats();
+    // Actualizar tabla solo si hay datos
+    if (dataService.errors && dataService.errors.length > 0) {
+      errorsTableController.updateTable();
+      // Actualizar estadísticas
+      updateStats();
+    }
   } catch (error) {
     console.error("Error al cargar datos:", error);
     window.showToast("Error al cargar datos iniciales", "error");

@@ -340,14 +340,16 @@ export class DataService {
 
   /**
    * Actualiza los datos desde el archivo JSON
+   * @param {boolean} showNoErrorsMessage - Indica si se debe mostrar mensaje de "No hay errores" si no se encuentra el archivo
+   * @returns {Promise<Object>} - Resultado de la operación con éxito y estado
    */
-  async refreshData() {
+  async refreshData(showNoErrorsMessage = false) {
     await this.ensureInitialized();
     if (this.isRefreshing) {
       console.warn(
         "DataService.refreshData: Ya hay una actualización en progreso. Omitiendo."
       );
-      return false;
+      return { success: false, status: "in_progress" };
     }
 
     console.log(
@@ -356,6 +358,8 @@ export class DataService {
     );
 
     let success = false;
+    let status = "unknown";
+
     try {
       this.isRefreshing = true;
       console.log(
@@ -370,18 +374,38 @@ export class DataService {
 
       const result = await this.tryReadFile(this.fileNames.errors);
 
-      if (result.success) {
+      if (!result.success) {
+        console.warn(
+          "DataService.refreshData: ¡NO SE ENCONTRÓ EL ARCHIVO! Archivo:",
+          this.fileNames.errors,
+          "Error:",
+          result.error
+        );
+        status = "no_errors_found";
+
+        // Crear un conjunto de datos vacío pero válido
+        this.errors = [];
+        this.lastUpdateTime = new Date();
+        this.invalidateCache();
+
+        // Notificar explícitamente con el status de no errores encontrados
+        console.log(
+          "DataService.refreshData: Enviando notificación con status:",
+          status
+        );
+        this.notifyDataUpdated(false, status);
+
+        success = false;
+      } else if (result.success) {
         this._processSuccessfullyLoadedData(result.data.errors);
         success = true;
+        status = "success";
       } else {
         console.error(
           "DataService.refreshData: Error al leer el archivo (reportado por tryReadFile):",
           result.error
         );
-        // No se cargaron datos de archivo, no se llama a createSampleData aquí,
-        // se deja que el estado actual persista o se maneje por una carga inicial fallida si es el caso.
-        // Si la intención es cargar datos de ejemplo SIEMPRE que falle la lectura, se movería createSampleData aquí.
-        // Por ahora, createSampleData se llama en el CATCH si tryReadFile u _processSuccessfullyLoadedData fallan.
+        status = "error";
         success = false;
       }
     } catch (error) {
@@ -397,24 +421,29 @@ export class DataService {
       );
       this.createSampleData();
       this.notifyDataUpdated(); // Notificar que se han cargado datos (de ejemplo en este caso)
+      status = "error_sample_data";
       success = false;
     } finally {
       this.isRefreshing = false;
-      console.log(`DataService.refreshData: Finalizado. Éxito: ${success}`);
+      console.log(
+        `DataService.refreshData: Finalizado. Éxito: ${success}, Estado: ${status}`
+      );
     }
-    return success;
+    return { success, status };
   }
 
   /**
    * Notifica que los datos han sido actualizados
    * @param {boolean} fromCache - Si los datos vienen de caché
+   * @param {string} status - Estado de la actualización (opcional)
    */
-  notifyDataUpdated(fromCache = false) {
+  notifyDataUpdated(fromCache = false, status = null) {
     const eventData = {
       errors: this.errors, // Para los listeners locales
       timestamp: this.lastUpdateTime, // Para los listeners locales y para IPC
       count: this.errors.length, // Para IPC
       fromCache: fromCache, // Para IPC
+      status: status, // Estado adicional para manejar casos especiales como "no_errors_found"
     };
     this.notificationService.notify(eventData);
   }
