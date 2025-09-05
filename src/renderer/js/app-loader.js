@@ -34,6 +34,15 @@ class AppLoader {
         initializer: "initEstadisticas",
         styles: ["../apps/feedback-tracker/estadisticas/css/estadisticas.css"],
       },
+      "inventory-stats": {
+        name: "Inventory Stats",
+        description: "Gráficos y KPIs de inventario",
+        icon: "trending-up",
+        initializer: "initInventoryStats",
+        styles: [
+          "../apps/feedback-tracker/Inventory-Stats/css/inventory-stats.css",
+        ],
+      },
       // Aquí se pueden registrar más aplicaciones en el futuro
     };
 

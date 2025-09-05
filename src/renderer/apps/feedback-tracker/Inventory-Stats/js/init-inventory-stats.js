@@ -1,18 +1,14 @@
 /**
- * inventory-stats.js
- * Script de entrada tradicional para Inventory Stats
- * Actúa como puente hacia el sistema modular
+ * init-inventory-stats.js
+ * Inicializador principal para Inventory Stats usando módulos ES6
  */
 
-// Función de inicialización que será llamada por el app-loader
-window.initInventoryStats = async function (view) {
-  console.log(
-    "🎯 Inicializando Inventory Stats (entrada tradicional)...",
-    view
-  );
+// Función de inicialización principal
+async function initInventoryStats() {
+  console.log("🎯 Inicializando Inventory Stats...");
 
   try {
-    // Importar dinámicamente el sistema modular
+    // Importar dinámicamente el controlador principal
     const { InventoryStatsController } = await import(
       "./inventory-stats-controller.js"
     );
@@ -35,7 +31,7 @@ window.initInventoryStats = async function (view) {
     showError(error.message || "Error al inicializar la aplicación");
     return false;
   }
-};
+}
 
 /**
  * Muestra un mensaje de error en la UI
@@ -57,4 +53,19 @@ function showError(message) {
   if (mainContent) mainContent.style.display = "none";
 }
 
-console.log("📋 Script de entrada de Inventory Stats cargado");
+// Exportar función principal
+window.initInventoryStats = initInventoryStats;
+
+// Auto-inicialización cuando el DOM esté listo
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", async () => {
+    console.log("🎯 DOM cargado, inicializando Inventory Stats...");
+    await initInventoryStats();
+  });
+} else {
+  // DOM ya está listo
+  console.log("🎯 Inicializando Inventory Stats inmediatamente...");
+  setTimeout(() => initInventoryStats(), 100);
+}
+
+console.log("📋 Inicializador de Inventory Stats cargado");

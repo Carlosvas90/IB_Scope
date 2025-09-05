@@ -18,6 +18,11 @@
           "app": "estadisticas",
           "views": ["analysis"],
           "displayName": "Análisis"
+        },
+        {
+          "app": "inventory-stats",
+          "views": ["*"],
+          "displayName": "Gráficos KPI"
         }
       ],
       "bulkActions": {
@@ -27,7 +32,8 @@
             "feedback-tracker:*",
             "estadisticas:errors",
             "estadisticas:inventory",
-            "estadisticas:analysis"
+            "estadisticas:analysis",
+            "inventory-stats:*"
           ]
         }
       }
