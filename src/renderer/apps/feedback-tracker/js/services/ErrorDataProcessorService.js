@@ -151,7 +151,7 @@ export class ErrorDataProcessorService {
   }
 
   /**
-   * Filtra los errores por estado y turno, y los ordena por hora (ascendente).
+   * Filtra los errores por estado y turno, y los ordena por hora (descendente - más recientes primero).
    * @param {Array<Object>} allErrors - El array completo de errores.
    * @param {string} statusFilter - Filtro de estado ("all", "pending", "done").
    * @param {string} shiftFilter - Filtro de turno ("day", "early", "late").
@@ -177,11 +177,11 @@ export class ErrorDataProcessorService {
       );
     }
 
-    // Finalmente ordenar por fecha y hora
+    // Finalmente ordenar por fecha y hora (descendente - más recientes primero)
     return [...result].sort((a, b) => {
       const timeA = new Date(`${a.date || ""} ${a.time || ""}`);
       const timeB = new Date(`${b.date || ""} ${b.time || ""}`);
-      return timeA - timeB;
+      return timeB - timeA; // Invertido: timeB - timeA para orden descendente
     });
   }
 
@@ -225,6 +225,72 @@ export class ErrorDataProcessorService {
       stats.byBin[binId] = (stats.byBin[binId] || 0) + quantity; // Sumar quantity
     }
     return stats;
+  }
+
+  /**
+   * Obtiene lista de usuarios únicos con su cantidad total de errores (sumando quantity), filtrada por turno si es necesario
+   * @param {Array<Object>} allErrors - El array completo de errores.
+   * @param {string} shiftFilter - Filtro de turno ("day", "early", "late").
+   * @returns {Array<Object>} Array de usuarios ordenados por cantidad total de errores (descendente).
+   */
+  getUsersWithErrorCount(allErrors, shiftFilter = "day") {
+    // Primero filtrar errores por turno si no es "day"
+    let filteredErrors = allErrors;
+    if (shiftFilter !== "day") {
+      filteredErrors = allErrors.filter((error) =>
+        this.isTimeInShift(error.time, shiftFilter)
+      );
+    }
+
+    // Sumar quantities por usuario
+    const userErrorCount = {};
+    filteredErrors.forEach((error) => {
+      const userId = error.user_id || "Desconocido";
+      const quantity = error.quantity || 1; // Usar quantity o 1 por defecto
+      userErrorCount[userId] = (userErrorCount[userId] || 0) + quantity;
+    });
+
+    // Convertir a array y ordenar por cantidad total de errores (descendente)
+    return Object.entries(userErrorCount)
+      .map(([userId, count]) => ({ userId, count }))
+      .sort((a, b) => b.count - a.count);
+  }
+
+  /**
+   * Obtiene lista de tipos de errores únicos con su cantidad total (sumando quantity), filtrada por turno y login si es necesario
+   * @param {Array<Object>} allErrors - El array completo de errores.
+   * @param {string} shiftFilter - Filtro de turno ("day", "early", "late").
+   * @param {string} loginFilter - Filtro de login ("all" o un userId específico).
+   * @returns {Array<Object>} Array de tipos de errores ordenados por cantidad total (descendente).
+   */
+  getErrorTypesWithCount(allErrors, shiftFilter = "day", loginFilter = "all") {
+    // Primero filtrar errores por turno si no es "day"
+    let filteredErrors = allErrors;
+    if (shiftFilter !== "day") {
+      filteredErrors = allErrors.filter((error) =>
+        this.isTimeInShift(error.time, shiftFilter)
+      );
+    }
+
+    // Filtrar por login si está especificado
+    if (loginFilter !== "all") {
+      filteredErrors = filteredErrors.filter(
+        (error) => error.user_id === loginFilter
+      );
+    }
+
+    // Sumar quantities por tipo de error
+    const errorTypeCount = {};
+    filteredErrors.forEach((error) => {
+      const errorType = error.violation || error.error || "Error desconocido";
+      const quantity = error.quantity || 1; // Usar quantity o 1 por defecto
+      errorTypeCount[errorType] = (errorTypeCount[errorType] || 0) + quantity;
+    });
+
+    // Convertir a array y ordenar por cantidad total (descendente)
+    return Object.entries(errorTypeCount)
+      .map(([errorType, count]) => ({ errorType, count }))
+      .sort((a, b) => b.count - a.count);
   }
 
   /**

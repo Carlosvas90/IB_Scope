@@ -103,34 +103,82 @@
       <div class="filters">
         <div class="filter-group">
           <span class="filter-label">Filtrar por estado:</span>
-          <label>
-            <input type="radio" name="status-filter" value="all" checked />
-            Todos
-          </label>
-          <label>
-            <input type="radio" name="status-filter" value="pending" />
-            Pendientes
-          </label>
-          <label>
-            <input type="radio" name="status-filter" value="done" /> Completados
-          </label>
+          <div class="filter-buttons">
+            <button
+              type="button"
+              class="filter-btn active"
+              data-filter="status"
+              data-value="all"
+            >
+              Todos
+            </button>
+            <button
+              type="button"
+              class="filter-btn"
+              data-filter="status"
+              data-value="pending"
+            >
+              Pendientes
+            </button>
+            <button
+              type="button"
+              class="filter-btn"
+              data-filter="status"
+              data-value="done"
+            >
+              Completados
+            </button>
+          </div>
         </div>
 
-        <!-- Nuevo filtro por turno -->
         <div class="filter-group">
           <span class="filter-label">Filtrar por Turno:</span>
-          <label>
-            <input type="radio" name="shift-filter" value="day" checked />
-            Day
-          </label>
-          <label>
-            <input type="radio" name="shift-filter" value="early" />
-            Early
-          </label>
-          <label>
-            <input type="radio" name="shift-filter" value="late" />
-            Late
-          </label>
+          <div class="filter-buttons">
+            <button
+              type="button"
+              class="filter-btn active"
+              data-filter="shift"
+              data-value="day"
+            >
+              Day
+            </button>
+            <button
+              type="button"
+              class="filter-btn"
+              data-filter="shift"
+              data-value="early"
+            >
+              Early
+            </button>
+            <button
+              type="button"
+              class="filter-btn"
+              data-filter="shift"
+              data-value="late"
+            >
+              Late
+            </button>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <span class="filter-label">Filtrar por Login:</span>
+          <div class="filter-dropdown">
+            <select id="login-filter" class="filter-select">
+              <option value="all">Todos los usuarios</option>
+              <!-- Las opciones se cargarán dinámicamente -->
+            </select>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <span class="filter-label">Filtrar por Error:</span>
+          <div class="filter-dropdown">
+            <select id="error-filter" class="filter-select">
+              <option value="all">Todos los errores</option>
+              <!-- Las opciones se cargarán dinámicamente -->
+            </select>
+          </div>
         </div>
       </div>
 

@@ -381,6 +381,10 @@ function setupEvents() {
           // Actualizar estadísticas
           updateStats();
 
+          // Actualizar dropdowns
+          updateLoginDropdown();
+          updateErrorDropdown();
+
           window.showToast("Datos actualizados correctamente", "success");
         } else {
           window.showToast(
@@ -400,18 +404,58 @@ function setupEvents() {
     });
   }
 
-  // Filtros
-  const statusFilters = document.querySelectorAll(
-    'input[name="status-filter"]'
-  );
-  statusFilters.forEach((filter) => {
-    filter.addEventListener("change", () => {
-      if (filter.checked) {
-        errorsTableController.setStatusFilter(filter.value);
-        errorsTableController.updateTable();
+  // Filtros de botones (reemplazar los radio buttons)
+  const filterButtons = document.querySelectorAll(".filter-btn");
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const filterType = button.getAttribute("data-filter");
+      const filterValue = button.getAttribute("data-value");
+
+      // Remover clase active de otros botones del mismo grupo
+      const siblingButtons =
+        button.parentElement.querySelectorAll(".filter-btn");
+      siblingButtons.forEach((btn) => btn.classList.remove("active"));
+
+      // Agregar clase active al botón clickeado
+      button.classList.add("active");
+
+      // Aplicar filtro según el tipo
+      if (filterType === "status") {
+        errorsTableController.setStatusFilter(filterValue);
+      } else if (filterType === "shift") {
+        errorsTableController.setShiftFilter(filterValue);
+        // Actualizar dropdowns cuando cambia el turno
+        updateLoginDropdown();
+        updateErrorDropdown();
       }
+
+      errorsTableController.updateTable();
     });
   });
+
+  // Filtro por login (dropdown)
+  const loginFilter = document.getElementById("login-filter");
+  if (loginFilter) {
+    loginFilter.addEventListener("change", () => {
+      errorsTableController.setLoginFilter(loginFilter.value);
+      // Actualizar dropdown de errores cuando cambia el login
+      updateErrorDropdown();
+      errorsTableController.updateTable();
+    });
+  }
+
+  // Filtro por tipo de error (dropdown)
+  const errorFilter = document.getElementById("error-filter");
+  if (errorFilter) {
+    errorFilter.addEventListener("change", () => {
+      errorsTableController.setErrorFilter(errorFilter.value);
+      errorsTableController.updateTable();
+    });
+  }
+
+  // Inicializar dropdowns
+  updateLoginDropdown();
+  updateErrorDropdown();
 
   // Botón de exportar a CSV
   const exportBtn = document.getElementById("export-btn");
@@ -504,6 +548,9 @@ async function loadData(isRetry = false) {
       errorsTableController.updateTable();
       // Actualizar estadísticas
       updateStats();
+      // Actualizar dropdowns
+      updateLoginDropdown();
+      updateErrorDropdown();
     }
   } catch (error) {
     console.error("Error al cargar datos:", error);
@@ -535,6 +582,115 @@ function updateStats() {
       lastUpdateElement.textContent = dataService.getLastUpdateFormatted();
   } catch (error) {
     console.error("Error al actualizar estadísticas:", error);
+  }
+}
+
+/**
+ * Actualiza el dropdown de filtro por login basado en el turno seleccionado
+ */
+function updateLoginDropdown() {
+  const loginFilter = document.getElementById("login-filter");
+  if (!loginFilter || !dataService.errors) return;
+
+  try {
+    // Obtener el turno actualmente seleccionado
+    const activeShiftButton = document.querySelector(
+      '.filter-btn[data-filter="shift"].active'
+    );
+    const currentShift = activeShiftButton
+      ? activeShiftButton.getAttribute("data-value")
+      : "day";
+
+    // Obtener usuarios con conteo de errores para el turno seleccionado
+    const usersWithCount = dataService.getUsersWithErrorCount(currentShift);
+
+    // Guardar el valor seleccionado actualmente
+    const currentValue = loginFilter.value;
+
+    // Limpiar opciones existentes
+    loginFilter.innerHTML = '<option value="all">Todos los usuarios</option>';
+
+    // Agregar opciones de usuarios ordenadas por cantidad de errores
+    usersWithCount.forEach(({ userId, count }) => {
+      const option = document.createElement("option");
+      option.value = userId;
+      option.textContent = `${userId} (${count})`;
+      loginFilter.appendChild(option);
+    });
+
+    // Restaurar valor seleccionado si aún existe
+    if (
+      currentValue !== "all" &&
+      usersWithCount.some((user) => user.userId === currentValue)
+    ) {
+      loginFilter.value = currentValue;
+    } else {
+      loginFilter.value = "all";
+      // Si el valor no existe más, resetear el filtro del controlador
+      if (errorsTableController) {
+        errorsTableController.setLoginFilter("all");
+      }
+    }
+  } catch (error) {
+    console.error("Error al actualizar dropdown de login:", error);
+  }
+}
+
+/**
+ * Actualiza el dropdown de filtro por error basado en el turno y login seleccionados
+ */
+function updateErrorDropdown() {
+  const errorFilter = document.getElementById("error-filter");
+  if (!errorFilter || !dataService.errors) return;
+
+  try {
+    // Obtener el turno actualmente seleccionado
+    const activeShiftButton = document.querySelector(
+      '.filter-btn[data-filter="shift"].active'
+    );
+    const currentShift = activeShiftButton
+      ? activeShiftButton.getAttribute("data-value")
+      : "day";
+
+    // Obtener el login actualmente seleccionado
+    const loginFilter = document.getElementById("login-filter");
+    const currentLogin = loginFilter ? loginFilter.value : "all";
+
+    // Obtener tipos de errores con conteo para los filtros seleccionados
+    const errorsWithCount = dataService.getErrorTypesWithCount(
+      currentShift,
+      currentLogin
+    );
+
+    // Guardar el valor seleccionado actualmente
+    const currentValue = errorFilter.value;
+
+    // Limpiar opciones existentes
+    errorFilter.innerHTML = '<option value="all">Todos los errores</option>';
+
+    // Agregar opciones de errores ordenadas por cantidad total
+    errorsWithCount.forEach(({ errorType, count }) => {
+      const option = document.createElement("option");
+      option.value = errorType;
+      option.textContent = `${errorType} (${count})`;
+      errorFilter.appendChild(option);
+    });
+
+    // Restaurar valor seleccionado si aún existe
+    if (
+      currentValue !== "all" &&
+      errorsWithCount.some((error) => error.errorType === currentValue)
+    ) {
+      errorFilter.value = currentValue;
+    } else {
+      errorFilter.value = "all";
+      // Si el valor no existe más, resetear el filtro del controlador
+      if (errorsTableController) {
+        errorsTableController.setErrorFilter("all");
+      }
+    }
+  } catch (error) {
+    console.error("Error al actualizar dropdown de error:", error);
   }
 }
 

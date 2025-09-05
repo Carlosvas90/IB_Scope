@@ -497,7 +497,7 @@ export class DataService {
   }
 
   /**
-   * Filtra los errores por estado y turno, y los ordena por hora (ascendente)
+   * Filtra los errores por estado y turno, y los ordena por hora (descendente - más recientes primero)
    * @param {string} statusFilter - Filtro de estado ("all", "pending", "done")
    * @param {string} shiftFilter - Filtro de turno ("day", "early", "late")
    * @returns {Array<Object>} Errores filtrados y ordenados
@@ -549,6 +549,29 @@ export class DataService {
 
     console.timeEnd("GetStatistics");
     return stats;
+  }
+
+  /**
+   * Obtiene lista de usuarios únicos con su cantidad de errores, filtrada por turno
+   * @param {string} shiftFilter - Filtro de turno ("day", "early", "late")
+   * @returns {Array<Object>} Array de usuarios ordenados por cantidad de errores
+   */
+  getUsersWithErrorCount(shiftFilter = "day") {
+    return this.errorProcessor.getUsersWithErrorCount(this.errors, shiftFilter);
+  }
+
+  /**
+   * Obtiene lista de tipos de errores únicos con su cantidad total, filtrada por turno y login
+   * @param {string} shiftFilter - Filtro de turno ("day", "early", "late")
+   * @param {string} loginFilter - Filtro de login ("all" o un userId específico)
+   * @returns {Array<Object>} Array de tipos de errores ordenados por cantidad total
+   */
+  getErrorTypesWithCount(shiftFilter = "day", loginFilter = "all") {
+    return this.errorProcessor.getErrorTypesWithCount(
+      this.errors,
+      shiftFilter,
+      loginFilter
+    );
   }
 
   /**

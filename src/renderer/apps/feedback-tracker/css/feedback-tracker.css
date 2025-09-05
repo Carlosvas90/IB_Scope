@@ -88,26 +88,88 @@ body {
 .filters {
   padding: 0 var(--spacing-lg);
   margin-bottom: var(--spacing-lg);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-lg);
 }
 
 .filter-group {
   display: flex;
-  align-items: center;
-  gap: var(--spacing-md);
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  min-width: 200px;
 }
 
 .filter-label {
   font-size: var(--font-size-sm);
   color: var(--text-secondary);
+  font-weight: 500;
 }
 
-/* Radio buttons */
-.filter-group label {
-  display: inline-flex;
-  align-items: center;
+/* Botones de filtro rectangulares */
+.filter-buttons {
+  display: flex;
   gap: var(--spacing-xs);
+}
+
+.filter-btn {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-main);
+  color: var(--text-secondary);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
   cursor: pointer;
-  font-size: var(--font-size-sm);
+  transition: all var(--transition-fast);
+  outline: none;
+  min-width: 70px;
+  text-align: center;
+}
+
+.filter-btn:hover {
+  background-color: var(--hover-bg);
+  border-color: var(--accent-blue);
+  color: var(--text-primary);
+}
+
+.filter-btn.active {
+  background-color: var(--accent-blue);
+  color: white;
+  border-color: var(--accent-blue);
+}
+
+.filter-btn.active:hover {
+  background-color: var(--accent-blue-light);
+}
+
+/* Dropdown de filtro por login */
+.filter-dropdown {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.filter-select {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+  outline: none;
+  min-width: 200px;
+  transition: border-color var(--transition-fast);
+}
+
+.filter-select:hover {
+  border-color: var(--accent-blue);
+}
+
+.filter-select:focus {
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
 }
 
 /* Resumen de estadísticas */

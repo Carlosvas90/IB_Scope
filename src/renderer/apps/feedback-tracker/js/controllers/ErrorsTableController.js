@@ -14,6 +14,8 @@ export class ErrorsTableController {
     this.dataController = dataController;
     this.statusFilter = "all";
     this.shiftFilter = "day"; // Nuevo filtro por turno (default: day)
+    this.loginFilter = "all"; // Nuevo filtro por login (default: all)
+    this.errorFilter = "all"; // Nuevo filtro por tipo de error (default: all)
     this.tableBody = null;
     this.rowTemplate = null;
     this.detailsTemplate = null;
@@ -437,6 +439,20 @@ export class ErrorsTableController {
   }
 
   /**
+   * Establece el filtro por login
+   */
+  setLoginFilter(filter) {
+    this.loginFilter = filter;
+  }
+
+  /**
+   * Establece el filtro por tipo de error
+   */
+  setErrorFilter(filter) {
+    this.errorFilter = filter;
+  }
+
+  /**
    * Actualiza la tabla con los datos actuales
    */
   updateTable() {
@@ -459,13 +475,29 @@ export class ErrorsTableController {
       this.tableBody.innerHTML = "";
 
       // Obtener errores filtrados por estado y turno
-      const filteredErrors = this.dataController.getFilteredErrors(
+      let filteredErrors = this.dataController.getFilteredErrors(
         this.statusFilter,
         this.shiftFilter
       );
 
+      // Aplicar filtro por login si está seleccionado
+      if (this.loginFilter !== "all") {
+        filteredErrors = filteredErrors.filter(
+          (error) => error.user_id === this.loginFilter
+        );
+      }
+
+      // Aplicar filtro por tipo de error si está seleccionado
+      if (this.errorFilter !== "all") {
+        filteredErrors = filteredErrors.filter((error) => {
+          const errorType =
+            error.violation || error.error || "Error desconocido";
+          return errorType === this.errorFilter;
+        });
+      }
+
       console.log(
-        `📋 Errores filtrados (Estado: ${this.statusFilter}, Turno: ${this.shiftFilter}): ${filteredErrors.length}`
+        `📋 Errores filtrados (Estado: ${this.statusFilter}, Turno: ${this.shiftFilter}, Login: ${this.loginFilter}, Error: ${this.errorFilter}): ${filteredErrors.length}`
       );
 
       // Si no hay datos, mostrar mensaje
