@@ -398,8 +398,22 @@ export class ErrorsTableController {
           feedbackData // Pasar todo el objeto feedbackData
         );
       });
+    } else if (newStatus === "pending" && isDone) {
+      // Si se intenta cambiar de "done" a "pending", mostrar confirmación
+      this.showRevertConfirmation(() => {
+        // Callback que se ejecuta si el usuario confirma la reversión
+        this.statusService.updateStatusButton(button, newStatus);
+        row.classList.toggle("row-done");
+        row.classList.toggle("row-pending");
+        this.statusService.updateErrorStatus(
+          errorId,
+          newStatus,
+          this.updateCounters.bind(this),
+          null // Sin datos de feedback para cambio a pending
+        );
+      });
     } else {
-      // Si cambia a pending, actualizar directamente sin modal
+      // Para otros casos (esto no debería ocurrir con la lógica actual)
       this.statusService.updateStatusButton(button, newStatus);
       row.classList.toggle("row-done");
       row.classList.toggle("row-pending");
@@ -407,9 +421,58 @@ export class ErrorsTableController {
         errorId,
         newStatus,
         this.updateCounters.bind(this),
-        null // Sin datos de feedback para cambio a pending
+        null
       );
     }
+  }
+
+  /**
+   * Muestra el modal de confirmación para revertir estado de Done a Pending
+   * @param {Function} onConfirm - Callback a ejecutar si el usuario confirma
+   */
+  showRevertConfirmation(onConfirm) {
+    const modal = document.getElementById("confirm-revert-modal");
+    const confirmBtn = document.getElementById("confirm-revert-btn");
+    const cancelBtn = document.getElementById("cancel-revert-btn");
+
+    if (!modal || !confirmBtn || !cancelBtn) {
+      console.error("No se encontraron elementos del modal de confirmación");
+      return;
+    }
+
+    // Función para cerrar el modal
+    const closeModal = () => {
+      modal.classList.remove("show");
+      // Limpiar event listeners
+      confirmBtn.removeEventListener("click", handleConfirm);
+      cancelBtn.removeEventListener("click", handleCancel);
+    };
+
+    // Función para manejar la confirmación
+    const handleConfirm = () => {
+      closeModal();
+      onConfirm(); // Ejecutar la reversión
+    };
+
+    // Función para manejar la cancelación
+    const handleCancel = () => {
+      closeModal();
+      // No hacer nada, mantener el estado actual
+    };
+
+    // Agregar event listeners
+    confirmBtn.addEventListener("click", handleConfirm);
+    cancelBtn.addEventListener("click", handleCancel);
+
+    // Cerrar modal si se hace clic fuera de él
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        handleCancel();
+      }
+    });
+
+    // Mostrar el modal
+    modal.classList.add("show");
   }
 
   /**

@@ -378,6 +378,43 @@ body {
   margin-top: var(--spacing-lg);
 }
 
+/* Estilos específicos para el modal de confirmación */
+.confirmation-message {
+  text-align: center;
+  padding: var(--spacing-md) 0;
+}
+
+.warning-icon {
+  margin-bottom: var(--spacing-md);
+  display: flex;
+  justify-content: center;
+}
+
+.confirmation-text {
+  font-size: var(--font-size-md);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
+  line-height: 1.5;
+}
+
+.confirmation-question {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0;
+}
+
+/* Botón de advertencia para acciones destructivas */
+.btn-warning {
+  background-color: #f59e0b;
+  color: white;
+  border: none;
+}
+
+.btn-warning:hover:not(:disabled) {
+  background-color: #d97706;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .actions-bar {
