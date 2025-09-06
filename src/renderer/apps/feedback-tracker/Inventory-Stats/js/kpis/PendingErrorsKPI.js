@@ -79,8 +79,26 @@ class PendingErrorsKPI {
     }
 
     return errors.reduce((total, error) => {
-      // Solo contar errores que no estén marcados como 'done'
-      if (error.status !== "done") {
+      // Verificar si el error NO está resuelto (inverso de la lógica en ResolvedErrorsKPI)
+      if (
+        // No tiene status conocido de resuelto
+        error.status !== "done" &&
+        error.status !== "completed" &&
+        error.status !== 1 &&
+        error.status !== "1" &&
+        // No tiene propiedades alternativas de resuelto
+        error.resolved !== true &&
+        error.resolved !== "true" &&
+        error.resolved !== 1 &&
+        error.resolved !== "1" &&
+        error.is_resolved !== true &&
+        error.is_resolved !== "true" &&
+        error.is_resolved !== 1 &&
+        error.is_resolved !== "1" &&
+        // No tiene fechas de resolución
+        !(error.done_date && error.done_date !== "") &&
+        !(error.resolved_date && error.resolved_date !== "")
+      ) {
         const quantity = parseInt(error.quantity) || 1;
         return total + quantity;
       }

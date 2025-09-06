@@ -10,6 +10,7 @@ import { PendingErrorsKPI } from "./kpis/PendingErrorsKPI.js";
 import { ResolvedErrorsKPI } from "./kpis/ResolvedErrorsKPI.js";
 import { ResolutionRateKPI } from "./kpis/ResolutionRateKPI.js";
 import { DailyAverageKPI } from "./kpis/DailyAverageKPI.js";
+import { DPMOKPI } from "./kpis/DPMOKPI.js";
 
 export class InventoryStatsController {
   constructor() {
@@ -17,6 +18,7 @@ export class InventoryStatsController {
     this.kpis = {};
     this.isInitialized = false;
     this.errors = [];
+    this.dpmoData = null;
   }
 
   /**
@@ -82,7 +84,9 @@ export class InventoryStatsController {
     console.log("InventoryStatsController: Inicializando KPIs...");
 
     try {
+      // Inicializamos todos los KPIs, incluyendo el nuevo KPI DPMO
       this.kpis = {
+        dpmo: new DPMOKPI(),
         totalErrors: new TotalErrorsKPI(),
         pendingErrors: new PendingErrorsKPI(),
         resolvedErrors: new ResolvedErrorsKPI(),
@@ -110,9 +114,62 @@ export class InventoryStatsController {
    */
   setupEventListeners() {
     // Event listener para reload button (si existe)
-    const reloadBtn = document.getElementById("reload-data");
+    const reloadBtn = document.getElementById("refresh-btn");
     if (reloadBtn) {
-      reloadBtn.addEventListener("click", () => this.reloadData());
+      // Modificar el botón para incluir opción de forzar recarga
+      reloadBtn.innerHTML = `
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+          <path d="M21 3v5h-5" />
+          <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+          <path d="M3 21v-5h5" />
+        </svg>
+        Actualizar
+      `;
+
+      // Crear menú desplegable para opciones de recarga
+      const refreshOptions = document.createElement("div");
+      refreshOptions.className = "refresh-options";
+      refreshOptions.innerHTML = `
+        <button id="normal-refresh" class="refresh-option">Actualizar</button>
+        <button id="force-refresh" class="refresh-option">Forzar recarga completa</button>
+      `;
+
+      // Posicionar el menú desplegable junto al botón de recarga
+      reloadBtn.parentNode.style.position = "relative";
+      reloadBtn.parentNode.appendChild(refreshOptions);
+
+      // Mostrar/ocultar opciones al hacer clic en el botón de recarga
+      reloadBtn.addEventListener("click", (event) => {
+        event.stopPropagation();
+        refreshOptions.classList.toggle("show");
+      });
+
+      // Configurar eventos para las opciones
+      document
+        .getElementById("normal-refresh")
+        .addEventListener("click", () => {
+          refreshOptions.classList.remove("show");
+          this.reloadData(false);
+        });
+
+      document.getElementById("force-refresh").addEventListener("click", () => {
+        refreshOptions.classList.remove("show");
+        this.reloadData(true);
+      });
+
+      // Ocultar menú al hacer clic fuera
+      document.addEventListener("click", () => {
+        refreshOptions.classList.remove("show");
+      });
+    } else {
+      console.warn("InventoryStatsController: Botón de recarga no encontrado");
+    }
+
+    // Event listener para retry button (si existe)
+    const retryBtn = document.getElementById("retry-btn");
+    if (retryBtn) {
+      retryBtn.addEventListener("click", () => this.reloadData(true)); // Forzar recarga al reintentar
     }
   }
 
@@ -123,16 +180,75 @@ export class InventoryStatsController {
     console.log("InventoryStatsController: Cargando datos iniciales...");
 
     try {
-      const result = await this.dataService.loadTodayData();
+      // Cargar datos de errores
+      const errorResult = await this.dataService.loadTodayData();
 
-      if (result.success) {
-        this.errors = result.data || [];
-        this.updateAllKPIs();
-        this.showMainContent();
+      // Cargar datos DPMO (independientemente del resultado de errores)
+      const dpmoResult = await this.dataService.loadDPMOData();
+
+      if (dpmoResult.success) {
+        this.dpmoData = dpmoResult.data;
+        console.log(
+          "InventoryStatsController: Datos DPMO cargados correctamente"
+        );
+      } else {
+        this.dpmoData = null;
+        console.warn(
+          "InventoryStatsController: No se pudieron cargar los datos DPMO:",
+          dpmoResult.error
+        );
+      }
+
+      if (errorResult.success) {
+        this.errors = errorResult.data || [];
+
+        // Analizar los datos recibidos para depuración
+        const uniqueStatuses = [...new Set(this.errors.map((e) => e.status))];
+        console.log(
+          "InventoryStatsController: Estados únicos encontrados:",
+          uniqueStatuses
+        );
+
+        // Consideramos resueltos usando múltiples criterios
+        const resolvedCount = this.errors.filter(
+          (e) =>
+            // Status conocidos
+            e.status === "done" ||
+            e.status === "completed" ||
+            e.status === 1 ||
+            e.status === "1" ||
+            // Propiedades alternativas
+            e.resolved === true ||
+            e.resolved === "true" ||
+            e.resolved === 1 ||
+            e.resolved === "1" ||
+            e.is_resolved === true ||
+            e.is_resolved === "true" ||
+            e.is_resolved === 1 ||
+            e.is_resolved === "1" ||
+            // Fechas de resolución
+            (e.done_date && e.done_date !== "") ||
+            (e.resolved_date && e.resolved_date !== "")
+        ).length;
+        const pendingCount = this.errors.length - resolvedCount;
+        const totalQuantity = this.errors.reduce(
+          (sum, e) => sum + (parseInt(e.quantity) || 1),
+          0
+        );
 
         console.log(
-          `InventoryStatsController: Datos cargados. ${this.errors.length} errores encontrados`
+          `InventoryStatsController: Datos cargados. ${this.errors.length} errores encontrados (${pendingCount} pendientes, ${resolvedCount} resueltos, ${totalQuantity} cantidad total)`
         );
+
+        // Verificar si hay errores resueltos
+        if (resolvedCount === 0 && this.errors.length > 0) {
+          console.warn(
+            "InventoryStatsController: ¡ATENCIÓN! No se encontraron errores resueltos aunque hay errores en total"
+          );
+        }
+
+        this.updateAllKPIs();
+        this.showMainContent();
       } else {
         // No hay errores, mostrar estado vacío
         this.errors = [];
@@ -162,7 +278,12 @@ export class InventoryStatsController {
       // Actualizar cada KPI de forma independiente
       Object.entries(this.kpis).forEach(([name, kpi]) => {
         try {
-          kpi.update(this.errors);
+          // El KPI DPMO usa datos diferentes
+          if (name === "dpmo") {
+            kpi.update(this.dpmoData);
+          } else {
+            kpi.update(this.errors);
+          }
         } catch (error) {
           console.error(`Error actualizando KPI ${name}:`, error);
           kpi.setError(`Error: ${error.message}`);
@@ -180,11 +301,45 @@ export class InventoryStatsController {
 
   /**
    * Recarga los datos
+   * @param {boolean} forceRefresh - Si es true, fuerza una recarga completa desde el archivo
    */
-  async reloadData() {
-    console.log("InventoryStatsController: Recargando datos...");
+  async reloadData(forceRefresh = false) {
+    console.log(
+      `InventoryStatsController: Recargando datos (forceRefresh: ${forceRefresh})...`
+    );
 
     this.showLoading();
+
+    if (
+      forceRefresh &&
+      this.dataService &&
+      this.dataService.sharedDataService
+    ) {
+      // Forzar una recarga completa desde el archivo
+      console.log(
+        "InventoryStatsController: Forzando recarga completa desde archivo..."
+      );
+
+      try {
+        // Limpiar caché del DataService compartido
+        if (
+          typeof this.dataService.sharedDataService.invalidateCache ===
+          "function"
+        ) {
+          this.dataService.sharedDataService.invalidateCache();
+        }
+
+        // Forzar recarga desde archivo
+        await this.dataService.sharedDataService.refreshData(true);
+        console.log("InventoryStatsController: Recarga forzada completada");
+      } catch (error) {
+        console.error(
+          "InventoryStatsController: Error en recarga forzada:",
+          error
+        );
+      }
+    }
+
     await this.loadInitialData();
   }
 
@@ -250,6 +405,7 @@ export class InventoryStatsController {
     }
 
     this.errors = [];
+    this.dpmoData = null;
     this.isInitialized = false;
   }
 

@@ -16,17 +16,22 @@ class ResolutionRateKPI {
    */
   init() {
     try {
-      const container = document.getElementById(this.containerId);
+      // Ahora el elemento está dentro del KPI de Errores Pendientes como elemento secundario
       const valueElement = document.getElementById(this.valueElementId);
 
-      if (!container || !valueElement) {
-        console.error("ResolutionRateKPI: Elementos DOM no encontrados");
+      if (!valueElement) {
+        console.error("ResolutionRateKPI: Elemento DOM no encontrado");
         return false;
       }
 
-      this.statusElement = container.querySelector(".kpi-status");
+      // Ya no necesitamos el status element para el KPI secundario
+      this.statusElement = null;
       this.isInitialized = true;
-      this.setLoading();
+
+      // Inicializar con valor vacío
+      if (valueElement) {
+        valueElement.textContent = "--%";
+      }
 
       console.log("ResolutionRateKPI: Inicializado correctamente");
       return true;
@@ -86,7 +91,26 @@ class ResolutionRateKPI {
       const quantity = parseInt(error.quantity) || 1;
       totalErrors += quantity;
 
-      if (error.status === "done") {
+      // Usar la misma lógica ampliada que en ResolvedErrorsKPI
+      if (
+        // Status conocidos
+        error.status === "done" ||
+        error.status === "completed" ||
+        error.status === 1 ||
+        error.status === "1" ||
+        // Propiedades alternativas
+        error.resolved === true ||
+        error.resolved === "true" ||
+        error.resolved === 1 ||
+        error.resolved === "1" ||
+        error.is_resolved === true ||
+        error.is_resolved === "true" ||
+        error.is_resolved === 1 ||
+        error.is_resolved === "1" ||
+        // Fechas de resolución
+        (error.done_date && error.done_date !== "") ||
+        (error.resolved_date && error.resolved_date !== "")
+      ) {
         resolvedErrors += quantity;
       }
     });
@@ -127,27 +151,8 @@ class ResolutionRateKPI {
    * @param {number} totalErrors Total de errores
    */
   setSuccess(rate, totalErrors = 0) {
-    if (this.statusElement) {
-      if (totalErrors === 0) {
-        this.statusElement.textContent = "Sin datos";
-        this.statusElement.className = "kpi-status success";
-      } else if (rate >= 90) {
-        this.statusElement.textContent = "Excelente";
-        this.statusElement.className = "kpi-status success";
-      } else if (rate >= 70) {
-        this.statusElement.textContent = "Bueno";
-        this.statusElement.className = "kpi-status success";
-      } else if (rate >= 50) {
-        this.statusElement.textContent = "Regular";
-        this.statusElement.className = "kpi-status warning";
-      } else if (rate >= 30) {
-        this.statusElement.textContent = "Bajo";
-        this.statusElement.className = "kpi-status warning";
-      } else {
-        this.statusElement.textContent = "Crítico";
-        this.statusElement.className = "kpi-status error";
-      }
-    }
+    // Como ahora es un KPI secundario, no necesitamos mostrar el estado
+    // El valor ya se actualizó en el método update
   }
 
   /**

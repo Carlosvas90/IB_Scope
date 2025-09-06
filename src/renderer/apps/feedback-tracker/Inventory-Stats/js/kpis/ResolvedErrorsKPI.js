@@ -78,9 +78,55 @@ class ResolvedErrorsKPI {
       return 0;
     }
 
+    // Depurar estados presentes en los errores
+    const uniqueStatuses = [...new Set(errors.map((e) => e.status))];
+    console.log(
+      "ResolvedErrorsKPI: Estados únicos encontrados:",
+      uniqueStatuses
+    );
+
+    // Contar errores por cada estado para depuración
+    const statusCounts = {};
+    uniqueStatuses.forEach((status) => {
+      statusCounts[status] = errors.filter((e) => e.status === status).length;
+    });
+    console.log("ResolvedErrorsKPI: Conteo por estado:", statusCounts);
+
+    // Analizar propiedades de un error para depuración
+    if (errors.length > 0) {
+      console.log("ResolvedErrorsKPI: Ejemplo de error:", errors[0]);
+
+      // Verificar si hay propiedades que indiquen resolución
+      const hasResolved = errors.some((e) => e.resolved !== undefined);
+      const hasIsResolved = errors.some((e) => e.is_resolved !== undefined);
+      const hasDoneDate = errors.some((e) => e.done_date !== undefined);
+      console.log(
+        `ResolvedErrorsKPI: Propiedades encontradas - resolved: ${hasResolved}, is_resolved: ${hasIsResolved}, done_date: ${hasDoneDate}`
+      );
+    }
+
+    // Buscar errores resueltos usando múltiples criterios
     return errors.reduce((total, error) => {
-      // Solo contar errores marcados como 'done'
-      if (error.status === "done") {
+      // Verificar múltiples posibles valores para errores resueltos
+      if (
+        // Status conocidos
+        error.status === "done" ||
+        error.status === "completed" ||
+        error.status === 1 ||
+        error.status === "1" ||
+        // Propiedades alternativas
+        error.resolved === true ||
+        error.resolved === "true" ||
+        error.resolved === 1 ||
+        error.resolved === "1" ||
+        error.is_resolved === true ||
+        error.is_resolved === "true" ||
+        error.is_resolved === 1 ||
+        error.is_resolved === "1" ||
+        // Fechas de resolución
+        (error.done_date && error.done_date !== "") ||
+        (error.resolved_date && error.resolved_date !== "")
+      ) {
         const quantity = parseInt(error.quantity) || 1;
         return total + quantity;
       }
@@ -89,15 +135,14 @@ class ResolvedErrorsKPI {
   }
 
   /**
-   * Formatea el valor para mostrar
+   * Formatea el valor para mostrar (siempre muestra el número completo)
    * @param {number} value Valor a formatear
    * @returns {string} Valor formateado
    */
   formatValue(value) {
     if (value === 0) return "0";
-    if (value < 1000) return value.toString();
-    if (value < 1000000) return (value / 1000).toFixed(1) + "K";
-    return (value / 1000000).toFixed(1) + "M";
+    // Mostrar siempre el número completo con separadores de miles
+    return value.toLocaleString("es-ES");
   }
 
   /**

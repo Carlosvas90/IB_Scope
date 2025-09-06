@@ -16,17 +16,22 @@ class DailyAverageKPI {
    */
   init() {
     try {
-      const container = document.getElementById(this.containerId);
+      // Ahora el elemento está dentro del KPI de Total Errores como elemento secundario
       const valueElement = document.getElementById(this.valueElementId);
 
-      if (!container || !valueElement) {
-        console.error("DailyAverageKPI: Elementos DOM no encontrados");
+      if (!valueElement) {
+        console.error("DailyAverageKPI: Elemento DOM no encontrado");
         return false;
       }
 
-      this.statusElement = container.querySelector(".kpi-status");
+      // Ya no necesitamos el status element para el KPI secundario
+      this.statusElement = null;
       this.isInitialized = true;
-      this.setLoading();
+
+      // Inicializar con valor vacío
+      if (valueElement) {
+        valueElement.textContent = "--";
+      }
 
       console.log("DailyAverageKPI: Inicializado correctamente");
       return true;
@@ -138,31 +143,8 @@ class DailyAverageKPI {
    * @param {number} average Promedio calculado
    */
   setSuccess(average) {
-    if (this.statusElement) {
-      if (average === 0) {
-        this.statusElement.textContent = "Sin errores";
-        this.statusElement.className = "kpi-status success";
-      } else if (average <= 10) {
-        this.statusElement.textContent = "Muy bajo";
-        this.statusElement.className = "kpi-status success";
-      } else if (average <= 50) {
-        this.statusElement.textContent = "Bajo";
-        this.statusElement.className = "kpi-status success";
-      } else if (average <= 100) {
-        this.statusElement.textContent = "Moderado";
-        this.statusElement.className = "kpi-status warning";
-      } else if (average <= 200) {
-        this.statusElement.textContent = "Alto";
-        this.statusElement.className = "kpi-status warning";
-      } else {
-        this.statusElement.textContent = "Muy alto";
-        this.statusElement.className = "kpi-status error";
-      }
-
-      // Nota temporal sobre la estimación
-      this.statusElement.title =
-        "Estimación basada en datos actuales. Se actualizará con datos históricos.";
-    }
+    // Como ahora es un KPI secundario, no necesitamos mostrar el estado
+    // El valor ya se actualizó en el método update
   }
 
   /**
