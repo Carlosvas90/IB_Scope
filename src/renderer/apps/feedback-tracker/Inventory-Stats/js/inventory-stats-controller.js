@@ -480,6 +480,35 @@ export class InventoryStatsController {
   }
 
   /**
+   * Configura los event listeners
+   */
+  setupEventListeners() {
+    // Botón de actualizar (simplificado)
+    const reloadBtn = document.getElementById("refresh-btn");
+    if (reloadBtn) {
+      reloadBtn.addEventListener("click", () => {
+        // Deshabilitar botón durante la actualización
+        reloadBtn.disabled = true;
+
+        // Mostrar pantalla de carga
+        this.showLoading();
+
+        // Recargar datos (sin forzar)
+        this.reloadData(false).finally(() => {
+          // Re-habilitar botón cuando termine
+          reloadBtn.disabled = false;
+        });
+      });
+    }
+
+    // Botón de reintentar
+    const retryBtn = document.getElementById("retry-btn");
+    if (retryBtn) {
+      retryBtn.addEventListener("click", () => this.reloadData(false));
+    }
+  }
+
+  /**
    * Maneja refrescos directos de datos
    */
   async handleDirectDataRefresh(eventData) {

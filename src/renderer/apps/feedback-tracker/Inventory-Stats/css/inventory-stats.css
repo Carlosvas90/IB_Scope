@@ -4,8 +4,7 @@
 .inventory-stats-app {
   padding: var(--spacing-lg);
   max-width: 100%;
-  height: 100vh;
-  overflow-y: auto;
+  height: 100%;
   background-color: var(--body-bg);
   color: var(--text-color-three);
   font-family: var(--font-family);
@@ -132,6 +131,7 @@
 /* Main Content */
 .main-content {
   animation: fadeIn 0.3s ease-in;
+  overflow: visible;
 }
 
 @keyframes fadeIn {
@@ -172,7 +172,7 @@
   padding: var(--spacing-lg);
   transition: all var(--transition-normal);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .kpi-card:hover {
@@ -343,40 +343,7 @@
   color: var(--text-color-one);
 }
 
-/* Estilos para el menú de opciones de recarga */
-.refresh-options {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background: var(--sidebar_bg_ch);
-  border: var(--border-width-thin) solid var(--Limit-Sidebar);
-  border-radius: var(--border-radius-md);
-  box-shadow: var(--shadow-md);
-  z-index: 100;
-  display: none;
-  flex-direction: column;
-  min-width: 200px;
-  margin-top: 4px;
-}
-
-.refresh-options.show {
-  display: flex;
-}
-
-.refresh-option {
-  padding: var(--spacing-sm) var(--spacing-md);
-  background: none;
-  border: none;
-  text-align: left;
-  cursor: pointer;
-  color: var(--text-color-three);
-  transition: all var(--transition-normal);
-}
-
-.refresh-option:hover {
-  background: var(--element-hover);
-}
-
+/* Header controls */
 .header-controls {
   position: relative;
 }
