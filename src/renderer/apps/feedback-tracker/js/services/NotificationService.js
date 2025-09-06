@@ -1,6 +1,10 @@
+import EventBus from "../../../../core/services/EventBus.js";
+import { FEEDBACK_TRACKER_EVENTS } from "../../../../core/events/EventTypes.js";
+
 export class NotificationService {
   constructor() {
     this.listeners = [];
+    this.eventBus = EventBus;
     console.log("NotificationService: Instancia creada.");
   }
 
@@ -51,10 +55,11 @@ export class NotificationService {
 
     console.log("NotificationService.notify: Notificando evento...", eventData);
 
-    // Notificar a través de ipcRenderer si está disponible
+    // Emitir evento a través del EventBus para sincronización entre aplicaciones
+    this._emitSyncEvents(eventData);
+
+    // Notificar a través de ipcRenderer si está disponible (mantener compatibilidad)
     if (window.ipcRenderer) {
-      // Asumimos un nombre de canal genérico, o podríamos hacerlo configurable.
-      // Por ahora, usamos el mismo que DataService usaba.
       window.ipcRenderer.send("data:updated", eventData);
       console.log(
         "NotificationService: Evento enviado vía ipcRenderer ('data:updated')."
@@ -101,6 +106,49 @@ export class NotificationService {
     console.log(
       `NotificationService: Notificado a ${this.listeners.length} listeners locales.`
     );
+  }
+
+  /**
+   * Emite eventos específicos a través del EventBus para sincronización
+   * @private
+   */
+  _emitSyncEvents(eventData) {
+    try {
+      const { errors, timestamp, fromCache, status } = eventData;
+
+      // Determinar el tipo de evento basado en el contexto
+      if (status === "no_errors_found") {
+        this.eventBus.emit(FEEDBACK_TRACKER_EVENTS.DATA_ERROR, {
+          type: "no_errors_found",
+          timestamp,
+          fromCache,
+        });
+      } else if (errors && errors.length > 0) {
+        // Evento de datos cargados/actualizados
+        this.eventBus.emit(FEEDBACK_TRACKER_EVENTS.DATA_REFRESHED, {
+          errors,
+          count: errors.length,
+          timestamp,
+          fromCache,
+        });
+
+        // También emitir evento de carga si es la primera vez
+        if (!fromCache) {
+          this.eventBus.emit(FEEDBACK_TRACKER_EVENTS.DATA_LOADED, {
+            errors,
+            count: errors.length,
+            timestamp,
+          });
+        }
+      }
+
+      console.log("NotificationService: Eventos de sincronización emitidos");
+    } catch (error) {
+      console.error(
+        "NotificationService: Error emitiendo eventos de sincronización:",
+        error
+      );
+    }
   }
 
   dispose() {

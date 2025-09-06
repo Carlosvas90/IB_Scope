@@ -4,6 +4,13 @@
  */
 
 // Importar dependencias
+import EventBus from "../../../../core/services/EventBus.js";
+import DataSyncService from "../../../../core/services/DataSyncService.js";
+import {
+  INVENTORY_STATS_EVENTS,
+  FEEDBACK_TRACKER_EVENTS,
+  EVENT_PATTERNS,
+} from "../../../../core/events/EventTypes.js";
 import { InventoryDataService } from "./services/DataService.js";
 import { TotalErrorsKPI } from "./kpis/TotalErrorsKPI.js";
 import { PendingErrorsKPI } from "./kpis/PendingErrorsKPI.js";
@@ -19,6 +26,11 @@ export class InventoryStatsController {
     this.isInitialized = false;
     this.errors = [];
     this.dpmoData = null;
+
+    // Referencias para sincronización
+    this.eventBus = EventBus;
+    this.dataSyncService = DataSyncService;
+    this.syncListeners = [];
   }
 
   /**
@@ -39,6 +51,12 @@ export class InventoryStatsController {
 
       // Inicializar KPIs
       this.initializeKPIs();
+
+      // Inicializar servicios de sincronización
+      this.initializeSyncServices();
+
+      // Configurar listeners de sincronización
+      this.setupSyncListeners();
 
       // Configurar eventos
       this.setupEventListeners();
@@ -212,12 +230,15 @@ export class InventoryStatsController {
         // Consideramos resueltos usando múltiples criterios
         const resolvedCount = this.errors.filter(
           (e) =>
-            // Status conocidos
+            // Propiedad principal del sistema
+            e.feedback_status === "done" ||
+            e.feedback_status === "completed" ||
+            // Status alternativos por compatibilidad
             e.status === "done" ||
             e.status === "completed" ||
             e.status === 1 ||
             e.status === "1" ||
-            // Propiedades alternativas
+            // Propiedades adicionales
             e.resolved === true ||
             e.resolved === "true" ||
             e.resolved === 1 ||
@@ -226,7 +247,8 @@ export class InventoryStatsController {
             e.is_resolved === "true" ||
             e.is_resolved === 1 ||
             e.is_resolved === "1" ||
-            // Fechas de resolución
+            // Fechas de resolución (incluyendo feedback_date)
+            (e.feedback_date && e.feedback_date !== "") ||
             (e.done_date && e.done_date !== "") ||
             (e.resolved_date && e.resolved_date !== "")
         ).length;
@@ -421,5 +443,94 @@ export class InventoryStatsController {
    */
   isReady() {
     return this.isInitialized;
+  }
+
+  /**
+   * Inicializa los servicios de sincronización
+   */
+  initializeSyncServices() {
+    console.log(
+      "InventoryStatsController: Inicializando servicios de sincronización..."
+    );
+
+    // Inicializar el DataSyncService si no está inicializado
+    if (!this.dataSyncService.isInitialized) {
+      this.dataSyncService.init();
+    }
+  }
+
+  /**
+   * Configura los listeners para sincronización automática
+   */
+  setupSyncListeners() {
+    console.log(
+      "InventoryStatsController: Configurando listeners de sincronización..."
+    );
+
+    // Listener directo para cambios de datos
+    const dataRefreshListener = this.eventBus.on(
+      FEEDBACK_TRACKER_EVENTS.DATA_REFRESHED,
+      this.handleDirectDataRefresh.bind(this)
+    );
+    this.syncListeners.push(dataRefreshListener);
+
+    console.log(
+      `InventoryStatsController: ${this.syncListeners.length} listeners de sincronización configurados`
+    );
+  }
+
+  /**
+   * Maneja refrescos directos de datos
+   */
+  async handleDirectDataRefresh(eventData) {
+    const { data: event } = eventData;
+    console.log(
+      "🔄 InventoryStatsController: Refresco de datos recibido",
+      event
+    );
+
+    try {
+      await this.refreshDataFromSharedService();
+    } catch (error) {
+      console.error(
+        "InventoryStatsController: Error en refresco directo:",
+        error
+      );
+    }
+  }
+
+  /**
+   * Refresca datos específicamente desde el servicio compartido
+   */
+  async refreshDataFromSharedService() {
+    if (!this.dataService || !this.dataService.sharedDataService) {
+      console.warn(
+        "InventoryStatsController: DataService compartido no disponible"
+      );
+      return;
+    }
+
+    try {
+      // Obtener datos actuales sin forzar recarga de archivo
+      const errors = this.dataService.sharedDataService.errors || [];
+
+      if (errors.length !== this.errors.length) {
+        console.log(
+          `🔄 InventoryStatsController: Datos cambiaron (${this.errors.length} → ${errors.length})`
+        );
+      }
+
+      this.errors = errors;
+      this.updateAllKPIs();
+
+      console.log(
+        "✅ InventoryStatsController: KPIs sincronizados automáticamente"
+      );
+    } catch (error) {
+      console.error(
+        "InventoryStatsController: Error refrescando datos:",
+        error
+      );
+    }
   }
 }

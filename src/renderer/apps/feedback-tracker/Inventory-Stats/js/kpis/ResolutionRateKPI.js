@@ -93,12 +93,15 @@ class ResolutionRateKPI {
 
       // Usar la misma lógica ampliada que en ResolvedErrorsKPI
       if (
-        // Status conocidos
+        // Propiedad principal del sistema
+        error.feedback_status === "done" ||
+        error.feedback_status === "completed" ||
+        // Status alternativos por compatibilidad
         error.status === "done" ||
         error.status === "completed" ||
         error.status === 1 ||
         error.status === "1" ||
-        // Propiedades alternativas
+        // Propiedades adicionales
         error.resolved === true ||
         error.resolved === "true" ||
         error.resolved === 1 ||
@@ -107,7 +110,8 @@ class ResolutionRateKPI {
         error.is_resolved === "true" ||
         error.is_resolved === 1 ||
         error.is_resolved === "1" ||
-        // Fechas de resolución
+        // Fechas de resolución (incluyendo feedback_date)
+        (error.feedback_date && error.feedback_date !== "") ||
         (error.done_date && error.done_date !== "") ||
         (error.resolved_date && error.resolved_date !== "")
       ) {

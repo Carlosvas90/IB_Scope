@@ -74,12 +74,15 @@ class InventoryDataService {
         // Consideramos resueltos usando múltiples criterios
         const resolvedCount = errors.filter(
           (e) =>
-            // Status conocidos
+            // Propiedad principal del sistema
+            e.feedback_status === "done" ||
+            e.feedback_status === "completed" ||
+            // Status alternativos por compatibilidad
             e.status === "done" ||
             e.status === "completed" ||
             e.status === 1 ||
             e.status === "1" ||
-            // Propiedades alternativas
+            // Propiedades adicionales
             e.resolved === true ||
             e.resolved === "true" ||
             e.resolved === 1 ||
@@ -88,7 +91,8 @@ class InventoryDataService {
             e.is_resolved === "true" ||
             e.is_resolved === 1 ||
             e.is_resolved === "1" ||
-            // Fechas de resolución
+            // Fechas de resolución (incluyendo feedback_date)
+            (e.feedback_date && e.feedback_date !== "") ||
             (e.done_date && e.done_date !== "") ||
             (e.resolved_date && e.resolved_date !== "")
         ).length;

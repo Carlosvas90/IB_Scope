@@ -79,9 +79,12 @@ class PendingErrorsKPI {
     }
 
     return errors.reduce((total, error) => {
-      // Verificar si el error NO está resuelto (inverso de la lógica en ResolvedErrorsKPI)
+      // Verificar si el error NO está resuelto (usar feedback_status como propiedad principal)
       if (
-        // No tiene status conocido de resuelto
+        // No tiene feedback_status de resuelto (propiedad principal del sistema)
+        error.feedback_status !== "done" &&
+        error.feedback_status !== "completed" &&
+        // No tiene status conocido de resuelto (compatibilidad)
         error.status !== "done" &&
         error.status !== "completed" &&
         error.status !== 1 &&
@@ -95,7 +98,8 @@ class PendingErrorsKPI {
         error.is_resolved !== "true" &&
         error.is_resolved !== 1 &&
         error.is_resolved !== "1" &&
-        // No tiene fechas de resolución
+        // No tiene fechas de resolución (incluyendo feedback_date)
+        !(error.feedback_date && error.feedback_date !== "") &&
         !(error.done_date && error.done_date !== "") &&
         !(error.resolved_date && error.resolved_date !== "")
       ) {
