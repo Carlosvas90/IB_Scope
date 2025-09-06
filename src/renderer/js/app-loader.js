@@ -34,6 +34,13 @@ class AppLoader {
         initializer: "initEstadisticas",
         styles: ["../apps/feedback-tracker/estadisticas/css/estadisticas.css"],
       },
+      "inventory-stats": {
+        name: "Stats",
+        description: "KPIs principales de errores",
+        icon: "trending-up",
+        initializer: "initStats",
+        styles: ["../apps/feedback-tracker/stats/css/stats.css"],
+      },
       // Aquí se pueden registrar más aplicaciones en el futuro
     };
 

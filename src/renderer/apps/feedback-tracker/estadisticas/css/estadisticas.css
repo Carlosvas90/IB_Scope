@@ -144,9 +144,15 @@
 /* ===== KPI GRID ===== */
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: var(--stats-spacing-lg);
   margin-bottom: var(--stats-spacing-xl);
+}
+
+@media (max-width: 1200px) {
+  .kpi-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
 }
 
 .kpi-card {
@@ -247,6 +253,10 @@
   fill: var(--stats-primary-color);
 }
 
+.kpi-content {
+  flex: 1;
+}
+
 .kpi-content h3 {
   margin: 0 0 var(--stats-spacing-sm) 0;
   color: var(--dashboard-card-text_two);
@@ -260,6 +270,28 @@
   font-size: var(--stats-font-size-xxl);
   font-weight: var(--stats-font-weight-bold);
   color: var(--dashboard-card-text);
+  margin-bottom: var(--stats-spacing-xs);
+}
+
+/* Estilos para KPI secundario */
+.kpi-secondary {
+  margin-top: var(--stats-spacing-md);
+  padding-top: var(--stats-spacing-md);
+  border-top: 1px dashed var(--stats-border-color);
+}
+
+.kpi-secondary h4 {
+  margin: 0 0 var(--stats-spacing-xs) 0;
+  color: var(--dashboard-card-text_two);
+  font-size: var(--stats-font-size-xs);
+  font-weight: var(--stats-font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+}
+
+.kpi-value.secondary {
+  font-size: var(--stats-font-size-lg);
   margin-bottom: var(--stats-spacing-xs);
 }
 

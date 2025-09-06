@@ -83,6 +83,7 @@
 
       <!-- KPI Cards -->
       <section class="kpi-grid">
+        <!-- Total de Errores con Promedio Diario como secundario -->
         <div class="kpi-card total-errors">
           <div class="kpi-icon">
             <svg
@@ -104,9 +105,18 @@
             <div class="kpi-trend neutral" id="total-errors-trend">
               Cargando...
             </div>
+            <!-- KPI Secundario: Promedio Diario -->
+            <div class="kpi-secondary">
+              <h4>Promedio Diario</h4>
+              <div class="kpi-value secondary" id="daily-avg-kpi">-</div>
+              <div class="kpi-trend neutral" id="daily-avg-trend">
+                Cargando...
+              </div>
+            </div>
           </div>
         </div>
 
+        <!-- Errores Pendientes con Tasa de Resolución como secundario -->
         <div class="kpi-card pending-errors">
           <div class="kpi-icon">
             <svg
@@ -128,9 +138,18 @@
             <div class="kpi-trend neutral" id="pending-errors-trend">
               Cargando...
             </div>
+            <!-- KPI Secundario: Tasa de Resolución -->
+            <div class="kpi-secondary">
+              <h4>Tasa de Resolución</h4>
+              <div class="kpi-value secondary" id="resolution-rate-kpi">-</div>
+              <div class="kpi-trend neutral" id="resolution-rate-trend">
+                Cargando...
+              </div>
+            </div>
           </div>
         </div>
 
+        <!-- Errores Resueltos (sin KPI secundario) -->
         <div class="kpi-card resolved-errors">
           <div class="kpi-icon">
             <svg
@@ -150,54 +169,6 @@
             <h3>Errores Resueltos</h3>
             <div class="kpi-value" id="resolved-errors-kpi">-</div>
             <div class="kpi-trend neutral" id="resolved-errors-trend">
-              Cargando...
-            </div>
-          </div>
-        </div>
-
-        <div class="kpi-card resolution-rate">
-          <div class="kpi-icon">
-            <svg
-              width="40"
-              height="40"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M12,6A6,6 0 0,1 18,12H16A4,4 0 0,0 12,8V6Z"
-                fill="currentColor"
-              />
-            </svg>
-          </div>
-          <div class="kpi-content">
-            <h3>Tasa de Resolución</h3>
-            <div class="kpi-value" id="resolution-rate-kpi">-</div>
-            <div class="kpi-trend neutral" id="resolution-rate-trend">
-              Cargando...
-            </div>
-          </div>
-        </div>
-
-        <div class="kpi-card daily-avg">
-          <div class="kpi-icon">
-            <svg
-              width="40"
-              height="40"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M3,3V21H21V3H3M9,17H7V10H9V17M13,17H11V7H13V17M17,17H15V13H17V17Z"
-                fill="currentColor"
-              />
-            </svg>
-          </div>
-          <div class="kpi-content">
-            <h3>Promedio Diario</h3>
-            <div class="kpi-value" id="daily-avg-kpi">-</div>
-            <div class="kpi-trend neutral" id="daily-avg-trend">
               Cargando...
             </div>
           </div>

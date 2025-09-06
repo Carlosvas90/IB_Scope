@@ -10,12 +10,17 @@ import { AnalyticsProcessor } from "./services/AnalyticsProcessor.js";
 import { ChartService } from "./services/ChartService.js";
 // NUEVO: Importar sistema modular
 import chartRegistry from "./components/charts/ChartRegistry.js";
+// Importar gestor de KPIs
+import { KPIManager } from "./components/kpis/KPIManager.js";
 
 class EstadisticasController {
   constructor() {
     this.dataService = new EstadisticasDataService();
     this.analyticsProcessor = new AnalyticsProcessor();
     this.chartService = new ChartService();
+
+    // Gestor de KPIs
+    this.kpiManager = new KPIManager();
 
     // NUEVO: Sistema modular de gráficos
     this.modularCharts = new Map();
@@ -345,7 +350,7 @@ class EstadisticasController {
   }
 
   /**
-   * Actualiza los KPIs (sin tiempo promedio de resolución)
+   * Actualiza los KPIs usando el KPIManager
    */
   updateKPIs() {
     const kpis = this.analyticsProcessor.processKPIs(
@@ -353,74 +358,10 @@ class EstadisticasController {
       this.currentDateRange
     );
 
-    // Total de errores
-    this.updateKPI("total-errors-kpi", kpis.totalErrors.toLocaleString());
-    this.updateKPITrend(
-      "total-errors-trend",
-      "neutral",
-      "Total de errores en el período"
-    );
+    // Usar el gestor de KPIs para actualizar todos los componentes
+    this.kpiManager.updateAll(kpis);
 
-    // Errores pendientes
-    this.updateKPI("pending-errors-kpi", kpis.pendingErrors.toLocaleString());
-    this.updateKPITrend(
-      "pending-errors-trend",
-      "negative",
-      "Errores sin resolver"
-    );
-
-    // Errores resueltos
-    this.updateKPI("resolved-errors-kpi", kpis.resolvedErrors.toLocaleString());
-    this.updateKPITrend(
-      "resolved-errors-trend",
-      "positive",
-      "Errores resueltos"
-    );
-
-    // Tasa de resolución
-    this.updateKPI("resolution-rate-kpi", `${kpis.resolutionRate.toFixed(1)}%`);
-    const resolutionTrend =
-      kpis.resolutionRate > 80
-        ? "positive"
-        : kpis.resolutionRate > 60
-        ? "neutral"
-        : "negative";
-    this.updateKPITrend(
-      "resolution-rate-trend",
-      resolutionTrend,
-      `Tasa de resolución`
-    );
-
-    // Promedio diario
-    this.updateKPI("daily-avg-kpi", kpis.dailyAverage.toFixed(1));
-    this.updateKPITrend(
-      "daily-avg-trend",
-      "neutral",
-      "Errores promedio por día"
-    );
-
-    console.log("📊 KPIs actualizados");
-  }
-
-  /**
-   * Actualiza un KPI específico
-   */
-  updateKPI(elementId, value) {
-    const element = document.getElementById(elementId);
-    if (element) {
-      element.textContent = value;
-    }
-  }
-
-  /**
-   * Actualiza la tendencia de un KPI
-   */
-  updateKPITrend(elementId, trend, text) {
-    const element = document.getElementById(elementId);
-    if (element) {
-      element.className = `kpi-trend ${trend}`;
-      element.textContent = text;
-    }
+    console.log("📊 KPIs actualizados a través del KPIManager");
   }
 
   /**
@@ -1153,6 +1094,9 @@ class EstadisticasController {
       }
     }
     this.isLoading = show;
+
+    // Actualizar estado de carga en los KPIs
+    this.kpiManager.setLoading(show);
   }
 
   /**

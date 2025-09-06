@@ -55,6 +55,10 @@ window.initFeedbackTracker = function (view) {
     };
   }
 
+  // IMPORTANTE: Exponer el dataService globalmente para que otras apps lo puedan usar
+  window.feedbackTrackerDataService = dataService;
+  console.log("✅ DataService de feedback-tracker expuesto globalmente");
+
   // Inicializar controladores
   initControllers();
 
