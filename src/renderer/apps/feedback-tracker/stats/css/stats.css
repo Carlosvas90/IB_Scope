@@ -139,7 +139,7 @@
 /* ===== KPI GRID ===== */
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: var(--stats-spacing-lg);
   margin-bottom: var(--stats-spacing-xl);
 }
@@ -205,6 +205,14 @@
     90deg,
     var(--stats-success-color),
     var(--stats-info-color)
+  );
+}
+
+.kpi-card.dpmo::before {
+  background: linear-gradient(
+    90deg,
+    var(--stats-primary-color),
+    var(--stats-success-color)
   );
 }
 

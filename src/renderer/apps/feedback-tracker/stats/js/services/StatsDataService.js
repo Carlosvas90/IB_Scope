@@ -11,6 +11,7 @@ export class StatsDataService {
     this.currentDataPath = null;
     this.lastUpdateTime = null;
     this.isLoading = false;
+    this.dpmoData = null;
 
     console.log("📊 StatsDataService inicializado");
   }
@@ -19,10 +20,7 @@ export class StatsDataService {
    * Inicializa el servicio de datos
    */
   async init() {
-    console.log("🔧 Inicializando StatsDataService...");
-
     try {
-      // Cargar configuración de rutas
       await this.loadConfig();
 
       // Cargar datos iniciales
@@ -52,16 +50,12 @@ export class StatsDataService {
 
       // CAMBIO: Usar window.api.getConfig() como en EstadisticasDataService
       const config = await window.api.getConfig();
-      if (config && config.data_paths) {
-        this.dataPaths = config.data_paths;
-        console.log(
-          "✅ Configuración cargada directamente:",
-          this.dataPaths.length,
-          "rutas"
-        );
-        return;
+
+      if (config && config.dataPaths) {
+        this.dataPaths = config.dataPaths;
+        console.log("📁 Rutas de datos:", this.dataPaths);
       } else {
-        throw new Error("No se encontraron rutas en la configuración");
+        throw new Error("No se encontraron rutas de datos en la configuración");
       }
     } catch (error) {
       console.warn("⚠️ Error cargando configuración directamente:", error);
@@ -69,23 +63,25 @@ export class StatsDataService {
       // Intentar usar el servicio principal como fallback
       if (
         window.inboundScope &&
-        window.inboundScope.dataService &&
-        window.inboundScope.dataService.dataPaths
+        window.inboundScope.configService &&
+        window.inboundScope.configService.getConfig
       ) {
-        this.dataPaths = [...window.inboundScope.dataService.dataPaths];
-        console.log(
-          "📁 Rutas obtenidas del servicio principal como fallback:",
-          this.dataPaths.length
-        );
-        return;
+        try {
+          const config = await window.inboundScope.configService.getConfig();
+          if (config && config.dataPaths) {
+            this.dataPaths = config.dataPaths;
+            console.log("📁 Rutas de datos desde servicio:", this.dataPaths);
+            return;
+          }
+        } catch (e) {
+          console.warn("⚠️ Error usando servicio de configuración:", e);
+        }
       }
 
       // Rutas por defecto como último recurso
       this.dataPaths = [
-        "C:\\FeedbackTracker\\data",
-        "D:\\FeedbackTracker\\data",
-        "./data",
-        "../data",
+        "\\\\ant\\dept-eu\\VLC1\\Public\\Apps_Tools\\chuecc\\IB_Scope\\Data\\",
+        "C:\\Users\\carlo\\Downloads\\0-Proyecto_IB_Scope\\Analisis\\Data\\",
       ];
       console.log("📁 Usando rutas por defecto:", this.dataPaths.length);
     }
@@ -102,6 +98,8 @@ export class StatsDataService {
 
     this.isLoading = true;
     console.log("📥 Iniciando carga de datos para Stats...");
+
+    let errorsLoaded = false;
 
     try {
       // Esperar a que inboundScope esté disponible
@@ -129,7 +127,7 @@ export class StatsDataService {
             console.log(
               `✅ Datos obtenidos del servicio principal: ${this.errors.length} registros`
             );
-            return true;
+            errorsLoaded = true;
           } else {
             // Intentar cargar datos en el servicio principal
             console.log(
@@ -150,7 +148,7 @@ export class StatsDataService {
                 console.log(
                   `✅ Datos cargados: ${this.errors.length} registros`
                 );
-                return true;
+                errorsLoaded = true;
               }
             }
           }
@@ -161,26 +159,42 @@ export class StatsDataService {
       }
 
       // Si no hay datos en el servicio principal, cargar directamente
-      console.log("📂 Cargando datos directamente desde archivo...");
-      const result = await this.readDataFile();
+      if (!errorsLoaded) {
+        console.log("📂 Cargando datos directamente desde archivo...");
+        const result = await this.readDataFile();
 
-      if (result && result.success) {
-        this.errors = result.data?.errors || result.data || [];
-        this.lastUpdateTime = new Date();
-        console.log(
-          `✅ Datos cargados directamente: ${this.errors.length} registros`
-        );
-        return true;
-      } else {
-        console.error("❌ Error cargando datos:", result?.error || "Sin datos");
-        this.errors = [];
-        return false;
+        if (result && result.success) {
+          this.errors = result.data?.errors || result.data || [];
+          this.lastUpdateTime = new Date();
+          console.log(
+            `✅ Datos cargados directamente: ${this.errors.length} registros`
+          );
+          errorsLoaded = true;
+        } else {
+          console.error(
+            "❌ Error cargando datos:",
+            result?.error || "Sin datos"
+          );
+          this.errors = [];
+        }
       }
+
+      // IMPORTANTE: Cargar datos DPMO independientemente del resultado de la carga de errores
+      console.log("📊 Cargando datos DPMO independientemente del resultado...");
+      await this.loadDPMOData();
+
+      return errorsLoaded;
     } catch (error) {
       console.error("❌ Error en loadData:", error);
       this.errors = [];
       return false;
     } finally {
+      // Siempre intentar cargar DPMO antes de finalizar
+      if (this.dpmoData === null) {
+        console.log("📊 Último intento de cargar datos DPMO...");
+        await this.loadDPMOData();
+      }
+
       this.isLoading = false;
     }
   }
@@ -257,11 +271,9 @@ export class StatsDataService {
 
         if (source.errors && source.errors.length > 0) {
           this.errors = [...source.errors];
-          this.lastUpdateTime = new Date();
+          this.lastUpdateTime = source.lastUpdateTime || new Date();
           console.log(
-            `✅ Datos obtenidos de ${name}:`,
-            this.errors.length,
-            "registros"
+            `✅ Datos cargados desde ${name}: ${this.errors.length} registros`
           );
 
           // Mostrar muestra de datos
@@ -295,9 +307,7 @@ export class StatsDataService {
       this.errors = [...window.currentErrorsData];
       this.lastUpdateTime = new Date();
       console.log(
-        "✅ Datos obtenidos de variable global:",
-        this.errors.length,
-        "registros"
+        `✅ Datos cargados desde window.currentErrorsData: ${this.errors.length} registros`
       );
       return true;
     }
@@ -339,11 +349,10 @@ export class StatsDataService {
           window.inboundScope.dataService.errors.length > 0
         ) {
           this.errors = [...window.inboundScope.dataService.errors];
-          this.lastUpdateTime = new Date();
+          this.lastUpdateTime =
+            window.inboundScope.dataService.lastUpdateTime || new Date();
           console.log(
-            "✅ Datos obtenidos del servicio principal:",
-            this.errors.length,
-            "registros"
+            `✅ Datos cargados desde servicio principal: ${this.errors.length} registros`
           );
           return true;
         }
@@ -479,6 +488,7 @@ export class StatsDataService {
     this.lastUpdateTime = null;
     this.currentDataPath = null;
     this.isLoading = false; // Resetear estado de carga
+    this.dpmoData = null; // Limpiar datos DPMO
 
     // Recargar configuración desde cero
     await this.loadConfig();
@@ -495,6 +505,258 @@ export class StatsDataService {
     }
 
     return success;
+  }
+
+  /**
+   * Carga los datos de DPMO desde el archivo Errors_DPMO_[Fecha].json
+   * Usa FileService para mantener consistencia con la carga de otros archivos
+   */
+  async loadDPMOData() {
+    console.log("📊 Cargando datos de DPMO...");
+
+    // Obtener una instancia de FileService
+    // Importamos dinámicamente para evitar problemas de dependencias circulares
+    let FileService;
+    try {
+      console.log("🔍 Verificando disponibilidad de FileService...");
+      console.log(
+        "🔍 window.inboundScope:",
+        window.inboundScope ? "✓ Existe" : "✗ No existe"
+      );
+
+      if (window.inboundScope) {
+        console.log(
+          "🔍 window.inboundScope.fileService:",
+          window.inboundScope.fileService ? "✓ Existe" : "✗ No existe"
+        );
+      }
+
+      if (window.inboundScope && window.inboundScope.fileService) {
+        console.log("📁 Usando FileService desde inboundScope");
+        FileService = window.inboundScope.fileService;
+      } else {
+        console.log("📁 Creando nueva instancia de FileService");
+        console.log(
+          "📁 Intentando importar desde: ../../../js/services/FileService.js"
+        );
+
+        try {
+          // Importar dinámicamente FileService - corregir ruta
+          const module = await import("../../../js/services/FileService.js");
+          console.log("📁 Módulo FileService importado:", module);
+          FileService = new module.FileService();
+          console.log("📁 Nueva instancia de FileService creada");
+        } catch (importError) {
+          console.error("❌ Error al importar FileService:", importError);
+          throw importError;
+        }
+      }
+    } catch (error) {
+      console.error("❌ Error al obtener FileService:", error);
+      console.log("📁 Intentando método fallback directo...");
+      // Fallback a window.api.readJson si no podemos obtener FileService
+      return this.loadDPMODataFallback();
+    }
+
+    // Probar diferentes formatos de archivo para DPMO
+    const today = new Date();
+    const dateFormats = [
+      this.formatDate(today),
+      this.formatDate(new Date(today.getTime() - 24 * 60 * 60 * 1000)), // Ayer
+      this.formatDate(new Date(today.getTime() - 2 * 24 * 60 * 60 * 1000)), // Anteayer
+    ];
+
+    console.log(`🔍 Formatos de fecha a probar: ${dateFormats.join(", ")}`);
+
+    // Generar nombres de archivo para cada formato de fecha
+    const fileNames = dateFormats.map(
+      (dateStr) => `Errors_DPMO_${dateStr}.json`
+    );
+
+    // Añadir nombres alternativos
+    const alternativeNames = [
+      "Errors_DPMO.json",
+      "DPMO.json",
+      "dpmo_data.json",
+    ];
+
+    // Combinar todos los nombres de archivo a probar
+    const allFileNames = [...fileNames, ...alternativeNames];
+
+    console.log(`📋 Nombres de archivo a probar: ${allFileNames.join(", ")}`);
+
+    // Intentar cargar cada nombre de archivo en orden
+    for (const fileName of allFileNames) {
+      console.log(`🔍 Buscando archivo: ${fileName}`);
+
+      try {
+        // Usar tryReadJsonFromPaths para buscar en todas las rutas disponibles
+        const result = await FileService.tryReadJsonFromPaths(
+          this.dataPaths,
+          fileName
+        );
+
+        if (result && result.success && result.data && result.data.dpmo) {
+          console.log(
+            `✅ Archivo DPMO encontrado: ${fileName} en ${result.pathUsed}`
+          );
+
+          // Actualizar currentDataPath si se encontró un archivo
+          if (result.pathUsed && !this.currentDataPath) {
+            this.currentDataPath = result.pathUsed;
+            console.log(`✅ Actualizada ruta actual a: ${result.pathUsed}`);
+          }
+
+          // Procesar los datos
+          this.dpmoData = {
+            dpmo: result.data.dpmo,
+            totalMovimientos: result.data.total_movimientos || 0,
+            totalErrores: result.data.total_errores || 0,
+            fecha: result.data.fecha || this.formatDate(new Date()),
+            sigma: result.data.sigma || 0,
+            calidad: result.data.calidad || "N/A",
+            ultimaActualizacion:
+              result.data.ultima_actualizacion || new Date().toISOString(),
+          };
+          return true;
+        }
+      } catch (error) {
+        console.error(`❌ Error al buscar ${fileName}:`, error);
+        // Continuar con el siguiente nombre de archivo
+      }
+    }
+
+    console.warn("⚠️ No se encontró ningún archivo DPMO válido");
+
+    // Si llegamos aquí, no se encontró ningún archivo DPMO
+    return this.loadDPMODataFallback();
+  }
+
+  /**
+   * Método de respaldo para cargar datos DPMO cuando falla FileService
+   */
+  async loadDPMODataFallback() {
+    console.log("📊 Usando método fallback para cargar DPMO...");
+
+    // Probar diferentes formatos de archivo para DPMO
+    const today = new Date();
+    const dateFormats = [
+      this.formatDate(today),
+      this.formatDate(new Date(today.getTime() - 24 * 60 * 60 * 1000)), // Ayer
+      this.formatDate(new Date(today.getTime() - 2 * 24 * 60 * 60 * 1000)), // Anteayer
+    ];
+
+    // PASO 1: Intentar con currentDataPath si está disponible
+    if (this.currentDataPath) {
+      console.log(
+        `🔍 Intentando buscar DPMO en ruta actual: ${this.currentDataPath}`
+      );
+
+      for (const dateStr of dateFormats) {
+        const fileName = `Errors_DPMO_${dateStr}.json`;
+        const filePath = `${this.currentDataPath}/${fileName}`;
+
+        try {
+          console.log(`🎯 Intentando leer DPMO: ${filePath}`);
+          const data = await window.api.readJson(filePath);
+
+          if (data && data.dpmo) {
+            this.dpmoData = {
+              dpmo: data.dpmo,
+              totalMovimientos: data.total_movimientos,
+              totalErrores: data.total_errores,
+              fecha: data.fecha,
+              sigma: data.sigma,
+              calidad: data.calidad,
+              ultimaActualizacion: data.ultima_actualizacion,
+            };
+
+            return true;
+          }
+        } catch (error) {
+          console.log(`⚠️ No se pudo leer DPMO: ${filePath}`);
+          continue;
+        }
+      }
+    }
+
+    // PASO 2: Probar en todas las rutas configuradas
+    for (const path of this.dataPaths) {
+      for (const dateStr of dateFormats) {
+        const fileName = `Errors_DPMO_${dateStr}.json`;
+        const fullPath = `${path}/${fileName}`;
+
+        try {
+          console.log(`🎯 Intentando leer DPMO: ${fullPath}`);
+          const data = await window.api.readJson(fullPath);
+
+          if (data && data.dpmo) {
+            this.dpmoData = {
+              dpmo: data.dpmo,
+              totalMovimientos: data.total_movimientos,
+              totalErrores: data.total_errores,
+              fecha: data.fecha,
+              sigma: data.sigma,
+              calidad: data.calidad,
+              ultimaActualizacion: data.ultima_actualizacion,
+            };
+
+            // Guardar la ruta exitosa como currentDataPath si no estaba definida
+            if (!this.currentDataPath) {
+              this.currentDataPath = path;
+              console.log(`✅ Actualizada ruta actual a: ${path}`);
+            }
+
+            return true;
+          }
+        } catch (error) {
+          console.log(`⚠️ No se pudo leer DPMO: ${fullPath}`);
+          continue;
+        }
+      }
+    }
+
+    // PASO 3: Probar con nombres de archivo alternativos
+    const alternativeNames = [
+      "Errors_DPMO.json",
+      "DPMO.json",
+      "dpmo_data.json",
+    ];
+
+    for (const path of this.dataPaths) {
+      for (const altName of alternativeNames) {
+        const fullPath = `${path}/${altName}`;
+
+        try {
+          console.log(`🎯 Intentando leer DPMO alternativo: ${fullPath}`);
+          const data = await window.api.readJson(fullPath);
+
+          if (data && data.dpmo) {
+            this.dpmoData = {
+              dpmo: data.dpmo,
+              totalMovimientos: data.total_movimientos || 0,
+              totalErrores: data.total_errores || 0,
+              fecha: data.fecha || this.formatDate(new Date()),
+              sigma: data.sigma || 0,
+              calidad: data.calidad || "N/A",
+              ultimaActualizacion:
+                data.ultima_actualizacion || new Date().toISOString(),
+            };
+
+            return true;
+          }
+        } catch (error) {
+          console.log(`⚠️ No se pudo leer DPMO alternativo: ${fullPath}`);
+          continue;
+        }
+      }
+    }
+
+    console.warn("⚠️ No se encontraron datos DPMO en ninguna ubicación");
+
+    // NO USAR DATOS FALSOS - Es peligroso
+    this.dpmoData = null;
+    return false;
   }
 
   /**
@@ -599,10 +861,15 @@ export class StatsDataService {
     );
     const pendingQuantity = totalErrors - resolvedQuantity;
 
+    // Calcular tasa de resolución (porcentaje)
     const resolutionRate =
-      totalErrors > 0 ? (resolvedQuantity / totalErrors) * 100 : 0;
-    const dailyAverage = dateRange > 0 ? totalErrors / dateRange : totalErrors;
+      totalErrors > 0 ? Math.round((resolvedQuantity / totalErrors) * 100) : 0;
 
+    // Calcular promedio diario (para los últimos 7 días si hay suficientes datos)
+    const daysToAverage = Math.min(7, dateRange || 7);
+    const dailyAverage = Math.round(totalErrors / daysToAverage);
+
+    // Incluir datos DPMO si están disponibles
     const stats = {
       totalErrors,
       totalLines,
@@ -610,10 +877,10 @@ export class StatsDataService {
       pendingErrors: pendingQuantity,
       resolutionRate,
       dailyAverage,
+      dpmo: this.dpmoData,
     };
 
-    console.log(`📊 Estadísticas calculadas:`, stats);
-
+    console.log(`📊 Estadísticas calculadas: ${JSON.stringify(stats)}`);
     return stats;
   }
 }

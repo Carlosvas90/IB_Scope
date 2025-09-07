@@ -103,8 +103,23 @@ class StatsController {
    * Configura verificación periódica de datos
    */
   setupPeriodicSync() {
+    // Control para evitar múltiples sincronizaciones en corto tiempo
+    let lastSyncAttempt = 0;
+    let syncInProgress = false;
+
     // Verificar cada 5 segundos si hay datos nuevos disponibles
     setInterval(() => {
+      // Evitar múltiples intentos de sincronización simultáneos
+      if (syncInProgress) {
+        return;
+      }
+
+      // Limitar frecuencia de sincronización a máximo cada 10 segundos
+      const now = Date.now();
+      if (now - lastSyncAttempt < 10000) {
+        return;
+      }
+
       // Verificar el servicio de feedback-tracker
       if (
         window.feedbackTrackerDataService &&
@@ -119,7 +134,12 @@ class StatsController {
           console.log(
             `🔄 Detectada diferencia en datos: local=${currentErrorsCount}, feedbackTracker=${newErrorsCount}`
           );
-          this.refreshFromFeedbackTracker();
+          lastSyncAttempt = now;
+          syncInProgress = true;
+
+          this.refreshFromFeedbackTracker().finally(() => {
+            syncInProgress = false;
+          });
           return;
         }
       }
@@ -139,7 +159,12 @@ class StatsController {
           console.log(
             `🔄 Detectada diferencia en datos: local=${currentErrorsCount}, inboundScope=${newErrorsCount}`
           );
-          this.refreshFromFeedbackTracker();
+          lastSyncAttempt = now;
+          syncInProgress = true;
+
+          this.refreshFromFeedbackTracker().finally(() => {
+            syncInProgress = false;
+          });
           return;
         }
       }
