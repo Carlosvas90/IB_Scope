@@ -12,7 +12,7 @@ class StatsController {
     this.dataService = new StatsDataService();
     this.kpiManager = new KPIManager();
 
-    this.currentDateRange = 30; // días por defecto
+    this.currentDateRange = 0; // días por defecto (0 = hoy)
     this.isLoading = false;
     this.errors = [];
 
@@ -55,7 +55,7 @@ class StatsController {
   setupDataSync() {
     console.log("🔄 Configurando sincronización con feedback-tracker...");
 
-    // Verificar si el servicio de feedback-tracker está disponible
+    // MÉTODO 1: Verificar si el servicio de feedback-tracker está disponible
     if (window.feedbackTrackerDataService) {
       console.log(
         "✅ Servicio de feedback-tracker encontrado, configurando callback"
@@ -72,7 +72,30 @@ class StatsController {
       }
     }
 
-    // Configurar verificación periódica (fallback)
+    // MÉTODO 2: Escuchar eventos IPC de actualización de datos
+    if (window.api && window.api.onEvent) {
+      window.api.onEvent("data:updated", (data) => {
+        console.log(
+          "📡 Evento IPC data:updated recibido, actualizando Stats..."
+        );
+        this.refreshFromFeedbackTracker();
+      });
+    }
+
+    // MÉTODO 3: Escuchar eventos del NotificationService
+    if (window.inboundScope && window.inboundScope.notificationService) {
+      window.inboundScope.notificationService.subscribe(
+        "data:updated",
+        (data) => {
+          console.log(
+            "📡 Evento notificationService recibido, actualizando Stats..."
+          );
+          this.refreshFromFeedbackTracker();
+        }
+      );
+    }
+
+    // MÉTODO 4: Verificar periódicamente si hay datos nuevos disponibles
     this.setupPeriodicSync();
   }
 
@@ -82,16 +105,43 @@ class StatsController {
   setupPeriodicSync() {
     // Verificar cada 5 segundos si hay datos nuevos disponibles
     setInterval(() => {
+      // Verificar el servicio de feedback-tracker
       if (
         window.feedbackTrackerDataService &&
         window.feedbackTrackerDataService.errors &&
-        window.feedbackTrackerDataService.errors.length > 0 &&
-        (!this.errors || this.errors.length === 0)
+        window.feedbackTrackerDataService.errors.length > 0
       ) {
-        console.log(
-          "🔄 Detectados datos nuevos en feedback-tracker, sincronizando..."
-        );
-        this.refreshFromFeedbackTracker();
+        // Comparar si hay datos nuevos o diferentes
+        const currentErrorsCount = this.errors ? this.errors.length : 0;
+        const newErrorsCount = window.feedbackTrackerDataService.errors.length;
+
+        if (currentErrorsCount !== newErrorsCount) {
+          console.log(
+            `🔄 Detectada diferencia en datos: local=${currentErrorsCount}, feedbackTracker=${newErrorsCount}`
+          );
+          this.refreshFromFeedbackTracker();
+          return;
+        }
+      }
+
+      // Verificar el servicio principal
+      if (
+        window.inboundScope &&
+        window.inboundScope.dataService &&
+        window.inboundScope.dataService.errors &&
+        window.inboundScope.dataService.errors.length > 0
+      ) {
+        // Comparar si hay datos nuevos o diferentes
+        const currentErrorsCount = this.errors ? this.errors.length : 0;
+        const newErrorsCount = window.inboundScope.dataService.errors.length;
+
+        if (currentErrorsCount !== newErrorsCount) {
+          console.log(
+            `🔄 Detectada diferencia en datos: local=${currentErrorsCount}, inboundScope=${newErrorsCount}`
+          );
+          this.refreshFromFeedbackTracker();
+          return;
+        }
       }
     }, 5000);
   }
@@ -101,18 +151,55 @@ class StatsController {
    */
   async refreshFromFeedbackTracker() {
     try {
-      const success = await this.dataService.loadData();
-      if (success) {
-        this.errors = this.dataService.errors;
+      console.log("🔄 Iniciando sincronización con feedback-tracker...");
+      this.showLoading(true);
+
+      // Forzar recarga completa de datos
+      await this.dataService.reloadData();
+
+      // Verificar si tenemos datos
+      if (this.dataService.errors && this.dataService.errors.length > 0) {
+        this.errors = [...this.dataService.errors]; // Copia profunda
+        this.hideNoDataMessage();
+
+        // Actualizar los KPIs con los datos actuales
         this.updateKPIs();
+
         console.log(
           "✅ Stats sincronizado con feedback-tracker:",
           this.errors.length,
           "registros"
         );
+
+        // Mostrar muestra de datos para debug
+        if (this.errors.length > 0) {
+          console.log("📁 Datos disponibles:", this.errors.length, "registros");
+          console.log("📋 Muestra de datos:");
+          this.errors.slice(0, 3).forEach((error, index) => {
+            console.log(
+              `  ${index + 1}. ${
+                error.violation || error.error || "Sin descripción"
+              } - Fecha: ${
+                new Date(error.created_date || error.date || error.timestamp)
+                  .toISOString()
+                  .split("T")[0]
+              } - Cantidad: ${error.quantity || 1}`
+            );
+          });
+        }
+      } else {
+        this.errors = [];
+        this.showNoDataMessage();
+        this.updateKPIsNoData();
+        console.log("⚠️ No hay datos disponibles para sincronizar");
       }
     } catch (error) {
       console.error("❌ Error sincronizando con feedback-tracker:", error);
+      this.errors = [];
+      this.showNoDataMessage();
+      this.updateKPIsNoData();
+    } finally {
+      this.showLoading(false);
     }
   }
 
@@ -151,14 +238,20 @@ class StatsController {
         this.errors = this.dataService.errors;
         console.log(`✅ Datos cargados: ${this.errors.length} registros`);
 
-        // Actualizar KPIs
+        // Ocultar mensaje de no datos y actualizar KPIs
+        this.hideNoDataMessage();
         this.updateKPIs();
       } else {
-        throw new Error("No se pudieron cargar los datos");
+        console.log("⚠️ No hay datos disponibles");
+        this.errors = [];
+        this.showNoDataMessage();
+        this.updateKPIsNoData();
       }
     } catch (error) {
       console.error("❌ Error cargando datos:", error);
-      this.showError("Error al cargar los datos");
+      this.errors = [];
+      this.showNoDataMessage();
+      this.updateKPIsNoData();
     }
   }
 
@@ -167,11 +260,30 @@ class StatsController {
    */
   updateKPIs() {
     console.log("🔄 Actualizando KPIs...");
+    console.log(
+      `📅 Rango de fecha actual: ${
+        this.currentDateRange === 0 ? "HOY" : this.currentDateRange + " días"
+      }`
+    );
+    console.log(`📁 Datos disponibles: ${this.errors.length} registros`);
+
+    // Mostrar algunos datos de muestra para debug
+    if (this.errors.length > 0) {
+      console.log("📋 Muestra de datos:");
+      this.errors.slice(0, 3).forEach((error, index) => {
+        const date = new Date(
+          error.created_date || error.date || error.timestamp
+        );
+        console.log(
+          `  ${index + 1}. ${error.violation} - Fecha: ${
+            date.toISOString().split("T")[0]
+          } - Cantidad: ${error.quantity || 1}`
+        );
+      });
+    }
 
     // Obtener estadísticas básicas
     const stats = this.dataService.getBasicStats(this.currentDateRange);
-
-    console.log("📊 Estadísticas calculadas:", stats);
 
     // Actualizar KPIs usando el manager
     this.kpiManager.updateAll(stats);
@@ -253,6 +365,60 @@ class StatsController {
     } else {
       console.log(`${type.toUpperCase()}: ${message}`);
     }
+  }
+
+  /**
+   * Muestra el mensaje de no datos disponibles
+   */
+  showNoDataMessage() {
+    const overlay = document.getElementById("no-data-overlay");
+    if (overlay) {
+      overlay.style.display = "flex";
+      overlay.classList.add("active");
+    }
+
+    // Configurar botón de reintentar
+    const retryBtn = document.getElementById("retry-load-data");
+    if (retryBtn) {
+      retryBtn.onclick = () => {
+        this.hideNoDataMessage();
+        this.refreshData();
+      };
+    }
+
+    console.log("📋 Mensaje de 'No hay datos' mostrado");
+  }
+
+  /**
+   * Oculta el mensaje de no datos disponibles
+   */
+  hideNoDataMessage() {
+    const overlay = document.getElementById("no-data-overlay");
+    if (overlay) {
+      overlay.style.display = "none";
+      overlay.classList.remove("active");
+    }
+  }
+
+  /**
+   * Actualiza los KPIs cuando no hay datos (muestra valores en blanco)
+   */
+  updateKPIsNoData() {
+    console.log("📊 Actualizando KPIs sin datos...");
+
+    const emptyStats = {
+      totalErrors: 0,
+      totalLines: 0,
+      resolvedErrors: 0,
+      pendingErrors: 0,
+      resolutionRate: 0,
+      dailyAverage: 0,
+    };
+
+    // Actualizar KPIs con valores en cero
+    this.kpiManager.updateAll(emptyStats);
+
+    console.log("✅ KPIs actualizados con valores vacíos");
   }
 }
 

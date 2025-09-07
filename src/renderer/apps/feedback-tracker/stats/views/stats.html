@@ -34,9 +34,9 @@
           <div class="date-range-selector">
             <label for="date-range">Período:</label>
             <select id="date-range">
-              <option value="0">Hoy</option>
+              <option value="0" selected>Hoy</option>
               <option value="7">Últimos 7 días</option>
-              <option value="30" selected>Últimos 30 días</option>
+              <option value="30">Últimos 30 días</option>
               <option value="90">Últimos 90 días</option>
               <option value="365">Último año</option>
             </select>
@@ -158,6 +158,49 @@
         <div class="loading-content">
           <div class="loading-spinner"></div>
           <p>Cargando datos...</p>
+        </div>
+      </div>
+
+      <!-- No Data Message -->
+      <div id="no-data-overlay" class="no-data-overlay" style="display: none">
+        <div class="no-data-content">
+          <div class="no-data-icon">
+            <svg
+              width="64"
+              height="64"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                fill="currentColor"
+                opacity="0.3"
+              />
+            </svg>
+          </div>
+          <h3>No hay datos disponibles</h3>
+          <p>No se encontraron datos de errores para mostrar.</p>
+          <p>Asegúrate de que:</p>
+          <ul>
+            <li>La aplicación Feedback Tracker tenga datos cargados</li>
+            <li>Existan archivos JSON con datos del período seleccionado</li>
+          </ul>
+          <button class="btn-refresh" id="retry-load-data">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
+                fill="currentColor"
+              />
+            </svg>
+            Reintentar
+          </button>
         </div>
       </div>
     </div>
