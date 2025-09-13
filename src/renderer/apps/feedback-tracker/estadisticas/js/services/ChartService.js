@@ -214,8 +214,8 @@ export class ChartService {
             itemStyle: {
               color: (params) => {
                 const colors = {
-                  Pendientes: "#ffa726", // Ámbar en lugar de rojo
-                  Resueltos: "#91cc75", // Verde se mantiene igual
+                  Pendientes: "#FFC2C5", // Rosa claro para pendientes
+                  Resueltos: "#4381B3", // Azul para resueltos
                 };
                 return (
                   colors[params.name] || this.theme.colors[params.dataIndex]

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prueba de Rutas SVG</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      .test-container {
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      .test-title {
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .svg-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 5px;
+      }
+      .svg-container img {
+        border: 1px dashed #999;
+        padding: 5px;
+      }
+      .path {
+        font-family: monospace;
+        color: #0066cc;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Prueba de Rutas SVG</h1>
+    <p>
+      Esta página prueba diferentes rutas para cargar los SVG y determinar cuál
+      funciona correctamente.
+    </p>
+
+    <div class="test-container">
+      <div class="test-title">Rutas Relativas</div>
+
+      <div class="svg-container">
+        <img
+          src="../../../../../assets/svg/dashboard.svg"
+          width="24"
+          height="24"
+          alt="Dashboard Icon"
+        />
+        <span class="path">../../../../../assets/svg/dashboard.svg</span>
+      </div>
+
+      <div class="svg-container">
+        <img
+          src="../../../../assets/svg/dashboard.svg"
+          width="24"
+          height="24"
+          alt="Dashboard Icon"
+        />
+        <span class="path">../../../../assets/svg/dashboard.svg</span>
+      </div>
+
+      <div class="svg-container">
+        <img
+          src="../../../assets/svg/dashboard.svg"
+          width="24"
+          height="24"
+          alt="Dashboard Icon"
+        />
+        <span class="path">../../../assets/svg/dashboard.svg</span>
+      </div>
+
+      <div class="svg-container">
+        <img
+          src="../../assets/svg/dashboard.svg"
+          width="24"
+          height="24"
+          alt="Dashboard Icon"
+        />
+        <span class="path">../../assets/svg/dashboard.svg</span>
+      </div>
+
+      <div class="svg-container">
+        <img
+          src="../assets/svg/dashboard.svg"
+          width="24"
+          height="24"
+          alt="Dashboard Icon"
+        />
+        <span class="path">../assets/svg/dashboard.svg</span>
+      </div>
+    </div>
+
+    <div class="test-container">
+      <div class="test-title">Rutas Absolutas</div>
+
+      <div class="svg-container">
+        <img
+          src="/assets/svg/dashboard.svg"
+          width="24"
+          height="24"
+          alt="Dashboard Icon"
+        />
+        <span class="path">/assets/svg/dashboard.svg</span>
+      </div>
+
+      <div class="svg-container">
+        <img
+          src="assets/svg/dashboard.svg"
+          width="24"
+          height="24"
+          alt="Dashboard Icon"
+        />
+        <span class="path">assets/svg/dashboard.svg</span>
+      </div>
+    </div>
+
+    <div class="test-container">
+      <div class="test-title">Rutas Electron</div>
+
+      <div class="svg-container">
+        <img
+          src="file:///assets/svg/dashboard.svg"
+          width="24"
+          height="24"
+          alt="Dashboard Icon"
+        />
+        <span class="path">file:///assets/svg/dashboard.svg</span>
+      </div>
+
+      <div class="svg-container">
+        <img
+          src="app://./assets/svg/dashboard.svg"
+          width="24"
+          height="24"
+          alt="Dashboard Icon"
+        />
+        <span class="path">app://./assets/svg/dashboard.svg</span>
+      </div>
+    </div>
+
+    <div class="test-container">
+      <div class="test-title">SVG Inline (Siempre funciona)</div>
+
+      <div class="svg-container">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M3 13h8V3H3z"></path>
+          <path d="M13 21h8V11h-8z"></path>
+          <path d="M13 3h8v4h-8z"></path>
+          <path d="M3 21h8v-4H3z"></path>
+        </svg>
+        <span class="path">SVG Inline (Código directo)</span>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        console.log("Verificando imágenes SVG...");
+
+        // Verificar todas las imágenes después de un tiempo
+        setTimeout(() => {
+          const images = document.querySelectorAll("img");
+
+          images.forEach((img) => {
+            const path = img.nextElementSibling.textContent;
+
+            if (img.complete) {
+              if (img.naturalWidth === 0) {
+                console.log(`❌ No cargado: ${path}`);
+                img.style.backgroundColor = "#ffcccc";
+                img.nextElementSibling.style.color = "#cc0000";
+              } else {
+                console.log(`✅ Cargado: ${path}`);
+                img.style.backgroundColor = "#ccffcc";
+                img.nextElementSibling.style.color = "#006600";
+              }
+            }
+          });
+        }, 1000);
+      });
+    </script>
+  </body>
+</html>
