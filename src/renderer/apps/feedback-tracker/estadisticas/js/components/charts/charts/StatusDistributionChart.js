@@ -137,8 +137,8 @@ export class StatusDistributionChart extends BaseChart {
    */
   getColorForStatus(statusName) {
     const statusColors = {
-      Pendientes: "#ff6b6b",
-      Resueltos: "#51cf66",
+      Pendientes: "#ffa726", // Ámbar en lugar de rojo
+      Resueltos: "#51cf66", // Verde se mantiene igual
       "En Progreso": "#ffd43b",
       Críticos: "#ff8787",
       Cancelados: "#868e96",

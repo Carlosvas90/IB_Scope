@@ -7,16 +7,18 @@ export class ChartService {
   constructor() {
     this.charts = {};
     this.theme = {
+      // Paleta de colores ordenada de más errores a menos errores
       colors: [
-        "#5470c6",
-        "#91cc75",
-        "#fac858",
-        "#ee6666",
-        "#73c0de",
-        "#3ba272",
-        "#fc8452",
-        "#9a60b4",
-        "#ea7ccc",
+        "#020E28", // 1. Azul más oscuro (más errores)
+        "#19345D", // 2. Azul muy oscuro
+        "#2F5A91", // 3. Azul oscuro
+        "#396EA2", // 4. Azul medio-oscuro
+        "#4381B3", // 5. Azul medio
+        "#74D7FB", // 6. Azul claro
+        "#BAEBFD", // 7. Celeste claro
+        "#DDF5FE", // 8. Celeste muy claro
+        "#FFEBEC", // 9. Rosa claro
+        "#FFC2C5", // 10. Rosa medio (menos errores)
       ],
       backgroundColor: "transparent",
     };
@@ -214,8 +216,8 @@ export class ChartService {
             itemStyle: {
               color: (params) => {
                 const colors = {
-                  Pendientes: "#ee6666",
-                  Resueltos: "#91cc75",
+                  Pendientes: "#ffa726", // Ámbar en lugar de rojo
+                  Resueltos: "#91cc75", // Verde se mantiene igual
                 };
                 return (
                   colors[params.name] || this.theme.colors[params.dataIndex]
@@ -238,6 +240,7 @@ export class ChartService {
 
   /**
    * Inicializa un gráfico de errores por hora
+   * MODIFICADO: Ahora combina barras y líneas en un solo gráfico
    */
   initHourlyChart(containerId, data, chartType = "bar") {
     console.log(`📊 Inicializando gráfico por hora: ${containerId}`, data);
@@ -267,6 +270,11 @@ export class ChartService {
 
       console.log(`📊 Gráfico ECharts inicializado: ${containerId}`);
 
+      // Calcular promedio para la línea
+      const average =
+        data.data.reduce((sum, val) => sum + val, 0) / data.data.length;
+      console.log(`📊 Promedio de errores por hora: ${average.toFixed(2)}`);
+
       const option = {
         title: {
           text: "Errores por Hora del Día",
@@ -275,15 +283,28 @@ export class ChartService {
         },
         tooltip: {
           trigger: "axis",
-          formatter: (params) => {
-            const param = params[0];
-            return `${param.name}<br/>Errores: ${param.value}`;
+          axisPointer: {
+            type: "cross",
+            label: {
+              backgroundColor: "#6a7985",
+            },
           },
+          formatter: function (params) {
+            let tooltip = `${params[0].name}<br/>`;
+            params.forEach((param) => {
+              tooltip += `${param.marker} ${param.seriesName}: ${param.value}<br/>`;
+            });
+            return tooltip;
+          },
+        },
+        legend: {
+          data: ["Errores (Barras)", "Tendencia (Línea)", "Promedio"],
+          bottom: "0%",
         },
         grid: {
           left: "3%",
           right: "4%",
-          bottom: "3%",
+          bottom: "10%", // Aumentado para dar espacio a la leyenda
           containLabel: true,
         },
         xAxis: {
@@ -300,17 +321,52 @@ export class ChartService {
         },
         series: [
           {
-            name: "Errores",
-            type: chartType,
+            name: "Errores (Barras)",
+            type: "bar",
             data: data.data,
-            smooth: chartType === "line",
             itemStyle: {
               color: (params) => {
-                // Color más intenso para horas con más errores
+                // Color basado en la paleta de la app
                 const maxValue = Math.max(...data.data);
                 const intensity = params.value / maxValue;
-                return `rgba(84, 112, 198, ${0.3 + intensity * 0.7})`;
+                // Usar color 4381B3 (azul medio de la paleta) con opacidad variable
+                return `rgba(67, 129, 179, ${0.4 + intensity * 0.6})`;
               },
+            },
+            barMaxWidth: 30,
+            z: 10, // Para que las barras estén por encima de la línea
+          },
+          {
+            name: "Tendencia (Línea)",
+            type: "line",
+            smooth: true,
+            data: data.data,
+            symbolSize: 6,
+            lineStyle: {
+              width: 3,
+              color: "#74D7FB", // Azul claro de la paleta (74D7FB)
+            },
+            itemStyle: {
+              color: "#74D7FB", // Azul claro de la paleta (74D7FB)
+            },
+            z: 11, // Para que la línea esté por encima de las barras
+          },
+          {
+            name: "Promedio",
+            type: "line",
+            data: new Array(24).fill(average),
+            lineStyle: {
+              color: "#2F5A91", // Azul oscuro de la paleta (2F5A91)
+              type: "dashed",
+              width: 2,
+            },
+            symbol: "none",
+            tooltip: {
+              formatter: `Promedio: ${average.toFixed(1)} errores/hora`,
+            },
+            // Asegurar que el color del indicador en la leyenda coincida con la línea
+            itemStyle: {
+              color: "#2F5A91", // Mismo color que la línea
             },
           },
         ],
@@ -395,9 +451,86 @@ export class ChartService {
             data: values,
             itemStyle: {
               color: (params) => {
-                return this.theme.colors[
-                  params.dataIndex % this.theme.colors.length
-                ];
+                const totalItems = values.length;
+
+                // Función para interpolar colores (generar colores intermedios)
+                const interpolateColor = (color1, color2, factor) => {
+                  // Convertir colores hex a RGB
+                  const hex2rgb = (hex) => {
+                    const r = parseInt(hex.slice(1, 3), 16);
+                    const g = parseInt(hex.slice(3, 5), 16);
+                    const b = parseInt(hex.slice(5, 7), 16);
+                    return [r, g, b];
+                  };
+
+                  // Convertir RGB a hex
+                  const rgb2hex = (r, g, b) => {
+                    return (
+                      "#" +
+                      Math.round(r).toString(16).padStart(2, "0") +
+                      Math.round(g).toString(16).padStart(2, "0") +
+                      Math.round(b).toString(16).padStart(2, "0")
+                    );
+                  };
+
+                  const c1 = hex2rgb(color1);
+                  const c2 = hex2rgb(color2);
+
+                  const r = c1[0] + factor * (c2[0] - c1[0]);
+                  const g = c1[1] + factor * (c2[1] - c1[1]);
+                  const b = c1[2] + factor * (c2[2] - c1[2]);
+
+                  return rgb2hex(r, g, b);
+                };
+
+                // Los dos últimos elementos (menos errores) siempre son rosa
+                if (params.dataIndex >= totalItems - 2) {
+                  // Penúltimo: rosa claro
+                  if (params.dataIndex === totalItems - 2) {
+                    return "#FFEBEC";
+                  }
+                  // Último: rosa medio
+                  else {
+                    return "#FFC2C5";
+                  }
+                }
+                // Para el resto, usar la escala de azules
+                else {
+                  // Si hay 10 o menos elementos, usar la paleta predefinida
+                  if (totalItems <= 10) {
+                    return this.theme.colors[params.dataIndex];
+                  }
+                  // Si hay más de 10, generar colores intermedios
+                  else {
+                    // Calculamos cuántos elementos azules tenemos (total - 2 rosas)
+                    const blueElements = totalItems - 2;
+                    // Tenemos 8 azules en la paleta original
+                    const baseBlues = 8;
+
+                    // Si es uno de los primeros 8, usar directamente de la paleta
+                    if (params.dataIndex < baseBlues) {
+                      return this.theme.colors[params.dataIndex];
+                    }
+                    // Para los azules adicionales, interpolar entre los existentes
+                    else {
+                      // Determinar entre qué colores interpolar
+                      // Distribuir uniformemente los colores adicionales
+                      const position =
+                        (params.dataIndex - baseBlues) /
+                        (blueElements - baseBlues);
+                      // Encontrar los colores base entre los que interpolar
+                      const segment = Math.floor(position * (baseBlues - 1));
+                      const factor = position * (baseBlues - 1) - segment;
+
+                      // Interpolar entre dos colores azules consecutivos
+                      return interpolateColor(
+                        this.theme.colors[segment],
+                        this.theme.colors[segment + 1],
+                        factor
+                      );
+                    }
+                  }
+                }
               },
             },
           },

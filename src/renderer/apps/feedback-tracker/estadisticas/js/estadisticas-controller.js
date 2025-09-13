@@ -497,17 +497,13 @@ export class EstadisticasController {
       "🔄 Actualizando gráficos restantes con sistema tradicional..."
     );
 
-    // Gráfico de errores por hora
+    // Gráfico de errores por hora (combinado barras y líneas)
     const hourlyData = this.analyticsProcessor.processHourlyData(
       this.errors,
       this.currentDateRange
     );
-    const hourlyType = this.userPreferences["hourly-errors"] || "line";
-    this.chartService.initHourlyChart(
-      "hourly-errors-chart",
-      hourlyData,
-      hourlyType
-    );
+    // Ya no usamos tipo de gráfico porque ahora es combinado
+    this.chartService.initHourlyChart("hourly-errors-chart", hourlyData);
 
     // Top productos
     const topASINs = this.analyticsProcessor.processTopASINs(
@@ -1181,14 +1177,9 @@ export class EstadisticasController {
         this.chartService.initTrendChart("errors-trend-chart", data, chartType);
         break;
       case "hourly-errors":
-        data = this.analyticsProcessor.processHourlyData(
-          this.errors,
-          this.currentDateRange
-        );
-        this.chartService.initHourlyChart(
-          "hourly-errors-chart",
-          data,
-          chartType
+        // No cambiamos el tipo porque ahora es un gráfico combinado
+        console.log(
+          "⚠️ El gráfico de errores por hora ahora es combinado (barras + líneas)"
         );
         break;
       case "error-distribution":
