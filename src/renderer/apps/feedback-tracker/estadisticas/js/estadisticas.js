@@ -26,7 +26,7 @@ class EstadisticasController {
     this.modularCharts = new Map();
     this.useModularCharts = true; // Flag para alternar entre sistemas
 
-    this.currentDateRange = 30; // días por defecto
+    this.currentDateRange = 0; // 0 = Hoy (por defecto)
     this.isLoading = false;
     this.errors = [];
 
@@ -186,6 +186,9 @@ class EstadisticasController {
     // Selector de período
     const dateRangeSelector = document.getElementById("date-range");
     if (dateRangeSelector) {
+      // Asegurar que el valor seleccionado coincida con el valor predeterminado (0 = Hoy)
+      dateRangeSelector.value = this.currentDateRange.toString();
+
       dateRangeSelector.addEventListener("change", (e) => {
         this.changeDateRange(parseInt(e.target.value));
       });

@@ -95,10 +95,9 @@ export class ChartService {
       console.log(`📊 Gráfico ECharts inicializado: ${containerId}`);
 
       const option = {
+        // Eliminado título duplicado que ya aparece en el HTML
         title: {
-          text: "Tendencias de Errores",
-          left: "center",
-          textStyle: { fontSize: 16, fontWeight: "bold" },
+          show: false, // Ocultar título
         },
         tooltip: {
           trigger: "axis",
@@ -130,7 +129,7 @@ export class ChartService {
         },
         yAxis: {
           type: "value",
-          name: "Cantidad de Errores",
+          name: "Qty Errores",
         },
         series: data.series.map((serie, index) => ({
           name: serie.name,
@@ -185,10 +184,9 @@ export class ChartService {
       console.log(`📊 Gráfico ECharts inicializado: ${containerId}`);
 
       const option = {
+        // Eliminado título duplicado que ya aparece en el HTML
         title: {
-          text: "Distribución por Estado",
-          left: "center",
-          textStyle: { fontSize: 16, fontWeight: "bold" },
+          show: false, // Ocultar título
         },
         tooltip: {
           trigger: "item",
@@ -276,10 +274,9 @@ export class ChartService {
       console.log(`📊 Promedio de errores por hora: ${average.toFixed(2)}`);
 
       const option = {
+        // Eliminado título duplicado que ya aparece en el HTML
         title: {
-          text: "Errores por Hora del Día",
-          left: "center",
-          textStyle: { fontSize: 16, fontWeight: "bold" },
+          show: false, // Ocultar título
         },
         tooltip: {
           trigger: "axis",
@@ -298,7 +295,7 @@ export class ChartService {
           },
         },
         legend: {
-          data: ["Errores (Barras)", "Tendencia (Línea)", "Promedio"],
+          data: ["Errores", "Tendencia", "Promedio"],
           bottom: "0%",
         },
         grid: {
@@ -317,11 +314,11 @@ export class ChartService {
         },
         yAxis: {
           type: "value",
-          name: "Cantidad de Errores",
+          name: "Qty Errores",
         },
         series: [
           {
-            name: "Errores (Barras)",
+            name: "Errores",
             type: "bar",
             data: data.data,
             itemStyle: {
@@ -337,7 +334,7 @@ export class ChartService {
             z: 10, // Para que las barras estén por encima de la línea
           },
           {
-            name: "Tendencia (Línea)",
+            name: "Tendencia",
             type: "line",
             smooth: true,
             data: data.data,
@@ -417,10 +414,9 @@ export class ChartService {
       const values = data.map((item) => item.value || item.total);
 
       const option = {
+        // Eliminado título duplicado que ya aparece en el HTML
         title: {
-          text: title,
-          left: "center",
-          textStyle: { fontSize: 16, fontWeight: "bold" },
+          show: false, // Ocultar título
         },
         tooltip: {
           trigger: "axis",
@@ -442,7 +438,7 @@ export class ChartService {
         },
         yAxis: {
           type: "value",
-          name: "Cantidad de Errores",
+          name: "Qty Errores",
         },
         series: [
           {
@@ -705,6 +701,8 @@ export class ChartService {
    * Inicializa un gráfico de distribución (errores o motivos)
    */
   initDistributionChart(containerId, data, title, chartType = "bar") {
+    // Ignorar el parámetro chartType, siempre usar "bar"
+    chartType = "bar";
     console.log(
       `📊 Inicializando gráfico de distribución: ${containerId}`,
       data
@@ -743,10 +741,9 @@ export class ChartService {
         const values = data.map((item) => item.value);
 
         option = {
+          // Eliminado título duplicado que ya aparece en el HTML
           title: {
-            text: title,
-            left: "center",
-            textStyle: { fontSize: 16, fontWeight: "bold" },
+            show: false, // Ocultar título
           },
           tooltip: {
             trigger: "axis",
@@ -768,11 +765,11 @@ export class ChartService {
           },
           yAxis: {
             type: "value",
-            name: "Cantidad",
+            name: "Qty",
           },
           series: [
             {
-              name: "Cantidad",
+              name: "Qty",
               type: "bar",
               data: values,
               itemStyle: {
@@ -788,10 +785,9 @@ export class ChartService {
       } else if (chartType === "doughnut") {
         // Gráfico de dona
         option = {
+          // Eliminado título duplicado que ya aparece en el HTML
           title: {
-            text: title,
-            left: "center",
-            textStyle: { fontSize: 16, fontWeight: "bold" },
+            show: false, // Ocultar título
           },
           tooltip: {
             trigger: "item",
@@ -828,10 +824,9 @@ export class ChartService {
         const values = data.map((item) => item.value);
 
         option = {
+          // Eliminado título duplicado que ya aparece en el HTML
           title: {
-            text: title,
-            left: "center",
-            textStyle: { fontSize: 16, fontWeight: "bold" },
+            show: false, // Ocultar título
           },
           tooltip: {
             trigger: "axis",

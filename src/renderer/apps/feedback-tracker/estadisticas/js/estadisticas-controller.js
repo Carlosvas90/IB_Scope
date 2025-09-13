@@ -20,7 +20,7 @@ export class EstadisticasController {
     this.useModularCharts = false; // Empezar con sistema tradicional por defecto
     this.chartRegistry = null;
 
-    this.currentDateRange = 30; // días por defecto
+    this.currentDateRange = 0; // 0 = Hoy (por defecto)
     this.isLoading = false;
     this.errors = [];
 
@@ -187,6 +187,9 @@ export class EstadisticasController {
     // Selector de período
     const dateRangeSelector = document.getElementById("date-range");
     if (dateRangeSelector) {
+      // Asegurar que el valor seleccionado coincida con el valor predeterminado (0 = Hoy)
+      dateRangeSelector.value = this.currentDateRange.toString();
+
       dateRangeSelector.addEventListener("change", (e) => {
         this.changeDateRange(parseInt(e.target.value));
       });
@@ -521,31 +524,31 @@ export class EstadisticasController {
       "Top Productos con Errores"
     );
 
-    // Distribución de errores
+    // Distribución de errores (siempre barras)
     const errorDistribution = this.analyticsProcessor.processErrorDistribution(
       this.errors,
       this.currentDateRange
     );
-    const errorDistType = this.userPreferences["error-distribution"] || "bar";
+    // Siempre usar tipo "bar"
     this.chartService.initDistributionChart(
       "error-distribution-chart",
       errorDistribution,
       "Distribución de Errores",
-      errorDistType
+      "bar"
     );
 
-    // Distribución de motivos
+    // Distribución de motivos (siempre barras)
     const reasonDistribution =
       this.analyticsProcessor.processReasonDistribution(
         this.errors,
         this.currentDateRange
       );
-    const reasonDistType = this.userPreferences["reason-distribution"] || "bar";
+    // Siempre usar tipo "bar"
     this.chartService.initDistributionChart(
       "reason-distribution-chart",
       reasonDistribution,
       "Distribución de Motivos",
-      reasonDistType
+      "bar"
     );
   }
 
@@ -1183,27 +1186,15 @@ export class EstadisticasController {
         );
         break;
       case "error-distribution":
-        data = this.analyticsProcessor.processErrorDistribution(
-          this.errors,
-          this.currentDateRange
-        );
-        this.chartService.initDistributionChart(
-          "error-distribution-chart",
-          data,
-          "Distribución de Errores",
-          chartType
+        // Siempre usar tipo "bar" para distribución de errores
+        console.log(
+          "⚠️ El gráfico de distribución de errores ahora es siempre de barras"
         );
         break;
       case "reason-distribution":
-        data = this.analyticsProcessor.processReasonDistribution(
-          this.errors,
-          this.currentDateRange
-        );
-        this.chartService.initDistributionChart(
-          "reason-distribution-chart",
-          data,
-          "Distribución de Motivos",
-          chartType
+        // Siempre usar tipo "bar" para distribución de motivos
+        console.log(
+          "⚠️ El gráfico de distribución de motivos ahora es siempre de barras"
         );
         break;
     }

@@ -40,12 +40,11 @@
           <div class="date-range-selector">
             <label for="date-range">Período:</label>
             <select id="date-range">
-              <option value="0">Hoy</option>
+              <option value="0" selected>Hoy</option>
               <option value="7">Últimos 7 días</option>
-              <option value="30" selected>Últimos 30 días</option>
+              <option value="30">Últimos 30 días</option>
               <option value="90">Últimos 90 días</option>
               <option value="365">Último año</option>
-              <option value="custom">Personalizado</option>
             </select>
           </div>
           <button class="btn-refresh" id="refresh-stats">
@@ -265,9 +264,6 @@
               </svg>
               Errores por Hora del Día
             </h3>
-            <div class="chart-controls">
-              <span class="chart-info">Barras + Líneas</span>
-            </div>
           </div>
           <div class="chart-wrapper">
             <div
@@ -293,7 +289,7 @@
                   fill="currentColor"
                 />
               </svg>
-              Top Productos con Errores
+              Top ASINs
             </h3>
           </div>
           <div class="chart-wrapper">
@@ -322,29 +318,6 @@
               </svg>
               Distribución de Errores
             </h3>
-            <div class="chart-controls">
-              <button
-                class="chart-toggle active"
-                data-chart="error-distribution"
-                data-type="bar"
-              >
-                Barras
-              </button>
-              <button
-                class="chart-toggle"
-                data-chart="error-distribution"
-                data-type="doughnut"
-              >
-                Dona
-              </button>
-              <button
-                class="chart-toggle"
-                data-chart="error-distribution"
-                data-type="polar"
-              >
-                Polar
-              </button>
-            </div>
           </div>
           <div class="chart-wrapper">
             <div
@@ -372,29 +345,6 @@
               </svg>
               Distribución de Motivos
             </h3>
-            <div class="chart-controls">
-              <button
-                class="chart-toggle active"
-                data-chart="reason-distribution"
-                data-type="bar"
-              >
-                Barras
-              </button>
-              <button
-                class="chart-toggle"
-                data-chart="reason-distribution"
-                data-type="doughnut"
-              >
-                Dona
-              </button>
-              <button
-                class="chart-toggle"
-                data-chart="reason-distribution"
-                data-type="polar"
-              >
-                Polar
-              </button>
-            </div>
           </div>
           <div class="chart-wrapper">
             <div
@@ -425,21 +375,6 @@
               </svg>
               Ranking Top Offenders
             </h3>
-            <button class="btn-toggle-table">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M19,5V7H5V5H19M5,19V9H19V19H5Z"
-                  fill="currentColor"
-                />
-              </svg>
-              Ver Todo
-            </button>
           </div>
           <div class="table-wrapper">
             <table>
@@ -479,21 +414,6 @@
               </svg>
               ASINs Top Offenders
             </h3>
-            <button class="btn-toggle-table">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M19,5V7H5V5H19M5,19V9H19V19H5Z"
-                  fill="currentColor"
-                />
-              </svg>
-              Ver Todo
-            </button>
           </div>
           <div class="table-wrapper">
             <table>
