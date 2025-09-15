@@ -1,0 +1,159 @@
+/* Estilos para la selección múltiple en Feedback Tracker */
+
+/* Estilo para el cuerpo cuando está en modo selección múltiple */
+.multi-select-mode {
+  cursor: pointer;
+}
+
+/* Estilo para filas seleccionadas */
+.selected-for-batch {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+  position: relative;
+}
+
+.selected-for-batch td {
+  border-color: rgba(59, 130, 246, 0.3) !important;
+}
+
+.selected-for-batch .status-btn {
+  box-shadow: 0 0 0 2px var(--accent-blue, #3b82f6);
+}
+
+/* Contador de selección */
+.selection-counter {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: var(--accent-blue, #3b82f6);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  display: none;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Estilos para botón de activar selección múltiple */
+.btn-info {
+  background-color: var(--accent-blue, #3b82f6);
+  color: white;
+  border: 1px solid var(--accent-blue, #3b82f6);
+}
+
+.btn-info:hover {
+  background-color: var(--accent-blue-light, #60a5fa);
+}
+
+.btn-info.active {
+  background-color: var(--accent-success, #10b981);
+  border-color: var(--accent-success, #10b981);
+}
+
+.btn-info.active:hover {
+  background-color: var(--accent-success-light, #34d399);
+}
+
+/* Indicador de selección en los botones de estado */
+.multi-select-mode .status-btn::after {
+  content: "+";
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: var(--accent-blue, #3b82f6);
+  color: white;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.multi-select-mode .status-btn:hover::after {
+  opacity: 0.9;
+  transform: scale(1);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estilos para el modal de actualización por lotes */
+.batch-selection-info {
+  background-color: rgba(59, 130, 246, 0.1);
+  border-left: 4px solid var(--accent-blue, #3b82f6);
+  padding: 12px;
+  margin-bottom: 16px;
+  border-radius: 4px;
+}
+
+.selection-warning {
+  color: var(--text-warning, #f59e0b);
+  font-weight: 500;
+  margin-top: 8px;
+}
+
+/* Botón de feedback por lotes */
+.batch-feedback-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 220px;
+  background-color: var(--accent-success, #10b981);
+  color: white;
+  border: 1px solid var(--accent-success, #10b981);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  display: none;
+  animation: fadeIn 0.3s ease-in-out;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 14px;
+}
+
+.batch-feedback-btn:hover {
+  background-color: var(--accent-success-light, #34d399);
+}
+
+.batch-feedback-btn svg {
+  margin-right: 6px;
+}
+
+/* Botón para cancelar selección */
+.cancel-selection {
+  position: fixed;
+  bottom: 20px;
+  right: 400px;
+  background-color: var(--bg-main, #ffffff);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 500;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: none;
+  animation: fadeIn 0.3s ease-in-out;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.cancel-selection:hover {
+  background-color: var(--hover-bg);
+}
