@@ -141,6 +141,34 @@
   box-shadow: var(--stats-shadow-sm);
 }
 
+/* NUEVO: Estilos para información del rango de fechas */
+.date-range-info {
+  display: flex;
+  align-items: center;
+  gap: var(--stats-spacing-md);
+  padding: var(--stats-spacing-sm) var(--stats-spacing-md);
+  background: var(--stats-bg-secondary);
+  border-radius: var(--stats-radius-md);
+  border: 1px solid var(--stats-border-color);
+  font-size: var(--stats-font-size-sm);
+  color: var(--stats-text-secondary);
+}
+
+.date-range-info .period-text {
+  font-weight: var(--stats-font-weight-semibold);
+  color: var(--stats-primary-color);
+}
+
+.date-range-info .data-source {
+  font-weight: var(--stats-font-weight-medium);
+  color: var(--stats-text-muted);
+}
+
+.date-range-info .record-count {
+  font-weight: var(--stats-font-weight-medium);
+  color: var(--stats-success-color);
+}
+
 /* ===== KPI GRID ===== */
 .kpi-grid {
   display: grid;

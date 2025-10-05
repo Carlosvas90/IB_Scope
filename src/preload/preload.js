@@ -64,6 +64,31 @@ contextBridge.exposeInMainWorld("api", {
   getConfig: () => ipcRenderer.invoke("get-config"),
   saveConfig: (config) => ipcRenderer.invoke("save-config", config),
 
+  // --- Base de datos SQLite ---
+  /**
+   * Verifica si un archivo existe en el sistema de archivos.
+   * @param {string} filePath - Ruta del archivo a verificar
+   * @returns {Promise<boolean>} - True si el archivo existe
+   */
+  fileExists: (filePath) => ipcRenderer.invoke("file-exists", filePath),
+  
+    /**
+     * Ejecuta una consulta SQL en una base de datos SQLite.
+     * @param {string} dbPath - Ruta de la base de datos SQLite
+     * @param {string} sql - Consulta SQL a ejecutar
+     * @param {Array} params - Parámetros para la consulta SQL
+     * @returns {Promise<Array>} - Resultado de la consulta
+     */
+    queryDatabase: (dbPath, sql, params = []) => ipcRenderer.invoke("query-database", dbPath, sql, params),
+    
+    /**
+     * Obtiene el esquema de una tabla en una base de datos SQLite.
+     * @param {string} dbPath - Ruta de la base de datos SQLite
+     * @param {string} tableName - Nombre de la tabla
+     * @returns {Promise<Array>} - Esquema de la tabla
+     */
+    getTableSchema: (dbPath, tableName) => ipcRenderer.invoke("get-table-schema", dbPath, tableName),
+
   // --- Utilidades ---
   getAppPath: () => ipcRenderer.invoke("get-app-path"),
 

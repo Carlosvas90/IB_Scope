@@ -14,7 +14,8 @@
     "echarts": "^5.4.3",
     "electron-store": "^8.1.0",
     "ffmpeg-static": "^5.2.0",
-    "lottie-web": "^5.12.2"
+    "lottie-web": "^5.12.2",
+    "sqlite3": "^5.1.7"
   },
   "devDependencies": {
     "@playwright/test": "^1.52.0",

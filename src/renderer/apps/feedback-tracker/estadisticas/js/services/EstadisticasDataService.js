@@ -1,7 +1,10 @@
 /**
  * EstadisticasDataService.js
  * Servicio de datos específico para estadísticas que reutiliza la lógica del DataService principal
+ * NUEVO: Integración con datos históricos desde base de datos SQLite
  */
+
+import { HistoricalDataService } from "./HistoricalDataService.js";
 
 export class EstadisticasDataService {
   constructor() {
@@ -14,6 +17,11 @@ export class EstadisticasDataService {
     this.dataPaths = [];
     this.fileName = "error_tracker.json";
     this.currentDataPath = null;
+
+    // NUEVO: Servicio de datos históricos
+    this.historicalDataService = new HistoricalDataService();
+    this.currentDateRange = 0; // 0 = Hoy (por defecto)
+    this.historicalData = null;
 
     console.log("📊 EstadisticasDataService inicializado");
   }
@@ -34,6 +42,15 @@ export class EstadisticasDataService {
       } else {
         // Fallback: obtener configuración directamente
         await this.loadConfig();
+      }
+
+      // NUEVO: Inicializar servicio de datos históricos
+      console.log("🔧 Inicializando servicio de datos históricos...");
+      const historicalInitialized = await this.historicalDataService.init();
+      if (historicalInitialized) {
+        console.log("✅ Servicio de datos históricos inicializado");
+      } else {
+        console.warn("⚠️ Servicio de datos históricos no disponible");
       }
 
       console.log("📁 Rutas de datos configuradas:", this.dataPaths);
@@ -350,5 +367,190 @@ export class EstadisticasDataService {
   async refresh() {
     console.log("🔄 Refrescando datos de estadísticas...");
     return await this.loadData();
+  }
+
+  /**
+   * NUEVO: Cambia el rango de fechas y carga datos históricos si es necesario
+   */
+  async changeDateRange(newRange) {
+    console.log(
+      "🔧 VERSIÓN ACTUALIZADA - EstadisticasDataService.changeDateRange"
+    );
+    if (newRange === this.currentDateRange) {
+      console.log("📅 Rango de fechas sin cambios");
+      return true;
+    }
+
+    if (this.isLoading) {
+      console.log("⏳ Ya hay una carga en progreso, esperando...");
+      return false;
+    }
+
+    console.log(`📅 Cambiando rango de fechas a: ${newRange} días`);
+    this.currentDateRange = newRange;
+
+    // Si es rango 0 (hoy), cargar solo datos actuales
+    if (newRange === 0) {
+      console.log("📅 Cargando solo datos de hoy...");
+      return await this.loadData();
+    }
+
+    // Para rangos históricos, cargar datos de la base de datos
+    console.log("📅 Cargando datos históricos...");
+    return await this.loadHistoricalData(newRange);
+  }
+
+  /**
+   * NUEVO: Carga datos históricos desde la base de datos
+   */
+  async loadHistoricalData(dateRange) {
+    console.log(
+      "🔧 VERSIÓN ACTUALIZADA - EstadisticasDataService.loadHistoricalData"
+    );
+    if (this.isLoading) {
+      console.log("⏳ Ya hay una carga en progreso...");
+      return false;
+    }
+
+    this.isLoading = true;
+    console.log(`📥 Cargando datos históricos para ${dateRange} días...`);
+
+    try {
+      // Si es rango 0 (hoy), solo cargar datos actuales
+      if (dateRange === 0) {
+        console.log("📅 Rango 0: Cargando solo datos actuales de hoy");
+        return await this.loadData();
+      }
+
+      // Verificar si el servicio histórico está disponible
+      const isHistoricalAvailable =
+        await this.historicalDataService.isDatabaseAvailable();
+
+      if (!isHistoricalAvailable) {
+        console.warn(
+          "⚠️ Servicio de datos históricos no disponible, cargando solo datos actuales"
+        );
+        return await this.loadData();
+      }
+
+      // Obtener datos históricos del DB (excluyendo hoy)
+      this.historicalData = await this.historicalDataService.getHistoricalData(
+        dateRange
+      );
+
+      // Cargar datos actuales del JSON (solo hoy)
+      const currentDataLoaded = await this.loadData();
+
+      if (currentDataLoaded) {
+        // Combinar datos históricos (DB) con datos actuales (JSON de hoy)
+        this.errors = this.historicalDataService.combineWithCurrentData(
+          this.historicalData,
+          this.errors
+        );
+
+        this.lastUpdateTime = new Date();
+        this.normalizeData();
+        this.notifyListeners();
+
+        console.log(
+          `✅ Datos combinados cargados: ${
+            this.historicalData.errorTracking.length
+          } históricos + ${
+            this.errors.filter((e) => !e.isHistorical).length
+          } actuales = ${this.errors.length} total`
+        );
+
+        // Log de verificación
+        console.log("📊 Resumen de datos cargados:");
+        console.log(
+          `- Históricos (DB): ${this.historicalData.errorTracking.length} registros`
+        );
+        console.log(
+          `- Actuales (JSON): ${
+            this.errors.filter((e) => !e.isHistorical).length
+          } registros`
+        );
+        console.log(`- Total combinado: ${this.errors.length} registros`);
+
+        return true;
+      } else {
+        // Si no se pueden cargar datos actuales, usar solo históricos
+        this.errors = this.historicalData.errorTracking;
+        this.lastUpdateTime = new Date();
+        this.normalizeData();
+        this.notifyListeners();
+
+        console.log(
+          `✅ Solo datos históricos cargados: ${this.errors.length} registros`
+        );
+        return true;
+      }
+    } catch (error) {
+      console.error("❌ Error cargando datos históricos:", error);
+      // Fallback a datos actuales
+      console.log("🔄 Fallback a datos actuales...");
+      this.isLoading = false; // Resetear flag antes del fallback
+      return await this.loadData();
+    } finally {
+      this.isLoading = false;
+    }
+  }
+
+  /**
+   * NUEVO: Obtiene estadísticas de la base de datos
+   */
+  async getDatabaseStats() {
+    try {
+      return await this.historicalDataService.getDatabaseStats();
+    } catch (error) {
+      console.error("❌ Error obteniendo estadísticas de DB:", error);
+      return null;
+    }
+  }
+
+  /**
+   * NUEVO: Obtiene las fechas disponibles en la base de datos
+   */
+  async getAvailableDates() {
+    try {
+      return await this.historicalDataService.getAvailableDates();
+    } catch (error) {
+      console.error("❌ Error obteniendo fechas disponibles:", error);
+      return [];
+    }
+  }
+
+  /**
+   * NUEVO: Obtiene opciones de rango de fechas disponibles
+   */
+  getAvailableDateRanges() {
+    return this.historicalDataService.getAvailableDateRanges();
+  }
+
+  /**
+   * NUEVO: Verifica si los datos históricos están disponibles
+   */
+  async isHistoricalDataAvailable() {
+    return await this.historicalDataService.isDatabaseAvailable();
+  }
+
+  /**
+   * NUEVO: Obtiene el rango de fechas actual
+   */
+  getCurrentDateRange() {
+    return this.currentDateRange;
+  }
+
+  /**
+   * NUEVO: Cierra el servicio
+   */
+  async close() {
+    console.log("🔌 Cerrando EstadisticasDataService...");
+
+    if (this.historicalDataService) {
+      await this.historicalDataService.close();
+    }
+
+    console.log("✅ EstadisticasDataService cerrado");
   }
 }

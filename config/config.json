@@ -3,6 +3,10 @@
     "\\\\ant\\dept-eu\\VLC1\\Public\\Apps_Tools\\chuecc\\IB_Scope\\Data\\",
     "C:\\Users\\carlo\\Downloads\\0-Proyecto_IB_Scope\\Analisis\\Data\\"
   ],
+  "db_paths": [
+    "\\\\ant\\dept-eu\\VLC1\\Public\\Apps_Tools\\chuecc\\IB_Scope\\Data\\DB\\",
+    "C:\\Users\\carlo\\Downloads\\0-Proyecto_IB_Scope\\Analisis\\Data\\DB\\"
+  ],
   "preferred_theme": "light",
   "auto_refresh": 60,
   "app_name": "Inbound Scope",

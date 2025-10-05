@@ -238,6 +238,106 @@ ipcMain.on("preload:loaded", () => {
   console.log("Preload cargado correctamente");
 });
 
+// ==== MANEJADORES DE BASE DE DATOS SQLITE ====
+
+// Verificar si un archivo existe
+ipcMain.handle("file-exists", (event, filePath) => {
+  try {
+    return fs.existsSync(filePath);
+  } catch (error) {
+    console.error("Error verificando existencia de archivo:", error);
+    return false;
+  }
+});
+
+    // Ejecutar consulta SQL en base de datos SQLite
+    ipcMain.handle("query-database", async (event, dbPath, sql, params = []) => {
+      try {
+        // Verificar que el archivo de base de datos existe
+        if (!fs.existsSync(dbPath)) {
+          throw new Error(`Base de datos no encontrada: ${dbPath}`);
+        }
+
+        // Importar sqlite3 dinámicamente
+        const sqlite3 = require('sqlite3').verbose();
+        
+        return new Promise((resolve, reject) => {
+          const db = new sqlite3.Database(dbPath, (err) => {
+            if (err) {
+              console.error("Error abriendo base de datos:", err);
+              reject(err);
+              return;
+            }
+          });
+
+          // Ejecutar la consulta
+          db.all(sql, params, (err, rows) => {
+            if (err) {
+              console.error("Error ejecutando consulta SQL:", err);
+              db.close();
+              reject(err);
+              return;
+            }
+
+            // Cerrar la conexión
+            db.close((err) => {
+              if (err) {
+                console.error("Error cerrando base de datos:", err);
+              }
+            });
+
+            resolve(rows || []);
+          });
+        });
+      } catch (error) {
+        console.error("Error en query-database:", error);
+        throw error;
+      }
+    });
+
+    // Obtener esquema de tabla
+    ipcMain.handle("get-table-schema", async (event, dbPath, tableName) => {
+      try {
+        if (!fs.existsSync(dbPath)) {
+          throw new Error(`Base de datos no encontrada: ${dbPath}`);
+        }
+
+        const sqlite3 = require('sqlite3').verbose();
+        
+        return new Promise((resolve, reject) => {
+          const db = new sqlite3.Database(dbPath, (err) => {
+            if (err) {
+              console.error("Error abriendo base de datos:", err);
+              reject(err);
+              return;
+            }
+          });
+
+          // Obtener esquema de la tabla
+          const sql = `PRAGMA table_info(${tableName})`;
+          db.all(sql, [], (err, rows) => {
+            if (err) {
+              console.error("Error obteniendo esquema:", err);
+              db.close();
+              reject(err);
+              return;
+            }
+
+            db.close((err) => {
+              if (err) {
+                console.error("Error cerrando base de datos:", err);
+              }
+            });
+
+            resolve(rows || []);
+          });
+        });
+      } catch (error) {
+        console.error("Error en get-table-schema:", error);
+        throw error;
+      }
+    });
+
 // ==== FIN MANEJADORES IPC ====
 
 // Función para crear la ventana principal

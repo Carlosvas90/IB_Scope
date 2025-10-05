@@ -349,6 +349,9 @@ class EstadisticasController {
     // Actualizar resumen e insights
     this.updateSummary();
 
+    // NUEVO: Actualizar información del rango de fechas (removido - no hay elemento en HTML)
+    // this.updateDateRangeInfo();
+
     console.log("✅ Componentes actualizados");
   }
 
@@ -955,6 +958,38 @@ class EstadisticasController {
   }
 
   /**
+   * NUEVO: Actualiza la información del rango de fechas seleccionado
+   */
+  updateDateRangeInfo() {
+    const dateRangeInfo = document.getElementById("date-range-info");
+    if (!dateRangeInfo) return;
+
+    const periodText =
+      this.currentDateRange === 0
+        ? "hoy"
+        : this.currentDateRange === 1
+        ? "ayer"
+        : `últimos ${this.currentDateRange} días`;
+
+    const dataSource =
+      this.currentDateRange === 0
+        ? "datos actuales"
+        : "datos históricos + actuales";
+
+    dateRangeInfo.innerHTML = `
+      <div class="date-range-info">
+        <span class="period-text">📅 ${periodText}</span>
+        <span class="data-source">📊 ${dataSource}</span>
+        <span class="record-count">📈 ${this.errors.length} registros</span>
+      </div>
+    `;
+
+    console.log(
+      `📅 Información de rango actualizada: ${periodText} (${dataSource})`
+    );
+  }
+
+  /**
    * Cambia el rango de fechas
    */
   async changeDateRange(newRange) {
@@ -963,8 +998,29 @@ class EstadisticasController {
     console.log(`📅 Cambiando rango de fechas a: ${newRange} días`);
     this.currentDateRange = newRange;
 
-    // Actualizar todos los componentes con el nuevo rango
-    this.updateAllComponents();
+    try {
+      this.showLoading(true);
+
+      // Usar el nuevo método del dataService para cambiar rango de fechas
+      const success = await this.dataService.changeDateRange(newRange);
+
+      if (success) {
+        this.errors = this.dataService.errors;
+        console.log(
+          `✅ Rango de fechas cambiado: ${this.errors.length} registros`
+        );
+
+        // Actualizar todos los componentes con el nuevo rango
+        this.updateAllComponents();
+      } else {
+        throw new Error("Error al cambiar rango de fechas");
+      }
+    } catch (error) {
+      console.error("❌ Error cambiando rango de fechas:", error);
+      this.showError("Error al cambiar el rango de fechas");
+    } finally {
+      this.showLoading(false);
+    }
   }
 
   /**
