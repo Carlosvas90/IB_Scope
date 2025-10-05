@@ -53,6 +53,9 @@ export class EstadisticasDataService {
         console.warn("⚠️ Servicio de datos históricos no disponible");
       }
 
+      // Establecer rango de fechas por defecto (Hoy = 0)
+      this.currentDateRange = 0;
+
       console.log("📁 Rutas de datos configuradas:", this.dataPaths);
       return true;
     } catch (error) {
@@ -366,6 +369,16 @@ export class EstadisticasDataService {
    */
   async refresh() {
     console.log("🔄 Refrescando datos de estadísticas...");
+
+    // Si hay un rango de fechas específico seleccionado, usar loadHistoricalData
+    if (this.currentDateRange && this.currentDateRange > 0) {
+      console.log(
+        `📅 Refrescando con rango histórico: ${this.currentDateRange} días`
+      );
+      return await this.loadHistoricalData(this.currentDateRange);
+    }
+
+    // Si es "Hoy" (rango 0), usar loadData normal
     return await this.loadData();
   }
 
