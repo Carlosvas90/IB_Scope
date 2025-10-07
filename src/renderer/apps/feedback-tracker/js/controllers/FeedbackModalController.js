@@ -4,6 +4,8 @@
  * Ruta: /src/renderer/apps/feedback-tracker/js/controllers/FeedbackModalController.js
  */
 
+import { SimilarErrorsService } from "./services/SimilarErrorsService.js";
+
 export class FeedbackModalController {
   constructor(dataService) {
     this.dataService = dataService;
@@ -26,6 +28,14 @@ export class FeedbackModalController {
 
     // Ruta del archivo de configuración
     this.configPath = "config/config_reasons.json";
+
+    // Servicio de errores similares
+    this.similarErrorsService = new SimilarErrorsService(dataService);
+
+    // Elementos del DOM para errores similares
+    this.similarErrorsSection = null;
+    this.similarErrorsMessage = null;
+    this.similarErrorsDetails = null;
   }
 
   /**
@@ -40,6 +50,17 @@ export class FeedbackModalController {
     this.closeBtn = document.getElementById("modal-close-btn");
     this.cancelBtn = document.getElementById("cancel-feedback-btn");
     this.submitBtn = document.getElementById("submit-feedback-btn");
+
+    // Elementos para errores similares
+    this.similarErrorsSection = document.getElementById(
+      "similar-errors-section"
+    );
+    this.similarErrorsMessage = document.getElementById(
+      "similar-errors-message"
+    );
+    this.similarErrorsDetails = document.getElementById(
+      "similar-errors-details"
+    );
 
     if (!this.modal || !this.form || !this.reasonSelect) {
       console.error(
@@ -154,11 +175,20 @@ export class FeedbackModalController {
    * Muestra el modal para un error específico
    */
   show(errorId, callback) {
+    console.log(
+      `🎭 FeedbackModalController: Abriendo modal para error ID: ${errorId}`
+    );
     this.currentErrorId = errorId;
     this.onSubmitCallback = callback;
 
     // Reiniciar formulario
     this.form.reset();
+
+    // Ocultar sección de errores similares inicialmente
+    this.hideSimilarErrorsSection();
+
+    // Buscar errores similares
+    this.loadSimilarErrors(errorId);
 
     // Mostrar modal con animación
     this.modal.classList.add("show");
@@ -214,5 +244,67 @@ export class FeedbackModalController {
 
     // Ocultar modal
     this.hide();
+  }
+
+  /**
+   * Carga y muestra información de errores similares
+   */
+  loadSimilarErrors(errorId) {
+    try {
+      console.log(
+        `🔍 FeedbackModalController: Buscando errores similares para error ID: ${errorId}`
+      );
+      const similarInfo = this.similarErrorsService.findSimilarErrors(errorId);
+
+      console.log(`📊 FeedbackModalController: Resultados de búsqueda:`, {
+        totalCount: similarInfo.totalCount,
+        pendingCount: similarInfo.pendingCount,
+        referenceError: similarInfo.referenceError,
+      });
+
+      if (similarInfo.totalCount === 0) {
+        console.log(
+          `ℹ️ FeedbackModalController: No se encontraron errores similares, ocultando sección`
+        );
+        this.hideSimilarErrorsSection();
+        return;
+      }
+
+      console.log(
+        `✅ FeedbackModalController: Mostrando sección de errores similares`
+      );
+      // Mostrar la sección de errores similares
+      this.showSimilarErrorsSection(similarInfo);
+    } catch (error) {
+      console.error(
+        "❌ FeedbackModalController: Error al cargar errores similares:",
+        error
+      );
+      this.hideSimilarErrorsSection();
+    }
+  }
+
+  /**
+   * Muestra la sección de errores similares
+   */
+  showSimilarErrorsSection(similarInfo) {
+    if (!this.similarErrorsSection) return;
+
+    // Generar y mostrar solo el mensaje
+    const message =
+      this.similarErrorsService.generateSimilarErrorsMessage(similarInfo);
+    this.similarErrorsMessage.textContent = message;
+
+    // Mostrar la sección
+    this.similarErrorsSection.style.display = "block";
+  }
+
+  /**
+   * Oculta la sección de errores similares
+   */
+  hideSimilarErrorsSection() {
+    if (this.similarErrorsSection) {
+      this.similarErrorsSection.style.display = "none";
+    }
   }
 }

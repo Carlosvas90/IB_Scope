@@ -4,10 +4,13 @@
  * Ruta: /src/renderer/apps/feedback-tracker/js/controllers/services/StatusUpdateService.js
  */
 
+import { SimilarErrorsService } from "./SimilarErrorsService.js";
+
 export class StatusUpdateService {
   constructor(dataController, currentUsername) {
     this.dataController = dataController;
     this.currentUsername = currentUsername;
+    this.similarErrorsService = new SimilarErrorsService(dataController);
   }
 
   /**
@@ -58,6 +61,16 @@ export class StatusUpdateService {
       );
 
       if (success) {
+        // Si se está marcando como "done" y hay feedback, aplicar a errores similares
+        let similarErrorsUpdated = false;
+        if (newStatus === "done" && feedbackData) {
+          const result = await this.applyFeedbackToSimilarErrors(
+            errorId,
+            feedbackData
+          );
+          similarErrorsUpdated = result && result.updatedCount > 0;
+        }
+
         this.showSuccessMessage(newStatus);
 
         // Actualizar el comentario en la vista de detalles si está abierta
@@ -69,9 +82,52 @@ export class StatusUpdateService {
           this.updateFeedbackCommentInView(errorId, displayText);
         }
 
-        // Llamar al callback para actualizar contadores, etc.
+        // Siempre llamar al callback primero para actualización inmediata
         if (typeof updateCallback === "function") {
+          console.log(
+            "🔄 StatusUpdateService: Llamando callback de actualización inmediata"
+          );
           updateCallback();
+        }
+
+        // Si se actualizaron errores similares, forzar actualización completa adicional
+        if (similarErrorsUpdated) {
+          console.log(
+            "🔄 StatusUpdateService: Forzando guardado y actualización completa adicional"
+          );
+          // Esperar a que se guarden todos los cambios en el JSON
+          setTimeout(async () => {
+            try {
+              // Primero: Forzar guardado del JSON
+              console.log(
+                "💾 StatusUpdateService: Guardando cambios en JSON..."
+              );
+              await this.dataController.saveData();
+
+              // Segundo: Recargar datos desde el JSON (como el botón de actualizar)
+              console.log(
+                "🔄 StatusUpdateService: Recargando datos desde JSON..."
+              );
+              await this.dataController.refreshData();
+
+              // Tercero: Llamar al callback de nuevo para refrescar la vista
+              console.log(
+                "🔄 StatusUpdateService: Llamando callback después de refrescar JSON"
+              );
+              if (typeof updateCallback === "function") {
+                updateCallback();
+              }
+
+              console.log(
+                "✅ StatusUpdateService: Actualización completa finalizada"
+              );
+            } catch (error) {
+              console.error(
+                "❌ StatusUpdateService: Error en actualización:",
+                error
+              );
+            }
+          }, 500);
         }
       } else {
         this.showErrorMessage();
@@ -160,5 +216,53 @@ export class StatusUpdateService {
     commentContainer.appendChild(value);
 
     detailsGrid.appendChild(commentContainer);
+  }
+
+  /**
+   * Aplica el mismo feedback a errores similares
+   * @param {string} referenceErrorId - ID del error de referencia
+   * @param {Object} feedbackData - Datos de feedback a aplicar
+   */
+  async applyFeedbackToSimilarErrors(referenceErrorId, feedbackData) {
+    try {
+      console.log(
+        `🔄 StatusUpdateService: Aplicando feedback a errores similares para ${referenceErrorId}`
+      );
+
+      const result =
+        await this.similarErrorsService.applyFeedbackToSimilarErrors(
+          referenceErrorId,
+          feedbackData,
+          this.currentUsername
+        );
+
+      if (result.success && result.updatedCount > 0) {
+        console.log(`✅ StatusUpdateService: ${result.message}`);
+
+        // Mostrar notificación de éxito
+        if (window.showToast) {
+          window.showToast(
+            `Feedback aplicado a ${result.updatedCount} errores similares`,
+            "success"
+          );
+        }
+      } else if (result.updatedCount === 0) {
+        console.log(`ℹ️ StatusUpdateService: ${result.message}`);
+      } else {
+        console.warn(`⚠️ StatusUpdateService: ${result.message}`);
+      }
+
+      return result;
+    } catch (error) {
+      console.error(
+        "StatusUpdateService: Error al aplicar feedback a errores similares:",
+        error
+      );
+      return {
+        success: false,
+        updatedCount: 0,
+        message: "Error al aplicar feedback",
+      };
+    }
   }
 }

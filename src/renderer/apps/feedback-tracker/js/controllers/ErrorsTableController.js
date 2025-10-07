@@ -385,6 +385,12 @@ export class ErrorsTableController {
     const isDone = button.classList.contains("status-done");
     const newStatus = isDone ? "pending" : "done";
 
+    // Crear un callback que actualice tanto contadores como la tabla completa
+    const updateCallback = () => {
+      this.updateCounters();
+      this.updateTable();
+    };
+
     // Solo mostrar modal si se cambia a "done"
     if (newStatus === "done" && window.feedbackModalController) {
       window.feedbackModalController.show(errorId, (feedbackData) => {
@@ -394,7 +400,7 @@ export class ErrorsTableController {
         this.statusService.updateErrorStatus(
           errorId,
           newStatus,
-          this.updateCounters.bind(this),
+          updateCallback,
           feedbackData // Pasar todo el objeto feedbackData
         );
       });
@@ -408,7 +414,7 @@ export class ErrorsTableController {
         this.statusService.updateErrorStatus(
           errorId,
           newStatus,
-          this.updateCounters.bind(this),
+          updateCallback,
           null // Sin datos de feedback para cambio a pending
         );
       });
@@ -420,7 +426,7 @@ export class ErrorsTableController {
       this.statusService.updateErrorStatus(
         errorId,
         newStatus,
-        this.updateCounters.bind(this),
+        updateCallback,
         null
       );
     }

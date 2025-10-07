@@ -113,6 +113,98 @@
   min-height: 6.25rem; /* 100px */
 }
 
+/* Estilos para la sección de errores similares */
+.similar-errors-section {
+  margin-top: var(--spacing-lg);
+  padding: var(--spacing-md);
+  background-color: var(--bg-secondary);
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--border-color);
+}
+
+.similar-errors-header h3 {
+  margin: 0 0 var(--spacing-sm) 0;
+  font-size: var(--font-size-md);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.similar-errors-message {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-sm);
+  background-color: var(--bg-main);
+  border-radius: var(--border-radius-sm);
+  border-left: 3px solid var(--color-info);
+}
+
+.similar-errors-details {
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: var(--spacing-md);
+}
+
+.similar-error-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
+  background-color: var(--bg-main);
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--border-color);
+  font-size: var(--font-size-xs);
+}
+
+.similar-error-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.similar-error-id {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.similar-error-details {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}
+
+.similar-error-asin {
+  color: var(--color-info);
+  font-weight: 500;
+}
+
+.similar-error-quantity {
+  background-color: var(--color-warning);
+  color: white;
+  padding: 2px 6px;
+  border-radius: var(--border-radius-sm);
+  font-size: 0.7rem;
+  font-weight: 600;
+  margin-left: var(--spacing-sm);
+}
+
+.similar-errors-info {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  font-style: italic;
+  padding: var(--spacing-sm);
+  background-color: var(--bg-main);
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--border-color);
+}
+
+.similar-errors-info p {
+  margin: 0;
+}
+
 /* Responsivo */
 @media (max-width: 768px) {
   .modal-content {
