@@ -60,13 +60,16 @@
     ],
     "asar": true,
     "asarUnpack": [
-      "node_modules/ffmpeg-static/**/*"
+      "node_modules/ffmpeg-static/**/*",
+      "node_modules/sqlite3/**/*"
     ],
     "forceCodeSigning": false,
     "compression": "maximum",
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true
-    }
+    },
+    "nodeGypRebuild": false,
+    "npmRebuild": false
   }
 }
