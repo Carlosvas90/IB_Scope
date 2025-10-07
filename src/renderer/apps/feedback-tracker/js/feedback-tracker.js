@@ -670,7 +670,8 @@ function updateErrorDropdown() {
     const currentValue = errorFilter.value;
 
     // Limpiar opciones existentes
-    errorFilter.innerHTML = '<option value="all">Todos los errores</option>';
+    errorFilter.innerHTML =
+      '<option value="all">Todas las incidencias</option>';
 
     // Agregar opciones de errores ordenadas por cantidad total
     errorsWithCount.forEach(({ errorType, count }) => {

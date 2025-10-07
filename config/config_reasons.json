@@ -2,19 +2,27 @@
   "feedback_reasons": [
     {
       "id": "desconocimiento",
-      "label": "Desconocimiento (no sabía)"
+      "label": "Desconocimiento del proceso"
     },
     {
-      "id": "filtro_incorrecto",
-      "label": "Filtro incorrecto"
+      "id": "Distracción momentánea",
+      "label": "Distracción momentánea"
     },
     {
-      "id": "reincidente",
-      "label": "Persona reincidente"
+      "id": "Indicaciones mal interpretadas",
+      "label": "Indicaciones mal interpretadas"
     },
     {
-      "id": "bins_llenas",
-      "label": "Bins llenas"
+      "id": "Necesita refresh",
+      "label": "Necesita refresh"
+    },
+    {
+      "id": "NH",
+      "label": "Nuevo ingreso (NH)"
+    },
+    {
+      "id": "Reincidencia",
+      "label": "Reincidencia"
     },
     {
       "id": "otro",
