@@ -34,7 +34,7 @@ export class UserImageService {
       // Solo considerar salida si realmente salimos de una celda de login
       if (!e.relatedTarget || !e.relatedTarget.closest(".login-cell")) {
         this.isHoveringTable = false;
-        this.scheduleHidePopup(200); // Dar tiempo para volver
+        this.hideAllPopups(); // Ocultar inmediatamente al salir de la tabla
       }
     });
 
@@ -52,35 +52,24 @@ export class UserImageService {
       }
     });
 
-    // Manejar mouseout con timing mejorado - solo para celdas de login
+    // Manejar mouseout con timing mejorado - ocultar inmediatamente al salir del login
     tableElement.addEventListener("mouseout", (e) => {
       const loginCell = e.target.closest(".login-cell");
       if (loginCell) {
-        const login = loginCell.textContent.trim();
-        // Solo programar ocultar si salimos del login actual y no hay otro login en hover
         const nextTarget = e.relatedTarget;
         const nextLoginCell = nextTarget?.closest?.(".login-cell");
 
+        // Si no vamos a otro login, ocultar inmediatamente
         if (!nextLoginCell) {
           this.isHoveringTable = false;
-          this.scheduleHidePopup(150);
+          this.hideAllPopups(); // Ocultar inmediatamente sin delay
         }
       }
     });
 
-    // Manejar eventos de los popups
-    document.addEventListener("mouseover", (e) => {
-      if (e.target.closest(".user-image-popup")) {
-        this.cancelHidePopup();
-      }
-    });
-
-    document.addEventListener("mouseout", (e) => {
-      const popup = e.target.closest(".user-image-popup");
-      if (popup && !e.relatedTarget?.closest?.(".user-image-popup")) {
-        this.scheduleHidePopup(100);
-      }
-    });
+    // ELIMINADO: Ya no permitimos que el popup se mantenga visible
+    // cuando el mouse está sobre él. Solo se muestra cuando el mouse
+    // está sobre la celda de login.
 
     // Cerrar popups cuando se hace scroll en la tabla
     const tableContainer = document.querySelector(".table-container");
