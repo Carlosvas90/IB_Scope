@@ -85,7 +85,13 @@ export class HistoricalDataService {
       );
 
       if (!this.isInitialized) {
+        console.error("❌ Servicio no inicializado");
         throw new Error("El servicio no está inicializado");
+      }
+
+      if (!this.databaseService) {
+        console.error("❌ DatabaseService no disponible");
+        throw new Error("DatabaseService no está disponible");
       }
 
       // Si es rango 0 (hoy), no necesitamos datos históricos
@@ -99,25 +105,51 @@ export class HistoricalDataService {
       }
 
       // Calcular fechas de inicio y fin
-      const { startDate, endDate } = this.calculateDateRange(dateRange);
+      let dateRangeResult;
+      try {
+        dateRangeResult = this.calculateDateRange(dateRange);
+      } catch (dateError) {
+        console.error("❌ Error calculando rango de fechas:", dateError);
+        throw new Error(`Error calculando fechas: ${dateError.message}`);
+      }
+
+      const { startDate, endDate } = dateRangeResult;
 
       console.log(`📅 Rango de fechas históricas: ${startDate} a ${endDate}`);
 
       // Obtener datos históricos de la base de datos
-      const historicalData = await this.databaseService.getHistoricalData(
-        startDate,
-        endDate
-      );
+      let historicalData;
+      try {
+        historicalData = await this.databaseService.getHistoricalData(
+          startDate,
+          endDate
+        );
+      } catch (dbError) {
+        console.error("❌ Error obteniendo datos de la base de datos:", dbError);
+        throw new Error(`Error en DB: ${dbError.message}`);
+      }
+
+      // Validar que historicalData tenga la estructura esperada
+      if (!historicalData || typeof historicalData !== 'object') {
+        console.error("❌ Datos históricos inválidos:", historicalData);
+        throw new Error("Datos históricos no tienen la estructura esperada");
+      }
 
       // Procesar y normalizar los datos
-      const processedData = this.processHistoricalData(historicalData);
+      let processedData;
+      try {
+        processedData = this.processHistoricalData(historicalData);
+      } catch (processError) {
+        console.error("❌ Error procesando datos históricos:", processError);
+        throw new Error(`Error procesando datos: ${processError.message}`);
+      }
 
       console.log(
-        `✅ Datos históricos obtenidos: ${processedData.errorTracking.length} errores, ${processedData.dpmoMetrics.length} métricas DPMO`
+        `✅ Datos históricos obtenidos: ${processedData.errorTracking?.length || 0} errores, ${processedData.dpmoMetrics?.length || 0} métricas DPMO`
       );
 
       // Log de los primeros 5 registros para verificación
-      if (processedData.errorTracking.length > 0) {
+      if (processedData.errorTracking && processedData.errorTracking.length > 0) {
         console.log("📋 Primeros 5 registros históricos de error_tracking:");
         console.table(processedData.errorTracking.slice(0, 5));
       }
@@ -125,6 +157,9 @@ export class HistoricalDataService {
       return processedData;
     } catch (error) {
       console.error("❌ Error obteniendo datos históricos:", error);
+      console.error("❌ Tipo:", error.constructor.name);
+      console.error("❌ Mensaje:", error.message);
+      console.error("❌ Stack:", error.stack);
       throw error;
     }
   }

@@ -500,10 +500,21 @@ export class EstadisticasDataService {
       }
     } catch (error) {
       console.error("❌ Error cargando datos históricos:", error);
+      console.error("❌ Tipo de error:", error.constructor.name);
+      console.error("❌ Mensaje:", error.message);
+      console.error("❌ Stack:", error.stack);
+      
       // Fallback a datos actuales
       console.log("🔄 Fallback a datos actuales...");
       this.isLoading = false; // Resetear flag antes del fallback
-      return await this.loadData();
+      
+      try {
+        return await this.loadData();
+      } catch (fallbackError) {
+        console.error("❌ Error en fallback a datos actuales:", fallbackError);
+        this.isLoading = false;
+        return false;
+      }
     } finally {
       this.isLoading = false;
     }
