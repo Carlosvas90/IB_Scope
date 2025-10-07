@@ -128,13 +128,34 @@ export class DatabaseService {
 
       // Convertir fechas de YYYYMMDD a YYYY-MM-DD para error_tracking
       const formatDateForErrorTracking = (dateStr) => {
-        if (dateStr.length === 8) {
-          const year = dateStr.substring(0, 4);
-          const month = dateStr.substring(4, 6);
-          const day = dateStr.substring(6, 8);
-          return `${year}-${month}-${day}`;
+        try {
+          if (!dateStr) {
+            console.warn("⚠️ Fecha vacía en formatDateForErrorTracking");
+            return new Date().toISOString().split("T")[0];
+          }
+
+          // Convertir a string si es necesario
+          const str = String(dateStr);
+
+          // Si ya está en formato YYYY-MM-DD, retornar tal cual
+          if (str.includes('-') && str.length === 10) {
+            return str;
+          }
+
+          // Si es formato YYYYMMDD
+          if (str.length === 8 && !str.includes('-')) {
+            const year = str.substring(0, 4);
+            const month = str.substring(4, 6);
+            const day = str.substring(6, 8);
+            return `${year}-${month}-${day}`;
+          }
+
+          console.warn(`⚠️ Formato de fecha no reconocido en formatDateForErrorTracking: ${str}`);
+          return str;
+        } catch (error) {
+          console.error("❌ Error en formatDateForErrorTracking:", error, "Valor:", dateStr);
+          return new Date().toISOString().split("T")[0];
         }
-        return dateStr;
       };
 
       const startDateFormatted = formatDateForErrorTracking(startDate);

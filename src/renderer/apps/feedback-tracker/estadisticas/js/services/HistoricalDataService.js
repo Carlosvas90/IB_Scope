@@ -168,94 +168,157 @@ export class HistoricalDataService {
   processHistoricalData(historicalData) {
     console.log("🔧 Procesando datos históricos...");
 
-    // Procesar datos de error_tracking
-    const processedErrorTracking = historicalData.errorTracking.map(
-      (record) => {
-        // Convertir fecha de error_tracking (error_date en formato YYYY-MM-DD)
-        const formattedDate = this.formatDateFromDatabase(record.error_date);
-
+    try {
+      // Validar que historicalData tenga la estructura esperada
+      if (!historicalData) {
+        console.warn("⚠️ historicalData es nulo o indefinido");
         return {
-          id: record.error_id, // Usar error_id en lugar de id
-          date: formattedDate,
-          time: this.extractTimeFromCreatedAt(record.created_at),
-          user_id: record.user_id,
-          asin: record.asin,
-          violation: record.violation,
-          feedback_comment: record.feedback_comment || "",
-          feedback_status: record.feedback_status || "pending",
-          quantity: record.quantity || 1,
-          times_notified: record.times_notified || 0,
-          feedback_user: "", // No disponible en datos históricos
-          occurrences: [
-            {
-              date: formattedDate,
-              time: this.extractTimeFromCreatedAt(record.created_at),
-            },
-          ],
-          created_at: record.created_at,
-          updated_at: record.updated_at,
-          isHistorical: true, // Marcar como dato histórico
+          errorTracking: [],
+          dpmoMetrics: [],
         };
       }
-    );
 
-    // Procesar datos de dpmo_metrics
-    const processedDpmoMetrics = historicalData.dpmoMetrics.map((record) => {
-      const formattedDate = this.formatDateFromDatabase(record.fecha);
+      // Procesar datos de error_tracking
+      const processedErrorTracking = (historicalData.errorTracking || [])
+        .map((record) => {
+          try {
+            // Convertir fecha de error_tracking (error_date en formato YYYY-MM-DD)
+            const formattedDate = this.formatDateFromDatabase(record.error_date);
+
+            return {
+              id: record.error_id, // Usar error_id en lugar de id
+              date: formattedDate,
+              time: this.extractTimeFromCreatedAt(record.created_at),
+              user_id: record.user_id,
+              asin: record.asin,
+              violation: record.violation,
+              feedback_comment: record.feedback_comment || "",
+              feedback_status: record.feedback_status || "pending",
+              quantity: record.quantity || 1,
+              times_notified: record.times_notified || 0,
+              feedback_user: "", // No disponible en datos históricos
+              occurrences: [
+                {
+                  date: formattedDate,
+                  time: this.extractTimeFromCreatedAt(record.created_at),
+                },
+              ],
+              created_at: record.created_at,
+              updated_at: record.updated_at,
+              isHistorical: true, // Marcar como dato histórico
+            };
+          } catch (error) {
+            console.error("❌ Error procesando registro de error_tracking:", error, record);
+            return null;
+          }
+        })
+        .filter((record) => record !== null); // Eliminar registros que fallaron
+
+      // Procesar datos de dpmo_metrics
+      const processedDpmoMetrics = (historicalData.dpmoMetrics || [])
+        .map((record) => {
+          try {
+            const formattedDate = this.formatDateFromDatabase(record.fecha);
+
+            return {
+              id: record.id,
+              fecha: formattedDate,
+              dpmo: record.dpmo,
+              total_movimientos: record.total_movimientos,
+              total_errores: record.total_errores,
+              sigma: record.sigma,
+              calidad: record.calidad,
+              ultima_actualizacion: record.ultima_actualizacion,
+              created_at: record.created_at,
+              isHistorical: true, // Marcar como dato histórico
+            };
+          } catch (error) {
+            console.error("❌ Error procesando registro de dpmo_metrics:", error, record);
+            return null;
+          }
+        })
+        .filter((record) => record !== null); // Eliminar registros que fallaron
+
+      console.log("✅ Datos históricos procesados");
+      console.log(`📊 Error tracking: ${processedErrorTracking.length} registros`);
+      console.log(`📊 DPMO metrics: ${processedDpmoMetrics.length} registros`);
 
       return {
-        id: record.id,
-        fecha: formattedDate,
-        dpmo: record.dpmo,
-        total_movimientos: record.total_movimientos,
-        total_errores: record.total_errores,
-        sigma: record.sigma,
-        calidad: record.calidad,
-        ultima_actualizacion: record.ultima_actualizacion,
-        created_at: record.created_at,
-        isHistorical: true, // Marcar como dato histórico
+        errorTracking: processedErrorTracking,
+        dpmoMetrics: processedDpmoMetrics,
+        totalRecords: processedErrorTracking.length + processedDpmoMetrics.length,
       };
-    });
-
-    console.log("✅ Datos históricos procesados");
-
-    return {
-      errorTracking: processedErrorTracking,
-      dpmoMetrics: processedDpmoMetrics,
-      totalRecords: processedErrorTracking.length + processedDpmoMetrics.length,
-    };
+    } catch (error) {
+      console.error("❌ Error general procesando datos históricos:", error);
+      return {
+        errorTracking: [],
+        dpmoMetrics: [],
+        totalRecords: 0,
+      };
+    }
   }
 
   /**
    * Convierte fecha de formato de base de datos a formato del sistema (YYYY/MM/DD)
    */
   formatDateFromDatabase(dbDate) {
-    if (!dbDate) {
+    try {
+      // Validar entrada
+      if (!dbDate) {
+        console.warn("⚠️ Fecha vacía recibida, usando fecha actual");
+        return new Date().toISOString().split("T")[0].replace(/-/g, "/");
+      }
+
+      // Convertir a string si viene como número o Date
+      let dateStr = String(dbDate);
+
+      // Si es un objeto Date
+      if (dbDate instanceof Date) {
+        return dbDate.toISOString().split("T")[0].replace(/-/g, "/");
+      }
+
+      // Si es formato YYYY-MM-DD (error_tracking)
+      if (dateStr.includes('-') && dateStr.length === 10) {
+        return dateStr.replace(/-/g, "/");
+      }
+
+      // Si es formato DDMMYYYY (dpmo_metrics)
+      if (dateStr.length === 8 && !dateStr.includes('-')) {
+        // Detectar si es DDMMYYYY o YYYYMMDD
+        const firstTwo = parseInt(dateStr.substring(0, 2));
+        
+        // Si los primeros dos dígitos son > 31, probablemente es YYYYMMDD
+        if (firstTwo > 31) {
+          // Formato YYYYMMDD
+          const year = dateStr.substring(0, 4);
+          const month = dateStr.substring(4, 6);
+          const day = dateStr.substring(6, 8);
+          return `${year}/${month}/${day}`;
+        } else {
+          // Formato DDMMYYYY
+          const day = dateStr.substring(0, 2);
+          const month = dateStr.substring(2, 4);
+          const year = dateStr.substring(4, 8);
+          return `${year}/${month}/${day}`;
+        }
+      }
+
+      // Si es formato YYYY-MM-DD HH:MM:SS (con hora)
+      if (dateStr.includes('-') && dateStr.includes(' ')) {
+        return dateStr.split(' ')[0].replace(/-/g, "/");
+      }
+
+      // Si es formato ISO completo
+      if (dateStr.includes('T')) {
+        return dateStr.split('T')[0].replace(/-/g, "/");
+      }
+
+      console.warn(`⚠️ Formato de fecha no reconocido: ${dateStr}`);
+      return new Date().toISOString().split("T")[0].replace(/-/g, "/");
+    } catch (error) {
+      console.error("❌ Error formateando fecha:", error, "Valor:", dbDate);
       return new Date().toISOString().split("T")[0].replace(/-/g, "/");
     }
-
-    // Si es formato YYYY-MM-DD (error_tracking)
-    if (dbDate.includes('-')) {
-      return dbDate.replace(/-/g, "/");
-    }
-
-    // Si es formato DDMMYYYY (dpmo_metrics)
-    if (dbDate.length === 8 && !dbDate.includes('-')) {
-      const day = dbDate.substring(0, 2);
-      const month = dbDate.substring(2, 4);
-      const year = dbDate.substring(4, 8);
-      return `${year}/${month}/${day}`;
-    }
-
-    // Si es formato YYYYMMDD (formato anterior)
-    if (dbDate.length === 8) {
-      const year = dbDate.substring(0, 4);
-      const month = dbDate.substring(4, 6);
-      const day = dbDate.substring(6, 8);
-      return `${year}/${month}/${day}`;
-    }
-
-    return new Date().toISOString().split("T")[0].replace(/-/g, "/");
   }
 
   /**
