@@ -10,17 +10,17 @@ const filesHandler = require("./handlers/files");
 const updateHandler = require("./handlers/update");
 const updateService = require("./services/updateService");
 
-// Cargar sqlite3 al inicio
-let sqlite3;
+// Cargar better-sqlite3 al inicio
+let Database;
 try {
-  console.log("[Main] Cargando sqlite3...");
+  console.log("[Main] Cargando better-sqlite3...");
   console.log("[Main] App empaquetada:", app.isPackaged);
   console.log("[Main] App path:", app.getAppPath());
-  
-  sqlite3 = require('sqlite3').verbose();
-  console.log("[Main] ✅ sqlite3 cargado correctamente");
+
+  Database = require("better-sqlite3");
+  console.log("[Main] ✅ better-sqlite3 cargado correctamente");
 } catch (error) {
-  console.error("[Main] ❌ Error cargando sqlite3:", error);
+  console.error("[Main] ❌ Error cargando better-sqlite3:", error);
   console.error("[Main] Stack:", error.stack);
 }
 
@@ -264,115 +264,94 @@ ipcMain.handle("file-exists", (event, filePath) => {
   }
 });
 
-    // Ejecutar consulta SQL en base de datos SQLite
-    ipcMain.handle("query-database", async (event, dbPath, sql, params = []) => {
-      try {
-        console.log(`[Main] 🔍 query-database llamado para: ${dbPath}`);
-        console.log(`[Main] SQL: ${sql.substring(0, 100)}...`);
-        
-        // Verificar que sqlite3 esté cargado
-        if (!sqlite3) {
-          throw new Error("sqlite3 no está disponible. No se pudo cargar el módulo.");
-        }
+// Ejecutar consulta SQL en base de datos SQLite (con better-sqlite3)
+ipcMain.handle("query-database", async (event, dbPath, sql, params = []) => {
+  try {
+    console.log(`[Main] 🔍 query-database llamado para: ${dbPath}`);
+    console.log(`[Main] SQL: ${sql.substring(0, 100)}...`);
 
-        // Verificar que el archivo de base de datos existe
-        if (!fs.existsSync(dbPath)) {
-          throw new Error(`Base de datos no encontrada: ${dbPath}`);
-        }
+    // Verificar que better-sqlite3 esté cargado
+    if (!Database) {
+      throw new Error(
+        "better-sqlite3 no está disponible. No se pudo cargar el módulo."
+      );
+    }
 
-        console.log(`[Main] ✅ Base de datos existe: ${dbPath}`);
-        
-        return new Promise((resolve, reject) => {
-          const db = new sqlite3.Database(dbPath, (err) => {
-            if (err) {
-              console.error("[Main] ❌ Error abriendo base de datos:", err);
-              reject(err);
-              return;
-            }
-            console.log("[Main] ✅ Base de datos abierta correctamente");
-          });
+    // Verificar que el archivo de base de datos existe
+    if (!fs.existsSync(dbPath)) {
+      throw new Error(`Base de datos no encontrada: ${dbPath}`);
+    }
 
-          // Ejecutar la consulta
-          db.all(sql, params, (err, rows) => {
-            if (err) {
-              console.error("[Main] ❌ Error ejecutando consulta SQL:", err);
-              db.close();
-              reject(err);
-              return;
-            }
+    console.log(`[Main] ✅ Base de datos existe: ${dbPath}`);
 
-            console.log(`[Main] ✅ Consulta ejecutada. Filas obtenidas: ${rows ? rows.length : 0}`);
+    // better-sqlite3 es síncrono, así que usamos try-catch directo
+    const db = new Database(dbPath, { readonly: true, fileMustExist: true });
+    console.log("[Main] ✅ Base de datos abierta correctamente");
 
-            // Cerrar la conexión
-            db.close((err) => {
-              if (err) {
-                console.error("[Main] ⚠️ Error cerrando base de datos:", err);
-              }
-            });
+    // Ejecutar la consulta (síncrono)
+    const stmt = db.prepare(sql);
+    const rows = stmt.all(...params);
 
-            resolve(rows || []);
-          });
-        });
-      } catch (error) {
-        console.error("[Main] ❌ Error en query-database:", error);
-        console.error("[Main] Stack:", error.stack);
-        throw error;
-      }
-    });
+    console.log(
+      `[Main] ✅ Consulta ejecutada. Filas obtenidas: ${rows ? rows.length : 0}`
+    );
 
-    // Obtener esquema de tabla
-    ipcMain.handle("get-table-schema", async (event, dbPath, tableName) => {
-      try {
-        console.log(`[Main] 🔍 get-table-schema llamado para: ${tableName} en ${dbPath}`);
-        
-        // Verificar que sqlite3 esté cargado
-        if (!sqlite3) {
-          throw new Error("sqlite3 no está disponible. No se pudo cargar el módulo.");
-        }
+    // Cerrar la conexión (síncrono)
+    db.close();
+    console.log("[Main] ✅ Base de datos cerrada");
 
-        if (!fs.existsSync(dbPath)) {
-          throw new Error(`Base de datos no encontrada: ${dbPath}`);
-        }
+    return rows || [];
+  } catch (error) {
+    console.error("[Main] ❌ Error en query-database:", error);
+    console.error("[Main] Stack:", error.stack);
+    throw error;
+  }
+});
 
-        console.log(`[Main] ✅ Base de datos existe: ${dbPath}`);
-        
-        return new Promise((resolve, reject) => {
-          const db = new sqlite3.Database(dbPath, (err) => {
-            if (err) {
-              console.error("[Main] ❌ Error abriendo base de datos:", err);
-              reject(err);
-              return;
-            }
-            console.log("[Main] ✅ Base de datos abierta para esquema");
-          });
+// Obtener esquema de tabla (con better-sqlite3)
+ipcMain.handle("get-table-schema", async (event, dbPath, tableName) => {
+  try {
+    console.log(
+      `[Main] 🔍 get-table-schema llamado para: ${tableName} en ${dbPath}`
+    );
 
-          // Obtener esquema de la tabla
-          const sql = `PRAGMA table_info(${tableName})`;
-          db.all(sql, [], (err, rows) => {
-            if (err) {
-              console.error("[Main] ❌ Error obteniendo esquema:", err);
-              db.close();
-              reject(err);
-              return;
-            }
+    // Verificar que better-sqlite3 esté cargado
+    if (!Database) {
+      throw new Error(
+        "better-sqlite3 no está disponible. No se pudo cargar el módulo."
+      );
+    }
 
-            console.log(`[Main] ✅ Esquema obtenido. Columnas: ${rows ? rows.length : 0}`);
+    if (!fs.existsSync(dbPath)) {
+      throw new Error(`Base de datos no encontrada: ${dbPath}`);
+    }
 
-            db.close((err) => {
-              if (err) {
-                console.error("[Main] ⚠️ Error cerrando base de datos:", err);
-              }
-            });
+    console.log(`[Main] ✅ Base de datos existe: ${dbPath}`);
 
-            resolve(rows || []);
-          });
-        });
-      } catch (error) {
-        console.error("[Main] ❌ Error en get-table-schema:", error);
-        console.error("[Main] Stack:", error.stack);
-        throw error;
-      }
-    });
+    // better-sqlite3 es síncrono
+    const db = new Database(dbPath, { readonly: true, fileMustExist: true });
+    console.log("[Main] ✅ Base de datos abierta para esquema");
+
+    // Obtener esquema de la tabla (síncrono)
+    const sql = `PRAGMA table_info(${tableName})`;
+    const stmt = db.prepare(sql);
+    const rows = stmt.all();
+
+    console.log(
+      `[Main] ✅ Esquema obtenido. Columnas: ${rows ? rows.length : 0}`
+    );
+
+    // Cerrar la conexión (síncrono)
+    db.close();
+    console.log("[Main] ✅ Base de datos cerrada");
+
+    return rows || [];
+  } catch (error) {
+    console.error("[Main] ❌ Error en get-table-schema:", error);
+    console.error("[Main] Stack:", error.stack);
+    throw error;
+  }
+});
 
 // ==== FIN MANEJADORES IPC ====
 
