@@ -26,8 +26,8 @@ export class FeedbackModalController {
     // Razones disponibles
     this.reasons = [];
 
-    // Ruta del archivo de configuración
-    this.configPath = "config/config_reasons.json";
+    // Ruta del archivo de configuración (se resolverá dinámicamente)
+    this.configPath = null;
 
     // Servicio de errores similares
     this.similarErrorsService = new SimilarErrorsService(dataService);
@@ -118,22 +118,29 @@ export class FeedbackModalController {
    */
   async loadReasons() {
     try {
+      // Resolver ruta del archivo de configuración
+      const appPath = await window.api.getAppPath();
+      this.configPath = `${appPath}/config/config_reasons.json`;
+
+      console.log("📋 Intentando cargar razones desde:", this.configPath);
+
       // Intentar cargar razones desde el archivo de configuración
       const result = await window.api.readJson(this.configPath);
 
       if (result.success && result.data && result.data.feedback_reasons) {
         this.reasons = result.data.feedback_reasons;
         this.populateReasonSelect();
-        console.log("Razones de feedback cargadas:", this.reasons.length);
+        console.log("✅ Razones de feedback cargadas:", this.reasons.length);
       } else {
         // Si no se puede cargar, usar valores predeterminados
         console.warn(
-          "No se pudo cargar el archivo de razones, usando valores predeterminados"
+          "⚠️ No se pudo cargar el archivo de razones, usando valores predeterminados"
         );
+        console.warn("Resultado:", result);
         this.useDefaultReasons();
       }
     } catch (error) {
-      console.error("Error al cargar razones de feedback:", error);
+      console.error("❌ Error al cargar razones de feedback:", error);
       this.useDefaultReasons();
     }
   }
