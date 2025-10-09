@@ -8,6 +8,65 @@
 /* Importar estilos de tabla */
 @import url("./table.css");
 
+:root {
+  /* Colores principales usando la paleta del sistema */
+  --stats-primary-color: var(--Palette-Blue-4);
+  --stats-secondary-color: var(--Color-gray-6);
+  --stats-success-color: var(--Color-Green-3);
+  --stats-warning-color: var(--Color-Orange-3);
+  --stats-danger-color: var(--Color-Red-3);
+  --stats-info-color: var(--Palette-Blue-3);
+
+  /* Fondos usando el sistema de temas */
+  --stats-bg-primary: var(--body-bg);
+  --stats-bg-secondary: var(--sidebar_bg_ch);
+  --stats-bg-tertiary: var(--Color-gray-2);
+
+  /* Textos usando el sistema de temas */
+  --stats-text-primary: var(--text-color-two);
+  --stats-text-secondary: var(--text-color-one);
+  --stats-text-muted: var(--Color-gray-5);
+
+  /* Bordes usando el sistema */
+  --stats-border-color: var(--dashboard-border);
+
+  /* Sombras usando variables del sistema */
+  --stats-shadow-sm: var(--shadow-sm);
+  --stats-shadow-md: var(--shadow-md);
+  --stats-shadow-lg: var(--shadow-lg);
+
+  /* Radios usando variables del sistema */
+  --stats-radius-sm: var(--border-sm);
+  --stats-radius-md: var(--border-md);
+  --stats-radius-lg: var(--border-lg);
+  --stats-radius-xl: var(--border-xl);
+
+  /* Espaciado usando variables del sistema */
+  --stats-spacing-xs: var(--spacing-xs);
+  --stats-spacing-sm: var(--spacing-sm);
+  --stats-spacing-md: var(--spacing-md);
+  --stats-spacing-lg: var(--spacing-lg);
+  --stats-spacing-xl: var(--spacing-xl);
+  --stats-spacing-xxl: var(--spacing-xxl);
+
+  /* Tipografía usando el sistema */
+  --stats-font-family: var(--font-family);
+  --stats-font-size-xs: var(--font-size-xs);
+  --stats-font-size-sm: var(--font-size-sm);
+  --stats-font-size-md: var(--font-size-md);
+  --stats-font-size-lg: var(--font-size-lg);
+  --stats-font-size-xl: var(--font-size-xl);
+  --stats-font-size-xxl: var(--font-size-xxl);
+  --stats-font-weight-medium: var(--font-weight-medium);
+  --stats-font-weight-semibold: var(--font-weight-semibold);
+  --stats-font-weight-bold: var(--font-weight-bold);
+
+  /* Transiciones usando el sistema */
+  --stats-transition-fast: var(--transition-fast);
+  --stats-transition-normal: var(--transition-normal);
+  --stats-transition-slow: var(--transition-slow);
+}
+
 /* Layout general */
 body {
   font-family: var(--font-family);
@@ -86,23 +145,45 @@ body {
   color: white;
 }
 
-.btn-primary:hover:not(:disabled) {
+/*.btn-primary:hover:not(:disabled) {
   background-color: var(--accent-blue-light);
   color: var(--text-primary);
-}
+}*/
 
 .btn-secondary {
   background-color: var(--element-secondary);
   color: var(--text-primary);
 }
 
-.btn-secondary:hover:not(:disabled) {
+/*.btn-secondary:hover:not(:disabled) {
   background-color: var(--hover-bg);
+}*/
+
+.btn-primary,
+.btn-secondary {
+  padding: var(--stats-spacing-sm) var(--stats-spacing-md);
+  border: 1px solid var(--stats-border-color);
+  border-radius: var(--stats-radius-md);
+  background: var(--stats-bg-primary);
+  color: var(--stats-text-primary);
+  font-size: var(--stats-font-size-sm);
+  cursor: pointer;
+  transition: all var(--stats-transition-fast);
+  display: flex;
+  align-items: center;
+  gap: var(--stats-spacing-xs);
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+  background: var(--Palette-Blue-4);
+  color: var(--Color-white);
+  box-shadow: var(--stats-shadow-sm);
 }
 
 /* Filtros */
 .filters {
-  padding: 0 var(--spacing-lg);
+  /* padding: 0 var(--spacing-lg); */
   margin-bottom: var(--spacing-lg);
   display: flex;
   flex-wrap: wrap;
@@ -197,7 +278,7 @@ body {
   background-color: var(--card-bg);
   border-radius: var(--border-radius-lg);
   padding: var(--spacing-md);
-  margin: 0 var(--spacing-lg);
+  /* margin: 0 var(--spacing-lg); */
   margin-bottom: var(--spacing-lg);
 }
 

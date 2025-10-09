@@ -71,7 +71,7 @@
   max-width: 100%;
   margin: 0 auto;
   padding: var(--stats-spacing-xl);
-  background: var(--stats-bg-secondary);
+  background: var(--Fondo-paginas);
   min-height: 100vh;
   font-family: var(--stats-font-family);
 }
@@ -86,7 +86,7 @@
   align-items: center;
   margin-bottom: var(--stats-spacing-xl);
   padding: var(--stats-spacing-lg) var(--stats-spacing-xl);
-  background: var(--stats-bg-primary);
+  background: var(--Fondo-kapi);
   border-radius: var(--stats-radius-lg);
   box-shadow: var(--stats-shadow-md);
   border: 1px solid var(--stats-border-color);
@@ -169,8 +169,8 @@
 
 .btn-refresh:hover,
 .btn-export:hover {
-  background: var(--dashboard-card-hover);
-  color: var(--dashboard-card-text);
+  background: var(--Palette-Blue-4);
+  color: var(--Color-white);
   box-shadow: var(--stats-shadow-sm);
 }
 
@@ -217,7 +217,7 @@
 }
 
 .kpi-card {
-  background: var(--dashboard-card);
+  background: var(--Fondo-kapi);
   border-radius: var(--stats-radius-lg);
   padding: var(--stats-spacing-lg);
   box-shadow: var(--stats-shadow-sm);
@@ -230,11 +230,11 @@
   overflow: hidden;
 }
 
-.kpi-card:hover {
+/*.kpi-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--stats-shadow-md);
   background: var(--dashboard-card-hover);
-}
+}*/
 
 .kpi-card::before {
   content: "";
@@ -390,7 +390,7 @@
 }
 
 .chart-container {
-  background: var(--dashboard-card);
+  background: var(--Fondo-kapi);
   border-radius: var(--stats-radius-lg);
   padding: var(--stats-spacing-lg);
   box-shadow: var(--stats-shadow-sm);
@@ -460,7 +460,7 @@
 }
 
 .table-container {
-  background: var(--dashboard-card);
+  background: var(--Fondo-kapi);
   border-radius: var(--stats-radius-lg);
   overflow: hidden;
   box-shadow: var(--stats-shadow-sm);
@@ -561,7 +561,7 @@ table tbody tr:hover {
 }
 
 .summary-card {
-  background: var(--dashboard-card);
+  background: var(--Fondo-kapi);
   border-radius: var(--stats-radius-lg);
   padding: var(--stats-spacing-lg);
   box-shadow: var(--stats-shadow-sm);

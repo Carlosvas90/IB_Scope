@@ -151,6 +151,8 @@
   --light-dashboard-card-text_two: var(--Palette-Blue-4);
   --light-dashboard-title: var(--Palette-Blue-4);
   --light-dashboard-subtitle: var(--Color-gray-5);
+  --light-Fondo-paginas: var(--Color-gray-1);
+  --light-Fondo-kapi: var(--Color-white);
 
   /* TEMA OSCURO - Variables semánticas */
   --dark-Body-bg: var(--Palette-Blue-6);
@@ -181,6 +183,8 @@
   --dark-dashboard-card-text_two: var(--Palette-Blue-4);
   --dark-dashboard-title: var(--Palette-Blue-4);
   --dark-dashboard-subtitle: var(--Color-gray-1);
+  --dark-Fondo-paginas: var(--Palette-Blue-7);
+  --dark-Fondo-kapi: var(--Palette-Blue-6);
   /*=============================================
   =         VARIABLES ACTIVAS DEL TEMA          =
   =============================================*/
@@ -213,6 +217,8 @@
   --dashboard-card-text_two: var(--light-dashboard-card-text_two);
   --dashboard-title: var(--light-dashboard-title);
   --dashboard-subtitle: var(--light-dashboard-subtitle);
+  --Fondo-paginas: var(--light-Fondo-paginas);
+  --Fondo-kapi: var(--light-Fondo-kapi);
 }
 
 .dark-theme {
@@ -244,4 +250,6 @@
   --dashboard-card-text_two: var(--dark-dashboard-card-text_two);
   --dashboard-title: var(--dark-dashboard-title);
   --dashboard-subtitle: var(--dark-dashboard-subtitle);
+  --Fondo-paginas: var(--dark-Fondo-paginas);
+  --Fondo-kapi: var(--dark-Fondo-kapi);
 }

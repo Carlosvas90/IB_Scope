@@ -14,7 +14,7 @@
   align-items: center;
   margin-bottom: var(--spacing-xl);
   padding: var(--spacing-lg) var(--spacing-xl);
-  background: var(--body-bg);
+  background: var(--Fondo-kapi);
   border-radius: var(--border-lg);
   box-shadow: var(--shadow-md);
   border: 1px solid var(--dashboard-border);

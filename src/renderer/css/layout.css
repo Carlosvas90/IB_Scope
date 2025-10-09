@@ -5,6 +5,7 @@
 /* Contenedor principal de la aplicación */
 .app-container {
   display: flex;
+  background-color: var(--Fondo-paginas);
   height: calc(100vh - 2rem);
   min-height: calc(100vh - 2rem);
   width: 100vw;
