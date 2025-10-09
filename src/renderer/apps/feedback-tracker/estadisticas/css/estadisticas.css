@@ -3,6 +3,9 @@
 /* Importar variables del sistema */
 @import url("../../../../css/themes/variables.css");
 
+/* Importar componente de header reutilizable */
+@import url("../../../../css/header-component.css");
+
 /* Variables específicas de estadísticas usando el sistema centralizado */
 :root {
   /* Colores principales usando la paleta del sistema */
@@ -74,7 +77,10 @@
 }
 
 /* ===== HEADER ===== */
+/* NOTA: Este header ahora hereda estilos del componente global header-component.css */
+/* Los estilos base (línea superior, efectos, etc.) están definidos en .app-header-card */
 .estadisticas-header {
+  /* Hereda de .app-header-card */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -82,8 +88,26 @@
   padding: var(--stats-spacing-lg) var(--stats-spacing-xl);
   background: var(--stats-bg-primary);
   border-radius: var(--stats-radius-lg);
-  box-shadow: var(--stats-shadow-sm);
+  box-shadow: var(--stats-shadow-md);
   border: 1px solid var(--stats-border-color);
+  position: relative;
+  overflow: hidden;
+  transition: all var(--stats-transition-normal);
+}
+
+/* Línea superior con gradiente (COMPONENTE REUTILIZABLE) */
+.estadisticas-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--stats-primary-color),
+    var(--stats-info-color)
+  );
 }
 
 .estadisticas-header h1 {
@@ -91,6 +115,15 @@
   color: var(--dashboard-title);
   font-size: var(--stats-font-size-xxl);
   font-weight: var(--stats-font-weight-bold);
+  display: flex;
+  align-items: center;
+  gap: var(--stats-spacing-sm);
+}
+
+/* Icono del header */
+.estadisticas-header h1 svg {
+  color: var(--stats-primary-color);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 .header-controls {

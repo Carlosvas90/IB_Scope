@@ -1,0 +1,131 @@
+/**
+ * header-component.css
+ * Componente reutilizable de header con línea superior de gradiente
+ * Estilo inspirado en los KPI cards para consistencia visual
+ */
+
+/* Importar variables del sistema */
+@import url("themes/variables.css");
+
+/* ===== HEADER COMPONENT ===== */
+.app-header-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xl);
+  padding: var(--spacing-lg) var(--spacing-xl);
+  background: var(--body-bg);
+  border-radius: var(--border-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--dashboard-border);
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition-normal);
+}
+
+/* Línea superior con gradiente - ELEMENTO DISTINTIVO */
+.app-header-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--Palette-Blue-4),
+    var(--Palette-Blue-3)
+  );
+}
+
+/* Variantes de color para diferentes módulos */
+.app-header-card.primary::before {
+  background: linear-gradient(
+    90deg,
+    var(--Palette-Blue-4),
+    var(--Palette-Blue-3)
+  );
+}
+
+.app-header-card.success::before {
+  background: linear-gradient(
+    90deg,
+    var(--Color-Green-3),
+    var(--Palette-Blue-3)
+  );
+}
+
+.app-header-card.warning::before {
+  background: linear-gradient(90deg, var(--Color-Orange-3), var(--Color-Red-3));
+}
+
+.app-header-card.danger::before {
+  background: linear-gradient(90deg, var(--Color-Red-3), var(--Color-Orange-3));
+}
+
+.app-header-card.info::before {
+  background: linear-gradient(
+    90deg,
+    var(--Palette-Blue-3),
+    var(--Color-Green-3)
+  );
+}
+
+/* Título del header */
+.app-header-card h1 {
+  margin: 0;
+  color: var(--dashboard-title);
+  font-size: var(--font-size-xxl);
+  font-weight: var(--font-weight-bold);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+/* Icono del header */
+.app-header-card h1 svg {
+  color: var(--Palette-Blue-4);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* Controles del header */
+.app-header-controls {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .app-header-card {
+    flex-direction: column;
+    gap: var(--spacing-md);
+    align-items: flex-start;
+    padding: var(--spacing-md);
+  }
+
+  .app-header-controls {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .app-header-card h1 {
+    font-size: var(--font-size-xl);
+  }
+}
+
+/* ===== USAGE EXAMPLE =====
+  
+  <header class="app-header-card primary">
+    <h1>
+      <svg>...</svg>
+      Título
+    </h1>
+    <div class="app-header-controls">
+      <button>Botón 1</button>
+      <button>Botón 2</button>
+    </div>
+  </header>
+
+================================ */

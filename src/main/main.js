@@ -247,6 +247,44 @@ ipcMain.handle("read-html-file", (event, filePath) => {
   }
 });
 
+// Leer archivos genéricos (SVG, CSS, etc.) desde assets o cualquier ruta relativa
+ipcMain.handle("read-file", (event, filePath) => {
+  try {
+    console.log("[Main] Leyendo archivo:", filePath);
+    console.log("[Main] App empaquetada:", app.isPackaged);
+
+    let fullPath;
+    if (app.isPackaged) {
+      // En aplicación compilada, los archivos están dentro del asar o en resources
+      // Primero intentar en resources (para archivos copiados explícitamente)
+      const resourcesPath = path.join(process.resourcesPath, filePath);
+      if (fs.existsSync(resourcesPath)) {
+        fullPath = resourcesPath;
+      } else {
+        // Si no está en resources, buscar en el asar
+        fullPath = path.join(app.getAppPath(), filePath);
+      }
+    } else {
+      // En desarrollo, usar la ruta desde el directorio raíz del proyecto
+      fullPath = path.join(process.cwd(), filePath);
+    }
+
+    console.log("[Main] Ruta completa calculada:", fullPath);
+
+    if (fs.existsSync(fullPath)) {
+      const content = fs.readFileSync(fullPath, "utf-8");
+      console.log("[Main] ✅ Archivo leído exitosamente");
+      return { success: true, content };
+    } else {
+      console.error("[Main] ❌ Archivo no encontrado:", fullPath);
+      return { success: false, error: `Archivo no encontrado: ${fullPath}` };
+    }
+  } catch (error) {
+    console.error("[Main] Error leyendo archivo:", error);
+    return { success: false, error: error.message };
+  }
+});
+
 // Eventos generales
 ipcMain.on("preload:loaded", () => {
   console.log("Preload cargado correctamente");

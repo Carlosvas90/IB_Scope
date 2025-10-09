@@ -24,20 +24,24 @@
         <h1>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
+            width="32"
+            height="32"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
-            style="vertical-align: middle"
+            style="
+              display: inline-flex;
+              align-items: center;
+              vertical-align: middle;
+              margin-right: 8px;
+            "
           >
-            <path d="M3 13h8V3H3z"></path>
-            <path d="M13 21h8V11h-8z"></path>
-            <path d="M13 3h8v4h-8z"></path>
-            <path d="M3 21h8v-4H3z"></path>
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
           </svg>
           Estadísticas
         </h1>
@@ -499,15 +503,6 @@
       <p>Cargando estadísticas...</p>
     </div>
 
-    <!-- Scripts -->
-    <script type="module" src="../js/init-estadisticas.js"></script>
-
-    <!-- Script de diagnóstico -->
-    <script src="../js/diagnostico.js"></script>
-
-    <!-- Script de prueba para integración modular -->
-    <script type="module" src="../js/test-modular-integration.js"></script>
-
     <!-- Script para ocultar overlay inicial -->
     <script>
       // Ocultar overlay de carga inmediatamente al cargar la página
@@ -519,6 +514,17 @@
         }
       });
     </script>
+
+    <!-- Script de carga de SVG (debe cargarse primero) -->
     <script src="../js/svg-loader.js"></script>
+
+    <!-- Scripts -->
+    <script type="module" src="../js/init-estadisticas.js"></script>
+
+    <!-- Script de diagnóstico -->
+    <script src="../js/diagnostico.js"></script>
+
+    <!-- Script de prueba para integración modular -->
+    <script type="module" src="../js/test-modular-integration.js"></script>
   </body>
 </html>

@@ -55,9 +55,36 @@
   <body>
     <!-- Vista de errores -->
     <section id="errors-view" class="view active">
-      <div class="page-header">
-        <h1 class="page-title">Inventory Health - Feedback</h1>
-        <div class="actions-bar">
+      <!-- Header con nuevo estilo (línea superior como KPI cards) -->
+      <header class="app-header-card warning">
+        <h1>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            style="
+              display: inline-flex;
+              align-items: center;
+              vertical-align: middle;
+              margin-right: 8px;
+            "
+          >
+            <path
+              d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+            ></path>
+            <path d="M8 10h.01"></path>
+            <path d="M12 10h.01"></path>
+            <path d="M16 10h.01"></path>
+          </svg>
+          Inventory Health - Feedback
+        </h1>
+        <div class="app-header-controls">
           <button id="refresh-btn" class="btn btn-primary">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -97,7 +124,7 @@
             Exportar a CSV
           </button>
         </div>
-      </div>
+      </header>
 
       <!-- Filtros -->
       <div class="filters">

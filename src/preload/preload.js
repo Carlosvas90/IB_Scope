@@ -71,23 +71,25 @@ contextBridge.exposeInMainWorld("api", {
    * @returns {Promise<boolean>} - True si el archivo existe
    */
   fileExists: (filePath) => ipcRenderer.invoke("file-exists", filePath),
-  
-    /**
-     * Ejecuta una consulta SQL en una base de datos SQLite.
-     * @param {string} dbPath - Ruta de la base de datos SQLite
-     * @param {string} sql - Consulta SQL a ejecutar
-     * @param {Array} params - Parámetros para la consulta SQL
-     * @returns {Promise<Array>} - Resultado de la consulta
-     */
-    queryDatabase: (dbPath, sql, params = []) => ipcRenderer.invoke("query-database", dbPath, sql, params),
-    
-    /**
-     * Obtiene el esquema de una tabla en una base de datos SQLite.
-     * @param {string} dbPath - Ruta de la base de datos SQLite
-     * @param {string} tableName - Nombre de la tabla
-     * @returns {Promise<Array>} - Esquema de la tabla
-     */
-    getTableSchema: (dbPath, tableName) => ipcRenderer.invoke("get-table-schema", dbPath, tableName),
+
+  /**
+   * Ejecuta una consulta SQL en una base de datos SQLite.
+   * @param {string} dbPath - Ruta de la base de datos SQLite
+   * @param {string} sql - Consulta SQL a ejecutar
+   * @param {Array} params - Parámetros para la consulta SQL
+   * @returns {Promise<Array>} - Resultado de la consulta
+   */
+  queryDatabase: (dbPath, sql, params = []) =>
+    ipcRenderer.invoke("query-database", dbPath, sql, params),
+
+  /**
+   * Obtiene el esquema de una tabla en una base de datos SQLite.
+   * @param {string} dbPath - Ruta de la base de datos SQLite
+   * @param {string} tableName - Nombre de la tabla
+   * @returns {Promise<Array>} - Esquema de la tabla
+   */
+  getTableSchema: (dbPath, tableName) =>
+    ipcRenderer.invoke("get-table-schema", dbPath, tableName),
 
   // --- Utilidades ---
   getAppPath: () => ipcRenderer.invoke("get-app-path"),
@@ -99,6 +101,13 @@ contextBridge.exposeInMainWorld("api", {
    * @returns {Promise<object>} - Resultado con contenido del archivo HTML
    */
   readHtmlFile: (filePath) => ipcRenderer.invoke("read-html-file", filePath),
+
+  /**
+   * Lee un archivo genérico (SVG, CSS, etc.) desde el sistema de archivos.
+   * @param {string} filePath - Ruta relativa del archivo desde la raíz del proyecto
+   * @returns {Promise<object>} - Resultado con contenido del archivo
+   */
+  readFile: (filePath) => ipcRenderer.invoke("read-file", filePath),
 
   // --- Enlaces externos ---
   openExternalLink: (url) => ipcRenderer.invoke("open-external-link", url),
