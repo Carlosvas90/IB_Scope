@@ -2,6 +2,9 @@
 @import url("../../../css/themes/variables.css");
 @import url("../../../css/themes/variables2.css");
 
+/* Importar componente de header reutilizable */
+@import url("../../../css/header-component.css");
+
 body {
   background-color: var(--body-bg);
 }
@@ -14,20 +17,36 @@ body {
   background-color: var(--Fondo-paginas);
 }
 
-.dashboard-header {
-  margin-bottom: var(--spacing-xl);
+/* Header centrado con padding fijo */
+.dashboard-header-centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
+  min-height: 120px; /* Altura mínima fija */
 }
 
-.dashboard-header h1 {
-  font-size: var(--font-size-xxl);
-  color: var(--dashboard-title);
+.dashboard-header-centered h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
   margin-bottom: var(--spacing-sm);
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.dashboard-header-centered h1 svg {
+  flex-shrink: 0;
+  min-width: 32px;
 }
 
 .welcome-message {
   color: var(--dashboard-subtitle);
   font-size: var(--font-size-md);
+  margin: 0;
+  max-width: 100%;
 }
 
 .apps-grid {
@@ -40,8 +59,9 @@ body {
 
 .app-card {
   background-color: var(--Fondo-kapi);
-  border-radius: var(--border-radius-lg);
-  box-shadow: var(--box-shadow-sm);
+  border-radius: var(--border-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--dashboard-border);
   padding: var(--spacing-lg);
   display: flex;
   flex-direction: column;
@@ -55,19 +75,29 @@ body {
   overflow: hidden;
 }
 
-.app-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--box-shadow-lg);
-}
-
-.app-card:hover::before {
+/* Línea superior con gradiente por defecto */
+.app-card::before {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 5px;
-  background-color: var(--dashboard-card-hover);
+  right: 0;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--Palette-Blue-4),
+    var(--Palette-Blue-3)
+  );
+  transition: height var(--transition-normal);
+}
+
+.app-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.app-card:hover::before {
+  height: 6px;
 }
 
 .app-icon {
@@ -167,15 +197,4 @@ body {
 .status-item {
   display: flex;
   gap: var(--spacing-sm);
-}
-
-@media (max-width: 768px) {
-  .apps-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .dashboard-status {
-    flex-direction: column;
-    gap: var(--spacing-sm);
-  }
 }

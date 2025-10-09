@@ -96,23 +96,17 @@
   flex-wrap: wrap;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .app-header-card {
-    flex-direction: column;
-    gap: var(--spacing-md);
-    align-items: flex-start;
-    padding: var(--spacing-md);
-  }
+/* Ajustes para ventanas pequeñas (no responsive, solo flexibilidad) */
+.app-header-card h1 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
 
-  .app-header-controls {
-    width: 100%;
-    justify-content: flex-start;
-  }
-
-  .app-header-card h1 {
-    font-size: var(--font-size-xl);
-  }
+.app-header-card h1 svg {
+  flex-shrink: 0;
+  min-width: 32px;
 }
 
 /* ===== USAGE EXAMPLE =====
