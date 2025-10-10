@@ -98,6 +98,11 @@ body {
 
 .app-card:hover::before {
   height: 6px;
+  background: linear-gradient(
+    90deg,
+    var(--Color-Green-3),
+    var(--Color-Green-1)
+  );
 }
 
 .app-icon {
