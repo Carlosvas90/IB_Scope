@@ -158,6 +158,13 @@
   --light-texto-tabla-secundario: var(--Color-gray-8);
   --light-Texto-Botones: var(--Color-gray-8);
   --light-fondo-boton-activo: var(--Palette-Blue-4);
+  --light-kpi-icon: var(--Color-gray-2);
+
+  /* Variables para Scrollbar */
+  --light-scrollbar-bg: var(--Color-gray-1);
+  --light-scrollbar-thumb: var(--Color-gray-4);
+  --light-scrollbar-thumb-hover: var(--Color-gray-5);
+  --light-scrollbar-corner: var(--Color-gray-1);
 
   /* TEMA OSCURO - Variables semánticas */
   --dark-Body-bg: var(--Palette-Blue-6);
@@ -195,6 +202,13 @@
   --dark-texto-tabla-secundario: var(--Color-gray-5);
   --dark-Texto-Botones: var(--Color-white);
   --dark-fondo-boton-activo: var(--Palette-Blue-4);
+  --dark-kpi-icon: var(--Palette-Blue-4);
+
+  /* Variables para Scrollbar */
+  --dark-scrollbar-bg: var(--Palette-Blue-6);
+  --dark-scrollbar-thumb: var(--Palette-Blue-4);
+  --dark-scrollbar-thumb-hover: var(--Palette-Blue-3);
+  --dark-scrollbar-corner: var(--Palette-Blue-6);
 
   /*=============================================
   =         VARIABLES ACTIVAS DEL TEMA          =
@@ -235,6 +249,13 @@
   --texto-tabla-secundario: var(--light-texto-tabla-secundario);
   --Texto-Botones: var(--light-Texto-Botones);
   --fondo-boton-activo: var(--light-fondo-boton-activo);
+  --kpi-icon: var(--light-kpi-icon);
+
+  /* Variables para Scrollbar */
+  --scrollbar-bg: var(--light-scrollbar-bg);
+  --scrollbar-thumb: var(--light-scrollbar-thumb);
+  --scrollbar-thumb-hover: var(--light-scrollbar-thumb-hover);
+  --scrollbar-corner: var(--light-scrollbar-corner);
 }
 
 .dark-theme {
@@ -273,4 +294,11 @@
   --texto-tabla-secundario: var(--dark-texto-tabla-secundario);
   --Texto-Botones: var(--dark-Texto-Botones);
   --fondo-boton-activo: var(--dark-fondo-boton-activo);
+  --kpi-icon: var(--dark-kpi-icon);
+
+  /* Variables para Scrollbar */
+  --scrollbar-bg: var(--dark-scrollbar-bg);
+  --scrollbar-thumb: var(--dark-scrollbar-thumb);
+  --scrollbar-thumb-hover: var(--dark-scrollbar-thumb-hover);
+  --scrollbar-corner: var(--dark-scrollbar-corner);
 }
