@@ -153,6 +153,11 @@
   --light-dashboard-subtitle: var(--Color-gray-5);
   --light-Fondo-paginas: var(--Color-gray-1);
   --light-Fondo-kapi: var(--Color-white);
+  --light-Fondo-tabla: var(--Color-white);
+  --light-texto-tabla: var(--Color-gray-8);
+  --light-texto-tabla-secundario: var(--Color-gray-8);
+  --light-Texto-Botones: var(--Color-gray-8);
+  --light-fondo-boton-activo: var(--Palette-Blue-4);
 
   /* TEMA OSCURO - Variables semánticas */
   --dark-Body-bg: var(--Palette-Blue-6);
@@ -185,6 +190,12 @@
   --dark-dashboard-subtitle: var(--Color-gray-1);
   --dark-Fondo-paginas: var(--Palette-Blue-7);
   --dark-Fondo-kapi: var(--Palette-Blue-6);
+  --dark-Fondo-tabla: var(--Palette-Blue-6);
+  --dark-texto-tabla: var(--Color-gray-3);
+  --dark-texto-tabla-secundario: var(--Color-gray-5);
+  --dark-Texto-Botones: var(--Color-white);
+  --dark-fondo-boton-activo: var(--Palette-Blue-4);
+
   /*=============================================
   =         VARIABLES ACTIVAS DEL TEMA          =
   =============================================*/
@@ -219,6 +230,11 @@
   --dashboard-subtitle: var(--light-dashboard-subtitle);
   --Fondo-paginas: var(--light-Fondo-paginas);
   --Fondo-kapi: var(--light-Fondo-kapi);
+  --Fondo-tabla: var(--light-Fondo-tabla);
+  --texto-tabla: var(--light-texto-tabla);
+  --texto-tabla-secundario: var(--light-texto-tabla-secundario);
+  --Texto-Botones: var(--light-Texto-Botones);
+  --fondo-boton-activo: var(--light-fondo-boton-activo);
 }
 
 .dark-theme {
@@ -252,4 +268,9 @@
   --dashboard-subtitle: var(--dark-dashboard-subtitle);
   --Fondo-paginas: var(--dark-Fondo-paginas);
   --Fondo-kapi: var(--dark-Fondo-kapi);
+  --Fondo-tabla: var(--dark-Fondo-tabla);
+  --texto-tabla: var(--dark-texto-tabla);
+  --texto-tabla-secundario: var(--dark-texto-tabla-secundario);
+  --Texto-Botones: var(--dark-Texto-Botones);
+  --fondo-boton-activo: var(--dark-fondo-boton-activo);
 }

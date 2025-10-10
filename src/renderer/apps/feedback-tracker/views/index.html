@@ -82,7 +82,7 @@
             <path d="M12 10h.01"></path>
             <path d="M16 10h.01"></path>
           </svg>
-          Inventory Health - Feedback
+          incidencias & Feedback
         </h1>
         <div class="app-header-controls">
           <button id="refresh-btn" class="btn btn-primary">
@@ -126,106 +126,111 @@
         </div>
       </header>
 
-      <!-- Filtros -->
-      <div class="filters">
-        <div class="filter-group">
-          <span class="filter-label">Filtrar por estado:</span>
-          <div class="filter-buttons">
-            <button
-              type="button"
-              class="filter-btn active"
-              data-filter="status"
-              data-value="all"
-            >
-              Todos
-            </button>
-            <button
-              type="button"
-              class="filter-btn"
-              data-filter="status"
-              data-value="pending"
-            >
-              Pendientes
-            </button>
-            <button
-              type="button"
-              class="filter-btn"
-              data-filter="status"
-              data-value="done"
-            >
-              Completados
-            </button>
-          </div>
-        </div>
+      <!-- Filtros y Estadísticas -->
+      <div class="app-card-basic">
+        <div class="card-content">
+          <!-- Filtros -->
+          <div class="filters">
+            <div class="filter-group">
+              <span class="filter-label">Filtrar por estado:</span>
+              <div class="filter-buttons">
+                <button
+                  type="button"
+                  class="filter-btn active"
+                  data-filter="status"
+                  data-value="all"
+                >
+                  Todos
+                </button>
+                <button
+                  type="button"
+                  class="filter-btn"
+                  data-filter="status"
+                  data-value="pending"
+                >
+                  Pendientes
+                </button>
+                <button
+                  type="button"
+                  class="filter-btn"
+                  data-filter="status"
+                  data-value="done"
+                >
+                  Completados
+                </button>
+              </div>
+            </div>
 
-        <div class="filter-group">
-          <span class="filter-label">Filtrar por Turno:</span>
-          <div class="filter-buttons">
-            <button
-              type="button"
-              class="filter-btn active"
-              data-filter="shift"
-              data-value="day"
-            >
-              Day
-            </button>
-            <button
-              type="button"
-              class="filter-btn"
-              data-filter="shift"
-              data-value="early"
-            >
-              Early
-            </button>
-            <button
-              type="button"
-              class="filter-btn"
-              data-filter="shift"
-              data-value="late"
-            >
-              Late
-            </button>
-          </div>
-        </div>
+            <div class="filter-group">
+              <span class="filter-label">Filtrar por Turno:</span>
+              <div class="filter-buttons">
+                <button
+                  type="button"
+                  class="filter-btn active"
+                  data-filter="shift"
+                  data-value="day"
+                >
+                  Day
+                </button>
+                <button
+                  type="button"
+                  class="filter-btn"
+                  data-filter="shift"
+                  data-value="early"
+                >
+                  Early
+                </button>
+                <button
+                  type="button"
+                  class="filter-btn"
+                  data-filter="shift"
+                  data-value="late"
+                >
+                  Late
+                </button>
+              </div>
+            </div>
 
-        <div class="filter-group">
-          <span class="filter-label">Filtrar por Login:</span>
-          <div class="filter-dropdown">
-            <select id="login-filter" class="filter-select">
-              <option value="all">Todos los usuarios</option>
-              <!-- Las opciones se cargarán dinámicamente -->
-            </select>
-          </div>
-        </div>
+            <div class="filter-group">
+              <span class="filter-label">Filtrar por Login:</span>
+              <div class="filter-dropdown">
+                <select id="login-filter" class="filter-select">
+                  <option value="all">Todos los usuarios</option>
+                  <!-- Las opciones se cargarán dinámicamente -->
+                </select>
+              </div>
+            </div>
 
-        <div class="filter-group">
-          <span class="filter-label">Filtrar por incidencia:</span>
-          <div class="filter-dropdown">
-            <select id="error-filter" class="filter-select">
-              <option value="all">Todas las incidencias</option>
-              <!-- Las opciones se cargarán dinámicamente -->
-            </select>
+            <div class="filter-group">
+              <span class="filter-label">Filtrar por incidencia:</span>
+              <div class="filter-dropdown">
+                <select id="error-filter" class="filter-select">
+                  <option value="all">Todas las incidencias</option>
+                  <!-- Las opciones se cargarán dinámicamente -->
+                </select>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <!-- Resumen de estadísticas -->
-      <div class="stats-overview">
-        <div class="stat-item">
-          <span class="stat-label">Total:</span>
-          <span class="stat-value" id="total-errors">-</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-label">Pendientes:</span>
-          <span class="stat-value" id="pending-errors">-</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-label">Completados:</span>
-          <span class="stat-value" id="done-errors">-</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-label">Última actualización:</span>
-          <span class="stat-value" id="last-update">-</span>
+          <!-- Resumen de estadísticas -->
+          <div class="stats-overview">
+            <div class="stat-item">
+              <span class="stat-label">Total:</span>
+              <span class="stat-value" id="total-errors">-</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Pendientes:</span>
+              <span class="stat-value" id="pending-errors">-</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Completados:</span>
+              <span class="stat-value" id="done-errors">-</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Última actualización:</span>
+              <span class="stat-value" id="last-update">-</span>
+            </div>
+          </div>
         </div>
       </div>
 

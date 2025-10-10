@@ -30,7 +30,7 @@
 .data-table th {
   text-align: left;
   padding: var(--spacing-md);
-  background-color: var(--sidebar-bg);
+  background-color: var(--Fondo-tabla);
   color: var(--text-primary);
   font-weight: 600;
   border-bottom: 1px solid var(--border-color);
@@ -56,6 +56,7 @@
   padding: var(--spacing-md);
   border-right: 1px solid var(--border-color);
   vertical-align: middle;
+  color: var(--texto-tabla);
 }
 
 .data-table td:last-child {
@@ -210,6 +211,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: var(--spacing-md);
+  color: var(--texto-tabla-secundario);
 }
 
 .detail-item {

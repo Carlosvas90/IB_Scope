@@ -165,7 +165,7 @@ body {
   border: 1px solid var(--stats-border-color);
   border-radius: var(--stats-radius-md);
   background: var(--stats-bg-primary);
-  color: var(--stats-text-primary);
+  color: var(--Texto-Botones);
   font-size: var(--stats-font-size-sm);
   cursor: pointer;
   transition: all var(--stats-transition-fast);
@@ -231,7 +231,7 @@ body {
 }
 
 .filter-btn.active {
-  background-color: var(--accent-blue);
+  background-color: var(--fondo-boton-activo);
   color: white;
   border-color: var(--accent-blue);
 }
@@ -279,7 +279,7 @@ body {
   border-radius: var(--border-radius-lg);
   padding: var(--spacing-md);
   /* margin: 0 var(--spacing-lg); */
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-xs);
 }
 
 .stat-item {

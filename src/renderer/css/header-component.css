@@ -109,8 +109,67 @@
   min-width: 32px;
 }
 
-/* ===== USAGE EXAMPLE =====
-  
+/* ===== COMPONENTE BÁSICO SIN BARRA SUPERIOR ===== */
+.app-card-basic {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xl);
+  padding: var(--spacing-lg) var(--spacing-xl);
+  background: var(--Fondo-kapi);
+  border-radius: var(--border-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--dashboard-border);
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition-normal);
+}
+
+/* Variante centrada para contenido simple */
+.app-card-basic.centered {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 80px;
+}
+
+.app-card-basic h1,
+.app-card-basic h2,
+.app-card-basic h3 {
+  margin: 0;
+  color: var(--dashboard-title);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.app-card-basic p {
+  margin: 0;
+  color: var(--dashboard-subtitle);
+  font-size: var(--font-size-md);
+}
+
+.app-card-basic .card-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.app-card-basic .card-controls {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: center;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+/* ===== USAGE EXAMPLES =====
+
+  HEADER CON BARRA SUPERIOR:
   <header class="app-header-card primary">
     <h1>
       <svg>...</svg>
@@ -121,5 +180,22 @@
       <button>Botón 2</button>
     </div>
   </header>
+
+  CARD BÁSICO SIN BARRA SUPERIOR:
+  <div class="app-card-basic">
+    <div class="card-content">
+      <h2>Título</h2>
+      <p>Descripción opcional</p>
+    </div>
+    <div class="card-controls">
+      <button>Acción</button>
+    </div>
+  </div>
+
+  CARD BÁSICO CENTRADO:
+  <div class="app-card-basic centered">
+    <h2>Título Centrado</h2>
+    <p>Texto centrado</p>
+  </div>
 
 ================================ */
