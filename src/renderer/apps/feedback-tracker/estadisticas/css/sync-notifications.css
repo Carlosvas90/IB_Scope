@@ -1,0 +1,211 @@
+/**
+ * sync-notifications.css
+ * Estilos para notificaciones de sincronización automática
+ */
+
+/* Contenedor principal de notificaciones */
+.sync-notification {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  background: var(--Color-Green-3, #10b981);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: var(
+    --shadow-lg,
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05)
+  );
+  z-index: 10000;
+  font-family: var(
+    --font-primary,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif
+  );
+  font-size: 14px;
+  font-weight: 500;
+  min-width: 250px;
+  max-width: 350px;
+  transition: all 0.3s ease;
+  border-left: 4px solid var(--Color-Green-4, #059669);
+}
+
+/* Contenido de la notificación */
+.sync-notification-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Icono de la notificación */
+.sync-notification-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+/* Texto de la notificación */
+.sync-notification-text {
+  flex: 1;
+  line-height: 1.4;
+}
+
+/* Botón de cerrar (opcional) */
+.sync-notification-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.sync-notification-close:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Animaciones */
+@keyframes slideIn {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+}
+
+/* Aplicar animaciones */
+.sync-notification.slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+.sync-notification.slide-out {
+  animation: slideOut 0.3s ease-in;
+}
+
+/* Variantes de notificación */
+.sync-notification.success {
+  background: var(--Color-Green-3, #10b981);
+  border-left-color: var(--Color-Green-4, #059669);
+}
+
+.sync-notification.info {
+  background: var(--Color-Blue-3, #3b82f6);
+  border-left-color: var(--Color-Blue-4, #2563eb);
+}
+
+.sync-notification.warning {
+  background: var(--Color-Yellow-3, #f59e0b);
+  border-left-color: var(--Color-Yellow-4, #d97706);
+}
+
+.sync-notification.error {
+  background: var(--Color-Red-3, #ef4444);
+  border-left-color: var(--Color-Red-4, #dc2626);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sync-notification {
+    top: 60px;
+    right: 10px;
+    left: 10px;
+    min-width: auto;
+    max-width: none;
+  }
+}
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+  .sync-notification {
+    background: var(--Color-Green-4, #059669);
+    color: var(--Color-Gray-1, #f9fafb);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3),
+      0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  }
+
+  .sync-notification.success {
+    background: var(--Color-Green-4, #059669);
+  }
+
+  .sync-notification.info {
+    background: var(--Color-Blue-4, #2563eb);
+  }
+
+  .sync-notification.warning {
+    background: var(--Color-Yellow-4, #d97706);
+  }
+
+  .sync-notification.error {
+    background: var(--Color-Red-4, #dc2626);
+  }
+}
+
+/* Indicador de sincronización en el header */
+.sync-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--Color-Gray-6, #6b7280);
+  margin-left: 12px;
+}
+
+.sync-indicator.active {
+  color: var(--Color-Green-5, #10b981);
+}
+
+.sync-indicator-icon {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Estado de sincronización */
+.sync-status {
+  position: relative;
+}
+
+.sync-status::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  background: var(--Color-Green-5, #10b981);
+  border-radius: 50%;
+  border: 2px solid white;
+  animation: pulse 2s infinite;
+}

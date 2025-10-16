@@ -111,6 +111,18 @@ class EstadisticasController {
       // Inicializar servicios
       await this.dataService.init();
 
+      // FASE 3: Habilitar sincronización automática si está usando OptimizedDataService
+      // TEMPORALMENTE DESHABILITADO para evitar bucle infinito
+      if (false && this.useOptimizedService && this.dataService.enableSync) {
+        console.log("🔄 Habilitando sincronización automática...");
+        this.dataService.enableSync({
+          pollingInterval: 30000, // 30 segundos
+          autoRefresh: true,
+          notifyUsers: true,
+        });
+        console.log("✅ Sincronización automática habilitada");
+      }
+
       // Configurar eventos
       this.setupEventListeners();
 

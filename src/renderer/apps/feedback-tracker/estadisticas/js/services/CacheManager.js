@@ -24,8 +24,6 @@ export class CacheManager {
    */
   async init() {
     try {
-      this.log("Inicializando CacheManager...");
-
       // Verificar soporte de IndexedDB
       if (!this.checkIndexedDBSupport()) {
         this.error("IndexedDB no está soportado en este navegador");

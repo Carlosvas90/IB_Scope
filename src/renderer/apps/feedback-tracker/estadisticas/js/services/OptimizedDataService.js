@@ -42,22 +42,17 @@ export class OptimizedDataService {
    */
   async init() {
     try {
-      console.log("🔧 Inicializando OptimizedDataService...");
-
       // Inicializar CacheManager
       await this.cacheManager.init();
-      console.log("✅ CacheManager inicializado");
 
       // Inicializar EstadisticasDataService
       await this.estadisticasService.init();
-      console.log("✅ EstadisticasDataService inicializado");
 
       // Calcular mes actual
       this.currentMonth = this.getCurrentMonthKey();
-      console.log(`📅 Mes actual: ${this.currentMonth}`);
 
       this.isInitialized = true;
-      console.log("✅ OptimizedDataService completamente inicializado");
+      console.log("✅ OptimizedDataService inicializado");
 
       return true;
     } catch (error) {
@@ -129,17 +124,21 @@ export class OptimizedDataService {
    */
   async loadData() {
     try {
-      console.log("📥 [ODS] Iniciando carga optimizada de datos...");
-
       if (!this.isInitialized) {
         console.warn("⚠️ Servicio no inicializado, inicializando ahora...");
         await this.init();
       }
 
       // PASO 1: Cargar datos de hoy desde JSON (siempre actualizado)
-      console.log("📅 [ODS] PASO 1: Cargando datos del día actual...");
       const todayData = await this.loadTodayData();
-      console.log(`✅ Datos de hoy: ${todayData.length} registros`);
+
+      // Si no hay datos de hoy, cargar todos los datos
+      if (!todayData || todayData.length === 0) {
+        console.log("📅 No hay datos de hoy, cargando todos los datos...");
+        await this.estadisticasService.loadData();
+        this.estadisticasService.notifyListeners();
+        return true;
+      }
 
       // Por defecto, solo retornar datos de hoy
       this.estadisticasService.errors = todayData;
@@ -150,13 +149,13 @@ export class OptimizedDataService {
       this.inMemoryCache.today = todayData;
       this.inMemoryCache.lastUpdated = new Date();
 
-      console.log("✅ [ODS] Carga inicial completada (solo hoy)");
+      console.log(`✅ Datos cargados: ${todayData.length} registros`);
       return true;
     } catch (error) {
-      console.error("❌ [ODS] Error en carga optimizada:", error);
+      console.error("❌ Error en carga optimizada:", error);
 
       // Fallback al servicio original
-      console.log("🔄 [ODS] Fallback al servicio original...");
+      console.log("🔄 Fallback al servicio original...");
       return await this.estadisticasService.loadData();
     }
   }
@@ -169,13 +168,22 @@ export class OptimizedDataService {
       // Reutilizar lógica del servicio original
       await this.estadisticasService.loadData();
 
+      // Si no hay datos, retornar array vacío
+      if (
+        !this.estadisticasService.errors ||
+        this.estadisticasService.errors.length === 0
+      ) {
+        console.log("📅 No hay datos disponibles");
+        return [];
+      }
+
       // Filtrar solo datos de hoy
       const today = new Date().toISOString().split("T")[0].replace(/-/g, "/");
       const todayData = this.estadisticasService.errors.filter(
         (error) => error.date === today
       );
 
-      console.log(`📅 Datos filtrados de hoy: ${todayData.length} registros`);
+      console.log(`📅 Datos de hoy: ${todayData.length} registros`);
       return todayData;
     } catch (error) {
       console.error("❌ Error cargando datos de hoy:", error);

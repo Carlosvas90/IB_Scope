@@ -33,7 +33,6 @@ export class TodaySyncService {
     };
 
     console.log("🔄 TodaySyncService inicializado");
-    console.log(`⏱️  Intervalo de polling: ${pollingInterval / 1000}s`);
   }
 
   /**
@@ -45,7 +44,6 @@ export class TodaySyncService {
       return;
     }
 
-    console.log("▶️  Iniciando sincronización automática...");
     this.isPolling = true;
 
     // Primer check inmediato
@@ -87,17 +85,10 @@ export class TodaySyncService {
       this.stats.checksCount++;
       this.lastCheckTime = new Date();
 
-      console.log(
-        `🔍 [Sync] Check #${
-          this.stats.checksCount
-        } - ${this.lastCheckTime.toLocaleTimeString()}`
-      );
-
       // Obtener datos actuales del día
       const currentData = await this.loadTodayDataDirect();
 
       if (!currentData || currentData.length === 0) {
-        console.log("📭 [Sync] No hay datos del día actual");
         return;
       }
 
@@ -108,9 +99,7 @@ export class TodaySyncService {
       if (this.lastHash === null) {
         // Primera verificación
         this.lastHash = currentHash;
-        console.log(
-          `🔐 [Sync] Hash inicial: ${currentHash.substring(0, 8)}...`
-        );
+        console.log("🔐 [Sync] Hash inicial establecido");
         return;
       }
 
@@ -120,8 +109,6 @@ export class TodaySyncService {
         this.stats.lastChange = new Date();
 
         console.log("🔔 [Sync] ¡CAMBIOS DETECTADOS!");
-        console.log(`   Hash anterior: ${this.lastHash.substring(0, 8)}...`);
-        console.log(`   Hash nuevo:    ${currentHash.substring(0, 8)}...`);
 
         // Actualizar hash
         this.lastHash = currentHash;
@@ -138,8 +125,6 @@ export class TodaySyncService {
         if (this.notifyUsers) {
           this.showNotification();
         }
-      } else {
-        console.log("✅ [Sync] Sin cambios");
       }
     } catch (error) {
       this.stats.errors++;
@@ -154,8 +139,8 @@ export class TodaySyncService {
     try {
       // Obtener datos del servicio original
       if (this.dataService.estadisticasService) {
-        // Es OptimizedDataService
-        return await this.dataService.estadisticasService.loadTodayData();
+        // Es OptimizedDataService - usar el método loadTodayData del OptimizedDataService
+        return await this.dataService.loadTodayData();
       } else {
         // Es EstadisticasDataService directo
         await this.dataService.loadData();
@@ -202,39 +187,27 @@ export class TodaySyncService {
   showNotification() {
     // Crear notificación temporal en la UI
     const notification = document.createElement("div");
-    notification.className = "sync-notification";
+    notification.className = "sync-notification success slide-in";
     notification.innerHTML = `
       <div class="sync-notification-content">
         <span class="sync-notification-icon">🔔</span>
-        <span class="sync-notification-text">Datos actualizados</span>
+        <span class="sync-notification-text">Datos actualizados automáticamente</span>
+        <button class="sync-notification-close" onclick="this.parentElement.parentElement.remove()">×</button>
       </div>
-    `;
-
-    // Estilos inline (o agregar a CSS global)
-    notification.style.cssText = `
-      position: fixed;
-      top: 80px;
-      right: 20px;
-      background: var(--Color-Green-3);
-      color: white;
-      padding: 12px 20px;
-      border-radius: 8px;
-      box-shadow: var(--shadow-lg);
-      z-index: 10000;
-      animation: slideIn 0.3s ease-out;
-      font-family: var(--font-primary);
-      font-size: 14px;
     `;
 
     document.body.appendChild(notification);
 
-    // Auto-remover después de 3 segundos
+    // Auto-remover después de 4 segundos
     setTimeout(() => {
-      notification.style.animation = "slideOut 0.3s ease-in";
+      notification.classList.remove("slide-in");
+      notification.classList.add("slide-out");
       setTimeout(() => {
-        document.body.removeChild(notification);
+        if (document.body.contains(notification)) {
+          document.body.removeChild(notification);
+        }
       }, 300);
-    }, 3000);
+    }, 4000);
   }
 
   /**
