@@ -24,6 +24,25 @@ export class HourlyChart extends BaseChart {
   }
 
   /**
+   * Implementa el método abstracto fetchData
+   */
+  async fetchData(params = {}) {
+    try {
+      const controller = window.estadisticasController;
+      if (!controller || !controller.dataService) {
+        console.warn("⚠️ Controller no disponible para HourlyChart");
+        return { hours: [], data: [] };
+      }
+
+      const hourlyData = controller.processHourlyData();
+      return hourlyData;
+    } catch (error) {
+      console.error("❌ Error en HourlyChart.fetchData:", error);
+      return { hours: [], data: [] };
+    }
+  }
+
+  /**
    * Genera la configuración específica para gráficos por hora
    */
   generateChartOptions(data) {

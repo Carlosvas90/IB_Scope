@@ -22,6 +22,29 @@ export class TrendChart extends BaseChart {
   }
 
   /**
+   * Implementa el método abstracto fetchData
+   * @param {Object} params - Parámetros para obtener datos
+   * @returns {Promise<Object>} Datos procesados para el gráfico
+   */
+  async fetchData(params = {}) {
+    try {
+      // Obtener datos del controlador principal
+      const controller = window.estadisticasController;
+      if (!controller || !controller.dataService) {
+        console.warn("⚠️ Controller no disponible para TrendChart");
+        return { dates: [], series: [] };
+      }
+
+      // Procesar datos de tendencias
+      const trendData = controller.processTrendData();
+      return trendData;
+    } catch (error) {
+      console.error("❌ Error en TrendChart.fetchData:", error);
+      return { dates: [], series: [] };
+    }
+  }
+
+  /**
    * Genera la configuración específica para gráficos de tendencia
    */
   generateChartOptions(data) {

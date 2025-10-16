@@ -25,6 +25,25 @@ export class StatusChart extends BaseChart {
   }
 
   /**
+   * Implementa el método abstracto fetchData
+   */
+  async fetchData(params = {}) {
+    try {
+      const controller = window.estadisticasController;
+      if (!controller || !controller.dataService) {
+        console.warn("⚠️ Controller no disponible para StatusChart");
+        return [];
+      }
+
+      const statusData = controller.processStatusData();
+      return statusData;
+    } catch (error) {
+      console.error("❌ Error en StatusChart.fetchData:", error);
+      return [];
+    }
+  }
+
+  /**
    * Genera la configuración específica para gráficos de estado
    */
   generateChartOptions(data) {

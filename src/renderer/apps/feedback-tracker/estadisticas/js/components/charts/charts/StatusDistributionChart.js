@@ -12,6 +12,27 @@ export class StatusDistributionChart extends BaseChart {
   }
 
   /**
+   * Implementa el método abstracto fetchData
+   */
+  async fetchData(params = {}) {
+    try {
+      const controller = window.estadisticasController;
+      if (!controller || !controller.dataService) {
+        console.warn(
+          "⚠️ Controller no disponible para StatusDistributionChart"
+        );
+        return [];
+      }
+
+      const statusData = controller.processStatusData();
+      return statusData;
+    } catch (error) {
+      console.error("❌ Error en StatusDistributionChart.fetchData:", error);
+      return [];
+    }
+  }
+
+  /**
    * Configuración específica del gráfico de distribución
    */
   getDefaultConfig() {
