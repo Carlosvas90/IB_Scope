@@ -11,14 +11,13 @@
       "reason": "ASINs grandes pero ligeros que requieren Bin B/C"
     },
     {
-      "rule_id": "men_incorrecto_362_ubicando_peso_estndar",
-      "description": "Excepciones para: Menú incorrecto 36.2 ubicando peso estándar",
+      "rule_id": "Peso < 5 ubicado en Shelf C o B",
       "type": "asin_list",
       "asins": [
-        "B07NQB7Q8Y"
+        "B0D14YFLXD"
       ],
       "reason": "Excepción manual del usuario - No es considerado un error"
     }
   ],
-  "last_updated": "2025-10-18 22:25:22"
+  "last_updated": "2025-10-18 22:32:15"
 }

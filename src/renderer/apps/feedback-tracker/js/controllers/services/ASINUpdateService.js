@@ -28,36 +28,53 @@ export class ASINUpdateService {
   async _initialize() {
     try {
       // Leer configuración para obtener data_paths
-      const config = await window.api.getConfig();
+      console.log("🔧 ASINUpdateService: Leyendo configuración...");
+      console.log("🔧 window.api existe:", !!window.api);
+      console.log("🔧 window.api.getConfig existe:", !!window.api?.getConfig);
 
-      if (config.success && config.data && config.data.data_paths) {
+      const config = await window.api.getConfig();
+      console.log(
+        "🔧 Config recibido (completo):",
+        JSON.stringify(config, null, 2)
+      );
+
+      // El config se devuelve directo, no tiene .success ni .data
+      if (config && config.data_paths) {
+        console.log("✅ data_paths encontrado:", config.data_paths);
         // Usar el primer data_path disponible
-        const dataPaths = config.data.data_paths;
+        const dataPaths = config.data_paths;
         let dataPath = null;
 
         // Intentar usar el segundo path (local)
         if (dataPaths.length > 1) {
           dataPath = dataPaths[1];
+          console.log("📂 Usando path local (índice 1):", dataPath);
         } else if (dataPaths.length > 0) {
           dataPath = dataPaths[0];
+          console.log("📂 Usando path (índice 0):", dataPath);
         }
 
         if (dataPath) {
-          // Asegurar que la ruta termine con /
-          if (!dataPath.endsWith("/") && !dataPath.endsWith("\\")) {
-            dataPath += "/";
+          // Asegurar que la ruta termine con \\ (Windows)
+          if (!dataPath.endsWith("\\")) {
+            dataPath += "\\";
           }
 
           this.filePath = `${dataPath}asins_to_update.json`;
           this.isInitialized = true;
-          console.log("✅ ASINUpdateService inicializado:", this.filePath);
+          console.log(
+            "✅ ASINUpdateService inicializado con path correcto:",
+            this.filePath
+          );
           return true;
         }
+      } else {
+        console.warn("⚠️ Config no tiene data_paths:", config);
       }
 
       // Fallback si no se puede leer config
       const appPath = await window.api.getAppPath();
-      this.filePath = `${appPath}/Ejemplos/asins_to_update.json`;
+      this.filePath = `${appPath}\\Ejemplos\\asins_to_update.json`;
       this.isInitialized = true;
       console.warn("⚠️ ASINUpdateService usando ruta fallback:", this.filePath);
       return true;

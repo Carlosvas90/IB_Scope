@@ -28,36 +28,47 @@ export class ExceptionsService {
   async _initialize() {
     try {
       // Leer configuración para obtener data_paths
+      console.log("🔧 ExceptionsService: Leyendo configuración...");
       const config = await window.api.getConfig();
+      console.log("🔧 Config recibido:", config);
 
-      if (config.success && config.data && config.data.data_paths) {
+      // El config se devuelve directo, no tiene .success ni .data
+      if (config && config.data_paths) {
+        console.log("✅ data_paths encontrado:", config.data_paths);
         // Usar el primer data_path disponible
-        const dataPaths = config.data.data_paths;
+        const dataPaths = config.data_paths;
         let dataPath = null;
 
         // Intentar usar el segundo path (local)
         if (dataPaths.length > 1) {
           dataPath = dataPaths[1];
+          console.log("📂 Usando path local (índice 1):", dataPath);
         } else if (dataPaths.length > 0) {
           dataPath = dataPaths[0];
+          console.log("📂 Usando path (índice 0):", dataPath);
         }
 
         if (dataPath) {
-          // Asegurar que la ruta termine con /
-          if (!dataPath.endsWith("/") && !dataPath.endsWith("\\")) {
-            dataPath += "/";
+          // Asegurar que la ruta termine con \\ (Windows)
+          if (!dataPath.endsWith("\\")) {
+            dataPath += "\\";
           }
 
           this.filePath = `${dataPath}exceptions.json`;
           this.isInitialized = true;
-          console.log("✅ ExceptionsService inicializado:", this.filePath);
+          console.log(
+            "✅ ExceptionsService inicializado con path correcto:",
+            this.filePath
+          );
           return true;
         }
+      } else {
+        console.warn("⚠️ Config no tiene data_paths:", config);
       }
 
       // Fallback si no se puede leer config
       const appPath = await window.api.getAppPath();
-      this.filePath = `${appPath}/Ejemplos/exceptions.json`;
+      this.filePath = `${appPath}\\Ejemplos\\exceptions.json`;
       this.isInitialized = true;
       console.warn("⚠️ ExceptionsService usando ruta fallback:", this.filePath);
       return true;
@@ -155,19 +166,21 @@ export class ExceptionsService {
       // Leer archivo actual
       const data = await this.readFile();
 
-      // Generar rule_id
-      const ruleId = this.generateRuleId(violation);
+      // Usar el texto EXACTO del error como rule_id (sin transformar)
+      const ruleId = violation;
 
-      // Buscar si ya existe una regla para esta violación
+      // Buscar si ya existe una regla para esta violación EXACTA
       let rule = data.exceptions.find((r) => r.rule_id === ruleId);
 
       if (rule) {
         // La regla existe, agregar ASIN si no está
         if (!rule.asins.includes(asin)) {
           rule.asins.push(asin);
-          console.log(`✅ ASIN ${asin} agregado a regla existente: ${ruleId}`);
+          console.log(
+            `✅ ASIN ${asin} agregado a error existente: "${ruleId}"`
+          );
         } else {
-          console.log(`ℹ️ ASIN ${asin} ya existe en la regla: ${ruleId}`);
+          console.log(`ℹ️ ASIN ${asin} ya existe para este error: "${ruleId}"`);
         }
 
         // Actualizar reason si se proporcionó
@@ -175,17 +188,18 @@ export class ExceptionsService {
           rule.reason = reason;
         }
       } else {
-        // La regla no existe, crearla
+        // La regla no existe, crearla con el texto exacto
         const newRule = {
-          rule_id: ruleId,
-          description: `Excepciones para: ${violation}`,
+          rule_id: violation, // Texto exacto del error
           type: "asin_list",
           asins: [asin],
-          reason: reason || "Excepción manual del usuario",
+          reason: reason || "No es considerado un error",
         };
 
         data.exceptions.push(newRule);
-        console.log(`✅ Nueva regla creada: ${ruleId} con ASIN ${asin}`);
+        console.log(
+          `✅ Nueva excepción creada: "${violation}" con ASIN ${asin}`
+        );
       }
 
       // Actualizar timestamp
