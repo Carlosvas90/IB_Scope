@@ -200,66 +200,29 @@ export class OptimizedDataService {
     try {
       console.log(`📚 [ODS] Cargando datos históricos: ${dateRange} días`);
 
-      // PASO 1: Determinar qué meses necesitamos
-      const requiredMonths = this.getMonthsForDateRange(dateRange);
-      console.log(`📅 Meses requeridos: ${requiredMonths.join(", ")}`);
+      // IMPORTANTE: Usar EstadisticasDataService que lee de JSONs pre-procesados
+      // NO usar IndexedDB ni SQLite para datos históricos
+      console.log(
+        `📊 [ODS] Delegando a EstadisticasDataService (JSONs pre-procesados)...`
+      );
 
-      // PASO 2: Intentar cargar desde IndexedDB
-      const cachedData = await this.loadFromCache(requiredMonths, dateRange);
+      // Usar changeDateRange del servicio interno que usa AnalyticsJSONService
+      const success = await this.estadisticasService.changeDateRange(dateRange);
 
-      if (cachedData.length > 0) {
+      if (success) {
         console.log(
-          `🚀 [CACHE HIT] ${cachedData.length} registros desde IndexedDB`
-        );
-
-        // PASO 3: Cargar datos de hoy y combinar
-        const todayData = await this.loadTodayData();
-        const combinedData = [...cachedData, ...todayData];
-
-        // Actualizar servicio
-        this.estadisticasService.errors = combinedData;
-        this.estadisticasService.lastUpdateTime = new Date();
-        this.estadisticasService.notifyListeners();
-
-        console.log(
-          `✅ [ODS] Total combinado: ${combinedData.length} registros`
+          `✅ [ODS] Datos históricos cargados desde JSONs: ${
+            this.estadisticasService.errors?.length || 0
+          } registros`
         );
         return true;
       }
 
-      // PASO 4: Si no hay caché, cargar desde SQLite y cachear
-      console.log("📂 [CACHE MISS] Cargando desde base de datos...");
-      const dbData = await this.loadFromDatabaseAndCache(
-        requiredMonths,
-        dateRange
-      );
-
-      if (dbData.length > 0) {
-        // PASO 5: Combinar con datos de hoy
-        const todayData = await this.loadTodayData();
-        const combinedData = [...dbData, ...todayData];
-
-        // Actualizar servicio
-        this.estadisticasService.errors = combinedData;
-        this.estadisticasService.lastUpdateTime = new Date();
-        this.estadisticasService.notifyListeners();
-
-        console.log(
-          `✅ [ODS] Total combinado (DB): ${combinedData.length} registros`
-        );
-        return true;
-      }
-
-      console.warn(
-        "⚠️ No se pudieron cargar datos históricos, usando solo hoy"
-      );
-      return await this.loadData();
+      console.warn("⚠️ No se pudieron cargar datos históricos desde JSONs");
+      return false;
     } catch (error) {
-      console.error("❌ Error cargando datos históricos optimizados:", error);
-
-      // Fallback al método original
-      console.log("🔄 Fallback al método original de carga histórica...");
-      return await this.estadisticasService.loadHistoricalData(dateRange);
+      console.error("❌ Error cargando datos históricos:", error);
+      return false;
     }
   }
 
@@ -401,13 +364,15 @@ export class OptimizedDataService {
   async changeDateRange(newRange) {
     console.log(`📅 [ODS] Cambiando rango de fechas a: ${newRange}`);
 
-    // Si es rango 0 (hoy), usar loadData
-    if (newRange === 0) {
-      return await this.loadData();
+    // IMPORTANTE: SIEMPRE delegar al servicio interno para que limpie y recargue correctamente
+    // NO usar loadData() que reutiliza datos viejos
+    const success = await this.estadisticasService.changeDateRange(newRange);
+
+    if (success) {
+      console.log(`✅ [ODS] Rango cambiado exitosamente a ${newRange} días`);
     }
 
-    // Para rangos históricos, usar loadHistoricalData optimizado
-    return await this.loadHistoricalData(newRange);
+    return success;
   }
 
   /**
@@ -516,6 +481,49 @@ export class OptimizedDataService {
 
   getCurrentDateRange() {
     return this.estadisticasService.getCurrentDateRange();
+  }
+
+  /**
+   * Métodos getters para datos procesados (delegados al EstadisticasDataService)
+   */
+  getAllData() {
+    return this.estadisticasService.getAllData();
+  }
+
+  getKPIs() {
+    return this.estadisticasService.getKPIs();
+  }
+
+  getTrends() {
+    return this.estadisticasService.getTrends();
+  }
+
+  getDistribution() {
+    return this.estadisticasService.getDistribution();
+  }
+
+  getTopASINs() {
+    return this.estadisticasService.getTopASINs();
+  }
+
+  getTopViolations() {
+    return this.estadisticasService.getTopViolations();
+  }
+
+  getTopMotives() {
+    return this.estadisticasService.getTopMotives();
+  }
+
+  getTopOffenders() {
+    return this.estadisticasService.getTopOffenders();
+  }
+
+  getInsights() {
+    return this.estadisticasService.getInsights();
+  }
+
+  getMetadata() {
+    return this.estadisticasService.getMetadata();
   }
 
   /**
