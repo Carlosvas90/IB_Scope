@@ -545,3 +545,289 @@ body {
     width: 100%;
   }
 }
+
+/* ===========================================
+   ESTILOS PARA NUEVO MODAL DE FEEDBACK (3 FLUJOS)
+   =========================================== */
+
+/* Botones de "NO ES UN ERROR" (siempre visibles arriba) */
+.not-error-buttons-section {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.btn-not-error-action {
+  flex: 1;
+  padding: 10px 16px;
+  border: 2px solid #f59e0b;
+  border-radius: var(--border-radius);
+  background: #fffbeb;
+  color: #92400e;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.btn-not-error-action.exception {
+  border-color: #dc2626;
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.btn-not-error-action:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-not-error-action:active {
+  transform: translateY(0);
+}
+
+/* ============================================
+   MODAL DE CONFIRMACIÓN PERSONALIZADO
+   ============================================ */
+
+#confirmation-modal.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000 !important; /* Por encima del modal de feedback */
+  backdrop-filter: blur(4px);
+}
+
+.modal-content-small {
+  background: var(--card-background, #fff);
+  border-radius: var(--border-radius, 12px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  width: 90%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow: hidden;
+  animation: modalSlideIn 0.2s ease-out;
+  position: relative;
+  z-index: 10001 !important;
+}
+
+.modal-header-confirm {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px 24px;
+  color: white;
+}
+
+.modal-header-confirm h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.modal-body-confirm {
+  padding: 32px 24px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-primary, #333);
+}
+
+.modal-body-confirm p {
+  margin: 0;
+}
+
+.modal-footer-confirm {
+  padding: 16px 24px;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  border-top: 1px solid var(--border-color, #e0e0e0);
+}
+
+.btn-cancel {
+  padding: 10px 24px;
+  border: 2px solid #6c757d;
+  background: transparent;
+  color: #6c757d;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: var(--border-radius, 8px);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-cancel:hover {
+  background: #6c757d;
+  color: white;
+  transform: translateY(-1px);
+}
+
+.btn-confirm {
+  padding: 10px 24px;
+  border: none;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: var(--border-radius, 8px);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.btn-confirm:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+}
+
+.btn-confirm:active,
+.btn-cancel:active {
+  transform: translateY(0);
+}
+
+/* Botones de selección de acción (PASO 1) */
+.action-type-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+.action-type-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background: var(--background-light);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  width: 100%;
+}
+
+.action-type-btn svg {
+  flex-shrink: 0;
+  color: var(--color-primary);
+}
+
+.action-type-btn span {
+  display: block;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.action-type-btn small {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.action-type-btn:hover {
+  border-color: var(--color-primary);
+  background: var(--color-primary-light);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.action-type-btn:active {
+  transform: translateY(0);
+}
+
+/* Botón de volver */
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  color: var(--color-primary);
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-bottom: var(--spacing-md);
+  transition: all 0.2s ease;
+}
+
+.btn-back:hover {
+  background: var(--color-primary-light);
+  border-radius: 4px;
+}
+
+.btn-back svg {
+  transition: transform 0.2s ease;
+}
+
+.btn-back:hover svg {
+  transform: translateX(-3px);
+}
+
+/* Pasos del formulario */
+.form-step {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Info boxes para excepción y actualizar ASIN */
+.exception-info,
+.update-asin-info {
+  background: #e0f2fe;
+  border-left: 4px solid #0284c7;
+  padding: var(--spacing-md);
+  border-radius: 4px;
+  margin-bottom: var(--spacing-md);
+}
+
+.exception-info p,
+.update-asin-info p {
+  margin: 0;
+  margin-bottom: 8px;
+}
+
+.exception-info p:last-child,
+.update-asin-info p:last-child {
+  margin-bottom: 0;
+}
+
+.exception-description,
+.update-asin-description {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.step-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Responsive adjustments para botones de acción */
+@media (max-width: 768px) {
+  .action-type-btn {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .action-type-btn svg {
+    margin-bottom: 8px;
+  }
+}

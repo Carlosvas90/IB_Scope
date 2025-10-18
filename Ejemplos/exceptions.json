@@ -1,0 +1,24 @@
+{
+  "exceptions": [
+    {
+      "rule_id": "rule1",
+      "description": "Excepciones para artículos <5kg en Bin B/C",
+      "type": "asin_list",
+      "asins": [
+        "B0EJEMPLO1",
+        "B0EJEMPLO2"
+      ],
+      "reason": "ASINs grandes pero ligeros que requieren Bin B/C"
+    },
+    {
+      "rule_id": "men_incorrecto_362_ubicando_peso_estndar",
+      "description": "Excepciones para: Menú incorrecto 36.2 ubicando peso estándar",
+      "type": "asin_list",
+      "asins": [
+        "B07NQB7Q8Y"
+      ],
+      "reason": "Excepción manual del usuario - No es considerado un error"
+    }
+  ],
+  "last_updated": "2025-10-18 22:25:22"
+}

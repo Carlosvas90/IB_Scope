@@ -345,42 +345,230 @@
     <div id="feedback-modal" class="modal">
       <div class="modal-content">
         <div class="modal-header">
-          <h2>Agregar comentario de feedback</h2>
+          <h2>Gestión de Incidencia</h2>
           <button class="close-btn" id="modal-close-btn">&times;</button>
         </div>
         <div class="modal-body">
           <form id="feedback-form">
-            <div class="form-group">
-              <label for="feedback-reason">Razón:</label>
-              <select id="feedback-reason" class="form-control" required>
-                <option value="" disabled selected>Seleccionar razón...</option>
-                <!-- Las opciones se cargarán dinámicamente -->
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="feedback-comment"
-                >Comentario adicional (opcional):</label
+            <!-- Botones de "NO ES UN ERROR" (siempre visibles arriba) -->
+            <div class="not-error-buttons-section">
+              <button
+                type="button"
+                class="btn-not-error-action"
+                data-action="update-asin"
+                title="Actualizar datos del ASIN en FCresearch"
               >
-              <textarea
-                id="feedback-comment"
-                class="form-control"
-                rows="3"
-                placeholder="Agregar detalles adicionales..."
-              ></textarea>
+                🔄 Actualizar ASIN
+              </button>
+              <button
+                type="button"
+                class="btn-not-error-action exception"
+                data-action="exception"
+                title="Agregar como excepción - nunca será un error"
+              >
+                ❌ No es un Error
+              </button>
             </div>
 
-            <!-- Sección de errores similares -->
-            <div
-              id="similar-errors-section"
-              class="similar-errors-section"
-              style="display: none"
-            >
+            <!-- PASO 1: Seleccionar tipo de acción (OCULTO - ya no se usa) -->
+            <div id="action-type-step" class="form-step" style="display: none">
+              <div class="form-group">
+                <label class="step-label"
+                  >¿Qué deseas hacer con este error?</label
+                >
+                <div class="action-type-buttons">
+                  <button
+                    type="button"
+                    class="action-type-btn"
+                    data-action="feedback"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <span>Marcar como Resuelto</span>
+                    <small>Agregar feedback y motivo</small>
+                  </button>
+                  <button
+                    type="button"
+                    class="action-type-btn"
+                    data-action="exception"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="15" y1="9" x2="9" y2="15"></line>
+                      <line x1="9" y1="9" x2="15" y2="15"></line>
+                    </svg>
+                    <span>Este no es un Error</span>
+                    <small>Agregar como excepción</small>
+                  </button>
+                  <button
+                    type="button"
+                    class="action-type-btn"
+                    data-action="update-asin"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                      ></path>
+                      <polyline points="17 8 12 3 7 8"></polyline>
+                      <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <span>Actualizar Datos del ASIN</span>
+                    <small>Datos desactualizados en FCresearch</small>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- FORMULARIO DE FEEDBACK (visible por defecto) -->
+            <div id="feedback-step" class="form-step">
+              <div class="form-group">
+                <label for="feedback-reason">Razón del error:</label>
+                <select id="feedback-reason" class="form-control">
+                  <option value="" disabled selected>
+                    Seleccionar razón...
+                  </option>
+                  <!-- Las opciones se cargarán dinámicamente -->
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="feedback-comment"
+                  >Comentario adicional (opcional):</label
+                >
+                <textarea
+                  id="feedback-comment"
+                  class="form-control"
+                  rows="3"
+                  placeholder="Agregar detalles adicionales..."
+                ></textarea>
+              </div>
+
+              <!-- Sección de errores similares -->
               <div
-                id="similar-errors-message"
-                class="similar-errors-message"
-              ></div>
+                id="similar-errors-section"
+                class="similar-errors-section"
+                style="display: none"
+              >
+                <div
+                  id="similar-errors-message"
+                  class="similar-errors-message"
+                ></div>
+              </div>
             </div>
 
+            <!-- PASO 2B: Excepción (no es un error) -->
+            <div id="exception-step" class="form-step" style="display: none">
+              <button type="button" class="btn-back" id="back-from-exception">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <line x1="19" y1="12" x2="5" y2="12"></line>
+                  <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Volver
+              </button>
+
+              <div class="exception-info">
+                <p><strong>Crear excepción para este tipo de error</strong></p>
+                <p class="exception-description">
+                  Este ASIN se agregará como excepción para la regla
+                  <strong id="exception-rule-name"></strong>. Los futuros
+                  errores similares de este ASIN no se mostrarán.
+                </p>
+              </div>
+
+              <div class="form-group">
+                <label for="exception-reason">Motivo de la excepción:</label>
+                <textarea
+                  id="exception-reason"
+                  class="form-control"
+                  rows="3"
+                  placeholder="Ej: Producto especial autorizado para esta ubicación"
+                ></textarea>
+              </div>
+            </div>
+
+            <!-- PASO 2C: Actualizar ASIN -->
+            <div id="update-asin-step" class="form-step" style="display: none">
+              <button type="button" class="btn-back" id="back-from-update-asin">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <line x1="19" y1="12" x2="5" y2="12"></line>
+                  <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Volver
+              </button>
+
+              <div class="update-asin-info">
+                <p><strong>Solicitar actualización de datos</strong></p>
+                <p class="update-asin-description">
+                  El ASIN <strong id="update-asin-value"></strong> se marcará
+                  para actualización. Los datos se sincronizarán con FCresearch
+                  la próxima vez que se ejecute el proceso.
+                </p>
+              </div>
+
+              <div class="form-group">
+                <label for="update-asin-note"
+                  >Nota sobre la actualización (opcional):</label
+                >
+                <textarea
+                  id="update-asin-note"
+                  class="form-control"
+                  rows="2"
+                  placeholder="Ej: Peso real es 6kg no 3kg"
+                ></textarea>
+              </div>
+            </div>
+
+            <!-- Botones de acción -->
             <div class="modal-actions">
               <button
                 type="button"
@@ -451,6 +639,26 @@
               Sí, Revertir a Pending
             </button>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de Confirmación Personalizado -->
+    <div id="confirmation-modal" class="modal-overlay" style="display: none">
+      <div class="modal-content-small">
+        <div class="modal-header-confirm">
+          <h3 id="confirmation-title">Confirmar Acción</h3>
+        </div>
+        <div class="modal-body-confirm">
+          <p id="confirmation-message" style="white-space: pre-line"></p>
+        </div>
+        <div class="modal-footer-confirm">
+          <button type="button" id="confirm-cancel-btn" class="btn-cancel">
+            Cancelar
+          </button>
+          <button type="button" id="confirm-accept-btn" class="btn-confirm">
+            Confirmar
+          </button>
         </div>
       </div>
     </div>

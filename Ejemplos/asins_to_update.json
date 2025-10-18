@@ -1,0 +1,14 @@
+{
+  "asins": [
+    {
+      "asin": "123456",
+      "status": "Pending"
+    },
+    {
+      "asin": "B0DL5B1BLJ",
+      "status": "Pending",
+      "note": "Datos desactualizados - Solicitud manual del usuario"
+    }
+  ],
+  "last_updated": "2025-10-18 22:24:53"
+}

@@ -49,6 +49,13 @@ contextBridge.exposeInMainWorld("api", {
    */
   saveJson: (filePath, data) => ipcRenderer.invoke("save-json", filePath, data),
   /**
+   * Alias de saveJson para compatibilidad.
+   * @param {string} filePath
+   * @param {object} data
+   * @returns {Promise<object>}
+   */
+  writeJson: (filePath, data) => ipcRenderer.invoke("save-json", filePath, data),
+  /**
    * Exporta datos a un archivo CSV.
    * @param {string} data
    * @returns {Promise<object>}
