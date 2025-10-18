@@ -3,8 +3,11 @@
  * Controlador principal para el dashboard de estadísticas
  * Integra EstadisticasDataService, AnalyticsProcessor y ChartService
  * NUEVO: Integración con sistema modular de gráficos
+ * OPTIMIZADO: Opción de usar OptimizedDataService (Fase 2)
  */
 
+// FASE 2: Importar OptimizedDataService para caché inteligente
+import { OptimizedDataService } from "./services/OptimizedDataService.js";
 import { EstadisticasDataService } from "./services/EstadisticasDataService.js";
 import { AnalyticsProcessor } from "./services/AnalyticsProcessor.js";
 import { ChartService } from "./services/ChartService.js";
@@ -15,7 +18,18 @@ import { KPIManager } from "./components/kpis/KPIManager.js";
 
 class EstadisticasController {
   constructor() {
-    this.dataService = new EstadisticasDataService();
+    // FASE 2: Opción de usar OptimizedDataService
+    // Cambiar a true para activar caché inteligente con IndexedDB
+    this.useOptimizedService = true;
+
+    // Inicializar servicio de datos según configuración
+    if (this.useOptimizedService) {
+      console.log("🚀 Usando OptimizedDataService (Caché IndexedDB)");
+      this.dataService = new OptimizedDataService();
+    } else {
+      console.log("📊 Usando EstadisticasDataService (Modo tradicional)");
+      this.dataService = new EstadisticasDataService();
+    }
     this.analyticsProcessor = new AnalyticsProcessor();
     this.chartService = new ChartService();
 
@@ -96,6 +110,18 @@ class EstadisticasController {
 
       // Inicializar servicios
       await this.dataService.init();
+
+      // FASE 3: Habilitar sincronización automática si está usando OptimizedDataService
+      // TEMPORALMENTE DESHABILITADO para evitar bucle infinito
+      if (false && this.useOptimizedService && this.dataService.enableSync) {
+        console.log("🔄 Habilitando sincronización automática...");
+        this.dataService.enableSync({
+          pollingInterval: 30000, // 30 segundos
+          autoRefresh: true,
+          notifyUsers: true,
+        });
+        console.log("✅ Sincronización automática habilitada");
+      }
 
       // Configurar eventos
       this.setupEventListeners();
