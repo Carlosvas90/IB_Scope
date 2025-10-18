@@ -7,6 +7,10 @@
     "\\\\ant\\dept-eu\\VLC1\\Public\\Apps_Tools\\chuecc\\IB_Scope\\Data\\DB\\",
     "C:\\Users\\carlo\\Downloads\\0-Proyecto_IB_Scope\\Analisis\\Data\\DB\\"
   ],
+  "analytics_paths": [
+    "\\\\ant\\dept-eu\\VLC1\\Public\\Apps_Tools\\chuecc\\IB_Scope\\Data\\Analytics\\",
+    "C:\\Users\\carlo\\Downloads\\0-Proyecto_IB_Scope\\Analisis\\Data\\Analytics\\"
+  ],
   "preferred_theme": "light",
   "auto_refresh": 60,
   "app_name": "Inbound Scope",

@@ -1,0 +1,52 @@
+{
+  "files": [
+    {
+      "period": "last_6_months",
+      "file": "summary_last_6_months.json",
+      "start_date": "2025-04-20",
+      "end_date": "2025-10-16",
+      "size_kb": 13.6,
+      "last_generated": "2025-10-17 23:47:27",
+      "records": 14745
+    },
+    {
+      "period": "last_3_months",
+      "file": "summary_last_3_months.json",
+      "start_date": "2025-07-19",
+      "end_date": "2025-10-16",
+      "size_kb": 13.6,
+      "last_generated": "2025-10-17 23:47:27",
+      "records": 14745
+    },
+    {
+      "period": "last_month",
+      "file": "summary_last_month.json",
+      "start_date": "2025-09-17",
+      "end_date": "2025-10-16",
+      "size_kb": 13.6,
+      "last_generated": "2025-10-17 23:47:27",
+      "records": 14745
+    },
+    {
+      "period": "last_week",
+      "file": "summary_last_week.json",
+      "start_date": "2025-10-10",
+      "end_date": "2025-10-16",
+      "size_kb": 11.3,
+      "last_generated": "2025-10-17 23:47:27",
+      "records": 3481
+    },
+    {
+      "period": "last_3_days",
+      "file": "summary_last_3_days.json",
+      "start_date": "2025-10-14",
+      "end_date": "2025-10-16",
+      "size_kb": 10.8,
+      "last_generated": "2025-10-17 23:47:27",
+      "records": 2689
+    }
+  ],
+  "last_update_check": "2025-10-17 23:47:27",
+  "today_file": "error_tracker_17102025.json",
+  "note": "Todos los archivos excluyen el día actual (hoy). Combinar con today_file para datos completos."
+}

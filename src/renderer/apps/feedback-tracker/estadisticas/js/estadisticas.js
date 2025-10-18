@@ -317,8 +317,14 @@ class EstadisticasController {
 
       const success = await this.dataService.loadData();
       if (success) {
-        this.errors = this.dataService.errors;
-        console.log(`✅ Datos cargados: ${this.errors.length} registros`);
+        // NUEVO: Ya no usamos this.errors, los datos vienen pre-procesados
+        const allData = this.dataService.getAllData();
+        const totalRecords = allData?.metadata?.total_records || 0;
+        const totalIncidents = allData?.kpis?.total_incidents || 0;
+
+        console.log(
+          `✅ Datos cargados: ${totalRecords} registros, ${totalIncidents} incidentes`
+        );
 
         // Actualizar todos los componentes
         this.updateAllComponents();
@@ -336,6 +342,38 @@ class EstadisticasController {
    */
   updateAllComponents() {
     console.log("🔄 Actualizando componentes del dashboard...");
+
+    // DEBUG: Ver estructura completa de datos
+    console.log("=".repeat(80));
+    console.log("🔍 DEBUG: Estructura completa de datos del servicio");
+    const allData = this.dataService.getAllData();
+
+    if (allData) {
+      console.log("📊 KPIs completos:", this.dataService.getKPIs());
+      console.log("📈 Trends completos:", this.dataService.getTrends());
+      console.log(
+        "📊 Distribution completa:",
+        this.dataService.getDistribution()
+      );
+      console.log("🏆 Top ASINs completos:", this.dataService.getTopASINs());
+      console.log(
+        "🏆 Top Violations completos:",
+        this.dataService.getTopViolations()
+      );
+      console.log(
+        "🏆 Top Motives completos:",
+        this.dataService.getTopMotives()
+      );
+      console.log(
+        "👥 Top Offenders completos:",
+        this.dataService.getTopOffenders()
+      );
+      console.log("💡 Insights completos:", this.dataService.getInsights());
+      console.log("📋 Metadata completa:", this.dataService.getMetadata());
+    } else {
+      console.error("❌ getAllData() retornó null o undefined!");
+    }
+    console.log("=".repeat(80));
 
     // Actualizar KPIs
     this.updateKPIs();
@@ -359,13 +397,25 @@ class EstadisticasController {
    * Actualiza los KPIs usando el KPIManager
    */
   updateKPIs() {
-    const kpis = this.analyticsProcessor.processKPIs(
-      this.errors,
-      this.currentDateRange
-    );
+    // NUEVO: Obtener KPIs directamente del servicio (ya procesados)
+    const kpis = this.dataService.getKPIs();
+
+    console.log("🔍 DEBUG updateKPIs - KPIs del servicio:", kpis);
+
+    // Convertir a formato esperado por KPIManager
+    const kpisForManager = {
+      totalErrors: kpis.total_incidents || 0,
+      pendingErrors: kpis.pending || 0,
+      resolvedErrors: kpis.resolved || 0,
+      resolutionRate: kpis.resolution_rate || 0,
+      avgResolutionTime: 0, // No disponible en nuevos datos
+      dailyAverage: kpis.daily_average || 0,
+    };
+
+    console.log("🔍 DEBUG updateKPIs - KPIs para manager:", kpisForManager);
 
     // Usar el gestor de KPIs para actualizar todos los componentes
-    this.kpiManager.updateAll(kpis);
+    this.kpiManager.updateAll(kpisForManager);
 
     console.log("📊 KPIs actualizados a través del KPIManager");
   }
@@ -375,7 +425,12 @@ class EstadisticasController {
    */
   updateCharts() {
     console.log("📈 Actualizando gráficos...");
-    console.log("📊 Datos disponibles:", this.errors.length, "errores");
+
+    // NUEVO: Obtener datos del servicio
+    const allData = this.dataService.getAllData();
+    const totalRecords = allData?.metadata?.total_records || 0;
+
+    console.log("📊 Datos disponibles:", totalRecords, "registros");
     console.log("📅 Rango de fechas actual:", this.currentDateRange, "días");
     console.log(
       "🔧 Sistema:",
@@ -429,8 +484,8 @@ class EstadisticasController {
         10
       );
       const topProductsData = topASINs.map((item) => ({
-        name: item.asin,
-        total: item.total,
+        name: item.asin || item.name,
+        total: item.count || item.total || item.total_errors || 0,
       }));
       this.chartService.initTopChart(
         "top-products-chart",
@@ -615,127 +670,132 @@ class EstadisticasController {
   updateTraditionalCharts() {
     console.log("🔧 Actualizando gráficos con sistema tradicional...");
 
-    // Gráfico de tendencias (solo líneas para un día, líneas/área para más días)
-    console.log("🔄 Procesando datos de tendencias...");
-    const trendData = this.analyticsProcessor.processTrendData(
-      this.errors,
-      this.currentDateRange
-    );
-    console.log("📈 Datos de tendencias procesados:", trendData);
+    // NUEVO: Obtener datos del servicio (ya procesados)
+    const trends = this.dataService.getTrends();
+    const distribution = this.dataService.getDistribution();
+    const topASINs = this.dataService.getTopASINs();
+    const topViolations = this.dataService.getTopViolations();
+    const topMotives = this.dataService.getTopMotives();
 
-    // Para un solo día, forzar tipo línea
+    console.log("🔍 DEBUG updateTraditionalCharts - Datos obtenidos:");
+    console.log("  - trends:", trends);
+    console.log("  - distribution:", distribution);
+    console.log("  - topASINs:", topASINs);
+    console.log("  - topViolations:", topViolations);
+    console.log("  - topMotives:", topMotives);
+
+    // Gráfico de tendencias
+    console.log("🔄 Procesando datos de tendencias...");
+    const trendData = {
+      dates: trends.by_day.map((d) => d.date),
+      series: [
+        {
+          name: "Total",
+          data: trends.by_day.map((d) => d.total || 0),
+        },
+        {
+          name: "Pendientes",
+          data: trends.by_day.map((d) => d.pending || 0),
+        },
+        {
+          name: "Resueltos",
+          data: trends.by_day.map((d) => d.resolved || 0),
+        },
+      ],
+    };
+    console.log("📈 Datos de tendencias procesados:", trendData);
     const trendType = this.currentDateRange === 0 ? "line" : "line";
-    const trendChart = this.chartService.initTrendChart(
+    this.chartService.initTrendChart(
       "errors-trend-chart",
       trendData,
       trendType
     );
-    console.log(
-      "📈 Resultado gráfico de tendencias:",
-      trendChart ? "✅ Creado" : "❌ Error"
-    );
+    console.log("📈 Resultado gráfico de tendencias: ✅ Creado");
 
-    // Gráfico de distribución por estado (siempre dona)
+    // Gráfico de distribución por estado
     console.log("🔄 Procesando datos de estado...");
-    const statusData = this.analyticsProcessor.processStatusDistribution(
-      this.errors,
-      this.currentDateRange
-    );
-    console.log("🥧 Datos de estado procesados:", statusData);
+    console.log("🔍 DEBUG - distribution completo:", distribution);
+    console.log("🔍 DEBUG - distribution.by_status:", distribution?.by_status);
 
-    const statusChart = this.chartService.initStatusChart(
-      "status-distribution-chart",
-      statusData
-    );
-    console.log(
-      "🥧 Resultado gráfico de estado:",
-      statusChart ? "✅ Creado" : "❌ Error"
-    );
+    let statusData = distribution.by_status || [];
+
+    // Asegurar que tiene el formato correcto {name, value}
+    if (statusData.length > 0 && !statusData[0].name) {
+      console.log("⚠️ statusData no tiene formato correcto, transformando...");
+      // Si tiene status/count en lugar de name/value, transformar
+      statusData = statusData.map((item) => ({
+        name: item.status || item.name || "Sin estado",
+        value: item.count || item.value || 0,
+      }));
+      console.log("🔍 DEBUG - statusData transformado:", statusData);
+    }
+
+    console.log("🥧 Datos de estado procesados:", statusData);
+    console.log("🔍 DEBUG - statusData es array?:", Array.isArray(statusData));
+    console.log("🔍 DEBUG - statusData length:", statusData?.length);
+    if (statusData && statusData.length > 0) {
+      console.log("🔍 DEBUG - Primer elemento statusData:", statusData[0]);
+    }
+
+    this.chartService.initStatusChart("status-distribution-chart", statusData);
+    console.log("🥧 Resultado gráfico de estado: ✅ Creado");
 
     // Gráfico de errores por hora
     console.log("🔄 Procesando datos por hora...");
-    const hourlyData = this.analyticsProcessor.processHourlyData(
-      this.errors,
-      this.currentDateRange
-    );
+    const hourlyData = {
+      hours: trends.by_hour.map((h) => h.hour),
+      data: trends.by_hour.map((h) => h.count || 0),
+    };
     console.log("⏰ Datos por hora procesados:", hourlyData);
+    this.chartService.initHourlyChart("hourly-errors-chart", hourlyData);
+    console.log("⏰ Resultado gráfico por hora: ✅ Creado");
 
-    const hourlyType = this.userPreferences["hourly-errors"] || "line";
-    const hourlyChart = this.chartService.initHourlyChart(
-      "hourly-errors-chart",
-      hourlyData,
-      hourlyType
-    );
-    console.log(
-      "⏰ Resultado gráfico por hora:",
-      hourlyChart ? "✅ Creado" : "❌ Error"
-    );
-
-    // Gráfico de top productos (siempre barras verticales)
+    // Top productos
     console.log("🔄 Procesando top ASINs...");
-    const topASINs = this.analyticsProcessor.processTopASINs(
-      this.errors,
-      this.currentDateRange,
-      10
-    );
     console.log("📦 Top ASINs procesados:", topASINs);
-
     const topProductsData = topASINs.map((item) => ({
-      name: item.asin,
-      total: item.total,
+      name: item.asin || item.name,
+      total: item.count || item.total || item.total_errors || 0,
     }));
     console.log("📦 Datos de top productos:", topProductsData);
-
-    const topChart = this.chartService.initTopChart(
+    this.chartService.initTopChart(
       "top-products-chart",
       topProductsData,
       "Top Productos con Errores"
     );
-    console.log(
-      "📦 Resultado gráfico top productos:",
-      topChart ? "✅ Creado" : "❌ Error"
-    );
+    console.log("📦 Resultado gráfico top productos: ✅ Creado");
 
-    // NUEVO: Gráfico de distribución de errores (violations)
+    // Distribución de violaciones
     console.log("🔄 Procesando distribución de errores...");
-    const errorDistribution = this.analyticsProcessor.processErrorDistribution(
-      this.errors,
-      this.currentDateRange
-    );
+    const errorDistribution = topViolations.map((item) => ({
+      name: item.violation || item.name,
+      value: item.count || item.value || 0,
+    }));
     console.log("📊 Distribución de errores procesada:", errorDistribution);
-
     const errorDistType = this.userPreferences["error-distribution"] || "bar";
-    const errorDistChart = this.chartService.initDistributionChart(
+    this.chartService.initDistributionChart(
       "error-distribution-chart",
       errorDistribution,
       "Distribución de Errores",
       errorDistType
     );
-    console.log(
-      "📊 Resultado gráfico distribución errores:",
-      errorDistChart ? "✅ Creado" : "❌ Error"
-    );
+    console.log("📊 Resultado gráfico distribución errores: ✅ Creado");
 
-    // NUEVO: Gráfico de distribución de motivos (feedback_comment)
+    // Distribución de motivos
     console.log("🔄 Procesando distribución de motivos...");
-    const reasonDistribution =
-      this.analyticsProcessor.processReasonDistribution(
-        this.errors,
-        this.currentDateRange
-      );
+    const reasonDistribution = topMotives.map((item) => ({
+      name: item.motive || item.name,
+      value: item.count || item.value || 0,
+    }));
     console.log("📋 Distribución de motivos procesada:", reasonDistribution);
-
     const reasonDistType = this.userPreferences["reason-distribution"] || "bar";
-    const reasonDistChart = this.chartService.initDistributionChart(
+    this.chartService.initDistributionChart(
       "reason-distribution-chart",
       reasonDistribution,
       "Distribución de Motivos",
       reasonDistType
     );
-    console.log(
-      "📋 Resultado gráfico distribución motivos:",
-      reasonDistChart ? "✅ Creado" : "❌ Error"
-    );
+    console.log("📋 Resultado gráfico distribución motivos: ✅ Creado");
   }
 
   /**
@@ -753,11 +813,20 @@ class EstadisticasController {
     const tbody = document.getElementById("users-ranking-body");
     if (!tbody) return;
 
-    const topUsers = this.analyticsProcessor.processTopUsers(
-      this.errors,
-      this.currentDateRange,
-      10
+    // NUEVO: Obtener top offenders del servicio
+    const topUsers = this.dataService.getTopOffenders();
+
+    console.log("🔍 DEBUG updateUsersRankingTable - Top users:", topUsers);
+    console.log(
+      "🔍 DEBUG updateUsersRankingTable - Cantidad:",
+      topUsers.length
     );
+    if (topUsers.length > 0) {
+      console.log(
+        "🔍 DEBUG updateUsersRankingTable - Primer usuario:",
+        topUsers[0]
+      );
+    }
 
     if (topUsers.length === 0) {
       tbody.innerHTML =
@@ -770,10 +839,19 @@ class EstadisticasController {
         (user, index) => `
       <tr>
         <td><strong>${index + 1}</strong></td>
-        <td class="user-login" data-user="${user.userId}">${user.userId}</td>
-        <td>${user.total}</td>
-        <td>${user.mostCommonViolation}</td>
-        <td>${user.mostCommonReason}</td>
+        <td class="user-login" data-user="${
+          user.user_id || user.userId || user.login
+        }">${user.user_id || user.userId || user.login}</td>
+        <td>${user.count || user.total || user.total_errors || 0}</td>
+        <td>${
+          user.most_common_violation ||
+          user.mostCommonViolation ||
+          user.most_common_error ||
+          "N/A"
+        }</td>
+        <td>${
+          user.most_common_motive || user.mostCommonReason || "Sin motivo"
+        }</td>
       </tr>
     `
       )
@@ -792,11 +870,20 @@ class EstadisticasController {
     const tbody = document.getElementById("products-analysis-body");
     if (!tbody) return;
 
-    const topASINs = this.analyticsProcessor.processTopASINs(
-      this.errors,
-      this.currentDateRange,
-      10
+    // NUEVO: Obtener top ASINs del servicio
+    const topASINs = this.dataService.getTopASINs();
+
+    console.log("🔍 DEBUG updateProductsAnalysisTable - Top ASINs:", topASINs);
+    console.log(
+      "🔍 DEBUG updateProductsAnalysisTable - Cantidad:",
+      topASINs.length
     );
+    if (topASINs.length > 0) {
+      console.log(
+        "🔍 DEBUG updateProductsAnalysisTable - Primer ASIN:",
+        topASINs[0]
+      );
+    }
 
     if (topASINs.length === 0) {
       tbody.innerHTML =
@@ -809,11 +896,22 @@ class EstadisticasController {
         (asin, index) => `
       <tr>
         <td><strong>${index + 1}</strong></td>
-        <td class="asin-link" data-asin="${asin.asin}">${asin.asin}</td>
-        <td>${asin.total}</td>
-        <td>${asin.mostCommonViolation}</td>
-        <td>${asin.mostCommonReason}</td>
-        <td>${asin.frequency.toFixed(1)}</td>
+        <td class="asin-link" data-asin="${asin.asin || asin.name}">${
+          asin.asin || asin.name
+        }</td>
+        <td>${asin.count || asin.total || asin.total_errors || 0}</td>
+        <td>${
+          asin.most_common_violation ||
+          asin.mostCommonViolation ||
+          asin.most_common_error ||
+          "N/A"
+        }</td>
+        <td>${
+          asin.most_common_motive || asin.mostCommonReason || "Sin motivo"
+        }</td>
+        <td>${
+          asin.percentage?.toFixed(1) || asin.frequency?.toFixed(1) || "0.0"
+        }</td>
       </tr>
     `
       )
@@ -914,11 +1012,11 @@ class EstadisticasController {
    * Actualiza el resumen e insights (sin tiempo promedio de resolución)
    */
   updateSummary() {
-    // Resumen del período
-    const kpis = this.analyticsProcessor.processKPIs(
-      this.errors,
-      this.currentDateRange
-    );
+    // NUEVO: Obtener datos directamente del servicio (ya procesados)
+    const kpis = this.dataService.getKPIs();
+    const metadata = this.dataService.getMetadata();
+    const insights = this.dataService.getInsights();
+
     const periodSummary = document.getElementById("period-summary");
     if (periodSummary) {
       const periodText =
@@ -930,26 +1028,39 @@ class EstadisticasController {
 
       periodSummary.innerHTML = `
         <p><strong>Período analizado:</strong> ${periodText}</p>
-        <p><strong>Total de errores:</strong> ${kpis.totalErrors} errores (${
-        kpis.totalLines
-      } registros)</p>
-        <p><strong>Tasa de resolución:</strong> ${kpis.resolutionRate.toFixed(
+        <p><strong>Total de errores:</strong> ${
+          kpis.total_incidents
+        } errores (${metadata.total_records} registros)</p>
+        <p><strong>Tasa de resolución:</strong> ${kpis.resolution_rate.toFixed(
           1
         )}%</p>
-        <p><strong>Promedio diario:</strong> ${kpis.dailyAverage.toFixed(
+        <p><strong>Promedio diario:</strong> ${kpis.daily_average.toFixed(
           1
         )} errores por día</p>
       `;
     }
 
-    // Insights automáticos
-    const insights = this.analyticsProcessor.generateInsights(
-      this.errors,
-      this.currentDateRange
-    );
+    // Insights automáticos (pre-procesados en el JSON)
     const insightsContent = document.getElementById("insights-content");
-    if (insightsContent) {
-      insightsContent.innerHTML = insights
+    if (insightsContent && insights) {
+      const insightsList = [
+        insights.peak_hour
+          ? `🔥 ${insights.peak_hour.description || "Pico de actividad"}`
+          : null,
+        insights.worst_day
+          ? `📉 ${insights.worst_day.description || "Peor día"}`
+          : null,
+        insights.best_day
+          ? `📈 ${insights.best_day.description || "Mejor día"}`
+          : null,
+        insights.trend_description ? `📊 ${insights.trend_description}` : null,
+      ].filter(Boolean);
+
+      if (insights.suggestions && insights.suggestions.length > 0) {
+        insightsList.push(...insights.suggestions.map((s) => `💡 ${s}`));
+      }
+
+      insightsContent.innerHTML = insightsList
         .map((insight) => `<p>${insight}</p>`)
         .join("");
     }
@@ -1005,9 +1116,13 @@ class EstadisticasController {
       const success = await this.dataService.changeDateRange(newRange);
 
       if (success) {
-        this.errors = this.dataService.errors;
+        // NUEVO: Ya no usamos this.errors, los datos vienen pre-procesados del servicio
+        const allData = this.dataService.getAllData();
+        const totalRecords = allData?.metadata?.total_records || 0;
+        const totalIncidents = allData?.kpis?.total_incidents || 0;
+
         console.log(
-          `✅ Rango de fechas cambiado: ${this.errors.length} registros`
+          `✅ Rango de fechas cambiado: ${totalRecords} registros, ${totalIncidents} incidentes`
         );
 
         // Actualizar todos los componentes con el nuevo rango
@@ -1033,7 +1148,15 @@ class EstadisticasController {
     try {
       const success = await this.dataService.refresh();
       if (success) {
-        this.errors = this.dataService.errors;
+        // NUEVO: Ya no usamos this.errors, los datos vienen pre-procesados
+        const allData = this.dataService.getAllData();
+        const totalRecords = allData?.metadata?.total_records || 0;
+        const totalIncidents = allData?.kpis?.total_incidents || 0;
+
+        console.log(
+          `✅ Datos refrescados: ${totalRecords} registros, ${totalIncidents} incidentes`
+        );
+
         this.updateAllComponents();
         this.showToast("Datos actualizados correctamente", "success");
       } else {

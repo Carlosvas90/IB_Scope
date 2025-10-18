@@ -10,16 +10,16 @@ export class EstadisticasDataService {
   constructor() {
     // Servicio principal (JSONs pre-procesados)
     this.analyticsJSONService = new AnalyticsJSONService();
-    
+
     // Datos actuales
     this.currentAnalyticsData = null;
     this.currentDateRange = 0; // 0 = Hoy (por defecto)
     this.lastUpdateTime = null;
-    
+
     // Estado
     this.isLoading = false;
     this.listeners = [];
-    
+
     // Mantener por compatibilidad (deprecated)
     this.errors = [];
 
@@ -38,7 +38,9 @@ export class EstadisticasDataService {
 
       if (!isAvailable) {
         console.warn("⚠️ Analytics JSONs no disponibles");
-        console.warn("   Verifica que analytics_paths esté configurado en config.json");
+        console.warn(
+          "   Verifica que analytics_paths esté configurado en config.json"
+        );
         return false;
       }
 
@@ -72,7 +74,8 @@ export class EstadisticasDataService {
 
     try {
       // Obtener datos combinados (histórico + hoy) directamente del servicio
-      this.currentAnalyticsData = await this.analyticsJSONService.getAnalyticsData(newRange);
+      this.currentAnalyticsData =
+        await this.analyticsJSONService.getAnalyticsData(newRange);
 
       // Actualizar estado
       this.currentDateRange = newRange;
@@ -86,8 +89,12 @@ export class EstadisticasDataService {
       this.notifyListeners();
 
       console.log(`✅ Datos cargados para ${newRange} días`);
-      console.log(`   Total incidentes: ${this.currentAnalyticsData.kpis.total_incidents}`);
-      console.log(`   Registros: ${this.currentAnalyticsData.metadata.total_records}`);
+      console.log(
+        `   Total incidentes: ${this.currentAnalyticsData.kpis.total_incidents}`
+      );
+      console.log(
+        `   Registros: ${this.currentAnalyticsData.metadata.total_records}`
+      );
 
       return true;
     } catch (error) {
@@ -103,10 +110,10 @@ export class EstadisticasDataService {
    */
   async refresh() {
     console.log("🔄 Refrescando datos...");
-    
+
     // Limpiar caché para forzar recarga
     this.analyticsJSONService.clearCache();
-    
+
     // Recargar datos
     const previousRange = this.currentDateRange;
     this.currentDateRange = -1; // Forzar recarga
@@ -119,32 +126,38 @@ export class EstadisticasDataService {
    * Obtiene los KPIs actuales
    */
   getKPIs() {
-    return this.currentAnalyticsData?.kpis || {
-      total_incidents: 0,
-      pending: 0,
-      resolved: 0,
-      resolution_rate: 0,
-      daily_average: 0,
-    };
+    return (
+      this.currentAnalyticsData?.kpis || {
+        total_incidents: 0,
+        pending: 0,
+        resolved: 0,
+        resolution_rate: 0,
+        daily_average: 0,
+      }
+    );
   }
 
   /**
    * Obtiene las tendencias (por día y por hora)
    */
   getTrends() {
-    return this.currentAnalyticsData?.trends || {
-      by_day: [],
-      by_hour: [],
-    };
+    return (
+      this.currentAnalyticsData?.trends || {
+        by_day: [],
+        by_hour: [],
+      }
+    );
   }
 
   /**
    * Obtiene los datos de distribución
    */
   getDistribution() {
-    return this.currentAnalyticsData?.distribution || {
-      by_status: [],
-    };
+    return (
+      this.currentAnalyticsData?.distribution || {
+        by_status: [],
+      }
+    );
   }
 
   /**
@@ -203,7 +216,9 @@ export class EstadisticasDataService {
    * Mantener por compatibilidad con código existente
    */
   async loadData() {
-    console.warn("⚠️ loadData() está deprecated, usar changeDateRange() en su lugar");
+    console.warn(
+      "⚠️ loadData() está deprecated, usar changeDateRange() en su lugar"
+    );
     return await this.changeDateRange(this.currentDateRange);
   }
 
@@ -328,4 +343,3 @@ export class EstadisticasDataService {
     console.log("✅ EstadisticasDataService cerrado");
   }
 }
-

@@ -157,6 +157,10 @@ export class ChartService {
    */
   initStatusChart(containerId, data) {
     console.log(`🥧 Inicializando gráfico de estado: ${containerId}`, data);
+    console.log(
+      `🔍 DEBUG - Nombres exactos en datos:`,
+      data.map((d) => `"${d.name || d.status}"`)
+    );
 
     // Verificar ECharts
     if (typeof echarts === "undefined") {
@@ -213,13 +217,25 @@ export class ChartService {
             },
             itemStyle: {
               color: (params) => {
+                console.log(
+                  `🎨 DEBUG Color - params.name: "${params.name}", params.dataIndex: ${params.dataIndex}`
+                );
                 const colors = {
                   Pendientes: "#FFC2C5", // Rosa claro para pendientes
+                  Pendiente: "#FFC2C5", // Rosa claro para pendiente (singular)
+                  Pending: "#FFC2C5", // Rosa claro para pending (inglés)
+                  pending: "#FFC2C5", // Rosa claro para pending (minúscula)
                   Resueltos: "#4381B3", // Azul para resueltos
+                  Resuelto: "#4381B3", // Azul para resuelto (singular)
+                  Resolved: "#4381B3", // Azul para resolved (inglés)
+                  resolved: "#4381B3", // Azul para resolved (minúscula)
                 };
-                return (
-                  colors[params.name] || this.theme.colors[params.dataIndex]
+                const selectedColor =
+                  colors[params.name] || this.theme.colors[params.dataIndex];
+                console.log(
+                  `🎨 Color asignado para "${params.name}": ${selectedColor}`
                 );
+                return selectedColor;
               },
             },
           },
