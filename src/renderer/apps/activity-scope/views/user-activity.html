@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Activity - Activity Scope</title>
+    <!-- CSS se carga dinámicamente por el router -->
+  </head>
+  <body>
+    <div class="user-activity-container">
+      <!-- Header -->
+      <div class="user-activity-header">
+        <h1>👤 User Activity</h1>
+        <p>
+          Monitoreo en tiempo real de la actividad de usuarios en el almacén
+        </p>
+        <div class="header-actions">
+          <button
+            id="refresh-data"
+            class="user-activity-btn user-activity-btn-primary"
+          >
+            🔄 Actualizar Datos
+          </button>
+          <button
+            id="export-data"
+            class="user-activity-btn user-activity-btn-secondary"
+          >
+            📊 Exportar
+          </button>
+        </div>
+      </div>
+
+      <!-- Filtros -->
+      <div class="user-activity-filters">
+        <h3>🔍 Filtros</h3>
+        <div class="filters-section">
+          <div class="user-activity-filter-group">
+            <label for="user-filter">Usuario:</label>
+            <select id="user-filter" class="form-control">
+              <option value="">Todos los usuarios</option>
+            </select>
+          </div>
+          <div class="user-activity-filter-group">
+            <label for="date-filter">Fecha:</label>
+            <input type="date" id="date-filter" class="form-control" />
+          </div>
+          <div class="user-activity-filter-group">
+            <label for="shift-filter">Turno:</label>
+            <select id="shift-filter" class="form-control">
+              <option value="">Todos los turnos</option>
+              <option value="day">Día</option>
+              <option value="night">Noche</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Métricas principales -->
+      <div class="user-activity-metrics">
+        <div class="user-activity-metric-card">
+          <div class="user-activity-metric-icon">👥</div>
+          <div class="user-activity-metric-value" id="total-users">12</div>
+          <div class="user-activity-metric-label">Usuarios Activos Ahora</div>
+        </div>
+        <div class="user-activity-metric-card">
+          <div class="user-activity-metric-icon">📦</div>
+          <div class="user-activity-metric-value" id="total-stows">1,247</div>
+          <div class="user-activity-metric-label">Stows Hoy</div>
+        </div>
+        <div class="user-activity-metric-card">
+          <div class="user-activity-metric-icon">⚡</div>
+          <div class="user-activity-metric-value" id="avg-rate">156</div>
+          <div class="user-activity-metric-label">Stows/Hora Promedio</div>
+        </div>
+        <div class="user-activity-metric-card">
+          <div class="user-activity-metric-icon">🎯</div>
+          <div class="user-activity-metric-value" id="efficiency">87%</div>
+          <div class="user-activity-metric-label">Eficiencia Actual</div>
+        </div>
+      </div>
+
+      <!-- Gráficos -->
+      <div class="user-activity-charts">
+        <div class="user-activity-chart-container">
+          <h3>📈 Actividad en Tiempo Real</h3>
+          <div id="hourly-activity-chart" class="user-activity-chart">
+            <div style="padding: 20px; text-align: center; color: #666">
+              <p>📊 Gráfico de actividad en tiempo real</p>
+              <p>Mostrando datos de los últimos 60 minutos</p>
+            </div>
+          </div>
+        </div>
+        <div class="user-activity-chart-container">
+          <h3>🏆 Top Performers del Día</h3>
+          <div id="top-performers-chart" class="user-activity-chart">
+            <div style="padding: 20px; text-align: center; color: #666">
+              <p>🥇 Ranking de usuarios más productivos</p>
+              <p>Basado en stows completados hoy</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabla de usuarios -->
+      <div class="user-activity-table-section">
+        <h3>📋 Detalle de Usuarios</h3>
+        <div class="user-activity-table-container">
+          <table id="users-table" class="user-activity-table">
+            <thead>
+              <tr>
+                <th>Usuario</th>
+                <th>Login</th>
+                <th>Turno</th>
+                <th>Stows</th>
+                <th>Rate/Hora</th>
+                <th>Eficiencia</th>
+                <th>Última Actividad</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Datos se cargarán dinámicamente -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/user-activity.js"></script>
+  </body>
+</html>

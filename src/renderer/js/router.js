@@ -47,8 +47,13 @@ class Router {
         scripts: ["../apps/feedback-tracker/stats/js/stats.js"],
       },
       "activity-scope": {
-        path: "../apps/activity-scope/views/activity-scope.html",
-        scripts: [],
+        path: "../apps/activity-scope/views/user-activity.html",
+        scripts: ["../apps/activity-scope/js/user-activity.js"],
+        hasSubmenu: true,
+        views: {
+          "user-activity": "../apps/activity-scope/views/user-activity.html",
+          "user-history": "../apps/activity-scope/views/user-history.html",
+        },
       },
       "idle-time": {
         path: "../apps/idle-time/views/idle-time.html",
@@ -97,7 +102,7 @@ class Router {
   /**
    * Inicializa el router
    */
-  init() {
+  async init() {
     this.appContainer = document.getElementById("app-container");
 
     if (!this.appContainer) {
@@ -112,20 +117,20 @@ class Router {
     // this.setupNavigation();
 
     // Cargar la aplicación predeterminada
-    this.loadDefaultApp();
+    await this.loadDefaultApp();
 
     // Manejar los cambios en la historia del navegador
-    window.addEventListener("popstate", (event) => {
+    window.addEventListener("popstate", async (event) => {
       if (event.state) {
-        this.navigateTo(event.state.app, event.state.view, false);
+        await this.navigateTo(event.state.app, event.state.view, false);
       }
     });
 
     // Configurar evento de navegación global
-    window.addEventListener("navigate", (event) => {
+    window.addEventListener("navigate", async (event) => {
       console.log("Evento de navegación recibido:", event.detail);
       if (event.detail && event.detail.app) {
-        this.navigateTo(event.detail.app, event.detail.view);
+        await this.navigateTo(event.detail.app, event.detail.view);
       }
     });
 
@@ -185,11 +190,11 @@ class Router {
 
           // Si se hace clic en una app diferente a la actual, navegar a ella
           if (app && app !== this.currentApp) {
-            this.navigateTo(app);
+            await this.navigateTo(app);
           }
         } else if (app) {
           // Si es un enlace regular o un submenú con view, navegar directamente
-          this.navigateTo(app, view);
+          await this.navigateTo(app, view);
         }
       });
     });
@@ -201,7 +206,7 @@ class Router {
   /**
    * Navega a una aplicación/vista específica
    */
-  navigateTo(appName, viewName = null, updateHistory = true) {
+  async navigateTo(appName, viewName = null, updateHistory = true) {
     // Bloqueo de permisos (app o submenú)
     if (permisosService && !permisosService.tienePermiso(appName, viewName)) {
       if (window.showToast) {
@@ -227,7 +232,7 @@ class Router {
     // Si es la misma aplicación y ya está cargada, solo cambiar la vista
     if (this.currentApp === appName && this.loadedApps[appName]) {
       if (viewName) {
-        this.changeView(viewName);
+        await this.changeView(viewName);
       }
       return true;
     }
@@ -438,7 +443,7 @@ class Router {
   /**
    * Carga la aplicación predeterminada
    */
-  loadDefaultApp() {
+  async loadDefaultApp() {
     // Verificar si el usuario tiene acceso al Dashboard (requisito básico)
     if (!this.hasAccessToDashboard()) {
       console.log(
@@ -449,7 +454,7 @@ class Router {
     }
 
     // Si tiene acceso al Dashboard, cargar el Dashboard por defecto
-    this.navigateTo("dashboard");
+    await this.navigateTo("dashboard");
   }
 
   /**
@@ -509,13 +514,41 @@ class Router {
       await this.loadAppStyles(appName);
       await this.loadAppScripts(appName);
 
+      // Si es activity-scope, cargar el CSS de la vista principal (user-activity)
+      if (appName === "activity-scope") {
+        const cssPath = `../apps/activity-scope/css/user-activity.css`;
+        const existingLink = document.querySelector(`link[href="${cssPath}"]`);
+
+        if (!existingLink) {
+          try {
+            const link = document.createElement("link");
+            link.rel = "stylesheet";
+            link.href = cssPath;
+
+            await new Promise((resolve) => {
+              link.onload = () => {
+                console.log(`✅ CSS cargado para activity-scope: ${cssPath}`);
+                resolve();
+              };
+              link.onerror = () => {
+                console.warn(`⚠️ No se pudo cargar CSS: ${cssPath}`);
+                resolve();
+              };
+              document.head.appendChild(link);
+            });
+          } catch (cssError) {
+            console.warn(`⚠️ Error al cargar CSS: ${cssPath}`, cssError);
+          }
+        }
+      }
+
       // Actualizar estado
       this.currentApp = appName;
       this.loadedApps[appName] = true;
 
       // Cambiar a la vista solicitada
       if (viewName) {
-        this.changeView(viewName);
+        await this.changeView(viewName);
       }
 
       // Actualizar enlace activo
@@ -656,7 +689,7 @@ class Router {
   /**
    * Cambia a una vista específica dentro de la aplicación actual
    */
-  changeView(viewName) {
+  async changeView(viewName) {
     console.log(`🔄 Cambiando a vista: ${viewName}`);
 
     // Verificar si la aplicación actual tiene la vista solicitada
@@ -669,7 +702,108 @@ class Router {
 
     console.log(`📋 Vistas disponibles:`, app.views);
 
-    // Ocultar todas las vistas
+    // Para activity-scope, cargar directamente el archivo HTML de la vista
+    if (this.currentApp === "activity-scope") {
+      const viewPath = app.views[viewName];
+      console.log(`🎯 Cargando vista desde archivo:`, viewPath);
+
+      try {
+        // Mostrar indicador de carga
+        this.appContainer.innerHTML = `
+          <div class="loading-app">
+            <div class="loading-spinner"></div>
+            <p>Cargando vista...</p>
+          </div>
+        `;
+
+        // Cargar el archivo HTML de la vista
+        const response = await fetch(viewPath);
+        if (response.ok) {
+          const html = await response.text();
+          this.appContainer.innerHTML = html;
+
+          this.currentView = viewName;
+          console.log(`✅ Vista cargada exitosamente: ${viewName}`);
+
+          // Cargar el CSS correspondiente si existe
+          const cssPath = `../apps/activity-scope/css/${viewName}.css`;
+          const existingLink = document.querySelector(
+            `link[href="${cssPath}"]`
+          );
+
+          if (!existingLink) {
+            try {
+              const link = document.createElement("link");
+              link.rel = "stylesheet";
+              link.href = cssPath;
+
+              // Esperar a que se cargue el CSS
+              await new Promise((resolve, reject) => {
+                link.onload = () => {
+                  console.log(`✅ CSS cargado: ${cssPath}`);
+                  resolve();
+                };
+                link.onerror = () => {
+                  console.warn(`⚠️ No se pudo cargar CSS: ${cssPath}`);
+                  resolve(); // No rechazar, continuar de todos modos
+                };
+                document.head.appendChild(link);
+              });
+            } catch (cssError) {
+              console.warn(`⚠️ Error al cargar CSS: ${cssPath}`, cssError);
+            }
+          } else {
+            console.log(`✅ CSS ya cargado: ${cssPath}`);
+          }
+
+          // Cargar el script correspondiente si existe
+          const scriptPath = `../apps/activity-scope/js/${viewName}.js`;
+          try {
+            const scriptResponse = await fetch(scriptPath);
+            if (scriptResponse.ok) {
+              const scriptText = await scriptResponse.text();
+              const script = document.createElement("script");
+              script.textContent = scriptText;
+              document.head.appendChild(script);
+              console.log(`✅ Script cargado: ${scriptPath}`);
+            }
+          } catch (scriptError) {
+            console.warn(
+              `⚠️ No se pudo cargar script: ${scriptPath}`,
+              scriptError
+            );
+          }
+
+          // Actualizar enlace activo
+          this.updateActiveLink(this.currentApp, viewName);
+
+          // Asegurar que los submenús estén en el estado correcto
+          this.updateSubmenusForApp(this.currentApp);
+
+          // Emitir evento de cambio de vista
+          this.emitEvent("view:changed", {
+            app: this.currentApp,
+            view: viewName,
+          });
+
+          return true;
+        } else {
+          throw new Error(`Error al cargar vista: ${response.status}`);
+        }
+      } catch (error) {
+        console.error(`❌ Error al cargar vista ${viewName}:`, error);
+        this.appContainer.innerHTML = `
+          <div class="error-app">
+            <h2>Error al cargar la vista</h2>
+            <p>No se pudo cargar la vista: ${viewName}</p>
+            <button id="retry-btn" class="btn-primary">Reintentar</button>
+          </div>
+        `;
+        return false;
+      }
+    }
+
+    // Para otras aplicaciones, usar el método original
     const views = document.querySelectorAll(".view");
     console.log(`👁️ Vistas encontradas en DOM:`, views.length);
     views.forEach((view) => {

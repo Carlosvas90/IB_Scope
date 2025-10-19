@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User History - Activity Scope</title>
+    <!-- CSS se carga dinámicamente por el router -->
+  </head>
+  <body>
+    <div class="user-history-container">
+      <!-- Header -->
+      <div class="user-history-header">
+        <h1>📊 User History</h1>
+        <p>Análisis histórico y tendencias de rendimiento de usuarios</p>
+        <div class="header-actions">
+          <button
+            id="refresh-history"
+            class="user-history-btn user-history-btn-primary"
+          >
+            🔄 Actualizar Historial
+          </button>
+          <button
+            id="export-history"
+            class="user-history-btn user-history-btn-secondary"
+          >
+            📊 Exportar Historial
+          </button>
+        </div>
+      </div>
+
+      <!-- Filtros avanzados -->
+      <div class="user-history-filters">
+        <h3>🔍 Filtros Avanzados</h3>
+        <div class="filters-section">
+          <div class="user-history-filter-group">
+            <label for="history-user-filter">Usuario:</label>
+            <select id="history-user-filter" class="form-control">
+              <option value="">Todos los usuarios</option>
+            </select>
+          </div>
+          <div class="user-history-filter-group">
+            <label for="date-range-start">Desde:</label>
+            <input type="date" id="date-range-start" class="form-control" />
+          </div>
+          <div class="user-history-filter-group">
+            <label for="date-range-end">Hasta:</label>
+            <input type="date" id="date-range-end" class="form-control" />
+          </div>
+          <div class="user-history-filter-group">
+            <label for="history-shift-filter">Turno:</label>
+            <select id="history-shift-filter" class="form-control">
+              <option value="">Todos los turnos</option>
+              <option value="day">Día</option>
+              <option value="night">Noche</option>
+            </select>
+          </div>
+          <div class="user-history-filter-group">
+            <button
+              id="apply-filters"
+              class="user-history-btn user-history-btn-primary"
+            >
+              🔍 Aplicar Filtros
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resumen del período -->
+      <div class="user-history-summary">
+        <h3>📈 Resumen del Período</h3>
+        <div class="user-history-summary-grid">
+          <div class="user-history-summary-card">
+            <h4>Período Seleccionado</h4>
+            <p id="selected-period">Últimos 30 días</p>
+          </div>
+          <div class="user-history-summary-card">
+            <h4>Usuarios Analizados</h4>
+            <p id="analyzed-users">45</p>
+          </div>
+          <div class="user-history-summary-card">
+            <h4>Total de Stows</h4>
+            <p id="total-period-stows">28,450</p>
+          </div>
+          <div class="user-history-summary-card">
+            <h4>Promedio Diario</h4>
+            <p id="daily-average">948</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gráficos de tendencias -->
+      <div class="user-history-charts">
+        <div class="user-history-chart-container full-width">
+          <h3>📊 Tendencias de Rendimiento (30 días)</h3>
+          <div id="performance-trends-chart" class="user-history-chart">
+            <div style="padding: 20px; text-align: center; color: #666">
+              <p>📈 Evolución del rendimiento por usuario</p>
+              <p>Análisis de tendencias a largo plazo</p>
+            </div>
+          </div>
+        </div>
+        <div class="user-history-chart-container">
+          <h3>📅 Actividad por Día</h3>
+          <div id="daily-activity-chart" class="user-history-chart">
+            <div style="padding: 20px; text-align: center; color: #666">
+              <p>📊 Distribución de actividad diaria</p>
+              <p>Patrones de trabajo por día de la semana</p>
+            </div>
+          </div>
+        </div>
+        <div class="user-history-chart-container">
+          <h3>⚡ Distribución de Eficiencia</h3>
+          <div id="efficiency-distribution-chart" class="user-history-chart">
+            <div style="padding: 20px; text-align: center; color: #666">
+              <p>🎯 Análisis de eficiencia por usuario</p>
+              <p>Clasificación: Alta, Media, Baja</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabla de historial detallado -->
+      <div class="user-history-table-section">
+        <h3>📋 Historial Detallado</h3>
+        <div class="user-history-table-controls">
+          <div class="user-history-table-info">
+            <span id="table-info">Mostrando 0 registros</span>
+          </div>
+          <div class="user-history-table-pagination">
+            <button
+              id="prev-page"
+              class="user-history-btn user-history-btn-secondary"
+              disabled
+            >
+              ← Anterior
+            </button>
+            <span id="page-info">Página 1 de 1</span>
+            <button
+              id="next-page"
+              class="user-history-btn user-history-btn-secondary"
+              disabled
+            >
+              Siguiente →
+            </button>
+          </div>
+        </div>
+        <div class="user-history-table-container">
+          <table id="history-table" class="user-history-table">
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Usuario</th>
+                <th>Login</th>
+                <th>Turno</th>
+                <th>Stows</th>
+                <th>Rate/Hora</th>
+                <th>Eficiencia</th>
+                <th>Horas Trabajadas</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Datos se cargarán dinámicamente -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Modal de detalles -->
+      <div
+        id="user-detail-modal"
+        class="user-history-modal"
+        style="display: none"
+      >
+        <div class="user-history-modal-content">
+          <div class="user-history-modal-header">
+            <h3 id="modal-user-name">Detalles del Usuario</h3>
+            <button id="close-modal" class="user-history-modal-close">×</button>
+          </div>
+          <div class="user-history-modal-body">
+            <div id="user-detail-content">
+              <!-- Contenido se cargará dinámicamente -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/user-history.js"></script>
+  </body>
+</html>

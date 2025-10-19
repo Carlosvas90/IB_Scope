@@ -1,0 +1,329 @@
+/* ============================================
+   USER ACTIVITY - ESTILOS ESPECÍFICOS
+   ============================================ */
+
+/* Importar variables base */
+@import url("../../../css/themes/variables.css");
+@import url("../../../css/themes/variables2.css");
+
+/* Reset básico */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(
+    --font-family,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif
+  );
+  background-color: var(--background-color, #f8fafc);
+  color: var(--text-color, #1f2937);
+}
+
+/* Variables específicas para User Activity */
+:root {
+  --user-activity-primary: #3b82f6;
+  --user-activity-secondary: #1e40af;
+  --user-activity-success: #10b981;
+  --user-activity-warning: #f59e0b;
+  --user-activity-error: #ef4444;
+  --user-activity-bg: #f8fafc;
+  --user-activity-card-bg: #ffffff;
+  --user-activity-text-primary: #1f2937;
+  --user-activity-text-secondary: #6b7280;
+  --user-activity-border: #e5e7eb;
+  --user-activity-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Tema oscuro para User Activity */
+[data-theme="dark"] {
+  --user-activity-bg: #111827;
+  --user-activity-card-bg: #1f2937;
+  --user-activity-text-primary: #f9fafb;
+  --user-activity-text-secondary: #9ca3af;
+  --user-activity-border: #374151;
+  --user-activity-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Contenedor principal de User Activity */
+.user-activity-container {
+  padding: var(--spacing-lg);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--Fondo-paginas, var(--user-activity-bg));
+  gap: var(--spacing-lg);
+}
+
+/* Header específico para User Activity */
+.user-activity-header {
+  background: linear-gradient(
+    135deg,
+    var(--user-activity-primary) 0%,
+    var(--user-activity-secondary) 100%
+  );
+  color: white;
+  padding: var(--spacing-xl);
+  border-radius: var(--border-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.user-activity-header h1 {
+  font-size: 2.5rem;
+  margin: 0 0 0.5rem 0;
+  font-weight: 700;
+}
+
+.user-activity-header p {
+  font-size: 1.1rem;
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* Métricas específicas para User Activity */
+.user-activity-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.user-activity-metric-card {
+  background: var(--Fondo-kapi, var(--user-activity-card-bg));
+  border: 1px solid var(--user-activity-border);
+  border-radius: var(--border-lg);
+  padding: var(--spacing-lg);
+  text-align: center;
+  transition: transform var(--transition-normal),
+    box-shadow var(--transition-normal);
+  box-shadow: var(--shadow-md);
+}
+
+.user-activity-metric-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.user-activity-metric-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.user-activity-metric-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--user-activity-primary);
+  margin-bottom: 0.5rem;
+}
+
+.user-activity-metric-label {
+  color: var(--user-activity-text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Gráficos específicos para User Activity */
+.user-activity-charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.user-activity-chart-container {
+  background: var(--user-activity-card-bg);
+  border: 1px solid var(--user-activity-border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: var(--user-activity-shadow);
+}
+
+.user-activity-chart-container h3 {
+  margin: 0 0 1rem 0;
+  color: var(--user-activity-text-primary);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.user-activity-chart {
+  width: 100%;
+  height: 300px;
+  min-height: 300px;
+}
+
+/* Tabla específica para User Activity */
+.user-activity-table-section {
+  background: var(--user-activity-card-bg);
+  border: 1px solid var(--user-activity-border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--user-activity-shadow);
+}
+
+.user-activity-table-section h3 {
+  margin: 0;
+  padding: 1.5rem;
+  color: var(--user-activity-text-primary);
+  font-size: 1.2rem;
+  font-weight: 600;
+  background: var(--user-activity-bg);
+  border-bottom: 1px solid var(--user-activity-border);
+}
+
+.user-activity-table-container {
+  overflow-x: auto;
+}
+
+.user-activity-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.user-activity-table th {
+  background: var(--user-activity-bg);
+  color: var(--user-activity-text-primary);
+  font-weight: 600;
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 2px solid var(--user-activity-border);
+  white-space: nowrap;
+}
+
+.user-activity-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--user-activity-border);
+  color: var(--user-activity-text-primary);
+}
+
+.user-activity-table tr:hover {
+  background: var(--user-activity-bg);
+}
+
+/* Filtros específicos para User Activity */
+.user-activity-filters {
+  background: var(--user-activity-card-bg);
+  border: 1px solid var(--user-activity-border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--user-activity-shadow);
+}
+
+.user-activity-filters h3 {
+  margin: 0 0 1rem 0;
+  color: var(--user-activity-text-primary);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.user-activity-filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 200px;
+}
+
+.user-activity-filter-group label {
+  color: var(--user-activity-text-primary);
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.user-activity-filter-group .form-control {
+  padding: 0.75rem;
+  border: 1px solid var(--user-activity-border);
+  border-radius: 8px;
+  background: var(--user-activity-card-bg);
+  color: var(--user-activity-text-primary);
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.user-activity-filter-group .form-control:focus {
+  outline: none;
+  border-color: var(--user-activity-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Botones específicos para User Activity */
+.user-activity-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.user-activity-btn-primary {
+  background: var(--user-activity-primary);
+  color: white;
+}
+
+.user-activity-btn-primary:hover {
+  background: var(--user-activity-secondary);
+  transform: translateY(-1px);
+}
+
+.user-activity-btn-secondary {
+  background: transparent;
+  color: var(--user-activity-primary);
+  border: 2px solid var(--user-activity-primary);
+}
+
+.user-activity-btn-secondary:hover {
+  background: var(--user-activity-primary);
+  color: white;
+}
+
+/* Responsive para User Activity */
+@media (max-width: 768px) {
+  .user-activity-header {
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .user-activity-header h1 {
+    font-size: 2rem;
+  }
+
+  .user-activity-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .user-activity-charts {
+    grid-template-columns: 1fr;
+  }
+
+  .user-activity-filter-group {
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-activity-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .user-activity-metric-value {
+    font-size: 1.5rem;
+  }
+
+  .user-activity-chart {
+    height: 250px;
+  }
+}

@@ -59,14 +59,14 @@ class AppLoader {
   /**
    * Inicializa el cargador de aplicaciones
    */
-  init() {
+  async init() {
     console.time("AppLoader:Init");
 
     // Escuchar eventos del router
     router.on("app:loaded", this.handleAppLoaded.bind(this));
 
     // Inicializar el router
-    router.init();
+    await router.init();
 
     // Detectar app actual desde URL
     this.detectCurrentApp();
@@ -282,8 +282,8 @@ class AppLoader {
 const appLoader = new AppLoader();
 
 // Al cargar el documento
-document.addEventListener("DOMContentLoaded", () => {
-  appLoader.init();
+document.addEventListener("DOMContentLoaded", async () => {
+  await appLoader.init();
 });
 
 // Exportar la instancia

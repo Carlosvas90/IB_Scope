@@ -1,0 +1,449 @@
+/* ============================================
+   USER HISTORY - ESTILOS ESPECÍFICOS
+   ============================================ */
+
+/* Importar variables base */
+@import url("../../../css/themes/variables.css");
+@import url("../../../css/themes/variables2.css");
+
+/* Reset básico */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(
+    --font-family,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif
+  );
+  background-color: var(--background-color, #f8fafc);
+  color: var(--text-color, #1f2937);
+}
+
+/* Variables específicas para User History */
+:root {
+  --user-history-primary: #8b5cf6;
+  --user-history-secondary: #7c3aed;
+  --user-history-success: #10b981;
+  --user-history-warning: #f59e0b;
+  --user-history-error: #ef4444;
+  --user-history-bg: #f8fafc;
+  --user-history-card-bg: #ffffff;
+  --user-history-text-primary: #1f2937;
+  --user-history-text-secondary: #6b7280;
+  --user-history-border: #e5e7eb;
+  --user-history-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Tema oscuro para User History */
+[data-theme="dark"] {
+  --user-history-bg: #111827;
+  --user-history-card-bg: #1f2937;
+  --user-history-text-primary: #f9fafb;
+  --user-history-text-secondary: #9ca3af;
+  --user-history-border: #374151;
+  --user-history-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Contenedor principal de User History */
+.user-history-container {
+  padding: var(--spacing-lg);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--Fondo-paginas, var(--user-history-bg));
+  gap: var(--spacing-lg);
+}
+
+/* Header específico para User History */
+.user-history-header {
+  background: linear-gradient(
+    135deg,
+    var(--user-history-primary) 0%,
+    var(--user-history-secondary) 100%
+  );
+  color: white;
+  padding: var(--spacing-xl);
+  border-radius: var(--border-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.user-history-header h1 {
+  font-size: 2.5rem;
+  margin: 0 0 0.5rem 0;
+  font-weight: 700;
+}
+
+.user-history-header p {
+  font-size: 1.1rem;
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* Resumen del período específico para User History */
+.user-history-summary {
+  background: var(--Fondo-kapi, var(--user-history-card-bg));
+  border: 1px solid var(--user-history-border);
+  border-radius: var(--border-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.user-history-summary h3 {
+  margin: 0 0 1.5rem 0;
+  color: var(--user-history-text-primary);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.user-history-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.user-history-summary-card {
+  text-align: center;
+  padding: 1rem;
+  border-radius: 8px;
+  background: var(--user-history-bg);
+  border: 1px solid var(--user-history-border);
+}
+
+.user-history-summary-card h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--user-history-text-secondary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.user-history-summary-card p {
+  margin: 0;
+  color: var(--user-history-text-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+/* Gráficos específicos para User History */
+.user-history-charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.user-history-chart-container {
+  background: var(--user-history-card-bg);
+  border: 1px solid var(--user-history-border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: var(--user-history-shadow);
+}
+
+.user-history-chart-container.full-width {
+  grid-column: 1 / -1;
+}
+
+.user-history-chart-container h3 {
+  margin: 0 0 1rem 0;
+  color: var(--user-history-text-primary);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.user-history-chart {
+  width: 100%;
+  height: 300px;
+  min-height: 300px;
+}
+
+/* Filtros avanzados específicos para User History */
+.user-history-filters {
+  background: var(--user-history-card-bg);
+  border: 1px solid var(--user-history-border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--user-history-shadow);
+}
+
+.user-history-filters h3 {
+  margin: 0 0 1rem 0;
+  color: var(--user-history-text-primary);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.user-history-filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 200px;
+}
+
+.user-history-filter-group label {
+  color: var(--user-history-text-primary);
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.user-history-filter-group .form-control {
+  padding: 0.75rem;
+  border: 1px solid var(--user-history-border);
+  border-radius: 8px;
+  background: var(--user-history-card-bg);
+  color: var(--user-history-text-primary);
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.user-history-filter-group .form-control:focus {
+  outline: none;
+  border-color: var(--user-history-primary);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+/* Tabla específica para User History */
+.user-history-table-section {
+  background: var(--user-history-card-bg);
+  border: 1px solid var(--user-history-border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--user-history-shadow);
+}
+
+.user-history-table-section h3 {
+  margin: 0;
+  padding: 1.5rem;
+  color: var(--user-history-text-primary);
+  font-size: 1.2rem;
+  font-weight: 600;
+  background: var(--user-history-bg);
+  border-bottom: 1px solid var(--user-history-border);
+}
+
+.user-history-table-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: var(--user-history-bg);
+  border-bottom: 1px solid var(--user-history-border);
+}
+
+.user-history-table-info {
+  color: var(--user-history-text-secondary);
+  font-size: 0.9rem;
+}
+
+.user-history-table-pagination {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-history-table-container {
+  overflow-x: auto;
+}
+
+.user-history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.user-history-table th {
+  background: var(--user-history-bg);
+  color: var(--user-history-text-primary);
+  font-weight: 600;
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 2px solid var(--user-history-border);
+  white-space: nowrap;
+}
+
+.user-history-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--user-history-border);
+  color: var(--user-history-text-primary);
+}
+
+.user-history-table tr:hover {
+  background: var(--user-history-bg);
+}
+
+/* Modal específico para User History */
+.user-history-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.user-history-modal-content {
+  background: var(--user-history-card-bg);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow: hidden;
+  animation: modalSlideIn 0.2s ease-out;
+}
+
+.user-history-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--user-history-border);
+  background: linear-gradient(
+    135deg,
+    var(--user-history-primary),
+    var(--user-history-secondary)
+  );
+  color: white;
+}
+
+.user-history-modal-header h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.user-history-modal-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.user-history-modal-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.user-history-modal-body {
+  padding: 1.5rem;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+/* Botones específicos para User History */
+.user-history-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.user-history-btn-primary {
+  background: var(--user-history-primary);
+  color: white;
+}
+
+.user-history-btn-primary:hover {
+  background: var(--user-history-secondary);
+  transform: translateY(-1px);
+}
+
+.user-history-btn-secondary {
+  background: transparent;
+  color: var(--user-history-primary);
+  border: 2px solid var(--user-history-primary);
+}
+
+.user-history-btn-secondary:hover {
+  background: var(--user-history-primary);
+  color: white;
+}
+
+.user-history-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Animaciones específicas para User History */
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Responsive para User History */
+@media (max-width: 768px) {
+  .user-history-header {
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .user-history-header h1 {
+    font-size: 2rem;
+  }
+
+  .user-history-summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .user-history-charts {
+    grid-template-columns: 1fr;
+  }
+
+  .user-history-table-controls {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .user-history-table-pagination {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-history-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .user-history-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .user-history-summary-card p {
+    font-size: 1.2rem;
+  }
+
+  .user-history-chart {
+    height: 250px;
+  }
+}
