@@ -1,0 +1,587 @@
+{
+  "metadata": {
+    "login": "gomezqsa",
+    "last_updated": "2025-10-19 21:42:44",
+    "periods_available": [
+      "last_week",
+      "last_month",
+      "last_3_months",
+      "last_6_months"
+    ]
+  },
+  "last_week": {
+    "date_range": {
+      "start": "12102025",
+      "end": "18102025"
+    },
+    "each_stow": {
+      "stow_to_prime": {
+        "total_units": 226,
+        "total_hours": 2.25,
+        "rate": 100.44,
+        "avg_general": 66.04,
+        "rank": 15,
+        "total_users": 146,
+        "percentile": 89.7
+      },
+      "transfer_in": {
+        "total_units": 216,
+        "total_hours": 2.48,
+        "rate": 87.1,
+        "avg_general": 70.74,
+        "rank": 34,
+        "total_users": 140,
+        "percentile": 75.7
+      },
+      "combined": {
+        "total_units": 442,
+        "total_hours": 4.73,
+        "rate": 93.45,
+        "avg_general": 65.51,
+        "rank": 22,
+        "total_users": 153,
+        "percentile": 85.6
+      }
+    },
+    "pallet_stow": {
+      "stow_to_prime": {
+        "pallet_units": 16,
+        "total_hours": 2.39,
+        "pallet_rate": 6.69,
+        "avg_pallet_general": 10.3,
+        "rank_pallet": 40,
+        "total_users": 48,
+        "percentile_pallet": 16.7
+      },
+      "transfer_in": {
+        "pallet_units": 40,
+        "total_hours": 5.2,
+        "pallet_rate": 7.69,
+        "avg_pallet_general": 11.24,
+        "rank_pallet": 33,
+        "total_users": 43,
+        "percentile_pallet": 23.3
+      },
+      "combined": {
+        "pallet_units": 23,
+        "total_hours": 3.1,
+        "pallet_rate": 7.42,
+        "avg_pallet_general": 10.51,
+        "rank_pallet": 46,
+        "total_users": 55,
+        "percentile_pallet": 16.4
+      }
+    },
+    "rate_por_esfuerzo": {
+      "total_units": 442,
+      "total_hours": 4.73,
+      "uph": 93.45,
+      "rate_por_esfuerzo": 64.24,
+      "total_distance": 3428.9,
+      "distance_per_hour": 724.93,
+      "asins_unicos": 64,
+      "bins_unicos": 221,
+      "cart_changes": 32,
+      "errores": 2,
+      "avg_uph_general": 66.39,
+      "avg_rate_esfuerzo_general": 45.23,
+      "rank_uph": 23,
+      "rank_esfuerzo": 22,
+      "total_users": 153,
+      "percentile_uph": 85.0,
+      "percentile_esfuerzo": 85.6
+    }
+  },
+  "last_month": {
+    "date_range": {
+      "start": "19092025",
+      "end": "18102025"
+    },
+    "each_stow": {
+      "stow_to_prime": {
+        "total_units": 1227,
+        "total_hours": 15.16,
+        "rate": 80.94,
+        "avg_general": 68.53,
+        "rank": 47,
+        "total_users": 190,
+        "percentile": 75.3
+      },
+      "stow_to_prime_e": {
+        "total_units": 59,
+        "total_hours": 1.15,
+        "rate": 51.3,
+        "avg_general": 32.3,
+        "rank": 19,
+        "total_users": 120,
+        "percentile": 84.2
+      },
+      "stow_to_prime_w": {
+        "total_units": 70,
+        "total_hours": 3.27,
+        "rate": 21.41,
+        "avg_general": 21.43,
+        "rank": 30,
+        "total_users": 116,
+        "percentile": 74.1
+      },
+      "transfer_in": {
+        "total_units": 1080,
+        "total_hours": 11.39,
+        "rate": 94.82,
+        "avg_general": 71.59,
+        "rank": 26,
+        "total_users": 185,
+        "percentile": 85.9
+      },
+      "transfer_in_e": {
+        "total_units": 26,
+        "total_hours": 1.02,
+        "rate": 25.49,
+        "avg_general": 37.34,
+        "rank": 43,
+        "total_users": 68,
+        "percentile": 36.8
+      },
+      "transfer_in_w": {
+        "total_units": 37,
+        "total_hours": 1.98,
+        "rate": 18.69,
+        "avg_general": 28.19,
+        "rank": 60,
+        "total_users": 107,
+        "percentile": 43.9
+      },
+      "combined": {
+        "total_units": 2307,
+        "total_hours": 26.55,
+        "rate": 86.89,
+        "avg_general": 68.21,
+        "rank": 32,
+        "total_users": 192,
+        "percentile": 83.3
+      },
+      "combined_e": {
+        "total_units": 85,
+        "total_hours": 2.17,
+        "rate": 39.17,
+        "avg_general": 32.61,
+        "rank": 34,
+        "total_users": 124,
+        "percentile": 72.6
+      },
+      "combined_w": {
+        "total_units": 107,
+        "total_hours": 5.25,
+        "rate": 20.38,
+        "avg_general": 23.5,
+        "rank": 47,
+        "total_users": 126,
+        "percentile": 62.7
+      }
+    },
+    "pallet_stow": {
+      "stow_to_prime": {
+        "pallet_units": 56,
+        "total_hours": 7.43,
+        "pallet_rate": 7.54,
+        "avg_pallet_general": 10.53,
+        "rank_pallet": 55,
+        "total_users": 67,
+        "percentile_pallet": 17.9
+      },
+      "stow_to_prime_w": {
+        "pallet_units": 5,
+        "total_hours": 0.52,
+        "pallet_rate": 9.62,
+        "avg_pallet_general": 11.8,
+        "rank_pallet": 25,
+        "total_users": 46,
+        "percentile_pallet": 45.7
+      },
+      "transfer_in": {
+        "pallet_units": 47,
+        "total_hours": 5.49,
+        "pallet_rate": 8.56,
+        "avg_pallet_general": 10.29,
+        "rank_pallet": 41,
+        "total_users": 65,
+        "percentile_pallet": 36.9
+      },
+      "transfer_in_w": {
+        "pallet_units": 7,
+        "total_hours": 0.29,
+        "pallet_rate": 24.14,
+        "avg_pallet_general": 10.79,
+        "rank_pallet": 3,
+        "total_users": 30,
+        "percentile_pallet": 90.0
+      },
+      "combined": {
+        "pallet_units": 70,
+        "total_hours": 8.43,
+        "pallet_rate": 8.3,
+        "avg_pallet_general": 10.72,
+        "rank_pallet": 57,
+        "total_users": 77,
+        "percentile_pallet": 26.0
+      },
+      "combined_w": {
+        "pallet_units": 12,
+        "total_hours": 0.81,
+        "pallet_rate": 14.81,
+        "avg_pallet_general": 11.36,
+        "rank_pallet": 12,
+        "total_users": 51,
+        "percentile_pallet": 76.5
+      }
+    },
+    "rate_por_esfuerzo": {
+      "total_units": 2039,
+      "total_hours": 23.01,
+      "uph": 88.61,
+      "rate_por_esfuerzo": 44.46,
+      "total_distance": 14078.4,
+      "distance_per_hour": 611.84,
+      "asins_unicos": 347,
+      "bins_unicos": 1014,
+      "cart_changes": 118,
+      "errores": 64,
+      "avg_uph_general": 70.23,
+      "avg_rate_esfuerzo_general": 46.07,
+      "rank_uph": 37,
+      "rank_esfuerzo": 95,
+      "total_users": 191,
+      "percentile_uph": 80.6,
+      "percentile_esfuerzo": 50.3
+    }
+  },
+  "last_3_months": {
+    "date_range": {
+      "start": "21072025",
+      "end": "18102025"
+    },
+    "each_stow": {
+      "stow_to_prime": {
+        "total_units": 1227,
+        "total_hours": 15.16,
+        "rate": 80.94,
+        "avg_general": 68.53,
+        "rank": 47,
+        "total_users": 190,
+        "percentile": 75.3
+      },
+      "stow_to_prime_e": {
+        "total_units": 59,
+        "total_hours": 1.15,
+        "rate": 51.3,
+        "avg_general": 32.3,
+        "rank": 19,
+        "total_users": 120,
+        "percentile": 84.2
+      },
+      "stow_to_prime_w": {
+        "total_units": 70,
+        "total_hours": 3.27,
+        "rate": 21.41,
+        "avg_general": 21.43,
+        "rank": 30,
+        "total_users": 116,
+        "percentile": 74.1
+      },
+      "transfer_in": {
+        "total_units": 1080,
+        "total_hours": 11.39,
+        "rate": 94.82,
+        "avg_general": 71.59,
+        "rank": 26,
+        "total_users": 185,
+        "percentile": 85.9
+      },
+      "transfer_in_e": {
+        "total_units": 26,
+        "total_hours": 1.02,
+        "rate": 25.49,
+        "avg_general": 37.34,
+        "rank": 43,
+        "total_users": 68,
+        "percentile": 36.8
+      },
+      "transfer_in_w": {
+        "total_units": 37,
+        "total_hours": 1.98,
+        "rate": 18.69,
+        "avg_general": 28.19,
+        "rank": 60,
+        "total_users": 107,
+        "percentile": 43.9
+      },
+      "combined": {
+        "total_units": 2307,
+        "total_hours": 26.55,
+        "rate": 86.89,
+        "avg_general": 68.21,
+        "rank": 32,
+        "total_users": 192,
+        "percentile": 83.3
+      },
+      "combined_e": {
+        "total_units": 85,
+        "total_hours": 2.17,
+        "rate": 39.17,
+        "avg_general": 32.61,
+        "rank": 34,
+        "total_users": 124,
+        "percentile": 72.6
+      },
+      "combined_w": {
+        "total_units": 107,
+        "total_hours": 5.25,
+        "rate": 20.38,
+        "avg_general": 23.5,
+        "rank": 47,
+        "total_users": 126,
+        "percentile": 62.7
+      }
+    },
+    "pallet_stow": {
+      "stow_to_prime": {
+        "pallet_units": 56,
+        "total_hours": 7.43,
+        "pallet_rate": 7.54,
+        "avg_pallet_general": 10.53,
+        "rank_pallet": 55,
+        "total_users": 67,
+        "percentile_pallet": 17.9
+      },
+      "stow_to_prime_w": {
+        "pallet_units": 5,
+        "total_hours": 0.52,
+        "pallet_rate": 9.62,
+        "avg_pallet_general": 11.8,
+        "rank_pallet": 25,
+        "total_users": 46,
+        "percentile_pallet": 45.7
+      },
+      "transfer_in": {
+        "pallet_units": 47,
+        "total_hours": 5.49,
+        "pallet_rate": 8.56,
+        "avg_pallet_general": 10.29,
+        "rank_pallet": 41,
+        "total_users": 65,
+        "percentile_pallet": 36.9
+      },
+      "transfer_in_w": {
+        "pallet_units": 7,
+        "total_hours": 0.29,
+        "pallet_rate": 24.14,
+        "avg_pallet_general": 10.79,
+        "rank_pallet": 3,
+        "total_users": 30,
+        "percentile_pallet": 90.0
+      },
+      "combined": {
+        "pallet_units": 70,
+        "total_hours": 8.43,
+        "pallet_rate": 8.3,
+        "avg_pallet_general": 10.72,
+        "rank_pallet": 57,
+        "total_users": 77,
+        "percentile_pallet": 26.0
+      },
+      "combined_w": {
+        "pallet_units": 12,
+        "total_hours": 0.81,
+        "pallet_rate": 14.81,
+        "avg_pallet_general": 11.36,
+        "rank_pallet": 12,
+        "total_users": 51,
+        "percentile_pallet": 76.5
+      }
+    },
+    "rate_por_esfuerzo": {
+      "total_units": 2039,
+      "total_hours": 23.01,
+      "uph": 88.61,
+      "rate_por_esfuerzo": 44.46,
+      "total_distance": 14078.4,
+      "distance_per_hour": 611.84,
+      "asins_unicos": 347,
+      "bins_unicos": 1014,
+      "cart_changes": 118,
+      "errores": 64,
+      "avg_uph_general": 70.23,
+      "avg_rate_esfuerzo_general": 46.07,
+      "rank_uph": 37,
+      "rank_esfuerzo": 95,
+      "total_users": 191,
+      "percentile_uph": 80.6,
+      "percentile_esfuerzo": 50.3
+    }
+  },
+  "last_6_months": {
+    "date_range": {
+      "start": "22042025",
+      "end": "18102025"
+    },
+    "each_stow": {
+      "stow_to_prime": {
+        "total_units": 1227,
+        "total_hours": 15.16,
+        "rate": 80.94,
+        "avg_general": 68.53,
+        "rank": 47,
+        "total_users": 190,
+        "percentile": 75.3
+      },
+      "stow_to_prime_e": {
+        "total_units": 59,
+        "total_hours": 1.15,
+        "rate": 51.3,
+        "avg_general": 32.3,
+        "rank": 19,
+        "total_users": 120,
+        "percentile": 84.2
+      },
+      "stow_to_prime_w": {
+        "total_units": 70,
+        "total_hours": 3.27,
+        "rate": 21.41,
+        "avg_general": 21.43,
+        "rank": 30,
+        "total_users": 116,
+        "percentile": 74.1
+      },
+      "transfer_in": {
+        "total_units": 1080,
+        "total_hours": 11.39,
+        "rate": 94.82,
+        "avg_general": 71.59,
+        "rank": 26,
+        "total_users": 185,
+        "percentile": 85.9
+      },
+      "transfer_in_e": {
+        "total_units": 26,
+        "total_hours": 1.02,
+        "rate": 25.49,
+        "avg_general": 37.34,
+        "rank": 43,
+        "total_users": 68,
+        "percentile": 36.8
+      },
+      "transfer_in_w": {
+        "total_units": 37,
+        "total_hours": 1.98,
+        "rate": 18.69,
+        "avg_general": 28.19,
+        "rank": 60,
+        "total_users": 107,
+        "percentile": 43.9
+      },
+      "combined": {
+        "total_units": 2307,
+        "total_hours": 26.55,
+        "rate": 86.89,
+        "avg_general": 68.21,
+        "rank": 32,
+        "total_users": 192,
+        "percentile": 83.3
+      },
+      "combined_e": {
+        "total_units": 85,
+        "total_hours": 2.17,
+        "rate": 39.17,
+        "avg_general": 32.61,
+        "rank": 34,
+        "total_users": 124,
+        "percentile": 72.6
+      },
+      "combined_w": {
+        "total_units": 107,
+        "total_hours": 5.25,
+        "rate": 20.38,
+        "avg_general": 23.5,
+        "rank": 47,
+        "total_users": 126,
+        "percentile": 62.7
+      }
+    },
+    "pallet_stow": {
+      "stow_to_prime": {
+        "pallet_units": 56,
+        "total_hours": 7.43,
+        "pallet_rate": 7.54,
+        "avg_pallet_general": 10.53,
+        "rank_pallet": 55,
+        "total_users": 67,
+        "percentile_pallet": 17.9
+      },
+      "stow_to_prime_w": {
+        "pallet_units": 5,
+        "total_hours": 0.52,
+        "pallet_rate": 9.62,
+        "avg_pallet_general": 11.8,
+        "rank_pallet": 25,
+        "total_users": 46,
+        "percentile_pallet": 45.7
+      },
+      "transfer_in": {
+        "pallet_units": 47,
+        "total_hours": 5.49,
+        "pallet_rate": 8.56,
+        "avg_pallet_general": 10.29,
+        "rank_pallet": 41,
+        "total_users": 65,
+        "percentile_pallet": 36.9
+      },
+      "transfer_in_w": {
+        "pallet_units": 7,
+        "total_hours": 0.29,
+        "pallet_rate": 24.14,
+        "avg_pallet_general": 10.79,
+        "rank_pallet": 3,
+        "total_users": 30,
+        "percentile_pallet": 90.0
+      },
+      "combined": {
+        "pallet_units": 70,
+        "total_hours": 8.43,
+        "pallet_rate": 8.3,
+        "avg_pallet_general": 10.72,
+        "rank_pallet": 57,
+        "total_users": 77,
+        "percentile_pallet": 26.0
+      },
+      "combined_w": {
+        "pallet_units": 12,
+        "total_hours": 0.81,
+        "pallet_rate": 14.81,
+        "avg_pallet_general": 11.36,
+        "rank_pallet": 12,
+        "total_users": 51,
+        "percentile_pallet": 76.5
+      }
+    },
+    "rate_por_esfuerzo": {
+      "total_units": 2039,
+      "total_hours": 23.01,
+      "uph": 88.61,
+      "rate_por_esfuerzo": 44.46,
+      "total_distance": 14078.4,
+      "distance_per_hour": 611.84,
+      "asins_unicos": 347,
+      "bins_unicos": 1014,
+      "cart_changes": 118,
+      "errores": 64,
+      "avg_uph_general": 70.23,
+      "avg_rate_esfuerzo_general": 46.07,
+      "rank_uph": 37,
+      "rank_esfuerzo": 95,
+      "total_users": 191,
+      "percentile_uph": 80.6,
+      "percentile_esfuerzo": 50.3
+    }
+  }
+}

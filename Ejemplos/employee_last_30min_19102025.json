@@ -1,0 +1,2751 @@
+{
+  "fecha": "19102025",
+  "generado_a": "2025-10-19 22:01:53",
+  "empleados": {
+    "jorrayar": {
+      "employee_id": "jorrayar",
+      "login": "jorrayar",
+      "ultima_accion": "21:53:48",
+      "periodo_analizado": {
+        "inicio": "21:23:48",
+        "fin": "21:53:48",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 74,
+        "unique_asins": 15,
+        "total_weight": 169.8,
+        "avg_weight_per_unit": 2.29,
+        "avg_weight_per_asin": 11.32
+      },
+      "asins_detallados": [
+        {
+          "asin": "B0DMWCWZXL",
+          "units": 1,
+          "weight_per_unit": 14.25,
+          "total_weight": 14.25,
+          "scan_time": "21:25:54"
+        },
+        {
+          "asin": "B09T3MML1D",
+          "units": 2,
+          "weight_per_unit": 4.78,
+          "total_weight": 9.56,
+          "scan_time": "21:27:15"
+        },
+        {
+          "asin": "B07RRWVF59",
+          "units": 1,
+          "weight_per_unit": 2.58,
+          "total_weight": 2.58,
+          "scan_time": "21:27:36"
+        },
+        {
+          "asin": "B0FPX569M1",
+          "units": 1,
+          "weight_per_unit": 10.82,
+          "total_weight": 10.82,
+          "scan_time": "21:28:33"
+        },
+        {
+          "asin": "B00EXSXHZU",
+          "units": 1,
+          "weight_per_unit": 4.1,
+          "total_weight": 4.1,
+          "scan_time": "21:30:16"
+        },
+        {
+          "asin": "B0DCVRSC95",
+          "units": 12,
+          "weight_per_unit": 1.16,
+          "total_weight": 13.92,
+          "scan_time": "21:34:35"
+        },
+        {
+          "asin": "B0D268L1W3",
+          "units": 1,
+          "weight_per_unit": 14.11,
+          "total_weight": 14.11,
+          "scan_time": "21:35:25"
+        },
+        {
+          "asin": "B0924F682K",
+          "units": 2,
+          "weight_per_unit": 1.0,
+          "total_weight": 2.0,
+          "scan_time": "21:41:44"
+        },
+        {
+          "asin": "B0FPL56SXG",
+          "units": 1,
+          "weight_per_unit": 0.9,
+          "total_weight": 0.9,
+          "scan_time": "21:41:53"
+        },
+        {
+          "asin": "B0F9YV6FFY",
+          "units": 6,
+          "weight_per_unit": 1.19,
+          "total_weight": 7.14,
+          "scan_time": "21:45:20"
+        },
+        {
+          "asin": "B002GODQXQ",
+          "units": 12,
+          "weight_per_unit": 1.54,
+          "total_weight": 18.48,
+          "scan_time": "21:45:41"
+        },
+        {
+          "asin": "B0CSP6T8SG",
+          "units": 15,
+          "weight_per_unit": 0.36,
+          "total_weight": 5.4,
+          "scan_time": "21:47:12"
+        },
+        {
+          "asin": "B0B4YD5K72",
+          "units": 1,
+          "weight_per_unit": 1.72,
+          "total_weight": 1.72,
+          "scan_time": "21:47:44"
+        },
+        {
+          "asin": "B0BBRYVCW8",
+          "units": 1,
+          "weight_per_unit": 4.64,
+          "total_weight": 4.64,
+          "scan_time": "21:51:04"
+        },
+        {
+          "asin": "B0DSQNSJYJ",
+          "units": 17,
+          "weight_per_unit": 3.54,
+          "total_weight": 60.18,
+          "scan_time": "21:53:48"
+        }
+      ]
+    },
+    "aletolea": {
+      "employee_id": "aletolea",
+      "login": "aletolea",
+      "ultima_accion": "10:23:35",
+      "periodo_analizado": {
+        "inicio": "09:53:35",
+        "fin": "10:23:35",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 47,
+        "unique_asins": 25,
+        "total_weight": 31.22,
+        "avg_weight_per_unit": 0.66,
+        "avg_weight_per_asin": 1.25
+      },
+      "asins_detallados": [
+        {
+          "asin": "B0C8B5YZY1",
+          "units": 1,
+          "weight_per_unit": 1.48,
+          "total_weight": 1.48,
+          "scan_time": "09:59:30"
+        },
+        {
+          "asin": "B0C6FCTPY5",
+          "units": 1,
+          "weight_per_unit": 1.0,
+          "total_weight": 1.0,
+          "scan_time": "09:59:52"
+        },
+        {
+          "asin": "B07YF735ZN",
+          "units": 1,
+          "weight_per_unit": 0.8,
+          "total_weight": 0.8,
+          "scan_time": "10:00:04"
+        },
+        {
+          "asin": "B07KWDZQ3V",
+          "units": 2,
+          "weight_per_unit": 0.96,
+          "total_weight": 1.92,
+          "scan_time": "10:00:27"
+        },
+        {
+          "asin": "B0FRMQKY75",
+          "units": 1,
+          "weight_per_unit": 1.0,
+          "total_weight": 1.0,
+          "scan_time": "10:00:45"
+        },
+        {
+          "asin": "B0FRMPVJSR",
+          "units": 1,
+          "weight_per_unit": 1.0,
+          "total_weight": 1.0,
+          "scan_time": "10:01:02"
+        },
+        {
+          "asin": "B00KP8I1C6",
+          "units": 2,
+          "weight_per_unit": 0.22,
+          "total_weight": 0.44,
+          "scan_time": "10:01:18"
+        },
+        {
+          "asin": "B0DBM54DWH",
+          "units": 6,
+          "weight_per_unit": 0.35,
+          "total_weight": 2.1,
+          "scan_time": "10:02:00"
+        },
+        {
+          "asin": "B091B4LFVW",
+          "units": 2,
+          "weight_per_unit": 0.27,
+          "total_weight": 0.54,
+          "scan_time": "10:02:20"
+        },
+        {
+          "asin": "B0DVH4LYX2",
+          "units": 1,
+          "weight_per_unit": 0.25,
+          "total_weight": 0.25,
+          "scan_time": "10:02:27"
+        },
+        {
+          "asin": "B0DK1H8VW2",
+          "units": 5,
+          "weight_per_unit": 0.53,
+          "total_weight": 2.65,
+          "scan_time": "10:03:29"
+        },
+        {
+          "asin": "B07HX1V3C9",
+          "units": 1,
+          "weight_per_unit": 0.83,
+          "total_weight": 0.83,
+          "scan_time": "10:03:42"
+        },
+        {
+          "asin": "B0DP36WY3C",
+          "units": 1,
+          "weight_per_unit": 0.54,
+          "total_weight": 0.54,
+          "scan_time": "10:03:52"
+        },
+        {
+          "asin": "B0FRMNRF4Y",
+          "units": 2,
+          "weight_per_unit": 1.0,
+          "total_weight": 2.0,
+          "scan_time": "10:04:25"
+        },
+        {
+          "asin": "B0FRMQMFQR",
+          "units": 1,
+          "weight_per_unit": 1.0,
+          "total_weight": 1.0,
+          "scan_time": "10:04:45"
+        },
+        {
+          "asin": "B0977CWRXB",
+          "units": 1,
+          "weight_per_unit": 0.46,
+          "total_weight": 0.46,
+          "scan_time": "10:04:55"
+        },
+        {
+          "asin": "B00G46H55C",
+          "units": 8,
+          "weight_per_unit": 0.37,
+          "total_weight": 2.96,
+          "scan_time": "10:06:26"
+        },
+        {
+          "asin": "B0C7L11V2D",
+          "units": 3,
+          "weight_per_unit": 1.28,
+          "total_weight": 3.84,
+          "scan_time": "10:18:51"
+        },
+        {
+          "asin": "B0CGXQT4MM",
+          "units": 1,
+          "weight_per_unit": 0.86,
+          "total_weight": 0.86,
+          "scan_time": "10:19:08"
+        },
+        {
+          "asin": "B0C9R4752K",
+          "units": 1,
+          "weight_per_unit": 1.94,
+          "total_weight": 1.94,
+          "scan_time": "10:19:30"
+        },
+        {
+          "asin": "B0CGXDZCMX",
+          "units": 1,
+          "weight_per_unit": 0.89,
+          "total_weight": 0.89,
+          "scan_time": "10:19:39"
+        },
+        {
+          "asin": "B0CLPG8BQ1",
+          "units": 1,
+          "weight_per_unit": 0.53,
+          "total_weight": 0.53,
+          "scan_time": "10:20:24"
+        },
+        {
+          "asin": "B07B2KQP3J",
+          "units": 1,
+          "weight_per_unit": 1.09,
+          "total_weight": 1.09,
+          "scan_time": "10:22:38"
+        },
+        {
+          "asin": "B0071IZ3RE",
+          "units": 1,
+          "weight_per_unit": 0.5,
+          "total_weight": 0.5,
+          "scan_time": "10:23:01"
+        },
+        {
+          "asin": "B0D928PSZL",
+          "units": 1,
+          "weight_per_unit": 0.6,
+          "total_weight": 0.6,
+          "scan_time": "10:23:35"
+        }
+      ]
+    },
+    "gregopin": {
+      "employee_id": "gregopin",
+      "login": "gregopin",
+      "ultima_accion": "15:25:53",
+      "periodo_analizado": {
+        "inicio": "14:55:53",
+        "fin": "15:25:53",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 35,
+        "unique_asins": 8,
+        "total_weight": 107.01,
+        "avg_weight_per_unit": 3.06,
+        "avg_weight_per_asin": 13.38
+      },
+      "asins_detallados": [
+        {
+          "asin": "B0BQ1SQ6DQ",
+          "units": 2,
+          "weight_per_unit": 3.56,
+          "total_weight": 7.12,
+          "scan_time": "14:56:12"
+        },
+        {
+          "asin": "B07MJ6S1MV",
+          "units": 6,
+          "weight_per_unit": 4.32,
+          "total_weight": 25.92,
+          "scan_time": "15:01:30"
+        },
+        {
+          "asin": "B0BPZZB7Q2",
+          "units": 3,
+          "weight_per_unit": 12.23,
+          "total_weight": 36.69,
+          "scan_time": "15:03:57"
+        },
+        {
+          "asin": "B0DHKYCRCV",
+          "units": 3,
+          "weight_per_unit": 5.2,
+          "total_weight": 15.6,
+          "scan_time": "15:14:13"
+        },
+        {
+          "asin": "B0FGXQRYCK",
+          "units": 9,
+          "weight_per_unit": 0.62,
+          "total_weight": 5.58,
+          "scan_time": "15:15:21"
+        },
+        {
+          "asin": "B0C7Z32TC6",
+          "units": 10,
+          "weight_per_unit": 0.42,
+          "total_weight": 4.2,
+          "scan_time": "15:16:36"
+        },
+        {
+          "asin": "B0B6J4HQJS",
+          "units": 1,
+          "weight_per_unit": 1.0,
+          "total_weight": 1.0,
+          "scan_time": "15:25:12"
+        },
+        {
+          "asin": "B0FV8HQJR3",
+          "units": 1,
+          "weight_per_unit": 10.9,
+          "total_weight": 10.9,
+          "scan_time": "15:25:53"
+        }
+      ]
+    },
+    "garcamax": {
+      "employee_id": "garcamax",
+      "login": "garcamax",
+      "ultima_accion": "15:21:52",
+      "periodo_analizado": {
+        "inicio": "14:51:52",
+        "fin": "15:21:52",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 16,
+        "unique_asins": 9,
+        "total_weight": 59.63,
+        "avg_weight_per_unit": 3.73,
+        "avg_weight_per_asin": 6.63
+      },
+      "asins_detallados": [
+        {
+          "asin": "B01BBZ1O1G",
+          "units": 1,
+          "weight_per_unit": 1.85,
+          "total_weight": 1.85,
+          "scan_time": "15:02:03"
+        },
+        {
+          "asin": "B0C4THNWQ6",
+          "units": 1,
+          "weight_per_unit": 2.32,
+          "total_weight": 2.32,
+          "scan_time": "15:03:50"
+        },
+        {
+          "asin": "B0BGS5PZVK",
+          "units": 1,
+          "weight_per_unit": 1.46,
+          "total_weight": 1.46,
+          "scan_time": "15:10:42"
+        },
+        {
+          "asin": "B0002HOYIK",
+          "units": 1,
+          "weight_per_unit": 4.52,
+          "total_weight": 4.52,
+          "scan_time": "15:11:50"
+        },
+        {
+          "asin": "B0DB8WW3YN",
+          "units": 1,
+          "weight_per_unit": 10.5,
+          "total_weight": 10.5,
+          "scan_time": "15:17:15"
+        },
+        {
+          "asin": "B07N8N6C85",
+          "units": 1,
+          "weight_per_unit": 7.1,
+          "total_weight": 7.1,
+          "scan_time": "15:19:22"
+        },
+        {
+          "asin": "B0DSQNSJYJ",
+          "units": 6,
+          "weight_per_unit": 3.54,
+          "total_weight": 21.24,
+          "scan_time": "15:21:26"
+        },
+        {
+          "asin": "B0DS961HK4",
+          "units": 3,
+          "weight_per_unit": 2.0,
+          "total_weight": 6.0,
+          "scan_time": "15:21:43"
+        },
+        {
+          "asin": "B0BBRYVCW8",
+          "units": 1,
+          "weight_per_unit": 4.64,
+          "total_weight": 4.64,
+          "scan_time": "15:21:52"
+        }
+      ]
+    },
+    "hanllequ": {
+      "employee_id": "hanllequ",
+      "login": "hanllequ",
+      "ultima_accion": "15:21:41",
+      "periodo_analizado": {
+        "inicio": "14:51:41",
+        "fin": "15:21:41",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 18,
+        "unique_asins": 7,
+        "total_weight": 143.43,
+        "avg_weight_per_unit": 7.97,
+        "avg_weight_per_asin": 20.49
+      },
+      "asins_detallados": [
+        {
+          "asin": "B0F999YWXZ",
+          "units": 6,
+          "weight_per_unit": 12.85,
+          "total_weight": 77.1,
+          "scan_time": "15:00:48"
+        },
+        {
+          "asin": "B0FMKB8DRZ",
+          "units": 3,
+          "weight_per_unit": 2.7,
+          "total_weight": 8.1,
+          "scan_time": "15:11:30"
+        },
+        {
+          "asin": "B0DWLG7L2M",
+          "units": 4,
+          "weight_per_unit": 5.36,
+          "total_weight": 21.44,
+          "scan_time": "15:13:11"
+        },
+        {
+          "asin": "B0C28TC4S5",
+          "units": 1,
+          "weight_per_unit": 3.04,
+          "total_weight": 3.04,
+          "scan_time": "15:16:59"
+        },
+        {
+          "asin": "B0CDHFPL66",
+          "units": 1,
+          "weight_per_unit": 10.7,
+          "total_weight": 10.7,
+          "scan_time": "15:18:29"
+        },
+        {
+          "asin": "B0D73PDQY1",
+          "units": 2,
+          "weight_per_unit": 7.2,
+          "total_weight": 14.4,
+          "scan_time": "15:19:36"
+        },
+        {
+          "asin": "B0CT8Z1C43",
+          "units": 1,
+          "weight_per_unit": 8.65,
+          "total_weight": 8.65,
+          "scan_time": "15:21:41"
+        }
+      ]
+    },
+    "crejuanw": {
+      "employee_id": "crejuanw",
+      "login": "crejuanw",
+      "ultima_accion": "15:20:48",
+      "periodo_analizado": {
+        "inicio": "14:50:48",
+        "fin": "15:20:48",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 12,
+        "unique_asins": 7,
+        "total_weight": 107.56,
+        "avg_weight_per_unit": 8.96,
+        "avg_weight_per_asin": 15.37
+      },
+      "asins_detallados": [
+        {
+          "asin": "B09WYD37RC",
+          "units": 1,
+          "weight_per_unit": 13.22,
+          "total_weight": 13.22,
+          "scan_time": "14:52:06"
+        },
+        {
+          "asin": "B07NKX7WV3",
+          "units": 1,
+          "weight_per_unit": 3.68,
+          "total_weight": 3.68,
+          "scan_time": "14:52:53"
+        },
+        {
+          "asin": "B07VGQZWSR",
+          "units": 3,
+          "weight_per_unit": 4.46,
+          "total_weight": 13.38,
+          "scan_time": "14:54:39"
+        },
+        {
+          "asin": "B0DCN5HNF2",
+          "units": 3,
+          "weight_per_unit": 14.58,
+          "total_weight": 43.75,
+          "scan_time": "15:16:28"
+        },
+        {
+          "asin": "B087TX2ZMF",
+          "units": 2,
+          "weight_per_unit": 9.95,
+          "total_weight": 19.9,
+          "scan_time": "15:17:14"
+        },
+        {
+          "asin": "B08XY8BJDS",
+          "units": 1,
+          "weight_per_unit": 6.51,
+          "total_weight": 6.51,
+          "scan_time": "15:19:58"
+        },
+        {
+          "asin": "B0711F4437",
+          "units": 1,
+          "weight_per_unit": 7.12,
+          "total_weight": 7.12,
+          "scan_time": "15:20:48"
+        }
+      ]
+    },
+    "cipohcec": {
+      "employee_id": "cipohcec",
+      "login": "cipohcec",
+      "ultima_accion": "15:27:15",
+      "periodo_analizado": {
+        "inicio": "14:57:15",
+        "fin": "15:27:15",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 19,
+        "unique_asins": 11,
+        "total_weight": 83.67,
+        "avg_weight_per_unit": 4.4,
+        "avg_weight_per_asin": 7.61
+      },
+      "asins_detallados": [
+        {
+          "asin": "B0CNWXS24K",
+          "units": 1,
+          "weight_per_unit": 7.94,
+          "total_weight": 7.94,
+          "scan_time": "15:09:53"
+        },
+        {
+          "asin": "B095VJY4SS",
+          "units": 5,
+          "weight_per_unit": 2.06,
+          "total_weight": 10.3,
+          "scan_time": "15:13:27"
+        },
+        {
+          "asin": "B095VDCC5P",
+          "units": 5,
+          "weight_per_unit": 2.9,
+          "total_weight": 14.5,
+          "scan_time": "15:14:16"
+        },
+        {
+          "asin": "B0CCRWYYMQ",
+          "units": 1,
+          "weight_per_unit": 7.86,
+          "total_weight": 7.86,
+          "scan_time": "15:15:40"
+        },
+        {
+          "asin": "B01DLS2EWO",
+          "units": 1,
+          "weight_per_unit": 5.76,
+          "total_weight": 5.76,
+          "scan_time": "15:15:59"
+        },
+        {
+          "asin": "B00063MQLW",
+          "units": 1,
+          "weight_per_unit": 12.47,
+          "total_weight": 12.47,
+          "scan_time": "15:16:50"
+        },
+        {
+          "asin": "B0CCW2KWFC",
+          "units": 1,
+          "weight_per_unit": 3.52,
+          "total_weight": 3.52,
+          "scan_time": "15:23:30"
+        },
+        {
+          "asin": "B001AXRDHO",
+          "units": 1,
+          "weight_per_unit": 5.68,
+          "total_weight": 5.68,
+          "scan_time": "15:24:12"
+        },
+        {
+          "asin": "B07W799FD9",
+          "units": 1,
+          "weight_per_unit": 2.46,
+          "total_weight": 2.46,
+          "scan_time": "15:24:45"
+        },
+        {
+          "asin": "B07YFZKPZX",
+          "units": 1,
+          "weight_per_unit": 4.41,
+          "total_weight": 4.41,
+          "scan_time": "15:25:10"
+        },
+        {
+          "asin": "B0082AJ1C8",
+          "units": 1,
+          "weight_per_unit": 8.77,
+          "total_weight": 8.77,
+          "scan_time": "15:27:15"
+        }
+      ]
+    },
+    "fthaydee": {
+      "employee_id": "fthaydee",
+      "login": "fthaydee",
+      "ultima_accion": "15:24:20",
+      "periodo_analizado": {
+        "inicio": "14:54:20",
+        "fin": "15:24:20",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 29,
+        "unique_asins": 9,
+        "total_weight": 94.59,
+        "avg_weight_per_unit": 3.26,
+        "avg_weight_per_asin": 10.51
+      },
+      "asins_detallados": [
+        {
+          "asin": "B07BG9H5M9",
+          "units": 10,
+          "weight_per_unit": 0.79,
+          "total_weight": 7.9,
+          "scan_time": "14:57:31"
+        },
+        {
+          "asin": "B0DGL5BD26",
+          "units": 9,
+          "weight_per_unit": 0.76,
+          "total_weight": 6.84,
+          "scan_time": "14:59:28"
+        },
+        {
+          "asin": "B0B8HDDVZM",
+          "units": 1,
+          "weight_per_unit": 1.9,
+          "total_weight": 1.9,
+          "scan_time": "15:02:29"
+        },
+        {
+          "asin": "B07VGQZWSR",
+          "units": 1,
+          "weight_per_unit": 4.46,
+          "total_weight": 4.46,
+          "scan_time": "15:09:52"
+        },
+        {
+          "asin": "B07JZ5V5LG",
+          "units": 1,
+          "weight_per_unit": 11.38,
+          "total_weight": 11.38,
+          "scan_time": "15:10:18"
+        },
+        {
+          "asin": "B0899BSX7R",
+          "units": 1,
+          "weight_per_unit": 7.82,
+          "total_weight": 7.82,
+          "scan_time": "15:19:01"
+        },
+        {
+          "asin": "B0BPZXCVNC",
+          "units": 1,
+          "weight_per_unit": 9.76,
+          "total_weight": 9.76,
+          "scan_time": "15:21:45"
+        },
+        {
+          "asin": "B0CSDNBJRZ",
+          "units": 1,
+          "weight_per_unit": 7.21,
+          "total_weight": 7.21,
+          "scan_time": "15:23:53"
+        },
+        {
+          "asin": "B0BPZ15J8G",
+          "units": 4,
+          "weight_per_unit": 9.33,
+          "total_weight": 37.32,
+          "scan_time": "15:24:20"
+        }
+      ]
+    },
+    "nmartpab": {
+      "employee_id": "nmartpab",
+      "login": "nmartpab",
+      "ultima_accion": "15:24:56",
+      "periodo_analizado": {
+        "inicio": "14:54:56",
+        "fin": "15:24:56",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 22,
+        "unique_asins": 8,
+        "total_weight": 259.81,
+        "avg_weight_per_unit": 11.81,
+        "avg_weight_per_asin": 32.48
+      },
+      "asins_detallados": [
+        {
+          "asin": "B08NPLKCTQ",
+          "units": 1,
+          "weight_per_unit": 12.89,
+          "total_weight": 12.89,
+          "scan_time": "15:03:34"
+        },
+        {
+          "asin": "B0F999YWXZ",
+          "units": 9,
+          "weight_per_unit": 12.85,
+          "total_weight": 115.65,
+          "scan_time": "15:10:11"
+        },
+        {
+          "asin": "B0BQ1KH2QN",
+          "units": 3,
+          "weight_per_unit": 11.09,
+          "total_weight": 33.27,
+          "scan_time": "15:16:18"
+        },
+        {
+          "asin": "B07KJ92QNN",
+          "units": 1,
+          "weight_per_unit": 13.28,
+          "total_weight": 13.28,
+          "scan_time": "15:17:36"
+        },
+        {
+          "asin": "B0BLD2GS63",
+          "units": 2,
+          "weight_per_unit": 7.2,
+          "total_weight": 14.4,
+          "scan_time": "15:18:06"
+        },
+        {
+          "asin": "B0CRSTCCWY",
+          "units": 1,
+          "weight_per_unit": 9.8,
+          "total_weight": 9.8,
+          "scan_time": "15:22:01"
+        },
+        {
+          "asin": "B0F5GDZ6K5",
+          "units": 2,
+          "weight_per_unit": 14.34,
+          "total_weight": 28.68,
+          "scan_time": "15:24:01"
+        },
+        {
+          "asin": "B0CT86YXL3",
+          "units": 3,
+          "weight_per_unit": 10.61,
+          "total_weight": 31.84,
+          "scan_time": "15:24:56"
+        }
+      ]
+    },
+    "navafait": {
+      "employee_id": "navafait",
+      "login": "navafait",
+      "ultima_accion": "15:26:25",
+      "periodo_analizado": {
+        "inicio": "14:56:25",
+        "fin": "15:26:25",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 26,
+        "unique_asins": 11,
+        "total_weight": 116.24,
+        "avg_weight_per_unit": 4.47,
+        "avg_weight_per_asin": 10.57
+      },
+      "asins_detallados": [
+        {
+          "asin": "B07X95JNPV",
+          "units": 2,
+          "weight_per_unit": 0.59,
+          "total_weight": 1.18,
+          "scan_time": "14:57:08"
+        },
+        {
+          "asin": "B07X4J6FT4",
+          "units": 2,
+          "weight_per_unit": 0.88,
+          "total_weight": 1.76,
+          "scan_time": "14:57:47"
+        },
+        {
+          "asin": "B07B492LL1",
+          "units": 2,
+          "weight_per_unit": 0.42,
+          "total_weight": 0.84,
+          "scan_time": "14:58:06"
+        },
+        {
+          "asin": "B0D6Y4C1Z1",
+          "units": 2,
+          "weight_per_unit": 5.2,
+          "total_weight": 10.4,
+          "scan_time": "15:09:43"
+        },
+        {
+          "asin": "B0DZH9Y5R6",
+          "units": 1,
+          "weight_per_unit": 8.0,
+          "total_weight": 8.0,
+          "scan_time": "15:10:50"
+        },
+        {
+          "asin": "B0DXVKX3VG",
+          "units": 1,
+          "weight_per_unit": 5.0,
+          "total_weight": 5.0,
+          "scan_time": "15:11:55"
+        },
+        {
+          "asin": "B0FQ5HLHB8",
+          "units": 2,
+          "weight_per_unit": 3.49,
+          "total_weight": 6.98,
+          "scan_time": "15:13:24"
+        },
+        {
+          "asin": "B0CTMD5TYK",
+          "units": 1,
+          "weight_per_unit": 13.55,
+          "total_weight": 13.55,
+          "scan_time": "15:15:11"
+        },
+        {
+          "asin": "B0BLD2GS63",
+          "units": 2,
+          "weight_per_unit": 7.2,
+          "total_weight": 14.4,
+          "scan_time": "15:20:49"
+        },
+        {
+          "asin": "B0BPZ15J8G",
+          "units": 1,
+          "weight_per_unit": 9.33,
+          "total_weight": 9.33,
+          "scan_time": "15:21:33"
+        },
+        {
+          "asin": "B0BNJQRKXM",
+          "units": 10,
+          "weight_per_unit": 4.48,
+          "total_weight": 44.8,
+          "scan_time": "15:26:25"
+        }
+      ]
+    },
+    "tmolinac": {
+      "employee_id": "tmolinac",
+      "login": "tmolinac",
+      "ultima_accion": "14:19:45",
+      "periodo_analizado": {
+        "inicio": "13:49:45",
+        "fin": "14:19:45",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 8,
+        "unique_asins": 4,
+        "total_weight": 15.45,
+        "avg_weight_per_unit": 1.93,
+        "avg_weight_per_asin": 3.86
+      },
+      "asins_detallados": [
+        {
+          "asin": "B00CRQRTA4",
+          "units": 1,
+          "weight_per_unit": 0.5,
+          "total_weight": 0.5,
+          "scan_time": "13:56:58"
+        },
+        {
+          "asin": "B0FGQV5C67",
+          "units": 3,
+          "weight_per_unit": 0.06,
+          "total_weight": 0.19,
+          "scan_time": "14:08:40"
+        },
+        {
+          "asin": "B08P4KNDR3",
+          "units": 2,
+          "weight_per_unit": 3.06,
+          "total_weight": 6.12,
+          "scan_time": "14:12:23"
+        },
+        {
+          "asin": "B07MJ6S1MV",
+          "units": 2,
+          "weight_per_unit": 4.32,
+          "total_weight": 8.64,
+          "scan_time": "14:19:45"
+        }
+      ]
+    },
+    "villgonn": {
+      "employee_id": "villgonn",
+      "login": "villgonn",
+      "ultima_accion": "15:22:39",
+      "periodo_analizado": {
+        "inicio": "14:52:39",
+        "fin": "15:22:39",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 27,
+        "unique_asins": 10,
+        "total_weight": 465.2,
+        "avg_weight_per_unit": 17.23,
+        "avg_weight_per_asin": 46.52
+      },
+      "asins_detallados": [
+        {
+          "asin": "B088F35WVK",
+          "units": 1,
+          "weight_per_unit": 15.36,
+          "total_weight": 15.36,
+          "scan_time": "14:53:41"
+        },
+        {
+          "asin": "B0FJM34S9J",
+          "units": 2,
+          "weight_per_unit": 20.5,
+          "total_weight": 41.0,
+          "scan_time": "14:56:36"
+        },
+        {
+          "asin": "B01CHURYMC",
+          "units": 2,
+          "weight_per_unit": 20.0,
+          "total_weight": 40.0,
+          "scan_time": "14:57:47"
+        },
+        {
+          "asin": "B0DNQVZ512",
+          "units": 3,
+          "weight_per_unit": 18.44,
+          "total_weight": 55.32,
+          "scan_time": "15:08:29"
+        },
+        {
+          "asin": "B0D5BKCMVC",
+          "units": 3,
+          "weight_per_unit": 16.7,
+          "total_weight": 50.1,
+          "scan_time": "15:08:58"
+        },
+        {
+          "asin": "B0DNS4VZPP",
+          "units": 1,
+          "weight_per_unit": 17.3,
+          "total_weight": 17.3,
+          "scan_time": "15:09:03"
+        },
+        {
+          "asin": "B0DNQRLR2B",
+          "units": 1,
+          "weight_per_unit": 17.84,
+          "total_weight": 17.84,
+          "scan_time": "15:09:20"
+        },
+        {
+          "asin": "B09Y61NN3B",
+          "units": 1,
+          "weight_per_unit": 20.41,
+          "total_weight": 20.41,
+          "scan_time": "15:09:50"
+        },
+        {
+          "asin": "B09TW9KP9J",
+          "units": 11,
+          "weight_per_unit": 15.17,
+          "total_weight": 166.87,
+          "scan_time": "15:21:01"
+        },
+        {
+          "asin": "B0DD3HPSQV",
+          "units": 2,
+          "weight_per_unit": 20.5,
+          "total_weight": 41.0,
+          "scan_time": "15:22:39"
+        }
+      ]
+    },
+    "moufidmo": {
+      "employee_id": "moufidmo",
+      "login": "moufidmo",
+      "ultima_accion": "14:50:26",
+      "periodo_analizado": {
+        "inicio": "14:20:26",
+        "fin": "14:50:26",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 5,
+        "unique_asins": 4,
+        "total_weight": 89.71,
+        "avg_weight_per_unit": 17.94,
+        "avg_weight_per_asin": 22.43
+      },
+      "asins_detallados": [
+        {
+          "asin": "B0B3RYBNBQ",
+          "units": 2,
+          "weight_per_unit": 18.29,
+          "total_weight": 36.58,
+          "scan_time": "14:47:47"
+        },
+        {
+          "asin": "B0D261Y7N5",
+          "units": 1,
+          "weight_per_unit": 17.7,
+          "total_weight": 17.7,
+          "scan_time": "14:48:09"
+        },
+        {
+          "asin": "B071D5H8SJ",
+          "units": 1,
+          "weight_per_unit": 22.94,
+          "total_weight": 22.94,
+          "scan_time": "14:48:58"
+        },
+        {
+          "asin": "B01LF85H8U",
+          "units": 1,
+          "weight_per_unit": 12.49,
+          "total_weight": 12.49,
+          "scan_time": "14:50:26"
+        }
+      ]
+    },
+    "peredavm": {
+      "employee_id": "peredavm",
+      "login": "peredavm",
+      "ultima_accion": "15:26:03",
+      "periodo_analizado": {
+        "inicio": "14:56:03",
+        "fin": "15:26:03",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 19,
+        "unique_asins": 9,
+        "total_weight": 85.86,
+        "avg_weight_per_unit": 4.52,
+        "avg_weight_per_asin": 9.54
+      },
+      "asins_detallados": [
+        {
+          "asin": "B0BN451PSJ",
+          "units": 6,
+          "weight_per_unit": 2.77,
+          "total_weight": 16.62,
+          "scan_time": "14:58:49"
+        },
+        {
+          "asin": "B07DPTZCM8",
+          "units": 1,
+          "weight_per_unit": 0.68,
+          "total_weight": 0.68,
+          "scan_time": "15:04:38"
+        },
+        {
+          "asin": "B015WYU5VW",
+          "units": 5,
+          "weight_per_unit": 3.75,
+          "total_weight": 18.75,
+          "scan_time": "15:07:49"
+        },
+        {
+          "asin": "B0CM6FNZ8R",
+          "units": 1,
+          "weight_per_unit": 7.24,
+          "total_weight": 7.24,
+          "scan_time": "15:11:55"
+        },
+        {
+          "asin": "B0DY7S7Q9B",
+          "units": 1,
+          "weight_per_unit": 0.68,
+          "total_weight": 0.68,
+          "scan_time": "15:12:17"
+        },
+        {
+          "asin": "B0D6Y4C1Z1",
+          "units": 2,
+          "weight_per_unit": 5.2,
+          "total_weight": 10.4,
+          "scan_time": "15:18:54"
+        },
+        {
+          "asin": "B0C8J6F18H",
+          "units": 1,
+          "weight_per_unit": 10.82,
+          "total_weight": 10.82,
+          "scan_time": "15:19:40"
+        },
+        {
+          "asin": "B0B2LCX8D8",
+          "units": 1,
+          "weight_per_unit": 12.03,
+          "total_weight": 12.03,
+          "scan_time": "15:19:57"
+        },
+        {
+          "asin": "B0DNPWQSR3",
+          "units": 1,
+          "weight_per_unit": 8.64,
+          "total_weight": 8.64,
+          "scan_time": "15:26:03"
+        }
+      ]
+    },
+    "yoksansa": {
+      "employee_id": "yoksansa",
+      "login": "yoksansa",
+      "ultima_accion": "15:23:07",
+      "periodo_analizado": {
+        "inicio": "14:53:07",
+        "fin": "15:23:07",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 35,
+        "unique_asins": 20,
+        "total_weight": 211.59,
+        "avg_weight_per_unit": 6.05,
+        "avg_weight_per_asin": 10.58
+      },
+      "asins_detallados": [
+        {
+          "asin": "B0BQ2MHMW8",
+          "units": 7,
+          "weight_per_unit": 11.25,
+          "total_weight": 78.75,
+          "scan_time": "14:58:34"
+        },
+        {
+          "asin": "B0D6Y4C1Z1",
+          "units": 2,
+          "weight_per_unit": 5.2,
+          "total_weight": 10.4,
+          "scan_time": "15:03:27"
+        },
+        {
+          "asin": "B0B2LCX8D8",
+          "units": 1,
+          "weight_per_unit": 12.03,
+          "total_weight": 12.03,
+          "scan_time": "15:05:51"
+        },
+        {
+          "asin": "B0CBTV43H3",
+          "units": 1,
+          "weight_per_unit": 7.62,
+          "total_weight": 7.62,
+          "scan_time": "15:06:29"
+        },
+        {
+          "asin": "B0CDPJX9NT",
+          "units": 2,
+          "weight_per_unit": 10.52,
+          "total_weight": 21.04,
+          "scan_time": "15:07:01"
+        },
+        {
+          "asin": "B0BPH6GJYX",
+          "units": 1,
+          "weight_per_unit": 9.52,
+          "total_weight": 9.52,
+          "scan_time": "15:07:18"
+        },
+        {
+          "asin": "B0D76DVNNJ",
+          "units": 1,
+          "weight_per_unit": 7.35,
+          "total_weight": 7.35,
+          "scan_time": "15:07:49"
+        },
+        {
+          "asin": "B0BFF6ZWFN",
+          "units": 1,
+          "weight_per_unit": 2.96,
+          "total_weight": 2.96,
+          "scan_time": "15:08:05"
+        },
+        {
+          "asin": "B07NYXW9V7",
+          "units": 1,
+          "weight_per_unit": 5.17,
+          "total_weight": 5.17,
+          "scan_time": "15:10:29"
+        },
+        {
+          "asin": "B0082AJ1C8",
+          "units": 1,
+          "weight_per_unit": 8.77,
+          "total_weight": 8.77,
+          "scan_time": "15:14:39"
+        },
+        {
+          "asin": "B07X7S1B3K",
+          "units": 6,
+          "weight_per_unit": 1.73,
+          "total_weight": 10.38,
+          "scan_time": "15:15:54"
+        },
+        {
+          "asin": "B07XCL6PWG",
+          "units": 1,
+          "weight_per_unit": 1.72,
+          "total_weight": 1.72,
+          "scan_time": "15:16:27"
+        },
+        {
+          "asin": "B0C3QNM1V7",
+          "units": 3,
+          "weight_per_unit": 1.01,
+          "total_weight": 3.03,
+          "scan_time": "15:17:06"
+        },
+        {
+          "asin": "B0DZXLH5XM",
+          "units": 1,
+          "weight_per_unit": 0.96,
+          "total_weight": 0.96,
+          "scan_time": "15:17:38"
+        },
+        {
+          "asin": "B00PIM3I6I",
+          "units": 1,
+          "weight_per_unit": 0.4,
+          "total_weight": 0.4,
+          "scan_time": "15:18:08"
+        },
+        {
+          "asin": "B07H2NWJVY",
+          "units": 1,
+          "weight_per_unit": 10.57,
+          "total_weight": 10.57,
+          "scan_time": "15:18:30"
+        },
+        {
+          "asin": "B0CKLKWDWR",
+          "units": 1,
+          "weight_per_unit": 3.6,
+          "total_weight": 3.6,
+          "scan_time": "15:19:24"
+        },
+        {
+          "asin": "B0CX1RFLRN",
+          "units": 1,
+          "weight_per_unit": 6.08,
+          "total_weight": 6.08,
+          "scan_time": "15:20:01"
+        },
+        {
+          "asin": "B07CXV5JNQ",
+          "units": 1,
+          "weight_per_unit": 0.56,
+          "total_weight": 0.56,
+          "scan_time": "15:20:42"
+        },
+        {
+          "asin": "B0D3KTV66M",
+          "units": 1,
+          "weight_per_unit": 10.68,
+          "total_weight": 10.68,
+          "scan_time": "15:23:07"
+        }
+      ]
+    },
+    "wmirmart": {
+      "employee_id": "wmirmart",
+      "login": "wmirmart",
+      "ultima_accion": "15:22:09",
+      "periodo_analizado": {
+        "inicio": "14:52:09",
+        "fin": "15:22:09",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 14,
+        "unique_asins": 11,
+        "total_weight": 110.5,
+        "avg_weight_per_unit": 7.89,
+        "avg_weight_per_asin": 10.05
+      },
+      "asins_detallados": [
+        {
+          "asin": "B01M9K42SS",
+          "units": 1,
+          "weight_per_unit": 5.22,
+          "total_weight": 5.22,
+          "scan_time": "14:54:42"
+        },
+        {
+          "asin": "B0CPDZ2SDX",
+          "units": 1,
+          "weight_per_unit": 12.62,
+          "total_weight": 12.62,
+          "scan_time": "14:56:39"
+        },
+        {
+          "asin": "B0D7L9T5FY",
+          "units": 1,
+          "weight_per_unit": 9.3,
+          "total_weight": 9.3,
+          "scan_time": "14:57:05"
+        },
+        {
+          "asin": "B0F999YWXZ",
+          "units": 3,
+          "weight_per_unit": 12.85,
+          "total_weight": 38.55,
+          "scan_time": "15:04:07"
+        },
+        {
+          "asin": "B08NPLKCTQ",
+          "units": 1,
+          "weight_per_unit": 12.89,
+          "total_weight": 12.89,
+          "scan_time": "15:06:27"
+        },
+        {
+          "asin": "B0DXL8PHMW",
+          "units": 1,
+          "weight_per_unit": 1.12,
+          "total_weight": 1.12,
+          "scan_time": "15:10:40"
+        },
+        {
+          "asin": "B0D31D82SJ",
+          "units": 1,
+          "weight_per_unit": 1.3,
+          "total_weight": 1.3,
+          "scan_time": "15:13:18"
+        },
+        {
+          "asin": "B0FV3PV1NC",
+          "units": 2,
+          "weight_per_unit": 13.66,
+          "total_weight": 27.32,
+          "scan_time": "15:17:00"
+        },
+        {
+          "asin": "B09DRCLG13",
+          "units": 1,
+          "weight_per_unit": 0.69,
+          "total_weight": 0.69,
+          "scan_time": "15:17:56"
+        },
+        {
+          "asin": "B096Y8JQDK",
+          "units": 1,
+          "weight_per_unit": 0.79,
+          "total_weight": 0.79,
+          "scan_time": "15:18:57"
+        },
+        {
+          "asin": "B08DCT4Y6G",
+          "units": 1,
+          "weight_per_unit": 0.7,
+          "total_weight": 0.7,
+          "scan_time": "15:22:09"
+        }
+      ]
+    },
+    "lsilvinq": {
+      "employee_id": "lsilvinq",
+      "login": "lsilvinq",
+      "ultima_accion": "15:27:04",
+      "periodo_analizado": {
+        "inicio": "14:57:04",
+        "fin": "15:27:04",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 18,
+        "unique_asins": 8,
+        "total_weight": 113.83,
+        "avg_weight_per_unit": 6.32,
+        "avg_weight_per_asin": 14.23
+      },
+      "asins_detallados": [
+        {
+          "asin": "B0D3FF5QL2",
+          "units": 4,
+          "weight_per_unit": 11.76,
+          "total_weight": 47.04,
+          "scan_time": "15:00:12"
+        },
+        {
+          "asin": "B07LBML783",
+          "units": 1,
+          "weight_per_unit": 4.46,
+          "total_weight": 4.46,
+          "scan_time": "15:09:36"
+        },
+        {
+          "asin": "B0D6Y6DN69",
+          "units": 2,
+          "weight_per_unit": 5.5,
+          "total_weight": 11.0,
+          "scan_time": "15:10:23"
+        },
+        {
+          "asin": "B0DYNV1ZMM",
+          "units": 1,
+          "weight_per_unit": 6.0,
+          "total_weight": 6.0,
+          "scan_time": "15:11:27"
+        },
+        {
+          "asin": "B0C5WSJC62",
+          "units": 1,
+          "weight_per_unit": 12.2,
+          "total_weight": 12.2,
+          "scan_time": "15:13:04"
+        },
+        {
+          "asin": "B0DSL8JSN8",
+          "units": 1,
+          "weight_per_unit": 7.7,
+          "total_weight": 7.7,
+          "scan_time": "15:16:54"
+        },
+        {
+          "asin": "B095TX7S32",
+          "units": 7,
+          "weight_per_unit": 3.05,
+          "total_weight": 21.35,
+          "scan_time": "15:26:22"
+        },
+        {
+          "asin": "B01LYH4XYS",
+          "units": 1,
+          "weight_per_unit": 4.08,
+          "total_weight": 4.08,
+          "scan_time": "15:27:04"
+        }
+      ]
+    },
+    "qltorcat": {
+      "employee_id": "qltorcat",
+      "login": "qltorcat",
+      "ultima_accion": "15:25:31",
+      "periodo_analizado": {
+        "inicio": "14:55:31",
+        "fin": "15:25:31",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 38,
+        "unique_asins": 18,
+        "total_weight": 212.98,
+        "avg_weight_per_unit": 5.6,
+        "avg_weight_per_asin": 11.83
+      },
+      "asins_detallados": [
+        {
+          "asin": "B0CZ4D3X9L",
+          "units": 1,
+          "weight_per_unit": 9.0,
+          "total_weight": 9.0,
+          "scan_time": "15:01:39"
+        },
+        {
+          "asin": "B002GCMNIC",
+          "units": 1,
+          "weight_per_unit": 3.77,
+          "total_weight": 3.77,
+          "scan_time": "15:01:50"
+        },
+        {
+          "asin": "B09MS9HS6Q",
+          "units": 3,
+          "weight_per_unit": 8.54,
+          "total_weight": 25.62,
+          "scan_time": "15:03:54"
+        },
+        {
+          "asin": "B084V49D2D",
+          "units": 1,
+          "weight_per_unit": 6.09,
+          "total_weight": 6.09,
+          "scan_time": "15:09:19"
+        },
+        {
+          "asin": "B0BX63JNYG",
+          "units": 1,
+          "weight_per_unit": 14.8,
+          "total_weight": 14.8,
+          "scan_time": "15:09:48"
+        },
+        {
+          "asin": "B08WQ27XPJ",
+          "units": 4,
+          "weight_per_unit": 1.36,
+          "total_weight": 5.44,
+          "scan_time": "15:10:11"
+        },
+        {
+          "asin": "B017DMTEIG",
+          "units": 2,
+          "weight_per_unit": 1.11,
+          "total_weight": 2.22,
+          "scan_time": "15:10:42"
+        },
+        {
+          "asin": "B07TRFLXXC",
+          "units": 1,
+          "weight_per_unit": 0.76,
+          "total_weight": 0.76,
+          "scan_time": "15:12:30"
+        },
+        {
+          "asin": "B012P0CPS2",
+          "units": 2,
+          "weight_per_unit": 7.09,
+          "total_weight": 14.18,
+          "scan_time": "15:13:23"
+        },
+        {
+          "asin": "B0BH52WRLF",
+          "units": 1,
+          "weight_per_unit": 2.28,
+          "total_weight": 2.28,
+          "scan_time": "15:15:35"
+        },
+        {
+          "asin": "B07ZKY6WMZ",
+          "units": 1,
+          "weight_per_unit": 3.58,
+          "total_weight": 3.58,
+          "scan_time": "15:17:15"
+        },
+        {
+          "asin": "B00FUCDL18",
+          "units": 1,
+          "weight_per_unit": 0.24,
+          "total_weight": 0.24,
+          "scan_time": "15:17:44"
+        },
+        {
+          "asin": "B0CX9J45SD",
+          "units": 1,
+          "weight_per_unit": 2.88,
+          "total_weight": 2.88,
+          "scan_time": "15:18:08"
+        },
+        {
+          "asin": "B095J3K3X9",
+          "units": 1,
+          "weight_per_unit": 2.58,
+          "total_weight": 2.58,
+          "scan_time": "15:18:24"
+        },
+        {
+          "asin": "B0B4NRMKKN",
+          "units": 2,
+          "weight_per_unit": 9.99,
+          "total_weight": 19.98,
+          "scan_time": "15:19:03"
+        },
+        {
+          "asin": "B014Q1P1QG",
+          "units": 6,
+          "weight_per_unit": 2.14,
+          "total_weight": 12.84,
+          "scan_time": "15:19:52"
+        },
+        {
+          "asin": "B0711F4437",
+          "units": 1,
+          "weight_per_unit": 7.12,
+          "total_weight": 7.12,
+          "scan_time": "15:22:56"
+        },
+        {
+          "asin": "B087TX2ZMF",
+          "units": 8,
+          "weight_per_unit": 9.95,
+          "total_weight": 79.6,
+          "scan_time": "15:25:31"
+        }
+      ]
+    },
+    "nuralber": {
+      "employee_id": "nuralber",
+      "login": "nuralber",
+      "ultima_accion": "15:24:35",
+      "periodo_analizado": {
+        "inicio": "14:54:35",
+        "fin": "15:24:35",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 20,
+        "unique_asins": 13,
+        "total_weight": 94.94,
+        "avg_weight_per_unit": 4.75,
+        "avg_weight_per_asin": 7.3
+      },
+      "asins_detallados": [
+        {
+          "asin": "B09P2YTJF6",
+          "units": 1,
+          "weight_per_unit": 3.92,
+          "total_weight": 3.92,
+          "scan_time": "15:00:01"
+        },
+        {
+          "asin": "B0CCJH9RS5",
+          "units": 2,
+          "weight_per_unit": 3.85,
+          "total_weight": 7.7,
+          "scan_time": "15:01:25"
+        },
+        {
+          "asin": "B09P33DTGH",
+          "units": 1,
+          "weight_per_unit": 3.8,
+          "total_weight": 3.8,
+          "scan_time": "15:03:52"
+        },
+        {
+          "asin": "B07GR3VPQT",
+          "units": 1,
+          "weight_per_unit": 3.22,
+          "total_weight": 3.22,
+          "scan_time": "15:04:32"
+        },
+        {
+          "asin": "B0BWNP135S",
+          "units": 2,
+          "weight_per_unit": 5.91,
+          "total_weight": 11.82,
+          "scan_time": "15:09:46"
+        },
+        {
+          "asin": "B07X5M2G6P",
+          "units": 1,
+          "weight_per_unit": 0.25,
+          "total_weight": 0.25,
+          "scan_time": "15:09:57"
+        },
+        {
+          "asin": "B0FQ6526F4",
+          "units": 1,
+          "weight_per_unit": 4.7,
+          "total_weight": 4.7,
+          "scan_time": "15:10:09"
+        },
+        {
+          "asin": "B0FMKB8DRZ",
+          "units": 4,
+          "weight_per_unit": 2.7,
+          "total_weight": 10.8,
+          "scan_time": "15:10:32"
+        },
+        {
+          "asin": "B0C7RFW89N",
+          "units": 1,
+          "weight_per_unit": 2.32,
+          "total_weight": 2.32,
+          "scan_time": "15:10:49"
+        },
+        {
+          "asin": "B0C7RFCCJW",
+          "units": 1,
+          "weight_per_unit": 2.03,
+          "total_weight": 2.03,
+          "scan_time": "15:11:26"
+        },
+        {
+          "asin": "B0B4NRMKKN",
+          "units": 2,
+          "weight_per_unit": 9.99,
+          "total_weight": 19.98,
+          "scan_time": "15:14:34"
+        },
+        {
+          "asin": "B0CDHFPL66",
+          "units": 2,
+          "weight_per_unit": 10.7,
+          "total_weight": 21.4,
+          "scan_time": "15:20:01"
+        },
+        {
+          "asin": "B00SH2QVXS",
+          "units": 1,
+          "weight_per_unit": 3.0,
+          "total_weight": 3.0,
+          "scan_time": "15:24:35"
+        }
+      ]
+    },
+    "uantonsa": {
+      "employee_id": "uantonsa",
+      "login": "uantonsa",
+      "ultima_accion": "21:30:41",
+      "periodo_analizado": {
+        "inicio": "21:00:41",
+        "fin": "21:30:41",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 20,
+        "unique_asins": 13,
+        "total_weight": 111.2,
+        "avg_weight_per_unit": 5.56,
+        "avg_weight_per_asin": 8.55
+      },
+      "asins_detallados": [
+        {
+          "asin": "B096ZBRXZG",
+          "units": 1,
+          "weight_per_unit": 7.26,
+          "total_weight": 7.26,
+          "scan_time": "21:08:30"
+        },
+        {
+          "asin": "B0CQQTW6CQ",
+          "units": 6,
+          "weight_per_unit": 2.9,
+          "total_weight": 17.4,
+          "scan_time": "21:09:55"
+        },
+        {
+          "asin": "B0CN4MXFLH",
+          "units": 1,
+          "weight_per_unit": 6.57,
+          "total_weight": 6.57,
+          "scan_time": "21:10:30"
+        },
+        {
+          "asin": "B004MKNKR4",
+          "units": 1,
+          "weight_per_unit": 4.76,
+          "total_weight": 4.76,
+          "scan_time": "21:13:04"
+        },
+        {
+          "asin": "B07XTJLGHC",
+          "units": 2,
+          "weight_per_unit": 3.17,
+          "total_weight": 6.34,
+          "scan_time": "21:13:36"
+        },
+        {
+          "asin": "B074FZK7S5",
+          "units": 1,
+          "weight_per_unit": 2.38,
+          "total_weight": 2.38,
+          "scan_time": "21:13:52"
+        },
+        {
+          "asin": "B0D1KG6JXW",
+          "units": 2,
+          "weight_per_unit": 11.1,
+          "total_weight": 22.2,
+          "scan_time": "21:14:34"
+        },
+        {
+          "asin": "B0F3HYVJJK",
+          "units": 1,
+          "weight_per_unit": 8.8,
+          "total_weight": 8.8,
+          "scan_time": "21:15:49"
+        },
+        {
+          "asin": "B09MFY5NR9",
+          "units": 1,
+          "weight_per_unit": 1.15,
+          "total_weight": 1.15,
+          "scan_time": "21:16:33"
+        },
+        {
+          "asin": "B0CN4LJ8YG",
+          "units": 1,
+          "weight_per_unit": 1.36,
+          "total_weight": 1.36,
+          "scan_time": "21:16:44"
+        },
+        {
+          "asin": "B07ZNRHW3H",
+          "units": 1,
+          "weight_per_unit": 6.28,
+          "total_weight": 6.28,
+          "scan_time": "21:28:56"
+        },
+        {
+          "asin": "B09NDN196Z",
+          "units": 1,
+          "weight_per_unit": 14.0,
+          "total_weight": 14.0,
+          "scan_time": "21:29:58"
+        },
+        {
+          "asin": "B0DLKSFXBL",
+          "units": 1,
+          "weight_per_unit": 12.7,
+          "total_weight": 12.7,
+          "scan_time": "21:30:41"
+        }
+      ]
+    },
+    "rosafead": {
+      "employee_id": "rosafead",
+      "login": "rosafead",
+      "ultima_accion": "22:01:03",
+      "periodo_analizado": {
+        "inicio": "21:31:03",
+        "fin": "22:01:03",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 35,
+        "unique_asins": 8,
+        "total_weight": 85.19,
+        "avg_weight_per_unit": 2.43,
+        "avg_weight_per_asin": 10.65
+      },
+      "asins_detallados": [
+        {
+          "asin": "B0C5JT2S6J",
+          "units": 1,
+          "weight_per_unit": 13.6,
+          "total_weight": 13.6,
+          "scan_time": "21:31:43"
+        },
+        {
+          "asin": "B0BN3PLV93",
+          "units": 10,
+          "weight_per_unit": 1.45,
+          "total_weight": 14.5,
+          "scan_time": "21:40:08"
+        },
+        {
+          "asin": "B0DQSC6DHR",
+          "units": 10,
+          "weight_per_unit": 1.38,
+          "total_weight": 13.8,
+          "scan_time": "21:43:15"
+        },
+        {
+          "asin": "B01M140TBY",
+          "units": 1,
+          "weight_per_unit": 1.2,
+          "total_weight": 1.2,
+          "scan_time": "21:45:20"
+        },
+        {
+          "asin": "B0DQV8P7VJ",
+          "units": 1,
+          "weight_per_unit": 6.24,
+          "total_weight": 6.24,
+          "scan_time": "21:47:22"
+        },
+        {
+          "asin": "B0DQ86H5Y3",
+          "units": 1,
+          "weight_per_unit": 7.14,
+          "total_weight": 7.14,
+          "scan_time": "21:49:17"
+        },
+        {
+          "asin": "B0DB7DQL3T",
+          "units": 2,
+          "weight_per_unit": 8.1,
+          "total_weight": 16.2,
+          "scan_time": "21:49:55"
+        },
+        {
+          "asin": "B0DQSRYLGN",
+          "units": 9,
+          "weight_per_unit": 1.39,
+          "total_weight": 12.51,
+          "scan_time": "22:01:03"
+        }
+      ]
+    },
+    "gomezqsa": {
+      "employee_id": "gomezqsa",
+      "login": "gomezqsa",
+      "ultima_accion": "21:57:13",
+      "periodo_analizado": {
+        "inicio": "21:27:13",
+        "fin": "21:57:13",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 12,
+        "unique_asins": 3,
+        "total_weight": 87.45,
+        "avg_weight_per_unit": 7.29,
+        "avg_weight_per_asin": 29.15
+      },
+      "asins_detallados": [
+        {
+          "asin": "B081CMQ526",
+          "units": 2,
+          "weight_per_unit": 9.04,
+          "total_weight": 18.08,
+          "scan_time": "21:28:11"
+        },
+        {
+          "asin": "B0727Y1CFN",
+          "units": 4,
+          "weight_per_unit": 14.88,
+          "total_weight": 59.54,
+          "scan_time": "21:55:49"
+        },
+        {
+          "asin": "B07DC711NK",
+          "units": 6,
+          "weight_per_unit": 1.64,
+          "total_weight": 9.84,
+          "scan_time": "21:57:13"
+        }
+      ]
+    },
+    "mulamrin": {
+      "employee_id": "mulamrin",
+      "login": "mulamrin",
+      "ultima_accion": "22:00:30",
+      "periodo_analizado": {
+        "inicio": "21:30:30",
+        "fin": "22:00:30",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 46,
+        "unique_asins": 10,
+        "total_weight": 224.26,
+        "avg_weight_per_unit": 4.88,
+        "avg_weight_per_asin": 22.43
+      },
+      "asins_detallados": [
+        {
+          "asin": "B0DB7DQL3T",
+          "units": 1,
+          "weight_per_unit": 8.1,
+          "total_weight": 8.1,
+          "scan_time": "21:41:42"
+        },
+        {
+          "asin": "B0DXQ6JKSM",
+          "units": 8,
+          "weight_per_unit": 1.0,
+          "total_weight": 8.0,
+          "scan_time": "21:45:49"
+        },
+        {
+          "asin": "B0DMWCWZXL",
+          "units": 1,
+          "weight_per_unit": 14.25,
+          "total_weight": 14.25,
+          "scan_time": "21:47:16"
+        },
+        {
+          "asin": "B0BX3WCW1S",
+          "units": 1,
+          "weight_per_unit": 6.9,
+          "total_weight": 6.9,
+          "scan_time": "21:47:40"
+        },
+        {
+          "asin": "B0CKX6TBN1",
+          "units": 1,
+          "weight_per_unit": 8.0,
+          "total_weight": 8.0,
+          "scan_time": "21:47:51"
+        },
+        {
+          "asin": "B09NNY1ZF6",
+          "units": 2,
+          "weight_per_unit": 4.74,
+          "total_weight": 9.48,
+          "scan_time": "21:50:01"
+        },
+        {
+          "asin": "B0CYZW2B3K",
+          "units": 5,
+          "weight_per_unit": 3.62,
+          "total_weight": 18.1,
+          "scan_time": "21:52:08"
+        },
+        {
+          "asin": "B09T3MML1D",
+          "units": 4,
+          "weight_per_unit": 4.78,
+          "total_weight": 19.12,
+          "scan_time": "21:53:21"
+        },
+        {
+          "asin": "B081CMQ526",
+          "units": 13,
+          "weight_per_unit": 9.04,
+          "total_weight": 117.51,
+          "scan_time": "21:57:47"
+        },
+        {
+          "asin": "B0DQSDMM6P",
+          "units": 10,
+          "weight_per_unit": 1.48,
+          "total_weight": 14.8,
+          "scan_time": "22:00:30"
+        }
+      ]
+    },
+    "maitdesi": {
+      "employee_id": "maitdesi",
+      "login": "maitdesi",
+      "ultima_accion": "21:52:57",
+      "periodo_analizado": {
+        "inicio": "21:22:57",
+        "fin": "21:52:57",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 20,
+        "unique_asins": 10,
+        "total_weight": 108.44,
+        "avg_weight_per_unit": 5.42,
+        "avg_weight_per_asin": 10.84
+      },
+      "asins_detallados": [
+        {
+          "asin": "B09QLGY9XB",
+          "units": 2,
+          "weight_per_unit": 1.28,
+          "total_weight": 2.57,
+          "scan_time": "21:23:23"
+        },
+        {
+          "asin": "B0F856MJBN",
+          "units": 2,
+          "weight_per_unit": 3.26,
+          "total_weight": 6.52,
+          "scan_time": "21:30:28"
+        },
+        {
+          "asin": "B002GCMNIC",
+          "units": 3,
+          "weight_per_unit": 3.77,
+          "total_weight": 11.31,
+          "scan_time": "21:33:19"
+        },
+        {
+          "asin": "B09D8MJYKK",
+          "units": 3,
+          "weight_per_unit": 0.64,
+          "total_weight": 1.92,
+          "scan_time": "21:34:29"
+        },
+        {
+          "asin": "B0CTD18C1N",
+          "units": 1,
+          "weight_per_unit": 2.44,
+          "total_weight": 2.44,
+          "scan_time": "21:37:44"
+        },
+        {
+          "asin": "B0C3WF5CGC",
+          "units": 1,
+          "weight_per_unit": 5.23,
+          "total_weight": 5.23,
+          "scan_time": "21:38:58"
+        },
+        {
+          "asin": "B0F2J2MLP4",
+          "units": 1,
+          "weight_per_unit": 10.0,
+          "total_weight": 10.0,
+          "scan_time": "21:40:17"
+        },
+        {
+          "asin": "B0C9NC5C6G",
+          "units": 5,
+          "weight_per_unit": 9.9,
+          "total_weight": 49.5,
+          "scan_time": "21:49:45"
+        },
+        {
+          "asin": "B07YDYH6B3",
+          "units": 1,
+          "weight_per_unit": 6.9,
+          "total_weight": 6.9,
+          "scan_time": "21:50:45"
+        },
+        {
+          "asin": "B0DXFTSVBC",
+          "units": 1,
+          "weight_per_unit": 12.05,
+          "total_weight": 12.05,
+          "scan_time": "21:52:57"
+        }
+      ]
+    },
+    "ocarolgi": {
+      "employee_id": "ocarolgi",
+      "login": "ocarolgi",
+      "ultima_accion": "20:22:51",
+      "periodo_analizado": {
+        "inicio": "19:52:51",
+        "fin": "20:22:51",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 44,
+        "unique_asins": 7,
+        "total_weight": 43.48,
+        "avg_weight_per_unit": 0.99,
+        "avg_weight_per_asin": 6.21
+      },
+      "asins_detallados": [
+        {
+          "asin": "B0CLSGTVGX",
+          "units": 1,
+          "weight_per_unit": 0.33,
+          "total_weight": 0.33,
+          "scan_time": "20:13:19"
+        },
+        {
+          "asin": "B0DYJ4X7C7",
+          "units": 24,
+          "weight_per_unit": 1.13,
+          "total_weight": 27.12,
+          "scan_time": "20:14:39"
+        },
+        {
+          "asin": "B093GQHRW4",
+          "units": 15,
+          "weight_per_unit": 0.62,
+          "total_weight": 9.31,
+          "scan_time": "20:20:24"
+        },
+        {
+          "asin": "B0CSKPMKGW",
+          "units": 1,
+          "weight_per_unit": 2.19,
+          "total_weight": 2.19,
+          "scan_time": "20:20:39"
+        },
+        {
+          "asin": "B0FL68H4M9",
+          "units": 1,
+          "weight_per_unit": 0.13,
+          "total_weight": 0.13,
+          "scan_time": "20:20:49"
+        },
+        {
+          "asin": "B0DH2TXD1M",
+          "units": 1,
+          "weight_per_unit": 0.39,
+          "total_weight": 0.39,
+          "scan_time": "20:22:29"
+        },
+        {
+          "asin": "B0CZLL2QPY",
+          "units": 1,
+          "weight_per_unit": 4.01,
+          "total_weight": 4.01,
+          "scan_time": "20:22:51"
+        }
+      ]
+    },
+    "toroscai": {
+      "employee_id": "toroscai",
+      "login": "toroscai",
+      "ultima_accion": "21:09:02",
+      "periodo_analizado": {
+        "inicio": "20:39:02",
+        "fin": "21:09:02",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 20,
+        "unique_asins": 11,
+        "total_weight": 178.62,
+        "avg_weight_per_unit": 8.93,
+        "avg_weight_per_asin": 16.24
+      },
+      "asins_detallados": [
+        {
+          "asin": "B08GYJQMTB",
+          "units": 2,
+          "weight_per_unit": 5.74,
+          "total_weight": 11.48,
+          "scan_time": "20:42:00"
+        },
+        {
+          "asin": "B0F98GXZWG",
+          "units": 1,
+          "weight_per_unit": 12.85,
+          "total_weight": 12.85,
+          "scan_time": "20:42:31"
+        },
+        {
+          "asin": "B08GYKLX3J",
+          "units": 1,
+          "weight_per_unit": 5.33,
+          "total_weight": 5.33,
+          "scan_time": "20:42:47"
+        },
+        {
+          "asin": "B0BV9X5V6N",
+          "units": 1,
+          "weight_per_unit": 8.54,
+          "total_weight": 8.54,
+          "scan_time": "20:44:02"
+        },
+        {
+          "asin": "B09VMYMBK3",
+          "units": 2,
+          "weight_per_unit": 8.3,
+          "total_weight": 16.6,
+          "scan_time": "20:46:45"
+        },
+        {
+          "asin": "B0B21BMNR2",
+          "units": 1,
+          "weight_per_unit": 13.98,
+          "total_weight": 13.98,
+          "scan_time": "20:48:23"
+        },
+        {
+          "asin": "B09NDN196Z",
+          "units": 1,
+          "weight_per_unit": 14.0,
+          "total_weight": 14.0,
+          "scan_time": "20:49:45"
+        },
+        {
+          "asin": "B07PLZDT5Z",
+          "units": 2,
+          "weight_per_unit": 8.72,
+          "total_weight": 17.44,
+          "scan_time": "20:53:00"
+        },
+        {
+          "asin": "B09VMZ7VWX",
+          "units": 2,
+          "weight_per_unit": 12.52,
+          "total_weight": 25.04,
+          "scan_time": "20:56:47"
+        },
+        {
+          "asin": "B0C5JT2S6J",
+          "units": 3,
+          "weight_per_unit": 13.6,
+          "total_weight": 40.8,
+          "scan_time": "20:58:12"
+        },
+        {
+          "asin": "B091C6FV25",
+          "units": 4,
+          "weight_per_unit": 3.14,
+          "total_weight": 12.56,
+          "scan_time": "21:09:02"
+        }
+      ]
+    },
+    "rubemira": {
+      "employee_id": "rubemira",
+      "login": "rubemira",
+      "ultima_accion": "18:51:18",
+      "periodo_analizado": {
+        "inicio": "18:21:18",
+        "fin": "18:51:18",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 2,
+        "unique_asins": 1,
+        "total_weight": 27.26,
+        "avg_weight_per_unit": 13.63,
+        "avg_weight_per_asin": 27.26
+      },
+      "asins_detallados": [
+        {
+          "asin": "B09CTZ1N4H",
+          "units": 2,
+          "weight_per_unit": 13.63,
+          "total_weight": 27.26,
+          "scan_time": "18:51:18"
+        }
+      ]
+    },
+    "baezacri": {
+      "employee_id": "baezacri",
+      "login": "baezacri",
+      "ultima_accion": "19:20:29",
+      "periodo_analizado": {
+        "inicio": "18:50:29",
+        "fin": "19:20:29",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 26,
+        "unique_asins": 6,
+        "total_weight": 120.39,
+        "avg_weight_per_unit": 4.63,
+        "avg_weight_per_asin": 20.06
+      },
+      "asins_detallados": [
+        {
+          "asin": "B0F5B6BY4H",
+          "units": 8,
+          "weight_per_unit": 1.4,
+          "total_weight": 11.2,
+          "scan_time": "19:07:01"
+        },
+        {
+          "asin": "B0DP1Y55MR",
+          "units": 8,
+          "weight_per_unit": 1.4,
+          "total_weight": 11.2,
+          "scan_time": "19:12:43"
+        },
+        {
+          "asin": "B0CXM5F2F4",
+          "units": 2,
+          "weight_per_unit": 13.82,
+          "total_weight": 27.64,
+          "scan_time": "19:13:13"
+        },
+        {
+          "asin": "B0D9BBTBCF",
+          "units": 5,
+          "weight_per_unit": 8.71,
+          "total_weight": 43.55,
+          "scan_time": "19:14:22"
+        },
+        {
+          "asin": "B0F8QSLQLK",
+          "units": 1,
+          "weight_per_unit": 8.14,
+          "total_weight": 8.14,
+          "scan_time": "19:14:38"
+        },
+        {
+          "asin": "B0BPZ15J8G",
+          "units": 2,
+          "weight_per_unit": 9.33,
+          "total_weight": 18.66,
+          "scan_time": "19:20:29"
+        }
+      ]
+    },
+    "cerezuee": {
+      "employee_id": "cerezuee",
+      "login": "cerezuee",
+      "ultima_accion": "22:00:28",
+      "periodo_analizado": {
+        "inicio": "21:30:28",
+        "fin": "22:00:28",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 14,
+        "unique_asins": 10,
+        "total_weight": 226.57,
+        "avg_weight_per_unit": 16.18,
+        "avg_weight_per_asin": 22.66
+      },
+      "asins_detallados": [
+        {
+          "asin": "B0C4DX7RMX",
+          "units": 2,
+          "weight_per_unit": 15.4,
+          "total_weight": 30.8,
+          "scan_time": "21:39:43"
+        },
+        {
+          "asin": "B0FH6J82XJ",
+          "units": 1,
+          "weight_per_unit": 17.58,
+          "total_weight": 17.58,
+          "scan_time": "21:39:55"
+        },
+        {
+          "asin": "B09HGJ3N4H",
+          "units": 1,
+          "weight_per_unit": 16.65,
+          "total_weight": 16.65,
+          "scan_time": "21:40:27"
+        },
+        {
+          "asin": "B0B12G112N",
+          "units": 1,
+          "weight_per_unit": 17.82,
+          "total_weight": 17.82,
+          "scan_time": "21:41:15"
+        },
+        {
+          "asin": "B0FFMHKB18",
+          "units": 1,
+          "weight_per_unit": 14.4,
+          "total_weight": 14.4,
+          "scan_time": "21:41:58"
+        },
+        {
+          "asin": "B0CXHCW3W6",
+          "units": 2,
+          "weight_per_unit": 17.19,
+          "total_weight": 34.38,
+          "scan_time": "21:47:34"
+        },
+        {
+          "asin": "B0CXMC1PL5",
+          "units": 1,
+          "weight_per_unit": 17.62,
+          "total_weight": 17.62,
+          "scan_time": "21:48:12"
+        },
+        {
+          "asin": "B0B8FZZ2FZ",
+          "units": 1,
+          "weight_per_unit": 17.37,
+          "total_weight": 17.37,
+          "scan_time": "21:49:51"
+        },
+        {
+          "asin": "B09VPGYZ88",
+          "units": 3,
+          "weight_per_unit": 14.94,
+          "total_weight": 44.82,
+          "scan_time": "21:59:27"
+        },
+        {
+          "asin": "B09N9WMCZM",
+          "units": 1,
+          "weight_per_unit": 15.13,
+          "total_weight": 15.13,
+          "scan_time": "22:00:28"
+        }
+      ]
+    },
+    "mfuenant": {
+      "employee_id": "mfuenant",
+      "login": "mfuenant",
+      "ultima_accion": "21:14:37",
+      "periodo_analizado": {
+        "inicio": "20:44:37",
+        "fin": "21:14:37",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 18,
+        "unique_asins": 15,
+        "total_weight": 97.68,
+        "avg_weight_per_unit": 5.43,
+        "avg_weight_per_asin": 6.51
+      },
+      "asins_detallados": [
+        {
+          "asin": "B08GFCL8B9",
+          "units": 2,
+          "weight_per_unit": 1.48,
+          "total_weight": 2.96,
+          "scan_time": "20:45:36"
+        },
+        {
+          "asin": "B0BX8KWZ36",
+          "units": 1,
+          "weight_per_unit": 12.42,
+          "total_weight": 12.42,
+          "scan_time": "20:46:51"
+        },
+        {
+          "asin": "B078K5LBL4",
+          "units": 1,
+          "weight_per_unit": 6.14,
+          "total_weight": 6.14,
+          "scan_time": "20:49:06"
+        },
+        {
+          "asin": "B00FXOYGOO",
+          "units": 1,
+          "weight_per_unit": 4.5,
+          "total_weight": 4.5,
+          "scan_time": "20:54:08"
+        },
+        {
+          "asin": "B09C262VCR",
+          "units": 1,
+          "weight_per_unit": 2.69,
+          "total_weight": 2.69,
+          "scan_time": "20:54:45"
+        },
+        {
+          "asin": "B07SBTTNN8",
+          "units": 1,
+          "weight_per_unit": 3.43,
+          "total_weight": 3.43,
+          "scan_time": "20:55:15"
+        },
+        {
+          "asin": "B073Z8DFL2",
+          "units": 1,
+          "weight_per_unit": 6.66,
+          "total_weight": 6.66,
+          "scan_time": "20:55:38"
+        },
+        {
+          "asin": "B0847LCLDQ",
+          "units": 2,
+          "weight_per_unit": 5.8,
+          "total_weight": 11.6,
+          "scan_time": "20:58:26"
+        },
+        {
+          "asin": "B0DS961HK4",
+          "units": 1,
+          "weight_per_unit": 2.0,
+          "total_weight": 2.0,
+          "scan_time": "21:07:27"
+        },
+        {
+          "asin": "B0FQ5R6GJB",
+          "units": 2,
+          "weight_per_unit": 1.0,
+          "total_weight": 2.0,
+          "scan_time": "21:08:06"
+        },
+        {
+          "asin": "B0D9WK6VF5",
+          "units": 1,
+          "weight_per_unit": 6.79,
+          "total_weight": 6.79,
+          "scan_time": "21:09:18"
+        },
+        {
+          "asin": "B08YDQNCGD",
+          "units": 1,
+          "weight_per_unit": 14.25,
+          "total_weight": 14.25,
+          "scan_time": "21:10:13"
+        },
+        {
+          "asin": "B0CCXV7JVW",
+          "units": 1,
+          "weight_per_unit": 7.71,
+          "total_weight": 7.71,
+          "scan_time": "21:12:36"
+        },
+        {
+          "asin": "B0CLVRL7YW",
+          "units": 1,
+          "weight_per_unit": 10.13,
+          "total_weight": 10.13,
+          "scan_time": "21:13:51"
+        },
+        {
+          "asin": "B002UP9OFK",
+          "units": 1,
+          "weight_per_unit": 4.4,
+          "total_weight": 4.4,
+          "scan_time": "21:14:37"
+        }
+      ]
+    },
+    "teixekan": {
+      "employee_id": "teixekan",
+      "login": "teixekan",
+      "ultima_accion": "21:54:50",
+      "periodo_analizado": {
+        "inicio": "21:24:50",
+        "fin": "21:54:50",
+        "duracion_minutos": 30
+      },
+      "resumen": {
+        "total_units": 12,
+        "unique_asins": 7,
+        "total_weight": 38.72,
+        "avg_weight_per_unit": 3.23,
+        "avg_weight_per_asin": 5.53
+      },
+      "asins_detallados": [
+        {
+          "asin": "B07GNJ9FTS",
+          "units": 2,
+          "weight_per_unit": 2.18,
+          "total_weight": 4.36,
+          "scan_time": "21:47:41"
+        },
+        {
+          "asin": "B0BJF27YDR",
+          "units": 2,
+          "weight_per_unit": 4.91,
+          "total_weight": 9.82,
+          "scan_time": "21:48:21"
+        },
+        {
+          "asin": "B0DS961HK4",
+          "units": 2,
+          "weight_per_unit": 2.0,
+          "total_weight": 4.0,
+          "scan_time": "21:50:42"
+        },
+        {
+          "asin": "B0DSQNSJYJ",
+          "units": 2,
+          "weight_per_unit": 3.54,
+          "total_weight": 7.08,
+          "scan_time": "21:50:52"
+        },
+        {
+          "asin": "B0FG8G868B",
+          "units": 2,
+          "weight_per_unit": 4.0,
+          "total_weight": 8.0,
+          "scan_time": "21:52:11"
+        },
+        {
+          "asin": "B095Z1D1S3",
+          "units": 1,
+          "weight_per_unit": 1.1,
+          "total_weight": 1.1,
+          "scan_time": "21:53:58"
+        },
+        {
+          "asin": "B07YN1W5W3",
+          "units": 1,
+          "weight_per_unit": 4.36,
+          "total_weight": 4.36,
+          "scan_time": "21:54:50"
+        }
+      ]
+    }
+  }
+}

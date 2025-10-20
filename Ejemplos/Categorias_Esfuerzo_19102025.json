@@ -1,0 +1,6315 @@
+{
+  "fecha": "19102025",
+  "generado_a": "2025-10-19 22:01:57",
+  "resumen_categorias": [
+    {
+      "categoria": "DIFICIL",
+      "asins_unicos": 303,
+      "units_totales": 1162,
+      "esfuerzo_total": 1677.52,
+      "factor_promedio": 1.3,
+      "porcentaje_units": 17.87
+    },
+    {
+      "categoria": "FACIL",
+      "asins_unicos": 314,
+      "units_totales": 1994,
+      "esfuerzo_total": 1401.12,
+      "factor_promedio": 0.7,
+      "porcentaje_units": 30.66
+    },
+    {
+      "categoria": "MEDIO",
+      "asins_unicos": 400,
+      "units_totales": 1551,
+      "esfuerzo_total": 1614.2,
+      "factor_promedio": 1.0,
+      "porcentaje_units": 23.85
+    },
+    {
+      "categoria": "MUY_DIFICIL",
+      "asins_unicos": 12,
+      "units_totales": 14,
+      "esfuerzo_total": 22.8,
+      "factor_promedio": 1.5,
+      "porcentaje_units": 0.22
+    },
+    {
+      "categoria": "MUY_FACIL",
+      "asins_unicos": 222,
+      "units_totales": 1783,
+      "esfuerzo_total": 872.9,
+      "factor_promedio": 0.5,
+      "porcentaje_units": 27.41
+    }
+  ],
+  "top_asins_por_categoria": {
+    "DIFICIL": [
+      {
+        "FCSKU/ASIN": "B0F999YWXZ",
+        "Qty": 69,
+        "esfuerzo": 106.08,
+        "asin_factor": 1.3
+      },
+      {
+        "FCSKU/ASIN": "B09WYD37RC",
+        "Qty": 58,
+        "esfuerzo": 89.31,
+        "asin_factor": 1.3
+      },
+      {
+        "FCSKU/ASIN": "B07VGQZWSR",
+        "Qty": 46,
+        "esfuerzo": 71.5,
+        "asin_factor": 1.3
+      },
+      {
+        "FCSKU/ASIN": "B0D7L9T5FY",
+        "Qty": 34,
+        "esfuerzo": 44.2,
+        "asin_factor": 1.3
+      },
+      {
+        "FCSKU/ASIN": "B09WYJ8L1F",
+        "Qty": 30,
+        "esfuerzo": 46.54,
+        "asin_factor": 1.3
+      }
+    ],
+    "FACIL": [
+      {
+        "FCSKU/ASIN": "B0DSQNSJYJ",
+        "Qty": 288,
+        "esfuerzo": 202.72,
+        "asin_factor": 0.7
+      },
+      {
+        "FCSKU/ASIN": "B09QLGY9XB",
+        "Qty": 81,
+        "esfuerzo": 56.699999999999996,
+        "asin_factor": 0.7
+      },
+      {
+        "FCSKU/ASIN": "B0FHK7SKNJ",
+        "Qty": 78,
+        "esfuerzo": 54.599999999999994,
+        "asin_factor": 0.7
+      },
+      {
+        "FCSKU/ASIN": "B0D9BBTBCF",
+        "Qty": 50,
+        "esfuerzo": 35.0,
+        "asin_factor": 0.7
+      },
+      {
+        "FCSKU/ASIN": "B07YFZKPZX",
+        "Qty": 36,
+        "esfuerzo": 25.2,
+        "asin_factor": 0.7
+      }
+    ],
+    "MEDIO": [
+      {
+        "FCSKU/ASIN": "B07PLZDT5Z",
+        "Qty": 163,
+        "esfuerzo": 163.0,
+        "asin_factor": 1.0
+      },
+      {
+        "FCSKU/ASIN": "B0C8F62KNJ",
+        "Qty": 58,
+        "esfuerzo": 60.9,
+        "asin_factor": 1.0
+      },
+      {
+        "FCSKU/ASIN": "B00DYX7TI6",
+        "Qty": 42,
+        "esfuerzo": 50.4,
+        "asin_factor": 1.0
+      },
+      {
+        "FCSKU/ASIN": "B003TOO22Q",
+        "Qty": 24,
+        "esfuerzo": 24.0,
+        "asin_factor": 1.0
+      },
+      {
+        "FCSKU/ASIN": "B0B2LCX8D8",
+        "Qty": 21,
+        "esfuerzo": 21.0,
+        "asin_factor": 1.0
+      }
+    ],
+    "MUY_DIFICIL": [
+      {
+        "FCSKU/ASIN": "B0F6YPZF6R",
+        "Qty": 3,
+        "esfuerzo": 4.8,
+        "asin_factor": 1.5
+      },
+      {
+        "FCSKU/ASIN": "B00MNA8ATS",
+        "Qty": 1,
+        "esfuerzo": 1.7999999999999998,
+        "asin_factor": 1.5
+      },
+      {
+        "FCSKU/ASIN": "B01M9K42SS",
+        "Qty": 1,
+        "esfuerzo": 1.6500000000000001,
+        "asin_factor": 1.5
+      },
+      {
+        "FCSKU/ASIN": "B00YUBGSHY",
+        "Qty": 1,
+        "esfuerzo": 1.6500000000000001,
+        "asin_factor": 1.5
+      },
+      {
+        "FCSKU/ASIN": "B071VM37R1",
+        "Qty": 1,
+        "esfuerzo": 1.5,
+        "asin_factor": 1.5
+      }
+    ],
+    "MUY_FACIL": [
+      {
+        "FCSKU/ASIN": "B097BHG5N3",
+        "Qty": 110,
+        "esfuerzo": 38.5,
+        "asin_factor": 0.5
+      },
+      {
+        "FCSKU/ASIN": "B08XXQXXGL",
+        "Qty": 96,
+        "esfuerzo": 48.0,
+        "asin_factor": 0.5
+      },
+      {
+        "FCSKU/ASIN": "B09ZDJY3KH",
+        "Qty": 78,
+        "esfuerzo": 39.0,
+        "asin_factor": 0.5
+      },
+      {
+        "FCSKU/ASIN": "B08XXQR7Y5",
+        "Qty": 73,
+        "esfuerzo": 36.5,
+        "asin_factor": 0.5
+      },
+      {
+        "FCSKU/ASIN": "B000JLY22W",
+        "Qty": 52,
+        "esfuerzo": 26.0,
+        "asin_factor": 0.5
+      }
+    ]
+  },
+  "estadisticas_generales": {
+    "total_empleados": 28,
+    "cambios_carro_totales": 467,
+    "errores_totales": 184,
+    "promedio_cambios_carro_por_empleado": 16.68,
+    "promedio_errores_por_empleado": 6.57
+  },
+  "analisis_por_empleado": {
+    "200771869": {
+      "login": "aletolea",
+      "employee_id": "200771869",
+      "hours": 3.63,
+      "uph_original": 76.58,
+      "rate_ajustado": 19.812,
+      "factor_ajuste": 0.26,
+      "esfuerzo_total": 200.76999999999998,
+      "units_totales": 278,
+      "asins_unicos": 82,
+      "bins_unicos": 137,
+      "total_distance": 1631.8,
+      "max_distance_bin_to_bin": 98.1,
+      "distancia_promedio_entre_bins": 7.93,
+      "promedio_units_por_bin": 2.03,
+      "cart_changes": 12,
+      "bin_changes": 165,
+      "errores": 11,
+      "factor_penalizacion_categoria": 0.3,
+      "porcentajes_categorias": {
+        "muy_facil": 34.172661870503596,
+        "facil": 38.84892086330935,
+        "medio": 22.66187050359712,
+        "dificil": 3.9568345323741005,
+        "muy_dificil": 0.3597122302158274
+      },
+      "categorias": [
+        {
+          "categoria": "DIFICIL",
+          "asins_unicos": 11,
+          "units_totales": 11,
+          "esfuerzo_total": 15.08,
+          "factor_promedio": 1.3
+        },
+        {
+          "categoria": "FACIL",
+          "asins_unicos": 24,
+          "units_totales": 108,
+          "esfuerzo_total": 74.69,
+          "factor_promedio": 0.7
+        },
+        {
+          "categoria": "MEDIO",
+          "asins_unicos": 28,
+          "units_totales": 63,
+          "esfuerzo_total": 64.4,
+          "factor_promedio": 1.0
+        },
+        {
+          "categoria": "MUY_DIFICIL",
+          "asins_unicos": 1,
+          "units_totales": 1,
+          "esfuerzo_total": 1.6500000000000001,
+          "factor_promedio": 1.5
+        },
+        {
+          "categoria": "MUY_FACIL",
+          "asins_unicos": 18,
+          "units_totales": 95,
+          "esfuerzo_total": 44.95,
+          "factor_promedio": 0.5
+        }
+      ],
+      "top_asins": [
+        {
+          "FCSKU/ASIN": "B0FHL188J9",
+          "Qty": 20,
+          "esfuerzo": 14.0,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0DSQNSJYJ",
+          "Qty": 19,
+          "esfuerzo": 13.299999999999999,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0DY4Z38RW",
+          "Qty": 12,
+          "esfuerzo": 12.0,
+          "asin_factor": 1.0,
+          "categoria": "MEDIO"
+        },
+        {
+          "FCSKU/ASIN": "B06Y24JDNC",
+          "Qty": 11,
+          "esfuerzo": 5.5,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B097BM9V5G",
+          "Qty": 10,
+          "esfuerzo": 3.5,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        }
+      ],
+      "top_asins_por_categoria": {
+        "MEDIO": [
+          {
+            "FCSKU/ASIN": "B0DY4Z38RW",
+            "Qty": 12,
+            "esfuerzo": 12.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0DK1H8VW2",
+            "Qty": 5,
+            "esfuerzo": 5.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B004PYRSRU",
+            "Qty": 4,
+            "esfuerzo": 4.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0057LT972",
+            "Qty": 4,
+            "esfuerzo": 4.8,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B004PZ0K7O",
+            "Qty": 3,
+            "esfuerzo": 3.0,
+            "asin_factor": 1.0
+          }
+        ],
+        "FACIL": [
+          {
+            "FCSKU/ASIN": "B0FHL188J9",
+            "Qty": 20,
+            "esfuerzo": 14.0,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0DSQNSJYJ",
+            "Qty": 19,
+            "esfuerzo": 13.299999999999999,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B07DDCWR1Q",
+            "Qty": 10,
+            "esfuerzo": 7.0,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B004LSBYV6",
+            "Qty": 9,
+            "esfuerzo": 6.3,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B09QLGY9XB",
+            "Qty": 9,
+            "esfuerzo": 6.3,
+            "asin_factor": 0.7
+          }
+        ],
+        "MUY_FACIL": [
+          {
+            "FCSKU/ASIN": "B06Y24JDNC",
+            "Qty": 11,
+            "esfuerzo": 5.5,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B097BM9V5G",
+            "Qty": 10,
+            "esfuerzo": 3.5,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0FVTGMT3R",
+            "Qty": 9,
+            "esfuerzo": 4.5,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0FVTGZGCG",
+            "Qty": 9,
+            "esfuerzo": 4.5,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0FVTHHJ99",
+            "Qty": 9,
+            "esfuerzo": 4.5,
+            "asin_factor": 0.5
+          }
+        ],
+        "DIFICIL": [
+          {
+            "FCSKU/ASIN": "B07YF735ZN",
+            "Qty": 1,
+            "esfuerzo": 1.3,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0B3G46XLR",
+            "Qty": 1,
+            "esfuerzo": 1.3,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0BN1FGJFF",
+            "Qty": 1,
+            "esfuerzo": 1.56,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0C6FCTPY5",
+            "Qty": 1,
+            "esfuerzo": 1.3,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0C8B5YZY1",
+            "Qty": 1,
+            "esfuerzo": 1.3,
+            "asin_factor": 1.3
+          }
+        ],
+        "MUY_DIFICIL": [
+          {
+            "FCSKU/ASIN": "B0FHPM8NCN",
+            "Qty": 1,
+            "esfuerzo": 1.6500000000000001,
+            "asin_factor": 1.5
+          }
+        ]
+      }
+    },
+    "203681120": {
+      "login": "gregopin",
+      "employee_id": "203681120",
+      "hours": 4.04,
+      "uph_original": 67.33,
+      "rate_ajustado": 27.180000000000003,
+      "factor_ajuste": 0.4,
+      "esfuerzo_total": 219.35999999999999,
+      "units_totales": 272,
+      "asins_unicos": 62,
+      "bins_unicos": 136,
+      "total_distance": 1917.8000000000002,
+      "max_distance_bin_to_bin": 85.2,
+      "distancia_promedio_entre_bins": 8.72,
+      "promedio_units_por_bin": 2.0,
+      "cart_changes": 20,
+      "bin_changes": 141,
+      "errores": 11,
+      "factor_penalizacion_categoria": 0.4,
+      "porcentajes_categorias": {
+        "muy_facil": 30.14705882352941,
+        "facil": 36.39705882352941,
+        "medio": 21.323529411764707,
+        "dificil": 12.132352941176471,
+        "muy_dificil": 0.0
+      },
+      "categorias": [
+        {
+          "categoria": "DIFICIL",
+          "asins_unicos": 16,
+          "units_totales": 33,
+          "esfuerzo_total": 47.06,
+          "factor_promedio": 1.3
+        },
+        {
+          "categoria": "FACIL",
+          "asins_unicos": 15,
+          "units_totales": 99,
+          "esfuerzo_total": 70.69999999999999,
+          "factor_promedio": 0.7
+        },
+        {
+          "categoria": "MEDIO",
+          "asins_unicos": 16,
+          "units_totales": 58,
+          "esfuerzo_total": 59.8,
+          "factor_promedio": 1.0
+        },
+        {
+          "categoria": "MUY_FACIL",
+          "asins_unicos": 15,
+          "units_totales": 82,
+          "esfuerzo_total": 41.8,
+          "factor_promedio": 0.5
+        }
+      ],
+      "top_asins": [
+        {
+          "FCSKU/ASIN": "B07MJ6S1MV",
+          "Qty": 20,
+          "esfuerzo": 14.0,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0D3X31Y68",
+          "Qty": 20,
+          "esfuerzo": 14.0,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0825DS4YS",
+          "Qty": 18,
+          "esfuerzo": 9.0,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B07YFZKPZX",
+          "Qty": 14,
+          "esfuerzo": 9.799999999999999,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0DQ17Q9GG",
+          "Qty": 12,
+          "esfuerzo": 12.0,
+          "asin_factor": 1.0,
+          "categoria": "MEDIO"
+        }
+      ],
+      "top_asins_por_categoria": {
+        "FACIL": [
+          {
+            "FCSKU/ASIN": "B07MJ6S1MV",
+            "Qty": 20,
+            "esfuerzo": 14.0,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0D3X31Y68",
+            "Qty": 20,
+            "esfuerzo": 14.0,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B07YFZKPZX",
+            "Qty": 14,
+            "esfuerzo": 9.799999999999999,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0FGXQRYCK",
+            "Qty": 9,
+            "esfuerzo": 6.3,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0FSL5D9N8",
+            "Qty": 7,
+            "esfuerzo": 4.8999999999999995,
+            "asin_factor": 0.7
+          }
+        ],
+        "MEDIO": [
+          {
+            "FCSKU/ASIN": "B0DQ17Q9GG",
+            "Qty": 12,
+            "esfuerzo": 12.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0C8F62KNJ",
+            "Qty": 11,
+            "esfuerzo": 11.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0F1G65CFR",
+            "Qty": 7,
+            "esfuerzo": 7.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0DHK7FSNR",
+            "Qty": 6,
+            "esfuerzo": 7.199999999999999,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0BFB3Q7SD",
+            "Qty": 5,
+            "esfuerzo": 5.0,
+            "asin_factor": 1.0
+          }
+        ],
+        "DIFICIL": [
+          {
+            "FCSKU/ASIN": "B09WYD37RC",
+            "Qty": 6,
+            "esfuerzo": 9.36,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0BQ1J79QT",
+            "Qty": 4,
+            "esfuerzo": 5.2,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0CRSTCCWY",
+            "Qty": 4,
+            "esfuerzo": 5.2,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0BPZZB7Q2",
+            "Qty": 3,
+            "esfuerzo": 3.9000000000000004,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0DHLBN6NC",
+            "Qty": 2,
+            "esfuerzo": 2.6,
+            "asin_factor": 1.3
+          }
+        ],
+        "MUY_FACIL": [
+          {
+            "FCSKU/ASIN": "B0825DS4YS",
+            "Qty": 18,
+            "esfuerzo": 9.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0C7Z32TC6",
+            "Qty": 10,
+            "esfuerzo": 5.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0FBWCRDCS",
+            "Qty": 10,
+            "esfuerzo": 5.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "9878209091",
+            "Qty": 9,
+            "esfuerzo": 4.5,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "9878209105",
+            "Qty": 8,
+            "esfuerzo": 4.0,
+            "asin_factor": 0.5
+          }
+        ]
+      }
+    },
+    "202382385": {
+      "login": "garcamax",
+      "employee_id": "202382385",
+      "hours": 8.0,
+      "uph_original": 88.5,
+      "rate_ajustado": 23.8008,
+      "factor_ajuste": 0.27,
+      "esfuerzo_total": 532.41,
+      "units_totales": 708,
+      "asins_unicos": 139,
+      "bins_unicos": 200,
+      "total_distance": 2668.9,
+      "max_distance_bin_to_bin": 142.29999999999998,
+      "distancia_promedio_entre_bins": 7.81,
+      "promedio_units_por_bin": 3.54,
+      "cart_changes": 31,
+      "bin_changes": 230,
+      "errores": 25,
+      "factor_penalizacion_categoria": 0.24,
+      "porcentajes_categorias": {
+        "muy_facil": 56.21468926553672,
+        "facil": 12.85310734463277,
+        "medio": 19.774011299435028,
+        "dificil": 11.158192090395481,
+        "muy_dificil": 0.0
+      },
+      "categorias": [
+        {
+          "categoria": "DIFICIL",
+          "asins_unicos": 35,
+          "units_totales": 79,
+          "esfuerzo_total": 114.79,
+          "factor_promedio": 1.3
+        },
+        {
+          "categoria": "FACIL",
+          "asins_unicos": 32,
+          "units_totales": 91,
+          "esfuerzo_total": 63.419999999999995,
+          "factor_promedio": 0.7
+        },
+        {
+          "categoria": "MEDIO",
+          "asins_unicos": 46,
+          "units_totales": 140,
+          "esfuerzo_total": 152.8,
+          "factor_promedio": 1.0
+        },
+        {
+          "categoria": "MUY_FACIL",
+          "asins_unicos": 26,
+          "units_totales": 398,
+          "esfuerzo_total": 201.4,
+          "factor_promedio": 0.5
+        }
+      ],
+      "top_asins": [
+        {
+          "FCSKU/ASIN": "B08XXQR7Y5",
+          "Qty": 70,
+          "esfuerzo": 35.0,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B09ZDJY3KH",
+          "Qty": 60,
+          "esfuerzo": 30.0,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0B4B9XW2K",
+          "Qty": 36,
+          "esfuerzo": 18.0,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0BBG7V7WJ",
+          "Qty": 36,
+          "esfuerzo": 18.0,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0B7S4TTHN",
+          "Qty": 24,
+          "esfuerzo": 12.0,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        }
+      ],
+      "top_asins_por_categoria": {
+        "MEDIO": [
+          {
+            "FCSKU/ASIN": "B0C8F62KNJ",
+            "Qty": 13,
+            "esfuerzo": 15.2,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B094QHZ9C6",
+            "Qty": 8,
+            "esfuerzo": 9.6,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B094Y1F1SL",
+            "Qty": 8,
+            "esfuerzo": 9.6,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0DS65GK1M",
+            "Qty": 8,
+            "esfuerzo": 8.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0BX63JNYG",
+            "Qty": 7,
+            "esfuerzo": 7.0,
+            "asin_factor": 1.0
+          }
+        ],
+        "DIFICIL": [
+          {
+            "FCSKU/ASIN": "B09WYJ8L1F",
+            "Qty": 7,
+            "esfuerzo": 10.92,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B09WYJ3JM7",
+            "Qty": 6,
+            "esfuerzo": 9.36,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0DJFDTRYZ",
+            "Qty": 6,
+            "esfuerzo": 7.800000000000001,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0D7C6Z166",
+            "Qty": 6,
+            "esfuerzo": 9.36,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B07ZNRHW3H",
+            "Qty": 4,
+            "esfuerzo": 6.24,
+            "asin_factor": 1.3
+          }
+        ],
+        "FACIL": [
+          {
+            "FCSKU/ASIN": "B0DB68C17C",
+            "Qty": 15,
+            "esfuerzo": 10.5,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0CYT7JPTL",
+            "Qty": 8,
+            "esfuerzo": 3.9199999999999995,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B086SWBYGS",
+            "Qty": 6,
+            "esfuerzo": 4.199999999999999,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0DSQNSJYJ",
+            "Qty": 6,
+            "esfuerzo": 4.199999999999999,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0FJM2P2QM",
+            "Qty": 5,
+            "esfuerzo": 4.2,
+            "asin_factor": 0.7
+          }
+        ],
+        "MUY_FACIL": [
+          {
+            "FCSKU/ASIN": "B08XXQR7Y5",
+            "Qty": 70,
+            "esfuerzo": 35.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B09ZDJY3KH",
+            "Qty": 60,
+            "esfuerzo": 30.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0B4B9XW2K",
+            "Qty": 36,
+            "esfuerzo": 18.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0BBG7V7WJ",
+            "Qty": 36,
+            "esfuerzo": 18.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0B7S4TTHN",
+            "Qty": 24,
+            "esfuerzo": 12.0,
+            "asin_factor": 0.5
+          }
+        ]
+      }
+    },
+    "203861703": {
+      "login": "hanllequ",
+      "employee_id": "203861703",
+      "hours": 8.0,
+      "uph_original": 50.75,
+      "rate_ajustado": 25.288,
+      "factor_ajuste": 0.5,
+      "esfuerzo_total": 306.87,
+      "units_totales": 406,
+      "asins_unicos": 73,
+      "bins_unicos": 189,
+      "total_distance": 2681.2999999999984,
+      "max_distance_bin_to_bin": 132.6,
+      "distancia_promedio_entre_bins": 9.54,
+      "promedio_units_por_bin": 2.15,
+      "cart_changes": 24,
+      "bin_changes": 192,
+      "errores": 2,
+      "factor_penalizacion_categoria": 0.4,
+      "porcentajes_categorias": {
+        "muy_facil": 38.91625615763547,
+        "facil": 30.295566502463057,
+        "medio": 17.24137931034483,
+        "dificil": 13.30049261083744,
+        "muy_dificil": 0.24630541871921183
+      },
+      "categorias": [
+        {
+          "categoria": "DIFICIL",
+          "asins_unicos": 20,
+          "units_totales": 54,
+          "esfuerzo_total": 78.78,
+          "factor_promedio": 1.3
+        },
+        {
+          "categoria": "FACIL",
+          "asins_unicos": 17,
+          "units_totales": 123,
+          "esfuerzo_total": 87.64,
+          "factor_promedio": 0.7
+        },
+        {
+          "categoria": "MEDIO",
+          "asins_unicos": 22,
+          "units_totales": 70,
+          "esfuerzo_total": 71.6,
+          "factor_promedio": 1.0
+        },
+        {
+          "categoria": "MUY_DIFICIL",
+          "asins_unicos": 1,
+          "units_totales": 1,
+          "esfuerzo_total": 1.7999999999999998,
+          "factor_promedio": 1.5
+        },
+        {
+          "categoria": "MUY_FACIL",
+          "asins_unicos": 13,
+          "units_totales": 158,
+          "esfuerzo_total": 67.05,
+          "factor_promedio": 0.5
+        }
+      ],
+      "top_asins": [
+        {
+          "FCSKU/ASIN": "B097BHG5N3",
+          "Qty": 90,
+          "esfuerzo": 31.499999999999996,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0DSQNSJYJ",
+          "Qty": 54,
+          "esfuerzo": 38.919999999999995,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0C88MN138",
+          "Qty": 20,
+          "esfuerzo": 10.0,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0F999YWXZ",
+          "Qty": 17,
+          "esfuerzo": 26.52,
+          "asin_factor": 1.3,
+          "categoria": "DIFICIL"
+        },
+        {
+          "FCSKU/ASIN": "B0FQWQBQYK",
+          "Qty": 17,
+          "esfuerzo": 10.2,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        }
+      ],
+      "top_asins_por_categoria": {
+        "FACIL": [
+          {
+            "FCSKU/ASIN": "B0DSQNSJYJ",
+            "Qty": 54,
+            "esfuerzo": 38.919999999999995,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0DJR8GTRN",
+            "Qty": 12,
+            "esfuerzo": 8.399999999999999,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0DB68C17C",
+            "Qty": 12,
+            "esfuerzo": 8.399999999999999,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B09T6NJ2YG",
+            "Qty": 10,
+            "esfuerzo": 7.279999999999999,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0DNFLBSKY",
+            "Qty": 9,
+            "esfuerzo": 6.3,
+            "asin_factor": 0.7
+          }
+        ],
+        "MEDIO": [
+          {
+            "FCSKU/ASIN": "B07BMWWL52",
+            "Qty": 12,
+            "esfuerzo": 12.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0BQ2LPSQ3",
+            "Qty": 12,
+            "esfuerzo": 12.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0C43DZ599",
+            "Qty": 6,
+            "esfuerzo": 6.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0DGL96JJZ",
+            "Qty": 6,
+            "esfuerzo": 6.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B014H3YBDW",
+            "Qty": 5,
+            "esfuerzo": 5.0,
+            "asin_factor": 1.0
+          }
+        ],
+        "MUY_FACIL": [
+          {
+            "FCSKU/ASIN": "B097BHG5N3",
+            "Qty": 90,
+            "esfuerzo": 31.499999999999996,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0C88MN138",
+            "Qty": 20,
+            "esfuerzo": 10.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0FQWQBQYK",
+            "Qty": 17,
+            "esfuerzo": 10.2,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0786PLYTR",
+            "Qty": 8,
+            "esfuerzo": 4.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B07DC711NK",
+            "Qty": 7,
+            "esfuerzo": 3.5,
+            "asin_factor": 0.5
+          }
+        ],
+        "DIFICIL": [
+          {
+            "FCSKU/ASIN": "B0F999YWXZ",
+            "Qty": 17,
+            "esfuerzo": 26.52,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B08PVB33K9",
+            "Qty": 8,
+            "esfuerzo": 12.48,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0D7L9T5FY",
+            "Qty": 6,
+            "esfuerzo": 7.800000000000001,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0BQ1J79QT",
+            "Qty": 5,
+            "esfuerzo": 6.5,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0CBV7KQ8C",
+            "Qty": 3,
+            "esfuerzo": 3.9000000000000004,
+            "asin_factor": 1.3
+          }
+        ],
+        "MUY_DIFICIL": [
+          {
+            "FCSKU/ASIN": "B00MNA8ATS",
+            "Qty": 1,
+            "esfuerzo": 1.7999999999999998,
+            "asin_factor": 1.5
+          }
+        ]
+      }
+    },
+    "201879362": {
+      "login": "crejuanw",
+      "employee_id": "201879362",
+      "hours": 8.0,
+      "uph_original": 39.12,
+      "rate_ajustado": 60.624,
+      "factor_ajuste": 1.55,
+      "esfuerzo_total": 299.23,
+      "units_totales": 313,
+      "asins_unicos": 113,
+      "bins_unicos": 211,
+      "total_distance": 4284.5999999999985,
+      "max_distance_bin_to_bin": 173.4,
+      "distancia_promedio_entre_bins": 12.38,
+      "promedio_units_por_bin": 1.48,
+      "cart_changes": 30,
+      "bin_changes": 214,
+      "errores": 8,
+      "factor_penalizacion_categoria": 1.2,
+      "porcentajes_categorias": {
+        "muy_facil": 13.738019169329075,
+        "facil": 35.46325878594249,
+        "medio": 25.878594249201274,
+        "dificil": 24.281150159744406,
+        "muy_dificil": 0.6389776357827476
+      },
+      "categorias": [
+        {
+          "categoria": "DIFICIL",
+          "asins_unicos": 40,
+          "units_totales": 76,
+          "esfuerzo_total": 110.37,
+          "factor_promedio": 1.3
+        },
+        {
+          "categoria": "FACIL",
+          "asins_unicos": 24,
+          "units_totales": 111,
+          "esfuerzo_total": 78.96,
+          "factor_promedio": 0.6999999999999998
+        },
+        {
+          "categoria": "MEDIO",
+          "asins_unicos": 40,
+          "units_totales": 81,
+          "esfuerzo_total": 84.8,
+          "factor_promedio": 1.0
+        },
+        {
+          "categoria": "MUY_DIFICIL",
+          "asins_unicos": 2,
+          "units_totales": 2,
+          "esfuerzo_total": 3.3,
+          "factor_promedio": 1.5
+        },
+        {
+          "categoria": "MUY_FACIL",
+          "asins_unicos": 7,
+          "units_totales": 43,
+          "esfuerzo_total": 21.8,
+          "factor_promedio": 0.5
+        }
+      ],
+      "top_asins": [
+        {
+          "FCSKU/ASIN": "B09W3ZX4SV",
+          "Qty": 18,
+          "esfuerzo": 9.0,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B07YFZKPZX",
+          "Qty": 13,
+          "esfuerzo": 9.1,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B08F724NDR",
+          "Qty": 12,
+          "esfuerzo": 8.399999999999999,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B08KGHRZ32",
+          "Qty": 12,
+          "esfuerzo": 8.399999999999999,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0DSQNSJYJ",
+          "Qty": 11,
+          "esfuerzo": 7.699999999999999,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        }
+      ],
+      "top_asins_por_categoria": {
+        "MEDIO": [
+          {
+            "FCSKU/ASIN": "B00KM3URHG",
+            "Qty": 8,
+            "esfuerzo": 8.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0BWTWJR8V",
+            "Qty": 5,
+            "esfuerzo": 6.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0BPZYL671",
+            "Qty": 5,
+            "esfuerzo": 5.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B09XWV1QTB",
+            "Qty": 5,
+            "esfuerzo": 5.6,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0BFHYB2L3",
+            "Qty": 4,
+            "esfuerzo": 4.8,
+            "asin_factor": 1.0
+          }
+        ],
+        "DIFICIL": [
+          {
+            "FCSKU/ASIN": "B09CG11ZW1",
+            "Qty": 7,
+            "esfuerzo": 10.92,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0CT86YXL3",
+            "Qty": 5,
+            "esfuerzo": 7.800000000000001,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0FFMHXQ4F",
+            "Qty": 5,
+            "esfuerzo": 7.800000000000001,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B07VGQZWSR",
+            "Qty": 4,
+            "esfuerzo": 6.24,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0F999YWXZ",
+            "Qty": 4,
+            "esfuerzo": 6.24,
+            "asin_factor": 1.3
+          }
+        ],
+        "MUY_DIFICIL": [
+          {
+            "FCSKU/ASIN": "B07NQB7Q8Y",
+            "Qty": 1,
+            "esfuerzo": 1.5,
+            "asin_factor": 1.5
+          },
+          {
+            "FCSKU/ASIN": "B09NNYCYVR",
+            "Qty": 1,
+            "esfuerzo": 1.7999999999999998,
+            "asin_factor": 1.5
+          }
+        ],
+        "FACIL": [
+          {
+            "FCSKU/ASIN": "B07YFZKPZX",
+            "Qty": 13,
+            "esfuerzo": 9.1,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B08KGHRZ32",
+            "Qty": 12,
+            "esfuerzo": 8.399999999999999,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B08F724NDR",
+            "Qty": 12,
+            "esfuerzo": 8.399999999999999,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0DSQNSJYJ",
+            "Qty": 11,
+            "esfuerzo": 7.699999999999999,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0D9BBTBCF",
+            "Qty": 10,
+            "esfuerzo": 7.0,
+            "asin_factor": 0.7
+          }
+        ],
+        "MUY_FACIL": [
+          {
+            "FCSKU/ASIN": "B09W3ZX4SV",
+            "Qty": 18,
+            "esfuerzo": 9.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0CRHJSMGG",
+            "Qty": 10,
+            "esfuerzo": 5.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B087V7YJ1J",
+            "Qty": 6,
+            "esfuerzo": 3.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B09WGMRYVL",
+            "Qty": 4,
+            "esfuerzo": 2.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0FQ5HZS3M",
+            "Qty": 3,
+            "esfuerzo": 1.7999999999999998,
+            "asin_factor": 0.5
+          }
+        ]
+      }
+    },
+    "203493088": {
+      "login": "cipohcec",
+      "employee_id": "203493088",
+      "hours": 8.11,
+      "uph_original": 75.59,
+      "rate_ajustado": 23.007600000000004,
+      "factor_ajuste": 0.3,
+      "esfuerzo_total": 485.89,
+      "units_totales": 613,
+      "asins_unicos": 103,
+      "bins_unicos": 184,
+      "total_distance": 1823.6000000000006,
+      "max_distance_bin_to_bin": 73.89999999999999,
+      "distancia_promedio_entre_bins": 6.49,
+      "promedio_units_por_bin": 3.33,
+      "cart_changes": 22,
+      "bin_changes": 196,
+      "errores": 17,
+      "factor_penalizacion_categoria": 0.264,
+      "porcentajes_categorias": {
+        "muy_facil": 43.719412724306686,
+        "facil": 24.95921696574225,
+        "medio": 13.050570962479608,
+        "dificil": 18.107667210440457,
+        "muy_dificil": 0.1631321370309951
+      },
+      "categorias": [
+        {
+          "categoria": "DIFICIL",
+          "asins_unicos": 27,
+          "units_totales": 111,
+          "esfuerzo_total": 157.95000000000002,
+          "factor_promedio": 1.3
+        },
+        {
+          "categoria": "FACIL",
+          "asins_unicos": 29,
+          "units_totales": 153,
+          "esfuerzo_total": 106.88999999999999,
+          "factor_promedio": 0.7
+        },
+        {
+          "categoria": "MEDIO",
+          "asins_unicos": 26,
+          "units_totales": 80,
+          "esfuerzo_total": 81.5,
+          "factor_promedio": 1.0
+        },
+        {
+          "categoria": "MUY_DIFICIL",
+          "asins_unicos": 1,
+          "units_totales": 1,
+          "esfuerzo_total": 1.6500000000000001,
+          "factor_promedio": 1.5
+        },
+        {
+          "categoria": "MUY_FACIL",
+          "asins_unicos": 20,
+          "units_totales": 268,
+          "esfuerzo_total": 137.9,
+          "factor_promedio": 0.5
+        }
+      ],
+      "top_asins": [
+        {
+          "FCSKU/ASIN": "B08XXQXXGL",
+          "Qty": 96,
+          "esfuerzo": 48.0,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0DSQNSJYJ",
+          "Qty": 43,
+          "esfuerzo": 30.099999999999998,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B00N4YYM94",
+          "Qty": 40,
+          "esfuerzo": 24.0,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B003TOO22Q",
+          "Qty": 24,
+          "esfuerzo": 24.0,
+          "asin_factor": 1.0,
+          "categoria": "MEDIO"
+        },
+        {
+          "FCSKU/ASIN": "B00IJDVQ94",
+          "Qty": 20,
+          "esfuerzo": 14.0,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        }
+      ],
+      "top_asins_por_categoria": {
+        "FACIL": [
+          {
+            "FCSKU/ASIN": "B0DSQNSJYJ",
+            "Qty": 43,
+            "esfuerzo": 30.099999999999998,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B00IJDVQ94",
+            "Qty": 20,
+            "esfuerzo": 14.0,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0128DE8JU",
+            "Qty": 10,
+            "esfuerzo": 7.0,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0DXVN5PWF",
+            "Qty": 10,
+            "esfuerzo": 7.0,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0CP8WLLSF",
+            "Qty": 9,
+            "esfuerzo": 6.3,
+            "asin_factor": 0.7
+          }
+        ],
+        "MUY_FACIL": [
+          {
+            "FCSKU/ASIN": "B08XXQXXGL",
+            "Qty": 96,
+            "esfuerzo": 48.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B00N4YYM94",
+            "Qty": 40,
+            "esfuerzo": 24.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B09P3P5P5F",
+            "Qty": 18,
+            "esfuerzo": 9.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B09ZDJY3KH",
+            "Qty": 18,
+            "esfuerzo": 9.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B09172W5JX",
+            "Qty": 12,
+            "esfuerzo": 6.0,
+            "asin_factor": 0.5
+          }
+        ],
+        "MEDIO": [
+          {
+            "FCSKU/ASIN": "B003TOO22Q",
+            "Qty": 24,
+            "esfuerzo": 24.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0D91ZSFQJ",
+            "Qty": 11,
+            "esfuerzo": 12.100000000000001,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B093FMF89C",
+            "Qty": 5,
+            "esfuerzo": 5.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0BFHYB2L3",
+            "Qty": 4,
+            "esfuerzo": 4.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0BQ12KGN5",
+            "Qty": 4,
+            "esfuerzo": 4.0,
+            "asin_factor": 1.0
+          }
+        ],
+        "DIFICIL": [
+          {
+            "FCSKU/ASIN": "B0CZKY1QS3",
+            "Qty": 13,
+            "esfuerzo": 18.590000000000003,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0CYCJN7GF",
+            "Qty": 13,
+            "esfuerzo": 18.590000000000003,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0CZL251TW",
+            "Qty": 12,
+            "esfuerzo": 17.160000000000004,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0CZKPZ4ZG",
+            "Qty": 9,
+            "esfuerzo": 12.870000000000001,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0DYDR88RR",
+            "Qty": 9,
+            "esfuerzo": 12.870000000000001,
+            "asin_factor": 1.3
+          }
+        ],
+        "MUY_DIFICIL": [
+          {
+            "FCSKU/ASIN": "B0F9LHPKY3",
+            "Qty": 1,
+            "esfuerzo": 1.6500000000000001,
+            "asin_factor": 1.5
+          }
+        ]
+      }
+    },
+    "204192163": {
+      "login": "fthaydee",
+      "employee_id": "204192163",
+      "hours": 7.99,
+      "uph_original": 58.2,
+      "rate_ajustado": 82.962,
+      "factor_ajuste": 1.43,
+      "esfuerzo_total": 421.23,
+      "units_totales": 465,
+      "asins_unicos": 155,
+      "bins_unicos": 227,
+      "total_distance": 5199.899999999998,
+      "max_distance_bin_to_bin": 161.2,
+      "distancia_promedio_entre_bins": 14.68,
+      "promedio_units_por_bin": 2.05,
+      "cart_changes": 38,
+      "bin_changes": 236,
+      "errores": 7,
+      "factor_penalizacion_categoria": 1.1,
+      "porcentajes_categorias": {
+        "muy_facil": 11.397849462365592,
+        "facil": 40.86021505376344,
+        "medio": 29.462365591397848,
+        "dificil": 18.064516129032256,
+        "muy_dificil": 0.21505376344086022
+      },
+      "categorias": [
+        {
+          "categoria": "DIFICIL",
+          "asins_unicos": 43,
+          "units_totales": 84,
+          "esfuerzo_total": 115.83,
+          "factor_promedio": 1.3
+        },
+        {
+          "categoria": "FACIL",
+          "asins_unicos": 35,
+          "units_totales": 190,
+          "esfuerzo_total": 131.6,
+          "factor_promedio": 0.7
+        },
+        {
+          "categoria": "MEDIO",
+          "asins_unicos": 64,
+          "units_totales": 137,
+          "esfuerzo_total": 144.2,
+          "factor_promedio": 1.0
+        },
+        {
+          "categoria": "MUY_DIFICIL",
+          "asins_unicos": 1,
+          "units_totales": 1,
+          "esfuerzo_total": 1.5,
+          "factor_promedio": 1.5
+        },
+        {
+          "categoria": "MUY_FACIL",
+          "asins_unicos": 12,
+          "units_totales": 53,
+          "esfuerzo_total": 28.1,
+          "factor_promedio": 0.5
+        }
+      ],
+      "top_asins": [
+        {
+          "FCSKU/ASIN": "B0FHK7SKNJ",
+          "Qty": 72,
+          "esfuerzo": 50.4,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0DD38B4QV",
+          "Qty": 16,
+          "esfuerzo": 8.0,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0DSQNSJYJ",
+          "Qty": 13,
+          "esfuerzo": 9.1,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0CYT7JPTL",
+          "Qty": 12,
+          "esfuerzo": 5.879999999999999,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B07BG9H5M9",
+          "Qty": 10,
+          "esfuerzo": 10.0,
+          "asin_factor": 1.0,
+          "categoria": "MEDIO"
+        }
+      ],
+      "top_asins_por_categoria": {
+        "FACIL": [
+          {
+            "FCSKU/ASIN": "B0FHK7SKNJ",
+            "Qty": 72,
+            "esfuerzo": 50.4,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0DSQNSJYJ",
+            "Qty": 13,
+            "esfuerzo": 9.1,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0CYT7JPTL",
+            "Qty": 12,
+            "esfuerzo": 5.879999999999999,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0C7VCC2JQ",
+            "Qty": 10,
+            "esfuerzo": 8.4,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0BPZ3KG1C",
+            "Qty": 9,
+            "esfuerzo": 6.3,
+            "asin_factor": 0.7
+          }
+        ],
+        "DIFICIL": [
+          {
+            "FCSKU/ASIN": "B07HC8KZNV",
+            "Qty": 9,
+            "esfuerzo": 11.700000000000001,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B07KJXQW4B",
+            "Qty": 8,
+            "esfuerzo": 10.4,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B09FDQXPC7",
+            "Qty": 5,
+            "esfuerzo": 7.28,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0CRSTCCWY",
+            "Qty": 5,
+            "esfuerzo": 6.5,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0BPZ15J8G",
+            "Qty": 4,
+            "esfuerzo": 5.2,
+            "asin_factor": 1.3
+          }
+        ],
+        "MEDIO": [
+          {
+            "FCSKU/ASIN": "B07BG9H5M9",
+            "Qty": 10,
+            "esfuerzo": 10.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0C8F62KNJ",
+            "Qty": 10,
+            "esfuerzo": 10.6,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0BQ2MHMW8",
+            "Qty": 8,
+            "esfuerzo": 8.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0BWTWJR8V",
+            "Qty": 7,
+            "esfuerzo": 8.4,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0F47ZGC44",
+            "Qty": 7,
+            "esfuerzo": 8.0,
+            "asin_factor": 1.0
+          }
+        ],
+        "MUY_FACIL": [
+          {
+            "FCSKU/ASIN": "B0DD38B4QV",
+            "Qty": 16,
+            "esfuerzo": 8.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B06Y24JDNC",
+            "Qty": 9,
+            "esfuerzo": 4.5,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0DP213GYD",
+            "Qty": 8,
+            "esfuerzo": 4.8,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0CRHJSMGG",
+            "Qty": 5,
+            "esfuerzo": 2.5,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0F7M41SSG",
+            "Qty": 4,
+            "esfuerzo": 2.4,
+            "asin_factor": 0.5
+          }
+        ],
+        "MUY_DIFICIL": [
+          {
+            "FCSKU/ASIN": "B0BN1G594F",
+            "Qty": 1,
+            "esfuerzo": 1.5,
+            "asin_factor": 1.5
+          }
+        ]
+      }
+    },
+    "203681380": {
+      "login": "nmartpab",
+      "employee_id": "203681380",
+      "hours": 4.59,
+      "uph_original": 61.22,
+      "rate_ajustado": 85.944,
+      "factor_ajuste": 1.4,
+      "esfuerzo_total": 289.75,
+      "units_totales": 281,
+      "asins_unicos": 134,
+      "bins_unicos": 212,
+      "total_distance": 2205.2000000000016,
+      "max_distance_bin_to_bin": 97.8,
+      "distancia_promedio_entre_bins": 7.83,
+      "promedio_units_por_bin": 1.33,
+      "cart_changes": 31,
+      "bin_changes": 219,
+      "errores": 6,
+      "factor_penalizacion_categoria": 1.2,
+      "porcentajes_categorias": {
+        "muy_facil": 9.252669039145907,
+        "facil": 27.046263345195733,
+        "medio": 35.231316725978644,
+        "dificil": 27.75800711743772,
+        "muy_dificil": 0.7117437722419928
+      },
+      "categorias": [
+        {
+          "categoria": "DIFICIL",
+          "asins_unicos": 27,
+          "units_totales": 78,
+          "esfuerzo_total": 115.05000000000001,
+          "factor_promedio": 1.3
+        },
+        {
+          "categoria": "FACIL",
+          "asins_unicos": 39,
+          "units_totales": 76,
+          "esfuerzo_total": 55.65,
+          "factor_promedio": 0.7
+        },
+        {
+          "categoria": "MEDIO",
+          "asins_unicos": 50,
+          "units_totales": 99,
+          "esfuerzo_total": 102.8,
+          "factor_promedio": 1.0
+        },
+        {
+          "categoria": "MUY_DIFICIL",
+          "asins_unicos": 2,
+          "units_totales": 2,
+          "esfuerzo_total": 3.0,
+          "factor_promedio": 1.5
+        },
+        {
+          "categoria": "MUY_FACIL",
+          "asins_unicos": 16,
+          "units_totales": 26,
+          "esfuerzo_total": 13.25,
+          "factor_promedio": 0.5
+        }
+      ],
+      "top_asins": [
+        {
+          "FCSKU/ASIN": "B0F999YWXZ",
+          "Qty": 21,
+          "esfuerzo": 32.76,
+          "asin_factor": 1.3,
+          "categoria": "DIFICIL"
+        },
+        {
+          "FCSKU/ASIN": "B0C8F62KNJ",
+          "Qty": 13,
+          "esfuerzo": 13.0,
+          "asin_factor": 1.0,
+          "categoria": "MEDIO"
+        },
+        {
+          "FCSKU/ASIN": "B09WYJ8L1F",
+          "Qty": 11,
+          "esfuerzo": 17.16,
+          "asin_factor": 1.3,
+          "categoria": "DIFICIL"
+        },
+        {
+          "FCSKU/ASIN": "B0B2LCX8D8",
+          "Qty": 8,
+          "esfuerzo": 8.0,
+          "asin_factor": 1.0,
+          "categoria": "MEDIO"
+        },
+        {
+          "FCSKU/ASIN": "B0DHLBGG9V",
+          "Qty": 6,
+          "esfuerzo": 6.0,
+          "asin_factor": 1.0,
+          "categoria": "MEDIO"
+        }
+      ],
+      "top_asins_por_categoria": {
+        "DIFICIL": [
+          {
+            "FCSKU/ASIN": "B0F999YWXZ",
+            "Qty": 21,
+            "esfuerzo": 32.76,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B09WYJ8L1F",
+            "Qty": 11,
+            "esfuerzo": 17.16,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0DHLBN6NC",
+            "Qty": 6,
+            "esfuerzo": 7.800000000000001,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0CRSTCCWY",
+            "Qty": 4,
+            "esfuerzo": 5.2,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0CT86YXL3",
+            "Qty": 4,
+            "esfuerzo": 6.24,
+            "asin_factor": 1.3
+          }
+        ],
+        "FACIL": [
+          {
+            "FCSKU/ASIN": "B07QT7Q6ZZ",
+            "Qty": 6,
+            "esfuerzo": 4.199999999999999,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0FJM2P2QM",
+            "Qty": 6,
+            "esfuerzo": 5.04,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B08KGHRZ32",
+            "Qty": 6,
+            "esfuerzo": 4.199999999999999,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0DXVKX3VG",
+            "Qty": 6,
+            "esfuerzo": 5.04,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0C276TCHC",
+            "Qty": 3,
+            "esfuerzo": 2.0999999999999996,
+            "asin_factor": 0.7
+          }
+        ],
+        "MEDIO": [
+          {
+            "FCSKU/ASIN": "B0C8F62KNJ",
+            "Qty": 13,
+            "esfuerzo": 13.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0B2LCX8D8",
+            "Qty": 8,
+            "esfuerzo": 8.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0DHLBGG9V",
+            "Qty": 6,
+            "esfuerzo": 6.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0CB33MX94",
+            "Qty": 5,
+            "esfuerzo": 5.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B07CBSB1C1",
+            "Qty": 5,
+            "esfuerzo": 5.0,
+            "asin_factor": 1.0
+          }
+        ],
+        "MUY_FACIL": [
+          {
+            "FCSKU/ASIN": "B08WRCZY7J",
+            "Qty": 5,
+            "esfuerzo": 2.5,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0CRHJSMGG",
+            "Qty": 3,
+            "esfuerzo": 1.5,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B00194OHW8",
+            "Qty": 2,
+            "esfuerzo": 1.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "8742555868",
+            "Qty": 2,
+            "esfuerzo": 1.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0F7M2ZJYZ",
+            "Qty": 2,
+            "esfuerzo": 1.2,
+            "asin_factor": 0.5
+          }
+        ],
+        "MUY_DIFICIL": [
+          {
+            "FCSKU/ASIN": "B071VM37R1",
+            "Qty": 1,
+            "esfuerzo": 1.5,
+            "asin_factor": 1.5
+          },
+          {
+            "FCSKU/ASIN": "B0F4JZ3V7H",
+            "Qty": 1,
+            "esfuerzo": 1.5,
+            "asin_factor": 1.5
+          }
+        ]
+      }
+    },
+    "201350062": {
+      "login": "navafait",
+      "employee_id": "201350062",
+      "hours": 7.29,
+      "uph_original": 50.62,
+      "rate_ajustado": 34.635999999999996,
+      "factor_ajuste": 0.68,
+      "esfuerzo_total": 313.24,
+      "units_totales": 369,
+      "asins_unicos": 114,
+      "bins_unicos": 235,
+      "total_distance": 2793.0999999999976,
+      "max_distance_bin_to_bin": 142.7,
+      "distancia_promedio_entre_bins": 8.75,
+      "promedio_units_por_bin": 1.57,
+      "cart_changes": 24,
+      "bin_changes": 245,
+      "errores": 2,
+      "factor_penalizacion_categoria": 0.5599999999999999,
+      "porcentajes_categorias": {
+        "muy_facil": 20.867208672086722,
+        "facil": 41.46341463414634,
+        "medio": 22.76422764227642,
+        "dificil": 14.363143631436316,
+        "muy_dificil": 0.5420054200542005
+      },
+      "categorias": [
+        {
+          "categoria": "DIFICIL",
+          "asins_unicos": 25,
+          "units_totales": 53,
+          "esfuerzo_total": 76.44,
+          "factor_promedio": 1.3
+        },
+        {
+          "categoria": "FACIL",
+          "asins_unicos": 33,
+          "units_totales": 153,
+          "esfuerzo_total": 108.85,
+          "factor_promedio": 0.7
+        },
+        {
+          "categoria": "MEDIO",
+          "asins_unicos": 36,
+          "units_totales": 84,
+          "esfuerzo_total": 89.6,
+          "factor_promedio": 1.0
+        },
+        {
+          "categoria": "MUY_DIFICIL",
+          "asins_unicos": 1,
+          "units_totales": 2,
+          "esfuerzo_total": 3.3,
+          "factor_promedio": 1.5
+        },
+        {
+          "categoria": "MUY_FACIL",
+          "asins_unicos": 19,
+          "units_totales": 77,
+          "esfuerzo_total": 35.05,
+          "factor_promedio": 0.5
+        }
+      ],
+      "top_asins": [
+        {
+          "FCSKU/ASIN": "B00GTVCSN6",
+          "Qty": 34,
+          "esfuerzo": 17.0,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0DSQNSJYJ",
+          "Qty": 33,
+          "esfuerzo": 23.099999999999998,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0BQ1SQ6DQ",
+          "Qty": 13,
+          "esfuerzo": 9.1,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0BNJQRKXM",
+          "Qty": 10,
+          "esfuerzo": 7.0,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0DHK7FSNR",
+          "Qty": 9,
+          "esfuerzo": 9.600000000000001,
+          "asin_factor": 1.0,
+          "categoria": "MEDIO"
+        }
+      ],
+      "top_asins_por_categoria": {
+        "MUY_FACIL": [
+          {
+            "FCSKU/ASIN": "B00GTVCSN6",
+            "Qty": 34,
+            "esfuerzo": 17.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B00AW6Z9XA",
+            "Qty": 8,
+            "esfuerzo": 2.8,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B07X5M5RLQ",
+            "Qty": 5,
+            "esfuerzo": 2.5,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0CRHJSMGG",
+            "Qty": 5,
+            "esfuerzo": 2.5,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B07DC91GD7",
+            "Qty": 3,
+            "esfuerzo": 1.5,
+            "asin_factor": 0.5
+          }
+        ],
+        "FACIL": [
+          {
+            "FCSKU/ASIN": "B0DSQNSJYJ",
+            "Qty": 33,
+            "esfuerzo": 23.099999999999998,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0BQ1SQ6DQ",
+            "Qty": 13,
+            "esfuerzo": 9.1,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0BNJQRKXM",
+            "Qty": 10,
+            "esfuerzo": 7.0,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B07GNJ9FTS",
+            "Qty": 9,
+            "esfuerzo": 6.3,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B07WYYJ2V3",
+            "Qty": 8,
+            "esfuerzo": 5.6,
+            "asin_factor": 0.7
+          }
+        ],
+        "MEDIO": [
+          {
+            "FCSKU/ASIN": "B0DHK7FSNR",
+            "Qty": 9,
+            "esfuerzo": 9.600000000000001,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0DP1ZDH7V",
+            "Qty": 8,
+            "esfuerzo": 9.6,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B092HZ59NF",
+            "Qty": 7,
+            "esfuerzo": 7.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0DGL96JJZ",
+            "Qty": 6,
+            "esfuerzo": 6.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0BWX2YN6M",
+            "Qty": 4,
+            "esfuerzo": 4.0,
+            "asin_factor": 1.0
+          }
+        ],
+        "DIFICIL": [
+          {
+            "FCSKU/ASIN": "B09WYJ8L1F",
+            "Qty": 6,
+            "esfuerzo": 9.36,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B09WYD37RC",
+            "Qty": 6,
+            "esfuerzo": 8.71,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0DCN5HNF2",
+            "Qty": 4,
+            "esfuerzo": 6.24,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B01NBBW57V",
+            "Qty": 3,
+            "esfuerzo": 4.68,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B00B8PMPA4",
+            "Qty": 3,
+            "esfuerzo": 3.9000000000000004,
+            "asin_factor": 1.3
+          }
+        ],
+        "MUY_DIFICIL": [
+          {
+            "FCSKU/ASIN": "B0F6YPZF6R",
+            "Qty": 2,
+            "esfuerzo": 3.3,
+            "asin_factor": 1.5
+          }
+        ]
+      }
+    },
+    "201846514": {
+      "login": "tmolinac",
+      "employee_id": "201846514",
+      "hours": 3.26,
+      "uph_original": 4.6,
+      "rate_ajustado": 1.8800000000000001,
+      "factor_ajuste": 0.41,
+      "esfuerzo_total": 10.67,
+      "units_totales": 15,
+      "asins_unicos": 10,
+      "bins_unicos": 12,
+      "total_distance": 259.99999999999994,
+      "max_distance_bin_to_bin": 21.400000000000002,
+      "distancia_promedio_entre_bins": 11.19,
+      "promedio_units_por_bin": 1.25,
+      "cart_changes": 9,
+      "bin_changes": 12,
+      "errores": 0,
+      "factor_penalizacion_categoria": 0.4,
+      "porcentajes_categorias": {
+        "muy_facil": 6.666666666666667,
+        "facil": 86.66666666666667,
+        "medio": 6.666666666666667,
+        "dificil": 0.0,
+        "muy_dificil": 0.0
+      },
+      "categorias": [
+        {
+          "categoria": "FACIL",
+          "asins_unicos": 8,
+          "units_totales": 13,
+          "esfuerzo_total": 9.17,
+          "factor_promedio": 0.7
+        },
+        {
+          "categoria": "MEDIO",
+          "asins_unicos": 1,
+          "units_totales": 1,
+          "esfuerzo_total": 1.0,
+          "factor_promedio": 1.0
+        },
+        {
+          "categoria": "MUY_FACIL",
+          "asins_unicos": 1,
+          "units_totales": 1,
+          "esfuerzo_total": 0.5,
+          "factor_promedio": 0.5
+        }
+      ],
+      "top_asins": [
+        {
+          "FCSKU/ASIN": "B0FGQV5C67",
+          "Qty": 3,
+          "esfuerzo": 2.0999999999999996,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B00HG3GMTW",
+          "Qty": 2,
+          "esfuerzo": 1.4,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B08P4KNDR3",
+          "Qty": 2,
+          "esfuerzo": 1.4,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B07MJ6S1MV",
+          "Qty": 2,
+          "esfuerzo": 1.4,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B00CRQRTA4",
+          "Qty": 1,
+          "esfuerzo": 0.7,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        }
+      ],
+      "top_asins_por_categoria": {
+        "FACIL": [
+          {
+            "FCSKU/ASIN": "B0FGQV5C67",
+            "Qty": 3,
+            "esfuerzo": 2.0999999999999996,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B07MJ6S1MV",
+            "Qty": 2,
+            "esfuerzo": 1.4,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B08P4KNDR3",
+            "Qty": 2,
+            "esfuerzo": 1.4,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B00HG3GMTW",
+            "Qty": 2,
+            "esfuerzo": 1.4,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B00C77FJJQ",
+            "Qty": 1,
+            "esfuerzo": 0.7,
+            "asin_factor": 0.7
+          }
+        ],
+        "MUY_FACIL": [
+          {
+            "FCSKU/ASIN": "B0DQKFJYN2",
+            "Qty": 1,
+            "esfuerzo": 0.5,
+            "asin_factor": 0.5
+          }
+        ],
+        "MEDIO": [
+          {
+            "FCSKU/ASIN": "B0D1VN1X77",
+            "Qty": 1,
+            "esfuerzo": 1.0,
+            "asin_factor": 1.0
+          }
+        ]
+      }
+    },
+    "110263139": {
+      "login": "peredavm",
+      "employee_id": "110263139",
+      "hours": 3.9,
+      "uph_original": 29.74,
+      "rate_ajustado": 40.469,
+      "factor_ajuste": 1.36,
+      "esfuerzo_total": 120.08,
+      "units_totales": 116,
+      "asins_unicos": 51,
+      "bins_unicos": 93,
+      "total_distance": 1284.8999999999999,
+      "max_distance_bin_to_bin": 63.99999999999999,
+      "distancia_promedio_entre_bins": 8.63,
+      "promedio_units_por_bin": 1.25,
+      "cart_changes": 15,
+      "bin_changes": 95,
+      "errores": 4,
+      "factor_penalizacion_categoria": 1.3,
+      "porcentajes_categorias": {
+        "muy_facil": 5.172413793103448,
+        "facil": 31.896551724137932,
+        "medio": 28.448275862068968,
+        "dificil": 34.48275862068966,
+        "muy_dificil": 0.0
+      },
+      "categorias": [
+        {
+          "categoria": "DIFICIL",
+          "asins_unicos": 18,
+          "units_totales": 40,
+          "esfuerzo_total": 56.940000000000005,
+          "factor_promedio": 1.3
+        },
+        {
+          "categoria": "FACIL",
+          "asins_unicos": 13,
+          "units_totales": 37,
+          "esfuerzo_total": 26.74,
+          "factor_promedio": 0.7
+        },
+        {
+          "categoria": "MEDIO",
+          "asins_unicos": 18,
+          "units_totales": 33,
+          "esfuerzo_total": 33.4,
+          "factor_promedio": 1.0
+        },
+        {
+          "categoria": "MUY_FACIL",
+          "asins_unicos": 2,
+          "units_totales": 6,
+          "esfuerzo_total": 3.0,
+          "factor_promedio": 0.5
+        }
+      ],
+      "top_asins": [
+        {
+          "FCSKU/ASIN": "B0BC8GTZ95",
+          "Qty": 12,
+          "esfuerzo": 8.399999999999999,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0DHLBGG9V",
+          "Qty": 8,
+          "esfuerzo": 8.0,
+          "asin_factor": 1.0,
+          "categoria": "MEDIO"
+        },
+        {
+          "FCSKU/ASIN": "B09WYD37RC",
+          "Qty": 6,
+          "esfuerzo": 8.84,
+          "asin_factor": 1.3,
+          "categoria": "DIFICIL"
+        },
+        {
+          "FCSKU/ASIN": "B0BN451PSJ",
+          "Qty": 6,
+          "esfuerzo": 6.0,
+          "asin_factor": 1.0,
+          "categoria": "MEDIO"
+        },
+        {
+          "FCSKU/ASIN": "B0D3M64VNM",
+          "Qty": 6,
+          "esfuerzo": 4.199999999999999,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        }
+      ],
+      "top_asins_por_categoria": {
+        "DIFICIL": [
+          {
+            "FCSKU/ASIN": "B09WYD37RC",
+            "Qty": 6,
+            "esfuerzo": 8.84,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B01NBBW57V",
+            "Qty": 5,
+            "esfuerzo": 7.800000000000001,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B00MOIE1E2",
+            "Qty": 3,
+            "esfuerzo": 3.9000000000000004,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0D45THTBY",
+            "Qty": 3,
+            "esfuerzo": 3.9000000000000004,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0CPDZ2SDX",
+            "Qty": 3,
+            "esfuerzo": 3.9000000000000004,
+            "asin_factor": 1.3
+          }
+        ],
+        "FACIL": [
+          {
+            "FCSKU/ASIN": "B0BC8GTZ95",
+            "Qty": 12,
+            "esfuerzo": 8.399999999999999,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0D3M64VNM",
+            "Qty": 6,
+            "esfuerzo": 4.199999999999999,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B08XLZ15Q5",
+            "Qty": 3,
+            "esfuerzo": 2.0999999999999996,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0D295XKJ1",
+            "Qty": 3,
+            "esfuerzo": 2.0999999999999996,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0D9BBTBCF",
+            "Qty": 3,
+            "esfuerzo": 2.0999999999999996,
+            "asin_factor": 0.7
+          }
+        ],
+        "MEDIO": [
+          {
+            "FCSKU/ASIN": "B0DHLBGG9V",
+            "Qty": 8,
+            "esfuerzo": 8.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0BN451PSJ",
+            "Qty": 6,
+            "esfuerzo": 6.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B00J3IH6MU",
+            "Qty": 3,
+            "esfuerzo": 3.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0D6Y4C1Z1",
+            "Qty": 2,
+            "esfuerzo": 2.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B00INSF40W",
+            "Qty": 1,
+            "esfuerzo": 1.0,
+            "asin_factor": 1.0
+          }
+        ],
+        "MUY_FACIL": [
+          {
+            "FCSKU/ASIN": "B015WYU5VW",
+            "Qty": 5,
+            "esfuerzo": 2.5,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B00JRD0L32",
+            "Qty": 1,
+            "esfuerzo": 0.5,
+            "asin_factor": 0.5
+          }
+        ]
+      }
+    },
+    "205115774": {
+      "login": "yoksansa",
+      "employee_id": "205115774",
+      "hours": 3.89,
+      "uph_original": 53.21,
+      "rate_ajustado": 48.7487,
+      "factor_ajuste": 0.92,
+      "esfuerzo_total": 211.68,
+      "units_totales": 207,
+      "asins_unicos": 70,
+      "bins_unicos": 153,
+      "total_distance": 2231.5000000000005,
+      "max_distance_bin_to_bin": 103.5,
+      "distancia_promedio_entre_bins": 10.33,
+      "promedio_units_por_bin": 1.35,
+      "cart_changes": 19,
+      "bin_changes": 156,
+      "errores": 7,
+      "factor_penalizacion_categoria": 0.9099999999999999,
+      "porcentajes_categorias": {
+        "muy_facil": 22.705314009661837,
+        "facil": 18.357487922705314,
+        "medio": 21.256038647342994,
+        "dificil": 37.68115942028986,
+        "muy_dificil": 0.0
+      },
+      "categorias": [
+        {
+          "categoria": "DIFICIL",
+          "asins_unicos": 26,
+          "units_totales": 78,
+          "esfuerzo_total": 114.14,
+          "factor_promedio": 1.3
+        },
+        {
+          "categoria": "FACIL",
+          "asins_unicos": 13,
+          "units_totales": 38,
+          "esfuerzo_total": 26.389999999999997,
+          "factor_promedio": 0.7
+        },
+        {
+          "categoria": "MEDIO",
+          "asins_unicos": 20,
+          "units_totales": 44,
+          "esfuerzo_total": 46.0,
+          "factor_promedio": 1.0
+        },
+        {
+          "categoria": "MUY_FACIL",
+          "asins_unicos": 11,
+          "units_totales": 47,
+          "esfuerzo_total": 25.15,
+          "factor_promedio": 0.5
+        }
+      ],
+      "top_asins": [
+        {
+          "FCSKU/ASIN": "B0DSQNSJYJ",
+          "Qty": 19,
+          "esfuerzo": 13.299999999999999,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0D45THTBY",
+          "Qty": 12,
+          "esfuerzo": 15.600000000000001,
+          "asin_factor": 1.3,
+          "categoria": "DIFICIL"
+        },
+        {
+          "FCSKU/ASIN": "B0C88MN138",
+          "Qty": 10,
+          "esfuerzo": 6.0,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0F999YWXZ",
+          "Qty": 9,
+          "esfuerzo": 14.040000000000001,
+          "asin_factor": 1.3,
+          "categoria": "DIFICIL"
+        },
+        {
+          "FCSKU/ASIN": "B0D6Y4C1Z1",
+          "Qty": 8,
+          "esfuerzo": 8.0,
+          "asin_factor": 1.0,
+          "categoria": "MEDIO"
+        }
+      ],
+      "top_asins_por_categoria": {
+        "DIFICIL": [
+          {
+            "FCSKU/ASIN": "B0D45THTBY",
+            "Qty": 12,
+            "esfuerzo": 15.600000000000001,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0F999YWXZ",
+            "Qty": 9,
+            "esfuerzo": 14.040000000000001,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0D7C6891Z",
+            "Qty": 6,
+            "esfuerzo": 9.36,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0CBTV43H3",
+            "Qty": 6,
+            "esfuerzo": 9.36,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B09WYJ3JM7",
+            "Qty": 6,
+            "esfuerzo": 9.36,
+            "asin_factor": 1.3
+          }
+        ],
+        "MEDIO": [
+          {
+            "FCSKU/ASIN": "B0D6Y4C1Z1",
+            "Qty": 8,
+            "esfuerzo": 8.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0BQ2MHMW8",
+            "Qty": 7,
+            "esfuerzo": 7.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0BFHX51FP",
+            "Qty": 3,
+            "esfuerzo": 3.5999999999999996,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0D58MQQ7S",
+            "Qty": 3,
+            "esfuerzo": 3.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0CDPJX9NT",
+            "Qty": 2,
+            "esfuerzo": 2.0,
+            "asin_factor": 1.0
+          }
+        ],
+        "MUY_FACIL": [
+          {
+            "FCSKU/ASIN": "B0C88MN138",
+            "Qty": 10,
+            "esfuerzo": 6.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0CYTCKYZ3",
+            "Qty": 8,
+            "esfuerzo": 4.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0F6W9FRKS",
+            "Qty": 8,
+            "esfuerzo": 4.8,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B07X7S1B3K",
+            "Qty": 6,
+            "esfuerzo": 3.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0F7M28T7L",
+            "Qty": 6,
+            "esfuerzo": 3.5999999999999996,
+            "asin_factor": 0.5
+          }
+        ],
+        "FACIL": [
+          {
+            "FCSKU/ASIN": "B0DSQNSJYJ",
+            "Qty": 19,
+            "esfuerzo": 13.299999999999999,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B009W0L6KM",
+            "Qty": 4,
+            "esfuerzo": 2.8,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0C3QNM1V7",
+            "Qty": 3,
+            "esfuerzo": 2.0999999999999996,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B08NPLKCTQ",
+            "Qty": 2,
+            "esfuerzo": 1.68,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B07X114WGF",
+            "Qty": 2,
+            "esfuerzo": 1.4,
+            "asin_factor": 0.7
+          }
+        ]
+      }
+    },
+    "205682504": {
+      "login": "wmirmart",
+      "employee_id": "205682504",
+      "hours": 3.82,
+      "uph_original": 46.86,
+      "rate_ajustado": 57.72,
+      "factor_ajuste": 1.23,
+      "esfuerzo_total": 177.55,
+      "units_totales": 179,
+      "asins_unicos": 65,
+      "bins_unicos": 122,
+      "total_distance": 1698.6999999999994,
+      "max_distance_bin_to_bin": 71.1,
+      "distancia_promedio_entre_bins": 7.49,
+      "promedio_units_por_bin": 1.47,
+      "cart_changes": 17,
+      "bin_changes": 124,
+      "errores": 2,
+      "factor_penalizacion_categoria": 1.3,
+      "porcentajes_categorias": {
+        "muy_facil": 14.52513966480447,
+        "facil": 26.81564245810056,
+        "medio": 26.81564245810056,
+        "dificil": 31.28491620111732,
+        "muy_dificil": 0.5586592178770949
+      },
+      "categorias": [
+        {
+          "categoria": "DIFICIL",
+          "asins_unicos": 21,
+          "units_totales": 56,
+          "esfuerzo_total": 81.9,
+          "factor_promedio": 1.3
+        },
+        {
+          "categoria": "FACIL",
+          "asins_unicos": 13,
+          "units_totales": 48,
+          "esfuerzo_total": 33.25,
+          "factor_promedio": 0.6999999999999998
+        },
+        {
+          "categoria": "MEDIO",
+          "asins_unicos": 28,
+          "units_totales": 48,
+          "esfuerzo_total": 47.9,
+          "factor_promedio": 1.0
+        },
+        {
+          "categoria": "MUY_DIFICIL",
+          "asins_unicos": 1,
+          "units_totales": 1,
+          "esfuerzo_total": 1.6500000000000001,
+          "factor_promedio": 1.5
+        },
+        {
+          "categoria": "MUY_FACIL",
+          "asins_unicos": 2,
+          "units_totales": 26,
+          "esfuerzo_total": 12.85,
+          "factor_promedio": 0.5
+        }
+      ],
+      "top_asins": [
+        {
+          "FCSKU/ASIN": "B0DZXFR9QN",
+          "Qty": 25,
+          "esfuerzo": 12.5,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0CS392D3F",
+          "Qty": 16,
+          "esfuerzo": 11.2,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B07VGQZWSR",
+          "Qty": 8,
+          "esfuerzo": 12.22,
+          "asin_factor": 1.3,
+          "categoria": "DIFICIL"
+        },
+        {
+          "FCSKU/ASIN": "B0F999YWXZ",
+          "Qty": 7,
+          "esfuerzo": 10.92,
+          "asin_factor": 1.3,
+          "categoria": "DIFICIL"
+        },
+        {
+          "FCSKU/ASIN": "B09WYD37RC",
+          "Qty": 7,
+          "esfuerzo": 10.92,
+          "asin_factor": 1.3,
+          "categoria": "DIFICIL"
+        }
+      ],
+      "top_asins_por_categoria": {
+        "FACIL": [
+          {
+            "FCSKU/ASIN": "B0CS392D3F",
+            "Qty": 16,
+            "esfuerzo": 11.2,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0DKP2RGT2",
+            "Qty": 6,
+            "esfuerzo": 4.199999999999999,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0D9QV5M36",
+            "Qty": 5,
+            "esfuerzo": 3.5,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0DCBHN7CY",
+            "Qty": 5,
+            "esfuerzo": 3.5,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B08Q3QCKKZ",
+            "Qty": 4,
+            "esfuerzo": 2.8,
+            "asin_factor": 0.7
+          }
+        ],
+        "MEDIO": [
+          {
+            "FCSKU/ASIN": "B07HHK929N",
+            "Qty": 4,
+            "esfuerzo": 4.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0CDTSW43Y",
+            "Qty": 4,
+            "esfuerzo": 4.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B08BYHP2DB",
+            "Qty": 3,
+            "esfuerzo": 3.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B01J52UA3K",
+            "Qty": 3,
+            "esfuerzo": 3.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B09Z2XB44P",
+            "Qty": 3,
+            "esfuerzo": 3.0,
+            "asin_factor": 1.0
+          }
+        ],
+        "DIFICIL": [
+          {
+            "FCSKU/ASIN": "B07VGQZWSR",
+            "Qty": 8,
+            "esfuerzo": 12.22,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B09WYD37RC",
+            "Qty": 7,
+            "esfuerzo": 10.92,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0F999YWXZ",
+            "Qty": 7,
+            "esfuerzo": 10.92,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B09WYJ8L1F",
+            "Qty": 6,
+            "esfuerzo": 9.1,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0FFMHXQ4F",
+            "Qty": 5,
+            "esfuerzo": 7.800000000000001,
+            "asin_factor": 1.3
+          }
+        ],
+        "MUY_FACIL": [
+          {
+            "FCSKU/ASIN": "B0DZXFR9QN",
+            "Qty": 25,
+            "esfuerzo": 12.5,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0DXL8PHMW",
+            "Qty": 1,
+            "esfuerzo": 0.35,
+            "asin_factor": 0.5
+          }
+        ],
+        "MUY_DIFICIL": [
+          {
+            "FCSKU/ASIN": "B01M9K42SS",
+            "Qty": 1,
+            "esfuerzo": 1.6500000000000001,
+            "asin_factor": 1.5
+          }
+        ]
+      }
+    },
+    "205115786": {
+      "login": "lsilvinq",
+      "employee_id": "205115786",
+      "hours": 2.2,
+      "uph_original": 42.27,
+      "rate_ajustado": 44.196,
+      "factor_ajuste": 1.05,
+      "esfuerzo_total": 93.03,
+      "units_totales": 93,
+      "asins_unicos": 47,
+      "bins_unicos": 78,
+      "total_distance": 1699.2,
+      "max_distance_bin_to_bin": 111.0,
+      "distancia_promedio_entre_bins": 10.04,
+      "promedio_units_por_bin": 1.19,
+      "cart_changes": 9,
+      "bin_changes": 78,
+      "errores": 3,
+      "factor_penalizacion_categoria": 1.2,
+      "porcentajes_categorias": {
+        "muy_facil": 13.978494623655912,
+        "facil": 12.903225806451612,
+        "medio": 51.61290322580645,
+        "dificil": 21.50537634408602,
+        "muy_dificil": 0.0
+      },
+      "categorias": [
+        {
+          "categoria": "DIFICIL",
+          "asins_unicos": 10,
+          "units_totales": 20,
+          "esfuerzo_total": 29.64,
+          "factor_promedio": 1.3
+        },
+        {
+          "categoria": "FACIL",
+          "asins_unicos": 5,
+          "units_totales": 12,
+          "esfuerzo_total": 8.54,
+          "factor_promedio": 0.6999999999999998
+        },
+        {
+          "categoria": "MEDIO",
+          "asins_unicos": 24,
+          "units_totales": 48,
+          "esfuerzo_total": 48.8,
+          "factor_promedio": 1.0
+        },
+        {
+          "categoria": "MUY_FACIL",
+          "asins_unicos": 8,
+          "units_totales": 13,
+          "esfuerzo_total": 6.05,
+          "factor_promedio": 0.5
+        }
+      ],
+      "top_asins": [
+        {
+          "FCSKU/ASIN": "B07YFZKPZX",
+          "Qty": 8,
+          "esfuerzo": 5.6,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B09WYD37RC",
+          "Qty": 7,
+          "esfuerzo": 10.92,
+          "asin_factor": 1.3,
+          "categoria": "DIFICIL"
+        },
+        {
+          "FCSKU/ASIN": "B095TX7S32",
+          "Qty": 7,
+          "esfuerzo": 7.0,
+          "asin_factor": 1.0,
+          "categoria": "MEDIO"
+        },
+        {
+          "FCSKU/ASIN": "B07L148NL7",
+          "Qty": 5,
+          "esfuerzo": 5.0,
+          "asin_factor": 1.0,
+          "categoria": "MEDIO"
+        },
+        {
+          "FCSKU/ASIN": "B09JW4RHB1",
+          "Qty": 5,
+          "esfuerzo": 5.0,
+          "asin_factor": 1.0,
+          "categoria": "MEDIO"
+        }
+      ],
+      "top_asins_por_categoria": {
+        "MEDIO": [
+          {
+            "FCSKU/ASIN": "B095TX7S32",
+            "Qty": 7,
+            "esfuerzo": 7.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B07L148NL7",
+            "Qty": 5,
+            "esfuerzo": 5.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B09JW4RHB1",
+            "Qty": 5,
+            "esfuerzo": 5.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0BFB3Q7SD",
+            "Qty": 4,
+            "esfuerzo": 4.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0F5HRV2TN",
+            "Qty": 4,
+            "esfuerzo": 4.0,
+            "asin_factor": 1.0
+          }
+        ],
+        "DIFICIL": [
+          {
+            "FCSKU/ASIN": "B09WYD37RC",
+            "Qty": 7,
+            "esfuerzo": 10.92,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0D3FF5QL2",
+            "Qty": 4,
+            "esfuerzo": 6.24,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0CWGLW85M",
+            "Qty": 2,
+            "esfuerzo": 2.6,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B07KQNSBXF",
+            "Qty": 1,
+            "esfuerzo": 1.3,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B07NKX7WV3",
+            "Qty": 1,
+            "esfuerzo": 1.56,
+            "asin_factor": 1.3
+          }
+        ],
+        "FACIL": [
+          {
+            "FCSKU/ASIN": "B07YFZKPZX",
+            "Qty": 8,
+            "esfuerzo": 5.6,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B07FNGTMGJ",
+            "Qty": 1,
+            "esfuerzo": 0.84,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B07ZTRCWVM",
+            "Qty": 1,
+            "esfuerzo": 0.7,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0CTD18C1N",
+            "Qty": 1,
+            "esfuerzo": 0.7,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0DSQNSJYJ",
+            "Qty": 1,
+            "esfuerzo": 0.7,
+            "asin_factor": 0.7
+          }
+        ],
+        "MUY_FACIL": [
+          {
+            "FCSKU/ASIN": "B0FQWQBQYK",
+            "Qty": 3,
+            "esfuerzo": 1.0499999999999998,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B07BK3644V",
+            "Qty": 2,
+            "esfuerzo": 1.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0FKS52BB3",
+            "Qty": 2,
+            "esfuerzo": 1.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B07WZLWWMB",
+            "Qty": 2,
+            "esfuerzo": 1.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B07GRVKP65",
+            "Qty": 1,
+            "esfuerzo": 0.5,
+            "asin_factor": 0.5
+          }
+        ]
+      }
+    },
+    "204432207": {
+      "login": "qltorcat",
+      "employee_id": "204432207",
+      "hours": 1.85,
+      "uph_original": 72.43,
+      "rate_ajustado": 51.6012,
+      "factor_ajuste": 0.71,
+      "esfuerzo_total": 130.85,
+      "units_totales": 134,
+      "asins_unicos": 50,
+      "bins_unicos": 84,
+      "total_distance": 1153.3000000000004,
+      "max_distance_bin_to_bin": 138.29999999999998,
+      "distancia_promedio_entre_bins": 10.14,
+      "promedio_units_por_bin": 1.6,
+      "cart_changes": 11,
+      "bin_changes": 85,
+      "errores": 2,
+      "factor_penalizacion_categoria": 0.84,
+      "porcentajes_categorias": {
+        "muy_facil": 23.134328358208954,
+        "facil": 23.88059701492537,
+        "medio": 25.37313432835821,
+        "dificil": 27.611940298507463,
+        "muy_dificil": 0.0
+      },
+      "categorias": [
+        {
+          "categoria": "DIFICIL",
+          "asins_unicos": 15,
+          "units_totales": 37,
+          "esfuerzo_total": 56.03,
+          "factor_promedio": 1.3
+        },
+        {
+          "categoria": "FACIL",
+          "asins_unicos": 11,
+          "units_totales": 32,
+          "esfuerzo_total": 22.119999999999997,
+          "factor_promedio": 0.7
+        },
+        {
+          "categoria": "MEDIO",
+          "asins_unicos": 19,
+          "units_totales": 34,
+          "esfuerzo_total": 37.2,
+          "factor_promedio": 1.0
+        },
+        {
+          "categoria": "MUY_FACIL",
+          "asins_unicos": 5,
+          "units_totales": 31,
+          "esfuerzo_total": 15.5,
+          "factor_promedio": 0.5
+        }
+      ],
+      "top_asins": [
+        {
+          "FCSKU/ASIN": "B00F2NGS4C",
+          "Qty": 12,
+          "esfuerzo": 6.0,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B087V7YJ1J",
+          "Qty": 12,
+          "esfuerzo": 6.0,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B09CG11ZW1",
+          "Qty": 11,
+          "esfuerzo": 17.16,
+          "asin_factor": 1.3,
+          "categoria": "DIFICIL"
+        },
+        {
+          "FCSKU/ASIN": "B087TX2ZMF",
+          "Qty": 8,
+          "esfuerzo": 5.6,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B014Q1P1QG",
+          "Qty": 6,
+          "esfuerzo": 6.0,
+          "asin_factor": 1.0,
+          "categoria": "MEDIO"
+        }
+      ],
+      "top_asins_por_categoria": {
+        "MEDIO": [
+          {
+            "FCSKU/ASIN": "B014Q1P1QG",
+            "Qty": 6,
+            "esfuerzo": 6.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0BFJ14Z2Q",
+            "Qty": 4,
+            "esfuerzo": 4.8,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B01J52UA3K",
+            "Qty": 3,
+            "esfuerzo": 3.5999999999999996,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B09MS9HS6Q",
+            "Qty": 3,
+            "esfuerzo": 3.5999999999999996,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B07GZMN2XV",
+            "Qty": 3,
+            "esfuerzo": 3.5999999999999996,
+            "asin_factor": 1.0
+          }
+        ],
+        "DIFICIL": [
+          {
+            "FCSKU/ASIN": "B09CG11ZW1",
+            "Qty": 11,
+            "esfuerzo": 17.16,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B09WYD37RC",
+            "Qty": 4,
+            "esfuerzo": 6.24,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B09WYHSY9C",
+            "Qty": 4,
+            "esfuerzo": 5.8500000000000005,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0F999YWXZ",
+            "Qty": 3,
+            "esfuerzo": 4.68,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B07NKX7WV3",
+            "Qty": 3,
+            "esfuerzo": 4.68,
+            "asin_factor": 1.3
+          }
+        ],
+        "FACIL": [
+          {
+            "FCSKU/ASIN": "B087TX2ZMF",
+            "Qty": 8,
+            "esfuerzo": 5.6,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0DSQNSJYJ",
+            "Qty": 6,
+            "esfuerzo": 4.199999999999999,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B00RZB0CUK",
+            "Qty": 4,
+            "esfuerzo": 3.36,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0CYT7JPTL",
+            "Qty": 4,
+            "esfuerzo": 1.9599999999999997,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B002GCMNIC",
+            "Qty": 2,
+            "esfuerzo": 1.4,
+            "asin_factor": 0.7
+          }
+        ],
+        "MUY_FACIL": [
+          {
+            "FCSKU/ASIN": "B00F2NGS4C",
+            "Qty": 12,
+            "esfuerzo": 6.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B087V7YJ1J",
+            "Qty": 12,
+            "esfuerzo": 6.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B08WQ27XPJ",
+            "Qty": 4,
+            "esfuerzo": 2.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B017DMTEIG",
+            "Qty": 2,
+            "esfuerzo": 1.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B00FUCDL18",
+            "Qty": 1,
+            "esfuerzo": 0.5,
+            "asin_factor": 0.5
+          }
+        ]
+      }
+    },
+    "202235820": {
+      "login": "nuralber",
+      "employee_id": "202235820",
+      "hours": 1.96,
+      "uph_original": 44.39,
+      "rate_ajustado": 23.616,
+      "factor_ajuste": 0.53,
+      "esfuerzo_total": 76.61,
+      "units_totales": 87,
+      "asins_unicos": 38,
+      "bins_unicos": 55,
+      "total_distance": 831.4999999999999,
+      "max_distance_bin_to_bin": 71.39999999999999,
+      "distancia_promedio_entre_bins": 9.6,
+      "promedio_units_por_bin": 1.58,
+      "cart_changes": 8,
+      "bin_changes": 59,
+      "errores": 0,
+      "factor_penalizacion_categoria": 0.6,
+      "porcentajes_categorias": {
+        "muy_facil": 34.48275862068966,
+        "facil": 12.643678160919542,
+        "medio": 25.287356321839084,
+        "dificil": 27.586206896551722,
+        "muy_dificil": 0.0
+      },
+      "categorias": [
+        {
+          "categoria": "DIFICIL",
+          "asins_unicos": 12,
+          "units_totales": 24,
+          "esfuerzo_total": 35.36,
+          "factor_promedio": 1.3
+        },
+        {
+          "categoria": "FACIL",
+          "asins_unicos": 5,
+          "units_totales": 11,
+          "esfuerzo_total": 7.699999999999999,
+          "factor_promedio": 0.7
+        },
+        {
+          "categoria": "MEDIO",
+          "asins_unicos": 15,
+          "units_totales": 22,
+          "esfuerzo_total": 21.7,
+          "factor_promedio": 1.0
+        },
+        {
+          "categoria": "MUY_FACIL",
+          "asins_unicos": 6,
+          "units_totales": 30,
+          "esfuerzo_total": 11.85,
+          "factor_promedio": 0.5
+        }
+      ],
+      "top_asins": [
+        {
+          "FCSKU/ASIN": "B097BHG5N3",
+          "Qty": 20,
+          "esfuerzo": 7.0,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B000NRL05Y",
+          "Qty": 6,
+          "esfuerzo": 3.0,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0D7L9T5FY",
+          "Qty": 4,
+          "esfuerzo": 5.2,
+          "asin_factor": 1.3,
+          "categoria": "DIFICIL"
+        },
+        {
+          "FCSKU/ASIN": "B0FMKB8DRZ",
+          "Qty": 4,
+          "esfuerzo": 2.8,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B09WYD37RC",
+          "Qty": 4,
+          "esfuerzo": 6.24,
+          "asin_factor": 1.3,
+          "categoria": "DIFICIL"
+        }
+      ],
+      "top_asins_por_categoria": {
+        "DIFICIL": [
+          {
+            "FCSKU/ASIN": "B0D7L9T5FY",
+            "Qty": 4,
+            "esfuerzo": 5.2,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B09WYD37RC",
+            "Qty": 4,
+            "esfuerzo": 6.24,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0FQ5JWDND",
+            "Qty": 3,
+            "esfuerzo": 4.68,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B07VGQZWSR",
+            "Qty": 2,
+            "esfuerzo": 3.12,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0DZH9Y5R6",
+            "Qty": 2,
+            "esfuerzo": 2.8600000000000003,
+            "asin_factor": 1.3
+          }
+        ],
+        "MEDIO": [
+          {
+            "FCSKU/ASIN": "B0CBS6XVG6",
+            "Qty": 3,
+            "esfuerzo": 3.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0BWNP135S",
+            "Qty": 2,
+            "esfuerzo": 2.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0BGCG4NJM",
+            "Qty": 2,
+            "esfuerzo": 2.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0D7L6R4LB",
+            "Qty": 2,
+            "esfuerzo": 2.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0DP5K2F5M",
+            "Qty": 2,
+            "esfuerzo": 2.0,
+            "asin_factor": 1.0
+          }
+        ],
+        "FACIL": [
+          {
+            "FCSKU/ASIN": "B0FMKB8DRZ",
+            "Qty": 4,
+            "esfuerzo": 2.8,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0D8VZTZGP",
+            "Qty": 3,
+            "esfuerzo": 2.0999999999999996,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0D9BBTBCF",
+            "Qty": 2,
+            "esfuerzo": 1.4,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0DCDL76VB",
+            "Qty": 1,
+            "esfuerzo": 0.7,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0FQ5J6BBW",
+            "Qty": 1,
+            "esfuerzo": 0.7,
+            "asin_factor": 0.7
+          }
+        ],
+        "MUY_FACIL": [
+          {
+            "FCSKU/ASIN": "B097BHG5N3",
+            "Qty": 20,
+            "esfuerzo": 7.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B000NRL05Y",
+            "Qty": 6,
+            "esfuerzo": 3.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B07X5M2G6P",
+            "Qty": 1,
+            "esfuerzo": 0.5,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B081Q8N18X",
+            "Qty": 1,
+            "esfuerzo": 0.5,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0B5V6KVNX",
+            "Qty": 1,
+            "esfuerzo": 0.35,
+            "asin_factor": 0.5
+          }
+        ]
+      }
+    },
+    "112793779": {
+      "login": "uantonsa",
+      "employee_id": "112793779",
+      "hours": 5.56,
+      "uph_original": 74.46,
+      "rate_ajustado": 45.573,
+      "factor_ajuste": 0.61,
+      "esfuerzo_total": 355.21999999999997,
+      "units_totales": 414,
+      "asins_unicos": 98,
+      "bins_unicos": 239,
+      "total_distance": 3926.2999999999997,
+      "max_distance_bin_to_bin": 184.49999999999997,
+      "distancia_promedio_entre_bins": 10.57,
+      "promedio_units_por_bin": 1.73,
+      "cart_changes": 28,
+      "bin_changes": 242,
+      "errores": 6,
+      "factor_penalizacion_categoria": 0.55,
+      "porcentajes_categorias": {
+        "muy_facil": 30.193236714975846,
+        "facil": 26.811594202898554,
+        "medio": 24.879227053140095,
+        "dificil": 17.874396135265698,
+        "muy_dificil": 0.24154589371980675
+      },
+      "categorias": [
+        {
+          "categoria": "DIFICIL",
+          "asins_unicos": 29,
+          "units_totales": 74,
+          "esfuerzo_total": 106.08,
+          "factor_promedio": 1.3
+        },
+        {
+          "categoria": "FACIL",
+          "asins_unicos": 26,
+          "units_totales": 111,
+          "esfuerzo_total": 80.28999999999999,
+          "factor_promedio": 0.6999999999999998
+        },
+        {
+          "categoria": "MEDIO",
+          "asins_unicos": 25,
+          "units_totales": 103,
+          "esfuerzo_total": 104.0,
+          "factor_promedio": 1.0
+        },
+        {
+          "categoria": "MUY_DIFICIL",
+          "asins_unicos": 1,
+          "units_totales": 1,
+          "esfuerzo_total": 1.7999999999999998,
+          "factor_promedio": 1.5
+        },
+        {
+          "categoria": "MUY_FACIL",
+          "asins_unicos": 17,
+          "units_totales": 125,
+          "esfuerzo_total": 63.05,
+          "factor_promedio": 0.5
+        }
+      ],
+      "top_asins": [
+        {
+          "FCSKU/ASIN": "B07PLZDT5Z",
+          "Qty": 62,
+          "esfuerzo": 62.0,
+          "asin_factor": 1.0,
+          "categoria": "MEDIO"
+        },
+        {
+          "FCSKU/ASIN": "B000JLY22W",
+          "Qty": 52,
+          "esfuerzo": 26.0,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0DSQNSJYJ",
+          "Qty": 27,
+          "esfuerzo": 18.9,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0CWH1W3XF",
+          "Qty": 16,
+          "esfuerzo": 8.0,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0843D6L35",
+          "Qty": 11,
+          "esfuerzo": 11.0,
+          "asin_factor": 1.0,
+          "categoria": "MEDIO"
+        }
+      ],
+      "top_asins_por_categoria": {
+        "MEDIO": [
+          {
+            "FCSKU/ASIN": "B07PLZDT5Z",
+            "Qty": 62,
+            "esfuerzo": 62.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0843D6L35",
+            "Qty": 11,
+            "esfuerzo": 11.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0C8F62KNJ",
+            "Qty": 4,
+            "esfuerzo": 4.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B07XTJLGHC",
+            "Qty": 2,
+            "esfuerzo": 2.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B09MS9HS6Q",
+            "Qty": 2,
+            "esfuerzo": 2.2,
+            "asin_factor": 1.0
+          }
+        ],
+        "FACIL": [
+          {
+            "FCSKU/ASIN": "B0DSQNSJYJ",
+            "Qty": 27,
+            "esfuerzo": 18.9,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0D6353K65",
+            "Qty": 10,
+            "esfuerzo": 7.0,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0D9BBTBCF",
+            "Qty": 10,
+            "esfuerzo": 7.0,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0DSHY8TBF",
+            "Qty": 9,
+            "esfuerzo": 7.56,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0CZFWMSJQ",
+            "Qty": 8,
+            "esfuerzo": 6.72,
+            "asin_factor": 0.7
+          }
+        ],
+        "MUY_FACIL": [
+          {
+            "FCSKU/ASIN": "B000JLY22W",
+            "Qty": 52,
+            "esfuerzo": 26.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0CWH1W3XF",
+            "Qty": 16,
+            "esfuerzo": 8.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0C7W1MN76",
+            "Qty": 9,
+            "esfuerzo": 4.5,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B01N8ZRM9B",
+            "Qty": 8,
+            "esfuerzo": 4.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B07NXVPW4C",
+            "Qty": 8,
+            "esfuerzo": 4.0,
+            "asin_factor": 0.5
+          }
+        ],
+        "DIFICIL": [
+          {
+            "FCSKU/ASIN": "B0DLKSFXBL",
+            "Qty": 9,
+            "esfuerzo": 14.040000000000001,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B082J2KF3H",
+            "Qty": 6,
+            "esfuerzo": 9.36,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B07NKX7WV3",
+            "Qty": 5,
+            "esfuerzo": 7.800000000000001,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0711F4437",
+            "Qty": 5,
+            "esfuerzo": 7.28,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B07ZNRHW3H",
+            "Qty": 5,
+            "esfuerzo": 7.800000000000001,
+            "asin_factor": 1.3
+          }
+        ],
+        "MUY_DIFICIL": [
+          {
+            "FCSKU/ASIN": "B085FYJTV4",
+            "Qty": 1,
+            "esfuerzo": 1.7999999999999998,
+            "asin_factor": 1.5
+          }
+        ]
+      }
+    },
+    "200771858": {
+      "login": "rosafead",
+      "employee_id": "200771858",
+      "hours": 5.78,
+      "uph_original": 46.89,
+      "rate_ajustado": 46.5168,
+      "factor_ajuste": 0.99,
+      "esfuerzo_total": 252.79,
+      "units_totales": 281,
+      "asins_unicos": 83,
+      "bins_unicos": 167,
+      "total_distance": 3796.1999999999994,
+      "max_distance_bin_to_bin": 167.7,
+      "distancia_promedio_entre_bins": 15.92,
+      "promedio_units_por_bin": 1.68,
+      "cart_changes": 20,
+      "bin_changes": 173,
+      "errores": 11,
+      "factor_penalizacion_categoria": 0.8800000000000001,
+      "porcentajes_categorias": {
+        "muy_facil": 14.23487544483986,
+        "facil": 45.90747330960854,
+        "medio": 23.487544483985765,
+        "dificil": 16.014234875444842,
+        "muy_dificil": 0.3558718861209964
+      },
+      "categorias": [
+        {
+          "categoria": "DIFICIL",
+          "asins_unicos": 27,
+          "units_totales": 45,
+          "esfuerzo_total": 64.87,
+          "factor_promedio": 1.3
+        },
+        {
+          "categoria": "FACIL",
+          "asins_unicos": 30,
+          "units_totales": 129,
+          "esfuerzo_total": 92.47,
+          "factor_promedio": 0.7
+        },
+        {
+          "categoria": "MEDIO",
+          "asins_unicos": 18,
+          "units_totales": 66,
+          "esfuerzo_total": 72.4,
+          "factor_promedio": 1.0
+        },
+        {
+          "categoria": "MUY_DIFICIL",
+          "asins_unicos": 1,
+          "units_totales": 1,
+          "esfuerzo_total": 1.5,
+          "factor_promedio": 1.5
+        },
+        {
+          "categoria": "MUY_FACIL",
+          "asins_unicos": 7,
+          "units_totales": 40,
+          "esfuerzo_total": 21.55,
+          "factor_promedio": 0.5
+        }
+      ],
+      "top_asins": [
+        {
+          "FCSKU/ASIN": "B00DYX7TI6",
+          "Qty": 24,
+          "esfuerzo": 28.799999999999997,
+          "asin_factor": 1.0,
+          "categoria": "MEDIO"
+        },
+        {
+          "FCSKU/ASIN": "B095VK9JS7",
+          "Qty": 16,
+          "esfuerzo": 11.2,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0CKF6YRQ8",
+          "Qty": 12,
+          "esfuerzo": 6.0,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0DSQNSJYJ",
+          "Qty": 12,
+          "esfuerzo": 8.399999999999999,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B08GRGYZQ3",
+          "Qty": 10,
+          "esfuerzo": 5.0,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        }
+      ],
+      "top_asins_por_categoria": {
+        "FACIL": [
+          {
+            "FCSKU/ASIN": "B095VK9JS7",
+            "Qty": 16,
+            "esfuerzo": 11.2,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0DSQNSJYJ",
+            "Qty": 12,
+            "esfuerzo": 8.399999999999999,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0BN3PLV93",
+            "Qty": 10,
+            "esfuerzo": 7.0,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0BNJQRKXM",
+            "Qty": 10,
+            "esfuerzo": 7.0,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0DQSC6DHR",
+            "Qty": 10,
+            "esfuerzo": 7.0,
+            "asin_factor": 0.7
+          }
+        ],
+        "MEDIO": [
+          {
+            "FCSKU/ASIN": "B00DYX7TI6",
+            "Qty": 24,
+            "esfuerzo": 28.799999999999997,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B07PLZDT5Z",
+            "Qty": 10,
+            "esfuerzo": 10.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0DQSRYLGN",
+            "Qty": 9,
+            "esfuerzo": 9.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0DXTZNWFF",
+            "Qty": 3,
+            "esfuerzo": 3.4,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0BZYLPCSV",
+            "Qty": 3,
+            "esfuerzo": 3.0,
+            "asin_factor": 1.0
+          }
+        ],
+        "DIFICIL": [
+          {
+            "FCSKU/ASIN": "B0711F4437",
+            "Qty": 5,
+            "esfuerzo": 7.41,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0F8QSLQLK",
+            "Qty": 5,
+            "esfuerzo": 6.5,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0CM5H6FSW",
+            "Qty": 5,
+            "esfuerzo": 7.800000000000001,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B07ZNRHW3H",
+            "Qty": 2,
+            "esfuerzo": 3.12,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0D7L9T5FY",
+            "Qty": 2,
+            "esfuerzo": 2.6,
+            "asin_factor": 1.3
+          }
+        ],
+        "MUY_FACIL": [
+          {
+            "FCSKU/ASIN": "B0CKF6YRQ8",
+            "Qty": 12,
+            "esfuerzo": 6.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B08GRGYZQ3",
+            "Qty": 10,
+            "esfuerzo": 5.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0F5B93ZW4",
+            "Qty": 8,
+            "esfuerzo": 4.8,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0F5B7HMNF",
+            "Qty": 4,
+            "esfuerzo": 2.4,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0F5B8S2FV",
+            "Qty": 4,
+            "esfuerzo": 2.4,
+            "asin_factor": 0.5
+          }
+        ],
+        "MUY_DIFICIL": [
+          {
+            "FCSKU/ASIN": "B0F6YPZF6R",
+            "Qty": 1,
+            "esfuerzo": 1.5,
+            "asin_factor": 1.5
+          }
+        ]
+      }
+    },
+    "201641948": {
+      "login": "gomezqsa",
+      "employee_id": "201641948",
+      "hours": 5.59,
+      "uph_original": 47.23,
+      "rate_ajustado": 58.476,
+      "factor_ajuste": 1.24,
+      "esfuerzo_total": 252.7,
+      "units_totales": 264,
+      "asins_unicos": 77,
+      "bins_unicos": 190,
+      "total_distance": 3931.9999999999995,
+      "max_distance_bin_to_bin": 197.7,
+      "distancia_promedio_entre_bins": 15.28,
+      "promedio_units_por_bin": 1.39,
+      "cart_changes": 26,
+      "bin_changes": 193,
+      "errores": 2,
+      "factor_penalizacion_categoria": 1.1,
+      "porcentajes_categorias": {
+        "muy_facil": 15.909090909090908,
+        "facil": 17.424242424242426,
+        "medio": 47.34848484848485,
+        "dificil": 18.939393939393938,
+        "muy_dificil": 0.3787878787878788
+      },
+      "categorias": [
+        {
+          "categoria": "DIFICIL",
+          "asins_unicos": 22,
+          "units_totales": 50,
+          "esfuerzo_total": 71.24000000000001,
+          "factor_promedio": 1.3
+        },
+        {
+          "categoria": "FACIL",
+          "asins_unicos": 14,
+          "units_totales": 46,
+          "esfuerzo_total": 31.36,
+          "factor_promedio": 0.7
+        },
+        {
+          "categoria": "MEDIO",
+          "asins_unicos": 30,
+          "units_totales": 125,
+          "esfuerzo_total": 129.9,
+          "factor_promedio": 1.0
+        },
+        {
+          "categoria": "MUY_DIFICIL",
+          "asins_unicos": 1,
+          "units_totales": 1,
+          "esfuerzo_total": 1.6500000000000001,
+          "factor_promedio": 1.5
+        },
+        {
+          "categoria": "MUY_FACIL",
+          "asins_unicos": 10,
+          "units_totales": 42,
+          "esfuerzo_total": 18.55,
+          "factor_promedio": 0.5
+        }
+      ],
+      "top_asins": [
+        {
+          "FCSKU/ASIN": "B07PLZDT5Z",
+          "Qty": 36,
+          "esfuerzo": 36.0,
+          "asin_factor": 1.0,
+          "categoria": "MEDIO"
+        },
+        {
+          "FCSKU/ASIN": "B07DQVTDSX",
+          "Qty": 20,
+          "esfuerzo": 7.0,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B00DYX7TI6",
+          "Qty": 18,
+          "esfuerzo": 21.599999999999998,
+          "asin_factor": 1.0,
+          "categoria": "MEDIO"
+        },
+        {
+          "FCSKU/ASIN": "B0FPX7Z61X",
+          "Qty": 12,
+          "esfuerzo": 8.399999999999999,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B07L8X7SKG",
+          "Qty": 12,
+          "esfuerzo": 12.0,
+          "asin_factor": 1.0,
+          "categoria": "MEDIO"
+        }
+      ],
+      "top_asins_por_categoria": {
+        "MEDIO": [
+          {
+            "FCSKU/ASIN": "B07PLZDT5Z",
+            "Qty": 36,
+            "esfuerzo": 36.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B00DYX7TI6",
+            "Qty": 18,
+            "esfuerzo": 21.599999999999998,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B07L8X7SKG",
+            "Qty": 12,
+            "esfuerzo": 12.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B09T3MML1D",
+            "Qty": 6,
+            "esfuerzo": 6.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0DLFN276S",
+            "Qty": 6,
+            "esfuerzo": 6.800000000000001,
+            "asin_factor": 1.0
+          }
+        ],
+        "MUY_FACIL": [
+          {
+            "FCSKU/ASIN": "B07DQVTDSX",
+            "Qty": 20,
+            "esfuerzo": 7.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0FQWQBQYK",
+            "Qty": 7,
+            "esfuerzo": 4.2,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B000C74W7I",
+            "Qty": 4,
+            "esfuerzo": 2.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0FR99RQ7C",
+            "Qty": 4,
+            "esfuerzo": 2.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B08426GZJ8",
+            "Qty": 2,
+            "esfuerzo": 1.0,
+            "asin_factor": 0.5
+          }
+        ],
+        "DIFICIL": [
+          {
+            "FCSKU/ASIN": "B07VGQZWSR",
+            "Qty": 6,
+            "esfuerzo": 9.36,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0CYLMXR58",
+            "Qty": 6,
+            "esfuerzo": 7.800000000000001,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B09WYD37RC",
+            "Qty": 5,
+            "esfuerzo": 7.800000000000001,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0F5BBNSHQ",
+            "Qty": 4,
+            "esfuerzo": 5.98,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0CD151MMQ",
+            "Qty": 3,
+            "esfuerzo": 3.9000000000000004,
+            "asin_factor": 1.3
+          }
+        ],
+        "FACIL": [
+          {
+            "FCSKU/ASIN": "B0FPX7Z61X",
+            "Qty": 12,
+            "esfuerzo": 8.399999999999999,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B01EYM2ST0",
+            "Qty": 6,
+            "esfuerzo": 2.9399999999999995,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0BYP2M4TK",
+            "Qty": 6,
+            "esfuerzo": 4.199999999999999,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B01LL5SJS2",
+            "Qty": 4,
+            "esfuerzo": 2.8,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B07FQRLFX8",
+            "Qty": 4,
+            "esfuerzo": 2.8,
+            "asin_factor": 0.7
+          }
+        ],
+        "MUY_DIFICIL": [
+          {
+            "FCSKU/ASIN": "B00YUBGSHY",
+            "Qty": 1,
+            "esfuerzo": 1.6500000000000001,
+            "asin_factor": 1.5
+          }
+        ]
+      }
+    },
+    "108291691": {
+      "login": "maitdesi",
+      "employee_id": "108291691",
+      "hours": 4.64,
+      "uph_original": 38.15,
+      "rate_ajustado": 38.3424,
+      "factor_ajuste": 1.01,
+      "esfuerzo_total": 160.24,
+      "units_totales": 179,
+      "asins_unicos": 52,
+      "bins_unicos": 123,
+      "total_distance": 1751.1999999999998,
+      "max_distance_bin_to_bin": 169.99999999999997,
+      "distancia_promedio_entre_bins": 8.52,
+      "promedio_units_por_bin": 1.46,
+      "cart_changes": 15,
+      "bin_changes": 125,
+      "errores": 24,
+      "factor_penalizacion_categoria": 0.96,
+      "porcentajes_categorias": {
+        "muy_facil": 6.70391061452514,
+        "facil": 53.63128491620112,
+        "medio": 17.318435754189945,
+        "dificil": 22.3463687150838,
+        "muy_dificil": 0.0
+      },
+      "categorias": [
+        {
+          "categoria": "DIFICIL",
+          "asins_unicos": 19,
+          "units_totales": 40,
+          "esfuerzo_total": 57.59,
+          "factor_promedio": 1.3
+        },
+        {
+          "categoria": "FACIL",
+          "asins_unicos": 17,
+          "units_totales": 96,
+          "esfuerzo_total": 65.44999999999999,
+          "factor_promedio": 0.6999999999999998
+        },
+        {
+          "categoria": "MEDIO",
+          "asins_unicos": 13,
+          "units_totales": 31,
+          "esfuerzo_total": 31.2,
+          "factor_promedio": 1.0
+        },
+        {
+          "categoria": "MUY_FACIL",
+          "asins_unicos": 3,
+          "units_totales": 12,
+          "esfuerzo_total": 6.0,
+          "factor_promedio": 0.5
+        }
+      ],
+      "top_asins": [
+        {
+          "FCSKU/ASIN": "B09QLGY9XB",
+          "Qty": 29,
+          "esfuerzo": 20.299999999999997,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0D6353K65",
+          "Qty": 17,
+          "esfuerzo": 11.899999999999999,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B079Z9PTT7",
+          "Qty": 12,
+          "esfuerzo": 8.399999999999999,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B009W0L6KM",
+          "Qty": 9,
+          "esfuerzo": 6.3,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B07L8X7SKG",
+          "Qty": 8,
+          "esfuerzo": 8.0,
+          "asin_factor": 1.0,
+          "categoria": "MEDIO"
+        }
+      ],
+      "top_asins_por_categoria": {
+        "FACIL": [
+          {
+            "FCSKU/ASIN": "B09QLGY9XB",
+            "Qty": 29,
+            "esfuerzo": 20.299999999999997,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0D6353K65",
+            "Qty": 17,
+            "esfuerzo": 11.899999999999999,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B079Z9PTT7",
+            "Qty": 12,
+            "esfuerzo": 8.399999999999999,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B009W0L6KM",
+            "Qty": 9,
+            "esfuerzo": 6.3,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0DPH6425X",
+            "Qty": 6,
+            "esfuerzo": 2.9399999999999995,
+            "asin_factor": 0.7
+          }
+        ],
+        "DIFICIL": [
+          {
+            "FCSKU/ASIN": "B0F8QSLQLK",
+            "Qty": 5,
+            "esfuerzo": 6.5,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0DLKSFXBL",
+            "Qty": 4,
+            "esfuerzo": 6.24,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B07VGQZWSR",
+            "Qty": 4,
+            "esfuerzo": 6.24,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0CM5NVSNB",
+            "Qty": 3,
+            "esfuerzo": 4.42,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0C2V78ZSX",
+            "Qty": 3,
+            "esfuerzo": 3.9000000000000004,
+            "asin_factor": 1.3
+          }
+        ],
+        "MUY_FACIL": [
+          {
+            "FCSKU/ASIN": "B002522PS6",
+            "Qty": 7,
+            "esfuerzo": 3.5,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B09D8MJYKK",
+            "Qty": 3,
+            "esfuerzo": 1.5,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B00G6I230K",
+            "Qty": 2,
+            "esfuerzo": 1.0,
+            "asin_factor": 0.5
+          }
+        ],
+        "MEDIO": [
+          {
+            "FCSKU/ASIN": "B07L8X7SKG",
+            "Qty": 8,
+            "esfuerzo": 8.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0CM5J8ZFB",
+            "Qty": 8,
+            "esfuerzo": 8.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B09MS9HS6Q",
+            "Qty": 4,
+            "esfuerzo": 4.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B07PLZDT5Z",
+            "Qty": 2,
+            "esfuerzo": 2.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B071XWK1HX",
+            "Qty": 1,
+            "esfuerzo": 1.0,
+            "asin_factor": 1.0
+          }
+        ]
+      }
+    },
+    "203681127": {
+      "login": "ocarolgi",
+      "employee_id": "203681127",
+      "hours": 2.6,
+      "uph_original": 85.77,
+      "rate_ajustado": 14.646,
+      "factor_ajuste": 0.17,
+      "esfuerzo_total": 144.73999999999998,
+      "units_totales": 223,
+      "asins_unicos": 53,
+      "bins_unicos": 83,
+      "total_distance": 1078.3,
+      "max_distance_bin_to_bin": 89.0,
+      "distancia_promedio_entre_bins": 8.39,
+      "promedio_units_por_bin": 2.69,
+      "cart_changes": 14,
+      "bin_changes": 83,
+      "errores": 12,
+      "factor_penalizacion_categoria": 0.2,
+      "porcentajes_categorias": {
+        "muy_facil": 35.874439461883405,
+        "facil": 54.26008968609865,
+        "medio": 4.932735426008969,
+        "dificil": 4.932735426008969,
+        "muy_dificil": 0.0
+      },
+      "categorias": [
+        {
+          "categoria": "DIFICIL",
+          "asins_unicos": 6,
+          "units_totales": 11,
+          "esfuerzo_total": 15.08,
+          "factor_promedio": 1.3
+        },
+        {
+          "categoria": "FACIL",
+          "asins_unicos": 20,
+          "units_totales": 121,
+          "esfuerzo_total": 82.11,
+          "factor_promedio": 0.7
+        },
+        {
+          "categoria": "MEDIO",
+          "asins_unicos": 4,
+          "units_totales": 11,
+          "esfuerzo_total": 11.0,
+          "factor_promedio": 1.0
+        },
+        {
+          "categoria": "MUY_FACIL",
+          "asins_unicos": 23,
+          "units_totales": 80,
+          "esfuerzo_total": 36.55,
+          "factor_promedio": 0.5
+        }
+      ],
+      "top_asins": [
+        {
+          "FCSKU/ASIN": "B0DPMPL57Z",
+          "Qty": 29,
+          "esfuerzo": 20.299999999999997,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "8409764377",
+          "Qty": 25,
+          "esfuerzo": 12.5,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0DYJ4X7C7",
+          "Qty": 24,
+          "esfuerzo": 16.799999999999997,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B093GQHRW4",
+          "Qty": 15,
+          "esfuerzo": 10.5,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0F7M3QYLZ",
+          "Qty": 13,
+          "esfuerzo": 4.55,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        }
+      ],
+      "top_asins_por_categoria": {
+        "FACIL": [
+          {
+            "FCSKU/ASIN": "B0DPMPL57Z",
+            "Qty": 29,
+            "esfuerzo": 20.299999999999997,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0DYJ4X7C7",
+            "Qty": 24,
+            "esfuerzo": 16.799999999999997,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B093GQHRW4",
+            "Qty": 15,
+            "esfuerzo": 10.5,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B002UP9OFK",
+            "Qty": 12,
+            "esfuerzo": 5.879999999999999,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0B3DDNLGK",
+            "Qty": 8,
+            "esfuerzo": 5.6,
+            "asin_factor": 0.7
+          }
+        ],
+        "MUY_FACIL": [
+          {
+            "FCSKU/ASIN": "8409764377",
+            "Qty": 25,
+            "esfuerzo": 12.5,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0F7M3QYLZ",
+            "Qty": 13,
+            "esfuerzo": 4.55,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0F7LZT84X",
+            "Qty": 10,
+            "esfuerzo": 3.5,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0F32T5FSD",
+            "Qty": 7,
+            "esfuerzo": 3.5,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0DQV72RPV",
+            "Qty": 6,
+            "esfuerzo": 3.0,
+            "asin_factor": 0.5
+          }
+        ],
+        "DIFICIL": [
+          {
+            "FCSKU/ASIN": "B0F8QSLQLK",
+            "Qty": 4,
+            "esfuerzo": 5.2,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B09N9WMCZM",
+            "Qty": 2,
+            "esfuerzo": 3.12,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0BXXGQBRP",
+            "Qty": 2,
+            "esfuerzo": 2.6,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B01HG72H3C",
+            "Qty": 1,
+            "esfuerzo": 1.56,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0BVDPC2WR",
+            "Qty": 1,
+            "esfuerzo": 1.3,
+            "asin_factor": 1.3
+          }
+        ],
+        "MEDIO": [
+          {
+            "FCSKU/ASIN": "B07PLZDT5Z",
+            "Qty": 8,
+            "esfuerzo": 8.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B00SW7BIWM",
+            "Qty": 1,
+            "esfuerzo": 1.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0F3JG4ZJZ",
+            "Qty": 1,
+            "esfuerzo": 1.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0FDGNY9LK",
+            "Qty": 1,
+            "esfuerzo": 1.0,
+            "asin_factor": 1.0
+          }
+        ]
+      }
+    },
+    "201641945": {
+      "login": "toroscai",
+      "employee_id": "201641945",
+      "hours": 2.86,
+      "uph_original": 52.45,
+      "rate_ajustado": 23.11,
+      "factor_ajuste": 0.44,
+      "esfuerzo_total": 122.95,
+      "units_totales": 150,
+      "asins_unicos": 60,
+      "bins_unicos": 101,
+      "total_distance": 1116.6,
+      "max_distance_bin_to_bin": 46.699999999999996,
+      "distancia_promedio_entre_bins": 7.05,
+      "promedio_units_por_bin": 1.49,
+      "cart_changes": 10,
+      "bin_changes": 106,
+      "errores": 8,
+      "factor_penalizacion_categoria": 0.5,
+      "porcentajes_categorias": {
+        "muy_facil": 34.66666666666667,
+        "facil": 20.666666666666668,
+        "medio": 34.0,
+        "dificil": 10.666666666666668,
+        "muy_dificil": 0.0
+      },
+      "categorias": [
+        {
+          "categoria": "DIFICIL",
+          "asins_unicos": 9,
+          "units_totales": 16,
+          "esfuerzo_total": 21.84,
+          "factor_promedio": 1.3
+        },
+        {
+          "categoria": "FACIL",
+          "asins_unicos": 14,
+          "units_totales": 31,
+          "esfuerzo_total": 22.259999999999998,
+          "factor_promedio": 0.7
+        },
+        {
+          "categoria": "MEDIO",
+          "asins_unicos": 25,
+          "units_totales": 51,
+          "esfuerzo_total": 53.0,
+          "factor_promedio": 1.0
+        },
+        {
+          "categoria": "MUY_FACIL",
+          "asins_unicos": 12,
+          "units_totales": 52,
+          "esfuerzo_total": 25.85,
+          "factor_promedio": 0.5
+        }
+      ],
+      "top_asins": [
+        {
+          "FCSKU/ASIN": "B00IMGZFVI",
+          "Qty": 16,
+          "esfuerzo": 8.0,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B071HJ2VLJ",
+          "Qty": 16,
+          "esfuerzo": 8.0,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B07PLZDT5Z",
+          "Qty": 10,
+          "esfuerzo": 10.0,
+          "asin_factor": 1.0,
+          "categoria": "MEDIO"
+        },
+        {
+          "FCSKU/ASIN": "B07G2BJFYD",
+          "Qty": 8,
+          "esfuerzo": 5.6,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0CYLMXR58",
+          "Qty": 6,
+          "esfuerzo": 7.800000000000001,
+          "asin_factor": 1.3,
+          "categoria": "DIFICIL"
+        }
+      ],
+      "top_asins_por_categoria": {
+        "MEDIO": [
+          {
+            "FCSKU/ASIN": "B07PLZDT5Z",
+            "Qty": 10,
+            "esfuerzo": 10.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0DYK9LK3D",
+            "Qty": 6,
+            "esfuerzo": 6.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B09GKX7QX4",
+            "Qty": 3,
+            "esfuerzo": 3.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0C5JT2S6J",
+            "Qty": 3,
+            "esfuerzo": 3.2,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B09VMYMBK3",
+            "Qty": 2,
+            "esfuerzo": 2.4,
+            "asin_factor": 1.0
+          }
+        ],
+        "FACIL": [
+          {
+            "FCSKU/ASIN": "B07G2BJFYD",
+            "Qty": 8,
+            "esfuerzo": 5.6,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B091C6FV25",
+            "Qty": 4,
+            "esfuerzo": 3.36,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0CRHMJXQP",
+            "Qty": 3,
+            "esfuerzo": 2.0999999999999996,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0DSQNSJYJ",
+            "Qty": 3,
+            "esfuerzo": 2.0999999999999996,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B08GYKLX3J",
+            "Qty": 2,
+            "esfuerzo": 1.4,
+            "asin_factor": 0.7
+          }
+        ],
+        "MUY_FACIL": [
+          {
+            "FCSKU/ASIN": "B00IMGZFVI",
+            "Qty": 16,
+            "esfuerzo": 8.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B071HJ2VLJ",
+            "Qty": 16,
+            "esfuerzo": 8.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B09MD7VQC2",
+            "Qty": 4,
+            "esfuerzo": 2.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B01AUGT964",
+            "Qty": 4,
+            "esfuerzo": 2.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0BX8LT97T",
+            "Qty": 3,
+            "esfuerzo": 1.5,
+            "asin_factor": 0.5
+          }
+        ],
+        "DIFICIL": [
+          {
+            "FCSKU/ASIN": "B0CYLMXR58",
+            "Qty": 6,
+            "esfuerzo": 7.800000000000001,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B017NZO3MU",
+            "Qty": 3,
+            "esfuerzo": 4.16,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B009ADLG92",
+            "Qty": 1,
+            "esfuerzo": 1.3,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B09NDN196Z",
+            "Qty": 1,
+            "esfuerzo": 1.56,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B07Y94W69D",
+            "Qty": 1,
+            "esfuerzo": 1.56,
+            "asin_factor": 1.3
+          }
+        ]
+      }
+    },
+    "106477659": {
+      "login": "baezacri",
+      "employee_id": "106477659",
+      "hours": 0.41,
+      "uph_original": 63.41,
+      "rate_ajustado": 6.0264,
+      "factor_ajuste": 0.1,
+      "esfuerzo_total": 18.66,
+      "units_totales": 26,
+      "asins_unicos": 6,
+      "bins_unicos": 9,
+      "total_distance": 150.40000000000003,
+      "max_distance_bin_to_bin": 41.6,
+      "distancia_promedio_entre_bins": 8.16,
+      "promedio_units_por_bin": 2.89,
+      "cart_changes": 2,
+      "bin_changes": 9,
+      "errores": 0,
+      "factor_penalizacion_categoria": 0.12,
+      "porcentajes_categorias": {
+        "muy_facil": 61.53846153846154,
+        "facil": 26.923076923076923,
+        "medio": 0.0,
+        "dificil": 11.538461538461538,
+        "muy_dificil": 0.0
+      },
+      "categorias": [
+        {
+          "categoria": "DIFICIL",
+          "asins_unicos": 2,
+          "units_totales": 3,
+          "esfuerzo_total": 4.16,
+          "factor_promedio": 1.3
+        },
+        {
+          "categoria": "FACIL",
+          "asins_unicos": 2,
+          "units_totales": 7,
+          "esfuerzo_total": 4.8999999999999995,
+          "factor_promedio": 0.7
+        },
+        {
+          "categoria": "MUY_FACIL",
+          "asins_unicos": 2,
+          "units_totales": 16,
+          "esfuerzo_total": 9.6,
+          "factor_promedio": 0.5
+        }
+      ],
+      "top_asins": [
+        {
+          "FCSKU/ASIN": "B0F5B6BY4H",
+          "Qty": 8,
+          "esfuerzo": 4.8,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0DP1Y55MR",
+          "Qty": 8,
+          "esfuerzo": 4.8,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0D9BBTBCF",
+          "Qty": 5,
+          "esfuerzo": 3.5,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0BPZ15J8G",
+          "Qty": 2,
+          "esfuerzo": 2.6,
+          "asin_factor": 1.3,
+          "categoria": "DIFICIL"
+        },
+        {
+          "FCSKU/ASIN": "B0CXM5F2F4",
+          "Qty": 2,
+          "esfuerzo": 1.4,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        }
+      ],
+      "top_asins_por_categoria": {
+        "MUY_FACIL": [
+          {
+            "FCSKU/ASIN": "B0DP1Y55MR",
+            "Qty": 8,
+            "esfuerzo": 4.8,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0F5B6BY4H",
+            "Qty": 8,
+            "esfuerzo": 4.8,
+            "asin_factor": 0.5
+          }
+        ],
+        "FACIL": [
+          {
+            "FCSKU/ASIN": "B0D9BBTBCF",
+            "Qty": 5,
+            "esfuerzo": 3.5,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0CXM5F2F4",
+            "Qty": 2,
+            "esfuerzo": 1.4,
+            "asin_factor": 0.7
+          }
+        ],
+        "DIFICIL": [
+          {
+            "FCSKU/ASIN": "B0BPZ15J8G",
+            "Qty": 2,
+            "esfuerzo": 2.6,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0F8QSLQLK",
+            "Qty": 1,
+            "esfuerzo": 1.56,
+            "asin_factor": 1.3
+          }
+        ]
+      }
+    },
+    "204431634": {
+      "login": "cerezuee",
+      "employee_id": "204431634",
+      "hours": 1.31,
+      "uph_original": 61.07,
+      "rate_ajustado": 49.74,
+      "factor_ajuste": 0.81,
+      "esfuerzo_total": 75.13,
+      "units_totales": 80,
+      "asins_unicos": 14,
+      "bins_unicos": 47,
+      "total_distance": 527.0,
+      "max_distance_bin_to_bin": 60.599999999999994,
+      "distancia_promedio_entre_bins": 6.61,
+      "promedio_units_por_bin": 1.7,
+      "cart_changes": 6,
+      "bin_changes": 47,
+      "errores": 3,
+      "factor_penalizacion_categoria": 1.0,
+      "porcentajes_categorias": {
+        "muy_facil": 0.0,
+        "facil": 45.0,
+        "medio": 40.0,
+        "dificil": 15.0,
+        "muy_dificil": 0.0
+      },
+      "categorias": [
+        {
+          "categoria": "DIFICIL",
+          "asins_unicos": 6,
+          "units_totales": 12,
+          "esfuerzo_total": 17.94,
+          "factor_promedio": 1.3
+        },
+        {
+          "categoria": "FACIL",
+          "asins_unicos": 3,
+          "units_totales": 36,
+          "esfuerzo_total": 24.99,
+          "factor_promedio": 0.7
+        },
+        {
+          "categoria": "MEDIO",
+          "asins_unicos": 5,
+          "units_totales": 32,
+          "esfuerzo_total": 32.2,
+          "factor_promedio": 1.0
+        }
+      ],
+      "top_asins": [
+        {
+          "FCSKU/ASIN": "B09QLGY9XB",
+          "Qty": 29,
+          "esfuerzo": 20.299999999999997,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B07PLZDT5Z",
+          "Qty": 22,
+          "esfuerzo": 22.0,
+          "asin_factor": 1.0,
+          "categoria": "MEDIO"
+        },
+        {
+          "FCSKU/ASIN": "B0CM5J8ZFB",
+          "Qty": 7,
+          "esfuerzo": 7.0,
+          "asin_factor": 1.0,
+          "categoria": "MEDIO"
+        },
+        {
+          "FCSKU/ASIN": "B017NZO3MU",
+          "Qty": 6,
+          "esfuerzo": 9.36,
+          "asin_factor": 1.3,
+          "categoria": "DIFICIL"
+        },
+        {
+          "FCSKU/ASIN": "B0DSQNSJYJ",
+          "Qty": 6,
+          "esfuerzo": 4.199999999999999,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        }
+      ],
+      "top_asins_por_categoria": {
+        "MEDIO": [
+          {
+            "FCSKU/ASIN": "B07PLZDT5Z",
+            "Qty": 22,
+            "esfuerzo": 22.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0CM5J8ZFB",
+            "Qty": 7,
+            "esfuerzo": 7.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0DLFN276S",
+            "Qty": 1,
+            "esfuerzo": 1.2,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0DYK9LK3D",
+            "Qty": 1,
+            "esfuerzo": 1.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0DZ2BXB74",
+            "Qty": 1,
+            "esfuerzo": 1.0,
+            "asin_factor": 1.0
+          }
+        ],
+        "FACIL": [
+          {
+            "FCSKU/ASIN": "B09QLGY9XB",
+            "Qty": 29,
+            "esfuerzo": 20.299999999999997,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0DSQNSJYJ",
+            "Qty": 6,
+            "esfuerzo": 4.199999999999999,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B002UP9OFK",
+            "Qty": 1,
+            "esfuerzo": 0.48999999999999994,
+            "asin_factor": 0.7
+          }
+        ],
+        "DIFICIL": [
+          {
+            "FCSKU/ASIN": "B017NZO3MU",
+            "Qty": 6,
+            "esfuerzo": 9.36,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B09PBRFQT3",
+            "Qty": 2,
+            "esfuerzo": 3.12,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B09MR5F1XQ",
+            "Qty": 1,
+            "esfuerzo": 1.3,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0CP9KB1YN",
+            "Qty": 1,
+            "esfuerzo": 1.3,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0D2VWKKQ4",
+            "Qty": 1,
+            "esfuerzo": 1.3,
+            "asin_factor": 1.3
+          }
+        ]
+      }
+    },
+    "112763305": {
+      "login": "mfuenant",
+      "employee_id": "112763305",
+      "hours": 1.12,
+      "uph_original": 44.64,
+      "rate_ajustado": 43.763999999999996,
+      "factor_ajuste": 0.98,
+      "esfuerzo_total": 52.23,
+      "units_totales": 50,
+      "asins_unicos": 29,
+      "bins_unicos": 44,
+      "total_distance": 876.7,
+      "max_distance_bin_to_bin": 102.1,
+      "distancia_promedio_entre_bins": 13.51,
+      "promedio_units_por_bin": 1.14,
+      "cart_changes": 5,
+      "bin_changes": 46,
+      "errores": 2,
+      "factor_penalizacion_categoria": 1.2,
+      "porcentajes_categorias": {
+        "muy_facil": 6.0,
+        "facil": 12.0,
+        "medio": 54.0,
+        "dificil": 28.000000000000004,
+        "muy_dificil": 0.0
+      },
+      "categorias": [
+        {
+          "categoria": "DIFICIL",
+          "asins_unicos": 8,
+          "units_totales": 14,
+          "esfuerzo_total": 19.240000000000002,
+          "factor_promedio": 1.3
+        },
+        {
+          "categoria": "FACIL",
+          "asins_unicos": 4,
+          "units_totales": 6,
+          "esfuerzo_total": 3.9899999999999998,
+          "factor_promedio": 0.6999999999999998
+        },
+        {
+          "categoria": "MEDIO",
+          "asins_unicos": 15,
+          "units_totales": 27,
+          "esfuerzo_total": 27.4,
+          "factor_promedio": 1.0
+        },
+        {
+          "categoria": "MUY_FACIL",
+          "asins_unicos": 2,
+          "units_totales": 3,
+          "esfuerzo_total": 1.6,
+          "factor_promedio": 0.5
+        }
+      ],
+      "top_asins": [
+        {
+          "FCSKU/ASIN": "B0CYLMXR58",
+          "Qty": 6,
+          "esfuerzo": 7.800000000000001,
+          "asin_factor": 1.3,
+          "categoria": "DIFICIL"
+        },
+        {
+          "FCSKU/ASIN": "B092Z8Y1T7",
+          "Qty": 5,
+          "esfuerzo": 5.0,
+          "asin_factor": 1.0,
+          "categoria": "MEDIO"
+        },
+        {
+          "FCSKU/ASIN": "B07931HRGK",
+          "Qty": 4,
+          "esfuerzo": 4.0,
+          "asin_factor": 1.0,
+          "categoria": "MEDIO"
+        },
+        {
+          "FCSKU/ASIN": "B08GFCL8B9",
+          "Qty": 4,
+          "esfuerzo": 4.0,
+          "asin_factor": 1.0,
+          "categoria": "MEDIO"
+        },
+        {
+          "FCSKU/ASIN": "B0DS961HK4",
+          "Qty": 3,
+          "esfuerzo": 2.0999999999999996,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        }
+      ],
+      "top_asins_por_categoria": {
+        "DIFICIL": [
+          {
+            "FCSKU/ASIN": "B0CYLMXR58",
+            "Qty": 6,
+            "esfuerzo": 7.800000000000001,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0847LCLDQ",
+            "Qty": 2,
+            "esfuerzo": 2.6,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B08YDQNCGD",
+            "Qty": 1,
+            "esfuerzo": 1.3,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B00FXOYGOO",
+            "Qty": 1,
+            "esfuerzo": 1.3,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0BX8KWZ36",
+            "Qty": 1,
+            "esfuerzo": 1.56,
+            "asin_factor": 1.3
+          }
+        ],
+        "MEDIO": [
+          {
+            "FCSKU/ASIN": "B092Z8Y1T7",
+            "Qty": 5,
+            "esfuerzo": 5.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B08GFCL8B9",
+            "Qty": 4,
+            "esfuerzo": 4.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B07931HRGK",
+            "Qty": 4,
+            "esfuerzo": 4.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0D3635F53",
+            "Qty": 2,
+            "esfuerzo": 2.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B09QFQNB57",
+            "Qty": 2,
+            "esfuerzo": 2.0,
+            "asin_factor": 1.0
+          }
+        ],
+        "FACIL": [
+          {
+            "FCSKU/ASIN": "B0DS961HK4",
+            "Qty": 3,
+            "esfuerzo": 2.0999999999999996,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B002UP9OFK",
+            "Qty": 1,
+            "esfuerzo": 0.48999999999999994,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B073Z8DFL2",
+            "Qty": 1,
+            "esfuerzo": 0.7,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0DHSDY156",
+            "Qty": 1,
+            "esfuerzo": 0.7,
+            "asin_factor": 0.7
+          }
+        ],
+        "MUY_FACIL": [
+          {
+            "FCSKU/ASIN": "B0FQ5R6GJB",
+            "Qty": 2,
+            "esfuerzo": 1.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0FQWQBQYK",
+            "Qty": 1,
+            "esfuerzo": 0.6,
+            "asin_factor": 0.5
+          }
+        ]
+      }
+    },
+    "205617851": {
+      "login": "jorrayar",
+      "employee_id": "205617851",
+      "hours": 1.69,
+      "uph_original": 63.31,
+      "rate_ajustado": 25.036799999999996,
+      "factor_ajuste": 0.4,
+      "esfuerzo_total": 101.78,
+      "units_totales": 122,
+      "asins_unicos": 34,
+      "bins_unicos": 90,
+      "total_distance": 587.1000000000008,
+      "max_distance_bin_to_bin": 107.1,
+      "distancia_promedio_entre_bins": 5.0,
+      "promedio_units_por_bin": 1.36,
+      "cart_changes": 7,
+      "bin_changes": 99,
+      "errores": 8,
+      "factor_penalizacion_categoria": 0.48,
+      "porcentajes_categorias": {
+        "muy_facil": 39.34426229508197,
+        "facil": 21.311475409836063,
+        "medio": 13.934426229508196,
+        "dificil": 25.40983606557377,
+        "muy_dificil": 0.0
+      },
+      "categorias": [
+        {
+          "categoria": "DIFICIL",
+          "asins_unicos": 13,
+          "units_totales": 31,
+          "esfuerzo_total": 47.06,
+          "factor_promedio": 1.3
+        },
+        {
+          "categoria": "FACIL",
+          "asins_unicos": 8,
+          "units_totales": 26,
+          "esfuerzo_total": 17.919999999999998,
+          "factor_promedio": 0.7
+        },
+        {
+          "categoria": "MEDIO",
+          "asins_unicos": 7,
+          "units_totales": 17,
+          "esfuerzo_total": 18.2,
+          "factor_promedio": 1.0
+        },
+        {
+          "categoria": "MUY_FACIL",
+          "asins_unicos": 6,
+          "units_totales": 48,
+          "esfuerzo_total": 18.599999999999998,
+          "factor_promedio": 0.5
+        }
+      ],
+      "top_asins": [
+        {
+          "FCSKU/ASIN": "B0DSQNSJYJ",
+          "Qty": 17,
+          "esfuerzo": 11.899999999999999,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0CSP6T8SG",
+          "Qty": 15,
+          "esfuerzo": 5.25,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0DCVRSC95",
+          "Qty": 12,
+          "esfuerzo": 6.0,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B002GODQXQ",
+          "Qty": 12,
+          "esfuerzo": 4.199999999999999,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B07VGQZWSR",
+          "Qty": 11,
+          "esfuerzo": 17.16,
+          "asin_factor": 1.3,
+          "categoria": "DIFICIL"
+        }
+      ],
+      "top_asins_por_categoria": {
+        "MEDIO": [
+          {
+            "FCSKU/ASIN": "B09VMYMBK3",
+            "Qty": 6,
+            "esfuerzo": 7.199999999999999,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B07PLZDT5Z",
+            "Qty": 4,
+            "esfuerzo": 4.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B07XTJLGHC",
+            "Qty": 2,
+            "esfuerzo": 2.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B09T3MML1D",
+            "Qty": 2,
+            "esfuerzo": 2.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B00EXSXHZU",
+            "Qty": 1,
+            "esfuerzo": 1.0,
+            "asin_factor": 1.0
+          }
+        ],
+        "DIFICIL": [
+          {
+            "FCSKU/ASIN": "B07VGQZWSR",
+            "Qty": 11,
+            "esfuerzo": 17.16,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0DG5LV8D6",
+            "Qty": 4,
+            "esfuerzo": 6.24,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0727Y1CFN",
+            "Qty": 3,
+            "esfuerzo": 4.68,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B08PB4PFSY",
+            "Qty": 2,
+            "esfuerzo": 2.6,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B07ZNRHW3H",
+            "Qty": 2,
+            "esfuerzo": 3.12,
+            "asin_factor": 1.3
+          }
+        ],
+        "FACIL": [
+          {
+            "FCSKU/ASIN": "B0DSQNSJYJ",
+            "Qty": 17,
+            "esfuerzo": 11.899999999999999,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B099RYR76K",
+            "Qty": 3,
+            "esfuerzo": 2.0999999999999996,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B08QJ5Y5QW",
+            "Qty": 1,
+            "esfuerzo": 0.48999999999999994,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B07FTXFG3J",
+            "Qty": 1,
+            "esfuerzo": 0.7,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B09VNWWCH8",
+            "Qty": 1,
+            "esfuerzo": 0.84,
+            "asin_factor": 0.7
+          }
+        ],
+        "MUY_FACIL": [
+          {
+            "FCSKU/ASIN": "B0CSP6T8SG",
+            "Qty": 15,
+            "esfuerzo": 5.25,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B002GODQXQ",
+            "Qty": 12,
+            "esfuerzo": 4.199999999999999,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0DCVRSC95",
+            "Qty": 12,
+            "esfuerzo": 6.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0F9YV6FFY",
+            "Qty": 6,
+            "esfuerzo": 2.0999999999999996,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0924F682K",
+            "Qty": 2,
+            "esfuerzo": 0.7,
+            "asin_factor": 0.5
+          }
+        ]
+      }
+    },
+    "201641934": {
+      "login": "teixekan",
+      "employee_id": "201641934",
+      "hours": 1.07,
+      "uph_original": 65.42,
+      "rate_ajustado": 57.926,
+      "factor_ajuste": 0.89,
+      "esfuerzo_total": 70.21,
+      "units_totales": 76,
+      "asins_unicos": 36,
+      "bins_unicos": 50,
+      "total_distance": 900.7000000000002,
+      "max_distance_bin_to_bin": 131.3,
+      "distancia_promedio_entre_bins": 12.51,
+      "promedio_units_por_bin": 1.52,
+      "cart_changes": 6,
+      "bin_changes": 51,
+      "errores": 1,
+      "factor_penalizacion_categoria": 1.1,
+      "porcentajes_categorias": {
+        "muy_facil": 2.631578947368421,
+        "facil": 52.63157894736842,
+        "medio": 26.31578947368421,
+        "dificil": 18.421052631578945,
+        "muy_dificil": 0.0
+      },
+      "categorias": [
+        {
+          "categoria": "DIFICIL",
+          "asins_unicos": 11,
+          "units_totales": 14,
+          "esfuerzo_total": 20.54,
+          "factor_promedio": 1.3
+        },
+        {
+          "categoria": "FACIL",
+          "asins_unicos": 12,
+          "units_totales": 40,
+          "esfuerzo_total": 28.069999999999997,
+          "factor_promedio": 0.7
+        },
+        {
+          "categoria": "MEDIO",
+          "asins_unicos": 12,
+          "units_totales": 20,
+          "esfuerzo_total": 20.6,
+          "factor_promedio": 1.0
+        },
+        {
+          "categoria": "MUY_FACIL",
+          "asins_unicos": 1,
+          "units_totales": 2,
+          "esfuerzo_total": 1.0,
+          "factor_promedio": 0.5
+        }
+      ],
+      "top_asins": [
+        {
+          "FCSKU/ASIN": "B09QLGY9XB",
+          "Qty": 14,
+          "esfuerzo": 9.799999999999999,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B073Z8DFL2",
+          "Qty": 5,
+          "esfuerzo": 3.5,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0CRHMJXQP",
+          "Qty": 5,
+          "esfuerzo": 3.5,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0D7Q2X6Q4",
+          "Qty": 4,
+          "esfuerzo": 2.8,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0DY4Z38RW",
+          "Qty": 4,
+          "esfuerzo": 4.0,
+          "asin_factor": 1.0,
+          "categoria": "MEDIO"
+        }
+      ],
+      "top_asins_por_categoria": {
+        "DIFICIL": [
+          {
+            "FCSKU/ASIN": "B0F98GXZWG",
+            "Qty": 3,
+            "esfuerzo": 4.68,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0FG8G868B",
+            "Qty": 2,
+            "esfuerzo": 2.6,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B071JNTHQV",
+            "Qty": 1,
+            "esfuerzo": 1.3,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B095Z1D1S3",
+            "Qty": 1,
+            "esfuerzo": 1.3,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B07YN1W5W3",
+            "Qty": 1,
+            "esfuerzo": 1.56,
+            "asin_factor": 1.3
+          }
+        ],
+        "MEDIO": [
+          {
+            "FCSKU/ASIN": "B0DY4Z38RW",
+            "Qty": 4,
+            "esfuerzo": 4.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B07PLZDT5Z",
+            "Qty": 3,
+            "esfuerzo": 3.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0BJF27YDR",
+            "Qty": 2,
+            "esfuerzo": 2.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0C5WTR67N",
+            "Qty": 2,
+            "esfuerzo": 2.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0BYZHK6X3",
+            "Qty": 2,
+            "esfuerzo": 2.0,
+            "asin_factor": 1.0
+          }
+        ],
+        "FACIL": [
+          {
+            "FCSKU/ASIN": "B09QLGY9XB",
+            "Qty": 14,
+            "esfuerzo": 9.799999999999999,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B073Z8DFL2",
+            "Qty": 5,
+            "esfuerzo": 3.5,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0CRHMJXQP",
+            "Qty": 5,
+            "esfuerzo": 3.5,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0D7Q2X6Q4",
+            "Qty": 4,
+            "esfuerzo": 2.8,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0DSQNSJYJ",
+            "Qty": 2,
+            "esfuerzo": 1.4,
+            "asin_factor": 0.7
+          }
+        ],
+        "MUY_FACIL": [
+          {
+            "FCSKU/ASIN": "B0BX8LT97T",
+            "Qty": 2,
+            "esfuerzo": 1.0,
+            "asin_factor": 0.5
+          }
+        ]
+      }
+    },
+    "205682465": {
+      "login": "mulamrin",
+      "employee_id": "205682465",
+      "hours": 1.65,
+      "uph_original": 48.48,
+      "rate_ajustado": 46.53,
+      "factor_ajuste": 0.96,
+      "esfuerzo_total": 92.67,
+      "units_totales": 103,
+      "asins_unicos": 33,
+      "bins_unicos": 70,
+      "total_distance": 746.4000000000003,
+      "max_distance_bin_to_bin": 89.8,
+      "distancia_promedio_entre_bins": 7.26,
+      "promedio_units_por_bin": 1.47,
+      "cart_changes": 8,
+      "bin_changes": 74,
+      "errores": 0,
+      "factor_penalizacion_categoria": 1.1,
+      "porcentajes_categorias": {
+        "muy_facil": 8.737864077669903,
+        "facil": 48.54368932038835,
+        "medio": 25.24271844660194,
+        "dificil": 17.475728155339805,
+        "muy_dificil": 0.0
+      },
+      "categorias": [
+        {
+          "categoria": "DIFICIL",
+          "asins_unicos": 9,
+          "units_totales": 18,
+          "esfuerzo_total": 26.52,
+          "factor_promedio": 1.3
+        },
+        {
+          "categoria": "FACIL",
+          "asins_unicos": 10,
+          "units_totales": 50,
+          "esfuerzo_total": 35.0,
+          "factor_promedio": 0.7
+        },
+        {
+          "categoria": "MEDIO",
+          "asins_unicos": 12,
+          "units_totales": 26,
+          "esfuerzo_total": 26.8,
+          "factor_promedio": 1.0
+        },
+        {
+          "categoria": "MUY_FACIL",
+          "asins_unicos": 2,
+          "units_totales": 9,
+          "esfuerzo_total": 4.35,
+          "factor_promedio": 0.5
+        }
+      ],
+      "top_asins": [
+        {
+          "FCSKU/ASIN": "B081CMQ526",
+          "Qty": 13,
+          "esfuerzo": 9.1,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0DQSDMM6P",
+          "Qty": 10,
+          "esfuerzo": 7.0,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0DXQ6JKSM",
+          "Qty": 8,
+          "esfuerzo": 5.6,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B09S3NNXHK",
+          "Qty": 8,
+          "esfuerzo": 4.0,
+          "asin_factor": 0.5,
+          "categoria": "MUY_FACIL"
+        },
+        {
+          "FCSKU/ASIN": "B0DSQNSJYJ",
+          "Qty": 6,
+          "esfuerzo": 4.199999999999999,
+          "asin_factor": 0.7,
+          "categoria": "FACIL"
+        }
+      ],
+      "top_asins_por_categoria": {
+        "MUY_FACIL": [
+          {
+            "FCSKU/ASIN": "B09S3NNXHK",
+            "Qty": 8,
+            "esfuerzo": 4.0,
+            "asin_factor": 0.5
+          },
+          {
+            "FCSKU/ASIN": "B0C7W1MN76",
+            "Qty": 1,
+            "esfuerzo": 0.35,
+            "asin_factor": 0.5
+          }
+        ],
+        "FACIL": [
+          {
+            "FCSKU/ASIN": "B081CMQ526",
+            "Qty": 13,
+            "esfuerzo": 9.1,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0DQSDMM6P",
+            "Qty": 10,
+            "esfuerzo": 7.0,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0DXQ6JKSM",
+            "Qty": 8,
+            "esfuerzo": 5.6,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0DSQNSJYJ",
+            "Qty": 6,
+            "esfuerzo": 4.199999999999999,
+            "asin_factor": 0.7
+          },
+          {
+            "FCSKU/ASIN": "B0DS961HK4",
+            "Qty": 6,
+            "esfuerzo": 4.199999999999999,
+            "asin_factor": 0.7
+          }
+        ],
+        "MEDIO": [
+          {
+            "FCSKU/ASIN": "B07PLZDT5Z",
+            "Qty": 6,
+            "esfuerzo": 6.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0CYZW2B3K",
+            "Qty": 5,
+            "esfuerzo": 5.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B09T3MML1D",
+            "Qty": 4,
+            "esfuerzo": 4.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0DW9BQ3PL",
+            "Qty": 2,
+            "esfuerzo": 2.0,
+            "asin_factor": 1.0
+          },
+          {
+            "FCSKU/ASIN": "B0FB8K44QC",
+            "Qty": 2,
+            "esfuerzo": 2.0,
+            "asin_factor": 1.0
+          }
+        ],
+        "DIFICIL": [
+          {
+            "FCSKU/ASIN": "B0F98GXZWG",
+            "Qty": 5,
+            "esfuerzo": 7.800000000000001,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0727Y1CFN",
+            "Qty": 3,
+            "esfuerzo": 4.42,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0711F4437",
+            "Qty": 3,
+            "esfuerzo": 4.68,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B0D4ZBHFK2",
+            "Qty": 2,
+            "esfuerzo": 2.8600000000000003,
+            "asin_factor": 1.3
+          },
+          {
+            "FCSKU/ASIN": "B00LEE6BB8",
+            "Qty": 1,
+            "esfuerzo": 1.3,
+            "asin_factor": 1.3
+          }
+        ]
+      }
+    }
+  }
+}

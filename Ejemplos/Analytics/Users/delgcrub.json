@@ -1,0 +1,105 @@
+{
+  "metadata": {
+    "login": "delgcrub",
+    "last_updated": "2025-10-19 21:42:43",
+    "periods_available": [
+      "last_week",
+      "last_month",
+      "last_3_months",
+      "last_6_months"
+    ]
+  },
+  "last_week": {
+    "date_range": {
+      "start": "12102025",
+      "end": "18102025"
+    },
+    "each_stow": {},
+    "pallet_stow": {},
+    "rate_por_esfuerzo": {}
+  },
+  "last_month": {
+    "date_range": {
+      "start": "19092025",
+      "end": "18102025"
+    },
+    "each_stow": {},
+    "pallet_stow": {
+      "stow_to_prime": {
+        "pallet_units": 4,
+        "total_hours": 0.23,
+        "pallet_rate": 17.39,
+        "avg_pallet_general": 10.53,
+        "rank_pallet": 5,
+        "total_users": 67,
+        "percentile_pallet": 92.5
+      },
+      "combined": {
+        "pallet_units": 4,
+        "total_hours": 0.23,
+        "pallet_rate": 17.39,
+        "avg_pallet_general": 10.72,
+        "rank_pallet": 9,
+        "total_users": 77,
+        "percentile_pallet": 88.3
+      }
+    },
+    "rate_por_esfuerzo": {}
+  },
+  "last_3_months": {
+    "date_range": {
+      "start": "21072025",
+      "end": "18102025"
+    },
+    "each_stow": {},
+    "pallet_stow": {
+      "stow_to_prime": {
+        "pallet_units": 4,
+        "total_hours": 0.23,
+        "pallet_rate": 17.39,
+        "avg_pallet_general": 10.53,
+        "rank_pallet": 5,
+        "total_users": 67,
+        "percentile_pallet": 92.5
+      },
+      "combined": {
+        "pallet_units": 4,
+        "total_hours": 0.23,
+        "pallet_rate": 17.39,
+        "avg_pallet_general": 10.72,
+        "rank_pallet": 9,
+        "total_users": 77,
+        "percentile_pallet": 88.3
+      }
+    },
+    "rate_por_esfuerzo": {}
+  },
+  "last_6_months": {
+    "date_range": {
+      "start": "22042025",
+      "end": "18102025"
+    },
+    "each_stow": {},
+    "pallet_stow": {
+      "stow_to_prime": {
+        "pallet_units": 4,
+        "total_hours": 0.23,
+        "pallet_rate": 17.39,
+        "avg_pallet_general": 10.53,
+        "rank_pallet": 5,
+        "total_users": 67,
+        "percentile_pallet": 92.5
+      },
+      "combined": {
+        "pallet_units": 4,
+        "total_hours": 0.23,
+        "pallet_rate": 17.39,
+        "avg_pallet_general": 10.72,
+        "rank_pallet": 9,
+        "total_users": 77,
+        "percentile_pallet": 88.3
+      }
+    },
+    "rate_por_esfuerzo": {}
+  }
+}

@@ -8,116 +8,283 @@
   </head>
   <body>
     <div class="user-activity-container">
-      <!-- Header -->
-      <div class="user-activity-header">
-        <h1>👤 User Activity</h1>
-        <p>
-          Monitoreo en tiempo real de la actividad de usuarios en el almacén
-        </p>
-        <div class="header-actions">
-          <button
-            id="refresh-data"
-            class="user-activity-btn user-activity-btn-primary"
+      <!-- Header con estilo similar a feedback-tracker y estadísticas -->
+      <header class="app-header-card">
+        <h1>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            style="
+              display: inline-flex;
+              align-items: center;
+              vertical-align: middle;
+              margin-right: 8px;
+            "
           >
-            🔄 Actualizar Datos
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          User Activity
+        </h1>
+        <div class="app-header-controls">
+          <button id="refresh-activity-btn" class="btn btn-primary">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M23 4v6h-6"></path>
+              <path d="M1 20v-6h6"></path>
+              <path
+                d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"
+              ></path>
+            </svg>
+            Actualizar
           </button>
-          <button
-            id="export-data"
-            class="user-activity-btn user-activity-btn-secondary"
-          >
-            📊 Exportar
+          <button id="export-activity-btn" class="btn btn-secondary">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Exportar CSV
           </button>
         </div>
-      </div>
+      </header>
 
-      <!-- Filtros -->
-      <div class="user-activity-filters">
-        <h3>🔍 Filtros</h3>
-        <div class="filters-section">
-          <div class="user-activity-filter-group">
-            <label for="user-filter">Usuario:</label>
-            <select id="user-filter" class="form-control">
-              <option value="">Todos los usuarios</option>
-            </select>
-          </div>
-          <div class="user-activity-filter-group">
-            <label for="date-filter">Fecha:</label>
-            <input type="date" id="date-filter" class="form-control" />
-          </div>
-          <div class="user-activity-filter-group">
-            <label for="shift-filter">Turno:</label>
-            <select id="shift-filter" class="form-control">
-              <option value="">Todos los turnos</option>
-              <option value="day">Día</option>
-              <option value="night">Noche</option>
-            </select>
-          </div>
+      <!-- Vista detallada de usuario individual (oculta por defecto) -->
+      <div id="user-detail-view" class="user-detail-view" style="display: none">
+        <!-- Barra de cierre -->
+        <div class="user-detail-close-bar">
+          <button id="close-user-detail" class="btn-close-detail">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+            Cerrar vista de <span id="current-user-login-label">--</span>
+          </button>
         </div>
-      </div>
 
-      <!-- Métricas principales -->
-      <div class="user-activity-metrics">
-        <div class="user-activity-metric-card">
-          <div class="user-activity-metric-icon">👥</div>
-          <div class="user-activity-metric-value" id="total-users">12</div>
-          <div class="user-activity-metric-label">Usuarios Activos Ahora</div>
-        </div>
-        <div class="user-activity-metric-card">
-          <div class="user-activity-metric-icon">📦</div>
-          <div class="user-activity-metric-value" id="total-stows">1,247</div>
-          <div class="user-activity-metric-label">Stows Hoy</div>
-        </div>
-        <div class="user-activity-metric-card">
-          <div class="user-activity-metric-icon">⚡</div>
-          <div class="user-activity-metric-value" id="avg-rate">156</div>
-          <div class="user-activity-metric-label">Stows/Hora Promedio</div>
-        </div>
-        <div class="user-activity-metric-card">
-          <div class="user-activity-metric-icon">🎯</div>
-          <div class="user-activity-metric-value" id="efficiency">87%</div>
-          <div class="user-activity-metric-label">Eficiencia Actual</div>
-        </div>
-      </div>
+        <!-- KPIs del usuario -->
+        <div class="user-kpis-container">
+          <!-- KPI 1: Información del usuario -->
+          <div class="user-info-kpi">
+            <div class="kpi-header">
+              <h3>👤 Información del Usuario</h3>
+            </div>
+            <div class="kpi-content">
+              <div class="user-photo-section">
+                <div class="user-photo-large" id="user-detail-photo">
+                  <!-- Foto se cargará dinámicamente -->
+                </div>
+                <!-- Toggle para mostrar/ocultar foto -->
+                <div class="photo-toggle">
+                  <div class="toggle-switch active" id="photo-toggle-switch">
+                    <div class="toggle-slider"></div>
+                  </div>
+                  <span class="toggle-label" id="photo-toggle-label"
+                    >Mostrar foto</span
+                  >
+                </div>
+              </div>
+              <div class="user-info-section">
+                <div class="user-info-row">
+                  <span class="user-info-label">Login:</span>
+                  <span class="user-info-value" id="user-detail-login">--</span>
+                </div>
+                <div class="user-info-row">
+                  <span class="user-info-label">Nombre:</span>
+                  <span class="user-info-value" id="user-detail-name">--</span>
+                </div>
+                <div class="user-info-row">
+                  <span class="user-info-label">Turno:</span>
+                  <span class="user-info-value" id="user-detail-shift">--</span>
+                </div>
+                <div class="user-info-row">
+                  <span class="user-info-label">Manager:</span>
+                  <span class="user-info-value" id="user-detail-manager"
+                    >--</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
 
-      <!-- Gráficos -->
-      <div class="user-activity-charts">
-        <div class="user-activity-chart-container">
-          <h3>📈 Actividad en Tiempo Real</h3>
-          <div id="hourly-activity-chart" class="user-activity-chart">
-            <div style="padding: 20px; text-align: center; color: #666">
-              <p>📊 Gráfico de actividad en tiempo real</p>
-              <p>Mostrando datos de los últimos 60 minutos</p>
+          <!-- KPI 2: Actividad últimos 30 minutos -->
+          <div class="user-activity-kpi">
+            <div class="kpi-header">
+              <h3>📊 Actividad Últimos 30 Minutos</h3>
+            </div>
+            <div class="kpi-content">
+              <div class="activity-summary">
+                <div class="summary-item">
+                  <span class="summary-label">Período evaluado:</span>
+                  <span class="summary-value" id="periodo-evaluado">--</span>
+                </div>
+                <div class="summary-item">
+                  <span class="summary-label">Units ubicadas:</span>
+                  <span class="summary-value" id="units-ubicadas">--</span>
+                </div>
+                <div class="summary-item highlight">
+                  <span class="summary-label">Peso promedio por unidad:</span>
+                  <span class="summary-value" id="peso-promedio">--</span>
+                </div>
+              </div>
+              <div class="activity-asins">
+                <h4>Últimos ASINs ubicados:</h4>
+                <div class="asins-list" id="asins-list">
+                  <!-- ASINs se cargarán dinámicamente -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- KPI 3: HEATMAP Stow -->
+          <div class="user-heatmap-kpi">
+            <div class="kpi-header">
+              <h3>🗺️ HEATMAP Stow</h3>
+            </div>
+            <div class="kpi-content">
+              <div class="heatmap-zones">
+                <div class="zones-grid" id="zones-grid">
+                  <!-- Botones de zonas se cargarán dinámicamente -->
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="user-activity-chart-container">
-          <h3>🏆 Top Performers del Día</h3>
-          <div id="top-performers-chart" class="user-activity-chart">
-            <div style="padding: 20px; text-align: center; color: #666">
-              <p>🥇 Ranking de usuarios más productivos</p>
-              <p>Basado en stows completados hoy</p>
+
+        <!-- Modal para mostrar imagen en grande -->
+        <div id="heatmap-modal" class="heatmap-modal">
+          <div class="heatmap-modal-content">
+            <div class="heatmap-modal-header">
+              <h3 id="heatmap-modal-title">HEATMAP Stow</h3>
+              <button class="heatmap-modal-close" id="heatmap-modal-close">
+                &times;
+              </button>
+            </div>
+            <div class="heatmap-modal-body">
+              <img id="heatmap-modal-image" src="" alt="Heatmap Stow" />
             </div>
           </div>
         </div>
+
+        <!-- Aquí irán los datos detallados del usuario -->
+        <div class="user-detail-content">
+          <p style="text-align: center; padding: 2rem; color: #666">
+            Contenido detallado del usuario próximamente...
+          </p>
+        </div>
       </div>
 
-      <!-- Tabla de usuarios -->
+      <!-- Tabla de usuarios con selector de categorías -->
       <div class="user-activity-table-section">
-        <h3>📋 Detalle de Usuarios</h3>
+        <div class="table-header-with-controls">
+          <h3>📋 Detalle de Usuarios - Rates de Stow</h3>
+
+          <!-- Filtros de rotación -->
+          <div class="rotation-filters">
+            <span class="filter-label">Filtrar por turno:</span>
+            <button class="rotation-filter-btn active" data-filter="all">
+              🌅 Todos
+            </button>
+            <button class="rotation-filter-btn" data-filter="early">
+              🌅 Early
+            </button>
+            <button class="rotation-filter-btn" data-filter="late">
+              🌙 Late
+            </button>
+          </div>
+
+          <!-- Controles de ordenamiento -->
+          <div class="sort-controls">
+            <span class="sort-label">Ordenar por:</span>
+            <button class="sort-btn active" data-sort="combined-uph">
+              📊 UPH Combined
+            </button>
+            <button class="sort-btn" data-sort="combined-hours">
+              ⏰ Horas Combined
+            </button>
+            <button class="sort-btn" data-sort="combined-units">
+              📦 Units Combined
+            </button>
+            <button
+              class="sort-direction-btn"
+              id="sort-direction-btn"
+              title="Cambiar dirección"
+            >
+              🔽
+            </button>
+          </div>
+
+          <div class="category-selector">
+            <button class="category-btn active" data-category="each">
+              📦 Each Stow
+            </button>
+            <button class="category-btn" data-category="each-e">
+              📦 Each E
+            </button>
+            <button class="category-btn" data-category="each-w">
+              📦 Each W
+            </button>
+            <button class="category-btn" data-category="pallet">
+              🚛 Pallet
+            </button>
+            <button class="category-btn" data-category="pallet-e">
+              🚛 Pallet E
+            </button>
+            <button class="category-btn" data-category="pallet-w">
+              🚛 Pallet W
+            </button>
+            <button class="category-btn" data-category="effort">
+              ⚡ Esfuerzo
+            </button>
+          </div>
+        </div>
         <div class="user-activity-table-container">
-          <table id="users-table" class="user-activity-table">
-            <thead>
-              <tr>
-                <th>Usuario</th>
-                <th>Login</th>
-                <th>Turno</th>
-                <th>Stows</th>
-                <th>Rate/Hora</th>
-                <th>Eficiencia</th>
-                <th>Última Actividad</th>
-              </tr>
+          <table
+            id="stow-rates-table"
+            class="user-activity-table stow-table-detailed"
+          >
+            <thead id="table-header">
+              <!-- Headers se generarán dinámicamente según categoría -->
             </thead>
-            <tbody>
+            <tbody id="table-body">
               <!-- Datos se cargarán dinámicamente -->
             </tbody>
           </table>

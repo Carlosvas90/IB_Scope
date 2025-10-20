@@ -725,6 +725,13 @@ class Router {
           this.currentView = viewName;
           console.log(`✅ Vista cargada exitosamente: ${viewName}`);
 
+          // Disparar evento personalizado para notificar que la vista se cargó
+          const viewLoadedEvent = new CustomEvent("view:loaded", {
+            detail: { app: this.currentApp, view: viewName },
+          });
+          document.dispatchEvent(viewLoadedEvent);
+          console.log(`📢 Evento view:loaded disparado para: ${viewName}`);
+
           // Cargar el CSS correspondiente si existe
           const cssPath = `../apps/activity-scope/css/${viewName}.css`;
           const existingLink = document.querySelector(
@@ -756,22 +763,30 @@ class Router {
             console.log(`✅ CSS ya cargado: ${cssPath}`);
           }
 
-          // Cargar el script correspondiente si existe
+          // Cargar el script correspondiente si existe (solo una vez)
           const scriptPath = `../apps/activity-scope/js/${viewName}.js`;
-          try {
-            const scriptResponse = await fetch(scriptPath);
-            if (scriptResponse.ok) {
-              const scriptText = await scriptResponse.text();
-              const script = document.createElement("script");
-              script.textContent = scriptText;
-              document.head.appendChild(script);
-              console.log(`✅ Script cargado: ${scriptPath}`);
+          const scriptId = `activity-scope-${viewName}-script`;
+          const existingScript = document.getElementById(scriptId);
+
+          if (!existingScript) {
+            try {
+              const scriptResponse = await fetch(scriptPath);
+              if (scriptResponse.ok) {
+                const scriptText = await scriptResponse.text();
+                const script = document.createElement("script");
+                script.id = scriptId;
+                script.textContent = scriptText;
+                document.head.appendChild(script);
+                console.log(`✅ Script cargado: ${scriptPath}`);
+              }
+            } catch (scriptError) {
+              console.warn(
+                `⚠️ No se pudo cargar script: ${scriptPath}`,
+                scriptError
+              );
             }
-          } catch (scriptError) {
-            console.warn(
-              `⚠️ No se pudo cargar script: ${scriptPath}`,
-              scriptError
-            );
+          } else {
+            console.log(`✅ Script ya cargado: ${scriptPath}`);
           }
 
           // Actualizar enlace activo

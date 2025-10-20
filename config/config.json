@@ -11,6 +11,10 @@
     "\\\\ant\\dept-eu\\VLC1\\Public\\Apps_Tools\\chuecc\\IB_Scope\\Data\\Analytics\\",
     "C:\\Users\\carlo\\Downloads\\0-Proyecto_IB_Scope\\Analisis\\Data\\Analytics\\"
   ],
+  "Assets_paths": [
+    "\\\\ant\\dept-eu\\VLC1\\Public\\Apps_Tools\\chuecc\\IB_Scope\\Data\\Assets\\User_maps\\",
+    "C:\\Users\\carlo\\Downloads\\0-Proyecto_IB_Scope\\Analisis\\Data\\Assets\\User_maps\\"
+  ],
   "preferred_theme": "light",
   "auto_refresh": 60,
   "app_name": "Inbound Scope",

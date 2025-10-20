@@ -1,0 +1,110 @@
+{
+  "metadata": {
+    "fecha": "20102025",
+    "generated_at": "2025-10-20 22:37:13",
+    "total_users": 14,
+    "early_users": 6,
+    "late_users": 8,
+    "source": "Activity_Clean"
+  },
+  "user_rotations": [
+    {
+      "user_id": "cipohcec",
+      "rotacion_turno": "Early",
+      "registros_early": 462,
+      "registros_late": 168,
+      "total_registros": 630
+    },
+    {
+      "user_id": "gregopin",
+      "rotacion_turno": "Early",
+      "registros_early": 299,
+      "registros_late": 0,
+      "total_registros": 299
+    },
+    {
+      "user_id": "aletolea",
+      "rotacion_turno": "Late",
+      "registros_early": 0,
+      "registros_late": 203,
+      "total_registros": 203
+    },
+    {
+      "user_id": "nmartpab",
+      "rotacion_turno": "Late",
+      "registros_early": 0,
+      "registros_late": 278,
+      "total_registros": 278
+    },
+    {
+      "user_id": "crejuanw",
+      "rotacion_turno": "Late",
+      "registros_early": 131,
+      "registros_late": 182,
+      "total_registros": 313
+    },
+    {
+      "user_id": "hanllequ",
+      "rotacion_turno": "Early",
+      "registros_early": 125,
+      "registros_late": 47,
+      "total_registros": 172
+    },
+    {
+      "user_id": "navafait",
+      "rotacion_turno": "Early",
+      "registros_early": 226,
+      "registros_late": 205,
+      "total_registros": 431
+    },
+    {
+      "user_id": "tmolinac",
+      "rotacion_turno": "Late",
+      "registros_early": 0,
+      "registros_late": 226,
+      "total_registros": 226
+    },
+    {
+      "user_id": "fthaydee",
+      "rotacion_turno": "Late",
+      "registros_early": 0,
+      "registros_late": 272,
+      "total_registros": 272
+    },
+    {
+      "user_id": "garcamax",
+      "rotacion_turno": "Late",
+      "registros_early": 0,
+      "registros_late": 50,
+      "total_registros": 50
+    },
+    {
+      "user_id": "moufidmo",
+      "rotacion_turno": "Early",
+      "registros_early": 133,
+      "registros_late": 0,
+      "total_registros": 133
+    },
+    {
+      "user_id": "villgonn",
+      "rotacion_turno": "Early",
+      "registros_early": 101,
+      "registros_late": 91,
+      "total_registros": 192
+    },
+    {
+      "user_id": "peredavm",
+      "rotacion_turno": "Late",
+      "registros_early": 0,
+      "registros_late": 211,
+      "total_registros": 211
+    },
+    {
+      "user_id": "wmirmart",
+      "rotacion_turno": "Late",
+      "registros_early": 51,
+      "registros_late": 127,
+      "total_registros": 178
+    }
+  ]
+}
