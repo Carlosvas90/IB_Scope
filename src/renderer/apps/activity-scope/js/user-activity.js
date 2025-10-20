@@ -34,6 +34,7 @@ class UserActivityController {
     await this.loadData();
     await this.loadRosterData();
     await this.loadEmployee30minData();
+    console.log("🔄 Ejecutando loadRotationData...");
     await this.loadRotationData();
     await this.loadAssetsPaths();
     this.setupEventListeners();
@@ -287,11 +288,24 @@ class UserActivityController {
       }
 
       if (rotationData) {
-        this.rotationData = rotationData;
+        // Si viene con estructura {success: true, data: {...}}, usar solo data
+        if (rotationData.success && rotationData.data) {
+          this.rotationData = rotationData.data;
+          console.log(
+            "✅ Datos de rotación extraídos de estructura success/data"
+          );
+        } else {
+          this.rotationData = rotationData;
+        }
+
         console.log(
           `✅ Datos de rotación cargados: {total_users: ${
-            rotationData.user_rotations?.length || 0
+            this.rotationData.user_rotations?.length || 0
           }}`
+        );
+        console.log(
+          "🔍 Primeros usuarios de rotación:",
+          this.rotationData.user_rotations?.slice(0, 3)
         );
       } else {
         console.warn("⚠️ No se pudieron cargar los datos de rotación");
@@ -453,7 +467,32 @@ class UserActivityController {
    * Obtiene la rotación de un usuario (Early/Late)
    */
   getUserRotation(userId) {
+    console.log(
+      `🔍 Buscando rotación para ${userId}, rotationData:`,
+      this.rotationData ? "Cargado" : "No cargado"
+    );
+
+    // Debug: mostrar contenido de rotationData
+    if (this.rotationData) {
+      console.log("🔍 Contenido de rotationData:", this.rotationData);
+      console.log(
+        "🔍 user_rotations existe?",
+        !!this.rotationData.user_rotations
+      );
+      if (this.rotationData.user_rotations) {
+        console.log(
+          "🔍 Total user_rotations:",
+          this.rotationData.user_rotations.length
+        );
+        console.log(
+          "🔍 Primeros 3 user_rotations:",
+          this.rotationData.user_rotations.slice(0, 3)
+        );
+      }
+    }
+
     if (!this.rotationData || !this.rotationData.user_rotations) {
+      console.log(`⚠️ No hay datos de rotación disponibles para ${userId}`);
       return null;
     }
 
@@ -461,7 +500,15 @@ class UserActivityController {
       (user) => user.user_id === userId
     );
 
-    return userRotation ? userRotation.rotacion_turno : null;
+    if (userRotation) {
+      console.log(
+        `✅ Rotación encontrada para ${userId}: ${userRotation.rotacion_turno}`
+      );
+      return userRotation.rotacion_turno;
+    } else {
+      console.log(`❌ No se encontró rotación para ${userId}`);
+      return null;
+    }
   }
 
   /**
@@ -472,10 +519,25 @@ class UserActivityController {
       return users;
     }
 
-    return users.filter((user) => {
+    console.log(
+      `🔍 Aplicando filtro de rotación: ${this.currentRotationFilter}`
+    );
+    console.log(`🔍 Total usuarios antes del filtro: ${users.length}`);
+
+    const filteredUsers = users.filter((user) => {
       const rotation = this.getUserRotation(user.login);
-      return rotation === this.currentRotationFilter;
+      console.log(
+        `🔍 Usuario: ${user.login}, Rotación: ${rotation}, Filtro: ${this.currentRotationFilter}`
+      );
+      // Comparar sin importar mayúsculas/minúsculas
+      return (
+        rotation &&
+        rotation.toLowerCase() === this.currentRotationFilter.toLowerCase()
+      );
     });
+
+    console.log(`🔍 Usuarios después del filtro: ${filteredUsers.length}`);
+    return filteredUsers;
   }
 
   /**
