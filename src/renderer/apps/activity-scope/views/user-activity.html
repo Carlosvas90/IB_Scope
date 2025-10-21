@@ -189,6 +189,141 @@
           </div>
         </div>
 
+        <!-- KPI 4: Análisis de Esfuerzo -->
+        <div class="user-effort-kpi">
+          <div class="kpi-header">
+            <h3>⚡ Análisis de Esfuerzo</h3>
+          </div>
+          <div class="kpi-content">
+            <!-- Métricas principales -->
+            <div class="effort-metrics">
+              <div class="metric-row">
+                <div class="metric-item">
+                  <span class="metric-label">⏰ Horas trabajadas:</span>
+                  <span class="metric-value" id="effort-hours">--</span>
+                </div>
+                <div class="metric-item">
+                  <span class="metric-label">📏 Distancia recorrida:</span>
+                  <span class="metric-value" id="effort-distance">--</span>
+                </div>
+                <div class="metric-item">
+                  <span class="metric-label">📦 Promedio units/bin:</span>
+                  <span class="metric-value" id="effort-units-per-bin">--</span>
+                </div>
+              </div>
+              <div class="metric-row">
+                <div class="metric-item">
+                  <span class="metric-label">🛒 Cambios de carrito:</span>
+                  <span class="metric-value" id="effort-cart-changes">--</span>
+                </div>
+                <div class="metric-item">
+                  <span class="metric-label">❌ Errores cometidos:</span>
+                  <span class="metric-value" id="effort-errors">--</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Porcentajes de categorías -->
+            <div class="effort-categories">
+              <h4>📊 Distribución por Categorías</h4>
+              <div class="categories-comparison">
+                <div class="category-comparison">
+                  <div class="category-item">
+                    <span class="category-label">Muy Fácil</span>
+                    <div class="category-bar">
+                      <div
+                        class="category-fill muy-facil"
+                        id="category-muy-facil"
+                      ></div>
+                      <span
+                        class="category-percentage"
+                        id="percentage-muy-facil"
+                        >--</span
+                      >
+                    </div>
+                    <span class="category-average" id="average-muy-facil"
+                      >Promedio: --</span
+                    >
+                  </div>
+                  <div class="category-item">
+                    <span class="category-label">Fácil</span>
+                    <div class="category-bar">
+                      <div
+                        class="category-fill facil"
+                        id="category-facil"
+                      ></div>
+                      <span class="category-percentage" id="percentage-facil"
+                        >--</span
+                      >
+                    </div>
+                    <span class="category-average" id="average-facil"
+                      >Promedio: --</span
+                    >
+                  </div>
+                  <div class="category-item">
+                    <span class="category-label">Medio</span>
+                    <div class="category-bar">
+                      <div
+                        class="category-fill medio"
+                        id="category-medio"
+                      ></div>
+                      <span class="category-percentage" id="percentage-medio"
+                        >--</span
+                      >
+                    </div>
+                    <span class="category-average" id="average-medio"
+                      >Promedio: --</span
+                    >
+                  </div>
+                  <div class="category-item">
+                    <span class="category-label">Difícil</span>
+                    <div class="category-bar">
+                      <div
+                        class="category-fill dificil"
+                        id="category-dificil"
+                      ></div>
+                      <span class="category-percentage" id="percentage-dificil"
+                        >--</span
+                      >
+                    </div>
+                    <span class="category-average" id="average-dificil"
+                      >Promedio: --</span
+                    >
+                  </div>
+                  <div class="category-item">
+                    <span class="category-label">Muy Difícil</span>
+                    <div class="category-bar">
+                      <div
+                        class="category-fill muy-dificil"
+                        id="category-muy-dificil"
+                      ></div>
+                      <span
+                        class="category-percentage"
+                        id="percentage-muy-dificil"
+                        >--</span
+                      >
+                    </div>
+                    <span class="category-average" id="average-muy-dificil"
+                      >Promedio: --</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Top ASINs por categoría -->
+            <div class="effort-top-asins">
+              <h4>🏆 Top ASINs por Categoría</h4>
+              <div class="top-asins-tabs" id="top-asins-tabs">
+                <!-- Tabs se generarán dinámicamente -->
+              </div>
+              <div class="top-asins-content" id="top-asins-content">
+                <!-- Contenido se cargará dinámicamente -->
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Modal para mostrar imagen en grande -->
         <div id="heatmap-modal" class="heatmap-modal">
           <div class="heatmap-modal-content">
@@ -217,63 +352,72 @@
         <div class="table-header-with-controls">
           <h3>📋 Detalle de Usuarios - Rates de Stow</h3>
 
-          <!-- Filtros de rotación -->
-          <div class="rotation-filters">
-            <span class="filter-label">Filtrar por turno:</span>
-            <button class="rotation-filter-btn active" data-filter="all">
-              🌅 Todos
-            </button>
-            <button class="rotation-filter-btn" data-filter="early">
-              🌅 Early
-            </button>
-            <button class="rotation-filter-btn" data-filter="late">
-              🌙 Late
-            </button>
+          <!-- Filtros principales en una línea -->
+          <div class="main-filters-row">
+            <!-- Filtros de rotación -->
+            <div class="rotation-filters">
+              <span class="filter-label">Filtrar por turno:</span>
+              <button class="rotation-filter-btn active" data-filter="all">
+                🌅 Todos
+              </button>
+              <button class="rotation-filter-btn" data-filter="early">
+                🌅 Early
+              </button>
+              <button class="rotation-filter-btn" data-filter="late">
+                🌙 Late
+              </button>
+            </div>
+
+            <!-- Controles de ordenamiento -->
+            <div class="sort-controls">
+              <span class="sort-label">Ordenar por:</span>
+              <button class="sort-btn active" data-sort="combined-uph">
+                📊 UPH Combined
+              </button>
+              <button class="sort-btn" data-sort="combined-hours">
+                ⏰ Horas Combined
+              </button>
+              <button class="sort-btn" data-sort="combined-units">
+                📦 Units Combined
+              </button>
+              <button class="sort-btn" data-sort="rate-ajustado">
+                🎯 Rate Ajustado
+              </button>
+              <button
+                class="sort-direction-btn"
+                id="sort-direction-btn"
+                title="Cambiar dirección"
+              >
+                🔽
+              </button>
+            </div>
           </div>
 
-          <!-- Controles de ordenamiento -->
-          <div class="sort-controls">
-            <span class="sort-label">Ordenar por:</span>
-            <button class="sort-btn active" data-sort="combined-uph">
-              📊 UPH Combined
-            </button>
-            <button class="sort-btn" data-sort="combined-hours">
-              ⏰ Horas Combined
-            </button>
-            <button class="sort-btn" data-sort="combined-units">
-              📦 Units Combined
-            </button>
-            <button
-              class="sort-direction-btn"
-              id="sort-direction-btn"
-              title="Cambiar dirección"
-            >
-              🔽
-            </button>
-          </div>
-
-          <div class="category-selector">
-            <button class="category-btn active" data-category="each">
-              📦 Each Stow
-            </button>
-            <button class="category-btn" data-category="each-e">
-              📦 Each E
-            </button>
-            <button class="category-btn" data-category="each-w">
-              📦 Each W
-            </button>
-            <button class="category-btn" data-category="pallet">
-              🚛 Pallet
-            </button>
-            <button class="category-btn" data-category="pallet-e">
-              🚛 Pallet E
-            </button>
-            <button class="category-btn" data-category="pallet-w">
-              🚛 Pallet W
-            </button>
-            <button class="category-btn" data-category="effort">
-              ⚡ Esfuerzo
-            </button>
+          <!-- Filtros de categoría de tabla en otra línea -->
+          <div class="table-category-filters">
+            <div class="category-selector">
+              <button class="category-btn active" data-category="each">
+                📦 Each Stow
+              </button>
+              <button class="category-btn" data-category="each-e">
+                📦 Each E
+              </button>
+              <button class="category-btn" data-category="each-w">
+                📦 Each W
+              </button>
+              <button class="category-btn" data-category="pallet">
+                🚛 Pallet
+              </button>
+              <button class="category-btn" data-category="pallet-e">
+                🚛 Pallet E
+              </button>
+              <button class="category-btn" data-category="pallet-w">
+                🚛 Pallet W
+              </button>
+              <button class="category-btn" data-category="effort">
+                ⚡ Esfuerzo
+              </button>
+            </div>
           </div>
         </div>
         <div class="user-activity-table-container">

@@ -11,6 +11,7 @@ class UserActivityController {
     this.currentCategory = "each"; // Categoría por defecto
     this.stowData = null;
     this.effortData = null;
+    this.effortSummaryData = null;
     this.rosterData = null;
     this.employee30minData = null;
     this.rotationData = null;
@@ -22,8 +23,30 @@ class UserActivityController {
     this.currentRotationFilter = "all"; // "all", "early", "late"
     this.currentSortColumn = "combined-uph"; // "combined-uph", "combined-hours", "combined-units"
     this.sortDirection = "desc"; // "asc", "desc"
+    this.currentDate = this.getCurrentDateString();
 
     this.init();
+  }
+
+  /**
+   * Genera la fecha actual en formato DDMMYYYY
+   * @returns {string} Fecha en formato DDMMYYYY
+   */
+  getCurrentDateString() {
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, "0");
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const year = now.getFullYear();
+    return `${day}${month}${year}`;
+  }
+
+  /**
+   * Genera el nombre de archivo con fecha actual
+   * @param {string} baseName - Nombre base del archivo
+   * @returns {string} Nombre completo del archivo con fecha
+   */
+  getFileNameWithDate(baseName) {
+    return `${baseName}_${this.currentDate}.json`;
   }
 
   /**
@@ -31,12 +54,15 @@ class UserActivityController {
    */
   async init() {
     console.log("🚀 Inicializando UserActivityController...");
+    console.log("📅 Fecha actual detectada:", this.currentDate);
+
     await this.loadData();
     await this.loadRosterData();
     await this.loadEmployee30minData();
     console.log("🔄 Ejecutando loadRotationData...");
     await this.loadRotationData();
     await this.loadAssetsPaths();
+    await this.loadEffortData();
     this.setupEventListeners();
     this.setupHeatmapModalEvents();
     this.updateTable();
@@ -159,26 +185,48 @@ class UserActivityController {
    * Carga datos del roster
    */
   async loadRosterData() {
-    console.log("👥 Cargando datos del roster...");
+    console.log("👥 Cargando datos del roster desde data_paths...");
 
     try {
-      const appPath = await window.api.getAppPath();
-      const rosterPath = `${appPath}\\Ejemplos\\roster.json`;
+      const config = await window.api.getConfig();
+      if (!config || !config.data_paths) {
+        throw new Error("No se encontró configuración de data_paths");
+      }
 
-      console.log("📂 Intentando cargar Roster desde:", rosterPath);
+      console.log("📂 Archivo a cargar: roster.json");
 
-      const rosterResult = await window.api.readJson(rosterPath);
+      let rosterData = null;
 
-      if (rosterResult.success) {
-        this.rosterData = rosterResult.data;
+      for (const dataPath of config.data_paths) {
+        try {
+          const rosterPath = `${dataPath}roster.json`;
+          console.log("📂 Intentando cargar Roster desde:", rosterPath);
+
+          const rosterResult = await window.api.readJson(rosterPath);
+
+          if (rosterResult.success) {
+            rosterData = rosterResult.data;
+            console.log("✅ Roster cargado desde:", rosterPath);
+            break;
+          }
+        } catch (error) {
+          console.log(`❌ Error cargando desde ${dataPath}:`, error.message);
+          continue;
+        }
+      }
+
+      if (rosterData) {
+        this.rosterData = rosterData;
         console.log("✅ Datos de Roster cargados:", {
           total_records: this.rosterData.metadata?.total_records || 0,
         });
       } else {
-        console.error("❌ Error cargando Roster:", rosterResult.error);
+        console.error("❌ No se pudieron cargar datos de Roster");
+        this.rosterData = null;
       }
     } catch (error) {
       console.error("❌ Error al cargar roster:", error);
+      this.rosterData = null;
     }
   }
 
@@ -217,34 +265,123 @@ class UserActivityController {
    * Carga datos de los últimos 30 minutos de empleados
    */
   async loadEmployee30minData() {
-    console.log("⏰ Cargando datos de últimos 30 minutos...");
+    console.log("⏰ Cargando datos de últimos 30 minutos desde data_paths...");
 
     try {
-      const appPath = await window.api.getAppPath();
-      const employee30minPath = `${appPath}\\Ejemplos\\employee_last_30min_19102025.json`;
+      const config = await window.api.getConfig();
+      if (!config || !config.data_paths) {
+        throw new Error("No se encontró configuración de data_paths");
+      }
 
-      console.log(
-        "📂 Intentando cargar Employee 30min desde:",
-        employee30minPath
+      const employee30minFileName = this.getFileNameWithDate(
+        "employee_last_30min"
       );
+      console.log("📂 Archivo a cargar:", employee30minFileName);
 
-      const employee30minResult = await window.api.readJson(employee30minPath);
+      let employee30minData = null;
 
-      if (employee30minResult.success) {
-        this.employee30minData = employee30minResult.data;
+      for (const dataPath of config.data_paths) {
+        try {
+          const employee30minPath = `${dataPath}${employee30minFileName}`;
+          console.log(
+            "📂 Intentando cargar Employee 30min desde:",
+            employee30minPath
+          );
+
+          const employee30minResult = await window.api.readJson(
+            employee30minPath
+          );
+
+          if (employee30minResult.success) {
+            employee30minData = employee30minResult.data;
+            console.log("✅ Employee 30min cargado desde:", employee30minPath);
+            break;
+          }
+        } catch (error) {
+          console.log(`❌ Error cargando desde ${dataPath}:`, error.message);
+          continue;
+        }
+      }
+
+      if (employee30minData) {
+        this.employee30minData = employee30minData;
         console.log("✅ Datos de Employee 30min cargados:", {
           fecha: this.employee30minData.fecha,
           total_empleados: Object.keys(this.employee30minData.empleados || {})
             .length,
         });
       } else {
-        console.error(
-          "❌ Error cargando Employee 30min:",
-          employee30minResult.error
-        );
+        console.error("❌ No se pudieron cargar datos de Employee 30min");
+        this.employee30minData = null;
       }
     } catch (error) {
       console.error("❌ Error al cargar employee 30min:", error);
+    }
+  }
+
+  /**
+   * Carga los datos de análisis de esfuerzo
+   */
+  async loadEffortData() {
+    try {
+      console.log(
+        "⚡ Cargando datos de análisis de esfuerzo desde data_paths..."
+      );
+
+      const config = await window.api.getConfig();
+      if (!config || !config.data_paths) {
+        throw new Error("No se encontró configuración de data_paths");
+      }
+
+      const effortFileName = this.getFileNameWithDate("Categorias_Esfuerzo");
+      console.log("📂 Archivo a cargar:", effortFileName);
+
+      let effortData = null;
+
+      for (const dataPath of config.data_paths) {
+        try {
+          const filePath = `${dataPath}${effortFileName}`;
+          console.log("📂 Intentando cargar esfuerzo desde:", filePath);
+
+          effortData = await window.api.readJson(filePath);
+          if (effortData.success) {
+            console.log("✅ Datos de esfuerzo cargados desde:", filePath);
+            break;
+          }
+        } catch (error) {
+          console.log(`❌ Error cargando desde ${dataPath}:`, error.message);
+          continue;
+        }
+      }
+
+      if (effortData) {
+        // Si viene con estructura {success: true, data: {...}}, usar solo data
+        if (effortData.success && effortData.data) {
+          this.effortData = effortData.data;
+          this.effortSummaryData = effortData.data.resumen_categorias;
+          console.log(
+            "✅ Datos de esfuerzo extraídos de estructura success/data"
+          );
+        } else {
+          this.effortData = effortData;
+          this.effortSummaryData = effortData.resumen_categorias;
+        }
+
+        console.log(
+          `✅ Datos de esfuerzo cargados: {total_empleados: ${
+            Object.keys(this.effortData.analisis_por_empleado || {}).length
+          }}`
+        );
+        console.log("🔍 Resumen de categorías:", this.effortSummaryData);
+      } else {
+        console.warn("⚠️ No se pudieron cargar los datos de esfuerzo");
+        this.effortData = null;
+        this.effortSummaryData = null;
+      }
+    } catch (error) {
+      console.error("❌ Error cargando datos de esfuerzo:", error);
+      this.effortData = null;
+      this.effortSummaryData = null;
     }
   }
 
@@ -253,37 +390,33 @@ class UserActivityController {
    */
   async loadRotationData() {
     try {
-      console.log("🔄 Cargando datos de rotación de turnos...");
+      console.log(
+        "🔄 Cargando datos de rotación de turnos desde data_paths..."
+      );
 
-      // Intentar cargar desde Ejemplos primero (para desarrollo)
+      const config = await window.api.getConfig();
+      if (!config || !config.data_paths) {
+        throw new Error("No se encontró configuración de data_paths");
+      }
+
+      const rotationFileName = this.getFileNameWithDate("Login_Rotation_Shift");
+      console.log("📂 Archivo a cargar:", rotationFileName);
+
       let rotationData = null;
-      try {
-        rotationData = await window.api.readJson(
-          "Ejemplos/Login_Rotation_Shift_20102025.json"
-        );
-        console.log(
-          "✅ Datos de rotación cargados desde Ejemplos:",
-          rotationData
-        );
-      } catch (error) {
-        console.log(
-          "⚠️ No se encontró en Ejemplos, intentando desde data_paths..."
-        );
 
-        // Intentar desde data_paths
-        const config = await window.api.getConfig();
-        if (config && config.data_paths) {
-          for (const dataPath of config.data_paths) {
-            try {
-              const filePath = `${dataPath}Login_Rotation_Shift_20102025.json`;
-              rotationData = await window.api.readJson(filePath);
-              console.log(`✅ Datos de rotación cargados desde: ${filePath}`);
-              break;
-            } catch (pathError) {
-              console.log(`❌ No se encontró en: ${filePath}`);
-              continue;
-            }
+      for (const dataPath of config.data_paths) {
+        try {
+          const filePath = `${dataPath}${rotationFileName}`;
+          console.log("📂 Intentando cargar rotación desde:", filePath);
+
+          rotationData = await window.api.readJson(filePath);
+          if (rotationData.success) {
+            console.log("✅ Datos de rotación cargados desde:", filePath);
+            break;
           }
+        } catch (error) {
+          console.log(`❌ Error cargando desde ${dataPath}:`, error.message);
+          continue;
         }
       }
 
@@ -318,41 +451,74 @@ class UserActivityController {
   }
 
   async loadData() {
-    console.log("📊 Cargando datos de Stow...");
+    console.log("📊 Cargando datos principales desde data_paths...");
 
     try {
-      // Obtener ruta base de la aplicación
-      const appPath = await window.api.getAppPath();
-      console.log("📂 App path:", appPath);
-
-      // Construir rutas absolutas
-      const stowPath = `${appPath}\\Ejemplos\\Stow_Data_19102025.json`;
-      const effortPath = `${appPath}\\Ejemplos\\Categorias_Esfuerzo_19102025.json`;
-
-      console.log("📂 Intentando cargar Stow desde:", stowPath);
-      console.log("📂 Intentando cargar Esfuerzo desde:", effortPath);
-
-      // Usar API de Electron para leer archivos
-      const stowResult = await window.api.readJson(stowPath);
-      const effortResult = await window.api.readJson(effortPath);
-
-      if (stowResult.success) {
-        this.stowData = stowResult.data;
-        console.log("✅ Datos de Stow cargados:", {
-          each_rates: this.stowData.stow_each_rates?.length || 0,
-          pallet_rates: this.stowData.stow_pallet_rates?.length || 0,
-        });
-      } else {
-        console.error("❌ Error cargando Stow:", stowResult.error);
+      // Obtener configuración
+      const config = await window.api.getConfig();
+      if (!config || !config.data_paths) {
+        throw new Error("No se encontró configuración de data_paths");
       }
 
-      if (effortResult.success) {
-        this.effortData = effortResult.data;
-        console.log("✅ Datos de Esfuerzo cargados:", {
-          registros: this.effortData.data?.length || 0,
+      // Construir nombres de archivos con fecha dinámica
+      const stowFileName = this.getFileNameWithDate("Stow_Data");
+      const effortFileName = this.getFileNameWithDate("Categorias_Esfuerzo");
+
+      console.log("📂 Archivos a cargar:", { stowFileName, effortFileName });
+
+      // Intentar cargar desde data_paths
+      let stowData = null;
+      let effortData = null;
+
+      for (const dataPath of config.data_paths) {
+        try {
+          if (!stowData) {
+            const stowPath = `${dataPath}${stowFileName}`;
+            console.log("📂 Intentando cargar Stow desde:", stowPath);
+            const stowResult = await window.api.readJson(stowPath);
+            if (stowResult.success) {
+              stowData = stowResult.data;
+              console.log("✅ Stow cargado desde:", stowPath);
+            }
+          }
+
+          if (!effortData) {
+            const effortPath = `${dataPath}${effortFileName}`;
+            console.log("📂 Intentando cargar Esfuerzo desde:", effortPath);
+            const effortResult = await window.api.readJson(effortPath);
+            if (effortResult.success) {
+              effortData = effortResult.data;
+              console.log("✅ Esfuerzo cargado desde:", effortPath);
+            }
+          }
+
+          // Si ambos están cargados, salir del bucle
+          if (stowData && effortData) break;
+        } catch (error) {
+          console.log(`❌ Error cargando desde ${dataPath}:`, error.message);
+          continue;
+        }
+      }
+
+      if (stowData) {
+        this.stowData = stowData;
+        console.log("✅ Datos de Stow cargados:", {
+          total_usuarios: Object.keys(stowData).length,
         });
       } else {
-        console.error("❌ Error cargando Esfuerzo:", effortResult.error);
+        console.error("❌ No se pudieron cargar datos de Stow");
+      }
+
+      if (effortData) {
+        this.effortData = effortData;
+        this.effortSummaryData = effortData.resumen_categorias || [];
+        console.log("✅ Datos de Esfuerzo cargados:", {
+          total_usuarios: Object.keys(effortData.analisis_por_empleado || {})
+            .length,
+          categorias: this.effortSummaryData.length,
+        });
+      } else {
+        console.error("❌ No se pudieron cargar datos de Esfuerzo");
       }
 
       // Actualizar métricas básicas
@@ -400,6 +566,22 @@ class UserActivityController {
         btn.classList.add("active");
       }
     });
+
+    // Cambiar el botón de ordenamiento activo según la categoría
+    let defaultSortColumn = "combined-uph";
+    if (category === "effort") {
+      defaultSortColumn = "rate-ajustado";
+    }
+
+    // Actualizar botones de ordenamiento
+    document.querySelectorAll(".sort-btn").forEach((btn) => {
+      btn.classList.remove("active");
+      if (btn.dataset.sort === defaultSortColumn) {
+        btn.classList.add("active");
+      }
+    });
+
+    this.currentSortColumn = defaultSortColumn;
 
     // Actualizar tabla
     this.updateTable();
@@ -560,9 +742,19 @@ class UserActivityController {
           valueA = a.combinedUnits || 0;
           valueB = b.combinedUnits || 0;
           break;
+        case "rate-ajustado":
+          valueA = a.rate_ajustado || 0;
+          valueB = b.rate_ajustado || 0;
+          break;
         default:
-          valueA = a.combinedUph || 0;
-          valueB = b.combinedUph || 0;
+          // Para datos de esfuerzo, usar rate_ajustado por defecto
+          if (a.rate_ajustado !== undefined) {
+            valueA = a.rate_ajustado || 0;
+            valueB = b.rate_ajustado || 0;
+          } else {
+            valueA = a.combinedUph || 0;
+            valueB = b.combinedUph || 0;
+          }
       }
 
       if (this.sortDirection === "desc") {
@@ -595,6 +787,12 @@ class UserActivityController {
     // Limpiar tabla
     thead.innerHTML = "";
     tbody.innerHTML = "";
+
+    // Remover clase CSS específica de esfuerzo si existe
+    const table = tbody.closest("table");
+    if (table) {
+      table.classList.remove("effort-table");
+    }
 
     // Limpiar popups anteriores
     if (this.userImageService) {
@@ -711,6 +909,9 @@ class UserActivityController {
           prime: { hours: 0, units: 0, uph: 0 },
           transfer: { hours: 0, units: 0, uph: 0 },
           combined: { hours: 0, units: 0, uph: 0 },
+          // Agregar datos de esfuerzo si están disponibles
+          rate_ajustado: 0,
+          uph_original: 0,
         });
       }
 
@@ -749,6 +950,17 @@ class UserActivityController {
       user.combinedUph = user.combined.uph;
       user.combinedHours = user.combined.hours;
       user.combinedUnits = user.combined.units;
+
+      // Agregar datos de esfuerzo si están disponibles
+      if (this.effortData && this.effortData.analisis_por_empleado) {
+        const effortUser = Object.values(
+          this.effortData.analisis_por_empleado
+        ).find((emp) => emp.login === user.login);
+        if (effortUser) {
+          user.rate_ajustado = effortUser.rate_ajustado || 0;
+          user.uph_original = effortUser.uph_original || 0;
+        }
+      }
     });
 
     // Aplicar filtro de rotación
@@ -780,9 +992,14 @@ class UserActivityController {
         )}</strong></td>
         <td class="cell-combined">${user.combined.hours.toFixed(2)}</td>
         <td class="cell-combined">${user.combined.units}</td>
-        <td class="cell-combined highlight-uph"><strong>${user.combined.uph.toFixed(
-          0
-        )}</strong></td>
+        <td class="cell-combined highlight-uph"><strong>${
+          this.currentSortColumn === "rate-ajustado" && !suffix
+            ? this.generateRateChangeSVG(
+                user.rate_ajustado || user.combined.uph,
+                user.uph_original || user.combined.uph
+              )
+            : user.combined.uph.toFixed(0)
+        }</strong></td>
       `;
       tbody.appendChild(row);
     });
@@ -855,6 +1072,9 @@ class UserActivityController {
           prime: { hours: 0, pallets: 0, pph: 0 },
           transfer: { hours: 0, pallets: 0, pph: 0 },
           combined: { hours: 0, pallets: 0, pph: 0 },
+          // Agregar datos de esfuerzo si están disponibles
+          rate_ajustado: 0,
+          uph_original: 0,
         });
       }
 
@@ -893,6 +1113,17 @@ class UserActivityController {
       user.combinedUph = user.combined.pph; // Para pallets usamos PPH como UPH
       user.combinedHours = user.combined.hours;
       user.combinedUnits = user.combined.pallets; // Para pallets usamos pallets como units
+
+      // Agregar datos de esfuerzo si están disponibles
+      if (this.effortData && this.effortData.analisis_por_empleado) {
+        const effortUser = Object.values(
+          this.effortData.analisis_por_empleado
+        ).find((emp) => emp.login === user.login);
+        if (effortUser) {
+          user.rate_ajustado = effortUser.rate_ajustado || 0;
+          user.uph_original = effortUser.uph_original || 0;
+        }
+      }
     });
 
     // Aplicar filtro de rotación
@@ -947,66 +1178,87 @@ class UserActivityController {
    * Renderiza tabla de Esfuerzo
    */
   renderEffortTable(thead, tbody) {
-    if (!this.effortData || !this.effortData.data) return;
+    console.log("⚡ Renderizando tabla de Esfuerzo");
 
-    // Crear header
+    // Configurar headers con la misma estructura que las otras tablas
     thead.innerHTML = `
       <tr>
-        <th>Login</th>
-        <th>Horas</th>
-        <th>Units</th>
-        <th>Rate Ajustado</th>
+        <th rowspan="2" class="header-login">Login</th>
+        <th colspan="5" class="header-group header-effort">Análisis de Esfuerzo</th>
+      </tr>
+      <tr>
+        <th class="sub-header header-effort">Horas</th>
+        <th class="sub-header header-effort">Units Totales</th>
+        <th class="sub-header header-effort">UPH Original</th>
+        <th class="sub-header header-effort">Factor Ajuste</th>
+        <th class="sub-header header-effort">Rate Ajustado</th>
       </tr>
     `;
 
-    // Agrupar por usuario
-    const userMap = new Map();
+    if (!this.effortData || !this.effortData.analisis_por_empleado) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="6" class="no-data">No hay datos de esfuerzo disponibles</td>
+        </tr>
+      `;
+      return;
+    }
 
-    this.effortData.data.forEach((entry) => {
-      if (!entry.login) return;
+    // Obtener datos de empleados
+    const employees = Object.values(this.effortData.analisis_por_empleado);
 
-      if (!userMap.has(entry.login)) {
-        userMap.set(entry.login, {
-          login: entry.login,
-          hours: 0,
-          units: 0,
-          adjustedRate: 0,
-          count: 0,
-        });
-      }
+    if (employees.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="6" class="no-data">No hay empleados con datos de esfuerzo</td>
+        </tr>
+      `;
+      return;
+    }
 
-      const user = userMap.get(entry.login);
-      user.hours += entry.hours || 0;
-      user.units += entry.estandar_units || 0;
-      user.adjustedRate += entry.rate_ajustado || 0;
-      user.count++;
-    });
+    // Filtrar usuarios con datos válidos
+    const usersWithData = employees.filter(
+      (user) => user.hours > 0 || user.units_totales > 0
+    );
+
+    // Aplicar filtros de rotación y ordenamiento
+    const filteredUsers = this.filterUsersByRotation(usersWithData);
+    const sortedUsers = this.sortUsers(filteredUsers);
+
+    console.log(
+      `✅ Usuarios con datos de esfuerzo: ${sortedUsers.length} (filtro: ${this.currentRotationFilter}, orden: ${this.currentSortColumn} ${this.sortDirection})`
+    );
+
+    // Limpiar tbody
+    tbody.innerHTML = "";
+
+    // Agregar clase CSS específica para esfuerzo
+    const table = tbody.closest("table");
+    if (table) {
+      table.classList.add("effort-table");
+    }
 
     // Renderizar filas
-    Array.from(userMap.values()).forEach((user) => {
-      const avgAdjustedRate =
-        user.count > 0 ? user.adjustedRate / user.count : 0;
-
+    sortedUsers.forEach((user, index) => {
       const row = document.createElement("tr");
       row.innerHTML = `
-        <td><strong>${user.login}</strong></td>
-        <td>${user.hours.toFixed(2)}</td>
-        <td>${user.units.toFixed(0)}</td>
-        <td><strong>${avgAdjustedRate.toFixed(2)}</strong></td>
+        <td class="cell-login"><strong>${user.login}</strong></td>
+        <td class="cell-effort">${user.hours.toFixed(2)}h</td>
+        <td class="cell-effort">${user.units_totales}</td>
+        <td class="cell-effort"><strong>${user.uph_original.toFixed(
+          2
+        )}</strong></td>
+        <td class="cell-effort">${user.factor_ajuste.toFixed(2)}</td>
+        <td class="cell-effort highlight-uph"><strong>${user.rate_ajustado.toFixed(
+          2
+        )}</strong></td>
       `;
       tbody.appendChild(row);
     });
 
-    // Añadir mensaje si no hay datos
-    if (userMap.size === 0) {
-      tbody.innerHTML = `
-        <tr>
-          <td colspan="4" style="text-align: center; padding: 2rem; color: #666;">
-            No hay datos disponibles para esta categoría
-          </td>
-        </tr>
-      `;
-    }
+    console.log(
+      `✅ Tabla de esfuerzo renderizada con ${sortedUsers.length} usuarios`
+    );
   }
 
   /**
@@ -1109,6 +1361,9 @@ class UserActivityController {
 
     // Actualizar zonas disponibles para heatmap
     await this.updateAvailableZones(login);
+
+    // Actualizar análisis de esfuerzo
+    this.updateUserEffortData(login);
 
     // Scroll to top
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1421,6 +1676,323 @@ class UserActivityController {
   }
 
   /**
+   * Actualiza los datos de análisis de esfuerzo para el usuario
+   * @param {string} login - Login del usuario
+   */
+  updateUserEffortData(login) {
+    console.log(`⚡ Actualizando datos de esfuerzo para: ${login}`);
+
+    if (!this.effortData || !this.effortData.analisis_por_empleado) {
+      console.warn("⚠️ No hay datos de esfuerzo disponibles");
+      this.clearEffortData();
+      return;
+    }
+
+    // Buscar datos del usuario por login
+    const userEffortData = Object.values(
+      this.effortData.analisis_por_empleado
+    ).find((user) => user.login === login);
+
+    if (!userEffortData) {
+      console.warn(`⚠️ No se encontraron datos de esfuerzo para ${login}`);
+      this.clearEffortData();
+      return;
+    }
+
+    console.log(
+      `✅ Datos de esfuerzo encontrados para ${login}:`,
+      userEffortData
+    );
+
+    // Actualizar métricas principales
+    this.updateEffortMetrics(userEffortData);
+
+    // Actualizar porcentajes de categorías
+    this.updateEffortCategories(userEffortData);
+
+    // Actualizar top ASINs por categoría
+    this.updateEffortTopAsins(userEffortData);
+  }
+
+  /**
+   * Actualiza las métricas principales del esfuerzo
+   * @param {Object} userData - Datos del usuario
+   */
+  updateEffortMetrics(userData) {
+    const metrics = {
+      hours: userData.hours || 0,
+      distance: userData.total_distance || 0,
+      unitsPerBin: userData.promedio_units_por_bin || 0,
+      cartChanges: userData.cart_changes || 0,
+      errors: userData.errores || 0,
+    };
+
+    // Actualizar elementos del DOM
+    document.getElementById(
+      "effort-hours"
+    ).textContent = `${metrics.hours.toFixed(2)}h`;
+    document.getElementById(
+      "effort-distance"
+    ).textContent = `${metrics.distance.toFixed(1)}m`;
+    document.getElementById(
+      "effort-units-per-bin"
+    ).textContent = `${metrics.unitsPerBin.toFixed(2)}`;
+    document.getElementById(
+      "effort-cart-changes"
+    ).textContent = `${metrics.cartChanges}`;
+    document.getElementById("effort-errors").textContent = `${metrics.errors}`;
+
+    console.log("✅ Métricas de esfuerzo actualizadas:", metrics);
+  }
+
+  /**
+   * Actualiza los porcentajes de categorías con comparación
+   * @param {Object} userData - Datos del usuario
+   */
+  updateEffortCategories(userData) {
+    const userPercentages = userData.porcentajes_categorias || {};
+    const summaryCategories = this.effortSummaryData || [];
+
+    const categories = [
+      {
+        key: "muy_facil",
+        label: "Muy Fácil",
+        color: "muy-facil",
+        summaryKey: "MUY_FACIL",
+      },
+      { key: "facil", label: "Fácil", color: "facil", summaryKey: "FACIL" },
+      { key: "medio", label: "Medio", color: "medio", summaryKey: "MEDIO" },
+      {
+        key: "dificil",
+        label: "Difícil",
+        color: "dificil",
+        summaryKey: "DIFICIL",
+      },
+      {
+        key: "muy_dificil",
+        label: "Muy Difícil",
+        color: "muy-dificil",
+        summaryKey: "MUY_DIFICIL",
+      },
+    ];
+
+    categories.forEach((category) => {
+      const userPercentage = userPercentages[category.key] || 0;
+
+      // Buscar el promedio en resumen_categorias
+      const summaryCategory = summaryCategories.find(
+        (cat) => cat.categoria === category.summaryKey
+      );
+      const averagePercentage = summaryCategory
+        ? summaryCategory.porcentaje_units
+        : 0;
+
+      // Actualizar barra de progreso
+      const fillElement = document.getElementById(`category-${category.color}`);
+      if (fillElement) {
+        fillElement.style.width = `${userPercentage}%`;
+      }
+
+      // Actualizar porcentaje
+      const percentageElement = document.getElementById(
+        `percentage-${category.color}`
+      );
+      if (percentageElement) {
+        percentageElement.textContent = `${userPercentage.toFixed(1)}%`;
+      }
+
+      // Actualizar promedio
+      const averageElement = document.getElementById(
+        `average-${category.color}`
+      );
+      if (averageElement) {
+        averageElement.textContent = `Promedio: ${averagePercentage.toFixed(
+          1
+        )}%`;
+      }
+    });
+
+    console.log("✅ Porcentajes de categorías actualizados");
+  }
+
+  /**
+   * Actualiza los top ASINs por categoría
+   * @param {Object} userData - Datos del usuario
+   */
+  updateEffortTopAsins(userData) {
+    const topAsinsByCategory = userData.top_asins_por_categoria || {};
+    const tabsContainer = document.getElementById("top-asins-tabs");
+    const contentContainer = document.getElementById("top-asins-content");
+
+    if (!tabsContainer || !contentContainer) {
+      console.warn("⚠️ No se encontraron contenedores para top ASINs");
+      return;
+    }
+
+    // Limpiar contenedores
+    tabsContainer.innerHTML = "";
+    contentContainer.innerHTML = "";
+
+    const categories = [
+      "MUY_FACIL",
+      "FACIL",
+      "MEDIO",
+      "DIFICIL",
+      "MUY_DIFICIL",
+    ];
+    let activeTab = null;
+
+    categories.forEach((category, index) => {
+      const asins = topAsinsByCategory[category] || [];
+
+      if (asins.length > 0) {
+        // Crear tab
+        const tab = document.createElement("button");
+        tab.className = `top-asins-tab ${index === 0 ? "active" : ""}`;
+        tab.textContent = category.replace("_", " ");
+        tab.dataset.category = category;
+
+        tab.addEventListener("click", () => {
+          // Remover clase active de todos los tabs
+          tabsContainer
+            .querySelectorAll(".top-asins-tab")
+            .forEach((t) => t.classList.remove("active"));
+          // Agregar clase active al tab clickeado
+          tab.classList.add("active");
+          // Mostrar contenido correspondiente
+          this.showTopAsinsContent(category, asins);
+        });
+
+        tabsContainer.appendChild(tab);
+
+        // Si es el primer tab, mostrarlo por defecto
+        if (index === 0) {
+          activeTab = category;
+        }
+      }
+    });
+
+    // Mostrar contenido del primer tab activo
+    if (activeTab) {
+      this.showTopAsinsContent(activeTab, topAsinsByCategory[activeTab] || []);
+    }
+
+    console.log("✅ Top ASINs por categoría actualizados");
+  }
+
+  /**
+   * Muestra el contenido de ASINs para una categoría específica
+   * @param {string} category - Categoría
+   * @param {Array} asins - Lista de ASINs
+   */
+  showTopAsinsContent(category, asins) {
+    const contentContainer = document.getElementById("top-asins-content");
+    if (!contentContainer) return;
+
+    contentContainer.innerHTML = "";
+
+    if (asins.length === 0) {
+      contentContainer.innerHTML =
+        "<p style='text-align: center; color: #6c757d; padding: 1rem;'>No hay ASINs disponibles para esta categoría</p>";
+      return;
+    }
+
+    const listContainer = document.createElement("div");
+    listContainer.className = "top-asins-list";
+
+    asins.forEach((asin, index) => {
+      const item = document.createElement("div");
+      item.className = "top-asin-item";
+
+      const asinElement = document.createElement("span");
+      asinElement.className = "top-asin-asin";
+      asinElement.textContent = asin["FCSKU/ASIN"];
+      asinElement.title = "Hacer clic para abrir en FCresearch";
+
+      // Agregar funcionalidad para abrir en web externa
+      asinElement.addEventListener("click", () => {
+        this.openAsinInExternalWeb(asin["FCSKU/ASIN"]);
+      });
+
+      const detailsElement = document.createElement("div");
+      detailsElement.className = "top-asin-details";
+      detailsElement.innerHTML = `
+        <span class="top-asin-qty">Qty: ${asin.Qty}</span>
+      `;
+
+      item.appendChild(asinElement);
+      item.appendChild(detailsElement);
+      listContainer.appendChild(item);
+    });
+
+    contentContainer.appendChild(listContainer);
+  }
+
+  /**
+   * Abre un ASIN en FCresearch en una nueva pestaña
+   * @param {string} asin - Código ASIN
+   */
+  openAsinInExternalWeb(asin) {
+    const fcresearchUrl = `http://fcresearch-eu.aka.amazon.com/VLC1/results?s=${asin}`;
+    console.log(`🌐 Abriendo ASIN ${asin} en FCresearch: ${fcresearchUrl}`);
+
+    // Usar la API de Electron para abrir en navegador externo
+    if (window.api && window.api.openExternalLink) {
+      window.api.openExternalLink(fcresearchUrl);
+    } else if (window.api && window.api.openExternal) {
+      window.api.openExternal(fcresearchUrl);
+    } else {
+      // Fallback: abrir en nueva ventana
+      window.open(fcresearchUrl, "_blank");
+    }
+  }
+
+  /**
+   * Limpia los datos de esfuerzo cuando no hay datos disponibles
+   */
+  clearEffortData() {
+    // Limpiar métricas
+    const metricIds = [
+      "effort-hours",
+      "effort-distance",
+      "effort-units-per-bin",
+      "effort-cart-changes",
+      "effort-errors",
+    ];
+    metricIds.forEach((id) => {
+      const element = document.getElementById(id);
+      if (element) element.textContent = "--";
+    });
+
+    // Limpiar categorías
+    const categoryColors = [
+      "muy-facil",
+      "facil",
+      "medio",
+      "dificil",
+      "muy-dificil",
+    ];
+    categoryColors.forEach((color) => {
+      const fillElement = document.getElementById(`category-${color}`);
+      if (fillElement) fillElement.style.width = "0%";
+
+      const percentageElement = document.getElementById(`percentage-${color}`);
+      if (percentageElement) percentageElement.textContent = "--";
+
+      const averageElement = document.getElementById(`average-${color}`);
+      if (averageElement) averageElement.textContent = "Promedio: --";
+    });
+
+    // Limpiar top ASINs
+    const tabsContainer = document.getElementById("top-asins-tabs");
+    const contentContainer = document.getElementById("top-asins-content");
+    if (tabsContainer) tabsContainer.innerHTML = "";
+    if (contentContainer)
+      contentContainer.innerHTML =
+        "<p style='text-align: center; color: #6c757d; padding: 1rem;'>No hay datos disponibles</p>";
+  }
+
+  /**
    * Mostrar imagen del heatmap en modal
    */
   showHeatmapImage(login, zone, imagePath) {
@@ -1462,6 +2034,32 @@ class UserActivityController {
       modal.classList.remove("show");
       document.body.style.overflow = ""; // Restaurar scroll del body
     }
+  }
+
+  /**
+   * Genera SVG de flecha para mostrar cambio de rate
+   * @param {number} newRate - Rate nuevo (ajustado)
+   * @param {number} oldRate - Rate anterior (original)
+   * @returns {string} HTML con SVG de flecha
+   */
+  generateRateChangeSVG(newRate, oldRate) {
+    if (!oldRate || oldRate === 0) {
+      return `<span class="rate-new">${newRate.toFixed(0)}</span>`;
+    }
+
+    const isIncrease = newRate > oldRate;
+    const color = isIncrease ? "#10b981" : "#ef4444"; // Verde para subir, rojo para bajar
+    const arrowDirection = isIncrease ? "M7 14l5-5 5 5" : "M7 10l5 5 5-5"; // Flecha hacia arriba o abajo
+
+    return `
+      <span class="rate-display">
+        <span class="rate-new">${newRate.toFixed(0)}</span>
+        <svg class="rate-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="${arrowDirection}"></path>
+        </svg>
+        <span class="rate-old">${oldRate.toFixed(0)}</span>
+      </span>
+    `;
   }
 }
 

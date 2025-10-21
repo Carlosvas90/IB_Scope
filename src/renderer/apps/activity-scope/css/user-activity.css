@@ -1140,7 +1140,8 @@ body {
 }
 
 /* KPI 3: HEATMAP Stow */
-.user-heatmap-kpi {
+.user-heatmap-kpi,
+.user-effort-kpi {
   flex: 1;
   background: var(--Fondo-kapi, white);
   border-radius: 8px;
@@ -1345,4 +1346,341 @@ body {
   .user-30min-asins {
     flex: 1;
   }
+}
+
+/* KPI 4: Análisis de Esfuerzo */
+.effort-metrics {
+  margin-bottom: 1.5rem;
+}
+
+.metric-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.metric-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.8rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+}
+
+.metric-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 0.3rem;
+  text-align: center;
+}
+
+.metric-value {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #667eea;
+}
+
+.effort-categories {
+  margin-bottom: 1.5rem;
+}
+
+.effort-categories h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #495057;
+}
+
+.category-comparison {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.category-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.category-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #495057;
+}
+
+.category-bar {
+  position: relative;
+  height: 20px;
+  background: #e9ecef;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.category-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+.category-fill.muy-facil {
+  background: linear-gradient(90deg, #28a745, #20c997);
+}
+
+.category-fill.facil {
+  background: linear-gradient(90deg, #17a2b8, #6f42c1);
+}
+
+.category-fill.medio {
+  background: linear-gradient(90deg, #ffc107, #fd7e14);
+}
+
+.category-fill.dificil {
+  background: linear-gradient(90deg, #dc3545, #e83e8c);
+}
+
+.category-fill.muy-dificil {
+  background: linear-gradient(90deg, #6c757d, #343a40);
+}
+
+.category-percentage {
+  position: absolute;
+  right: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.category-average {
+  font-size: 0.7rem;
+  color: #6c757d;
+  font-style: italic;
+}
+
+.effort-top-asins {
+  flex: 1;
+}
+
+.effort-top-asins h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #495057;
+}
+
+.top-asins-tabs {
+  display: flex;
+  gap: 0.3rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.top-asins-tab {
+  padding: 0.4rem 0.8rem;
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.top-asins-tab:hover {
+  background: #e9ecef;
+  border-color: #adb5bd;
+}
+
+.top-asins-tab.active {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+}
+
+.top-asins-content {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.top-asins-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.top-asin-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 4px;
+  border: 1px solid #e9ecef;
+}
+
+.top-asin-asin {
+  font-family: monospace;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #667eea;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.top-asin-asin:hover {
+  color: #5a67d8;
+}
+
+.top-asin-details {
+  display: flex;
+  gap: 0.8rem;
+  font-size: 0.75rem;
+  color: #6c757d;
+}
+
+.top-asin-qty {
+  font-weight: 600;
+  color: #495057;
+}
+
+.top-asin-effort {
+  font-weight: 600;
+  color: #dc3545;
+}
+
+/* Responsive adicional para esfuerzo */
+@media (max-width: 1200px) {
+  .user-effort-kpi {
+    flex: none;
+  }
+
+  .metric-row {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .top-asins-tabs {
+    flex-direction: column;
+  }
+}
+
+/* Estilos para mostrar cambios de rate con flechas */
+.rate-display {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+}
+
+.rate-new {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.rate-arrow {
+  flex-shrink: 0;
+}
+
+.rate-old {
+  font-size: 0.8rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* Estilos específicos para tabla de esfuerzo */
+.stow-table-detailed.effort-table {
+  background: var(--Fondo-kapi, white);
+}
+
+.stow-table-detailed.effort-table .cell-login {
+  background: #f8fafc;
+  border-right: 2px solid #e2e8f0;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.stow-table-detailed.effort-table tbody tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+.stow-table-detailed.effort-table tbody tr:nth-child(odd) {
+  background: white;
+}
+
+.stow-table-detailed.effort-table tbody tr:hover {
+  background: #e0f2fe;
+}
+
+.stow-table-detailed.effort-table .cell-hours,
+.stow-table-detailed.effort-table .cell-units,
+.stow-table-detailed.effort-table .cell-uph,
+.stow-table-detailed.effort-table .cell-factor,
+.stow-table-detailed.effort-table .cell-rate {
+  text-align: center;
+  font-weight: 500;
+}
+
+.stow-table-detailed.effort-table .cell-rate {
+  font-weight: 700;
+  color: #059669;
+}
+
+/* Estilos para la nueva estructura de filtros */
+.main-filters-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.table-category-filters {
+  margin-top: 0.5rem;
+}
+
+.table-category-filters .category-selector {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0.5rem;
+  background: #f1f5f9;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+}
+
+/* Estilos para headers de esfuerzo */
+.header-effort {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.sub-header.header-effort {
+  background: #667eea;
+  color: white;
+}
+
+/* Estilos para celdas de esfuerzo */
+.cell-effort {
+  text-align: center;
+  font-weight: 500;
+  padding: 0.5rem;
+}
+
+.cell-effort.highlight-uph {
+  font-weight: 700;
+  color: #059669;
 }
