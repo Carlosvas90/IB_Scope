@@ -12,6 +12,8 @@ class UserActivityController {
     this.stowData = null;
     this.effortData = null;
     this.effortSummaryData = null;
+    this.effortGeneralStats = null; // estadisticas_generales
+    this.effortStowTimes = null; // tiempo_promedio_entre_stow_por_empleado
     this.rosterData = null;
     this.employee30minData = null;
     this.rotationData = null;
@@ -47,6 +49,81 @@ class UserActivityController {
    */
   getFileNameWithDate(baseName) {
     return `${baseName}_${this.currentDate}.json`;
+  }
+  formatTime(seconds) {
+    if (seconds < 60) {
+      return `${seconds.toFixed(1)} seg`;
+    } else {
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = Math.round(seconds % 60);
+      return `${minutes}min ${remainingSeconds}seg`;
+    }
+  }
+
+  /**
+   * Calcula porcentaje de diferencia respecto al promedio
+   * @param {number} userValue - Valor del usuario
+   * @param {number} averageValue - Valor promedio
+   * @returns {string} Porcentaje formateado (ej: "+15%" o "-20%")
+   */
+  calculatePercentageDifference(userValue, averageValue) {
+    if (!averageValue || averageValue === 0) return "N/A";
+    const percentage = ((userValue - averageValue) / averageValue) * 100;
+    const sign = percentage >= 0 ? "+" : "";
+    return `${sign}${percentage.toFixed(0)}%`;
+  }
+
+  /**
+   * Formatea comparación con promedio
+   * @param {number} userValue - Valor del usuario
+   * @param {number} averageValue - Valor promedio
+   * @param {string} unit - Unidad (ej: "m", "units", etc.)
+   * @returns {string} Comparación formateada en HTML
+   */
+  formatComparison(userValue, averageValue, unit = "") {
+    // Determinar precisión decimal según el tipo de métrica
+    let decimals = 1; // Por defecto 1 decimal
+
+    if (unit === "units" || unit === "" || unit.includes("bin")) {
+      decimals = 2; // Para units/bin necesitamos más precisión
+    } else if (unit === "m") {
+      decimals = 1; // Para distancia metros es suficiente
+    } else if (unit === "h" || unit === "seg") {
+      decimals = 2; // Para tiempo necesitamos más precisión
+    }
+
+    // Redondear valores con la precisión apropiada
+    const roundedUserValue =
+      Math.round(userValue * Math.pow(10, decimals)) / Math.pow(10, decimals);
+    const roundedAverageValue =
+      Math.round(averageValue * Math.pow(10, decimals)) /
+      Math.pow(10, decimals);
+
+    const percentage = this.calculatePercentageDifference(
+      roundedUserValue,
+      roundedAverageValue
+    );
+
+    // Solo mostrar unidades cuando sea necesario para claridad
+    const displayUnit = this.shouldShowUnit(unit);
+
+    return `
+      <div class="comparison-main">${roundedUserValue}${displayUnit}</div>
+      <div class="comparison-sub">(avg: ${roundedAverageValue}${displayUnit}, ${percentage} vs media)</div>
+    `;
+  }
+
+  /**
+   * Determina si debe mostrar la unidad en la comparación
+   * @param {string} unit - Unidad a evaluar
+   * @returns {string} Unidad a mostrar (vacía si no es necesaria)
+   */
+  shouldShowUnit(unit) {
+    // Solo mostrar unidades cuando sea necesario para claridad
+    if (unit === "m" || unit === "h" || unit === "seg" || unit === "min") {
+      return unit; // Para tiempo y distancia es importante
+    }
+    return ""; // Para units, cambios, errores, etc. no es necesario
   }
 
   /**
@@ -359,12 +436,34 @@ class UserActivityController {
         if (effortData.success && effortData.data) {
           this.effortData = effortData.data;
           this.effortSummaryData = effortData.data.resumen_categorias;
+          this.effortGeneralStats = effortData.data.estadisticas_generales;
+          this.effortStowTimes =
+            effortData.data.tiempo_promedio_entre_stow_por_empleado;
           console.log(
             "✅ Datos de esfuerzo extraídos de estructura success/data"
+          );
+          console.log("🔍 Debug extracción success/data:");
+          console.log(
+            "- effortData.data keys:",
+            Object.keys(effortData.data || {})
+          );
+          console.log(
+            "- tiempo_promedio_entre_stow_por_empleado:",
+            effortData.data.tiempo_promedio_entre_stow_por_empleado
           );
         } else {
           this.effortData = effortData;
           this.effortSummaryData = effortData.resumen_categorias;
+          this.effortGeneralStats = effortData.estadisticas_generales;
+          this.effortStowTimes =
+            effortData.tiempo_promedio_entre_stow_por_empleado;
+          console.log("✅ Datos de esfuerzo extraídos de estructura directa");
+          console.log("🔍 Debug extracción directa:");
+          console.log("- effortData keys:", Object.keys(effortData || {}));
+          console.log(
+            "- tiempo_promedio_entre_stow_por_empleado:",
+            effortData.tiempo_promedio_entre_stow_por_empleado
+          );
         }
 
         console.log(
@@ -373,15 +472,35 @@ class UserActivityController {
           }}`
         );
         console.log("🔍 Resumen de categorías:", this.effortSummaryData);
+        console.log("📊 Estadísticas generales:", this.effortGeneralStats);
+        console.log("⏱️ Tiempos entre stow:", this.effortStowTimes);
+        console.log(
+          "🔍 Estructura de tiempos entre stow:",
+          JSON.stringify(this.effortStowTimes, null, 2)
+        );
+        console.log("🔍 Debug loadEffortData - estructura completa:");
+        console.log("- effortData keys:", Object.keys(this.effortData || {}));
+        console.log(
+          "- effortData.tiempo_promedio_entre_stow_por_empleado:",
+          this.effortData?.tiempo_promedio_entre_stow_por_empleado
+        );
+        console.log(
+          "- effortData.estadisticas_generales:",
+          this.effortData?.estadisticas_generales
+        );
       } else {
         console.warn("⚠️ No se pudieron cargar los datos de esfuerzo");
         this.effortData = null;
         this.effortSummaryData = null;
+        this.effortGeneralStats = null;
+        this.effortStowTimes = null;
       }
     } catch (error) {
       console.error("❌ Error cargando datos de esfuerzo:", error);
       this.effortData = null;
       this.effortSummaryData = null;
+      this.effortGeneralStats = null;
+      this.effortStowTimes = null;
     }
   }
 
@@ -1707,6 +1826,9 @@ class UserActivityController {
     // Actualizar métricas principales
     this.updateEffortMetrics(userEffortData);
 
+    // Actualizar tiempo entre stow por menú
+    this.updateEffortStowTimes(userEffortData);
+
     // Actualizar porcentajes de categorías
     this.updateEffortCategories(userEffortData);
 
@@ -1727,28 +1849,136 @@ class UserActivityController {
       errors: userData.errores || 0,
     };
 
-    // Actualizar elementos del DOM
+    // Obtener promedios generales
+    const generalStats = this.effortGeneralStats || {};
+    const avgDistance = generalStats.promedio_distancia_recorrida || 0;
+    const avgUnitsPerBin = generalStats.promedio_units_por_bin || 0;
+    const avgCartChanges =
+      generalStats.promedio_cambios_carro_por_empleado || 0;
+    const avgErrors = generalStats.promedio_errores_por_empleado || 0;
+
+    // Actualizar elementos del DOM con comparaciones
     document.getElementById(
       "effort-hours"
     ).textContent = `${metrics.hours.toFixed(2)}h`;
-    document.getElementById(
-      "effort-distance"
-    ).textContent = `${metrics.distance.toFixed(1)}m`;
-    document.getElementById(
-      "effort-units-per-bin"
-    ).textContent = `${metrics.unitsPerBin.toFixed(2)}`;
-    document.getElementById(
-      "effort-cart-changes"
-    ).textContent = `${metrics.cartChanges}`;
-    document.getElementById("effort-errors").textContent = `${metrics.errors}`;
+
+    document.getElementById("effort-distance").innerHTML =
+      this.formatComparison(metrics.distance, avgDistance, "m");
+
+    document.getElementById("effort-units-per-bin").innerHTML =
+      this.formatComparison(metrics.unitsPerBin, avgUnitsPerBin, "units");
+
+    document.getElementById("effort-cart-changes").innerHTML =
+      this.formatComparison(metrics.cartChanges, avgCartChanges, "cambios");
+
+    document.getElementById("effort-errors").innerHTML = this.formatComparison(
+      metrics.errors,
+      avgErrors,
+      "errores"
+    );
 
     console.log("✅ Métricas de esfuerzo actualizadas:", metrics);
+    console.log("📊 Comparaciones con promedios:", {
+      distance: avgDistance,
+      unitsPerBin: avgUnitsPerBin,
+      cartChanges: avgCartChanges,
+      errors: avgErrors,
+    });
   }
 
   /**
-   * Actualiza los porcentajes de categorías con comparación
+   * Actualiza el tiempo entre stow por menú
    * @param {Object} userData - Datos del usuario
    */
+  updateEffortStowTimes(userData) {
+    // Los datos de tiempo entre stow están en cada usuario individual
+    const userStowTimes =
+      userData.tiempo_promedio_entre_stow_por_empleado || {};
+    const generalStats = this.effortGeneralStats || {};
+
+    // Calcular promedio general de todos los menús
+    const generalStowTimes = generalStats.tiempo_promedio_entre_stow || {};
+    let avgGeneralTime = 0;
+    if (Object.keys(generalStowTimes).length > 0) {
+      const times = Object.values(generalStowTimes).map(
+        (menu) => menu.promedio_general || 0
+      );
+      avgGeneralTime =
+        times.reduce((sum, time) => sum + time, 0) / times.length;
+    }
+
+    console.log("🔍 Debug updateEffortStowTimes:");
+    console.log("- userStowTimes:", userStowTimes);
+    console.log("- generalStats:", generalStats);
+    console.log("- generalStowTimes:", generalStowTimes);
+    console.log("- avgGeneralTime:", avgGeneralTime);
+
+    // Crear HTML para mostrar tiempos por menú
+    let stowTimesHTML = "";
+
+    if (Object.keys(userStowTimes).length > 0) {
+      stowTimesHTML =
+        "<h4>⏱️ Tiempo entre Stow por Menú</h4><div class='stow-times-list'>";
+
+      Object.entries(userStowTimes).forEach(([menu, data]) => {
+        const menuAvgTime = data.promedio || 0;
+        const totalArticulos = data.total_articulos || 0;
+
+        // Obtener promedio general para este menú específico
+        const generalMenuTime = generalStowTimes[menu]?.promedio_general || 0;
+
+        const menuAvgFormatted = this.formatTime(menuAvgTime);
+        const generalMenuFormatted = this.formatTime(generalMenuTime);
+        const generalAvgFormatted = this.formatTime(avgGeneralTime);
+
+        const vsMenuPercentage = this.calculatePercentageDifference(
+          menuAvgTime,
+          generalMenuTime
+        );
+        const vsGeneralPercentage = this.calculatePercentageDifference(
+          menuAvgTime,
+          avgGeneralTime
+        );
+
+        stowTimesHTML += `
+          <div class="stow-time-item">
+            <span class="menu-label">Menú ${menu}:</span>
+            <span class="time-value">${menuAvgFormatted}</span>
+            <span class="time-comparison">
+              (${totalArticulos} artículos procesados)
+            </span>
+            <span class="time-comparison-general">
+              (avg menú: ${generalMenuFormatted}, ${vsMenuPercentage} vs menú)
+            </span>
+          </div>
+        `;
+      });
+
+      stowTimesHTML += "</div>";
+    } else {
+      stowTimesHTML =
+        "<h4>⏱️ Tiempo entre Stow</h4><p>No hay datos de tiempo entre stow disponibles.</p>";
+    }
+
+    // Buscar o crear contenedor para tiempos entre stow
+    let stowTimesContainer = document.getElementById("effort-stow-times");
+    if (!stowTimesContainer) {
+      // Crear contenedor si no existe
+      const effortMetrics = document.querySelector(".effort-metrics");
+      if (effortMetrics) {
+        stowTimesContainer = document.createElement("div");
+        stowTimesContainer.id = "effort-stow-times";
+        stowTimesContainer.className = "effort-stow-times";
+        effortMetrics.appendChild(stowTimesContainer);
+      }
+    }
+
+    if (stowTimesContainer) {
+      stowTimesContainer.innerHTML = stowTimesHTML;
+    }
+
+    console.log("✅ Tiempos entre stow actualizados");
+  }
   updateEffortCategories(userData) {
     const userPercentages = userData.porcentajes_categorias || {};
     const summaryCategories = this.effortSummaryData || [];
