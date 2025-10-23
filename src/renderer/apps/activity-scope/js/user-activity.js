@@ -1917,8 +1917,15 @@ class UserActivityController {
     let stowTimesHTML = "";
 
     if (Object.keys(userStowTimes).length > 0) {
-      stowTimesHTML =
-        "<h4>⏱️ Tiempo entre Stow por Menú</h4><div class='stow-times-list'>";
+      // Agregar header para los promedios
+      stowTimesHTML += `
+        <div class="stow-times-header">
+          <span class="stow-header-menu">Menú</span>
+          <span class="stow-header-time">Tiempo</span>
+          <span class="stow-header-items">Artículos</span>
+          <span class="stow-header-avg">Promedio General</span>
+        </div>
+      `;
 
       Object.entries(userStowTimes).forEach(([menu, data]) => {
         const menuAvgTime = data.promedio || 0;
@@ -1929,35 +1936,23 @@ class UserActivityController {
 
         const menuAvgFormatted = this.formatTime(menuAvgTime);
         const generalMenuFormatted = this.formatTime(generalMenuTime);
-        const generalAvgFormatted = this.formatTime(avgGeneralTime);
 
         const vsMenuPercentage = this.calculatePercentageDifference(
           menuAvgTime,
           generalMenuTime
         );
-        const vsGeneralPercentage = this.calculatePercentageDifference(
-          menuAvgTime,
-          avgGeneralTime
-        );
 
         stowTimesHTML += `
           <div class="stow-time-item">
-            <span class="menu-label">Menú ${menu}:</span>
-            <span class="time-value">${menuAvgFormatted}</span>
-            <span class="time-comparison">
-              (${totalArticulos} artículos procesados)
-            </span>
-            <span class="time-comparison-general">
-              (avg menú: ${generalMenuFormatted}, ${vsMenuPercentage} vs menú)
-            </span>
+            <span class="stow-time-menu">Menú ${menu}</span>
+            <span class="stow-time-value">${menuAvgFormatted}</span>
+            <span class="stow-time-items">${totalArticulos} artículos</span>
+            <span class="stow-time-avg">${generalMenuFormatted} (${vsMenuPercentage})</span>
           </div>
         `;
       });
-
-      stowTimesHTML += "</div>";
     } else {
-      stowTimesHTML =
-        "<h4>⏱️ Tiempo entre Stow</h4><p>No hay datos de tiempo entre stow disponibles.</p>";
+      stowTimesHTML = "<p>No hay datos de tiempo entre stow disponibles.</p>";
     }
 
     // Buscar o crear contenedor para tiempos entre stow
@@ -2021,6 +2016,11 @@ class UserActivityController {
       const fillElement = document.getElementById(`category-${category.color}`);
       if (fillElement) {
         fillElement.style.width = `${userPercentage}%`;
+        console.log(
+          `📊 Actualizando barra ${category.color}: ${userPercentage}%`
+        );
+      } else {
+        console.log(`❌ No se encontró elemento: category-${category.color}`);
       }
 
       // Actualizar porcentaje
@@ -2036,9 +2036,7 @@ class UserActivityController {
         `average-${category.color}`
       );
       if (averageElement) {
-        averageElement.textContent = `Promedio: ${averagePercentage.toFixed(
-          1
-        )}%`;
+        averageElement.textContent = `${averagePercentage.toFixed(1)}%`;
       }
     });
 

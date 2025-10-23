@@ -6,7 +6,8 @@
   "scripts": {
     "start": "electron .",
     "dev": "electron . --dev",
-    "build": "electron-builder --win portable"
+    "build": "electron-builder --win portable",
+    "fix-case": "node fix-case-sensitivity.js"
   },
   "author": "Chuecc",
   "license": "MIT",

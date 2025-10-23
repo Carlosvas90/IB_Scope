@@ -39,7 +39,7 @@ class Router {
         hasSubmenu: true,
       },
       estadisticas: {
-        path: "../apps/feedback-tracker/estadisticas/views/estadisticas.html",
+        path: "../apps/feedback-tracker/estadisticas/views/Estadisticas.html",
         scripts: ["../apps/feedback-tracker/estadisticas/js/estadisticas.js"],
       },
       "inventory-stats": {

@@ -41,7 +41,7 @@ Este módulo proporciona un dashboard completo de estadísticas y análisis para
 ```
 estadisticas/
 ├── views/
-│   └── estadisticas.html          # Dashboard principal
+│   └── Estadisticas.html          # Dashboard principal
 ├── css/
 │   └── estadisticas.css           # Estilos del dashboard
 └── js/
@@ -161,7 +161,7 @@ El dashboard se integra perfectamente con el sistema de navegación existente:
 ```html
 <section id="stats-view" class="view">
   <iframe
-    src="../../../apps/feedback-tracker/estadisticas/views/estadisticas.html"
+    src="../../../apps/feedback-tracker/estadisticas/views/Estadisticas.html"
     frameborder="0"
     width="100%"
     height="100%"

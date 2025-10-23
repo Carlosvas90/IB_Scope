@@ -189,45 +189,56 @@
           </div>
         </div>
 
-        <!-- KPI 4: Análisis de Esfuerzo -->
-        <div class="user-effort-kpi">
+        <!-- Bloque 1: KPI Análisis General -->
+        <div class="kpi-independent effort-simple-kpis">
           <div class="kpi-header">
-            <h3>⚡ Análisis de Esfuerzo</h3>
+            <h3>📊 Análisis General</h3>
           </div>
           <div class="kpi-content">
-            <!-- Div 1: KPIs Simples -->
-            <div class="effort-simple-kpis">
-              <div class="metric-row">
-                <div class="metric-item">
-                  <span class="metric-label">⏰ Horas trabajadas:</span>
-                  <span class="metric-value" id="effort-hours">--</span>
-                </div>
-                <div class="metric-item">
-                  <span class="metric-label">📏 Distancia recorrida:</span>
-                  <span class="metric-value" id="effort-distance">--</span>
-                </div>
-                <div class="metric-item">
-                  <span class="metric-label">📦 Promedio units/bin:</span>
-                  <span class="metric-value" id="effort-units-per-bin">--</span>
-                </div>
+            <div class="metric-row">
+              <div class="metric-item">
+                <span class="metric-label">⏰ Horas trabajadas:</span>
+                <span class="metric-value" id="effort-hours">--</span>
               </div>
-              <div class="metric-row">
-                <div class="metric-item">
-                  <span class="metric-label">🛒 Cambios de carrito:</span>
-                  <span class="metric-value" id="effort-cart-changes">--</span>
-                </div>
-                <div class="metric-item">
-                  <span class="metric-label">❌ Errores cometidos:</span>
-                  <span class="metric-value" id="effort-errors">--</span>
-                </div>
+              <div class="metric-item">
+                <span class="metric-label">📏 Distancia recorrida:</span>
+                <span class="metric-value" id="effort-distance">--</span>
+              </div>
+              <div class="metric-item">
+                <span class="metric-label">📦 Promedio units/bin:</span>
+                <span class="metric-value" id="effort-units-per-bin">--</span>
               </div>
             </div>
+            <div class="metric-row">
+              <div class="metric-item">
+                <span class="metric-label">🛒 Cambios de carrito:</span>
+                <span class="metric-value" id="effort-cart-changes">--</span>
+              </div>
+              <div class="metric-item">
+                <span class="metric-label">❌ Errores cometidos:</span>
+                <span class="metric-value" id="effort-errors">--</span>
+              </div>
+            </div>
+          </div>
+        </div>
 
-            <!-- Porcentajes de categorías -->
-            <div class="effort-categories">
-              <h4>📊 Distribución por Categorías</h4>
+        <!-- Bloque 2: Los 3 KPIs en la misma línea horizontal -->
+        <div class="effort-three-kpis-row">
+          <!-- KPI Distribución por Categorías -->
+          <div class="kpi-independent effort-categories">
+            <div class="kpi-header">
+              <h3>📊 Distribución por Categorías</h3>
+            </div>
+            <div class="kpi-content">
               <div class="categories-comparison">
                 <div class="category-comparison">
+                  <div class="category-header-row">
+                    <span class="category-label-header">Categoría</span>
+                    <span class="category-bar-header">Distribución</span>
+                    <span class="category-average-header"
+                      >Promedio General</span
+                    >
+                  </div>
                   <div class="category-item">
                     <span class="category-label">Muy Fácil</span>
                     <div class="category-bar">
@@ -242,7 +253,7 @@
                       >
                     </div>
                     <span class="category-average" id="average-muy-facil"
-                      >Promedio: --</span
+                      >--</span
                     >
                   </div>
                   <div class="category-item">
@@ -256,9 +267,7 @@
                         >--</span
                       >
                     </div>
-                    <span class="category-average" id="average-facil"
-                      >Promedio: --</span
-                    >
+                    <span class="category-average" id="average-facil">--</span>
                   </div>
                   <div class="category-item">
                     <span class="category-label">Medio</span>
@@ -271,9 +280,7 @@
                         >--</span
                       >
                     </div>
-                    <span class="category-average" id="average-medio"
-                      >Promedio: --</span
-                    >
+                    <span class="category-average" id="average-medio">--</span>
                   </div>
                   <div class="category-item">
                     <span class="category-label">Difícil</span>
@@ -287,7 +294,7 @@
                       >
                     </div>
                     <span class="category-average" id="average-dificil"
-                      >Promedio: --</span
+                      >--</span
                     >
                   </div>
                   <div class="category-item">
@@ -304,27 +311,37 @@
                       >
                     </div>
                     <span class="category-average" id="average-muy-dificil"
-                      >Promedio: --</span
+                      >--</span
                     >
                   </div>
                 </div>
               </div>
             </div>
+          </div>
 
-            <!-- Top ASINs por categoría -->
-            <div class="effort-top-asins">
-              <h4>🏆 Top ASINs por Categoría</h4>
-              <div class="top-asins-tabs" id="top-asins-tabs">
-                <!-- Tabs se generarán dinámicamente -->
-              </div>
-              <div class="top-asins-content" id="top-asins-content">
-                <!-- Contenido se cargará dinámicamente -->
+          <!-- KPI Top ASINs por Categoría -->
+          <div class="kpi-independent effort-top-asins">
+            <div class="kpi-header">
+              <h3>🏆 Top ASINs por Categoría</h3>
+            </div>
+            <div class="kpi-content">
+              <div class="top-asins-layout">
+                <div class="top-asins-tabs" id="top-asins-tabs">
+                  <!-- Tabs se generarán dinámicamente -->
+                </div>
+                <div class="top-asins-content" id="top-asins-content">
+                  <!-- Contenido se cargará dinámicamente -->
+                </div>
               </div>
             </div>
+          </div>
 
-            <!-- Div 4: Tiempo entre Stow (Nuevo KPI independiente) -->
-            <div class="effort-stow-times">
-              <h4>⏱️ Tiempo entre Stow por Menú</h4>
+          <!-- KPI Tiempo entre Stow -->
+          <div class="kpi-independent effort-stow-times">
+            <div class="kpi-header">
+              <h3>⏱️ Tiempo entre Stow por Menú</h3>
+            </div>
+            <div class="kpi-content">
               <div id="effort-stow-times">
                 <!-- Contenido dinámico de tiempos entre stow -->
               </div>
