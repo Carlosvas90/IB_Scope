@@ -1903,7 +1903,7 @@ body {
   padding: 1.5rem;
 }
 
-/* Contenedor para los 3 KPIs en la misma línea */
+/* Contenedor para los 3 KPIs originales en la primera línea */
 .effort-three-kpis-row {
   display: flex;
   gap: 1.5rem;
@@ -1920,6 +1920,32 @@ body {
 }
 
 .effort-three-kpis-row .kpi-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  text-align: left;
+  flex: 1; /* Esto hace que el contenido ocupe todo el espacio disponible */
+  padding: 1rem;
+}
+
+/* Contenedor para los 2 nuevos KPIs en la segunda línea */
+.effort-two-kpis-row {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  align-items: stretch; /* Esto hace que todos tengan la misma altura */
+}
+
+.effort-two-kpis-row .kpi-independent {
+  flex: 1;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  /* Removemos min-height para que se ajuste automáticamente */
+}
+
+.effort-two-kpis-row .kpi-content {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -2073,6 +2099,274 @@ body {
   display: flex;
   flex-direction: column;
   padding: 1.5rem;
+}
+
+/* Estilos para Tipos de Bin */
+.effort-bin-types {
+  display: flex;
+  flex-direction: column;
+}
+
+.effort-bin-types .kpi-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+}
+
+.bin-types-comparison {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 1rem;
+  width: 100%;
+  margin: 0;
+}
+
+.bin-types-header-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e9ecef;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.bin-types-label-header {
+  min-width: 100px;
+  flex-shrink: 0;
+  text-align: left;
+}
+
+.bin-types-bar-header {
+  flex: 1;
+  text-align: center;
+  margin: 0 1rem;
+}
+
+.bin-types-average-header {
+  min-width: 50px;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.bin-type-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  text-align: left;
+  flex: 1;
+  min-width: 0;
+  padding: 0.3rem 0;
+}
+
+.bin-type-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #495057;
+  text-align: left;
+  min-width: 100px;
+  flex-shrink: 0;
+}
+
+.bin-type-bar {
+  position: relative;
+  height: 20px;
+  background: #e9ecef;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  min-width: 0;
+  margin: 0 1rem;
+}
+
+.bin-type-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.3s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 0%;
+  min-width: 2px;
+}
+
+.bin-type-fill.barrel {
+  background: linear-gradient(90deg, #28a745, #20c997);
+}
+
+.bin-type-fill.floor-pallet {
+  background: linear-gradient(90deg, #17a2b8, #6f42c1);
+}
+
+.bin-type-fill.half-vertical {
+  background: linear-gradient(90deg, #ffc107, #fd7e14);
+}
+
+.bin-type-fill.library-deep {
+  background: linear-gradient(90deg, #dc3545, #e83e8c);
+}
+
+.bin-type-percentage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+  z-index: 2;
+}
+
+.bin-type-average {
+  font-size: 0.7rem;
+  color: #6c757d;
+  font-style: italic;
+  text-align: right;
+  min-width: 50px;
+  flex-shrink: 0;
+}
+
+/* Estilos para Estantes */
+.effort-shelves {
+  display: flex;
+  flex-direction: column;
+}
+
+.effort-shelves .kpi-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+}
+
+.shelves-comparison {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 1rem;
+  width: 100%;
+  margin: 0;
+}
+
+.shelves-header-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e9ecef;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.shelves-label-header {
+  min-width: 100px;
+  flex-shrink: 0;
+  text-align: left;
+}
+
+.shelves-bar-header {
+  flex: 1;
+  text-align: center;
+  margin: 0 1rem;
+}
+
+.shelves-average-header {
+  min-width: 50px;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.shelf-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  text-align: left;
+  flex: 1;
+  min-width: 0;
+  padding: 0.3rem 0;
+}
+
+.shelf-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #495057;
+  text-align: left;
+  min-width: 100px;
+  flex-shrink: 0;
+}
+
+.shelf-bar {
+  position: relative;
+  height: 20px;
+  background: #e9ecef;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  min-width: 0;
+  margin: 0 1rem;
+}
+
+.shelf-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.3s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 0%;
+  min-width: 2px;
+}
+
+.shelf-fill.shelf-a {
+  background: linear-gradient(90deg, #28a745, #20c997);
+}
+
+.shelf-fill.shelf-b {
+  background: linear-gradient(90deg, #17a2b8, #6f42c1);
+}
+
+.shelf-fill.shelf-c {
+  background: linear-gradient(90deg, #ffc107, #fd7e14);
+}
+
+.shelf-fill.shelf-d {
+  background: linear-gradient(90deg, #dc3545, #e83e8c);
+}
+
+.shelf-percentage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+  z-index: 2;
+}
+
+.shelf-average {
+  font-size: 0.7rem;
+  color: #6c757d;
+  font-style: italic;
+  text-align: right;
+  min-width: 50px;
+  flex-shrink: 0;
 }
 
 .effort-top-asins .kpi-content {

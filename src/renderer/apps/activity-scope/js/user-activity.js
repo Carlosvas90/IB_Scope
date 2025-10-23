@@ -1834,6 +1834,12 @@ class UserActivityController {
 
     // Actualizar top ASINs por categoría
     this.updateEffortTopAsins(userEffortData);
+
+    // Actualizar distribución por tipos de bin
+    this.updateEffortBinTypes(userEffortData);
+
+    // Actualizar distribución por estantes
+    this.updateEffortShelves(userEffortData);
   }
 
   /**
@@ -2041,6 +2047,126 @@ class UserActivityController {
     });
 
     console.log("✅ Porcentajes de categorías actualizados");
+  }
+
+  /**
+   * Actualiza la distribución por tipos de bin
+   * @param {Object} userData - Datos del usuario
+   */
+  updateEffortBinTypes(userData) {
+    const userBinTypes = userData.uso_bin_types_por_empleado || {};
+    const generalStats = this.effortGeneralStats || {};
+    const generalBinTypes = generalStats.uso_bin_types || {};
+
+    console.log("🔍 Debug updateEffortBinTypes:");
+    console.log("- userBinTypes:", userBinTypes);
+    console.log("- generalBinTypes:", generalBinTypes);
+
+    // Crear HTML para mostrar tipos de bin
+    let binTypesHTML = "";
+
+    if (Object.keys(userBinTypes).length > 0) {
+      Object.entries(userBinTypes).forEach(([binType, data]) => {
+        const userPercentage = data.porcentaje || 0;
+        const generalPercentage = generalBinTypes[binType]?.porcentaje || 0;
+
+        // Convertir nombre del bin type a clase CSS
+        const cssClass = binType.toLowerCase().replace(/-/g, "-");
+
+        console.log(`🔍 Bin Type: ${binType} -> CSS Class: ${cssClass}`);
+
+        binTypesHTML += `
+          <div class="bin-type-item">
+            <span class="bin-type-label">${binType}</span>
+            <div class="bin-type-bar">
+              <div
+                class="bin-type-fill ${cssClass}"
+                id="bin-type-${cssClass}"
+                style="width: ${userPercentage}%"
+              ></div>
+              <span
+                class="bin-type-percentage"
+                id="bin-type-percentage-${cssClass}"
+              >${userPercentage.toFixed(1)}%</span
+              >
+            </div>
+            <span class="bin-type-average" id="bin-type-average-${cssClass}"
+              >${generalPercentage.toFixed(1)}%</span
+            >
+          </div>
+        `;
+      });
+    } else {
+      binTypesHTML = "<p>No hay datos de tipos de bin disponibles.</p>";
+    }
+
+    // Actualizar el contenedor
+    const binTypesContainer = document.getElementById("bin-types-list");
+    if (binTypesContainer) {
+      binTypesContainer.innerHTML = binTypesHTML;
+    }
+
+    console.log("✅ Distribución por tipos de bin actualizada");
+  }
+
+  /**
+   * Actualiza la distribución por estantes
+   * @param {Object} userData - Datos del usuario
+   */
+  updateEffortShelves(userData) {
+    const userShelves = userData.uso_shelves_por_empleado || {};
+    const generalStats = this.effortGeneralStats || {};
+    const generalShelves = generalStats.uso_shelves || {};
+
+    console.log("🔍 Debug updateEffortShelves:");
+    console.log("- userShelves:", userShelves);
+    console.log("- generalShelves:", generalShelves);
+
+    // Crear HTML para mostrar estantes
+    let shelvesHTML = "";
+
+    if (Object.keys(userShelves).length > 0) {
+      Object.entries(userShelves).forEach(([shelf, data]) => {
+        const userPercentage = data.porcentaje || 0;
+        const generalPercentage = generalShelves[shelf]?.porcentaje || 0;
+
+        // Convertir nombre del shelf a clase CSS
+        const cssClass = `shelf-${shelf.toLowerCase()}`;
+
+        console.log(`🔍 Shelf: ${shelf} -> CSS Class: ${cssClass}`);
+
+        shelvesHTML += `
+          <div class="shelf-item">
+            <span class="shelf-label">${shelf}</span>
+            <div class="shelf-bar">
+              <div
+                class="shelf-fill ${cssClass}"
+                id="shelf-${cssClass}"
+                style="width: ${userPercentage}%"
+              ></div>
+              <span
+                class="shelf-percentage"
+                id="shelf-percentage-${cssClass}"
+              >${userPercentage.toFixed(1)}%</span
+              >
+            </div>
+            <span class="shelf-average" id="shelf-average-${cssClass}"
+              >${generalPercentage.toFixed(1)}%</span
+            >
+          </div>
+        `;
+      });
+    } else {
+      shelvesHTML = "<p>No hay datos de estantes disponibles.</p>";
+    }
+
+    // Actualizar el contenedor
+    const shelvesContainer = document.getElementById("shelves-list");
+    if (shelvesContainer) {
+      shelvesContainer.innerHTML = shelvesHTML;
+    }
+
+    console.log("✅ Distribución por estantes actualizada");
   }
 
   /**
