@@ -61,7 +61,7 @@ class Router {
       },
       "space-heatmap": {
         path: "../apps/space-heatmap/views/space-heatmap.html",
-        scripts: [],
+        scripts: ["../apps/space-heatmap/js/space-heatmap.js"],
       },
       "dock-control": {
         path: "../apps/dock-control/views/dock-control.html",

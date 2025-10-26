@@ -41,6 +41,13 @@ class AppLoader {
         initializer: "initStats",
         styles: ["../apps/feedback-tracker/stats/css/stats.css"],
       },
+      "space-heatmap": {
+        name: "SpaceHeatMap",
+        description: "Mapa de almacenamiento de Amazon",
+        icon: "map",
+        initializer: undefined, // No requiere inicializador
+        styles: [], // Sin estilos adicionales (se cargan desde el HTML)
+      },
       // Aquí se pueden registrar más aplicaciones en el futuro
     };
 
@@ -241,9 +248,14 @@ class AppLoader {
         console.timeEnd(`App:Init:${appName}`);
       }
     } else {
-      console.warn(
-        `No se encontró la función inicializadora para ${appName}: ${app.initializer}`
-      );
+      // Si no hay inicializador, no es un error, solo establecer como app actual
+      if (app.initializer) {
+        console.warn(
+          `No se encontró la función inicializadora para ${appName}: ${app.initializer}`
+        );
+      } else {
+        console.log(`App ${appName} no requiere inicializador`);
+      }
 
       // Establecer como aplicación actual de todas formas
       this.currentApp = appName;

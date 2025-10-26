@@ -54,7 +54,8 @@ contextBridge.exposeInMainWorld("api", {
    * @param {object} data
    * @returns {Promise<object>}
    */
-  writeJson: (filePath, data) => ipcRenderer.invoke("save-json", filePath, data),
+  writeJson: (filePath, data) =>
+    ipcRenderer.invoke("save-json", filePath, data),
   /**
    * Exporta datos a un archivo CSV.
    * @param {string} data
@@ -134,6 +135,15 @@ contextBridge.exposeInMainWorld("api", {
   onWindowRestored: (callback) => {
     ipcRenderer.on("window:restored", callback);
   },
+
+  // --- Ejecución de Scripts de Python ---
+  /**
+   * Ejecuta un script de Python y devuelve el resultado.
+   * @param {object} options - { scriptPath: string, args: Array }
+   * @returns {Promise<object>}
+   */
+  executePythonScript: (options) =>
+    ipcRenderer.invoke("execute-python-script", options),
 
   // --- Sistema de Updates ---
   /**

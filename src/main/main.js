@@ -4,6 +4,7 @@ const { app, BrowserWindow, ipcMain, dialog, shell } = require("electron");
 const path = require("path");
 const fs = require("fs");
 const os = require("os");
+const { spawn } = require("child_process");
 const configService = require("./services/config");
 const configHandler = require("./handlers/config");
 const filesHandler = require("./handlers/files");
@@ -389,6 +390,94 @@ ipcMain.handle("get-table-schema", async (event, dbPath, tableName) => {
     console.error("[Main] Stack:", error.stack);
     throw error;
   }
+});
+
+// Ejecutar script de Python
+ipcMain.handle("execute-python-script", async (event, options) => {
+  return new Promise((resolve) => {
+    const { scriptPath, args = [] } = options;
+
+    console.log(`[Main] 🐍 Ejecutando script de Python: ${scriptPath}`);
+
+    // Determinar la ruta completa del script
+    let fullScriptPath;
+    if (app.isPackaged) {
+      // En producción, los archivos están en resources/app.asar.unpacked/
+      fullScriptPath = path.join(
+        process.resourcesPath,
+        "app.asar.unpacked",
+        scriptPath
+      );
+    } else {
+      // En desarrollo
+      fullScriptPath = path.join(__dirname, "..", "..", scriptPath);
+    }
+
+    console.log(`[Main] Ruta completa del script: ${fullScriptPath}`);
+
+    // Verificar que el script existe
+    if (!fs.existsSync(fullScriptPath)) {
+      console.error(`[Main] ❌ Script no encontrado: ${fullScriptPath}`);
+      resolve({
+        success: false,
+        error: `Script no encontrado: ${scriptPath}`,
+        output: "",
+      });
+      return;
+    }
+
+    // Ejecutar el script de Python
+    const pythonProcess = spawn("python", [fullScriptPath, ...args], {
+      cwd: path.dirname(fullScriptPath),
+      stdio: "pipe",
+    });
+
+    let output = "";
+    let errorOutput = "";
+
+    // Capturar salida estándar
+    pythonProcess.stdout.on("data", (data) => {
+      const text = data.toString();
+      console.log(`[Python] ${text}`);
+      output += text;
+    });
+
+    // Capturar errores
+    pythonProcess.stderr.on("data", (data) => {
+      const text = data.toString();
+      console.error(`[Python Error] ${text}`);
+      errorOutput += text;
+    });
+
+    // Cuando termine el proceso
+    pythonProcess.on("close", (code) => {
+      console.log(`[Main] ✅ Script de Python terminado con código: ${code}`);
+
+      if (code === 0) {
+        resolve({
+          success: true,
+          output: output,
+          error: null,
+        });
+      } else {
+        resolve({
+          success: false,
+          output: output,
+          error: errorOutput || `El script terminó con código ${code}`,
+        });
+      }
+    });
+
+    // Manejo de errores de spawn
+    pythonProcess.on("error", (error) => {
+      console.error(`[Main] ❌ Error al ejecutar script de Python:`, error);
+      resolve({
+        success: false,
+        error: `No se pudo ejecutar el script: ${error.message}`,
+        output: "",
+      });
+    });
+  });
 });
 
 // ==== FIN MANEJADORES IPC ====

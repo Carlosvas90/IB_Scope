@@ -1,35 +1,151 @@
 body {
-  background: #f7f9fb;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   font-family: "Inter", Arial, sans-serif;
   margin: 0;
   padding: 0;
+  min-height: 100vh;
 }
-.app-generic-container {
-  max-width: 500px;
-  margin: 60px auto;
+
+/* Contenedor principal */
+.app-container {
+  max-width: 900px;
+  margin: 40px auto;
   background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
-  padding: 40px 32px;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+/* Header */
+.app-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 2.5rem 2rem;
   text-align: center;
 }
-.app-generic-container h1 {
-  color: #2a4d7a;
-  margin-bottom: 12px;
+
+.app-header h1 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2rem;
+  font-weight: 700;
 }
-.app-generic-container p {
-  color: #555;
-  margin-bottom: 24px;
+
+.app-header .subtitle {
+  margin: 0;
+  font-size: 1rem;
+  opacity: 0.95;
 }
-.app-generic-container a {
-  color: #fff;
-  background: #2a4d7a;
-  padding: 10px 24px;
+
+/* Contenido */
+.app-content {
+  padding: 2.5rem;
+}
+
+/* Botón de descarga */
+.download-section {
+  margin: 2rem 0;
+}
+
+.download-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(102, 126, 234, 0.3);
+}
+
+.download-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(102, 126, 234, 0.4);
+}
+
+.download-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.download-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Mensajes de estado */
+.status-message {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
   border-radius: 6px;
-  text-decoration: none;
+  font-size: 14px;
   font-weight: 500;
-  transition: background 0.2s;
+  min-height: 20px;
 }
-.app-generic-container a:hover {
-  background: #1d3557;
+
+.status-message.loading {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffc107;
+}
+
+.status-message.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #28a745;
+}
+
+.status-message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #dc3545;
+}
+
+/* Sección de información */
+.info-section {
+  margin-top: 2rem;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  overflow: hidden;
+}
+
+.info-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1rem 1.5rem;
+  margin: 0;
+}
+
+.info-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.info-content {
+  padding: 1.5rem;
+  color: #555;
+}
+
+.info-content p {
+  margin-bottom: 1rem;
+  line-height: 1.7;
+}
+
+.code-block {
+  margin-top: 0.75rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  overflow-x: auto;
+}
+
+.code-block code {
+  font-family: "Courier New", monospace;
+  font-size: 13px;
+  color: #d63384;
+  word-break: break-all;
+  white-space: pre-wrap;
 }
