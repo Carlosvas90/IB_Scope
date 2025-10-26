@@ -1,52 +1,62 @@
-body {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  font-family: "Inter", Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
+/* ============================================
+   SPACE HEATMAP - ESTILOS ESPECÍFICOS
+   ============================================ */
+
+/* Importar variables base */
+@import url("../../../css/themes/variables.css");
+@import url("../../../css/themes/variables2.css");
+
+/* Estilos para el contenedor principal de space-heatmap */
+.space-heatmap-container {
+  padding: var(--spacing-lg, 2rem);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--Fondo-paginas, #f8fafc);
 }
 
-/* Contenedor principal */
-.app-container {
-  max-width: 900px;
-  margin: 40px auto;
+.space-heatmap-container .app-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
   overflow: hidden;
+  flex: 1;
 }
 
 /* Header */
-.app-header {
+.space-heatmap-container .app-header {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   padding: 2.5rem 2rem;
   text-align: center;
 }
 
-.app-header h1 {
+.space-heatmap-container .app-header h1 {
   margin: 0 0 0.5rem 0;
   font-size: 2rem;
   font-weight: 700;
 }
 
-.app-header .subtitle {
+.space-heatmap-container .app-header .subtitle {
   margin: 0;
   font-size: 1rem;
   opacity: 0.95;
 }
 
 /* Contenido */
-.app-content {
+.space-heatmap-container .app-content {
   padding: 2.5rem;
 }
 
 /* Botón de descarga */
-.download-section {
+.space-heatmap-container .download-section {
   margin: 2rem 0;
 }
 
-.download-btn {
+.space-heatmap-container .download-btn {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
@@ -59,22 +69,22 @@ body {
   box-shadow: 0 4px 6px rgba(102, 126, 234, 0.3);
 }
 
-.download-btn:hover:not(:disabled) {
+.space-heatmap-container .download-btn:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(102, 126, 234, 0.4);
 }
 
-.download-btn:active:not(:disabled) {
+.space-heatmap-container .download-btn:active:not(:disabled) {
   transform: translateY(0);
 }
 
-.download-btn:disabled {
+.space-heatmap-container .download-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
 /* Mensajes de estado */
-.status-message {
+.space-heatmap-container .status-message {
   margin-top: 1rem;
   padding: 0.75rem 1rem;
   border-radius: 6px;
@@ -83,26 +93,26 @@ body {
   min-height: 20px;
 }
 
-.status-message.loading {
+.space-heatmap-container .status-message.loading {
   background-color: #fff3cd;
   color: #856404;
   border: 1px solid #ffc107;
 }
 
-.status-message.success {
+.space-heatmap-container .status-message.success {
   background-color: #d4edda;
   color: #155724;
   border: 1px solid #28a745;
 }
 
-.status-message.error {
+.space-heatmap-container .status-message.error {
   background-color: #f8d7da;
   color: #721c24;
   border: 1px solid #dc3545;
 }
 
 /* Sección de información */
-.info-section {
+.space-heatmap-container .info-section {
   margin-top: 2rem;
   background-color: #f8f9fa;
   border-radius: 12px;
@@ -110,30 +120,30 @@ body {
   overflow: hidden;
 }
 
-.info-header {
+.space-heatmap-container .info-header {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   padding: 1rem 1.5rem;
   margin: 0;
 }
 
-.info-header h3 {
+.space-heatmap-container .info-header h3 {
   margin: 0;
   font-size: 1.1rem;
   font-weight: 600;
 }
 
-.info-content {
+.space-heatmap-container .info-content {
   padding: 1.5rem;
   color: #555;
 }
 
-.info-content p {
+.space-heatmap-container .info-content p {
   margin-bottom: 1rem;
   line-height: 1.7;
 }
 
-.code-block {
+.space-heatmap-container .code-block {
   margin-top: 0.75rem;
   padding: 1rem;
   background-color: #f8f9fa;
@@ -142,7 +152,7 @@ body {
   overflow-x: auto;
 }
 
-.code-block code {
+.space-heatmap-container .code-block code {
   font-family: "Courier New", monospace;
   font-size: 13px;
   color: #d63384;

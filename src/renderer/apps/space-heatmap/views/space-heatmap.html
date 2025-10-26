@@ -4,39 +4,41 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SpaceHeatMap</title>
-    <link rel="stylesheet" href="../css/space-heatmap.css" />
+    <!-- CSS se carga dinámicamente por el router -->
   </head>
   <body>
-    <div class="app-container">
-      <div class="app-header">
-        <h1>🗺️ SpaceHeatMap</h1>
-        <p class="subtitle">
-          Descarga y actualiza los datos del mapa de almacenamiento de Amazon
-        </p>
-      </div>
-
-      <div class="app-content">
-        <div class="download-section">
-          <button id="download-stowmap-btn" class="download-btn">
-            📥 Descargar StowMap Data
-          </button>
-          <div id="status-message" class="status-message"></div>
+    <div class="space-heatmap-container">
+      <div class="app-container">
+        <div class="app-header">
+          <h1>🗺️ SpaceHeatMap</h1>
+          <p class="subtitle">
+            Descarga y actualiza los datos del mapa de almacenamiento de Amazon
+          </p>
         </div>
 
-        <div class="info-section">
-          <div class="info-header">
-            <h3>ℹ️ Información</h3>
+        <div class="app-content">
+          <div class="download-section">
+            <button id="download-stowmap-btn" class="download-btn">
+              📥 Descargar StowMap Data
+            </button>
+            <div id="status-message" class="status-message"></div>
           </div>
-          <div class="info-content">
-            <p>
-              Este proceso descarga datos de StowMap para los pisos 1 al 5 del
-              centro de distribución <strong>VLC1</strong>.
-            </p>
-            <p>El archivo CSV se guardará en:</p>
-            <div class="code-block">
-              <code
-                >src/renderer/apps/space-heatmap/py/Data/Stowmap_data.csv</code
-              >
+
+          <div class="info-section">
+            <div class="info-header">
+              <h3>ℹ️ Información</h3>
+            </div>
+            <div class="info-content">
+              <p>
+                Este proceso descarga datos de StowMap para los pisos 1 al 5 del
+                centro de distribución <strong>VLC1</strong>.
+              </p>
+              <p>El archivo CSV se guardará en:</p>
+              <div class="code-block">
+                <code
+                  >src/renderer/apps/space-heatmap/py/Data/Stowmap_data.csv</code
+                >
+              </div>
             </div>
           </div>
         </div>

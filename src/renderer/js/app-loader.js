@@ -46,7 +46,7 @@ class AppLoader {
         description: "Mapa de almacenamiento de Amazon",
         icon: "map",
         initializer: undefined, // No requiere inicializador
-        styles: [], // Sin estilos adicionales (se cargan desde el HTML)
+        styles: ["../apps/space-heatmap/css/space-heatmap.css"], // CSS se carga desde app-loader
       },
       // Aquí se pueden registrar más aplicaciones en el futuro
     };
