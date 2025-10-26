@@ -63,32 +63,130 @@ El indicador se actualiza automáticamente al cargar la página y después de ca
 
 ### Ubicación de los Datos
 
-Los archivos descargados se guardan en diferentes ubicaciones según el modo:
+Los archivos se guardan en diferentes ubicaciones según el modo:
 
 **Modo Desarrollo:**
 ```
-<root_del_proyecto>/data/space-heatmap/Stowmap_data.csv
+<root_del_proyecto>/data/space-heatmap/
+├── Stowmap_data.csv          # CSV completo (159k filas)
+└── processed/                 # JSONs procesados
+    ├── fullness_by_floor.json
+    ├── fullness_by_bintype.json
+    ├── fullness_by_mod.json
+    ├── fullness_by_shelf.json
+    ├── summary_stats.json
+    ├── heatmap_zones.json
+    └── top_bins.json
 ```
 
 **Modo Build (Producción):**
 ```
-%APPDATA%/IB_Scope/data/space-heatmap/Stowmap_data.csv
+%APPDATA%/IB_Scope/data/space-heatmap/
+├── Stowmap_data.csv
+└── processed/
+    └── [archivos JSON...]
 ```
-Windows: `C:\Users\<TuUsuario>\AppData\Roaming\IB_Scope\data\space-heatmap\Stowmap_data.csv`
 
 Esta carpeta está excluida del control de versiones (`.gitignore`) para proteger datos sensibles.
+
+## 📊 Procesamiento de Datos
+
+### Flujo Automático
+
+```
+1. Usuario descarga StowMap (159k filas CSV)
+   ↓
+2. Se ejecuta automáticamente Procesar_StowMap.py
+   ↓
+3. Python procesa el CSV y genera JSONs pequeños (~20 KB total)
+   ↓
+4. Frontend carga JSONs instantáneamente
+```
+
+### Métricas Calculadas
+
+El script `Procesar_StowMap.py` genera los siguientes JSONs optimizados:
+
+1. **`fullness_by_floor.json`** (~1 KB)
+   - Total bins por piso
+   - Bins ocupados/vacíos
+   - Tasa de ocupación
+   - Utilización promedio
+   - Total de unidades
+
+2. **`fullness_by_bintype.json`** (~5 KB)
+   - Mismas métricas pero agrupadas por tipo de bin
+   - Ordenado por cantidad de bins descendente
+
+3. **`fullness_by_mod.json`** (~2 KB)
+   - Métricas agrupadas por módulo (A, B, C, etc.)
+
+4. **`fullness_by_shelf.json`** (~1 KB)
+   - Métricas agrupadas por estante (A, B, C, D, etc.)
+
+5. **`summary_stats.json`** (~1 KB)
+   - Estadísticas generales del warehouse completo
+   - Fecha de procesamiento
+   - Totales globales
+
+6. **`heatmap_zones.json`** (~10 KB)
+   - Datos combinados Floor + Mod
+   - Intensidad de uso por zona (high/medium/low)
+   - Ideal para visualizaciones de heatmap
+
+7. **`top_bins.json`** (~5 KB)
+   - Top 20 bins más utilizados
+   - Top 20 bins con más unidades
+   - Bins vacíos por tipo
+
+### Uso en el Frontend
+
+```javascript
+// Cargar el servicio
+const dataService = window.StowMapDataService;
+
+// Inicializar y cargar todos los datos
+await dataService.initialize();
+await dataService.loadAll();
+
+// Obtener datos específicos
+const summaryStats = dataService.getSummaryStats();
+const fullnessByFloor = dataService.getFullnessByFloor();
+const fullnessByBinType = dataService.getFullnessByBinType();
+const heatmapZones = dataService.getHeatmapZones();
+
+// Ejemplo: Obtener ocupación del piso 1
+const floor1 = fullnessByFloor[1];
+console.log(`Piso 1: ${floor1.occupancy_rate}% ocupado`);
+console.log(`Total bins: ${floor1.total_bins}`);
+console.log(`Utilización promedio: ${floor1.avg_utilization}%`);
+```
+
+### Ejecutar Procesamiento Manualmente
+
+Si necesitas reprocesar los datos sin descargar de nuevo:
+
+```bash
+# Desde la carpeta del proyecto
+python src/renderer/apps/space-heatmap/py/Procesar_StowMap.py
+```
 
 ## 📁 Estructura
 
 ```
 space-heatmap/
-├── css/                    # Estilos de la interfaz
-├── js/                     # Lógica frontend
-├── py/                     # Scripts Python
-│   ├── amazon_utils.py     # Utilidades de autenticación Amazon
-│   └── Descarga_StowMap.py # Script principal de descarga
-├── views/                  # Vistas HTML
-└── README.md              # Este archivo
+├── css/                         # Estilos de la interfaz
+│   └── space-heatmap.css
+├── js/                          # Lógica frontend
+│   ├── space-heatmap.js         # Controlador principal
+│   └── StowMapDataService.js    # Servicio para cargar datos procesados
+├── py/                          # Scripts Python
+│   ├── amazon_utils.py          # Utilidades de autenticación Amazon
+│   ├── Descarga_StowMap.py      # Script de descarga
+│   └── Procesar_StowMap.py      # Script de procesamiento de datos
+├── views/                       # Vistas HTML
+│   └── space-heatmap.html
+└── README.md                    # Este archivo
 ```
 
 ## ⚠️ Notas Importantes

@@ -272,3 +272,191 @@
   color: #666;
   line-height: 1.5;
 }
+
+/* KPIs Section */
+.space-heatmap-container .kpis-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.space-heatmap-container .kpi-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.3s ease;
+}
+
+.space-heatmap-container .kpi-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.space-heatmap-container .kpi-icon {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.space-heatmap-container .kpi-content {
+  flex: 1;
+}
+
+.space-heatmap-container .kpi-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #667eea;
+  margin-bottom: 0.25rem;
+}
+
+.space-heatmap-container .kpi-label {
+  font-size: 0.875rem;
+  color: #666;
+  font-weight: 500;
+}
+
+/* Tables Section */
+.space-heatmap-container .tables-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.space-heatmap-container .data-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.space-heatmap-container .data-card-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1rem 1.5rem;
+}
+
+.space-heatmap-container .data-card-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.space-heatmap-container .data-card-content {
+  padding: 1.5rem;
+}
+
+/* Table Styles */
+.space-heatmap-container .table-container {
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+}
+
+.space-heatmap-container .data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.space-heatmap-container .data-table thead {
+  background: #f8f9fa;
+}
+
+.space-heatmap-container .data-table th {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.space-heatmap-container .data-table tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+  transition: background 0.2s ease;
+}
+
+.space-heatmap-container .data-table tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.space-heatmap-container .data-table td {
+  padding: 0.75rem 1rem;
+  color: #555;
+}
+
+.space-heatmap-container .data-table .number {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.space-heatmap-container .data-table .percentage {
+  font-weight: 600;
+}
+
+.space-heatmap-container .data-table .percentage.high {
+  color: #4caf50;
+}
+
+.space-heatmap-container .data-table .percentage.medium {
+  color: #ff9800;
+}
+
+.space-heatmap-container .data-table .percentage.low {
+  color: #f44336;
+}
+
+/* Chart Container */
+.space-heatmap-container .chart-container {
+  min-height: 300px;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+/* Simple Bar Chart */
+.space-heatmap-container .simple-bar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.space-heatmap-container .bar-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.space-heatmap-container .bar-label {
+  min-width: 80px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.space-heatmap-container .bar-wrapper {
+  flex: 1;
+  height: 32px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.space-heatmap-container .bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 0.5rem;
+  transition: width 0.6s ease;
+}
+
+.space-heatmap-container .bar-value {
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+}

@@ -67,8 +67,105 @@
         <!-- Mensaje de estado (solo se muestra durante descarga o errores) -->
         <div id="status-message" class="status-message-banner" style="display: none;"></div>
 
-        <!-- Información sobre el proceso -->
-        <div class="info-card">
+        <!-- KPIs Generales -->
+        <div id="kpis-section" class="kpis-section" style="display: none;">
+          <div class="kpi-card">
+            <div class="kpi-icon">📦</div>
+            <div class="kpi-content">
+              <div class="kpi-value" id="kpi-total-bins">-</div>
+              <div class="kpi-label">Total Bins</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon">✅</div>
+            <div class="kpi-content">
+              <div class="kpi-value" id="kpi-occupied-bins">-</div>
+              <div class="kpi-label">Bins Ocupados</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon">📊</div>
+            <div class="kpi-content">
+              <div class="kpi-value" id="kpi-occupancy-rate">-</div>
+              <div class="kpi-label">Tasa de Ocupación</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon">📈</div>
+            <div class="kpi-content">
+              <div class="kpi-value" id="kpi-avg-utilization">-</div>
+              <div class="kpi-label">Utilización Promedio</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon">🏢</div>
+            <div class="kpi-content">
+              <div class="kpi-value" id="kpi-total-units">-</div>
+              <div class="kpi-label">Total Unidades</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sección de Tablas -->
+        <div id="tables-section" class="tables-section" style="display: none;">
+          <!-- Tabla: Fullness por Piso -->
+          <div class="data-card">
+            <div class="data-card-header">
+              <h3>🏢 Fullness por Piso</h3>
+            </div>
+            <div class="data-card-content">
+              <div class="table-container">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Piso</th>
+                      <th>Total Bins</th>
+                      <th>Ocupados</th>
+                      <th>Vacíos</th>
+                      <th>Tasa Ocupación</th>
+                      <th>Utilización Prom.</th>
+                      <th>Total Unidades</th>
+                    </tr>
+                  </thead>
+                  <tbody id="table-floor-body">
+                    <!-- Se llena dinámicamente -->
+                  </tbody>
+                </table>
+              </div>
+              <div id="chart-floor" class="chart-container"></div>
+            </div>
+          </div>
+
+          <!-- Tabla: Fullness por Tipo de Bin -->
+          <div class="data-card">
+            <div class="data-card-header">
+              <h3>📦 Fullness por Tipo de Bin</h3>
+            </div>
+            <div class="data-card-content">
+              <div class="table-container">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Tipo de Bin</th>
+                      <th>Total Bins</th>
+                      <th>Ocupados</th>
+                      <th>Vacíos</th>
+                      <th>Tasa Ocupación</th>
+                      <th>Utilización Prom.</th>
+                    </tr>
+                  </thead>
+                  <tbody id="table-bintype-body">
+                    <!-- Se llena dinámicamente -->
+                  </tbody>
+                </table>
+              </div>
+              <div id="chart-bintype" class="chart-container"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mensaje inicial (cuando no hay datos) -->
+        <div id="no-data-message" class="info-card">
           <div class="info-card-header">
             <h3>ℹ️ Información del Proceso</h3>
           </div>
@@ -105,6 +202,9 @@
       </div>
     </div>
 
+    <!-- Cargar servicio de datos primero -->
+    <script src="js/StowMapDataService.js"></script>
+    <!-- Luego el script principal -->
     <script src="js/space-heatmap.js"></script>
   </body>
 </html>

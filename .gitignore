@@ -19,9 +19,6 @@ Thumbs.db
 # Variables de entorno
 .env
 
-# Datos locales
-data/
-
 # Python
 __pycache__/
 *.py[cod]

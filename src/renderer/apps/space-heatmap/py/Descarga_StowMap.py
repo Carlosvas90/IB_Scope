@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup as bs
 import string
 import os
 import sys
+import subprocess
 from amazon_utils import AmazonRequest
 
 
@@ -152,6 +153,41 @@ if __name__ == '__main__':
         # Guardar el DataFrame final en CSV
         combined_df.to_csv(filepath, index=False)
         print(f"[OK] CSV Exportado: {filepath}")
+        
+        # Ejecutar procesamiento automático de los datos
+        print("\n[Procesamiento] Iniciando procesamiento de datos...")
+        try:
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            procesar_script = os.path.join(script_dir, "Procesar_StowMap.py")
+            
+            # Ejecutar script de procesamiento con el mismo userData path si existe
+            if len(sys.argv) > 1:
+                result = subprocess.run(
+                    [sys.executable, procesar_script, sys.argv[1]],
+                    capture_output=True,
+                    text=True
+                )
+            else:
+                result = subprocess.run(
+                    [sys.executable, procesar_script],
+                    capture_output=True,
+                    text=True
+                )
+            
+            # Mostrar output del procesamiento
+            if result.stdout:
+                print(result.stdout)
+            if result.stderr and result.returncode != 0:
+                print("[WARNING] Errores durante el procesamiento:")
+                print(result.stderr)
+            
+            if result.returncode == 0:
+                print("[OK] Procesamiento completado exitosamente!")
+            else:
+                print("[WARNING] El procesamiento termino con errores.")
+        except Exception as e:
+            print(f"[WARNING] Error al ejecutar procesamiento: {str(e)}")
+            print("[INFO] Puedes ejecutar manualmente: python Procesar_StowMap.py")
     else:
         print("No se obtuvieron datos para ninguno de los pisos especificados.")
 

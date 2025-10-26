@@ -181,14 +181,22 @@ function initSpaceHeatmap() {
         statusMessage.className = "status-message-banner success";
         console.log("✅ Descarga completada:", result.output);
         
-        // Actualizar el estado del archivo después de la descarga exitosa
+        // Actualizar el estado del archivo y recargar visualizaciones
         setTimeout(() => {
           updateFileStatus();
+          
+          // Recargar visualizaciones con los nuevos datos
+          loadAndDisplayData().then(loaded => {
+            if (loaded) {
+              console.log('[Visualización] Datos actualizados después de la descarga');
+            }
+          });
+          
           // Ocultar el banner después de 5 segundos
           setTimeout(() => {
             statusMessage.style.display = "none";
           }, 5000);
-        }, 500);
+        }, 1000); // Dar tiempo a que Python termine de procesar
       } else {
         statusMessage.textContent = `❌ Error: ${
           result.error || "Error desconocido"
@@ -208,9 +216,178 @@ function initSpaceHeatmap() {
   });
 }
 
+// ===================================
+// FUNCIONES DE VISUALIZACIÓN DE DATOS
+// ===================================
+
+async function loadAndDisplayData() {
+  try {
+    console.log('[Visualización] Intentando cargar datos procesados...');
+    
+    // Verificar que el servicio esté disponible
+    if (!window.StowMapDataService) {
+      console.error('[Visualización] StowMapDataService no está disponible');
+      return false;
+    }
+    
+    const dataService = window.StowMapDataService;
+    
+    // Inicializar y cargar datos
+    const initialized = await dataService.initialize();
+    if (!initialized) {
+      console.warn('[Visualización] No se pudo inicializar el servicio');
+      return false;
+    }
+    
+    const loaded = await dataService.loadAll();
+    if (!loaded || !dataService.isDataLoaded()) {
+      console.warn('[Visualización] No hay datos procesados disponibles');
+      return false;
+    }
+    
+    console.log('[Visualización] Datos cargados exitosamente');
+    
+    // Mostrar secciones de visualización y ocultar mensaje "no data"
+    document.getElementById('kpis-section').style.display = 'grid';
+    document.getElementById('tables-section').style.display = 'flex';
+    document.getElementById('no-data-message').style.display = 'none';
+    
+    // Cargar cada sección
+    displayKPIs(dataService);
+    displayFloorTable(dataService);
+    displayBinTypeTable(dataService);
+    displayFloorChart(dataService);
+    displayBinTypeChart(dataService);
+    
+    return true;
+  } catch (error) {
+    console.error('[Visualización] Error al cargar datos:', error);
+    return false;
+  }
+}
+
+function displayKPIs(dataService) {
+  const stats = dataService.getSummaryStats();
+  if (!stats) return;
+  
+  document.getElementById('kpi-total-bins').textContent = stats.total_bins.toLocaleString();
+  document.getElementById('kpi-occupied-bins').textContent = stats.occupied_bins.toLocaleString();
+  document.getElementById('kpi-occupancy-rate').textContent = `${stats.occupancy_rate}%`;
+  document.getElementById('kpi-avg-utilization').textContent = `${stats.avg_utilization}%`;
+  document.getElementById('kpi-total-units').textContent = stats.total_units.toLocaleString();
+}
+
+function displayFloorTable(dataService) {
+  const fullnessByFloor = dataService.getFullnessByFloor();
+  const tbody = document.getElementById('table-floor-body');
+  tbody.innerHTML = '';
+  
+  for (const [floor, data] of Object.entries(fullnessByFloor)) {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td><strong>Piso ${floor}</strong></td>
+      <td class="number">${data.total_bins.toLocaleString()}</td>
+      <td class="number">${data.occupied_bins.toLocaleString()}</td>
+      <td class="number">${data.empty_bins.toLocaleString()}</td>
+      <td class="number percentage ${getPercentageClass(data.occupancy_rate)}">${data.occupancy_rate}%</td>
+      <td class="number percentage ${getPercentageClass(data.avg_utilization)}">${data.avg_utilization}%</td>
+      <td class="number">${data.total_units.toLocaleString()}</td>
+    `;
+    tbody.appendChild(row);
+  }
+}
+
+function displayBinTypeTable(dataService) {
+  const fullnessByBinType = dataService.getFullnessByBinType();
+  const tbody = document.getElementById('table-bintype-body');
+  tbody.innerHTML = '';
+  
+  // Tomar los primeros 15 tipos de bin
+  const entries = Object.entries(fullnessByBinType).slice(0, 15);
+  
+  for (const [binType, data] of entries) {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td><strong>${binType}</strong></td>
+      <td class="number">${data.total_bins.toLocaleString()}</td>
+      <td class="number">${data.occupied_bins.toLocaleString()}</td>
+      <td class="number">${data.empty_bins.toLocaleString()}</td>
+      <td class="number percentage ${getPercentageClass(data.occupancy_rate)}">${data.occupancy_rate}%</td>
+      <td class="number percentage ${getPercentageClass(data.avg_utilization)}">${data.avg_utilization}%</td>
+    `;
+    tbody.appendChild(row);
+  }
+}
+
+function displayFloorChart(dataService) {
+  const fullnessByFloor = dataService.getFullnessByFloor();
+  const container = document.getElementById('chart-floor');
+  container.innerHTML = '<div class="simple-bar-chart"></div>';
+  const chart = container.querySelector('.simple-bar-chart');
+  
+  const maxValue = Math.max(...Object.values(fullnessByFloor).map(d => d.avg_utilization));
+  
+  for (const [floor, data] of Object.entries(fullnessByFloor)) {
+    const barItem = document.createElement('div');
+    barItem.className = 'bar-item';
+    
+    const percentage = (data.avg_utilization / maxValue) * 100;
+    
+    barItem.innerHTML = `
+      <div class="bar-label">Piso ${floor}</div>
+      <div class="bar-wrapper">
+        <div class="bar-fill" style="width: ${percentage}%">
+          <span class="bar-value">${data.avg_utilization}%</span>
+        </div>
+      </div>
+    `;
+    chart.appendChild(barItem);
+  }
+}
+
+function displayBinTypeChart(dataService) {
+  const fullnessByBinType = dataService.getFullnessByBinType();
+  const container = document.getElementById('chart-bintype');
+  container.innerHTML = '<div class="simple-bar-chart"></div>';
+  const chart = container.querySelector('.simple-bar-chart');
+  
+  // Top 10 tipos de bin por cantidad
+  const entries = Object.entries(fullnessByBinType).slice(0, 10);
+  const maxValue = Math.max(...entries.map(([_, d]) => d.total_bins));
+  
+  for (const [binType, data] of entries) {
+    const barItem = document.createElement('div');
+    barItem.className = 'bar-item';
+    
+    const percentage = (data.total_bins / maxValue) * 100;
+    
+    barItem.innerHTML = `
+      <div class="bar-label">${binType}</div>
+      <div class="bar-wrapper">
+        <div class="bar-fill" style="width: ${percentage}%">
+          <span class="bar-value">${data.total_bins.toLocaleString()}</span>
+        </div>
+      </div>
+    `;
+    chart.appendChild(barItem);
+  }
+}
+
+function getPercentageClass(value) {
+  if (value >= 70) return 'high';
+  if (value >= 40) return 'medium';
+  return 'low';
+}
+
 // Inicializar cuando el DOM esté listo
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initSpaceHeatmap);
+  document.addEventListener("DOMContentLoaded", () => {
+    initSpaceHeatmap();
+    // Intentar cargar datos al iniciar
+    loadAndDisplayData();
+  });
 } else {
   initSpaceHeatmap();
+  // Intentar cargar datos al iniciar
+  loadAndDisplayData();
 }
