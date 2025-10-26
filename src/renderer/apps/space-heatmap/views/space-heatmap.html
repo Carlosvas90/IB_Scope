@@ -8,39 +8,97 @@
   </head>
   <body>
     <div class="space-heatmap-container">
-      <div class="app-container">
-        <div class="app-header">
-          <h1>🗺️ SpaceHeatMap</h1>
-          <p class="subtitle">
-            Descarga y actualiza los datos del mapa de almacenamiento de Amazon
-          </p>
-        </div>
-
-        <div class="app-content">
-          <!-- Estado del archivo -->
-          <div id="file-status" class="file-status-container"></div>
-
-          <div class="download-section">
-            <button id="download-stowmap-btn" class="download-btn">
-              📥 Descargar StowMap Data
-            </button>
-            <div id="status-message" class="status-message"></div>
+      <!-- Header con estilo similar a user-activity -->
+      <header class="app-header-card">
+        <h1>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            style="
+              display: inline-flex;
+              align-items: center;
+              vertical-align: middle;
+              margin-right: 8px;
+            "
+          >
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+          </svg>
+          SpaceHeatMap
+        </h1>
+        <div class="app-header-controls">
+          <!-- Estado del archivo en el header -->
+          <div id="file-status-header" class="file-status-header">
+            <span id="status-icon">📊</span>
+            <span id="status-text">Cargando...</span>
           </div>
+          <button id="download-stowmap-btn" class="btn btn-primary">
+            <svg
+              id="download-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span id="download-btn-text">Descargar StowMap</span>
+          </button>
+        </div>
+      </header>
 
-          <div class="info-section">
-            <div class="info-header">
-              <h3>ℹ️ Información</h3>
-            </div>
-            <div class="info-content">
-              <p>
-                Este proceso descarga datos de StowMap para los pisos 1 al 5 del
-                centro de distribución <strong>VLC1</strong>.
-              </p>
-              <p><strong>📁 Ubicación de guardado:</strong></p>
-              <ul style="margin-left: 1rem; margin-top: 0.5rem;">
-                <li><strong>Desarrollo:</strong> <code>data/space-heatmap/Stowmap_data.csv</code></li>
-                <li><strong>Build:</strong> <code>%APPDATA%/IB_Scope/data/space-heatmap/Stowmap_data.csv</code></li>
-              </ul>
+      <!-- Contenido principal -->
+      <div class="space-heatmap-content">
+        <!-- Mensaje de estado (solo se muestra durante descarga o errores) -->
+        <div id="status-message" class="status-message-banner" style="display: none;"></div>
+
+        <!-- Información sobre el proceso -->
+        <div class="info-card">
+          <div class="info-card-header">
+            <h3>ℹ️ Información del Proceso</h3>
+          </div>
+          <div class="info-card-content">
+            <p>
+              Este proceso descarga datos de <strong>StowMap</strong> para los pisos 1 al 5 del
+              centro de distribución <strong>VLC1</strong>.
+            </p>
+            <div class="info-features">
+              <div class="feature-item">
+                <span class="feature-icon">🔐</span>
+                <div class="feature-text">
+                  <strong>Autenticación segura</strong>
+                  <p>Se abrirá una ventana CMD para ingresar tu PIN de Midway</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon">⏱️</span>
+                <div class="feature-text">
+                  <strong>Actualización recomendada</strong>
+                  <p>Los datos deben actualizarse cada hora para mantener precisión</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon">📊</span>
+                <div class="feature-text">
+                  <strong>5 pisos de datos</strong>
+                  <p>Se descargan y combinan automáticamente los datos de todos los pisos</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

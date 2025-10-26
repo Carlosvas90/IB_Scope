@@ -4,6 +4,15 @@
 
 Esta aplicación descarga datos de StowMap de Amazon para los pisos 1-5 del centro de distribución VLC1.
 
+## 🎨 Diseño
+
+La interfaz está diseñada siguiendo el patrón de `user-activity.html` con:
+- **Header card** con gradiente morado que contiene el título, estado del archivo y botón de descarga
+- **Indicador de estado** en tiempo real que muestra la antigüedad de los datos
+- **Animación de descarga** en el botón durante el proceso
+- **Banner de mensajes** que aparece solo durante descarga o errores
+- **Card informativa** con detalles sobre el proceso
+
 ## 🔧 Funcionamiento
 
 ### Flujo de Ejecución

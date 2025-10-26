@@ -6,231 +6,269 @@
 @import url("../../../css/themes/variables.css");
 @import url("../../../css/themes/variables2.css");
 
-/* Estilos para el contenedor principal de space-heatmap */
+/* Estilos para el contenedor principal */
 .space-heatmap-container {
   padding: var(--spacing-lg, 2rem);
   height: 100%;
-  display: flex;
-  flex-direction: column;
+  overflow-y: auto;
   background-color: var(--Fondo-paginas, #f8fafc);
 }
 
-.space-heatmap-container .app-container {
-  width: 100%;
-  max-width: 100%;
-  margin: 0 auto;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-  overflow: hidden;
-  flex: 1;
-}
-
-/* Header */
-.space-heatmap-container .app-header {
+/* Header Card - Estilo similar a user-activity */
+.space-heatmap-container .app-header-card {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 2.5rem 2rem;
-  text-align: center;
-}
-
-.space-heatmap-container .app-header h1 {
-  margin: 0 0 0.5rem 0;
-  font-size: 2rem;
-  font-weight: 700;
-}
-
-.space-heatmap-container .app-header .subtitle {
-  margin: 0;
-  font-size: 1rem;
-  opacity: 0.95;
-}
-
-/* Contenido */
-.space-heatmap-container .app-content {
-  padding: 2.5rem;
-}
-
-/* Estado del archivo */
-.space-heatmap-container .file-status-container {
-  margin-bottom: 1.5rem;
-}
-
-.space-heatmap-container .file-status-warning,
-.space-heatmap-container .file-status-old,
-.space-heatmap-container .file-status-fresh {
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
   display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  padding: 1rem 1.25rem;
-  border-radius: 12px;
-  border: 2px solid;
-  background: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  justify-content: space-between;
+  align-items: center;
+  color: white;
   transition: all 0.3s ease;
 }
 
-.space-heatmap-container .file-status-warning {
-  border-color: #ff9800;
-  background: linear-gradient(135deg, #fff8f0 0%, #ffffff 100%);
+.space-heatmap-container .app-header-card:hover {
+  box-shadow: 0 6px 28px rgba(102, 126, 234, 0.4);
+  transform: translateY(-2px);
 }
 
-.space-heatmap-container .file-status-old {
-  border-color: #f44336;
-  background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
-  animation: pulse-attention 2s ease-in-out infinite;
+.space-heatmap-container .app-header-card h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  color: white;
 }
 
-.space-heatmap-container .file-status-fresh {
-  border-color: #4caf50;
-  background: linear-gradient(135deg, #f1f8f4 0%, #ffffff 100%);
+.space-heatmap-container .app-header-card h1 svg {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
-.space-heatmap-container .status-icon {
-  font-size: 2rem;
-  line-height: 1;
-  flex-shrink: 0;
+/* Controles del header */
+.space-heatmap-container .app-header-controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
 }
 
-.space-heatmap-container .status-text {
-  flex: 1;
-}
-
-.space-heatmap-container .status-text strong {
-  display: block;
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: 0.25rem;
-  color: #333;
-}
-
-.space-heatmap-container .status-text p {
-  margin: 0.25rem 0;
+/* Estado del archivo en el header */
+.space-heatmap-container .file-status-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
   font-size: 0.875rem;
-  color: #666;
-  line-height: 1.5;
-}
-
-.space-heatmap-container .status-recommendation {
   font-weight: 500;
-  color: #d32f2f !important;
-  margin-top: 0.5rem !important;
+  transition: all 0.3s ease;
 }
 
-@keyframes pulse-attention {
+.space-heatmap-container .file-status-header.status-fresh {
+  background: rgba(76, 175, 80, 0.25);
+}
+
+.space-heatmap-container .file-status-header.status-old {
+  background: rgba(244, 67, 54, 0.25);
+  animation: pulse-status 2s ease-in-out infinite;
+}
+
+.space-heatmap-container .file-status-header.status-warning {
+  background: rgba(255, 152, 0, 0.25);
+}
+
+@keyframes pulse-status {
   0%, 100% {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    background: rgba(244, 67, 54, 0.25);
   }
   50% {
-    box-shadow: 0 4px 16px rgba(244, 67, 54, 0.25);
+    background: rgba(244, 67, 54, 0.4);
   }
 }
 
-/* Botón de descarga */
-.space-heatmap-container .download-section {
-  margin: 2rem 0;
+.space-heatmap-container .file-status-header #status-icon {
+  font-size: 1.25rem;
+  line-height: 1;
 }
 
-.space-heatmap-container .download-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+/* Botones del header */
+.space-heatmap-container .btn {
+  padding: 0.625rem 1.25rem;
   border: none;
-  padding: 14px 28px;
-  font-size: 16px;
-  font-weight: 600;
   border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 6px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-.space-heatmap-container .download-btn:hover:not(:disabled) {
+.space-heatmap-container .btn-primary {
+  background: white;
+  color: #667eea;
+}
+
+.space-heatmap-container .btn-primary:hover:not(:disabled) {
+  background: #f8f9ff;
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.space-heatmap-container .download-btn:active:not(:disabled) {
+.space-heatmap-container .btn-primary:active:not(:disabled) {
   transform: translateY(0);
 }
 
-.space-heatmap-container .download-btn:disabled {
+.space-heatmap-container .btn-primary:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
-/* Mensajes de estado */
-.space-heatmap-container .status-message {
-  margin-top: 1rem;
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  min-height: 20px;
+/* Animación de descarga en el botón */
+.space-heatmap-container .btn-primary.downloading #download-icon {
+  animation: download-bounce 1s ease-in-out infinite;
 }
 
-.space-heatmap-container .status-message.loading {
-  background-color: #fff3cd;
+@keyframes download-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+/* Contenido principal */
+.space-heatmap-container .space-heatmap-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Banner de mensajes (solo durante descarga o errores) */
+.space-heatmap-container .status-message-banner {
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.space-heatmap-container .status-message-banner.loading {
+  background: linear-gradient(135deg, #fff3cd 0%, #fffae6 100%);
   color: #856404;
   border: 1px solid #ffc107;
 }
 
-.space-heatmap-container .status-message.success {
-  background-color: #d4edda;
+.space-heatmap-container .status-message-banner.success {
+  background: linear-gradient(135deg, #d4edda 0%, #eafaf1 100%);
   color: #155724;
   border: 1px solid #28a745;
 }
 
-.space-heatmap-container .status-message.error {
-  background-color: #f8d7da;
+.space-heatmap-container .status-message-banner.error {
+  background: linear-gradient(135deg, #f8d7da 0%, #ffe6e6 100%);
   color: #721c24;
   border: 1px solid #dc3545;
 }
 
-/* Sección de información */
-.space-heatmap-container .info-section {
-  margin-top: 2rem;
-  background-color: #f8f9fa;
-  border-radius: 12px;
-  border: 1px solid #e9ecef;
+/* Card de información */
+.space-heatmap-container .info-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   overflow: hidden;
+  transition: all 0.3s ease;
 }
 
-.space-heatmap-container .info-header {
+.space-heatmap-container .info-card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.space-heatmap-container .info-card-header {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   padding: 1rem 1.5rem;
-  margin: 0;
 }
 
-.space-heatmap-container .info-header h3 {
+.space-heatmap-container .info-card-header h3 {
   margin: 0;
   font-size: 1.1rem;
   font-weight: 600;
 }
 
-.space-heatmap-container .info-content {
-  padding: 1.5rem;
+.space-heatmap-container .info-card-content {
+  padding: 2rem;
+}
+
+.space-heatmap-container .info-card-content > p {
+  margin: 0 0 1.5rem 0;
+  font-size: 1rem;
   color: #555;
+  line-height: 1.6;
 }
 
-.space-heatmap-container .info-content p {
-  margin-bottom: 1rem;
-  line-height: 1.7;
+/* Features list */
+.space-heatmap-container .info-features {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.space-heatmap-container .code-block {
-  margin-top: 0.75rem;
+.space-heatmap-container .feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
   padding: 1rem;
-  background-color: #f8f9fa;
-  border: 1px solid #e9ecef;
-  border-radius: 6px;
-  overflow-x: auto;
+  background: #f8f9fa;
+  border-radius: 12px;
+  transition: all 0.3s ease;
 }
 
-.space-heatmap-container .code-block code {
-  font-family: "Courier New", monospace;
-  font-size: 13px;
-  color: #d63384;
-  word-break: break-all;
-  white-space: pre-wrap;
+.space-heatmap-container .feature-item:hover {
+  background: #f0f2f5;
+  transform: translateX(4px);
+}
+
+.space-heatmap-container .feature-icon {
+  font-size: 2rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.space-heatmap-container .feature-text {
+  flex: 1;
+}
+
+.space-heatmap-container .feature-text strong {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.25rem;
+}
+
+.space-heatmap-container .feature-text p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #666;
+  line-height: 1.5;
 }

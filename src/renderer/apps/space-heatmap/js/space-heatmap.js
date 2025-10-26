@@ -1,33 +1,47 @@
 async function checkFileAge() {
   try {
     // Verificar que las APIs necesarias estén disponibles
-    if (!window.api.getUserDataPath || !window.api.getFileInfo) {
+    if (!window.api || !window.api.getUserDataPath || !window.api.getFileInfo) {
       console.warn("APIs no disponibles todavía. Por favor, reinicia la aplicación.");
       return { exists: false, needsRestart: true };
     }
     
-    const userDataPath = await window.api.getUserDataPath();
-    const filePath = `${userDataPath}/data/space-heatmap/Stowmap_data.csv`;
+    // Agregar timeout de 2 segundos para evitar que se quede colgado
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error("Timeout al verificar archivo")), 2000)
+    );
     
-    const fileInfo = await window.api.getFileInfo(filePath);
-    
-    if (fileInfo.exists) {
-      const lastModified = new Date(fileInfo.mtime);
-      const now = new Date();
-      const ageInHours = (now - lastModified) / (1000 * 60 * 60);
+    const checkPromise = (async () => {
+      const userDataPath = await window.api.getUserDataPath();
+      const filePath = `${userDataPath}/data/space-heatmap/Stowmap_data.csv`;
       
-      return {
-        exists: true,
-        lastModified: lastModified,
-        ageInHours: ageInHours,
-        isOld: ageInHours > 1,
-        filePath: filePath
-      };
-    }
+      const fileInfo = await window.api.getFileInfo(filePath);
+      
+      if (fileInfo.exists) {
+        const lastModified = new Date(fileInfo.mtime);
+        const now = new Date();
+        const ageInHours = (now - lastModified) / (1000 * 60 * 60);
+        
+        return {
+          exists: true,
+          lastModified: lastModified,
+          ageInHours: ageInHours,
+          isOld: ageInHours > 1,
+          filePath: filePath
+        };
+      }
+      
+      return { exists: false };
+    })();
     
-    return { exists: false };
+    // Race entre la verificación y el timeout
+    return await Promise.race([checkPromise, timeoutPromise]);
+    
   } catch (error) {
     console.error("Error verificando edad del archivo:", error);
+    if (error.message === "Timeout al verificar archivo") {
+      return { exists: false, timeout: true };
+    }
     return { exists: false, error: error.message };
   }
 }
@@ -49,59 +63,60 @@ function formatTimeAgo(date) {
 }
 
 async function updateFileStatus() {
-  const fileStatusDiv = document.getElementById("file-status");
-  if (!fileStatusDiv) return;
+  const fileStatusHeader = document.getElementById("file-status-header");
+  const statusIcon = document.getElementById("status-icon");
+  const statusText = document.getElementById("status-text");
   
-  const fileInfo = await checkFileAge();
+  if (!fileStatusHeader || !statusIcon || !statusText) return;
   
-  // Si las APIs no están disponibles, mostrar mensaje de reinicio
-  if (fileInfo.needsRestart) {
-    fileStatusDiv.innerHTML = `
-      <div class="file-status-warning">
-        <span class="status-icon">🔄</span>
-        <div class="status-text">
-          <strong>Reinicio requerido</strong>
-          <p>Por favor, reinicia la aplicación para activar las nuevas funciones.</p>
-        </div>
-      </div>
-    `;
-    return;
-  }
+  // Mostrar estado de carga inicialmente
+  statusIcon.textContent = "⏳";
+  statusText.textContent = "Verificando...";
+  fileStatusHeader.classList.remove("status-fresh", "status-old", "status-warning");
   
-  if (!fileInfo.exists) {
-    fileStatusDiv.innerHTML = `
-      <div class="file-status-warning">
-        <span class="status-icon">⚠️</span>
-        <div class="status-text">
-          <strong>No hay datos descargados</strong>
-          <p>Descarga los datos de StowMap para comenzar.</p>
-        </div>
-      </div>
-    `;
-    return;
-  }
-  
-  if (fileInfo.isOld) {
-    fileStatusDiv.innerHTML = `
-      <div class="file-status-old">
-        <span class="status-icon">🕐</span>
-        <div class="status-text">
-          <strong>Datos desactualizados</strong>
-          <p>Última actualización: hace ${formatTimeAgo(fileInfo.lastModified)}</p>
-          <p class="status-recommendation">Se recomienda descargar datos más recientes.</p>
-        </div>
-      </div>
-    `;
-  } else {
-    fileStatusDiv.innerHTML = `
-      <div class="file-status-fresh">
-        <span class="status-icon">✅</span>
-        <div class="status-text">
-          <strong>Datos actualizados</strong>
-          <p>Última actualización: hace ${formatTimeAgo(fileInfo.lastModified)}</p>
-        </div>
-      </div>
-    `;
+  try {
+    const fileInfo = await checkFileAge();
+    
+    // Limpiar clases previas
+    fileStatusHeader.classList.remove("status-fresh", "status-old", "status-warning");
+    
+    // Si hubo timeout
+    if (fileInfo.timeout) {
+      statusIcon.textContent = "⚠️";
+      statusText.textContent = "Sin datos";
+      fileStatusHeader.classList.add("status-warning");
+      return;
+    }
+    
+    // Si las APIs no están disponibles, mostrar mensaje de reinicio
+    if (fileInfo.needsRestart) {
+      statusIcon.textContent = "🔄";
+      statusText.textContent = "Reinicio requerido";
+      fileStatusHeader.classList.add("status-warning");
+      return;
+    }
+    
+    if (!fileInfo.exists) {
+      statusIcon.textContent = "⚠️";
+      statusText.textContent = "Sin datos";
+      fileStatusHeader.classList.add("status-warning");
+      return;
+    }
+    
+    if (fileInfo.isOld) {
+      statusIcon.textContent = "🕐";
+      statusText.textContent = `Actualizado hace ${formatTimeAgo(fileInfo.lastModified)}`;
+      fileStatusHeader.classList.add("status-old");
+    } else {
+      statusIcon.textContent = "✅";
+      statusText.textContent = `Actualizado hace ${formatTimeAgo(fileInfo.lastModified)}`;
+      fileStatusHeader.classList.add("status-fresh");
+    }
+  } catch (error) {
+    console.error("Error actualizando estado del archivo:", error);
+    statusIcon.textContent = "⚠️";
+    statusText.textContent = "Error al verificar";
+    fileStatusHeader.classList.add("status-warning");
   }
 }
 
@@ -109,6 +124,7 @@ function initSpaceHeatmap() {
   console.log("🔧 space-heatmap.js inicializando...");
 
   const downloadBtn = document.getElementById("download-stowmap-btn");
+  const downloadBtnText = document.getElementById("download-btn-text");
   const statusMessage = document.getElementById("status-message");
 
   console.log("🔍 downloadBtn:", downloadBtn);
@@ -131,15 +147,21 @@ function initSpaceHeatmap() {
       // Verificar que las APIs necesarias estén disponibles
       if (!window.api.getUserDataPath || !window.api.executePythonScript) {
         statusMessage.textContent = "❌ Error: Por favor, reinicia la aplicación para continuar.";
-        statusMessage.className = "status-message error";
+        statusMessage.className = "status-message-banner error";
+        statusMessage.style.display = "block";
         console.error("APIs no disponibles. Se requiere reinicio.");
         return;
       }
 
+      // Deshabilitar botón y agregar animación
       downloadBtn.disabled = true;
-      downloadBtn.textContent = "⏳ Descargando...";
-      statusMessage.textContent = "Iniciando descarga de datos de StowMap...";
-      statusMessage.className = "status-message loading";
+      downloadBtn.classList.add("downloading");
+      downloadBtnText.textContent = "Descargando...";
+      
+      // Mostrar banner de estado
+      statusMessage.textContent = "⏳ Iniciando descarga de datos de StowMap...";
+      statusMessage.className = "status-message-banner loading";
+      statusMessage.style.display = "block";
 
       console.log("🚀 Ejecutando script de descarga de StowMap...");
 
@@ -156,25 +178,32 @@ function initSpaceHeatmap() {
 
       if (result.success) {
         statusMessage.textContent = "✅ ¡Descarga completada exitosamente!";
-        statusMessage.className = "status-message success";
+        statusMessage.className = "status-message-banner success";
         console.log("✅ Descarga completada:", result.output);
         
         // Actualizar el estado del archivo después de la descarga exitosa
-        setTimeout(() => updateFileStatus(), 500);
+        setTimeout(() => {
+          updateFileStatus();
+          // Ocultar el banner después de 5 segundos
+          setTimeout(() => {
+            statusMessage.style.display = "none";
+          }, 5000);
+        }, 500);
       } else {
         statusMessage.textContent = `❌ Error: ${
           result.error || "Error desconocido"
         }`;
-        statusMessage.className = "status-message error";
+        statusMessage.className = "status-message-banner error";
         console.error("❌ Error:", result.error);
       }
     } catch (error) {
       statusMessage.textContent = `❌ Error: ${error.message}`;
-      statusMessage.className = "status-message error";
+      statusMessage.className = "status-message-banner error";
       console.error("❌ Error al ejecutar script:", error);
     } finally {
       downloadBtn.disabled = false;
-      downloadBtn.textContent = "📥 Descargar StowMap Data";
+      downloadBtn.classList.remove("downloading");
+      downloadBtnText.textContent = "Descargar StowMap";
     }
   });
 }
