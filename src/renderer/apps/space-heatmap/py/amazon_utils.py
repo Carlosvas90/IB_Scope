@@ -37,16 +37,31 @@ class AmazonRequest:
         :return: A cookie list that can used with a requests.Session()
         """
         # Setting defaults for midway cookie location
+        # Removed --aea as it's now default behavior
         if flags is None:
-            flags = ["-o", "--aea"]
+            flags = ["-o"]
         path = os.path.join(os.path.expanduser("~"), ".midway")
         cookie = os.path.join(path, "cookie")
 
         if delete_cookie:
-            os.remove(cookie)
+            if os.path.exists(cookie):
+                os.remove(cookie)
 
         if not os.path.exists(cookie):
-            os.system(f"mwinit {' '.join(flags)}")
+            # Open a new CMD window on Windows to allow user interaction with mwinit
+            if sys.platform == "win32":
+                mwinit_cmd = f"mwinit {' '.join(flags)}"
+                print("\n[!] Se abrira una ventana CMD para autenticacion con Midway.")
+                print("    Por favor, ingresa tu PIN cuando se solicite.\n")
+                # Use 'start cmd /k' to open a new visible CMD window
+                os.system(f'start cmd /k "{mwinit_cmd} && echo. && echo [OK] Autenticacion completada. Puedes cerrar esta ventana. && pause"')
+                # Wait for user to complete authentication
+                print("    Esperando a que completes la autenticacion...")
+                while not os.path.exists(cookie):
+                    time.sleep(1)
+                print("    [OK] Autenticacion completada.\n")
+            else:
+                os.system(f"mwinit {' '.join(flags)}")
 
         with open(cookie, "rt") as c:
             cookie_file = c.readlines()
@@ -56,7 +71,23 @@ class AmazonRequest:
         now = time.time()
         for line in range(4, len(cookie_file)):
             if int(cookie_file[line].split("\t")[4]) < now:
-                os.system(f"mwinit {' '.join(flags)}")
+                # Cookie expired, need to refresh - open a new CMD window on Windows
+                if sys.platform == "win32":
+                    mwinit_cmd = f"mwinit {' '.join(flags)}"
+                    print("\n[!] Cookie de Midway expirada. Se abrira una ventana CMD para re-autenticacion.")
+                    print("    Por favor, ingresa tu PIN cuando se solicite.\n")
+                    # Delete expired cookie first
+                    if os.path.exists(cookie):
+                        os.remove(cookie)
+                    # Use 'start cmd /k' to open a new visible CMD window
+                    os.system(f'start cmd /k "{mwinit_cmd} && echo. && echo [OK] Re-autenticacion completada. Puedes cerrar esta ventana. && pause"')
+                    # Wait for user to complete authentication
+                    print("    Esperando a que completes la re-autenticacion...")
+                    while not os.path.exists(cookie):
+                        time.sleep(1)
+                    print("    [OK] Re-autenticacion completada.\n")
+                else:
+                    os.system(f"mwinit {' '.join(flags)}")
                 return self.mw_cookie(flags=flags)
             cookies[cookie_file[line].split("\t")[5]] = str.replace(
                 cookie_file[line].split("\t")[6], "\n", ""

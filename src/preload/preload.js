@@ -34,6 +34,19 @@ contextBridge.exposeInMainWorld("api", {
    */
   getUsername: () => ipcRenderer.invoke("get-username"),
 
+  /**
+   * Obtiene la ruta de userData de Electron (donde se guardan datos de la app).
+   * @returns {Promise<string>}
+   */
+  getUserDataPath: () => ipcRenderer.invoke("get-user-data-path"),
+
+  /**
+   * Obtiene información sobre un archivo (existe, fecha modificación, tamaño).
+   * @param {string} filePath
+   * @returns {Promise<object>}
+   */
+  getFileInfo: (filePath) => ipcRenderer.invoke("get-file-info", filePath),
+
   // --- Archivos ---
   /**
    * Lee un archivo JSON desde el sistema de archivos.

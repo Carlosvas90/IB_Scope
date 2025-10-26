@@ -51,6 +51,81 @@
   padding: 2.5rem;
 }
 
+/* Estado del archivo */
+.space-heatmap-container .file-status-container {
+  margin-bottom: 1.5rem;
+}
+
+.space-heatmap-container .file-status-warning,
+.space-heatmap-container .file-status-old,
+.space-heatmap-container .file-status-fresh {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  border: 2px solid;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.space-heatmap-container .file-status-warning {
+  border-color: #ff9800;
+  background: linear-gradient(135deg, #fff8f0 0%, #ffffff 100%);
+}
+
+.space-heatmap-container .file-status-old {
+  border-color: #f44336;
+  background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+  animation: pulse-attention 2s ease-in-out infinite;
+}
+
+.space-heatmap-container .file-status-fresh {
+  border-color: #4caf50;
+  background: linear-gradient(135deg, #f1f8f4 0%, #ffffff 100%);
+}
+
+.space-heatmap-container .status-icon {
+  font-size: 2rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.space-heatmap-container .status-text {
+  flex: 1;
+}
+
+.space-heatmap-container .status-text strong {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: #333;
+}
+
+.space-heatmap-container .status-text p {
+  margin: 0.25rem 0;
+  font-size: 0.875rem;
+  color: #666;
+  line-height: 1.5;
+}
+
+.space-heatmap-container .status-recommendation {
+  font-weight: 500;
+  color: #d32f2f !important;
+  margin-top: 0.5rem !important;
+}
+
+@keyframes pulse-attention {
+  0%, 100% {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+  50% {
+    box-shadow: 0 4px 16px rgba(244, 67, 54, 0.25);
+  }
+}
+
 /* Botón de descarga */
 .space-heatmap-container .download-section {
   margin: 2rem 0;

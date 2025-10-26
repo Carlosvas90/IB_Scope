@@ -17,6 +17,9 @@
         </div>
 
         <div class="app-content">
+          <!-- Estado del archivo -->
+          <div id="file-status" class="file-status-container"></div>
+
           <div class="download-section">
             <button id="download-stowmap-btn" class="download-btn">
               📥 Descargar StowMap Data
@@ -33,12 +36,11 @@
                 Este proceso descarga datos de StowMap para los pisos 1 al 5 del
                 centro de distribución <strong>VLC1</strong>.
               </p>
-              <p>El archivo CSV se guardará en:</p>
-              <div class="code-block">
-                <code
-                  >src/renderer/apps/space-heatmap/py/Data/Stowmap_data.csv</code
-                >
-              </div>
+              <p><strong>📁 Ubicación de guardado:</strong></p>
+              <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+                <li><strong>Desarrollo:</strong> <code>data/space-heatmap/Stowmap_data.csv</code></li>
+                <li><strong>Build:</strong> <code>%APPDATA%/IB_Scope/data/space-heatmap/Stowmap_data.csv</code></li>
+              </ul>
             </div>
           </div>
         </div>

@@ -3,6 +3,7 @@ import pandas as pd
 from bs4 import BeautifulSoup as bs
 import string
 import os
+import sys
 from amazon_utils import AmazonRequest
 
 
@@ -42,7 +43,7 @@ def get_stow_map(fc: str, floor: int = None, mod: str = None, aisle: int = None,
     # Enviar una solicitud a StowMap
     response = req.send_req("https://stowmap-eu.amazon.com/stowmap/loadFCAreaMap.htm?warehouseId=VLC1")
     if not response.ok:
-        req.set_mw_cookie(flags=['-o', '--aea'], delete_cookie=True)
+        req.set_mw_cookie(flags=['-o'], delete_cookie=True)
         response = req.send_req("https://stowmap-eu.amazon.com/stowmap/loadFCAreaMap.htm?warehouseId=VLC1")
     if not response.ok:
         return None
@@ -97,7 +98,7 @@ def get_stow_map(fc: str, floor: int = None, mod: str = None, aisle: int = None,
 if __name__ == '__main__':
     fc = 'VLC1'
     all_dfs = []
-    print("Iniciando el proceso de descarga y combinación de datos de StowMap.")
+    print("Iniciando el proceso de descarga y combinacion de datos de StowMap.")
 
     for floor in range(1, 6):  # Pisos 1 al 5
         print(f"Descargando Piso {floor}...")
@@ -128,8 +129,19 @@ if __name__ == '__main__':
         columnas_presentes = [col for col in columnas_a_eliminar if col in combined_df.columns]
         combined_df.drop(columns=columnas_presentes, inplace=True)
 
-        # Crear carpeta Data si no existe
-        data_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Data")
+        # Determinar la carpeta de datos según el argumento recibido
+        if len(sys.argv) > 1:
+            # Si se pasa un argumento (userData path desde Electron), usar esa ubicación
+            user_data_path = sys.argv[1]
+            data_folder = os.path.join(user_data_path, "data", "space-heatmap")
+            print(f"[MODO BUILD] Guardando en userData: {data_folder}")
+        else:
+            # Si no hay argumento (ejecución directa), usar carpeta del proyecto
+            project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
+            data_folder = os.path.join(project_root, "data", "space-heatmap")
+            print(f"[MODO DESARROLLO] Guardando en proyecto: {data_folder}")
+        
+        # Crear la carpeta si no existe
         if not os.path.exists(data_folder):
             os.makedirs(data_folder)
         
@@ -137,9 +149,9 @@ if __name__ == '__main__':
         filename = "Stowmap_data.csv"
         filepath = os.path.join(data_folder, filename)
         
-        # Guardar el DataFrame final en CSV en carpeta Data
+        # Guardar el DataFrame final en CSV
         combined_df.to_csv(filepath, index=False)
-        print(f"✓ CSV Exportado: {filepath}")
+        print(f"[OK] CSV Exportado: {filepath}")
     else:
         print("No se obtuvieron datos para ninguno de los pisos especificados.")
 

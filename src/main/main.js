@@ -142,6 +142,29 @@ ipcMain.handle("get-app-path", () => {
   return app.getAppPath();
 });
 
+ipcMain.handle("get-user-data-path", () => {
+  return app.getPath("userData");
+});
+
+ipcMain.handle("get-file-info", async (event, filePath) => {
+  try {
+    if (!fs.existsSync(filePath)) {
+      return { exists: false };
+    }
+    
+    const stats = fs.statSync(filePath);
+    return {
+      exists: true,
+      size: stats.size,
+      mtime: stats.mtime.toISOString(),
+      ctime: stats.ctime.toISOString(),
+    };
+  } catch (error) {
+    console.error("[Main] Error obteniendo info del archivo:", error);
+    return { exists: false, error: error.message };
+  }
+});
+
 // Abrir enlaces externos
 ipcMain.handle("open-external-link", async (event, url) => {
   try {
