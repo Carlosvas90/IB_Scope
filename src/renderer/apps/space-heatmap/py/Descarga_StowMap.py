@@ -5,6 +5,9 @@ import string
 import os
 import sys
 import subprocess
+import json
+import time
+from datetime import datetime
 from amazon_utils import AmazonRequest
 
 
@@ -160,27 +163,114 @@ def get_stow_map(fc: str, floor: int = None, mod: str = None, aisle: int = None,
     else:
         return None  # Retorna None en caso de fallo
 
+def write_progress(data_folder, percentage, message):
+    """
+    Escribe el progreso en un archivo JSON para que el frontend lo lea.
+    
+    :param data_folder: Carpeta donde guardar el archivo de progreso
+    :param percentage: Porcentaje de progreso (0-100)
+    :param message: Mensaje descriptivo del paso actual
+    """
+    try:
+        progress_file = os.path.join(data_folder, "progress.json")
+        progress_data = {
+            "percentage": percentage,
+            "message": message,
+            "timestamp": datetime.now().isoformat()
+        }
+        # Escribir y asegurar que se guarde inmediatamente
+        with open(progress_file, 'w', encoding='utf-8') as f:
+            json.dump(progress_data, f)
+            f.flush()  # Forzar escritura inmediata al disco
+            os.fsync(f.fileno())  # Sincronizar con el sistema de archivos
+        # También forzar flush de stdout para que los prints se vean
+        sys.stdout.flush()
+    except Exception as e:
+        # No fallar si no se puede escribir el progreso
+        print(f"[DEBUG] Error escribiendo progreso: {e}")
+        sys.stdout.flush()
+
+
 if __name__ == '__main__':
     fc = 'VLC1'
     all_dfs = []
-    print("Iniciando el proceso de descarga y combinacion de datos de StowMap.")
+    
+    # Determinar la carpeta de datos al inicio
+    if len(sys.argv) > 1:
+        user_data_path = sys.argv[1]
+        data_folder = os.path.join(user_data_path, "data", "space-heatmap")
+    else:
+        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
+        data_folder = os.path.join(project_root, "data", "space-heatmap")
+    
+    # Crear la carpeta si no existe
+    if not os.path.exists(data_folder):
+        os.makedirs(data_folder)
+    
+    # Crear archivo de progreso inicial ANTES de cualquier otra operación
+    write_progress(data_folder, 0, "Preparando descarga de StowMap...")
+    print("Iniciando el proceso de descarga y combinacion de datos de StowMap.", flush=True)
+    sys.stdout.flush()
+    # Pausa para que se vea el mensaje inicial
+    time.sleep(0.5)
 
-    for floor in range(1, 6):  # Pisos 1 al 5
-        print(f"Descargando Piso {floor}...")
+    # Descargar pisos 1-5 (60% del progreso total, 12% por piso)
+    total_floors = 5
+    floor_messages = [
+        (1, "Descargando P1... empezando por HRK que queda un poco lejos 🤔"),
+        (2, "Descargando P2... Colchones, Damage, Team Lift... ¿por qué P2 es tan raro? 🤨"),
+        (3, "Descargando P3... estas escaleras cansan mucho ¿tendrán algún tipo de brujería? 🧙‍♂️"),
+        (4, "Descargando P4... ok comprobado no puedo más... y falta 1 piso más 😮‍💨"),
+        (5, "Des... cargando.... P5... HES1??? creo que estoy alucinando, contaré solo los pallets de VLC1 🎭")
+    ]
+    
+    for floor in range(1, total_floors + 1):
+        progress_pct = int((floor - 1) * 12)  # 0, 12, 24, 36, 48
+        floor_msg = floor_messages[floor - 1][1]
+        write_progress(data_folder, progress_pct, floor_msg)
+        # Pausa para que se vea el mensaje antes de empezar la descarga
+        time.sleep(0.3)
+        print(f"Descargando Piso {floor}...", flush=True)
+        sys.stdout.flush()
+        
         df = get_stow_map(fc=fc, floor=floor)
         if df is not None:
             # Añadir información del piso al DataFrame si no está presente
             if 'Floor' not in df.columns:
                 df['Floor'] = floor
             all_dfs.append(df)
+            progress_pct_complete = int(floor * 12)  # 12, 24, 36, 48, 60
+            # Mensajes de completado también divertidos
+            if floor == 1:
+                write_progress(data_folder, progress_pct_complete, "P1 listo... HRK ya no está tan lejos 😊")
+            elif floor == 2:
+                write_progress(data_folder, progress_pct_complete, "P2 listo... sí, guardan colchones ahí 🛏️")
+            elif floor == 3:
+                write_progress(data_folder, progress_pct_complete, "P3 listo... confirmado: hay brujería en las escaleras 🪄")
+            elif floor == 4:
+                write_progress(data_folder, progress_pct_complete, "P4 listo... aguanta, solo queda 1 más! 💪")
+            else:
+                write_progress(data_folder, progress_pct_complete, "P5 listo... HES1 existe pero ignorado, solo VLC1 ✅")
+            # Pausa para que se vea el mensaje de completado
+            time.sleep(0.3)
+            print(f"[OK] Piso {floor} descargado", flush=True)
+            sys.stdout.flush()
         else:
-            print(f"Fallo al obtener datos para el Piso {floor}.")
+            print(f"Fallo al obtener datos para el Piso {floor}.", flush=True)
+            sys.stdout.flush()
+            write_progress(data_folder, progress_pct, f"P{floor} falló... quizás no quería que lo descargáramos 🤷")
 
     if all_dfs:
-        print("Generando Csv...")
+        # 60-67%: Combinando y procesando datos
+        write_progress(data_folder, 60, "Mezclando todos los pisos...")
+        time.sleep(0.3)
+        print("Generando Csv...", flush=True)
+        sys.stdout.flush()
         combined_df = pd.concat(all_dfs, ignore_index=True)
 
         # Eliminar las columnas no deseadas si existen
+        write_progress(data_folder, 62, "Limpiando datos innecesarios...")
+        time.sleep(0.3)
         columnas_a_eliminar = [
             'Bin Size',
             'Available Bin Volume',
@@ -193,22 +283,11 @@ if __name__ == '__main__':
         ]
         columnas_presentes = [col for col in columnas_a_eliminar if col in combined_df.columns]
         combined_df.drop(columns=columnas_presentes, inplace=True)
-
-        # Determinar la carpeta de datos según el argumento recibido
-        if len(sys.argv) > 1:
-            # Si se pasa un argumento (userData path desde Electron), usar esa ubicación
-            user_data_path = sys.argv[1]
-            data_folder = os.path.join(user_data_path, "data", "space-heatmap")
-            print(f"[MODO BUILD] Guardando en userData: {data_folder}")
-        else:
-            # Si no hay argumento (ejecución directa), usar carpeta del proyecto
-            project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
-            data_folder = os.path.join(project_root, "data", "space-heatmap")
-            print(f"[MODO DESARROLLO] Guardando en proyecto: {data_folder}")
         
-        # Crear la carpeta si no existe
-        if not os.path.exists(data_folder):
-            os.makedirs(data_folder)
+        # 64%: Guardando datos
+        write_progress(data_folder, 64, "Guardando datos...")
+        time.sleep(0.3)
+        sys.stdout.flush()
         
         # Nombre del archivo
         filename = "Stowmap_data.csv"
@@ -216,13 +295,37 @@ if __name__ == '__main__':
         
         # Guardar el DataFrame final en CSV
         combined_df.to_csv(filepath, index=False)
-        print(f"[OK] CSV Exportado: {filepath}")
+        print(f"[OK] CSV Exportado: {filepath}", flush=True)
+        sys.stdout.flush()
         
-        # Ejecutar procesamiento automático de los datos
-        print("\n[Procesamiento] Iniciando procesamiento de datos...")
+        # 67%: Guardando metadata
+        write_progress(data_folder, 67, "Guardando metadata...")
+        time.sleep(0.3)
+        
+        # Guardar archivo de última actualización (JSON simple y rápido de leer)
+        update_info = {
+            "last_update": datetime.now().isoformat(),
+            "timestamp": datetime.now().timestamp()
+        }
+        update_file = os.path.join(data_folder, "last_update.json")
+        with open(update_file, 'w', encoding='utf-8') as f:
+            json.dump(update_info, f, indent=2)
+            f.flush()
+            os.fsync(f.fileno())
+        print(f"[OK] Archivo de actualización guardado: {update_file}", flush=True)
+        sys.stdout.flush()
+        
+        # 70-90%: Procesamiento de datos
+        write_progress(data_folder, 70, "Iniciando procesamiento de datos...")
+        time.sleep(0.3)
+        print("\n[Procesamiento] Iniciando procesamiento de datos...", flush=True)
+        sys.stdout.flush()
         try:
             script_dir = os.path.dirname(os.path.abspath(__file__))
             procesar_script = os.path.join(script_dir, "Procesar_StowMap.py")
+            
+            write_progress(data_folder, 72, "Calculando estadísticas...")
+            time.sleep(0.3)
             
             # Ejecutar script de procesamiento con el mismo userData path si existe
             if len(sys.argv) > 1:
@@ -240,54 +343,71 @@ if __name__ == '__main__':
             
             # Mostrar output del procesamiento
             if result.stdout:
-                print(result.stdout)
+                print(result.stdout, flush=True)
             if result.stderr and result.returncode != 0:
-                print("[WARNING] Errores durante el procesamiento:")
-                print(result.stderr)
+                print("[WARNING] Errores durante el procesamiento:", flush=True)
+                print(result.stderr, flush=True)
             
             if result.returncode == 0:
-                print("[OK] Procesamiento completado exitosamente!")
+                print("[OK] Procesamiento completado exitosamente!", flush=True)
+                sys.stdout.flush()
+                write_progress(data_folder, 90, "Procesamiento completado")
+                time.sleep(0.3)
             else:
-                print("[WARNING] El procesamiento termino con errores.")
+                print("[WARNING] El procesamiento termino con errores.", flush=True)
+                sys.stdout.flush()
+                write_progress(data_folder, 85, "Procesamiento con advertencias")
+                time.sleep(0.3)
         except Exception as e:
-            print(f"[WARNING] Error al ejecutar procesamiento: {str(e)}")
-            print("[INFO] Puedes ejecutar manualmente: python Procesar_StowMap.py")
+            print(f"[WARNING] Error al ejecutar procesamiento: {str(e)}", flush=True)
+            print("[INFO] Puedes ejecutar manualmente: python Procesar_StowMap.py", flush=True)
+            sys.stdout.flush()
+            write_progress(data_folder, 85, "Error en procesamiento")
+            time.sleep(0.3)
     else:
         print("No se obtuvieron datos para ninguno de los pisos especificados.")
+        write_progress(data_folder, 0, "Error: No se obtuvieron datos")
+        sys.exit(1)
     
-    # Determinar la carpeta de datos según el argumento recibido (para usar en todas las descargas)
-    if len(sys.argv) > 1:
-        user_data_path = sys.argv[1]
-        data_folder = os.path.join(user_data_path, "data", "space-heatmap")
-    else:
-        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
-        data_folder = os.path.join(project_root, "data", "space-heatmap")
+    # 90-100%: Descargar datos adicionales del DPS Portal
+    write_progress(data_folder, 90, "Descargando datos adicionales del DPS Portal...")
+    time.sleep(0.3)
+    print("\n" + "="*50, flush=True)
+    print("Iniciando descarga de datos adicionales del DPS Portal...", flush=True)
+    print("="*50, flush=True)
+    sys.stdout.flush()
     
-    # Crear la carpeta si no existe
-    if not os.path.exists(data_folder):
-        os.makedirs(data_folder)
-    
-    # Descargar datos adicionales del DPS Portal
-    print("\n" + "="*50)
-    print("Iniciando descarga de datos adicionales del DPS Portal...")
-    print("="*50)
-    
-    # Lista de funciones de descarga con sus nombres de archivo
+    # Lista de funciones de descarga con sus nombres de archivo y mensajes graciosos
     downloads = [
-        (get_locked_empty_bins, "LockedEmptyBins_data.csv", "Locked Empty Bins"),
-        (get_pending_verification_bins, "PendingVerificationBins_data.csv", "Pending Verification Bins"),
-        (get_pending_stow_bins, "PendingStowBins_data.csv", "Pending Stow Bins")
+        (get_locked_empty_bins, "LockedEmptyBins_data.csv", "Locked Empty Bins", "Descargando bins bloqueados... muchas bins por reparar 🔒"),
+        (get_pending_verification_bins, "PendingVerificationBins_data.csv", "Pending Verification Bins", "Descargando bins pendientes de verificación... será que hoy sí bajarán los pallets 🤷"),
+        (get_pending_stow_bins, "PendingStowBins_data.csv", "Pending Stow Bins", "Descargando bins esperando stow... menu 39 ¿estás ahí? ⏰")
     ]
     
-    for download_func, filename, data_name in downloads:
-        print(f"\nDescargando {data_name}...")
+    for idx, (download_func, filename, data_name, funny_msg) in enumerate(downloads, 1):
+        progress_pct = 90 + int((idx - 1) * 3.33)  # 90, 93, 96 aproximadamente
+        write_progress(data_folder, progress_pct, funny_msg)
+        time.sleep(0.3)
+        print(f"\nDescargando {data_name}...", flush=True)
+        sys.stdout.flush()
+        
         df = download_func(fc=fc)
         
         if df is not None:
-            print(f"[OK] {data_name} descargados: {len(df)} registros")
+            print(f"[OK] {data_name} descargados: {len(df)} registros", flush=True)
+            sys.stdout.flush()
             filepath = os.path.join(data_folder, filename)
             df.to_csv(filepath, index=False)
-            print(f"[OK] {data_name} CSV Exportado: {filepath}")
+            progress_pct_saved = 90 + int(idx * 3.33)  # 93, 96, 99 aproximadamente
+            time.sleep(0.2)
+            print(f"[OK] {data_name} CSV Exportado: {filepath}", flush=True)
+            sys.stdout.flush()
         else:
-            print(f"[WARNING] No se pudieron obtener los datos de {data_name}.")
+            print(f"[WARNING] No se pudieron obtener los datos de {data_name}.", flush=True)
+            sys.stdout.flush()
+    
+    # 100%: Completado
+    write_progress(data_folder, 100, "¡Listo! Ya puedes sentarte y relajarte... hasta la próxima vez 🎉")
+    print("\n[OK] Proceso de descarga completado!", flush=True)
+    sys.stdout.flush()
 

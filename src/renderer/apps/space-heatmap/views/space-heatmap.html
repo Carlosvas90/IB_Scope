@@ -66,6 +66,17 @@
       <div class="space-heatmap-content">
         <!-- Mensaje de estado (solo se muestra durante descarga o errores) -->
         <div id="status-message" class="status-message-banner" style="display: none;"></div>
+        
+        <!-- Barra de progreso (solo visible durante descarga) -->
+        <div id="progress-container" class="progress-container" style="display: none;">
+          <div class="progress-header">
+            <span id="progress-text">Iniciando descarga...</span>
+            <span id="progress-percentage">0%</span>
+          </div>
+          <div class="progress-bar-wrapper">
+            <div id="progress-bar" class="progress-bar" style="width: 0%;"></div>
+          </div>
+        </div>
 
         <!-- KPIs Generales -->
         <div id="kpis-section" class="kpis-section" style="display: none;">

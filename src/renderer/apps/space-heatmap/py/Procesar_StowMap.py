@@ -138,10 +138,15 @@ def procesar_stowmap(csv_path, output_dir):
     print("[Procesamiento] Calculando fullness por mod...")
     fullness_by_mod = {}
     
-    for mod in sorted(df['Mod'].unique()):
-        if pd.isna(mod):
-            continue
-        mod_data = df[df['Mod'] == mod]
+    # Filtrar NaN y convertir a string para ordenar correctamente
+    mods = df['Mod'].dropna().unique()
+    # Convertir todos a string para permitir ordenamiento
+    mods_str = [str(mod) for mod in mods]
+    mods_sorted = sorted(mods_str)
+    
+    for mod_str in mods_sorted:
+        # Filtrar datos usando comparación de string
+        mod_data = df[df['Mod'].astype(str) == mod_str]
         total_bins = len(mod_data)
         
         if total_bins == 0:
@@ -150,7 +155,7 @@ def procesar_stowmap(csv_path, output_dir):
         occupied_bins = len(mod_data[mod_data['Total Units'] > 0])
         avg_utilization = mod_data['Utilization %'].mean()
         
-        fullness_by_mod[str(mod)] = {
+        fullness_by_mod[mod_str] = {
             'total_bins': int(total_bins),
             'occupied_bins': int(occupied_bins),
             'empty_bins': int(total_bins - occupied_bins),
