@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pizarra - Roster de Empleados</title>
+    <!-- CSS se carga dinámicamente por el router -->
+  </head>
+  <body>
+    <div class="pizarra-container">
+      <!-- Header con estilo similar a space-heatmap -->
+      <header class="app-header-card">
+        <h1>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            style="
+              display: inline-flex;
+              align-items: center;
+              vertical-align: middle;
+              margin-right: 8px;
+            "
+          >
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          Pizarra - Roster de Empleados
+        </h1>
+        <div class="app-header-controls">
+          <!-- Estado del archivo en el header -->
+          <div id="file-status-header" class="file-status-header">
+            <span id="status-icon">📊</span>
+            <span id="status-text">Cargando...</span>
+          </div>
+          <button id="download-roster-btn" class="btn btn-primary">
+            <svg
+              id="download-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span id="download-btn-text">Descargar Roster</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Contenido principal -->
+      <div class="pizarra-content">
+        <!-- Mensaje de estado (solo se muestra durante descarga o errores) -->
+        <div id="status-message" class="status-message-banner" style="display: none;"></div>
+        
+        <!-- Barra de progreso (solo visible durante descarga) -->
+        <div id="progress-container" class="progress-container" style="display: none;">
+          <div class="progress-header">
+            <span id="progress-text">Iniciando descarga...</span>
+            <span id="progress-percentage">0%</span>
+          </div>
+          <div class="progress-bar-wrapper">
+            <div id="progress-bar" class="progress-bar" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <!-- Mensaje inicial (cuando no hay datos) -->
+        <div id="no-data-message" class="info-card">
+          <div class="info-card-header">
+            <h3>ℹ️ Información del Proceso</h3>
+          </div>
+          <div class="info-card-content">
+            <p>
+              Este proceso descarga el <strong>roster de empleados</strong> desde el portal FCLM
+              para el centro de distribución <strong>VLC1</strong>.
+            </p>
+            <div class="info-features">
+              <div class="feature-item">
+                <span class="feature-icon">🔐</span>
+                <div class="feature-text">
+                  <strong>Autenticación segura</strong>
+                  <p>Se abrirá una ventana CMD para ingresar tu PIN de Midway</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon">👥</span>
+                <div class="feature-text">
+                  <strong>Datos completos de empleados</strong>
+                  <p>Incluye información de empleados activos, en LOA, Amazon, temporales y 3rd party</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon">⏱️</span>
+                <div class="feature-text">
+                  <strong>Actualización recomendada</strong>
+                  <p>Los datos deben actualizarse periódicamente para mantener precisión</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Script principal -->
+    <script src="js/pizarra.js"></script>
+  </body>
+</html>
+

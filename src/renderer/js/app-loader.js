@@ -48,6 +48,20 @@ class AppLoader {
         initializer: undefined, // No requiere inicializador
         styles: ["../apps/space-heatmap/css/space-heatmap.css"], // CSS se carga desde app-loader
       },
+      "pizarra": {
+        name: "Pizarra",
+        description: "Roster de empleados del portal FCLM",
+        icon: "users",
+        initializer: undefined, // No requiere inicializador
+        styles: ["../apps/utilidades/Pizarra/css/pizarra.css"], // CSS se carga desde app-loader
+      },
+      "imanes": {
+        name: "Imanes",
+        description: "Gestión de imanes",
+        icon: "magnet",
+        initializer: undefined, // No requiere inicializador
+        styles: [], // CSS se carga desde app-loader
+      },
       // Aquí se pueden registrar más aplicaciones en el futuro
     };
 

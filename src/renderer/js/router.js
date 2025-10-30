@@ -63,6 +63,14 @@ class Router {
         path: "../apps/space-heatmap/views/space-heatmap.html",
         scripts: ["../apps/space-heatmap/js/space-heatmap.js"],
       },
+      "pizarra": {
+        path: "../apps/utilidades/Pizarra/views/pizarra.html",
+        scripts: ["../apps/utilidades/Pizarra/js/pizarra.js"],
+      },
+      "imanes": {
+        path: "../apps/utilidades/Imanes/views/imanes.html",
+        scripts: [],
+      },
       "dock-control": {
         path: "../apps/dock-control/views/dock-control.html",
         scripts: ["../apps/dock-control/js/dock-control.js"],

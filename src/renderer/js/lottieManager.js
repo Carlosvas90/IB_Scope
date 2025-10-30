@@ -36,6 +36,18 @@ const lottieFiles = {
       light: "../../../assets/animations/admin_light.json",
       dark: "../../../assets/animations/admin_dark.json",
     },
+    utilidades: {
+      light: "../../../assets/animations/admin_light.json",
+      dark: "../../../assets/animations/admin_dark.json",
+    },
+    pizarra: {
+      light: "../../../assets/animations/admin_light.json",
+      dark: "../../../assets/animations/admin_dark.json",
+    },
+    imanes: {
+      light: "../../../assets/animations/admin_light.json",
+      dark: "../../../assets/animations/admin_dark.json",
+    },
   },
   // Lotties para el Home (mismo contexto que Sidebar - src/renderer/views/)
   home: {
@@ -83,6 +95,9 @@ const NAV_LOTTIES = [
   "heatmap",
   "dock-control",
   "admin",
+  "utilidades",
+  "pizarra",
+  "imanes",
 ];
 
 async function loadLottieAnimation(id, mode, location = "sidebar") {

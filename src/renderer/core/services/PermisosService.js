@@ -56,6 +56,33 @@ class PermisosService {
       return false;
     }
 
+    // Casos especiales para pizarra e imanes - usar permisos de utilidades
+    if (appName === "pizarra" || appName === "imanes") {
+      const permisosUtilidades = this.permisos["utilidades"];
+      if (
+        permisosUtilidades &&
+        typeof permisosUtilidades === "object" &&
+        !Array.isArray(permisosUtilidades)
+      ) {
+        // Verificar si existe la subcategoría específica (pizarra o imanes)
+        if (permisosUtilidades[appName]) {
+          const arr = permisosUtilidades[appName];
+          if (Array.isArray(arr)) {
+            if (arr.includes("*")) return true;
+            return arr.some((u) => u.toLowerCase() === user);
+          }
+        }
+
+        // Si no existe la subcategoría específica, verificar acceso general a utilidades
+        const general = permisosUtilidades["*"];
+        if (Array.isArray(general)) {
+          if (general.includes("*")) return true;
+          return general.some((u) => u.toLowerCase() === user);
+        }
+      }
+      return false;
+    }
+
     // Verificación especial para admin-panel
     if (appName === "admin-panel") {
       return this.esAdmin();
