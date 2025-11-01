@@ -1,0 +1,13 @@
+{
+  "total_bins": 158891,
+  "occupied_bins": 141733,
+  "empty_bins": 17158,
+  "in_use_bins": 141733,
+  "locked_bins": 3595,
+  "total_units": 1274845,
+  "occupancy_rate": 89.2,
+  "avg_utilization": 0.82,
+  "floors": 5,
+  "bin_types": 8,
+  "processed_at": "2025-11-01T23:00:57.199325"
+}

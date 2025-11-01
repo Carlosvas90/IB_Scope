@@ -1,0 +1,66 @@
+{
+  "LIBRARY-DEEP": {
+    "total_bins": 111990,
+    "occupied_bins": 101261,
+    "empty_bins": 10729,
+    "occupancy_rate": 90.42,
+    "avg_utilization": 0.83,
+    "total_units": 574756
+  },
+  "PALLET-SINGLE": {
+    "total_bins": 31338,
+    "occupied_bins": 27443,
+    "empty_bins": 3895,
+    "occupancy_rate": 87.57,
+    "avg_utilization": 0.88,
+    "total_units": 581555
+  },
+  "HALF-VERTICAL": {
+    "total_bins": 9204,
+    "occupied_bins": 9099,
+    "empty_bins": 105,
+    "occupancy_rate": 98.86,
+    "avg_utilization": 0.93,
+    "total_units": 73170
+  },
+  "BAT-BIN": {
+    "total_bins": 1858,
+    "occupied_bins": 540,
+    "empty_bins": 1318,
+    "occupancy_rate": 29.06,
+    "avg_utilization": 0.19,
+    "total_units": 4827
+  },
+  "BARREL": {
+    "total_bins": 1805,
+    "occupied_bins": 1670,
+    "empty_bins": 135,
+    "occupancy_rate": 92.52,
+    "avg_utilization": 0.63,
+    "total_units": 24277
+  },
+  "CANTILEVER": {
+    "total_bins": 1288,
+    "occupied_bins": 763,
+    "empty_bins": 525,
+    "occupancy_rate": 59.24,
+    "avg_utilization": 0.3,
+    "total_units": 6914
+  },
+  "FLOOR-PALLET": {
+    "total_bins": 879,
+    "occupied_bins": 847,
+    "empty_bins": 32,
+    "occupancy_rate": 96.36,
+    "avg_utilization": 0.67,
+    "total_units": 8449
+  },
+  "PASS-THROUGH-BULKY": {
+    "total_bins": 529,
+    "occupied_bins": 110,
+    "empty_bins": 419,
+    "occupancy_rate": 20.79,
+    "avg_utilization": 0.05,
+    "total_units": 897
+  }
+}

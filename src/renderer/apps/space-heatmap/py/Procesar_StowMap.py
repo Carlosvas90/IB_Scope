@@ -4,6 +4,87 @@ import os
 import sys
 from datetime import datetime
 
+# ============================================
+# CONFIGURACIÓN: MODO DESARROLLO
+# ============================================
+# Cambiar a True para usar archivos de ejemplo desde Ejemplos/data/space-heatmap/
+# Cambiar a False para usar rutas normales (userData o proyecto)
+MODO_DEV = True
+
+# ============================================
+# CONFIGURACIÓN: GUARDAR CSV CORREGIDO
+# ============================================
+# Cambiar a True para sobrescribir el CSV original con las correcciones aplicadas
+# Cambiar a False para solo corregir en memoria (más rápido, no guarda cambios en el archivo)
+GUARDAR_CSV_CORREGIDO = True
+
+def corregir_csv(df):
+    """
+    Corrige el DataFrame del CSV antes de procesarlo.
+    
+    Correcciones:
+    1. Elimina filas completamente vacías (entre cambios de piso)
+    2. Convierte Utilization % de valores enteros (48.00) a decimales (0.48)
+    3. Para Bin Type = PALLET-SINGLE: si Utilization % > 0, cambiar a 1.0 (100%)
+    
+    Args:
+        df: DataFrame de pandas con los datos del CSV
+        
+    Returns:
+        DataFrame corregido
+    """
+    print("[Correccion] Aplicando correcciones al CSV...")
+    
+    # 0. Eliminar filas completamente vacías (entre cambios de piso)
+    initial_count = len(df)
+    # Eliminar filas donde todas las columnas son NaN/vacías
+    df = df.dropna(how='all')
+    removed_count = initial_count - len(df)
+    if removed_count > 0:
+        print(f"[OK] Eliminadas {removed_count} filas completamente vacías")
+    else:
+        print("[OK] No se encontraron filas completamente vacías")
+    
+    # Verificar que existe la columna Utilization %
+    if 'Utilization %' not in df.columns:
+        print("[ERROR] No se encontro la columna 'Utilization %'")
+        return df
+    
+    # 1. Corregir Utilization %: convertir de enteros (48.00) a decimales (0.48)
+    # Si los valores son > 1, significa que están como porcentajes enteros
+    max_util = df['Utilization %'].max()
+    if not pd.isna(max_util) and max_util > 1:
+        print(f"[Correccion] Convirtiendo Utilization % de enteros a decimales (max encontrado: {max_util})...")
+        df.loc[:, 'Utilization %'] = df['Utilization %'] / 100.0
+        print("[OK] Utilization % convertido a decimales (0-1)")
+    else:
+        print("[OK] Utilization % ya está en formato decimal")
+    
+    # 2. Corregir PALLET-SINGLE: si Utilization % > 0, cambiar a 1.0
+    if 'Bin Type' in df.columns:
+        pallet_single_mask = df['Bin Type'] == 'PALLET-SINGLE'
+        pallet_single_count = pallet_single_mask.sum()
+        
+        if pallet_single_count > 0:
+            # Para PALLET-SINGLE, si Utilization % > 0, cambiar a 1.0
+            # Mantener 0 si ya es 0
+            pallet_single_with_util = pallet_single_mask & (df['Utilization %'] > 0)
+            corrected_count = pallet_single_with_util.sum()
+            
+            if corrected_count > 0:
+                df.loc[pallet_single_with_util, 'Utilization %'] = 1.0
+                print(f"[OK] Corregidos {corrected_count} registros PALLET-SINGLE con Utilization % > 0 (cambiados a 1.0)")
+            else:
+                print(f"[OK] {pallet_single_count} registros PALLET-SINGLE encontrados, todos con Utilization % = 0")
+        else:
+            print("[OK] No se encontraron registros PALLET-SINGLE")
+    else:
+        print("[ADVERTENCIA] No se encontro la columna 'Bin Type'")
+    
+    print("[OK] Correcciones aplicadas correctamente")
+    return df
+
+
 def procesar_stowmap(csv_path, output_dir):
     """
     Procesa el CSV de StowMap y genera archivos JSON con métricas calculadas.
@@ -14,9 +95,17 @@ def procesar_stowmap(csv_path, output_dir):
     """
     print(f"[Procesamiento] Leyendo CSV desde: {csv_path}")
     
-    # Leer el CSV
+    # Leer CSV original
     df = pd.read_csv(csv_path, low_memory=False)
     print(f"[Procesamiento] Total de registros: {len(df)}")
+    
+    # Corregir el CSV antes de procesarlo
+    df = corregir_csv(df)
+    
+    # Sobrescribir CSV original si está habilitado
+    if GUARDAR_CSV_CORREGIDO:
+        df.to_csv(csv_path, index=False)
+        print(f"[OK] CSV corregido sobrescrito en: {csv_path}")
     
     # Crear directorio de salida si no existe
     if not os.path.exists(output_dir):
@@ -276,15 +365,23 @@ def procesar_stowmap(csv_path, output_dir):
     return True
 
 if __name__ == '__main__':
-    # Determinar rutas según si se ejecuta desde Electron o directamente
-    if len(sys.argv) > 1:
-        # Ejecutado desde Electron con userData path
+    # Determinar rutas según configuración
+    if MODO_DEV:
+        # MODO DEV: Usar archivos de ejemplo desde Ejemplos/
+        # Subir 6 niveles: py -> space-heatmap -> apps -> renderer -> src -> raíz
+        script_path = os.path.abspath(__file__)
+        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(script_path))))))
+        csv_path = os.path.join(project_root, "Ejemplos", "data", "space-heatmap", "Stowmap_data.csv")
+        output_dir = os.path.join(project_root, "Ejemplos", "data", "space-heatmap", "processed")
+        print(f"[MODO DEV] Procesando desde Ejemplos/data/space-heatmap/")
+    elif len(sys.argv) > 1:
+        # Ejecutado desde Electron con userData path (MODO BUILD)
         user_data_path = sys.argv[1]
         csv_path = os.path.join(user_data_path, "data", "space-heatmap", "Stowmap_data.csv")
         output_dir = os.path.join(user_data_path, "data", "space-heatmap", "processed")
         print(f"[MODO BUILD] Procesando desde userData")
     else:
-        # Ejecutado directamente - usar carpeta del proyecto
+        # Ejecutado directamente - usar carpeta del proyecto (MODO DESARROLLO NORMAL)
         project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
         csv_path = os.path.join(project_root, "data", "space-heatmap", "Stowmap_data.csv")
         output_dir = os.path.join(project_root, "data", "space-heatmap", "processed")

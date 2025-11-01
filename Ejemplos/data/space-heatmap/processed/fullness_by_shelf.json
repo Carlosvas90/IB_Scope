@@ -1,0 +1,100 @@
+{
+  "A": {
+    "total_bins": 48174,
+    "occupied_bins": 42256,
+    "empty_bins": 5918,
+    "occupancy_rate": 87.72,
+    "avg_utilization": 0.76
+  },
+  "B": {
+    "total_bins": 31824,
+    "occupied_bins": 28974,
+    "empty_bins": 2850,
+    "occupancy_rate": 91.04,
+    "avg_utilization": 0.91
+  },
+  "C": {
+    "total_bins": 27544,
+    "occupied_bins": 26487,
+    "empty_bins": 1057,
+    "occupancy_rate": 96.16,
+    "avg_utilization": 0.94
+  },
+  "D": {
+    "total_bins": 35316,
+    "occupied_bins": 30625,
+    "empty_bins": 4691,
+    "occupancy_rate": 86.72,
+    "avg_utilization": 0.74
+  },
+  "E": {
+    "total_bins": 4885,
+    "occupied_bins": 4374,
+    "empty_bins": 511,
+    "occupancy_rate": 89.54,
+    "avg_utilization": 0.89
+  },
+  "F": {
+    "total_bins": 4885,
+    "occupied_bins": 4326,
+    "empty_bins": 559,
+    "occupancy_rate": 88.56,
+    "avg_utilization": 0.88
+  },
+  "G": {
+    "total_bins": 4895,
+    "occupied_bins": 4218,
+    "empty_bins": 677,
+    "occupancy_rate": 86.17,
+    "avg_utilization": 0.85
+  },
+  "H": {
+    "total_bins": 264,
+    "occupied_bins": 117,
+    "empty_bins": 147,
+    "occupancy_rate": 44.32,
+    "avg_utilization": 0.2
+  },
+  "I": {
+    "total_bins": 184,
+    "occupied_bins": 56,
+    "empty_bins": 128,
+    "occupancy_rate": 30.43,
+    "avg_utilization": 0.16
+  },
+  "J": {
+    "total_bins": 184,
+    "occupied_bins": 61,
+    "empty_bins": 123,
+    "occupancy_rate": 33.15,
+    "avg_utilization": 0.18
+  },
+  "K": {
+    "total_bins": 184,
+    "occupied_bins": 56,
+    "empty_bins": 128,
+    "occupancy_rate": 30.43,
+    "avg_utilization": 0.16
+  },
+  "L": {
+    "total_bins": 184,
+    "occupied_bins": 57,
+    "empty_bins": 127,
+    "occupancy_rate": 30.98,
+    "avg_utilization": 0.21
+  },
+  "M": {
+    "total_bins": 184,
+    "occupied_bins": 63,
+    "empty_bins": 121,
+    "occupancy_rate": 34.24,
+    "avg_utilization": 0.21
+  },
+  "N": {
+    "total_bins": 184,
+    "occupied_bins": 63,
+    "empty_bins": 121,
+    "occupancy_rate": 34.24,
+    "avg_utilization": 0.18
+  }
+}

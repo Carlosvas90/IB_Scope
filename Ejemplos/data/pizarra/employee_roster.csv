@@ -1,0 +1,811 @@
+Employee ID,User ID,Employee Name,Badge Barcode ID,Department ID,Employment Start Date,Employment Type,Employee Status,Manager Name,Temp Agency Code,Job Title,Management Area ID,Shift Pattern,Badge RFID,Exempt
+200064903,cifuenla,"Cifuentes Belles,Laura",11832752,1712,Mon May 30 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",WMGT,Facilities Maintenance (OSP),,,,N
+205298288,casanvje,"Casanya Carratala,Jesus",14997592,1712,Tue May 20 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+202235820,nuralber,"Albert Sancho,Nuria",15200885,1299,Mon Oct 16 00:00:00 UTC 2023,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,13,VLC1T2,,N
+200086593,qlucasga,"GARCIA CASTRO,LUCAS",11602628,1290,Fri Jun 10 00:00:00 UTC 2022,3PTY,Active,"Garcia Montoya,Diana Isabel",IDID,Medical Rep (OSP),MEDICAL REPRESENTATIVE,,,N
+205419662,calderrs,"Caldera,Roberto Carlos",14447970,1299,Tue Jun 17 00:00:00 UTC 2025,AMZN,Active,"Trujillo Acosta,Manuel",,FC Associate I,27,VLC1C3DP,,N
+201657122,diagosan,"Diago Salmeron,Nerea",310913,1711,Mon Jun 26 00:00:00 UTC 2023,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+200064936,manolmor,"Moreno Martinez,Manolo",183201,1712,Mon May 30 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",WMGT,Facilities Maintenance (OSP),,,,N
+202622946,ramicesr,"Ramirez gomez,Cesar antonio",11663889,1299,Mon Mar 18 00:00:00 UTC 2024,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4E,,N
+200029820,delcuboz,"Del Cubo Beltran,Eric",11592967,1712,Mon May 16 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+200128837,yoselmar,"Martinez Gonzalez,Yoselin Andrea",12127651,1712,Thu Jun 23 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+206264930,suajpaol,"Suárez,Paola Andrea",11846348,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2FT,,N
+206369283,pezzottm,"Pezzotti,Maria",13650623,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,18,VLC1T4FT,,N
+203861709,gsorelys,"Gonzalez,Sorelys Del Carmen",12985423,1299,Mon Jul 14 00:00:00 UTC 2025,TEMP,Active,"Ivanova,Miriam Milkova",,FC Associate I,1,VLC1T2FT,,N
+200106395,garmigul,"Garcia Valdivieso,Miguel Angel",13928415,1712,Wed Jun 15 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+205363744,rpajohan,"Parra,Johana Lisbeth",11047434,1299,Mon Jun 09 00:00:00 UTC 2025,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,13,VLC1T5DP,,N
+205419659,arayvane,"Aray,Vanessa Michell",11523579,1299,Tue Jun 17 00:00:00 UTC 2025,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,18,VLC1T2DP,,N
+204500030,karzikha,"Karzi,Khalid",15153090,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,18,VLC1T3DP,,N
+200011352,nunomora,"MORAIS,NUNO CARVALHO",12660390,1290,Wed May 04 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",CBR,Elec/Mech/Const (OSP),,,,N
+112648331,eborrasr,"Borras Ramos,Enric",13472357,1299,Sun Jun 12 00:00:00 UTC 2022,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate III,5,VLC1T1L,,N
+204984824,zabavmof,"Zabava Gurau,Monica",13410166,1290,Fri Feb 28 00:00:00 UTC 2025,3PTY,Active,"Rancitelli,Diego",EUR,Cafeteria Worker (OSP),,,,N
+204833806,vicmchin,"Chiner Lopez,Vicente",13742397,1712,Tue Jan 14 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+201241885,closgome,"Clos Gomez,Montserrat",13962744,1711,Mon Apr 03 00:00:00 UTC 2023,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+202235823,daabnade,"Daabal Chmeit,Nader",11007948,1299,Mon Oct 16 00:00:00 UTC 2023,AMZN,Active,"Gago Giner,Carlos",,FC Associate III,19,VLC1T2L,,N
+205617851,jorrayar,"RAYA RUIZ,JORGE",13607629,1299,Mon Jul 14 00:00:00 UTC 2025,TEMP,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,3,VLC1T3FT,,N
+201316566,casessai,"Cases Saiz,Adrian",125115,1711,Fri Apr 14 00:00:00 UTC 2023,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+205363747,morncarm,"Moreno Valdez,Carmen Carolina",13679719,1299,Mon Jun 09 00:00:00 UTC 2025,TEMP,Active,"Gago Giner,Carlos",,FC Associate I,13,VLC1T5FT,,N
+204192159,youcbenf,"Benfettoum,Youcef",14861595,1299,Mon Aug 11 00:00:00 UTC 2025,TEMP,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T8FT,,N
+206369616,monicene,"Enero,Monica",13058799,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T3FT,,N
+200472233,calvocad,"Calvo Calvo,Diego",14073705,1712,Thu Oct 06 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+202622975,jaimdemb,"Dembilio Ocio,Jaime",12162513,1299,Tue Oct 14 00:00:00 UTC 2025,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2DP,,N
+112759407,rangogen,"Rangosch Rengifo,Genesis Fradalys Fradalys",11845542,1299,Sun Aug 21 00:00:00 UTC 2022,AMZN,Active,"Plaza Belda,Jorge",,FC Associate III,19,VLC1T4L,,N
+201641920,oivanovf,"Ivanova,Olha",13258738,1299,Sun Oct 29 00:00:00 UTC 2023,AMZN,Active,"Ivanova,Miriam Milkova",,FC Associate I,18,VLC1T2,,N
+200771849,osoriomr,"Osorio Bailon,Marco",15189696,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,13,VLC1T1DP,,N
+201715286,elenagre,"Gregori Llongo,Elena",13322210,1711,Wed Jul 05 00:00:00 UTC 2023,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+205617847,wrobalej,"Robles,Alejandra",12470075,1299,Mon Jul 14 00:00:00 UTC 2025,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,3,VLC1T1DP,,N
+204567773,canoemir,"Calvo Balaguer,Noemi",12117591,1711,Mon Nov 18 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+108671606,helmosqu,"Mosquera Doria,Helen Stefani",11055279,1299,Mon Jul 05 00:00:00 UTC 2021,AMZN,Active,"Cuellar Molina,Richard",,FC Associate III,33,VLC1LRN7,,N
+206356921,ginirodr,"Gini,Rodrigo Emiliano Cruz",14509857,1712,Thu Oct 23 00:00:00 UTC 2025,3PTY,Active,"Munoz Rodriguez,Jose Luis",ELEN,Facilities Technician (OSP),,,,N
+205419664,anstagno,"Stagno,Andrea",14709666,1299,Tue Jun 17 00:00:00 UTC 2025,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,18,VLC1T2DP,,N
+201350062,navafait,"Navarro Bolinaga,Aitor",15042720,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,13,VLC1T2,,N
+202209004,jmarnuri,"Martinez Camacho,Nuria",12377281,1711,Tue Oct 03 00:00:00 UTC 2023,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+203672849,marsergk,"Martinez Utiel,Sergio",13793748,1721,Tue Jul 16 00:00:00 UTC 2024,3PTY,Active,"Montero Nieves,Isabel",NGPC,Project Management (OSP),,,,N
+202702736,izaspapa,"Papacios Folch,Izaskun",14318480,1711,Tue Nov 21 00:00:00 UTC 2023,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+202382364,nadrprie,"Prieto Mora,Adriana Alejandra",14515740,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate I,13,VLC1T1DP,,N
+111119110,algagote,"Gago Tellez,Alba",12290387,1299,Thu May 05 00:00:00 UTC 2022,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,18,VLC1T8,,N
+205780053,karinrbo,"Bohorquez Vasquez,Karina Solimar",12901701,1299,Mon Aug 18 00:00:00 UTC 2025,TEMP,Active,"Trujillo Acosta,Manuel",,FC Associate I,27,VLC1C3FT,,N
+201846487,arroyann,"Arroyo Calle,Annersy Graziany",12259560,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,18,VLC1T4DP,,N
+206264942,jesustvi,"Villabona,Jesus",12520557,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Escriva Perello,Adrian",,FC Associate I,18,VLC1T1FT,,N
+205746956,wewmarti,"Martinez,Wendy",14839525,1299,Mon Aug 11 00:00:00 UTC 2025,TEMP,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate I,13,VLC1T1FT,,N
+201146985,neuruizm,"RUIZ MARIN,NEUS",13928611,1290,Fri Feb 17 00:00:00 UTC 2023,3PTY,Active,"Garcia Montoya,Diana Isabel",IDID,Medical Rep (OSP),Safety,,,N
+112763244,josemiyh,"Hernandez Severino,Jose Miguel",13444144,1299,Mon Oct 03 00:00:00 UTC 2022,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,18,VLC1T6,,N
+205325204,avealex,"Avellana Radu,Alexandra",13466886,1299,Mon Jun 02 00:00:00 UTC 2025,TEMP,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T8FT,,N
+104754599,gergecs,"Stefan Ciucurel,George Cosmin",12961637,1299,Mon Oct 03 00:00:00 UTC 2022,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T6,,N
+206107371,ciccmate,"Ciccarrelli,Mateo",13392309,1711,Tue Sep 23 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",CBR,Facilities Technician (OSP),,,,N
+204431637,alinaoat,"Toma,Alina Oana",11745794,1299,Sun May 11 00:00:00 UTC 2025,AMZN,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,21,VLC1T3,,N
+200157229,hesolcal,"Sol Calatayud,Herminio",12259751,1712,Mon Jul 04 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+204432177,sacesarc,"Sanchez,Cesar",13027790,1299,Tue Oct 14 00:00:00 UTC 2025,TEMP,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,1,VLC1T1FT,,N
+112801531,androsma,"Osma,Andres",12595472,1299,Sun Feb 18 00:00:00 UTC 2024,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,13,VLC1T1,,N
+200333377,hecvargg,"Vargas Rambla,Hector",14114272,1712,Tue Sep 13 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+107154103,linobern,"Poleo Bernardi,Lino Fernando Fernando",11848739,1299,Mon Mar 28 00:00:00 UTC 2022,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,18,VLC1T3L,,N
+202395826,javicrom,"Romero Vicente,Javier Isaac",11202701,1299,Mon Nov 06 00:00:00 UTC 2023,AMZN,Active,"Ivanova,Miriam Milkova",,FC Associate I,13,VLC1T2,,N
+203805914,urriokjo,"Urriola,Jorge Luis",11806593,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,18,VLC1T5DP,,N
+200771832,amillped,"Millan Siles,Pedro Antonio",11890799,1299,Sun Oct 29 00:00:00 UTC 2023,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T5,,N
+203294462,cosmacat,"Cosma,Catalin",13240511,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate I,13,VLC1T4DP,,N
+112790429,gimenoma,"Gimeno,Manuel",13839880,1299,Mon Oct 03 00:00:00 UTC 2022,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,18,VLC1T4,,N
+206264939,angejuaq,"Angel,Juan Carlos",11060372,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,18,VLC1T3FT,,N
+205144395,pigiampa,"Pintus,Giampaolo",12331109,1299,Tue Apr 22 00:00:00 UTC 2025,AMZN,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate I,13,VLC1T1DP,,N
+201780701,falainbe,"Benitez Morillo,Alain",130888,1299,Mon May 20 00:00:00 UTC 2024,AMZN,Active,"Cuellar Molina,Richard",,FC Associate I,33,VLC1LRN1,,N
+103440190,possn,"Nardone Posse,Noelia",11241271,1299,Fri Jul 13 00:00:00 UTC 2018,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,21,VLC1T6,,N
+204226075,gomcraqu,"Gomez Arriba,Raquel",15123577,1290,Thu Oct 10 00:00:00 UTC 2024,3PTY,Active,"Rancitelli,Diego",EUR,Cafeteria Worker (OSP),,,,N
+109482174,ierilugo,"Lugo Godoy,Erika Katiusca Katiusca",14536963,1299,Mon Sep 20 00:00:00 UTC 2021,AMZN,Active,"Cuellar Molina,Richard",,FC Associate III,33,VLC1LRN6,,N
+206369323,erkarima,"ERRACHIDI,KARIMA",14889002,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2FT,,N
+112763295,rancited,"Rancitelli,Diego",13812285,1290,Sun Aug 28 00:00:00 UTC 2022,AMZN,Active,"Coves Quiles,Ester",,Executive Assistant I,19,,,N
+206264949,yhonsmay,"Ayala Colmenares,Yhonsmely Paola",13444247,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Baptista Silva,Rijkard Rainier Rainier",,FC Associate I,18,VLC1T4FT,,N
+204192166,nalfonsl,"López de Silva García,Alfonso",12832567,1299,Mon Oct 14 00:00:00 UTC 2024,AMZN,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,13,VLC1T3,,N
+205682459,vidalrev,"Vidal Revilla,Vicente Jose",12418948,1299,Mon Jul 28 00:00:00 UTC 2025,TEMP,Active,"Gago Giner,Carlos",,FC Associate I,13,VLC1T5FT,,N
+203294471,younkarg,"Karzi,Younes",13013478,1299,Mon May 13 00:00:00 UTC 2024,AMZN,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,13,VLC1T3,,N
+203660899,orlamila,"Milano Quilarque,Orlando Amazonia",15079849,1711,Wed Jul 10 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+111340431,dembjaim,"Dembilio Sifres,Jaime",11098439,1230,Mon Nov 08 00:00:00 UTC 2021,AMZN,Active,"Nicosia,Franco Agustin",,IT Support Assoc II,26,VLC1IT1,,N
+202235573,hcchamri,"Chamrid,Chaima",15051370,1290,Tue Mar 26 00:00:00 UTC 2024,3PTY,Active,"Garcia Zazo,Aitor",EULN,Security Supervisor (OSP),,,,N
+203681380,nmartpab,"Martínez Tornador,Pablo",14922998,1299,Mon Jul 22 00:00:00 UTC 2024,AMZN,Active,"Ivanova,Miriam Milkova",,FC Associate I,18,VLC1T2,,N
+112763302,josborrq,"BORRAS,JOSE",13834468,1299,Sun Aug 21 00:00:00 UTC 2022,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate I,13,VLC1T4,,N
+203408947,juahsana,"Sanabria mora,Juan David",12335923,1299,Mon Jun 10 00:00:00 UTC 2024,AMZN,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,13,VLC1T3,,N
+204431726,diazfkar,"Diaz Florido,Karlo Yoel",12072718,1299,Sun Nov 10 00:00:00 UTC 2024,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2,,N
+201010720,mjavtruj,"Trujillo Sanz,Javier",12891394,1711,Thu Jan 05 00:00:00 UTC 2023,3PTY,Active,"Mata Guilarte,Barbra Catherine",TMHI,Facilities Technician (OSP),,,,N
+205617848,lgledezm,"Ledezma,Leonard Jhonabrian",13075392,1299,Mon Jul 14 00:00:00 UTC 2025,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,3,VLC1T1DP,,N
+205682505,jeanotam,"Otamendi,Jean",13411490,1299,Mon Jul 28 00:00:00 UTC 2025,TEMP,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,18,VLC1T3FT,,N
+204331342,evelilia,"Velosa,Liliana Marcela",11471145,1299,Sun Nov 03 00:00:00 UTC 2024,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2,,N
+202948372,cerverma,"Cervero Balaguer,Maria Desamparados",15197740,1711,Mon Jan 22 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+206103718,escurior,"Escuriola Jovani,Roger",15286312,1711,Mon Sep 22 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",CBR,Facilities Technician (OSP),,,,N
+204859501,serlopey,"López Villalba,Sergio",12684046,1712,Mon Feb 10 00:00:00 UTC 2025,AMZN,Active,"Ferrer Serrador,María Dolores",,Service Technician II,,VLC1RME6,,N
+200064934,chrisitu,"Coman,Chrisitian",11727934,1712,Mon May 30 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",WMGT,Facilities Maintenance (OSP),,,,N
+203681112,eyolandf,"Fernandez Martinez,Yolanda",11372091,1299,Mon Jul 22 00:00:00 UTC 2024,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,13,VLC1T1,,N
+204331318,yperezpl,"Pérez Pérez,Luis Eduardo",12297357,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate I,18,VLC1T1,,N
+112763298,minaiard,"Ardy,Mina",13821254,1299,Sun Aug 28 00:00:00 UTC 2022,AMZN,Active,"Alarcón Lucas,Luis",,FC Associate I,18,VLC1T1,,N
+204431601,etorreed,"TORRES,EDUARDO jose",14312716,1299,Sun Nov 10 00:00:00 UTC 2024,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4,,N
+106479111,arnelsm,"Suarez Marquez,Arnelsy Grisel",11284685,1299,Mon Sep 07 00:00:00 UTC 2020,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate I,18,VLC1T4,,N
+206182222,frojedau,"Ojeda Vilar,Francisco",15086952,1711,Wed Oct 01 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",CBR,Elec/Mech/Const (OSP),,,,N
+203719366,hectpecu,"Pecurto Lopez,Hector",15256633,1711,Mon Jul 22 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",CBRE,Facilities Technician (OSP),,,,N
+204192158,lyndmouh,"Mouhoub,Lynda",12988533,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Ivanova,Miriam Milkova",,FC Associate I,18,VLC1T2FT,,N
+206041548,vgasamue,"Garcia Ruiz,Samuel",13850540,1711,Tue Sep 16 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",CBR,Facilities Technician (OSP),,,,N
+206214029,ridazdan,"ridao,daniel",13690013,1299,Tue Oct 14 00:00:00 UTC 2025,TEMP,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4FT,,N
+200834053,selbrodr,"Rodriguez Tejera,Selene",14370915,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2,,N
+202235744,garomanu,"Garcia,Manuel",11165034,1299,Mon Oct 16 00:00:00 UTC 2023,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T3,,N
+206214118,emascion,"Mascioni,Daniel Eduardo",14516806,1299,Tue Oct 14 00:00:00 UTC 2025,TEMP,Active,"del Olmo de Pablos,Paloma",,FC Associate I,1,VLC1T4FT,,N
+203045532,paulagd,"González Domínguez,Paula",282044,1728,Mon Nov 04 00:00:00 UTC 2024,AMZN,Active,"Barcala Fresco,Eva",,HR Assistant II,,VLC1AP1,,N
+200184975,querolma,"QUEROL MARCO,MARIA DEL CARMEN",12108532,1712,Fri Jul 15 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+205468905,carwvero,"Carrasco Roman,Veronica",14678921,1299,Mon Jun 16 00:00:00 UTC 2025,3PTY,Active,"Rancitelli,Diego",EUR,Cafeteria Worker (OSP),,,,N
+107638489,jojhanb,"Suarez Bernal,Jojhan Stiven",12739514,1299,Mon Mar 28 00:00:00 UTC 2022,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate III,19,VLC1T2L,,N
+202279933,delgcrub,"Delgado Huguet,Ruben",15059509,1299,Tue Oct 24 00:00:00 UTC 2023,AMZN,Active,"Trujillo Acosta,Manuel",,FC Associate I,27,VLC1IC3L,,N
+111959572,qgonabel,"González Navarro,Abel",14006606,1712,Mon Jan 17 00:00:00 UTC 2022,AMZN,Active,"Mata Guilarte,Barbra Catherine",,Service Technician II,28,VLC1RME4,,N
+203681109,juanfgra,"Granell Ferrer,Juan",11714232,1299,Mon Jul 22 00:00:00 UTC 2024,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,18,VLC1T1,,N
+206369335,telladot,"Tellado Abad,Noelia",227032,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2FT,,N
+111959575,sjesusig,"Soto Moreno,Nacho",14007038,1712,Mon Jan 17 00:00:00 UTC 2022,AMZN,Active,"Ferrer Serrador,María Dolores",,Service Technician III,28,,,N
+203714014,rojasgoh,"Rojas Gomez,Mariel Maria",11367703,1299,Mon Jul 29 00:00:00 UTC 2024,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,18,VLC1T4,,N
+203805915,vedventu,"Ventura Gómez,Eduard",12974510,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Escriva Perello,Adrian",,FC Associate I,13,VLC1T1DP,,N
+201978371,paguemar,"Guerra Martínez,Pablo",12643204,1712,Mon Sep 11 00:00:00 UTC 2023,AMZN,Active,"Mata Guilarte,Barbra Catherine",,Service Technician III,,,,N
+203493104,sergmagn,"Maglas Ruja,Sergio",12334156,1712,Mon Sep 01 00:00:00 UTC 2025,TEMP,Active,"Mata Guilarte,Barbra Catherine",,Apprentice III,,,,N
+201418887,carlizqu,"IZQUIERDO HERNANDO,CARLOS MANUEL",14681497,1290,Tue May 09 00:00:00 UTC 2023,3PTY,Active,"Rancitelli,Diego",EUR,Outsourced VendorFundedResour,,,,N
+201879366,fabperis,"Peris Gregorio,Fabian",11218630,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2,,N
+205682495,luckpers,"Perez Perez,Luck",15053404,1299,Mon Jul 28 00:00:00 UTC 2025,TEMP,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2FT,,N
+206264924,monicanc,"Castro Panameno,Monica Nicole",12406482,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate I,13,VLC1T1FT,,N
+205617842,vilojenn,"Viloria,Jenniree M URDANETA",13673179,1299,Mon Jul 14 00:00:00 UTC 2025,AMZN,Active,"Ivanova,Miriam Milkova",,FC Associate I,1,VLC1T2DP,,N
+203681100,bmorwalt,"Moreno,Walter Xavier",14341598,1299,Mon Jul 22 00:00:00 UTC 2024,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2,,N
+203626483,manyasmu,"Manyas Munyoz,Francisco",11695241,1711,Fri Jul 05 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+205174519,ggarcika,"Garcia,Kathy Kathy",14620619,1299,Mon Apr 28 00:00:00 UTC 2025,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2,,N
+206356951,osvaljav,"Javier,Osvaldo Esusy",14340134,1712,Thu Oct 23 00:00:00 UTC 2025,3PTY,Active,"Munoz Rodriguez,Jose Luis",ELEN,Facilities Technician (OSP),,,,N
+200771882,zidsalah,"Zidi,Salaheddine",13735812,1299,Thu Mar 23 00:00:00 UTC 2023,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,18,VLC1T4,,N
+206275931,bortmoos,"Bort Mora,Oscar",14878731,1057,Tue Oct 14 00:00:00 UTC 2025,3PTY,Active,"Plaza Belda,Jorge",DLTR,Yard Jockey (OSP),,,,N
+206264937,rosaleqo,"Rosales Lugo,Osiris Coromoto",11150985,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2FT,,N
+203861706,andrrrub,"Andreu Álvaro,Rubén José",13467166,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,18,VLC1T3FT,,N
+201846529,mmunozhy,"Muñoz Heredia,Maria",15142505,1299,Mon Jul 14 00:00:00 UTC 2025,TEMP,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,3,VLC1T3FT,,N
+202235749,xrmariad,"Rodriguez Contreras,Maria del Carmen Mamen",14394510,1299,Mon Oct 16 00:00:00 UTC 2023,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,18,VLC1T4,,N
+205568337,alealcac,"ALCANTARA NAVARRO,ALEJANDRO",27903,1290,Tue Jul 01 00:00:00 UTC 2025,3PTY,Active,"Garcia Zazo,Aitor",SAGI,Security Guard (OSP),,,,N
+206369571,gboterob,"Botero Burbano,Gabriel Felipe",11691979,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Gago Giner,Carlos",,FC Associate I,18,VLC1T2FT,,N
+204192143,arantwse,"Segarra,Arantzazu",15013053,1299,Mon Oct 14 00:00:00 UTC 2024,AMZN,Active,"Trujillo Acosta,Manuel",,FC Associate I,27,VLC1IC1,,N
+201879365,rufloris,"Rusei,Ina",14690430,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate III,19,VLC1T1F,,N
+205115790,zfaneite,"Faneite,Zasha Tailing",11607726,1299,Mon Apr 14 00:00:00 UTC 2025,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4,,N
+205325215,taverruo,"Tavera Alcaide,Rut María",11602547,1299,Mon Jun 02 00:00:00 UTC 2025,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2DP,,N
+204192141,irisbmil,"orias,Milagros",13304653,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,13,VLC1T3DP,,N
+203341550,morilglo,"Morillo Moros,Gloria",14892608,1299,Mon May 27 00:00:00 UTC 2024,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T7,,N
+203408958,navilusi,"Naveda,Ilusion",12370801,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,18,VLC1T3,,N
+200176973,buenriqu,"Bustos,Enrique",13845526,1711,Tue Jul 12 00:00:00 UTC 2022,3PTY,Active,"Mata Guilarte,Barbra Catherine",TMHI,Service Technician III (OSP),,,,N
+203528971,sanbedua,"Ochoa Sanchez,eduard",14734016,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,18,VLC1T1DP,,N
+205746955,lmordori,"Mora,Doris",14845596,1299,Mon Aug 11 00:00:00 UTC 2025,TEMP,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T3FT,,N
+205325224,karibric,"Briceno,Karina",14973419,1299,Mon Jun 02 00:00:00 UTC 2025,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4DP,,N
+204432205,belaouss,"Belaabass,Oussama",11004899,1299,Mon Jul 28 00:00:00 UTC 2025,TEMP,Active,"del Olmo de Pablos,Paloma",,FC Associate I,1,VLC1T4FT,,N
+202775124,stefanaw,"Stefan,Andrada",15020616,1290,Thu Nov 30 00:00:00 UTC 2023,3PTY,Active,"Garcia Zazo,Aitor",EULN,Security Guard (OSP),,,,N
+112308866,yapascub,"Pascual Riverón,Yadier",13457264,1299,Mon Mar 14 00:00:00 UTC 2022,AMZN,Active,"Cortes Acuna,Sergio Felipe Felipe",,Safety Technician,34,,,N
+113164078,vmaanton,"Martinez Gonzalez,Anton",13718239,1299,Tue Oct 25 00:00:00 UTC 2022,AMZN,Active,"Rancitelli,Diego",,FC Associate III,26,VLC1CENT,,N
+204226102,carizqui,"Izquierdo Hernando,Carlos Manuel",11897735,1290,Thu Oct 10 00:00:00 UTC 2024,3PTY,Active,"Rancitelli,Diego",EUR,Cafeteria Worker (OSP),,,,N
+205746961,estherwv,"Vega,Esther",13805932,1299,Mon Aug 11 00:00:00 UTC 2025,TEMP,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T3FT,,N
+200129283,lozanofa,"Lozano Fernandez,Alejandro",12452161,1290,Thu Jun 23 00:00:00 UTC 2022,3PTY,Active,"Garcia Montoya,Diana Isabel",IDID,Medical Rep (OSP),Medical Representative,,,N
+200566400,sicorghe,"Gheorghe Marian,Sicorschi",14975459,1711,Thu Oct 20 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+200011443,gavrraul,"GAVRILA,RAUL",15239470,1290,Wed May 04 00:00:00 UTC 2022,3PTY,Active,"Garcia Zazo,Aitor",POSE,Security Guard (OSP),,,,N
+203872263,nunezcov,"Nunez Gonzalez,Covadonga",11508416,1299,Mon Feb 17 00:00:00 UTC 2025,AMZN,Active,"Cortes Acuna,Sergio Felipe Felipe",,Safety Technician,,VLC1SF1,,N
+203493103,ssanchom,"Sancho Miralles,Sara",11287016,1299,Sun Mar 30 00:00:00 UTC 2025,AMZN,Active,"Trujillo Acosta,Manuel",,FC Associate I,27,VLC1IC3,,N
+203493089,qachachl,"Qachach Lote,Salim Salim",12645828,1299,Mon Jun 24 00:00:00 UTC 2024,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T3,,N
+112801530,fpinamon,"Pina Montanes,Aaron",12298355,1299,Mon Oct 03 00:00:00 UTC 2022,AMZN,Active,"Ivanova,Miriam Milkova",,FC Associate III,13,VLC1T2L,,N
+205617833,mejiapen,"Mejia pena,Stiven Arturo",13440101,1299,Mon Jul 14 00:00:00 UTC 2025,TEMP,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,3,VLC1T1FT,,N
+206369314,fernacmo,"MONTILLA ASUAJE,FERNANDO ALEJANDRO",15335260,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Escriva Perello,Adrian",,FC Associate I,18,VLC1T1FT,,N
+112763237,marinosy,"Marino Alonso,Sarai",11120854,1299,Sun Aug 21 00:00:00 UTC 2022,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,18,VLC1T2,,N
+204156509,gonlcesa,"Gonzalez Marquez,Cesar",14382075,1057,Mon Sep 30 00:00:00 UTC 2024,3PTY,Active,"Plaza Belda,Jorge",DLTR,Yard Jockey (OSP),,,,N
+201879362,crejuanw,"Crespo,Juan Pedro",15350553,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Ivanova,Miriam Milkova",,FC Associate I,13,VLC1T2,,N
+203861705,ijhern,"Hernandez Marrero,Jose Luis",13635228,1299,Tue Oct 14 00:00:00 UTC 2025,TEMP,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,3,VLC1T1FT,,N
+202224594,monroigc,"Monroig Gomez,Cristina",5222,1299,Mon Apr 22 00:00:00 UTC 2024,AMZN,Active,"Cortes Acuna,Sergio Felipe Felipe",,Safety Technician,,,,N
+200378490,rociorih,"Rios,Rocio",15106310,1299,Thu Mar 23 00:00:00 UTC 2023,AMZN,Active,"LEYUN CARRERA,MARIA",,FC Associate III,19,,,N
+203681121,kenelmsa,"Sanchez,Kenelma",14779214,1299,Mon Jul 22 00:00:00 UTC 2024,AMZN,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate I,18,VLC1T1L,,N
+200198504,xrubmarc,"ruben,marc  lucian",13229891,1290,Thu Jul 21 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",CBR,Elec/Mech/Const (OSP),,,,N
+205115783,mcastant,"Castaño Velasquez,Maria Eugenia",14690854,1299,Mon Apr 14 00:00:00 UTC 2025,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,18,VLC1T2,,N
+205325214,rjmorata,"Morata Anreus,Jose Manuel",14497748,1299,Mon Jun 02 00:00:00 UTC 2025,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2DP,,N
+204919196,alejmino,"Mino,Alejandro duran",12751889,1057,Mon Feb 10 00:00:00 UTC 2025,3PTY,Active,"Plaza Belda,Jorge",DLTR,Yard Jockey (OSP),,,,N
+206214091,sogllopb,"Llop Baeza,Sonia",14417306,1299,Tue Oct 14 00:00:00 UTC 2025,TEMP,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,3,VLC1T1FT,,N
+206231462,csuarmar,"Suarez hernandez,Maria concepcion",12987718,1711,Wed Oct 08 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",CBR,Elec/Mech/Const (OSP),,,,N
+205682504,wmirmart,"Martinez Elekes,Miriam",12844054,1299,Mon Jul 28 00:00:00 UTC 2025,TEMP,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2FT,,N
+104708051,geordc,"Fajardo Canar,Geordan Bryan",11991577,1299,Wed Apr 01 00:00:00 UTC 2020,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate III,19,VLC1T4L,,N
+200211240,pmedinal,"Medina Laencina,Pedro",11321261,1712,Wed Jul 27 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",TMHI,Facilities Technician (OSP),,,,N
+204499950,lopmicae,"Lopez,Micaela Belen",11271651,1299,Mon Nov 18 00:00:00 UTC 2024,AMZN,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,18,VLC1T3,,N
+204500242,karziisr,"Karzi,Israe",11831968,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T3,,N
+203408954,maarenal,"Arenales,Maria Fernanda",13644007,1299,Mon Jun 10 00:00:00 UTC 2024,AMZN,Active,"Escriva Perello,Adrian",,FC Associate I,13,VLC1T1,,N
+112793782,fonterui,"FONTE,JORGE",14209267,1299,Mon Oct 03 00:00:00 UTC 2022,AMZN,Active,"Ivanova,Miriam Milkova",,FC Associate I,13,VLC1T2,,N
+203681125,qmlopeza,"López,Maria",12203527,1299,Mon Jul 22 00:00:00 UTC 2024,AMZN,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,13,VLC1T3,,N
+206131585,davitork,"Torres,David Alvaro",11897385,1711,Thu Sep 25 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",CBR,Elec/Mech/Const (OSP),,,,N
+206369320,dragusma,"Dragusin,Madalin Mihai",13270114,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,13,VLC1T1FT,,N
+203528975,herradoi,"Herrador Marti,Iker",12681660,1299,Mon Jul 01 00:00:00 UTC 2024,AMZN,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,13,VLC1T3,,N
+201350052,opemaria,"Perez Diaz,Mary Alejandra",15318969,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate III,19,VLC1T3L,,N
+206214093,mikeledu,"Duno,Mikele Ale",15054390,1299,Tue Oct 14 00:00:00 UTC 2025,TEMP,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,3,VLC1T1FT,,N
+202395887,oanaemar,"Marin,Oana Elena",11281838,1299,Mon Nov 06 00:00:00 UTC 2023,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,13,VLC1T2,,N
+205746950,jimjuant,"Jimenez Campo,Juan Manuel",11973558,1299,Mon Aug 11 00:00:00 UTC 2025,TEMP,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate I,13,VLC1T1FT,,N
+202279641,cperezbe,"Perez belles,Cristian",14982460,1299,Tue Oct 24 00:00:00 UTC 2023,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,13,VLC1T1,,N
+202235653,johhgarc,"Garcia,Johnny",14748264,1299,Tue Oct 14 00:00:00 UTC 2025,TEMP,Active,"del Olmo de Pablos,Paloma",,FC Associate I,3,VLC1T4FT,,N
+206369406,ramwcarl,"ramos garcia,carlos",12518150,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Gago Giner,Carlos",,FC Associate I,18,VLC1T2FT,,N
+112759394,usobarjo,"Uso,Jordi",13961080,1299,Mon Oct 03 00:00:00 UTC 2022,AMZN,Active,"Baptista Silva,Rijkard Rainier Rainier",,FC Associate I,13,VLC1T4,,N
+206306361,satboukh,"Boukhedouni Lassouag,Said",13608080,1299,Mon Oct 27 00:00:00 UTC 2025,TEMP,Active,"Gago Giner,Carlos",,FC Associate I,18,VLC1T2FT,,N
+201158858,pedsancr,"Sanchez,Pedro",14104240,1711,Wed Feb 22 00:00:00 UTC 2023,3PTY,Active,"Mata Guilarte,Barbra Catherine",TMHI,Facilities Maintenance (OSP),,,,N
+206347351,joanirey,"Reyes Guerra,Joania Milagros",12868839,1711,Wed Oct 22 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+203493097,walrango,"Rangosch Rengifo,Walter Jose",13843608,1299,Mon Jun 24 00:00:00 UTC 2024,AMZN,Active,"Baptista Silva,Rijkard Rainier Rainier",,FC Associate I,13,VLC1T4,,N
+203408942,rubfeito,"Feito Martín,Rubèn",11842619,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Alarcón Lucas,Luis",,FC Associate I,13,VLC1T1DP,,N
+112763236,penacans,"Pena Canseco,Eugenio",11481148,1299,Sun Aug 21 00:00:00 UTC 2022,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,13,VLC1T1,,N
+201965915,ochisele,"Ochisanu,Elena",12925739,1711,Tue Aug 29 00:00:00 UTC 2023,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+203571093,pcaramos,"RAMOS SUNER,CARLOS",12625556,1290,Wed Jun 26 00:00:00 UTC 2024,3PTY,Active,"Rancitelli,Diego",ADEC,Facilities Technician (TEMP),,,,N
+200033456,joseralo,"Lorentes Saez,Jose Ramon",11448556,1711,Mon May 16 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",RENK,Facilities Technician (OSP),,,,N
+206264919,asuajfrb,"Asuaje,Frank",11705563,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"del Olmo de Pablos,Paloma",,FC Associate I,13,VLC1T4FT,,N
+206264943,iakarima,"Aboulhaoul,Karima",12179545,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"del Olmo de Pablos,Paloma",,FC Associate I,13,VLC1T4FT,,N
+203408936,pyurbely,"pena,yurbely",12262536,1299,Mon Jun 10 00:00:00 UTC 2024,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4,,N
+205801057,tmiravet,"MIRAVET CASTELLO,TERESA",11666718,1290,Tue Aug 12 00:00:00 UTC 2025,3PTY,Active,"Garcia Montoya,Diana Isabel",IDID,Medical Rep (OSP),WHS,,,N
+200084888,eenralva,"Alvarez Perez,Enrique",12291710,1290,Fri Jun 10 00:00:00 UTC 2022,3PTY,Active,"Garcia Zazo,Aitor",POSE,Security Guard (OSP),,,,N
+202763863,fejesusr,"Fernandez del Moral,Jesus",11694689,1290,Wed Nov 29 00:00:00 UTC 2023,3PTY,Active,"Garcia Zazo,Aitor",EULN,Security Guard (OSP),,,,N
+204192114,osmamone,"Montero,Osmar",13213230,1299,Mon Aug 11 00:00:00 UTC 2025,TEMP,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate I,13,VLC1T1FT,,N
+206214020,benagraf,"Benages,Rafa",13751205,1299,Tue Oct 14 00:00:00 UTC 2025,TEMP,Active,"del Olmo de Pablos,Paloma",,FC Associate I,1,VLC1T4FT,,N
+200771852,psalvajo,"Salvador Arago,Jose Manuel",13355662,1299,Thu Mar 23 00:00:00 UTC 2023,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4,,N
+200660417,franespm,"Espinoza Robles,Francisco",305667,1711,Sun Oct 30 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",CBRE,Facilities Technician (OSP),,,,N
+206369484,salvsonn,"Salazar,Sonny",11236581,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Gago Giner,Carlos",,FC Associate I,18,VLC1T2FT,,N
+200856474,josimovs,"Josimovski Falomir,Alexia Ratka",13688833,1299,Thu Mar 23 00:00:00 UTC 2023,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,18,VLC1T1,,N
+206264938,belhloud,"Belhamra,Loubna",12380991,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,13,VLC1T3FT,,N
+206369322,gustolir,"Oliveira Canepa,Gustavo Henrique",12559756,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Escriva Perello,Adrian",,FC Associate I,18,VLC1T1FT,,N
+204331338,keroropq,"Oropeza Fernandez,Kerwin",11212946,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate I,13,VLC1T1,,N
+203314774,yeduarpe,"Perez,Eduardo",13234492,1299,Mon May 20 00:00:00 UTC 2024,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T3L,,N
+206213996,hajjbouj,"Boujnane,Hajjar",289438,1299,Tue Oct 14 00:00:00 UTC 2025,TEMP,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,1,VLC1T3FT,,N
+206369400,janmunow,"Munoz,Jann",12891954,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,18,VLC1T4FT,,N
+109753608,kondrjer,"Kondrat Esteves,Erika Carolina",14830696,1299,Mon Mar 28 00:00:00 UTC 2022,AMZN,Active,"Rancitelli,Diego",,FC Associate I,18,VLC1CENT,,N
+106581965,abragut,"Gutierrez Parra,Abraham Alberto alberto",11305101,1299,Mon May 30 00:00:00 UTC 2022,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate III,5,VLC1T4L,,N
+200495203,andrquej,"Queiroz Campos,Andreia",15179794,1712,Mon Oct 10 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+202382403,mariacsg,"Garcia Gonzalez,Maria Concepcion",32823,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Alarcón Lucas,Luis",,FC Associate I,18,VLC1T1,,N
+201780706,belensal,"Salvador Pena,Belen",11182388,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T3,,N
+203341549,alvveros,"Alvarado,Veronica andrea",12391422,1299,Mon May 27 00:00:00 UTC 2024,AMZN,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,13,VLC1T3,,N
+205615070,jantrome,"Romero Molina,Antonio",11063668,1712,Fri Jul 04 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+206213995,bermuliz,"Bermudez,Lin",11724003,1299,Tue Oct 14 00:00:00 UTC 2025,TEMP,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4FT,,N
+201780699,qmarygon,"Gonzalez Rojas,Mary Yoselin",11437667,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Trujillo Acosta,Manuel",,FC Associate I,27,VLC1IC1L,,N
+205325223,yaarverg,"vergara,aaron",12044040,1299,Mon Jun 02 00:00:00 UTC 2025,AMZN,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,13,VLC1T3DP,,N
+200064913,angtenal,"Tena Lopez,Angel Carlos",14033825,1712,Mon May 30 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",WMGT,Facilities Maintenance (OSP),,,,N
+112763243,gpejordi,"Pérez Hermosa,Jordi",2389411,1299,Mon Jun 10 00:00:00 UTC 2024,AMZN,Active,"Escriva Perello,Adrian",,FC Associate I,13,VLC1T1,,N
+206356887,juancmna,"Nadal,Juan Carlos Daza",14186041,1712,Thu Oct 23 00:00:00 UTC 2025,3PTY,Active,"Munoz Rodriguez,Jose Luis",ELEN,Facilities Technician (OSP),,,,N
+110381945,letibona,"Bonal Pérez,Leticia",12889800,1712,Mon Aug 02 00:00:00 UTC 2021,AMZN,Active,"Ferrer Serrador,María Dolores",,Service Technician III,,,,N
+205617839,nquintem,"Quintero,Natalia",267718,1299,Mon Jul 14 00:00:00 UTC 2025,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate I,3,VLC1T4DP,,N
+201879347,xmaldobr,"Maldonado,Brenda",14643629,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate I,13,VLC1T1,,N
+201879368,llvicent,"Llorens Gil,Vicente Vicente",12080138,1299,Mon Jun 24 00:00:00 UTC 2024,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,18,VLC1T2LA,,N
+203660855,ospelegr,"Pelegrin Sorribes,Oscar",14216571,1711,Tue Jul 09 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+109662464,dalampug,"Lampugnani,Davide",14730904,1299,Sun Sep 26 00:00:00 UTC 2021,AMZN,Active,"Baptista Silva,Rijkard Rainier Rainier",,FC Associate I,19,VLC1T4L,,N
+205324860,josefelu,"Felip,Jose",12989805,1299,Mon Jun 02 00:00:00 UTC 2025,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,18,VLC1T2,,N
+203580098,rebejuli,"Rebenaque Gonzalez,Julio",14355941,1711,Mon Jul 01 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",CBRE,Facilities Technician (OSP),,,,N
+206306121,carcecar,"Carceller,Carlos",11920800,1299,Mon Oct 27 00:00:00 UTC 2025,TEMP,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2FT,,N
+202382392,rmarinj,"Cabeza,Juan Marin",13014351,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,13,VLC1T3FT,,N
+204192173,tmariavs,"Hernandez,victoria",15076962,1299,Mon Jul 28 00:00:00 UTC 2025,TEMP,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,13,VLC1T7FT,,N
+201846490,noelisue,"Soto sueiro,noelia",12696847,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2,,N
+204192169,eguinape,"Guinan,Pedro Andree",14436372,1299,Mon Oct 14 00:00:00 UTC 2024,AMZN,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,18,VLC1T3,,N
+110752655,nunezgam,"Nunez Garcia,Manuel",12859441,1299,Thu Jun 09 00:00:00 UTC 2022,AMZN,Active,"Plaza Belda,Jorge",,FC Associate III,19,VLC1T2L,,N
+205115788,marwuill,"Marcano,Wuillians",13076657,1299,Mon Apr 14 00:00:00 UTC 2025,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2,,N
+202382366,garcibeg,"Garcia Garcia,Begoña",12424741,1299,Mon Oct 30 00:00:00 UTC 2023,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,13,VLC1T8,,N
+200934548,ochiiuli,"Ochisanu,Iulian",15012943,1711,Wed Dec 07 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",CBRE,Facilities Technician (OSP),,,,N
+203101511,disaez,"Sáez Cabrera,Diego",13065972,1712,Mon Apr 01 00:00:00 UTC 2024,AMZN,Active,"Ferrer Serrador,María Dolores",,Service Technician II,,,,N
+200184955,bivmunoz,"MUNOZ HERNANDEZ,BIVIANA COROMOTO",13110425,1712,Fri Jul 15 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+201879351,alasalob,"Salo,Alan",14969122,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Alarcón Lucas,Luis",,FC Associate I,18,VLC1T1,,N
+110369686,candresg,"Borges,Andres Leonardo Chirinos",13848066,1299,Mon Mar 28 00:00:00 UTC 2022,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,13,VLC1T1,,N
+203528968,segurasw,"Segura,Selena",14725917,1299,Mon Jul 01 00:00:00 UTC 2024,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T3,,N
+203184269,romeriru,"romero,irama carolina",11311579,1299,Tue Oct 14 00:00:00 UTC 2025,TEMP,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,1,VLC1T1FT,,N
+201843795,joaqpall,"PALLARES CASTELLO,JOAQUIN",12720276,1290,Fri Aug 04 00:00:00 UTC 2023,3PTY,Active,"Rancitelli,Diego",EUR,Outsourced VendorFundedResour,,,,N
+203492083,gallonju,"Gallón Bejarano,Juan Jose",11532208,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,13,VLC1T3DP,,N
+110130780,rijbapti,"Baptista Silva,Rijkard Rainier Rainier",15241241,1299,Mon Mar 28 00:00:00 UTC 2022,AMZN,Active,"Maio,Fabio",,FC Associate III,19,VLC1T2F,,N
+100847608,nicolaum,"Sanjuan,Nico",11235426,1299,Mon Nov 21 00:00:00 UTC 2016,AMZN,Active,"LEYUN CARRERA,MARIA",,FC Associate III,5,VLC1PRC1,,N
+203861699,borjmorc,"Morcillo Herrando,Borja",13891388,1299,Mon Sep 02 00:00:00 UTC 2024,AMZN,Active,"Baptista Silva,Rijkard Rainier Rainier",,FC Associate I,13,VLC1T4,,N
+206264926,gabimori,"Moragas,Gabi",14677451,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,18,VLC1T3FT,,N
+109619309,jereyesg,"Reyes,Jesús",14685208,1299,Mon Mar 28 00:00:00 UTC 2022,AMZN,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate I,13,VLC1T1,,N
+202692362,nereamoy,"MOYA REMOLAR,NEREA",15383339,1290,Sun Nov 19 00:00:00 UTC 2023,3PTY,Active,"Rancitelli,Diego",EUR,Outsourced VendorFundedResour,,,,N
+107334583,mzprr,"Villabona  parra,Alejandra",13579021,1299,Thu May 05 00:00:00 UTC 2022,AMZN,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,13,VLC1T3,,N
+205174522,diegourd,"Urdaneta,Diego",12207999,1299,Mon Apr 28 00:00:00 UTC 2025,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2,,N
+112648335,navdoris,"NAVARRETE VELIS,DORIS",15305456,1299,Sun Jun 12 00:00:00 UTC 2022,AMZN,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,18,VLC1T3,,N
+200006147,yeabibul,"Abibula,Yenis",14698230,1290,Thu Apr 28 00:00:00 UTC 2022,3PTY,Active,"Garcia Zazo,Aitor",POSE,Security Specialist (OSP),,,,N
+202395868,vakjguta,"Jgutashvili,Vakhtang",14690068,1299,Mon Nov 06 00:00:00 UTC 2023,AMZN,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,13,VLC1T3,,N
+206214986,quesachr,"Quesada González,Christian",11578725,1299,Tue Oct 14 00:00:00 UTC 2025,TEMP,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4FT,,N
+203319931,anavivej,"Vives Tena,Ana",207536,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate I,13,VLC1T7,,N
+204669534,rivarias,"Arias Martinez,Ricardo",14343013,1712,Thu Nov 28 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+110186821,daslacru,"La Cruz Ojeda,Daylenis Coromoto Coromoto",15299628,1299,Mon May 30 00:00:00 UTC 2022,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate III,19,VLC1T4F,,N
+201879381,mariagw,"Gonzalez Ospina,Maria Paula",14737798,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,18,VLC1T4,,N
+205682496,winnsilv,"Silva,Winnie",13396659,1299,Mon Jul 28 00:00:00 UTC 2025,TEMP,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T3FT,,N
+107985555,alberedo,"MADRID REDONDO,ALBERTO",13618932,1712,Mon Sep 28 00:00:00 UTC 2020,AMZN,Active,"Mata Guilarte,Barbra Catherine",,Service Technician II,26,VLC1RME1,,N
+203493092,mparramo,"Parra Monlleó,Andrea",11006166,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Ivanova,Miriam Milkova",,FC Associate I,13,VLC1T7,,N
+204789275,anqsant,"Santos Pelufo,Ana Isabel",14638139,1712,Mon Dec 30 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+206264932,yvdavil,"Davila,Yvonly Josseline",11279197,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Ivanova,Miriam Milkova",,FC Associate I,18,VLC1T2FT,,N
+112648357,lvguzman,"Guzman,Lorena",14199988,1299,Sun Jun 12 00:00:00 UTC 2022,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate I,18,VLC1T4E,,N
+204192155,tpmaikel,"Toledo,Maikel Jesus",11696460,1299,Mon Oct 14 00:00:00 UTC 2024,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4,,N
+200266564,elifrani,"El Ifrani,Fatima",13535416,1712,Fri Aug 19 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+203681905,chaveznb,"chavez,neuriz Sandra",12183377,1299,Tue Jun 17 00:00:00 UTC 2025,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,18,VLC1T2DP,,N
+200266569,roxageor,"Roxana Ungureanu,Georgiana",12094292,1712,Fri Aug 19 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+203580099,hejaview,"Herrera Olivero,Javier Alessandro",12643935,1711,Mon Jul 01 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",CBRE,Facilities Technician (OSP),,,,N
+200379006,cozarobe,"Cozar,Roberto",0,1299,Thu Mar 23 00:00:00 UTC 2023,AMZN,Active,"Avellan Mancha,Teresa",,FC Associate I,13,VLC1T1,,N
+109432314,yyolrome,"Romero Espinoza,Yoly Soiret",11802707,1299,Mon Jun 02 00:00:00 UTC 2025,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4DP,,N
+204192967,antoshke,"Antoshkevych Vazhnyuk,Illya Antoshkevych",293041,1299,Mon Oct 14 00:00:00 UTC 2024,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4,,N
+202961098,cevimar,"Cebrián,Mar",14655993,1728,Mon Feb 05 00:00:00 UTC 2024,AMZN,Active,"Barcala Fresco,Eva",,HR Assistant II,,VLC1AP4,,N
+110128849,jebellor,"Bellorin Bermudez,Jesus Elias Elias",15239337,1299,Sun Jun 12 00:00:00 UTC 2022,AMZN,Active,"Trujillo Acosta,Manuel",,FC Associate III,27,VLC1IC4L,,N
+203408933,montejup,"Montes Ricardo,Enrique",11951103,1299,Mon Jun 10 00:00:00 UTC 2024,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate I,13,VLC1T4,,N
+202382373,lsuerika,"Suarez Gutierrez,Erika Johanna",14058129,1299,Sun Oct 13 00:00:00 UTC 2024,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,18,VLC1T4,,N
+206369403,guenmaru,"Guenbour,Marua",12454218,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,18,VLC1T4FT,,N
+206307011,framoraw,"Morales Portoles,Francisco Javier",14081687,1711,Fri Oct 17 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",CBR,Elec/Mech/Const (OSP),,,,N
+201528436,sanchfcl,"Sanchez,Claudia",14384756,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,13,VLC1T3,,N
+204678572,maaaguil,"Aguilar Cadrillana,Maria Teresa",11340169,1711,Mon Dec 02 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+205144394,cpindidi,"pinzon,Didier",15074716,1299,Tue Apr 22 00:00:00 UTC 2025,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T7DP,,N
+206264920,loubnaji,"Joua,Loubna",13294782,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2FT,,N
+204162844,xszucani,"Szucs,Anita",13645922,1298050,Tue Oct 01 00:00:00 UTC 2024,3PTY,Active,"Garcia Zazo,Aitor",EULN,Security Guard (OSP),,,,N
+204440468,gloriarb,"Ramirez Posso,Gloria Janet",14561179,1711,Mon Nov 04 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+104531408,djjardim,"Olim Jardim,Daniel Ricardo",14471495,1712,Sun Jun 12 00:00:00 UTC 2022,AMZN,Active,"Mata Guilarte,Barbra Catherine",,FC Associate III,,,,N
+206334769,rususilu,"Rusu,Silviu Ioan",14757016,1057,Tue Oct 21 00:00:00 UTC 2025,3PTY,Active,"Plaza Belda,Jorge",DLTR,Yard Jockey (OSP),,,,N
+108779119,navaranx,"Navarro Montero,Angel",11882779,1299,Mon Mar 28 00:00:00 UTC 2022,AMZN,Active,"Alarcón Lucas,Luis",,FC Associate I,13,VLC1T1,,N
+201677232,vanescaa,"Castillo,Vanessa",12589930,1728,Mon Jul 10 00:00:00 UTC 2023,AMZN,Active,"Barcala Fresco,Eva",,HR Assistant II,,VLC1AP3,,N
+112759541,antongaq,"Garcia Edo,Antonio",11780186,1712,Sun Aug 21 00:00:00 UTC 2022,AMZN,Active,"Ferrer Serrador,María Dolores",,FC Associate III,,,,N
+206264928,gartomax,"Garcia,Tomas",14105268,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2FT,,N
+110023443,mzjesg,"Cardenas Gonzalez,Jesus",15122192,1290,Sun Jun 13 00:00:00 UTC 2021,3PTY,Active,"Garcia Zazo,Aitor",PROR,Security Guard (OSP),,,,N
+200402225,pallarla,"PALLARES PALOMINO,LAURA",12536449,1290,Tue Sep 27 00:00:00 UTC 2022,3PTY,Active,"Rancitelli,Diego",EUR,Cafeteria Worker (OSP),,,,N
+109661593,alejacoe,"Coego Gutierrez,Alejandro",14731469,1299,Mon Mar 28 00:00:00 UTC 2022,AMZN,Active,"Gago Giner,Carlos",,FC Associate III,19,VLC1T2F,,N
+204331333,sewemalg,"Seweryn,Małgorzata Aneta",14692407,1299,Mon Jul 14 00:00:00 UTC 2025,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate I,3,VLC1T4DP,,N
+203580100,canetepi,"Canete Pico,Vicente",12665528,1711,Mon Jul 01 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",CBRE,Facilities Technician (OSP),,,,N
+206264921,tasmayou,"Tasmani Chaouat,Yousra",12112669,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Escriva Perello,Adrian",,FC Associate I,18,VLC1T1FT,,N
+206264952,mavelose,"Velosa,Marcela",13259549,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate I,13,VLC1T1FT,,N
+206369411,monrodez,"Monroy,Deicy Patricia",14558851,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,13,VLC1T1FT,,N
+205115778,roperosm,"Ropero Quintero,Osmel Alberto",13578792,1299,Mon Apr 14 00:00:00 UTC 2025,AMZN,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate I,13,VLC1T1DP,,N
+205700242,joelcabd,"Cabrera Rodriguez,Joel",13264545,1712,Wed Jul 23 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",NATU,Facilities Technician (OSP),,,,N
+203681118,crizaria,"Arias,Cristian",11917653,1299,Mon Jul 22 00:00:00 UTC 2024,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,18,VLC1T2,,N
+202382356,gonzlled,"Gonzalez trilles,Lledo",13389298,1299,Mon Oct 30 00:00:00 UTC 2023,AMZN,Active,"Trujillo Acosta,Manuel",,FC Associate I,27,VLC1IC3,,N
+202314182,ooubaaqa,"Oubaaqa,Oussama Boukil",12575186,1057,Mon Oct 16 00:00:00 UTC 2023,3PTY,Active,"Plaza Belda,Jorge",DLTR,Shuttle Transport (OSP),,,,N
+111959532,snunezlo,"Nuñez Lopez,Salva",13982647,1712,Mon Jan 17 00:00:00 UTC 2022,AMZN,Active,"Mata Guilarte,Barbra Catherine",,Service Technician III,,,,N
+205392000,bsrhirwi,"Srhir,Wissal",12342260,1299,Thu Jun 12 00:00:00 UTC 2025,TEMP,Active,"Navarro Forner,Paula Navarro",,FC Associate I,18,VLC1T4FT,,N
+110157335,placderb,"Placeres Moya,Derbis Josefina Josefina",15265793,1299,Mon Mar 28 00:00:00 UTC 2022,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2,,N
+204984849,sergixro,"Rodriguez Romero,Sergio",14048872,1290,Fri Feb 28 00:00:00 UTC 2025,3PTY,Active,"Rancitelli,Diego",EUR,Cafeteria Worker (OSP),,,,N
+205617845,laurpato,"Patiño Zuluaga,Laura",13543643,1299,Mon Jul 14 00:00:00 UTC 2025,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,3,VLC1T1DP,,N
+200145056,chenaogn,"Henao Granada,Natalia",11079514,1712,Mon Sep 01 00:00:00 UTC 2025,TEMP,Active,"Mata Guilarte,Barbra Catherine",,Apprentice III,,,,N
+202569314,relleniv,"Ellenbogen Guerra,Ivan",12686898,1711,Mon Nov 20 00:00:00 UTC 2023,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+200378926,faridaza,"Zaanane,Farid",12273673,1299,Thu Mar 23 00:00:00 UTC 2023,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,18,VLC1T2,,N
+111656556,arevaraf,"Arevalo Serrano,Rafael",11266163,1712,Mon Mar 28 00:00:00 UTC 2022,AMZN,Active,"Ferrer Serrador,María Dolores",,Service Technician II,,VLC1RME3,,N
+205144392,rigabrip,"Rivera,Gabriela",11808498,1299,Tue Apr 22 00:00:00 UTC 2025,AMZN,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate I,13,VLC1T1,,N
+105431602,mndrega,"Garcia,Andrea",12487361,1299,Wed Mar 16 00:00:00 UTC 2022,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,18,VLC1T3,,N
+203580104,avegasel,"Vega Selma,Antonio Jesus",15005654,1711,Mon Jul 01 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",CBRE,Facilities Technician (OSP),,,,N
+204226103,morenida,"Moreno Navarrete,David",11217650,1290,Thu Oct 10 00:00:00 UTC 2024,3PTY,Active,"Rancitelli,Diego",EUR,Cafeteria Worker (OSP),,,,N
+205746951,mtatianx,"Marin,Tatiana",14841601,1299,Mon Aug 11 00:00:00 UTC 2025,TEMP,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T3FT,,N
+110407782,jorgervi,"Villanueva Esquivel,Jorge Ricardo Ricardo",13720019,1299,Mon Mar 28 00:00:00 UTC 2022,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,21,VLC1T2,,N
+205325220,deilorod,"Rodriguez,Deilor Nelson",13582725,1299,Mon Jun 02 00:00:00 UTC 2025,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T3DP,,N
+201715274,smaragui,"Aguilar Cabrillana,Maria Teresa",12897417,1711,Wed Jul 05 00:00:00 UTC 2023,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+203528979,cgongreg,"Gonzalez,Gregorio Jose",14766551,1299,Mon Jul 01 00:00:00 UTC 2024,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,18,VLC1T2,,N
+205324445,sfirlcla,"SFIRLEAZA TONCEA,CLAUDIA ANAMARIA",12879150,1290,Sun Jun 01 00:00:00 UTC 2025,3PTY,Active,"Garcia Zazo,Aitor",EULN,Security Supervisor (OSP),,,,N
+202951562,esbrfran,"Esbri Pacheco,Franc",11977622,1711,Thu Jan 11 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",CBCO,Facilities Technician (OSP),,,,N
+109540375,merchfer,"Munoz Ferrezuelo,Mercedes Munoz",14599915,1299,Thu May 05 00:00:00 UTC 2022,AMZN,Active,"Ivanova,Miriam Milkova",,FC Associate I,13,VLC1T2E,,N
+204192145,enefreyt,"Torres,Enefreyin Yurbano",12695917,1299,Mon Oct 14 00:00:00 UTC 2024,AMZN,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate I,13,VLC1T1,,N
+204331352,mendnfab,"Méndez Brito,Fabiana Isabela",13727332,1299,Sun Nov 03 00:00:00 UTC 2024,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,18,VLC1T2,,N
+206369214,diazjhon,"Diaz,Jhon",14753036,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Escriva Perello,Adrian",,FC Associate I,18,VLC1T1FT,,N
+204431811,alvaperd,"Perez,Alvaro",13509473,1299,Tue Oct 14 00:00:00 UTC 2025,TEMP,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,1,VLC1T3FT,,N
+201330663,salmeian,"ALMEIDA REIS,ANA",14368187,1290,Thu Apr 20 00:00:00 UTC 2023,3PTY,Active,"Garcia Montoya,Diana Isabel",IDID,Medical Rep (OSP),Safety,,,N
+112648350,lagcrisb,"Laya,Crisbel",11071517,1299,Sun Jun 12 00:00:00 UTC 2022,AMZN,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,18,VLC1T3,,N
+112191365,libertiq,"Liberti Corredera,Irene",14457551,1299,Wed Feb 09 00:00:00 UTC 2022,3PTY,Active,"Leo,Ivan",ADEC,Staffing Agency Rep (OSP),,,,N
+206369339,lrodrobe,"Rodriguz Vito,Roberto",15078884,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,18,VLC1T3FT,,N
+105780161,jordialv,"Rodriguez Alvarez,Jordi Stalyn",14536284,1299,Mon Mar 28 00:00:00 UTC 2022,AMZN,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,18,VLC1T3,,N
+205211628,solerama,"Solera Marchante,Joana",12521693,1711,Mon Apr 28 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+110653835,rodlario,"Larios Garrido,Rodrigo Fernando Fernando",12331490,1299,Mon Mar 28 00:00:00 UTC 2022,AMZN,Active,"Cuellar Molina,Richard",,FC Associate III,33,,,N
+204192124,sebasank,"Sandoval,Sebastian",13510891,1299,Mon Oct 14 00:00:00 UTC 2024,AMZN,Active,"Baptista Silva,Rijkard Rainier Rainier",,FC Associate I,13,VLC1T4,,N
+200011442,boccasia,"BOCCASINI,ANDREA VANINA",15239460,1290,Wed May 04 00:00:00 UTC 2022,3PTY,Active,"Garcia Zazo,Aitor",POSE,Security Guard (OSP),,,,N
+205682499,veldenny,"VELAZCO JIMENEZ,DENNYS GERVACIO",14091273,1299,Mon Jul 28 00:00:00 UTC 2025,TEMP,Active,"Gago Giner,Carlos",,FC Associate I,13,VLC1T5FT,,N
+201641925,jferrerm,"Ávalos serrano,Casandra",14680049,1299,Sun Oct 29 00:00:00 UTC 2023,AMZN,Active,"Escriva Perello,Adrian",,FC Associate I,18,VLC1T1,,N
+203492085,pedenisc,"Pereira de Carvalho Tanase,Denise",11527110,1299,Fri Jun 21 00:00:00 UTC 2024,AMZN,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,13,VLC1T3,,N
+201599918,larrajlh,"Laaraj Laarej,Hafssa",14031262,1299,Mon Jul 01 00:00:00 UTC 2024,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,13,VLC1T8,,N
+201736605,luismies,"Estellez Paz,Luis Miguel",12327209,1711,Wed Jul 05 00:00:00 UTC 2023,3PTY,Active,"Ferrer Serrador,María Dolores",CBCO,Facilities Manager (OSP),,,,N
+110263139,peredavm,"Perez Martinez,David Daniel",15382558,1299,Thu Apr 07 00:00:00 UTC 2022,AMZN,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,21,VLC1T3E,,N
+204875047,eduralbe,"Duran Carballeira,Alberto",14958914,1712,Tue Jan 28 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",CBRE,Facilities Technician (OSP),,,,N
+200180426,margaixc,"Margaix Mellado,Carles",13238946,1712,Wed Jul 13 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",IBER,Facilities Technician (OSP),,,,N
+206264916,xleonell,"Lemus,Leonella Elizabeth Zabala",15096581,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Gago Giner,Carlos",,FC Associate I,18,VLC1T2FT,,N
+201641934,teixekan,"Teixeira,Kandicia",15317001,1299,Sun Oct 29 00:00:00 UTC 2023,AMZN,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,13,VLC1T3,,N
+206039721,osrobinj,"Ospina Sanchez,Robinson",14640547,1299,Tue Sep 16 00:00:00 UTC 2025,3PTY,Active,"Rancitelli,Diego",ADEE,Facilities Technician (OSP),,,,N
+201781039,alejjsa,"Sanchez,Alejandro",11195288,1299,Mon Sep 02 00:00:00 UTC 2024,AMZN,Active,"Ivanova,Miriam Milkova",,FC Associate I,13,VLC1T2,,N
+105163905,abelzamb,"Giraldo Zambrano,Abel",98043,1299,Mon Sep 14 00:00:00 UTC 2020,AMZN,Active,"Escriva Perello,Adrian",,FC Associate III,19,VLC1T1L,,N
+205682468,alvaalbj,"Alvarez Gutierrez,Alba",13265305,1299,Mon Jul 28 00:00:00 UTC 2025,TEMP,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4FT,,N
+203408953,barbozne,"Barboza,Neo Neo",11212596,1299,Mon Jun 10 00:00:00 UTC 2024,AMZN,Active,"Alarcón Lucas,Luis",,FC Associate I,13,VLC1T1,,N
+205115786,lsilvinq,"Ledesma,Silvina",12538084,1299,Mon Apr 14 00:00:00 UTC 2025,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2,,N
+203493086,perepjoh,"PÉREZ GUERRA,JoHANA YORMALY",210970,1299,Mon Jun 24 00:00:00 UTC 2024,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T3,,N
+106804093,agrjorge,"Benites Agreda,Jorge Erwin",12660188,1299,Mon Aug 31 00:00:00 UTC 2020,AMZN,Active,"Trujillo Acosta,Manuel",,FC Associate III,27,VLC1IC3L,,N
+201565768,raimonmo,"Moise,Raimond Claudiu Florin",11779688,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Baptista Silva,Rijkard Rainier Rainier",,FC Associate I,13,VLC1T4,,N
+201641936,ygenefer,"Fernandes zambrano,Genesis Del valle",194621,1299,Mon Jun 02 00:00:00 UTC 2025,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,18,VLC1T3DP,,N
+205672155,vrusiene,"Vrusie Negru,Emilia",11859005,1299,Thu Jul 17 00:00:00 UTC 2025,3PTY,Active,"Rancitelli,Diego",EUR,Cafeteria Worker (OSP),,,,N
+200771793,rclarapr,"Prades Soler,Clara",12616420,1299,Thu Feb 16 00:00:00 UTC 2023,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,21,VLC1T3,,N
+200833993,choumery,"Choudna Ouadi,Meryame",143321,1299,Mon Jul 14 00:00:00 UTC 2025,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate I,3,VLC1T4DP,,N
+200036317,ctormose,"Tormo Serra,Carles",12756305,1711,Tue May 17 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",CBRE,Facilities Technician (OSP),,,,N
+112763246,hrojarog,"Rojas,Rogelio",13474978,1299,Sun Aug 28 00:00:00 UTC 2022,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T3,,N
+204192157,dancoagb,"Coa Garcia,Danis Alfredo",12046523,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4DP,,N
+205682467,mijyonat,"Mijares Camacho,Yonathan Jesús",11452685,1299,Mon Jul 28 00:00:00 UTC 2025,TEMP,Active,"Rodrigo,Judith Alarcón",,FC Associate I,18,VLC1T2FT,,N
+200266558,lilisber,"Rodriguez Gil,Lilisbe",190569,1712,Fri Aug 19 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+201822945,feraqueq,"Fernandez Perez,Raquel",14003499,1711,Mon Jul 31 00:00:00 UTC 2023,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+204431737,wjalvara,"Alvarado Rodríguez,Johana Lizeth",154479,1299,Sun May 11 00:00:00 UTC 2025,AMZN,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,13,VLC1T3,,N
+206264940,rorozcok,"Orozco diaz,Karla",14642411,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,18,VLC1T3FT,,N
+203681120,gregopin,"Pinto leon,Gregoria Josefina",329499,1299,Mon Jul 22 00:00:00 UTC 2024,AMZN,Active,"Ivanova,Miriam Milkova",,FC Associate I,18,VLC1T2,,N
+201641945,toroscai,"torres chavez,oscar jose",14820393,1299,Sun Oct 29 00:00:00 UTC 2023,AMZN,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,13,VLC1T3,,N
+201641946,vazanama,"Vazquez,Ana Maria",11578623,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate I,18,VLC1T7DP,,N
+205617840,whilmara,"ASUAJE,Hilmar",11303273,1299,Mon Jul 14 00:00:00 UTC 2025,TEMP,Active,"del Olmo de Pablos,Paloma",,FC Associate I,3,VLC1T4FT,,N
+105683146,chuecc,"Vasquez Chuecos,Carlos Alberto",12764160,1299,Mon Jun 01 00:00:00 UTC 2020,AMZN,Active,"Bouda Oufkir,Mohammed",,FC Associate III,5,VLC1T4,,N
+203528973,oalema,"Martinez,Alex",13749844,1299,Sun Aug 31 00:00:00 UTC 2025,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T8DP,,N
+200011445,rogerirc,"CAPDEVILA MERGENCIO,ROGERIO",15240306,1290,Wed May 04 00:00:00 UTC 2022,3PTY,Active,"Garcia Zazo,Aitor",POSE,Security Guard (OSP),,,,N
+200022423,diantara,"Tarazona Navas,Diana",12665707,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,18,VLC1T7,,N
+202719713,munozbul,"MUNOZ BULZ,ELISABETH",12877126,1290,Sun Nov 19 00:00:00 UTC 2023,3PTY,Active,"Rancitelli,Diego",EUR,Outsourced VendorFundedResour,,,,N
+203408944,mendeztb,"Mendez Tolentino,Ana Lorena",14292217,1299,Mon Jun 10 00:00:00 UTC 2024,AMZN,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate I,13,VLC1T1L,,N
+201030661,tyelkamm,"El Kammass,Tarik",14579022,1711,Wed Jan 11 00:00:00 UTC 2023,3PTY,Active,"Ferrer Serrador,María Dolores",CBRE,Facilities Technician (OSP),,,,N
+206264945,gonzolgd,"González Castro,Olga",12979543,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,18,VLC1T3FT,,N
+202279934,anorodye,"Añó Rodenas,Yeray",15220403,1299,Tue Oct 24 00:00:00 UTC 2023,AMZN,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,14,VLC1T3,,N
+203714013,guevdaya,"Guevara Mejia,Dayana",15379106,1299,Mon Jul 29 00:00:00 UTC 2024,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate I,18,VLC1T4,,N
+206369200,xleonsam,"Leon,Samuel Enrique",12229710,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4FT,,N
+203829691,ssalonso,"Alonso Carabaca,Sergio",12859719,1712,Mon Aug 19 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",CBRE,Facilities Technician (OSP),,,,N
+201350050,petretma,"Petre,Manuel",14278663,1299,Sun Jul 23 00:00:00 UTC 2023,AMZN,Active,"Escriva Perello,Adrian",,FC Associate I,18,VLC1T5,,N
+206369565,gperevic,"Perez,Victor",14237998,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2FT,,N
+202382354,hivaniul,"Ivan,Iulian Octavian",13807986,1299,Mon Oct 30 00:00:00 UTC 2023,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,13,VLC1T2L,,N
+200089559,bodigari,"Bodi Garcia,Susana",12319433,1712,Thu Jun 09 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+206264918,jmillanz,"Millan,Julio",12068633,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate I,13,VLC1T1FT,,N
+206369310,ivakvlad,"Ivanov,Vladyslav",12777269,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,13,VLC1T1FT,,N
+203294461,laitabde,"Lait Makboul,Abdelali",11010409,1299,Mon May 13 00:00:00 UTC 2024,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T6,,N
+206264923,candiagi,"Candia,Giovanni",15368746,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Escriva Perello,Adrian",,FC Associate I,18,VLC1T1FT,,N
+106840083,nohev,"Bohorquez Vasquez,Nohemi Del Rosario",11767630,1299,Thu Mar 23 00:00:00 UTC 2023,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate III,19,VLC1T2L,,N
+205682481,moraloza,"Mora Lozano,Diana Esmeralda",11960083,1299,Mon Jul 28 00:00:00 UTC 2025,TEMP,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T7FT,,N
+206306232,dvarellm,"Varella Rubio,María Jesus",15105198,1299,Mon Oct 27 00:00:00 UTC 2025,TEMP,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2FT,,N
+203294465,esteclav,"Clavijo,Estefania",15252471,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,18,VLC1T4,,N
+200072960,elcperal,"Peralta de Lima,Elcio Francisco",11231486,1712,Thu Jun 02 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+206214001,utmangha,"Ghajghouj,Utman",11312333,1299,Tue Oct 14 00:00:00 UTC 2025,TEMP,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,3,VLC1T1FT,,N
+206306807,francmod,"Morales Portoles,Francisco Javier",14157260,1711,Fri Oct 17 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",CBR,Elec/Mech/Const (OSP),,,,N
+205682469,qacharey,"Qachach lote,Reyad",14237727,1299,Mon Jul 28 00:00:00 UTC 2025,TEMP,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T3FT,,N
+204192112,nissamou,"Samouh El Hariri,Nisrine",14992990,1299,Tue Oct 14 00:00:00 UTC 2025,TEMP,Active,"del Olmo de Pablos,Paloma",,FC Associate I,1,VLC1T4FT,,N
+206148604,casalejm,"Castro Coronado,Alejandro",13425286,1711,Fri Sep 26 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",NATU,Janitor (OSP),,,,N
+200238459,abcatali,"Catalin Bagiu,Abel",14875362,1712,Mon Aug 08 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+203681096,pdanprie,"Prieto,Daniel",14969083,1299,Mon Jul 22 00:00:00 UTC 2024,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,18,VLC1T1,,N
+206212073,solerexp,"Soler Exposito,Jose Fernando",12651333,1711,Mon Oct 06 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+200655686,lunafmar,"Luna Freire,Maria Inmaculada",14642286,1711,Sat Oct 29 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+200033437,jagudoli,"Agudo Lizcano,Jose Maria",11612669,1711,Mon May 16 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",RENK,Facilities Technician (OSP),,,,N
+203713506,olijudit,"Olivera Vasquez,Judith Margot",11714308,1299,Mon Jul 29 00:00:00 UTC 2024,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T3,,N
+200582358,costbica,"Bica,Costinel Ovidiu",11269313,1299,Thu Mar 23 00:00:00 UTC 2023,AMZN,Active,"Ivanova,Miriam Milkova",,FC Associate I,18,VLC1T2,,N
+204432207,qltorcat,"Torcates,Liumber Dubraska",13893668,1299,Sun May 11 00:00:00 UTC 2025,AMZN,Active,"Escriva Perello,Adrian",,FC Associate I,21,VLC1T1,,N
+110837066,escalvel,"Escalona,Eli",12381861,1299,Mon Mar 28 00:00:00 UTC 2022,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate I,21,VLC1T4,,N
+111360976,carbalet,"Carballo Martinez,Leticia",14108348,1299,Mon Mar 28 00:00:00 UTC 2022,AMZN,Active,"Plaza Belda,Jorge",,FC Associate I,13,VLC1T3L,,N
+206214003,ramojuam,"Ramos Rodríguez,Juan José",12218113,1299,Tue Oct 14 00:00:00 UTC 2025,TEMP,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,1,VLC1T3FT,,N
+205682478,usmitnie,"Nieto,Smith Freynner",11517744,1299,Mon Jul 28 00:00:00 UTC 2025,TEMP,Active,"Rodrigo,Judith Alarcón",,FC Associate I,18,VLC1T5FT,,N
+111696162,pmaestma,"Maestre Munoz,Maria",13541945,1299,Thu May 05 00:00:00 UTC 2022,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,21,VLC1T3,,N
+206369305,carlfba,"Barrero Funes,Carlos",11129173,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4FT,,N
+205419660,gagustac,"Gambino,Gustavo Gambino",11382537,1299,Tue Jun 17 00:00:00 UTC 2025,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,18,VLC1T2DP,,N
+206369267,tkaterip,"Paez,Katerine",12908614,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,18,VLC1T4FT,,N
+205682488,melljuan,"Mella,Juan",11822808,1299,Mon Jul 28 00:00:00 UTC 2025,TEMP,Active,"Rodrigo,Judith Alarcón",,FC Associate I,18,VLC1T5FT,,N
+206214243,cricelam,"Amaya,Cricelis",12052020,1299,Tue Oct 14 00:00:00 UTC 2025,TEMP,Active,"del Olmo de Pablos,Paloma",,FC Associate I,1,VLC1T4FT,,N
+204431599,ginerpak,"Giner Pascual,Zaira",14237976,1299,Mon Jul 28 00:00:00 UTC 2025,TEMP,Active,"Ivanova,Miriam Milkova",,FC Associate I,13,VLC1T2FT,,N
+206264929,urbinpab,"Urbina Barragán,Pablo Eduardo",15354248,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Escriva Perello,Adrian",,FC Associate I,18,VLC1T1FT,,N
+205700244,zgomalej,"Gomez Chulio,Alejandro",12565400,1712,Wed Jul 23 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",NATU,Facilities Technician (OSP),,,,N
+205780054,lrocarin,"Romero,Carine Luz",14599387,1299,Mon Aug 18 00:00:00 UTC 2025,TEMP,Active,"Trujillo Acosta,Manuel",,FC Associate I,27,VLC1C3FT,,N
+202395860,marcsosj,"SOSA DUPLESSY,MARCELA CARINA",11807219,1299,Mon Nov 06 00:00:00 UTC 2023,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate I,18,VLC1T4,,N
+203713510,mingapia,"Mingarro Pujol,Ian",11406558,1299,Mon Jul 29 00:00:00 UTC 2024,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,18,VLC1T8,,N
+206369615,jaivanyi,"Jaramillo,Ivanys Del Carmen",15227069,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Gago Giner,Carlos",,FC Associate I,18,VLC1T2FT,,N
+105481691,pmmezo,"López Mezo,Pablo",12574206,1299,Mon Mar 28 00:00:00 UTC 2022,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,18,VLC1T2,,N
+203211117,paherraw,"HERRANZ ALONSO,PABLO",13410787,1290,Fri Apr 12 00:00:00 UTC 2024,3PTY,Active,"Rancitelli,Diego",EUR,Janitor (OSP),,,,N
+206264922,escarhug,"Escarpeta,Hugo",122483,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Ivanova,Miriam Milkova",,FC Associate I,18,VLC1T2FT,,N
+205368330,dosandop,"Sandoval Lopez,Domingo",15285009,1290,Sun Jun 01 00:00:00 UTC 2025,3PTY,Active,"Garcia Zazo,Aitor",SAGI,Security Supervisor (OSP),,,,N
+206214242,xfergarc,"Garcia,Fernanda",359432,1299,Tue Oct 14 00:00:00 UTC 2025,TEMP,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,3,VLC1T1FT,,N
+204192162,camaantn,"Camacho,Antonio Del carmen",11685413,1299,Mon Oct 14 00:00:00 UTC 2024,AMZN,Active,"Escriva Perello,Adrian",,FC Associate I,18,VLC1T1,,N
+112605206,cargarcz,"Garcia Organero,Carlos",11897950,1712,Mon Jun 06 00:00:00 UTC 2022,AMZN,Active,"Mata Guilarte,Barbra Catherine",,Service Technician II,,VLC1RME2,,N
+200960379,arguisad,"Guisado Borrueco,Rosario",11623881,1711,Wed Dec 14 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+205419663,sergioee,"Esteve,Sergio",11556139,1299,Tue Jun 17 00:00:00 UTC 2025,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,18,VLC1T7DP,,N
+205682484,edwartso,"Sosa,Edwart Augusto",14243995,1299,Mon Jul 28 00:00:00 UTC 2025,TEMP,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2FT,,N
+205682475,osancal,"Sánchez Blázquez,Alex",15107180,1299,Mon Jul 28 00:00:00 UTC 2025,TEMP,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T8FT,,N
+205640433,guerrzad,"Guerra,Adrian",13668778,1712,Wed Jul 09 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+108099351,espinsof,"Espinoza Galindo,Sofia",13741901,1299,Mon Sep 13 00:00:00 UTC 2021,AMZN,Active,"Plaza Belda,Jorge",,FC Associate III,19,VLC1T1L,,N
+201528430,anahlemu,"Lemus zabala,Anahis",11086735,1299,Sun Jul 23 00:00:00 UTC 2023,AMZN,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,18,VLC1T3,,N
+201846514,tmolinac,"Molina Castro,Cristhian Camilo",14029444,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Ivanova,Miriam Milkova",,FC Associate I,13,VLC1T7,,N
+201846491,lobrianz,"Lopez Sanchez,Brian",15291285,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,18,VLC1T2,,N
+202235750,moralmaz,"osuna,Maria Morales",13256185,1299,Mon Oct 16 00:00:00 UTC 2023,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,13,VLC1T5,,N
+201565767,hajnihal,"El Abboudi,Nihale Hajjaj",12401876,1712,Mon Aug 25 00:00:00 UTC 2025,TEMP,Active,"Mata Guilarte,Barbra Catherine",,Apprentice III,,,,N
+201203823,miqusmon,"Monzo,Miquel",12367424,1711,Mon Mar 13 00:00:00 UTC 2023,3PTY,Active,"Mata Guilarte,Barbra Catherine",CKIL,Facilities Technician (OSP),,,,N
+205391986,jaomonse,"Monserrat,Javier",15117097,1299,Thu Jun 12 00:00:00 UTC 2025,TEMP,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4FT,,N
+206306140,esxgutie,"Gutierrez,Estefany Carmen",11220455,1299,Mon Oct 27 00:00:00 UTC 2025,TEMP,Active,"Gago Giner,Carlos",,FC Associate I,18,VLC1T2FT,,N
+203515782,juasancr,"SANCHEZ DONAIRE,JUAN CARLOS",11368290,1290,Tue Jun 18 00:00:00 UTC 2024,3PTY,Active,"Rancitelli,Diego",ADEC,Facilities Technician (OSP),,,,N
+204431771,velosaca,"Velosa,Camila",14193368,1299,Mon Jul 28 00:00:00 UTC 2025,TEMP,Active,"del Olmo de Pablos,Paloma",,FC Associate I,13,VLC1T4FT,,N
+201641939,carginic,"Cargini Guerrero,Claudio",15317128,1299,Sun Oct 29 00:00:00 UTC 2023,AMZN,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,13,VLC1T3,,N
+205144419,rmelinai,"Rolón,Melina Inés",12252372,1299,Tue Apr 22 00:00:00 UTC 2025,AMZN,Active,"Escriva Perello,Adrian",,FC Associate I,18,VLC1T1DP,,N
+206214014,lexgimen,"Gimenez,Leonel",11824389,1299,Tue Oct 14 00:00:00 UTC 2025,TEMP,Active,"del Olmo de Pablos,Paloma",,FC Associate I,13,VLC1T4FT,,N
+205325225,aymaenna,"Ennasraoui Belouardi,Ayman",11193962,1299,Mon Jun 02 00:00:00 UTC 2025,AMZN,Active,"Escriva Perello,Adrian",,FC Associate I,18,VLC1T1DP,,N
+205270879,olivaleb,"Olivera Gonzalez,Alejandro Hernan",14315309,1299,Mon May 12 00:00:00 UTC 2025,3PTY,Active,"Rancitelli,Diego",EUR,Cafeteria Worker (OSP),,,,N
+205301032,jonaherg,"Herrera Ramos,Jonatan",11471938,1299,Mon May 19 00:00:00 UTC 2025,3PTY,Active,"Rancitelli,Diego",EUR,Cafeteria Worker (OSP),,,,N
+203681127,ocarolgi,"Giraldo Montoya,Sindy Carolina",12079339,1299,Mon Jul 22 00:00:00 UTC 2024,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,18,VLC1T3,,N
+201693662,rsergiog,"Rodriguez Pena,Sergio",14201873,1711,Mon Jul 03 00:00:00 UTC 2023,3PTY,Active,"Ferrer Serrador,María Dolores",CBCO,Facilities Technician (OSP),,,,N
+109478677,bmarioal,"Bautista Alcantara,Mario Alberto",14532910,1299,Sun Jun 12 00:00:00 UTC 2022,AMZN,Active,"Ivanova,Miriam Milkova",,FC Associate I,18,VLC1T2,,N
+205593441,frontegu,"Frontera Masip,Guillermo",11794418,120030,Tue Jul 01 00:00:00 UTC 2025,3PTY,Active,"Garcia Zazo,Aitor",SAGI,Security Guard (OSP),,,,N
+112282149,galvnava,"Navarro Domínguez,Álvaro",14908424,1712,Mon Mar 07 00:00:00 UTC 2022,AMZN,Active,"Ferrer Serrador,María Dolores",,Service Technician II,28,VLC1RME5,,N
+106477659,baezacri,"Baeza placeres,Cristobal Jose",14219482,1299,Fri Jan 12 00:00:00 UTC 2024,AMZN,Active,"Ivanova,Miriam Milkova",,FC Associate I,13,VLC1T2LA,,N
+204363461,mbusoloz,"BUSO LOZOYA,MIGUEL",13756421,1290,Fri Oct 25 00:00:00 UTC 2024,3PTY,Active,"Rancitelli,Diego",EUR,Cafeteria Worker (OSP),,,,N
+202115564,mudarrac,"Mudarra Castillo,Carlos",13963862,1712,Tue Oct 10 00:00:00 UTC 2023,AMZN,Active,"Ferrer Serrador,María Dolores",,Service Technician II,,VLC1RME5,,N
+203681114,belteoba,"Belizario,Teobaldo Ramon",12953979,1299,Mon Jul 22 00:00:00 UTC 2024,AMZN,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,13,VLC1T3,,N
+203562305,odiazvil,"Diaz Villareal,Miguel Angel",13336711,1711,Mon Jul 01 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",CBRE,Facilities Technician (OSP),,,,N
+110030883,jijdavid,"Jimenez Gomez,David",15131538,1299,Mon Mar 28 00:00:00 UTC 2022,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,13,VLC1T1,,N
+200064927,maricojc,"Cojocaru,Marius",11745845,1712,Mon May 30 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",WMGT,Facilities Maintenance (OSP),,,,N
+206369564,trachghe,"Trache,Gheorghe",12822722,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Gago Giner,Carlos",,FC Associate I,18,VLC1T2FT,,N
+204681727,ramojavc,"Ramos Cano,Javier",12235002,1711,Mon Dec 02 00:00:00 UTC 2024,3PTY,Active,"Mata Guilarte,Barbra Catherine",TYUR,Facilities Technician (OSP),,,,N
+201528437,jcpatani,"Patania,Carmela",11337651,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate I,13,VLC1T4,,N
+205144387,jecatarj,"Catari,Jesus",15010540,1299,Tue Apr 22 00:00:00 UTC 2025,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T3,,N
+202999419,cdelcas,"del Castillo Villalba,Carlos",12088733,1230,Mon Feb 19 00:00:00 UTC 2024,AMZN,Active,"Nicosia,Franco Agustin",,IT Support Assoc II,,VLC1IT2,,N
+205115782,gonellhy,"Gonell Hernández,Pau",14642727,1299,Mon Apr 14 00:00:00 UTC 2025,AMZN,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate I,13,VLC1T1,,N
+206356905,dmykuzmp,"Kuzmenko,Dmytro Kuzmenko",11609216,1712,Thu Oct 23 00:00:00 UTC 2025,3PTY,Active,"Munoz Rodriguez,Jose Luis",ELEN,Facilities Technician (OSP),,,,N
+205716372,dalvarot,"Alvaro Torres,David",53391,1299,Mon Jul 28 00:00:00 UTC 2025,3PTY,Active,"Rancitelli,Diego",ADEE,Facilities Technician (OSP),,,,N
+106182792,vzcrlo,"Fernandez Vazquez,Carlos Javier",14514546,1299,Mon Mar 20 00:00:00 UTC 2023,AMZN,Active,"Baptista Silva,Rijkard Rainier Rainier",,FC Associate I,21,VLC1T4,,N
+204226093,mdanipla,"Plaza Martin,Daniel",11879598,1290,Thu Oct 10 00:00:00 UTC 2024,3PTY,Active,"Rancitelli,Diego",EUR,Cafeteria Worker (OSP),,,,N
+112763240,megeaser,"Egea Serrano,Miguel",13656197,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,13,VLC1T1,,N
+206369548,ceboleva,"Cebollero,Eva Perez",13569090,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,18,VLC1T4FT,,N
+206369462,esosamar,"Sanchez,Mario Edo",14359346,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,18,VLC1T3FT,,N
+204192130,hayeloua,"elouaziki,Hayat",11764171,1299,Mon Jul 28 00:00:00 UTC 2025,TEMP,Active,"del Olmo de Pablos,Paloma",,FC Associate I,18,VLC1T4FT,,N
+205115776,bricenbg,"Briceno,Gabriel",11308579,1299,Mon Apr 14 00:00:00 UTC 2025,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,18,VLC1T2,,N
+205682474,xcoqcarm,"Coque,Carmen",14894031,1299,Mon Jul 28 00:00:00 UTC 2025,TEMP,Active,"Rodrigo,Judith Alarcón",,FC Associate I,18,VLC1T2FT,,N
+205323912,moraosec,"Morao Sequera,Cristian Rafael",11814222,1299,Mon Jun 02 00:00:00 UTC 2025,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4,,N
+200112273,oumadine,"OUMADINE,ISMAIL",13729170,1290,Mon Jun 20 00:00:00 UTC 2022,3PTY,Active,"Garcia Montoya,Diana Isabel",IDID,Medical Rep (OSP),Medical Representative,,,N
+204192165,neusalfo,"Alfonso Burgos,Neus",13059986,1299,Mon Oct 14 00:00:00 UTC 2024,AMZN,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate I,13,VLC1T1,,N
+204192163,fthaydee,"Fuenmayor,Thaydee Josefina",12728068,1299,Mon Oct 14 00:00:00 UTC 2024,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,18,VLC1T2,,N
+202382395,mejiaamp,"mejias,Alefzaim Amilcar",13476879,1299,Mon Oct 30 00:00:00 UTC 2023,AMZN,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate I,18,VLC1T1,,N
+105598760,poyatosm,"Hernández Poyatos,María",12671278,1299,Mon May 04 00:00:00 UTC 2020,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate III,26,VLC1CNT1,,N
+204900661,pedanasa,"Pedana Boleko,Santiago",13939091,1712,Tue Feb 04 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",CBRE,Facilities Technician (OSP),,,,N
+203681903,mateorag,"Ramirez Sanchez,Mateo",11732287,1299,Mon Jul 22 00:00:00 UTC 2024,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate I,18,VLC1T4,,N
+203861704,vihgrana,"Granada,Victor",12779620,1299,Mon Jul 14 00:00:00 UTC 2025,AMZN,Active,"Ivanova,Miriam Milkova",,FC Associate I,1,VLC1T2DP,,N
+206369289,sjoaquil,"Manzaneda,Joaquin Sanchez",15181201,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Gago Giner,Carlos",,FC Associate I,18,VLC1T2FT,,N
+200771869,aletolea,"Tolea,Alexandru",12409264,1299,Thu Mar 23 00:00:00 UTC 2023,AMZN,Active,"Ivanova,Miriam Milkova",,FC Associate I,13,VLC1T2,,N
+201780709,ssocarra,"Socarras,Yalixzi",13860109,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4,,N
+205737000,franipen,"Pena Martinez,Francisco",14552522,1290,Wed Jul 30 00:00:00 UTC 2025,3PTY,Active,"Garcia Zazo,Aitor",SAGI,Security Guard (OSP),,,,N
+203408952,kathroai,"Roa,Katherin",13276820,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Escriva Perello,Adrian",,FC Associate I,18,VLC1T1,,N
+109454846,irenetis,"Tiso,Irene",15198960,1299,Mon Jul 22 00:00:00 UTC 2024,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2,,N
+201879364,tgramsgo,"gomez,GRAMSCYS",13347079,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate I,13,VLC1T1,,N
+202395831,samybouh,"Bouhou,Samia",11402529,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T7DP,,N
+202728547,jlourfab,"FABRE IZQUIERDO,LOURDES ANALIA",11936589,1290,Fri Nov 24 00:00:00 UTC 2023,3PTY,Active,"Garcia Montoya,Diana Isabel",IDID,Medical Rep (OSP),SAFETY,,,N
+205613685,gorgmiha,"Gorgon,Mihail",11038651,1057,Thu Jul 03 00:00:00 UTC 2025,3PTY,Active,"Plaza Belda,Jorge",DLTR,Yard Jockey (OSP),,,,N
+203660907,tvillafr,"Villafranca Marques,Daniel",11229304,1711,Wed Jul 10 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+202209009,jeruanor,"Ruano Romero,Jeronimo",12309161,1711,Tue Oct 03 00:00:00 UTC 2023,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+112407014,dfalejan,"Ferrer,Alejandra",15270498,1728,Mon Apr 18 00:00:00 UTC 2022,AMZN,Active,"Barcala Fresco,Eva",,HR Assistant II,26,VLC1AP2,,N
+200491878,caballcd,"Caballero Sanchez,Daniel",12831553,1290,Thu Oct 10 00:00:00 UTC 2024,3PTY,Active,"Rancitelli,Diego",EUR,Cafeteria Worker (OSP),,,,N
+205391989,rkatherg,"rincon,katherine",11359471,1299,Thu Jun 12 00:00:00 UTC 2025,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T3DP,,N
+112671871,dahernaa,"Hernández,David",13622700,1299,Sun Jun 19 00:00:00 UTC 2022,AMZN,Active,"Trujillo Acosta,Manuel",,FC Associate I,27,VLC1IC1,,N
+203713508,ramirime,"Ramirez,Melisse",13393460,1299,Mon Jul 29 00:00:00 UTC 2024,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4,,N
+105916628,rubemira,"Garcia Miranda,Ruben",13021653,1299,Thu Apr 30 00:00:00 UTC 2020,AMZN,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate III,5,VLC1T3L,,N
+202395827,villamfz,"Villamarin jimenez,Fernando",13275069,1299,Mon Nov 06 00:00:00 UTC 2023,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate I,13,VLC1T4,,N
+112534039,afapaulo,"Paulo Rodrigues,Fabio",13984964,1399,Mon May 16 00:00:00 UTC 2022,AMZN,Active,"Navas Rodrigo,Jose Manuel",,Purchasing Assistant II,26,VLC1CENT,,N
+206264951,burbanof,"Burbano,Alexandra",14121125,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2FT,,N
+204833804,buitraja,"Buitrago Picas,Jaime",14542473,1712,Tue Jan 14 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+202395888,kmguebba,"Guebbas,Khadija",14723979,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Baptista Silva,Rijkard Rainier Rainier",,FC Associate I,18,VLC1T4FT,,N
+200211231,ujulialv,"Alvarez Nager,Julian",11717744,1712,Wed Jul 27 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",TMHI,Facilities Technician (OSP),,,,N
+204916658,anacabri,"Cabrillana Alfonso,Ana Maria",13762848,1711,Mon Feb 10 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+201846498,tlesmori,"Morin,Lesley Suzanne",13557909,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate I,13,VLC1T1,,N
+206264931,uroselma,"Rosell,Maria",60701,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Baptista Silva,Rijkard Rainier Rainier",,FC Associate I,18,VLC1T4FT,,N
+110407773,barenalq,"Arenales Estrano,Brian Alexis Alexis",11939261,1299,Mon Mar 28 00:00:00 UTC 2022,AMZN,Active,"Escriva Perello,Adrian",,FC Associate I,18,VLC1T1,,N
+203681900,jesumolf,"Molina,Jesus",11377202,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate I,18,VLC1T4,,N
+204192122,lvargasd,"Vargas de Oliveira,Larissa Gabrielle",14433121,1299,Mon Oct 14 00:00:00 UTC 2024,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate I,13,VLC1T4L,,N
+203681132,lnkhadoj,"El ghoufairi,Khadija",14614968,1299,Mon Jul 22 00:00:00 UTC 2024,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,18,VLC1T6,,N
+200655662,danvvida,"Vidal Fuster,Daniel",14603320,1711,Sat Oct 29 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+205617841,givanara,"Ramos,Ivana Chavez",12729050,1299,Mon Jul 14 00:00:00 UTC 2025,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate I,1,VLC1T4DP,,N
+104707881,melanfer,"Fernandez Brasa,Melanie",11756672,1299,Sun Mar 22 00:00:00 UTC 2020,AMZN,Active,"Trujillo Acosta,Manuel",,FC Associate III,27,VLC1IC3L,,N
+203681103,narmarim,"Naranjo,Mari",15057821,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T3DP,,N
+204340977,cameseet,"Cameselle Camin,Enrique",13559750,1057,Wed Oct 23 00:00:00 UTC 2024,3PTY,Active,"Plaza Belda,Jorge",DLTR,Yard Jockey (OSP),,,,N
+205325226,gonfeliq,"Gonzalez Hernandez,Felipe",13842624,1299,Mon Jun 02 00:00:00 UTC 2025,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,18,VLC1T4DP,,N
+112790428,bellmcar,"Bello,M Carmen",13521427,1299,Thu Mar 23 00:00:00 UTC 2023,AMZN,Active,"Alarcón Lucas,Luis",,FC Associate I,13,VLC1T1,,N
+200495209,velpieda,"Velasquez Flor,Piedad Elvira",12794264,1712,Mon Oct 10 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+203681899,moufidmo,"Moufid Moufyd,Soumia",13361980,1299,Mon Jul 22 00:00:00 UTC 2024,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate I,18,VLC1T6,,N
+205115774,yoksansa,"Sambora,Oksana",13993846,1299,Mon Apr 14 00:00:00 UTC 2025,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2DP,,N
+205716825,lvalerol,"VALERO BLANCO,LAURA",13142052,1290,Mon Jul 28 00:00:00 UTC 2025,3PTY,Active,"Garcia Montoya,Diana Isabel",IDID,Medical Rep (OSP),WHS,,,N
+200011451,meridaga,"MERIDA GARCIA,DANIEL",15240747,1290,Wed May 04 00:00:00 UTC 2022,3PTY,Active,"Garcia Zazo,Aitor",POSE,Security Guard (OSP),,,,N
+107002949,prezjkb,"MOLINA,LEO",14886027,1299,Thu Mar 23 00:00:00 UTC 2023,AMZN,Active,"Ivanova,Miriam Milkova",,FC Associate I,13,VLC1T2,,N
+204187144,camanzai,"Manzano,Carlos Donate",13531818,1711,Fri Oct 04 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+205006700,maumatil,"Martinez Medina,Matilde",13263897,1712,Fri Mar 07 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+201641917,ruborill,"Borillo,Ruben Jose",11390345,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Trujillo Acosta,Manuel",,FC Associate I,27,VLC1IC1,,N
+201395590,deviavil,"Devia Villanueva,Argenis",11236469,1711,Wed May 03 00:00:00 UTC 2023,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+203681098,munrlise,"munoz,Liseth",12254978,1299,Mon Jul 22 00:00:00 UTC 2024,AMZN,Active,"Trujillo Acosta,Manuel",,FC Associate I,27,VLC1IC4,,N
+200093704,joaqucom,"Company Hinojosa,Joaquin",13869734,1712,Fri Jun 10 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+205152177,josolall,"Sola Langa,Jorge",11805234,1712,Tue Apr 15 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+205168434,poncecac,"PONCE CARRACEDO,CRISTINA",14336912,1290,Thu Apr 17 00:00:00 UTC 2025,3PTY,Active,"Benítez Porras,Miguel",IDID,Mailroom Worker (OSP),,,,N
+205115780,lukeila,"Lugo,Keila",12645990,1299,Mon Apr 14 00:00:00 UTC 2025,AMZN,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,18,VLC1T3,,N
+205325221,angeiorc,"Iorcic,Angelica Annemarie",11821136,1299,Tue Oct 14 00:00:00 UTC 2025,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4DP,,N
+205682487,elenaelf,"Elena,Elena Elena",13861302,1299,Mon Jul 28 00:00:00 UTC 2025,TEMP,Active,"Rodrigo,Judith Alarcón",,FC Associate I,18,VLC1T5FT,,N
+204431634,cerezuee,"Cerezuela,Eva",11389165,1299,Mon Jul 14 00:00:00 UTC 2025,TEMP,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,3,VLC1T3FT,,N
+203408937,delosmed,"Pacheco medina,Lucia",11384609,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4DP,,N
+203681130,avbolano,"BOLANOS,ALEJANDRA",14456720,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4LA,,N
+206214017,ddesojos,"De Sousa Guillen,Jose Arquimedes",224662,1299,Tue Oct 14 00:00:00 UTC 2025,TEMP,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,1,VLC1T1FT,,N
+110263123,rodricju,"Rodriguez,Juan",15382544,1712,Mon Sep 02 00:00:00 UTC 2024,TEMP,Active,"Mata Guilarte,Barbra Catherine",,Apprentice III,,,,N
+200064912,rallanso,"Llansola Rico,Raul",13890398,1712,Mon May 30 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",WMGT,Facilities Maintenance (OSP),,,,N
+204750465,palomifr,"Palomino Campos,Francisco",15258279,1712,Sat Dec 14 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+206214006,rubvalos,"valos,Ruben",14489365,1299,Tue Oct 14 00:00:00 UTC 2025,TEMP,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,1,VLC1T3FT,,N
+203861703,hanllequ,"Quinones,Hanllensan Stwar",12486014,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,13,VLC1T7DP,,N
+203515779,lopezllo,"LOPEZ LLORENS,GUSTAVO",14743427,1290,Tue Jun 18 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",ADEC,Facilities Technician (OSP),,,,N
+206214011,bicricar,"BICET- BORBOÑA,RICARDO",13425049,1299,Tue Oct 14 00:00:00 UTC 2025,TEMP,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,3,VLC1T1FT,,N
+205594182,zcgiulia,"Cepeda Ferrando,Giuliana Ayelen",14431274,1299,Tue Jul 01 00:00:00 UTC 2025,3PTY,Active,"Rancitelli,Diego",EUR,Cafeteria Worker (OSP),,,,N
+201724154,moradvic,"Mora de la Peña,Víctor",14614214,1299,Tue Oct 24 00:00:00 UTC 2023,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate I,18,VLC1T4LA,,N
+204192116,brefsant,"Santiago Do Patrocinio,Brenda",15028532,1299,Mon Aug 11 00:00:00 UTC 2025,TEMP,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate I,13,VLC1T1FT,,N
+200771858,rosafead,"Rosa Fernandez,Adrian",11744562,1299,Mon Oct 30 00:00:00 UTC 2023,AMZN,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,13,VLC1T3,,N
+203681108,elgadale,"Gadale,Elian Nahuel",11304996,1299,Sun Oct 13 00:00:00 UTC 2024,AMZN,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,13,VLC1T3,,N
+201807164,bordesgl,"BORDES,GLORIA PASTOR",14274686,1290,Fri Jul 28 00:00:00 UTC 2023,3PTY,Active,"Leiva Bertolin,Ana Amelia",IDID,Medical Rep (OSP),Safety,,,N
+205363751,mauragan,"Anzelmo Barroeta,Maura Giachelin",14281819,1299,Mon Jun 09 00:00:00 UTC 2025,TEMP,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate I,13,VLC1T1FT,,N
+206264917,zmarloai,"Loaiza Poloche,Maricela",11518425,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Ivanova,Miriam Milkova",,FC Associate I,18,VLC1T2FT,,N
+205115793,judittru,"Trujillo,Judith",13298291,1299,Mon Apr 14 00:00:00 UTC 2025,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,18,VLC1T4,,N
+206214119,bborjaco,"Borja Cardenas,Berta",14605728,1299,Tue Oct 14 00:00:00 UTC 2025,TEMP,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4FT,,N
+205325216,fheangie,"Hernandez,Angie",12091716,1299,Mon Jun 02 00:00:00 UTC 2025,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,18,VLC1T3DP,,N
+200180451,hidagfra,"Hidalgo Garcia,Francisco Javier",13269995,1712,Wed Jul 13 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Facilities Technician (OSP),,,,N
+200208231,gvazquee,"Vazquez Lazaro,Estela",14284217,1712,Tue Jul 26 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+200834016,emariali,"González Budí,María Lidón",11876657,1299,Sun Nov 03 00:00:00 UTC 2024,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2,,N
+112648328,corewvio,"Corella Alonso,Maria Violeta Violeta",15253866,1299,Sun Jun 12 00:00:00 UTC 2022,AMZN,Active,"Cuellar Molina,Richard",,FC Associate III,33,VLC1LRN4,,N
+204984817,cubilmat,"Cubillo Pozo,Matilde",13507567,1290,Fri Feb 28 00:00:00 UTC 2025,3PTY,Active,"Rancitelli,Diego",EUR,Cafeteria Worker (OSP),,,,N
+203408941,gabrijaf,"JAIMES PEREZ,Gabriel ABRAHAN",12419609,1299,Mon Jun 10 00:00:00 UTC 2024,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,18,VLC1T3,,N
+203492091,romanior,"Romani Ordoñez,Luis Alberto",15153122,1299,Fri Jun 21 00:00:00 UTC 2024,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,13,VLC1T7,,N
+112759405,plaurmar,"Martin Campos,Laura",15387936,1299,Thu Mar 23 00:00:00 UTC 2023,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,18,VLC1T3,,N
+206264933,oresmeri,"Resmerita,Larisa",13008855,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Baptista Silva,Rijkard Rainier Rainier",,FC Associate I,18,VLC1T5FT,,N
+202279800,rijaviee,"Rios,Javier",15012719,1299,Tue Oct 24 00:00:00 UTC 2023,AMZN,Active,"Trujillo Acosta,Manuel",,FC Associate I,27,VLC1IC1E,,N
+203538267,dioroble,"Robles,Dionicia Ofelia",13358253,1712,Mon Jul 01 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+201846537,rquesadp,"Quesada Cerezo,Rafael",15385189,1299,Mon Mar 18 00:00:00 UTC 2024,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,13,VLC1T7,,N
+201846492,vnunezbe,"Nunez Bellido,Raul",11128402,1299,Sun Mar 30 00:00:00 UTC 2025,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,18,VLC1T1,,N
+203538201,jcarreai,"Carregui Moreno,Ainhoa",14073230,1712,Mon Jul 01 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+204500155,anbaronj,"Baron ayala,Andres",11871446,1299,Mon Nov 18 00:00:00 UTC 2024,AMZN,Active,"Baptista Silva,Rijkard Rainier Rainier",,FC Associate I,21,VLC1T4,,N
+112671874,hakihamd,"Hamdi,Hakima",14570087,1299,Sun Jun 19 00:00:00 UTC 2022,AMZN,Active,"Trujillo Acosta,Manuel",,FC Associate I,27,VLC1IC3E,,N
+200960376,ejosefel,"Campos Lahoz,Jose Felix",15095931,1711,Wed Dec 14 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+206369257,nboucsar,"Bouch Khraissi,Sara",11779268,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Escriva Perello,Adrian",,FC Associate I,18,VLC1T1FT,,N
+203930462,anderodc,"Andero Dolz,Francisco",14199464,1711,Tue Sep 03 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",CBRE,Facilities Technician (OSP),,,,N
+204192138,jaimyosm,"Jaimes,Yosman",13628417,1299,Sun Feb 02 00:00:00 UTC 2025,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,18,VLC1T3,,N
+113061225,maraulan,"Marquina Ghezzi,Raul Andres",13142732,1139,Mon Sep 19 00:00:00 UTC 2022,AMZN,Active,"Goode,Louise",,HR Assistant II (Corp),26,VLC1CENT,,N
+203861711,navarwgr,"Navarrete Fernández,Greg",14333661,1299,Mon Sep 02 00:00:00 UTC 2024,AMZN,Active,"Ivanova,Miriam Milkova",,FC Associate I,13,VLC1T2,,N
+201980534,mjasziva,"Jaszczur Catala,Ivan",15251412,1711,Thu Aug 31 00:00:00 UTC 2023,3PTY,Active,"Ferrer Serrador,María Dolores",CBCO,Facilities Technician (OSP),,,,N
+112648347,danmasac,"Masache Delgado,Daniela",11240376,1299,Sun Jun 12 00:00:00 UTC 2022,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,18,VLC1T1,,N
+204431597,hjoshibj,"Hibjan Diaz,Jose",12961734,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T3DP,,N
+201846506,cmendezl,"Mendez,Carlos",12877608,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,18,VLC1T3,,N
+200378499,rarestif,"Tite,Rares",15115253,1299,Thu Feb 16 00:00:00 UTC 2023,AMZN,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,18,VLC1T3,,N
+203408932,oriamich,"Orias Pontiles,Michelle Alejandra",11256805,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T3DP,,N
+112648327,ndiacast,"Castellet Benitez,Diana",11853522,1299,Sun Jun 12 00:00:00 UTC 2022,AMZN,Active,"Ivanova,Miriam Milkova",,FC Associate I,18,VLC1T2,,N
+206107646,dedialbb,"de Diego Garcia,Alberto",14706086,1711,Wed Sep 24 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",REIG,Facilities Technician (OSP),,,,N
+203493088,cipohcec,"Cipolletta,cecilia maria",15066062,1299,Mon Jun 24 00:00:00 UTC 2024,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2,,N
+203538038,wsalrebe,"Salazar,Rebeca",11531624,1711,Tue Jun 25 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+201528428,divyasmi,"Diaz,Yasmin",12965147,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate I,13,VLC1T1,,N
+204331308,cabranai,"Cabrera Fuentes,Ana Karina",12197292,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T3,,N
+200378879,xsiivasc,"ivascu,simona",13228578,1299,Thu Mar 23 00:00:00 UTC 2023,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4,,N
+205682464,deabmigu,"De Abreu,Miguel Alejandro",12959135,1299,Mon Jul 28 00:00:00 UTC 2025,TEMP,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T8FT,,N
+205363749,fonseali,"Fonseca,Alianny",14244807,1299,Mon Jun 09 00:00:00 UTC 2025,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,18,VLC1T5DP,,N
+200378958,juditrok,"Rodriguez Morales,Judith",11217187,1299,Thu Mar 23 00:00:00 UTC 2023,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,21,VLC1T2,,N
+110507825,vfarinag,"Farina Gonzalez,Victor Hugo",12160537,1299,Mon Mar 28 00:00:00 UTC 2022,AMZN,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate III,19,VLC1T1L,,N
+201565770,diganais,"Diaz simon,Anais",13055403,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Trujillo Acosta,Manuel",,FC Associate I,27,VLC1IC1E,,N
+203562301,mejosevi,"Espinosa Domenech,Jose Vicente",14395239,1711,Mon Jul 01 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",CBRE,Facilities Technician (OSP),,,,N
+204904971,paullado,"Lladosa Martin,Paula",14279086,1299,Mon Feb 24 00:00:00 UTC 2025,AMZN,Active,"Cortes Acuna,Sergio Felipe Felipe",,Safety Technician,,VLC1SF4,,N
+200009372,tojoseig,"Torres,Nacho",11192331,1711,Wed Feb 15 00:00:00 UTC 2023,3PTY,Active,"Mata Guilarte,Barbra Catherine",TMHI,Service Technician II (OSP),,,,N
+200266685,sanchedt,"Sanchez Moreno,Daniela",14365564,1712,Fri Aug 19 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+206306227,dbennaja,"Ben,Najat Ben hammou",12161866,1299,Mon Oct 27 00:00:00 UTC 2025,TEMP,Active,"Gago Giner,Carlos",,FC Associate I,18,VLC1T2FT,,N
+206213997,mariasux,"Suarez,Maria Eugenia",12194805,1299,Tue Oct 14 00:00:00 UTC 2025,TEMP,Active,"Navarro Forner,Paula Navarro",,FC Associate I,1,VLC1T4FT,,N
+201780712,frannrod,"Rodriguez Jimenez,Francisco",11640806,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Ivanova,Miriam Milkova",,FC Associate I,13,VLC1T2,,N
+203681110,korozcot,"Orozco Torres,Silvia",146992,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4DP,,N
+110740250,perosofi,"Perez Benitez,Sofia",13507887,1299,Mon Mar 28 00:00:00 UTC 2022,AMZN,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,13,VLC1T3,,N
+201965960,gapavonl,"Pavon Lanza,Gabriel",13701352,1711,Tue Aug 29 00:00:00 UTC 2023,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+200349653,cozarcap,"Cozar Cazorla,Pedro",15390410,1712,Sat Sep 17 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",CBR,Facilities Technician (OSP),,,,N
+206264946,habdessf,"Hassani Bahra,Abdessamad",15284010,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Baptista Silva,Rijkard Rainier Rainier",,FC Associate I,18,VLC1T4FT,,N
+203861708,micabalv,"Caballero,Miguel",12618258,1299,Mon Sep 02 00:00:00 UTC 2024,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate I,13,VLC1T4,,N
+203861715,villgonn,"Villarreal,Gonzalo Uriel",11769719,1299,Mon Sep 02 00:00:00 UTC 2024,AMZN,Active,"Ivanova,Miriam Milkova",,FC Associate I,13,VLC1T2,,N
+205115775,mmillanj,"Millan,Julio",14162759,1299,Mon Apr 14 00:00:00 UTC 2025,AMZN,Active,"Trujillo Acosta,Manuel",,FC Associate I,27,VLC1C3DP,,N
+201846528,emacheam,"Acheampong Boakye,Emmanuel",12701838,1299,Mon Aug 19 00:00:00 UTC 2024,AMZN,Active,"Escriva Perello,Adrian",,FC Associate I,18,VLC1T1,,N
+203408938,sabirbti,"Sabir Bouharrada,Btissam",12251199,1299,Mon Jul 28 00:00:00 UTC 2025,TEMP,Active,"Ivanova,Miriam Milkova",,FC Associate I,13,VLC1T2FT,,N
+112759393,manueega,"Garzon Cano,Manuel",13040653,1299,Thu Mar 23 00:00:00 UTC 2023,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,5,VLC1T4,,N
+205682502,crmonsal,"Monsalve,Cristhian",11635352,1299,Mon Jul 28 00:00:00 UTC 2025,TEMP,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4FT,,N
+200378491,sorkdumi,"Dumitroiu,Sorin",15332920,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,13,VLC1T2,,N
+202382385,garcamax,"Garcia Moreno,Maximo",12994232,1299,Mon Jun 24 00:00:00 UTC 2024,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,18,VLC1T8,,N
+204367454,mariwmol,"Molina Guerrero,Maria Soledad",13854685,1711,Sat Oct 26 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+201641940,haelabbo,"EL ABBOUDI,Hayat",12235566,1299,Sun Oct 29 00:00:00 UTC 2023,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,13,VLC1T7,,N
+113024542,zreynarm,"Reyna,Miguel Eduardo",14980679,1299,Fri Jun 21 00:00:00 UTC 2024,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,13,VLC1T1,,N
+205617829,younedri,"Driouich zarhouni,Youness",11811277,1299,Mon Jul 14 00:00:00 UTC 2025,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate I,1,VLC1T8DP,,N
+200184997,barbyvic,"BARBA ROMAN,VICTORIA",12609132,1712,Fri Jul 15 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+206369563,concrisp,"Constantin,Cristian irinel",15261074,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,13,VLC1T1FT,,N
+202382401,rdeivpal,"Palencia,Deivi",12462379,1299,Mon Oct 30 00:00:00 UTC 2023,AMZN,Active,"Cuellar Molina,Richard",,FC Associate I,33,VLC1LRN2,,N
+206264936,essyouna,"Essyouti Bakali,Nabil",14209307,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Baptista Silva,Rijkard Rainier Rainier",,FC Associate I,18,VLC1T4FT,,N
+201350058,aarminga,"Mingarro Pujol,Aaron",11426824,1299,Sun Jul 23 00:00:00 UTC 2023,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4L,,N
+205746744,sajulioj,"Sanchez Sanchez,Julio",14377282,1290,Fri Aug 01 00:00:00 UTC 2025,3PTY,Active,"Garcia Zazo,Aitor",SAGI,Security Guard (OSP),,,,N
+204729336,bartellf,"Bartel Lupion,Francisco",13010200,1712,Tue Dec 10 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+202002839,fvmariad,"Fernandez Calatrava,Maria Dolores",265988,1290,Thu Sep 07 00:00:00 UTC 2023,3PTY,Active,"Leiva Bertolin,Ana Amelia",IDID,Medical Rep (OSP),Safety,,,N
+203408945,gdohhich,"Doho,Hicham",12117010,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,13,VLC1T3,,N
+202018901,eriwreca,"Recatala,Eric Manuel",11308411,1712,Mon Sep 18 00:00:00 UTC 2023,AMZN,Active,"Mata Guilarte,Barbra Catherine",,Service Technician II,,VLC1RME2,,N
+202762033,cmartadr,"Martinez Rizos,Adrian",12428464,1711,Wed Nov 29 00:00:00 UTC 2023,3PTY,Active,"Ferrer Serrador,María Dolores",CBRE,Facilities Technician (OSP),,,,N
+112648352,tgraaida,"Granell Vilar,Aida",11600168,1299,Sun Jun 12 00:00:00 UTC 2022,AMZN,Active,"Ivanova,Miriam Milkova",,FC Associate I,18,VLC1T2,,N
+204192160,caujoses,"Causada Armengol,José Severiano",15208795,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,18,VLC1T3DP,,N
+203528972,amarialz,"Antonino casalta,María Luisa",13578072,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,13,VLC1T3DP,,N
+112763292,kacostaf,"Acosta Flores,Elvis Rodolfo",13810818,1299,Sun Aug 28 00:00:00 UTC 2022,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,13,VLC1T1,,N
+107994775,mariaauf,"Fernandes Reale,Maria Auxiliadora",14249938,1299,Sun Jun 12 00:00:00 UTC 2022,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,18,VLC1T1,,N
+203408951,jooher,"Hernandez,Jose",13755147,1299,Mon Jun 10 00:00:00 UTC 2024,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,18,VLC1T3,,N
+204440467,victocto,"Torres Vazquez,Victoria",14904761,1711,Mon Nov 04 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+112763245,salinyei,"Salinas,yeison",13315441,1299,Sun Aug 21 00:00:00 UTC 2022,AMZN,Active,"Alarcón Lucas,Luis",,FC Associate I,13,VLC1T1,,N
+205700243,sahujorg,"Sahuquillo Ruiz,Jorge",241415,1712,Wed Jul 23 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",NATU,Facilities Technician (OSP),,,,N
+200378984,snjennet,"Silva,jenneth",14878896,1299,Mon Jun 24 00:00:00 UTC 2024,AMZN,Active,"Alarcón Lucas,Luis",,FC Associate I,18,VLC1T1,,N
+201641951,omaorias,"Orias,Omar Alberto",14628956,1299,Sun Oct 29 00:00:00 UTC 2023,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T3,,N
+109961690,mebaudil,"Mendoza Roman,Baudilio Jesus",15055778,1299,Mon May 30 00:00:00 UTC 2022,AMZN,Active,"Gamboa Mayoral,Alejandro",,FC Associate III,19,VLC1T1F,,N
+200960363,albaport,"Portoles Borras,Alba",13887691,1711,Wed Dec 14 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+206369620,iastrica,"castro machado,Astrid josefina",15208368,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T3FT,,N
+203861717,ginetspe,"Perez,Ginetsy",13684747,1299,Mon Jul 14 00:00:00 UTC 2025,AMZN,Active,"Ivanova,Miriam Milkova",,FC Associate I,1,VLC1T2DP,,N
+200184956,bancilac,"BANCILA,CORINA",14151942,1712,Fri Jul 15 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+206041564,upaugali,"Galindo Rodriguez,Pau",13680225,1711,Tue Sep 16 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",CBR,Facilities Technician (OSP),,,,N
+109804801,leznadia,"Ledesma,Nadia",14885087,1299,Mon Mar 28 00:00:00 UTC 2022,AMZN,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,21,VLC1T3,,N
+201641952,kalthzai,"Kalthum,Zain Kalthum",15011873,1299,Sun Oct 29 00:00:00 UTC 2023,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate I,18,VLC1T4,,N
+200771883,bcgiusep,"Chirnoaga,Giuseppe Catalin",12298547,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate I,13,VLC1T1DP,,N
+202235819,orioalva,"Alvarez Albert,Oriol",12484394,1299,Mon Oct 16 00:00:00 UTC 2023,AMZN,Active,"Baptista Silva,Rijkard Rainier Rainier",,FC Associate I,13,VLC1T4,,N
+204192147,piladria,"Piles Navarro,Adrian",11232877,1299,Mon Oct 14 00:00:00 UTC 2024,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2,,N
+200033400,torvjona,"Torres Freire,Jonatan",11105969,1711,Mon May 16 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",CBRE,Facilities Technician (OSP),,,,N
+204431773,hjesmarl,"Mejias Pérez,Jesmar Liliana",13421392,1299,Sun Nov 10 00:00:00 UTC 2024,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,21,VLC1T2,,N
+203681123,lauratmo,"Moreno San Eusebio,Laura",14437178,1299,Mon Jul 22 00:00:00 UTC 2024,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2,,N
+110407545,penaarel,"Penadillo Ramos,Areli Rosario Rosario",315279,1299,Mon Mar 28 00:00:00 UTC 2022,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,18,VLC1T3,,N
+204431788,januzmar,"Marquez Vasquez,Januzelki Javier",14468310,1299,Mon Jul 28 00:00:00 UTC 2025,TEMP,Active,"Ivanova,Miriam Milkova",,FC Associate I,13,VLC1T2FT,,N
+106271748,macnunez,"Vazquez Nunez,Macken MACNUNEZ",14779641,1299,Mon Mar 28 00:00:00 UTC 2022,AMZN,Active,"Baptista Silva,Rijkard Rainier Rainier",,FC Associate I,21,VLC1T4,,N
+200011450,wdavillo,"LLORENS FELIP,David",13636103,1290,Wed May 04 00:00:00 UTC 2022,3PTY,Active,"Garcia Zazo,Aitor",POSE,Security Guard (OSP),,,,N
+112793779,uantonsa,"Sanchez Toledo,Antonio",14205883,1299,Mon Oct 03 00:00:00 UTC 2022,AMZN,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,13,VLC1T3,,N
+204331341,iosivale,"Iosif,Valentin Dorel",12013259,1299,Mon Oct 27 00:00:00 UTC 2025,TEMP,Active,"Gago Giner,Carlos",,FC Associate I,18,VLC1T2FT,,N
+203446426,abuinca,"Abuin Cano,Andrea",15192511,1712,Mon Aug 26 00:00:00 UTC 2024,TEMP,Active,"Mata Guilarte,Barbra Catherine",,Apprentice III,,,,N
+205144424,ahumadmj,"AHUMADA,JESUS",12202953,1299,Tue Apr 22 00:00:00 UTC 2025,AMZN,Active,"Escriva Perello,Adrian",,FC Associate I,18,VLC1T1DP,,N
+201641948,gomezqsa,"Gomez peidro,Salva",13972442,1299,Sun Oct 29 00:00:00 UTC 2023,AMZN,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,18,VLC1T3,,N
+108410501,kroberga,"Garcia Guadarrama,Roberto Carlos",11566543,1299,Mon Mar 28 00:00:00 UTC 2022,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate III,19,VLC1T3F,,N
+206264935,bregitte,"Trujillo Bermejo,Bregitte",14779324,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2FT,,N
+206356897,luqugsal,"luque,salvador solera",15362346,1712,Thu Oct 23 00:00:00 UTC 2025,3PTY,Active,"Munoz Rodriguez,Jose Luis",ELEN,Facilities Technician (OSP),,,,N
+200174047,emoleroe,"Molero Estevan,Ester",14164022,1712,Mon Jul 11 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+203681097,hurtaduf,"HURTADO,FERNANDO",12069226,1299,Mon Jul 22 00:00:00 UTC 2024,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4E,,N
+105431605,richamol,"Cuellar Molina,Richard",12487363,1299,Wed Mar 16 00:00:00 UTC 2022,AMZN,Active,"Sanchez Ferruz,Marta",,FC Associate III,33,VLC1LRN2,,N
+112301853,perisaxi,"Peris Ania,Isabel",13873166,1236,Mon Mar 21 00:00:00 UTC 2022,AMZN,Active,"Barcala Fresco,Eva",,HR Generalist I,26,VLC1AP1,,N
+203681102,paulaafr,"Franco Castellanos,Paula Andrea",14861821,1299,Mon Jul 22 00:00:00 UTC 2024,AMZN,Active,"Alarcón Lucas,Luis",,FC Associate I,18,VLC1T1,,N
+108291691,maitdesi,"Maita Rojas,Desiree Carolina",12288911,1299,Tue Jun 01 00:00:00 UTC 2021,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,18,VLC1T3,,N
+200006146,rozinast,"Stoichina,Rozina",52744,1290,Thu Apr 28 00:00:00 UTC 2022,3PTY,Active,"Garcia Zazo,Aitor",POSE,Security Specialist (OSP),,,,N
+206214244,laaranas,"Laaraj laarej,Anas",14533513,1299,Tue Oct 14 00:00:00 UTC 2025,TEMP,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,1,VLC1T3FT,,N
+202459574,loismaik,"Martinez Gonzalez,Lois maikel Maikel",13036560,1299,Mon Nov 06 00:00:00 UTC 2023,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,13,VLC1T2E,,N
+200771898,meibilin,"Alvarez Colmenarez,Meibilin cateri",13741523,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Escriva Perello,Adrian",,FC Associate I,13,VLC1T1,,N
+203131263,banciflo,"Bancila,Florin",12859943,1712,Mon Apr 08 00:00:00 UTC 2024,AMZN,Active,"Mata Guilarte,Barbra Catherine",,Service Technician II,,,,N
+107734713,namohamj,"Mohamed Belkhir,Nadia",14251032,1299,Thu Mar 23 00:00:00 UTC 2023,AMZN,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,21,VLC1T3,,N
+201846511,juanfelv,"Vicente Hernandez,Juan Felipe",15040008,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Escriva Perello,Adrian",,FC Associate III,5,VLC1CNT2,,N
+204192121,anromery,"Romero,Mariana",12954523,1299,Mon Jul 28 00:00:00 UTC 2025,TEMP,Active,"del Olmo de Pablos,Paloma",,FC Associate I,18,VLC1T4FT,,N
+200655693,aaromara,"Maraguat Vazquez,Aaron",14657659,1711,Sat Oct 29 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+203038459,edperios,"Pérez Ríos,Eduardo Rafael",15367296,1712,Mon Mar 11 00:00:00 UTC 2024,AMZN,Active,"Mata Guilarte,Barbra Catherine",,Service Technician II,,,,N
+203681101,chirmiri,"Chirita,Miriam Alexia",14089896,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,13,VLC1T1DP,,N
+206214246,qsoaaron,"Solorzano,Aaron",11564276,1299,Tue Oct 14 00:00:00 UTC 2025,TEMP,Active,"del Olmo de Pablos,Paloma",,FC Associate I,3,VLC1T4FT,,N
+203528976,pintdarc,"Pinto,Darianny Nazaret",11286825,1299,Mon Jul 01 00:00:00 UTC 2024,AMZN,Active,"Escriva Perello,Adrian",,FC Associate I,13,VLC1T1,,N
+203528974,gomezgae,"Gómez Gallardo,Adrián",11276365,1299,Mon Jul 01 00:00:00 UTC 2024,AMZN,Active,"Trujillo Acosta,Manuel",,FC Associate I,27,VLC1IC3,,N
+206213999,hdmontan,"Montanez,Daniela Andreina",13890066,1299,Tue Oct 14 00:00:00 UTC 2025,TEMP,Active,"del Olmo de Pablos,Paloma",,FC Associate I,1,VLC1T4FT,,N
+200184953,iabderrl,"LOURIGA MOUTAOUAKKEL,ABDERRAHIM",13888864,1712,Fri Jul 15 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+112648340,ysjimene,"Jimenez Recuenco,Yolanda",13470266,1299,Sun Jun 12 00:00:00 UTC 2022,AMZN,Active,"Ivanova,Miriam Milkova",,FC Associate I,18,VLC1T2E,,N
+202235832,asorinbe,"Andrei,Sorin Beniamin",13379274,1299,Mon Oct 16 00:00:00 UTC 2023,AMZN,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate I,18,VLC1T1,,N
+112763305,mfuenant,"Fuentes,Antonio",13834738,1299,Sun Aug 21 00:00:00 UTC 2022,AMZN,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,13,VLC1T3,,N
+201422444,moiseseb,"Moise,Sebastian Florin",12838901,1711,Tue May 09 00:00:00 UTC 2023,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+110323865,pastorme,"Pastor,Laura",13305225,1299,Mon Mar 28 00:00:00 UTC 2022,AMZN,Active,"Baptista Silva,Rijkard Rainier Rainier",,FC Associate I,18,VLC1T4,,N
+201959990,aclimeny,"Climent Diaz,Antonio",14134461,1290,Mon Aug 28 00:00:00 UTC 2023,3PTY,Active,"Garcia Zazo,Aitor",EULN,Security Guard (OSP),,,,N
+203681128,matabuan,"Matabuena,Andreu",14791532,1299,Mon Jul 22 00:00:00 UTC 2024,AMZN,Active,"Escriva Perello,Adrian",,FC Associate I,18,VLC1T1,,N
+203861700,ldaniesh,"Hernandez,Danieska",12663015,1299,Mon Sep 02 00:00:00 UTC 2024,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate I,13,VLC1T4,,N
+205368331,tbrumart,"Martinez Gonzalez,Bruno",15202974,1290,Sun Jun 01 00:00:00 UTC 2025,3PTY,Active,"Garcia Zazo,Aitor",SAGI,Security Supervisor (OSP),,,,N
+202382398,jijgutas,"Jgutashvili,Jaba",11271383,1299,Mon Oct 30 00:00:00 UTC 2023,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T3,,N
+203408931,jurreava,"Urrea Vallejo,Jesica",13204798,1299,Mon Jun 10 00:00:00 UTC 2024,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,13,VLC1T2,,N
+203636138,vizulema,"Villanueva Rodriguez,Zulema Zoraida",14183478,1712,Mon Jul 08 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+203875191,ivilargu,"Vilar Guell,Israel David",14601944,1711,Mon Aug 26 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",CBRE,Facilities Technician (OSP),,,,N
+205115784,oalayoge,"Alayon,Gera Geraldine",13865960,1299,Mon Apr 14 00:00:00 UTC 2025,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2DP,,N
+112648351,cabaldpa,"Caballero,Pablo",11858397,1299,Sun Jun 12 00:00:00 UTC 2022,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate I,18,VLC1T4,,N
+206369195,sanddgar,"Sandoval,Gary",13575588,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,13,VLC1T1FT,,N
+110189391,cjuacost,"Piña,Juan Carlos",15302292,1299,Sun Jun 12 00:00:00 UTC 2022,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,18,VLC1T1,,N
+206369352,escamezj,"Escamez Juarez,Maria Del Carmen",14676038,1299,Mon Nov 03 00:00:00 UTC 2025,AMZN,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,18,VLC1T4,,N
+201222596,bouyalao,"BOUYALAOUI,MOHAMMED",11396125,1065,Thu Mar 16 00:00:00 UTC 2023,3PTY,Active,"Plaza Belda,Jorge",DLTR,Shuttle Transport (OSP),,,,N
+110189401,fearteag,"Arteaga Rodriguez,Fernando Jose",15302301,1299,Mon Mar 28 00:00:00 UTC 2022,AMZN,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T3,,N
+200266553,jagudelb,"Agudelo Certuche,Jeiner",14047035,1712,Fri Aug 19 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+104483623,linaorte,"Correa Ortega,Lina Viviana",12018064,1299,Mon Mar 20 00:00:00 UTC 2023,AMZN,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,13,VLC1T3,,N
+200162273,escrigmm,"Escrig Millan,Miguel Angel",14132112,1712,Wed Jul 06 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",WURT,Facilities Maintenance (OSP),,,,N
+200070666,lsimarja,"Simarro Heredia,Javier",11024991,1290,Sat Jun 04 00:00:00 UTC 2022,3PTY,Active,"Garcia Zazo,Aitor",POSE,Security Guard (OSP),,,,N
+205682470,elaphait,"El Aouni Naji,Haitam El Aouni",107536,1299,Mon Jul 28 00:00:00 UTC 2025,TEMP,Active,"Suárez de Andrés,Pablo",,FC Associate I,13,VLC1T3FT,,N
+202235745,lailaait,"Ait,Laila",14332410,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2DP,,N
+201879355,marcmalv,"Alvarez Albert,Marc",11291907,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4,,N
+200184973,jullozaj,"LOZANO CASAS,JULIETH",12253586,1712,Fri Jul 15 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+204331327,alineios,"Iosif,Alin Andrei",14125155,1299,Tue Oct 14 00:00:00 UTC 2025,TEMP,Active,"Albiach Vázquez,Clara Esperança",,FC Associate I,1,VLC1T1FT,,N
+203520999,joanmonp,"Montero Hernandez,Joan",11574605,1711,Wed Jun 19 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",CBRE,Facilities Technician (OSP),,,,N
+205737117,jomilati,"Mila Tirado,Jordi",14684478,1290,Wed Jul 30 00:00:00 UTC 2025,3PTY,Active,"Garcia Zazo,Aitor",SAGI,Security Guard (OSP),,,,N
+201197506,costqana,"COSTA SA,ANA RITA",14385970,1290,Fri Mar 10 00:00:00 UTC 2023,3PTY,Active,"Garcia Montoya,Diana Isabel",IDID,Medical Rep (OSP),Safety,,,N
+202162486,perezbmd,"PEREZ,MERCEDES BUENO",13016896,1290,Wed Sep 25 00:00:00 UTC 2024,3PTY,Active,"Leiva Bertolin,Ana Amelia",IDID,Medical Rep (OSP),WHS,,,N
+203408955,diazasua,"Diaz,Rossy",11068063,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,18,VLC1T7DP,,N
+205682465,mulamrin,"Lamrini,Mustapha",14805601,1299,Mon Jul 28 00:00:00 UTC 2025,TEMP,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,18,VLC1T3FT,,N
+203681104,bandespa,"BANDES,PAOLA",13449218,1299,Mon Jul 22 00:00:00 UTC 2024,AMZN,Active,"Navarro Forner,Paula Navarro",,FC Associate I,13,VLC1T4LA,,N
+202109760,ccjohann,"Campo,Johanna",11764229,1299,Mon Jun 24 00:00:00 UTC 2024,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2,,N
+105569274,aldanl,"Finol aldana,Lexander Alberto",12724644,1299,Sun Nov 10 00:00:00 UTC 2024,AMZN,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,18,VLC1T3,,N
+200833997,benkasem,"Benkasem,Iman Tnoukhi",11523140,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2,,N
+205746948,beneodie,"Benet,Diego Murillo",13228348,1299,Mon Aug 11 00:00:00 UTC 2025,TEMP,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate I,13,VLC1T1FT,,N
+205617844,arocyuly,"arocha,yuly",14903056,1299,Mon Jul 14 00:00:00 UTC 2025,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate I,1,VLC1T4DP,,N
+202395884,albouzia,"Al Bouzia,Rachid",13991398,1299,Mon Jun 24 00:00:00 UTC 2024,AMZN,Active,"Escriva Perello,Adrian",,FC Associate I,13,VLC1T5,,N
+101463207,barcenil,"Deza Barcenilla,Joaquin",11391472,1299,Mon Apr 10 00:00:00 UTC 2017,AMZN,Active,"Trujillo Acosta,Manuel",,FC Associate III,27,VLC1IC2L,,N
+111033914,tdmilano,"Milano Pimentel,Daniel Andres",14028652,1299,Mon Mar 28 00:00:00 UTC 2022,AMZN,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate III,5,VLC1T3L,,N
+102213543,ajsrdr,"Munoz Rodriguez,Jose Luis",12171477,1712,Mon Jun 19 00:00:00 UTC 2017,AMZN,Active,"Mata Guilarte,Barbra Catherine",,Service Technician III,28,VLC1RME5,,N
+200110246,catanoju,"CATANO CAMARA,JUAN ANTONIO",13133862,1290,Thu Jun 16 00:00:00 UTC 2022,3PTY,Active,"Garcia Montoya,Diana Isabel",IDID,Medical Rep (OSP),Medical Representative,,,N
+204331321,halconro,"Alcón Rozalén,Javier",11890637,1299,Sun Nov 03 00:00:00 UTC 2024,AMZN,Active,"Escriva Perello,Adrian",,FC Associate I,13,VLC1T1,,N
+204192161,rinaomil,"Rivera Ramos,Naomi Lizbeth",12250492,1299,Mon Aug 18 00:00:00 UTC 2025,TEMP,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,27,VLC1T3FT,,N
+204431602,morcilm,"Vargas,Maria Morcillo",11565197,1299,Sun May 11 00:00:00 UTC 2025,AMZN,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,13,VLC1T3,,N
+203506512,hamoresm,"Amores Morcillo,Manolo",14811111,1711,Mon Jun 17 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",CBRE,Facilities Maintenance (OSP),,,,N
+203294464,cpemanue,"PEDROS,MANUEL",15239472,1299,Mon May 13 00:00:00 UTC 2024,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2,,N
+200184994,nubiadmo,"MONTEALEGRE MARTINEZ,NUBIA DEL SOCORRO",12161277,1712,Fri Jul 15 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+206264953,juliramq,"ramos,julio",14934053,1299,Tue Oct 21 00:00:00 UTC 2025,TEMP,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,13,VLC1T3FT,,N
+205257652,bojoseig,"Bonitas Coronado,Jose Ignacio",13394642,1299,Thu May 08 00:00:00 UTC 2025,3PTY,Active,"Rancitelli,Diego",EUR,Cafeteria Worker (OSP),,,,N
+112648336,ybrfatim,"Briones,Fátima",14526755,1299,Sun May 11 00:00:00 UTC 2025,AMZN,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,18,VLC1T3,,N
+202793010,soringiu,"Giuvelea,Sorin Marian",14548293,1290,Mon Dec 04 00:00:00 UTC 2023,3PTY,Active,"Garcia Zazo,Aitor",EULN,Security Guard (OSP),,,,N
+205662776,djatorre,"Torres Lopez,Javier",13809914,1712,Mon Jul 14 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",CBCO,Facilities Technician (OSP),,,,N
+109754730,enriqdie,"Diez Romero,Enrique Antonio Kike",14831366,1299,Mon Mar 28 00:00:00 UTC 2022,AMZN,Active,"Domínguez Fuster,Pau Manel",,FC Associate I,13,VLC1T3L,,N
+202550480,aibanezr,"Ibanez Romero,Antonio Luis",11172299,1711,Mon Nov 13 00:00:00 UTC 2023,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+206411526,ogonzfra,"Gonzales Ciercoles,Francisca",11255094,1290,Wed Oct 29 00:00:00 UTC 2025,3PTY,Active,"Rancitelli,Diego",EUR,Cafeteria Worker (OSP),,,,N
+206306118,diexsala,"Salazar Vega,Diego Alexandro",11835825,1299,Mon Oct 27 00:00:00 UTC 2025,TEMP,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2FT,,N
+203492093,neanab,"Negrette Rodríguez,Ana Sarahy",15376857,1299,Fri Jun 21 00:00:00 UTC 2024,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,13,VLC1T2,,N
+203493107,sbarbane,"Barbancho Perea,Eva María",11262718,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Rodrigo,Judith Alarcón",,FC Associate I,18,VLC1T2DP,,N
+205716364,competcu,"Constantin Adrian,Petcu",13596546,1299,Mon Jul 28 00:00:00 UTC 2025,3PTY,Active,"Rancitelli,Diego",ADEE,Facilities Technician (OSP),,,,N
+203681175,achrraf,"Al Baragragui El Founti,Achraf",13678052,1712,Mon Oct 14 00:00:00 UTC 2024,TEMP,Active,"Mata Guilarte,Barbra Catherine",,Apprentice III,,,,N
+200211236,menrfern,"Fernandez Marco,Enrique",292028,1712,Wed Jul 27 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",TMHI,Facilities Technician (OSP),,,,N
+200189864,qdpopovi,"Popovici,Daniel Gabriel",11189120,1290,Mon Jul 18 00:00:00 UTC 2022,3PTY,Active,"Garcia Zazo,Aitor",EULN,Security Guard (OSP),,,,N
+112648341,mvmarica,"irigaray martinez,Mari carmen",13577630,1299,Sun Jun 12 00:00:00 UTC 2022,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate I,18,VLC1T4E,,N
+203636077,znamonte,"Montes Reina,Nancy",11015023,1712,Mon Jul 08 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+202395828,zjimenem,"JIMENEZ SAN NICOLAS,EMMA",13773418,1299,Mon Jul 28 00:00:00 UTC 2025,TEMP,Active,"Gago Giner,Carlos",,FC Associate I,13,VLC1T2FT,,N
+204500027,qsammend,"Mendez,Samanta Vanesa",14887228,1299,Sun May 11 00:00:00 UTC 2025,AMZN,Active,"Escriva Perello,Adrian",,FC Associate I,21,VLC1T1,,N
+205649781,imartaal,"Albalate Balaguer,Marta",14743736,1290,Sun Jul 20 00:00:00 UTC 2025,3PTY,Active,"Garcia Zazo,Aitor",SAGI,Security Guard (OSP),,,,N
+205363740,sarapuch,"Puchades Ortega,Sara",14605538,1299,Mon Jun 09 00:00:00 UTC 2025,AMZN,Active,"Mendoza Roman,Baudilio Jesus",,FC Associate I,13,VLC1T1DP,,N
+206306115,evaelope,"Lopez,Eva",11569924,1299,Mon Oct 27 00:00:00 UTC 2025,TEMP,Active,"Rodrigo,Judith Alarcón",,FC Associate I,13,VLC1T2FT,,N
+201528429,jeorlmen,"Mendoza,Jeorlynnes Josefina",13422976,1299,Sun Oct 22 00:00:00 UTC 2023,AMZN,Active,"Trujillo Acosta,Manuel",,FC Associate I,27,VLC1IC3,,N
+206344668,wdapanis,"Panis,Daniel Morte",14089664,1711,Wed Oct 22 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",LL2,Janitor (OSP),,,,N
+200264546,lrjavier,"Romero Velez,Javier",13154886,1299,Fri Aug 22 00:00:00 UTC 2025,3PTY,Active,"Rancitelli,Diego",EUR,Cafeteria Worker (OSP),,,,N
+112871592,guiltgar,"Arias,Guillermo Garcia-riego",12335930,1299,Mon Oct 03 00:00:00 UTC 2022,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate III,13,VLC1T4L,,N
+200771843,alcadang,"Alcazar,Dani",13473876,1299,Mon Mar 18 00:00:00 UTC 2024,AMZN,Active,"Alarcón Lucas,Luis",,FC Associate I,18,VLC1T1LA,,N
+200184990,nagormar,"MARTIN CLOS,NAGORE",11133074,1712,Fri Jul 15 00:00:00 UTC 2022,3PTY,Active,"Ferrer Serrador,María Dolores",ONET,Janitor (OSP),,,,N
+112763247,bejjarab,"Bejja,Rabi",12376795,1299,Mon Oct 03 00:00:00 UTC 2022,AMZN,Active,"Escriva Perello,Adrian",,FC Associate I,13,VLC1T1,,N
+206306133,maryelva,"Vargas,Maryeli",11904096,1299,Mon Oct 27 00:00:00 UTC 2025,TEMP,Active,"Gago Giner,Carlos",,FC Associate I,18,VLC1T2FT,,N
+203408935,njorgeen,"Sors,Jorge Enrique",12024824,1299,Mon Jun 10 00:00:00 UTC 2024,AMZN,Active,"Baptista Silva,Rijkard Rainier Rainier",,FC Associate I,13,VLC1T7,,N
+203235883,jfranave,"Avellana,Paco",11033283,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"Gago Giner,Carlos",,FC Associate I,13,VLC1T7DP,,N
+202235747,arribmar,"Arribas Heras,Maria Visitacion",15146397,1299,Sun Jun 29 00:00:00 UTC 2025,AMZN,Active,"del Olmo de Pablos,Paloma",,FC Associate I,18,VLC1T4DP,,N
+206369243,bepuchoc,"Puchoc,Belitza Kely",15144838,1299,Mon Nov 03 00:00:00 UTC 2025,TEMP,Active,"Escriva Perello,Adrian",,FC Associate I,18,VLC1T1FT,,N
+205774990,ignaciju,"Ignacio,Juan Garcia Torres",57127,1712,Fri Aug 08 00:00:00 UTC 2025,3PTY,Active,"Ferrer Serrador,María Dolores",NATU,Facilities Technician (OSP),,,,N
+203647815,jobonafo,"Bonafont Martin,Josep Francesc",14992183,1711,Mon Jul 08 00:00:00 UTC 2024,3PTY,Active,"Ferrer Serrador,María Dolores",IBER,Facilities Technician (OSP),,,,N
+111455351,gueleaza,"Guerra Marino,Eleazar Rafael",247862,1299,Mon Mar 28 00:00:00 UTC 2022,AMZN,Active,"Vasquez Chuecos,Carlos Alberto",,FC Associate I,18,VLC1T3,,N

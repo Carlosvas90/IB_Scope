@@ -1,0 +1,82 @@
+{
+  "1": {
+    "A": {
+      "total_bins": 33289,
+      "occupied_bins": 27676,
+      "occupancy_rate": 83.14,
+      "avg_utilization": 0.81,
+      "intensity": "low"
+    },
+    "B": {
+      "total_bins": 16976,
+      "occupied_bins": 16368,
+      "occupancy_rate": 96.42,
+      "avg_utilization": 0.88,
+      "intensity": "low"
+    },
+    "F": {
+      "total_bins": 350,
+      "occupied_bins": 193,
+      "occupancy_rate": 55.14,
+      "avg_utilization": 0.55,
+      "intensity": "low"
+    }
+  },
+  "2": {
+    "B": {
+      "total_bins": 13751,
+      "occupied_bins": 5659,
+      "occupancy_rate": 41.15,
+      "avg_utilization": 0.35,
+      "intensity": "low"
+    }
+  },
+  "3": {
+    "B": {
+      "total_bins": 15883,
+      "occupied_bins": 15649,
+      "occupancy_rate": 98.53,
+      "avg_utilization": 0.92,
+      "intensity": "low"
+    },
+    "C": {
+      "total_bins": 36639,
+      "occupied_bins": 35976,
+      "occupancy_rate": 98.19,
+      "avg_utilization": 0.91,
+      "intensity": "low"
+    }
+  },
+  "4": {
+    "B": {
+      "total_bins": 15880,
+      "occupied_bins": 15088,
+      "occupancy_rate": 95.01,
+      "avg_utilization": 0.85,
+      "intensity": "low"
+    },
+    "C": {
+      "total_bins": 24935,
+      "occupied_bins": 24046,
+      "occupancy_rate": 96.43,
+      "avg_utilization": 0.87,
+      "intensity": "low"
+    }
+  },
+  "5": {
+    "B": {
+      "total_bins": 365,
+      "occupied_bins": 329,
+      "occupancy_rate": 90.14,
+      "avg_utilization": 0.9,
+      "intensity": "low"
+    },
+    "C": {
+      "total_bins": 823,
+      "occupied_bins": 749,
+      "occupancy_rate": 91.01,
+      "avg_utilization": 0.91,
+      "intensity": "low"
+    }
+  }
+}
