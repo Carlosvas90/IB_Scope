@@ -1,23 +1,35 @@
 /* Update Notification Styles */
 .update-notification {
-  position: fixed;
-  top: 20px;
-  right: 20px;
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  right: auto !important;
+  transform: translate(-50%, -50%) scale(0.9) !important;
   background: var(--sidebar_bg_ch, #1a1a1a);
   border: 1px solid var(--dashboard-border, #333);
   border-radius: 12px;
-  padding: 20px;
-  max-width: 400px;
+  padding: 30px;
+  width: 45% !important;
+  max-width: 900px !important;
+  min-width: 500px !important;
   box-shadow: var(--shadow-lg);
   z-index: 10000;
   opacity: 0;
-  transform: translateX(400px);
   transition: all 0.3s ease;
 }
 
 .update-notification.show {
-  opacity: 1;
-  transform: translateX(0);
+  opacity: 1 !important;
+  transform: translate(-50%, -50%) scale(1) !important;
+}
+
+/* Asegurar que no se sobrescriba desde ningún lugar */
+body .update-notification,
+html .update-notification {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  right: auto !important;
 }
 
 /* Estilos para actualizaciones obligatorias */
