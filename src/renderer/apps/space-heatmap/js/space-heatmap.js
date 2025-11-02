@@ -181,8 +181,60 @@ function initSpaceHeatmap() {
   }, 30000); // Actualizar cada 30 segundos
   console.log("✅ Actualización automática configurada cada 30 segundos");
 
+  // Función para verificar si el modal debe mostrarse (solo una vez al día)
+  function shouldShowModal() {
+    const today = new Date().toDateString();
+    const lastShown = localStorage.getItem('stowmap-info-modal-last-shown');
+    return lastShown !== today;
+  }
+
+  // Función para marcar el modal como mostrado hoy
+  function markModalAsShown() {
+    const today = new Date().toDateString();
+    localStorage.setItem('stowmap-info-modal-last-shown', today);
+  }
+
+  // Función para mostrar el modal
+  function showInfoModal() {
+    return new Promise((resolve) => {
+      const modal = document.getElementById('info-modal');
+      const closeBtn = document.getElementById('close-modal-btn');
+      const understandBtn = document.getElementById('modal-understand-btn');
+      
+      if (!modal) {
+        console.warn('Modal no encontrado, continuando sin mostrar');
+        resolve();
+        return;
+      }
+
+      modal.style.display = 'flex';
+
+      const closeModal = () => {
+        modal.style.display = 'none';
+        markModalAsShown();
+        resolve();
+      };
+
+      // Usar once: true para que los listeners solo se ejecuten una vez
+      closeBtn.addEventListener('click', closeModal, { once: true });
+      understandBtn.addEventListener('click', closeModal, { once: true });
+      
+      // Cerrar al hacer clic fuera del modal
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          closeModal();
+        }
+      }, { once: true });
+    });
+  }
+
   downloadBtn.addEventListener("click", async () => {
     console.log("🖱️ Click en botón detectado");
+
+    // Mostrar modal si es la primera vez hoy
+    if (shouldShowModal()) {
+      await showInfoModal();
+    }
 
     // Referencias a elementos de progreso
     const progressContainer = document.getElementById("progress-container");
@@ -393,87 +445,6 @@ function initSpaceHeatmap() {
       downloadBtnText.textContent = "Descargar StowMap";
     }
   });
-
-  // Botón para generar heatmaps
-  const generateHeatmapsBtn = document.getElementById("generate-heatmaps-btn");
-  if (generateHeatmapsBtn) {
-    generateHeatmapsBtn.addEventListener("click", async () => {
-      console.log("🖱️ Click en botón Generar Heatmaps detectado");
-
-      const statusMessage = document.getElementById("status-message");
-
-      try {
-        // Verificar que las APIs necesarias estén disponibles
-        if (!window.api.getUserDataPath || !window.api.executePythonScript) {
-          statusMessage.textContent = "❌ Error: Por favor, reinicia la aplicación para continuar.";
-          statusMessage.className = "status-message-banner error";
-          statusMessage.style.display = "block";
-          console.error("APIs no disponibles. Se requiere reinicio.");
-          return;
-        }
-
-        // Deshabilitar botón
-        generateHeatmapsBtn.disabled = true;
-        generateHeatmapsBtn.textContent = "Generando...";
-
-        // Mostrar mensaje de estado
-        statusMessage.textContent = "🎨 Generando heatmaps...";
-        statusMessage.className = "status-message-banner loading";
-        statusMessage.style.display = "block";
-
-        console.log("🚀 Ejecutando script de generación de heatmaps...");
-
-        // Obtener la ruta de userData de Electron
-        const userDataPath = await window.api.getUserDataPath();
-        console.log("📁 User Data Path:", userDataPath);
-
-        // Ejecutar script de Python
-        const result = await window.api.executePythonScript({
-          scriptPath: "src/renderer/apps/space-heatmap/py/Generar_Heatmaps.py",
-          args: userDataPath ? [userDataPath] : [],
-        });
-
-        console.log("📊 Resultado recibido:", result);
-
-        if (result.success) {
-          statusMessage.textContent = "✅ ¡Heatmaps generados exitosamente!";
-          statusMessage.className = "status-message-banner success";
-          console.log("✅ Heatmaps generados:", result.output);
-        } else {
-          statusMessage.textContent = `❌ Error: ${result.error || "Error desconocido"}`;
-          statusMessage.className = "status-message-banner error";
-          console.error("❌ Error:", result.error);
-        }
-      } catch (error) {
-        statusMessage.textContent = `❌ Error: ${error.message}`;
-        statusMessage.className = "status-message-banner error";
-        statusMessage.style.display = "block";
-        console.error("❌ Error al ejecutar script:", error);
-      } finally {
-        generateHeatmapsBtn.disabled = false;
-        generateHeatmapsBtn.innerHTML = `
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-            <path d="M9 3v18"></path>
-            <path d="M3 9h18"></path>
-          </svg>
-          <span>Generar Heatmaps</span>
-        `;
-      }
-    });
-  } else {
-    console.warn("⚠️ Botón generate-heatmaps-btn no encontrado");
-  }
 }
 
 // ===================================
@@ -484,11 +455,23 @@ async function loadAndDisplayData() {
   try {
     console.log('[Visualización] Intentando cargar datos procesados...');
     
+    // Esperar a que el servicio esté disponible (con timeout)
+    let attempts = 0;
+    const maxAttempts = 50; // 5 segundos máximo
+    
+    while (!window.StowMapDataService && attempts < maxAttempts) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+      attempts++;
+    }
+    
     // Verificar que el servicio esté disponible
     if (!window.StowMapDataService) {
-      console.error('[Visualización] StowMapDataService no está disponible');
+      console.error('[Visualización] StowMapDataService no está disponible después de esperar');
+      console.error('[Visualización] window.StowMapDataService:', window.StowMapDataService);
       return false;
     }
+    
+    console.log('[Visualización] StowMapDataService encontrado');
     
     const dataService = window.StowMapDataService;
     
@@ -507,17 +490,13 @@ async function loadAndDisplayData() {
     
     console.log('[Visualización] Datos cargados exitosamente');
     
-    // Mostrar secciones de visualización y ocultar mensaje "no data"
+    // Mostrar secciones de visualización
     document.getElementById('kpis-section').style.display = 'grid';
     document.getElementById('tables-section').style.display = 'flex';
-    document.getElementById('no-data-message').style.display = 'none';
     
     // Cargar cada sección
     displayKPIs(dataService);
-    displayFloorTable(dataService);
-    displayBinTypeTable(dataService);
-    displayFloorChart(dataService);
-    displayBinTypeChart(dataService);
+    displayPickTowerTable(dataService);
     
     return true;
   } catch (error) {
@@ -527,109 +506,151 @@ async function loadAndDisplayData() {
 }
 
 function displayKPIs(dataService) {
-  const stats = dataService.getSummaryStats();
-  if (!stats) return;
+  // Calcular KPIs desde fullness_by_bintype.json
+  const fullnessByBinType = dataService.getFullnessByBinType();
+  if (!fullnessByBinType || Object.keys(fullnessByBinType).length === 0) {
+    console.warn('[KPIs] No hay datos de fullness_by_bintype');
+    return;
+  }
   
-  document.getElementById('kpi-total-bins').textContent = stats.total_bins.toLocaleString();
-  document.getElementById('kpi-occupied-bins').textContent = stats.occupied_bins.toLocaleString();
-  document.getElementById('kpi-occupancy-rate').textContent = `${stats.occupancy_rate}%`;
-  document.getElementById('kpi-avg-utilization').textContent = `${stats.avg_utilization}%`;
-  document.getElementById('kpi-total-units').textContent = stats.total_units.toLocaleString();
+  // Calcular totales sumando todos los floors y todas las storage areas
+  let totalBins = 0;
+  let occupiedBins = 0;
+  let totalUnits = 0;
+  let totalFullness = 0;
+  let countFullness = 0;
+  
+  for (const [floor, floorData] of Object.entries(fullnessByBinType)) {
+    for (const [storageArea, areaData] of Object.entries(floorData)) {
+      for (const [binType, binData] of Object.entries(areaData)) {
+        totalBins += binData.total_bins || 0;
+        occupiedBins += binData.occupied_bins || 0;
+        totalUnits += binData.total_units || 0;
+        if (binData.avg_fullness !== undefined) {
+          totalFullness += binData.avg_fullness;
+          countFullness++;
+        }
+      }
+    }
+  }
+  
+  const emptyBins = totalBins - occupiedBins;
+  const occupancyRate = totalBins > 0 ? (occupiedBins / totalBins * 100) : 0;
+  const avgUtilization = countFullness > 0 ? (totalFullness / countFullness * 100) : 0;
+  
+  document.getElementById('kpi-total-bins').textContent = totalBins.toLocaleString();
+  document.getElementById('kpi-occupied-bins').textContent = occupiedBins.toLocaleString();
+  document.getElementById('kpi-occupancy-rate').textContent = `${occupancyRate.toFixed(1)}%`;
+  document.getElementById('kpi-avg-utilization').textContent = `${avgUtilization.toFixed(1)}%`;
+  document.getElementById('kpi-total-units').textContent = totalUnits.toLocaleString();
 }
 
-function displayFloorTable(dataService) {
-  const fullnessByFloor = dataService.getFullnessByFloor();
-  const tbody = document.getElementById('table-floor-body');
+function displayPickTowerTable(dataService) {
+  const fullnessByBinType = dataService.getFullnessByBinType();
+  const tbody = document.getElementById('pick-tower-table-body');
+  if (!tbody) {
+    console.warn('[Pick Tower] Tabla no encontrada');
+    return;
+  }
+  
   tbody.innerHTML = '';
   
-  for (const [floor, data] of Object.entries(fullnessByFloor)) {
+  // Mapeo de bin types del JSON a nombres de columnas
+  const binTypeMapping = {
+    'LIBRARY-DEEP': 'Library',
+    'HALF-VERTICAL': 'Vertical',
+    'BARREL': 'Barrel',
+    'BAT-BIN': 'BatBin',
+    'FLOOR-PALLET': 'Floor Pallet',
+    'PALLET-SINGLE': 'Pallet Single'
+  };
+  
+  // Orden de las columnas (sin Floor que es la primera)
+  const columnOrder = ['Total Floor', 'Zone 1', 'Zone 2', 'Library', 'Vertical', 'Barrel', 'BatBin', 'Floor Pallet', 'Pallet Single'];
+  
+  // Procesar cada floor (1-5)
+  for (let floor = 1; floor <= 5; floor++) {
+    const floorData = fullnessByBinType[floor];
+    if (!floorData || !floorData['Pick Tower']) {
+      // Crear fila vacía si no hay datos
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>P${floor}</td>
+        <td class="empty-cell">-</td>
+        <td class="empty-cell">-</td>
+        <td class="empty-cell">-</td>
+        <td class="empty-cell">-</td>
+        <td class="empty-cell">-</td>
+        <td class="empty-cell">-</td>
+        <td class="empty-cell">-</td>
+        <td class="empty-cell">-</td>
+        <td class="empty-cell">-</td>
+      `;
+      tbody.appendChild(row);
+      continue;
+    }
+    
+    const pickTowerData = floorData['Pick Tower'];
+    
+    // Calcular Total Floor (promedio de avg_fullness de todos los bin types en Pick Tower)
+    let totalFullness = 0;
+    let totalCount = 0;
+    const binTypeValues = {};
+    
+    for (const [binType, data] of Object.entries(pickTowerData)) {
+      const mappedName = binTypeMapping[binType];
+      if (mappedName && data.avg_fullness !== undefined) {
+        totalFullness += data.avg_fullness;
+        totalCount++;
+        binTypeValues[mappedName] = {
+          avg_fullness: data.avg_fullness,
+          occupied_bins: data.occupied_bins,
+          total_bins: data.total_bins
+        };
+      }
+    }
+    
+    const totalFloorPercentage = totalCount > 0 
+      ? Math.round(totalFullness / totalCount * 100) 
+      : 0;
+    
+    // Zone 1 y Zone 2 - por ahora igual al Total Floor (se puede ajustar después)
+    const zone1Percentage = totalFloorPercentage;
+    const zone2Percentage = totalFloorPercentage;
+    
+    // Crear la fila
     const row = document.createElement('tr');
-    row.innerHTML = `
-      <td><strong>Piso ${floor}</strong></td>
-      <td class="number">${data.total_bins.toLocaleString()}</td>
-      <td class="number">${data.occupied_bins.toLocaleString()}</td>
-      <td class="number">${data.empty_bins.toLocaleString()}</td>
-      <td class="number percentage ${getPercentageClass(data.occupancy_rate)}">${data.occupancy_rate}%</td>
-      <td class="number percentage ${getPercentageClass(data.avg_utilization)}">${data.avg_utilization}%</td>
-      <td class="number">${data.total_units.toLocaleString()}</td>
-    `;
+    let rowHTML = `<td>P${floor}</td>`;
+    
+    // Total Floor
+    rowHTML += `<td class="percentage-cell">${totalFloorPercentage}%</td>`;
+    
+    // Zone 1 y Zone 2
+    rowHTML += `<td class="percentage-cell">${zone1Percentage}%</td>`;
+    rowHTML += `<td class="percentage-cell">${zone2Percentage}%</td>`;
+    
+    // Bin Types en orden
+    const binTypeColumns = ['Library', 'Vertical', 'Barrel', 'BatBin', 'Floor Pallet', 'Pallet Single'];
+    for (const binTypeName of binTypeColumns) {
+      const binData = binTypeValues[binTypeName];
+      if (binData) {
+        const percentage = Math.round(binData.avg_fullness * 100);
+        if (binTypeName === 'Pallet Single') {
+          // Mostrar ratio para Pallet Single
+          rowHTML += `<td class="percentage-cell">
+            ${percentage}%
+            <span class="pallet-single-ratio">${binData.occupied_bins} / ${binData.total_bins}</span>
+          </td>`;
+        } else {
+          rowHTML += `<td class="percentage-cell">${percentage}%</td>`;
+        }
+      } else {
+        rowHTML += `<td class="empty-cell">-</td>`;
+      }
+    }
+    
+    row.innerHTML = rowHTML;
     tbody.appendChild(row);
-  }
-}
-
-function displayBinTypeTable(dataService) {
-  const fullnessByBinType = dataService.getFullnessByBinType();
-  const tbody = document.getElementById('table-bintype-body');
-  tbody.innerHTML = '';
-  
-  // Tomar los primeros 15 tipos de bin
-  const entries = Object.entries(fullnessByBinType).slice(0, 15);
-  
-  for (const [binType, data] of entries) {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td><strong>${binType}</strong></td>
-      <td class="number">${data.total_bins.toLocaleString()}</td>
-      <td class="number">${data.occupied_bins.toLocaleString()}</td>
-      <td class="number">${data.empty_bins.toLocaleString()}</td>
-      <td class="number percentage ${getPercentageClass(data.occupancy_rate)}">${data.occupancy_rate}%</td>
-      <td class="number percentage ${getPercentageClass(data.avg_utilization)}">${data.avg_utilization}%</td>
-    `;
-    tbody.appendChild(row);
-  }
-}
-
-function displayFloorChart(dataService) {
-  const fullnessByFloor = dataService.getFullnessByFloor();
-  const container = document.getElementById('chart-floor');
-  container.innerHTML = '<div class="simple-bar-chart"></div>';
-  const chart = container.querySelector('.simple-bar-chart');
-  
-  const maxValue = Math.max(...Object.values(fullnessByFloor).map(d => d.avg_utilization));
-  
-  for (const [floor, data] of Object.entries(fullnessByFloor)) {
-    const barItem = document.createElement('div');
-    barItem.className = 'bar-item';
-    
-    const percentage = (data.avg_utilization / maxValue) * 100;
-    
-    barItem.innerHTML = `
-      <div class="bar-label">Piso ${floor}</div>
-      <div class="bar-wrapper">
-        <div class="bar-fill" style="width: ${percentage}%">
-          <span class="bar-value">${data.avg_utilization}%</span>
-        </div>
-      </div>
-    `;
-    chart.appendChild(barItem);
-  }
-}
-
-function displayBinTypeChart(dataService) {
-  const fullnessByBinType = dataService.getFullnessByBinType();
-  const container = document.getElementById('chart-bintype');
-  container.innerHTML = '<div class="simple-bar-chart"></div>';
-  const chart = container.querySelector('.simple-bar-chart');
-  
-  // Top 10 tipos de bin por cantidad
-  const entries = Object.entries(fullnessByBinType).slice(0, 10);
-  const maxValue = Math.max(...entries.map(([_, d]) => d.total_bins));
-  
-  for (const [binType, data] of entries) {
-    const barItem = document.createElement('div');
-    barItem.className = 'bar-item';
-    
-    const percentage = (data.total_bins / maxValue) * 100;
-    
-    barItem.innerHTML = `
-      <div class="bar-label">${binType}</div>
-      <div class="bar-wrapper">
-        <div class="bar-fill" style="width: ${percentage}%">
-          <span class="bar-value">${data.total_bins.toLocaleString()}</span>
-        </div>
-      </div>
-    `;
-    chart.appendChild(barItem);
   }
 }
 

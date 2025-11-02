@@ -3,7 +3,7 @@
     "High Rack": {
       "BAT-BIN": {
         "total_bins": 1288,
-        "avg_fullness": 0.1771,
+        "avg_fullness": 0.3376,
         "locked_bins": 226,
         "occupied_bins": 468,
         "empty_bins": 820,
@@ -11,7 +11,7 @@
       },
       "CANTILEVER": {
         "total_bins": 1288,
-        "avg_fullness": 0.1348,
+        "avg_fullness": 0.4162,
         "locked_bins": 170,
         "occupied_bins": 904,
         "empty_bins": 384,
@@ -19,7 +19,7 @@
       },
       "FLOOR-PALLET": {
         "total_bins": 460,
-        "avg_fullness": 0.0197,
+        "avg_fullness": 0.4663,
         "locked_bins": 7,
         "occupied_bins": 456,
         "empty_bins": 4,
@@ -35,7 +35,7 @@
       },
       "PASS-THROUGH-BULKY": {
         "total_bins": 529,
-        "avg_fullness": 0.2462,
+        "avg_fullness": 0.2949,
         "locked_bins": 130,
         "occupied_bins": 233,
         "empty_bins": 296,
@@ -45,7 +45,7 @@
     "Pallet Land": {
       "FLOOR-PALLET": {
         "total_bins": 2,
-        "avg_fullness": 0.002,
+        "avg_fullness": 0.1985,
         "locked_bins": 0,
         "occupied_bins": 1,
         "empty_bins": 1,
@@ -63,7 +63,7 @@
     "Pick Tower": {
       "BARREL": {
         "total_bins": 322,
-        "avg_fullness": 0.0065,
+        "avg_fullness": 0.6497,
         "locked_bins": 0,
         "occupied_bins": 308,
         "empty_bins": 14,
@@ -71,7 +71,7 @@
       },
       "BAT-BIN": {
         "total_bins": 72,
-        "avg_fullness": 0.0036,
+        "avg_fullness": 0.3559,
         "locked_bins": 0,
         "occupied_bins": 54,
         "empty_bins": 18,
@@ -79,7 +79,7 @@
       },
       "HALF-VERTICAL": {
         "total_bins": 1139,
-        "avg_fullness": 0.0214,
+        "avg_fullness": 0.8387,
         "locked_bins": 15,
         "occupied_bins": 1124,
         "empty_bins": 15,
@@ -87,7 +87,7 @@
       },
       "LIBRARY-DEEP": {
         "total_bins": 15391,
-        "avg_fullness": 0.0191,
+        "avg_fullness": 0.9027,
         "locked_bins": 156,
         "occupied_bins": 14979,
         "empty_bins": 412,
@@ -107,7 +107,7 @@
     "Pick Tower": {
       "BARREL": {
         "total_bins": 18,
-        "avg_fullness": 0.0053,
+        "avg_fullness": 0.5295,
         "locked_bins": 0,
         "occupied_bins": 18,
         "empty_bins": 0,
@@ -115,7 +115,7 @@
       },
       "BAT-BIN": {
         "total_bins": 72,
-        "avg_fullness": 0.0007,
+        "avg_fullness": 0.0652,
         "locked_bins": 0,
         "occupied_bins": 17,
         "empty_bins": 55,
@@ -123,7 +123,7 @@
       },
       "FLOOR-PALLET": {
         "total_bins": 61,
-        "avg_fullness": 0.0086,
+        "avg_fullness": 0.8553,
         "locked_bins": 0,
         "occupied_bins": 59,
         "empty_bins": 2,
@@ -131,7 +131,7 @@
       },
       "HALF-VERTICAL": {
         "total_bins": 1152,
-        "avg_fullness": 0.0381,
+        "avg_fullness": 0.8853,
         "locked_bins": 34,
         "occupied_bins": 1115,
         "empty_bins": 37,
@@ -139,7 +139,7 @@
       },
       "LIBRARY-DEEP": {
         "total_bins": 12419,
-        "avg_fullness": 0.0234,
+        "avg_fullness": 0.3149,
         "locked_bins": 254,
         "occupied_bins": 4455,
         "empty_bins": 7964,
@@ -159,7 +159,7 @@
     "Pick Tower": {
       "BARREL": {
         "total_bins": 733,
-        "avg_fullness": 0.0074,
+        "avg_fullness": 0.7384,
         "locked_bins": 0,
         "occupied_bins": 710,
         "empty_bins": 23,
@@ -167,7 +167,7 @@
       },
       "BAT-BIN": {
         "total_bins": 240,
-        "avg_fullness": 0.0023,
+        "avg_fullness": 0.2317,
         "locked_bins": 0,
         "occupied_bins": 131,
         "empty_bins": 109,
@@ -175,7 +175,7 @@
       },
       "FLOOR-PALLET": {
         "total_bins": 216,
-        "avg_fullness": 0.0787,
+        "avg_fullness": 0.9906,
         "locked_bins": 15,
         "occupied_bins": 216,
         "empty_bins": 0,
@@ -183,7 +183,7 @@
       },
       "HALF-VERTICAL": {
         "total_bins": 3993,
-        "avg_fullness": 0.0133,
+        "avg_fullness": 0.9599,
         "locked_bins": 15,
         "occupied_bins": 3990,
         "empty_bins": 3,
@@ -191,7 +191,7 @@
       },
       "LIBRARY-DEEP": {
         "total_bins": 47340,
-        "avg_fullness": 0.0124,
+        "avg_fullness": 0.9166,
         "locked_bins": 153,
         "occupied_bins": 46727,
         "empty_bins": 613,
@@ -203,7 +203,7 @@
     "Pick Tower": {
       "BARREL": {
         "total_bins": 732,
-        "avg_fullness": 0.0951,
+        "avg_fullness": 0.5883,
         "locked_bins": 66,
         "occupied_bins": 659,
         "empty_bins": 73,
@@ -211,7 +211,7 @@
       },
       "BAT-BIN": {
         "total_bins": 186,
-        "avg_fullness": 0.0026,
+        "avg_fullness": 0.2588,
         "locked_bins": 0,
         "occupied_bins": 86,
         "empty_bins": 100,
@@ -219,7 +219,7 @@
       },
       "FLOOR-PALLET": {
         "total_bins": 137,
-        "avg_fullness": 0.1184,
+        "avg_fullness": 1.003,
         "locked_bins": 15,
         "occupied_bins": 136,
         "empty_bins": 1,
@@ -227,7 +227,7 @@
       },
       "HALF-VERTICAL": {
         "total_bins": 2920,
-        "avg_fullness": 0.0096,
+        "avg_fullness": 0.9618,
         "locked_bins": 0,
         "occupied_bins": 2908,
         "empty_bins": 12,
@@ -235,7 +235,7 @@
       },
       "LIBRARY-DEEP": {
         "total_bins": 36840,
-        "avg_fullness": 0.0086,
+        "avg_fullness": 0.859,
         "locked_bins": 0,
         "occupied_bins": 35365,
         "empty_bins": 1475,
@@ -247,7 +247,7 @@
     "Pick Tower": {
       "FLOOR-PALLET": {
         "total_bins": 3,
-        "avg_fullness": 0.0012,
+        "avg_fullness": 0.1183,
         "locked_bins": 0,
         "occupied_bins": 2,
         "empty_bins": 1,

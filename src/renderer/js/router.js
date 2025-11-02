@@ -61,7 +61,10 @@ class Router {
       },
       "space-heatmap": {
         path: "../apps/space-heatmap/views/space-heatmap.html",
-        scripts: ["../apps/space-heatmap/js/space-heatmap.js"],
+        scripts: [
+          "../apps/space-heatmap/js/StowMapDataService.js",
+          "../apps/space-heatmap/js/space-heatmap.js"
+        ],
       },
       "pizarra": {
         path: "../apps/utilidades/Pizarra/views/pizarra.html",

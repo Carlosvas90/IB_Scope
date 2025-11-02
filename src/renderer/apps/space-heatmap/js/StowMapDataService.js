@@ -18,14 +18,20 @@ class StowMapDataService {
    */
   async initialize() {
     try {
-      if (!window.api || !window.api.getUserDataPath) {
+      if (!window.api) {
         console.warn('[StowMapDataService] APIs no disponibles. Reinicia la aplicación.');
+        return false;
+      }
+
+      // Usar userData (roaming) como debe ser
+      if (!window.api.getUserDataPath) {
+        console.warn('[StowMapDataService] getUserDataPath no disponible.');
         return false;
       }
 
       const userDataPath = await window.api.getUserDataPath();
       this.dataPath = `${userDataPath}/data/space-heatmap/processed`;
-      console.log('[StowMapDataService] Inicializado con ruta:', this.dataPath);
+      console.log('[StowMapDataService] MODO BUILD: Usando ruta userData:', this.dataPath);
       return true;
     } catch (error) {
       console.error('[StowMapDataService] Error al inicializar:', error);
@@ -48,8 +54,16 @@ class StowMapDataService {
         throw new Error('API readJson no disponible');
       }
 
-      const data = await window.api.readJson(filePath);
-      return data;
+      const result = await window.api.readJson(filePath);
+      // readJson devuelve { success: true, data: {...} } o { success: false, error: "..." }
+      if (result && result.success && result.data) {
+        return result.data;
+      } else if (result && result.success) {
+        // Si no tiene .data pero success es true, puede que sea el objeto directamente
+        return result;
+      } else {
+        throw new Error(result?.error || 'Error desconocido al leer JSON');
+      }
     } catch (error) {
       console.error(`[StowMapDataService] Error leyendo ${filename}:`, error);
       throw error;
@@ -63,15 +77,9 @@ class StowMapDataService {
     try {
       console.log('[StowMapDataService] Cargando todos los datos procesados...');
       
+      // Solo cargar fullness_by_bintype.json (el único que generamos ahora)
       const files = [
-        'fullness_by_floor.json',
-        'fullness_by_bintype.json',
-        'fullness_by_mod.json',
-        'fullness_by_shelf.json',
-        'summary_stats.json',
-        'heatmap_zones.json',
-        'top_bins.json',
-        'available_bins_for_search.json'
+        'fullness_by_bintype.json'
       ];
 
       const promises = files.map(file => 
