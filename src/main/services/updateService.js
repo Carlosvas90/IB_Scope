@@ -133,6 +133,7 @@ class UpdateService {
               version: versionData.version,
               filename: versionData.filename,
               changelog: versionData.changelog || "Nueva versión disponible",
+              mandatory: versionData.mandatory === true || versionData.mandatory === "true", // Leer campo mandatory
               downloadPath: path.join(updatePath, versionData.filename),
               sourcePath: updatePath, // Guardar qué ruta funcionó
             };

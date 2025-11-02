@@ -1,0 +1,7 @@
+{
+  "version": "1.0.10",
+  "filename": "IB_Scope-Setup-1.0.10.exe",
+  "changelog": "Nueva versión con sistema de actualización mejorado:\n- Mejor manejo de errores\n- Progreso de descarga real\n- Proceso más robusto\n- Mensajes claros al usuario",
+  "mandatory": false
+}
+

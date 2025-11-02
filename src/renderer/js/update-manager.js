@@ -47,7 +47,7 @@ class UpdateManager {
     this.updateInfo = updateInfo;
     const isMandatory = updateInfo.mandatory === true;
 
-    // Crear el HTML de la notificación
+    // Crear el HTML de la notificación (mismo estilo visual para ambos)
     const notificationHTML = `
       <div class="update-notification ${
         isMandatory ? "mandatory" : ""
@@ -55,11 +55,7 @@ class UpdateManager {
         <div class="update-notification-header">
           <div class="update-notification-icon">
             <svg viewBox="0 0 24 24">
-              <path d="${
-                isMandatory
-                  ? "M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.11,7 14,7.9 14,9C14,10.11 13.11,11 12,11C10.9,11 10,10.11 10,9C10,7.9 10.9,7 12,7M15,21H9V19H15V21Z"
-                  : "M13,9H11V7H13M13,17H11V11H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"
-              }" />
+              <path d="M13,9H11V7H13M13,17H11V11H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
             </svg>
           </div>
           <div class="update-notification-title">
@@ -95,15 +91,13 @@ class UpdateManager {
             }
           </div>
           
-          <div class="update-progress" id="updateProgress" ${
-            isMandatory ? 'style="display: block;"' : ""
-          }>
+          <div class="update-progress ${isMandatory ? "show" : ""}" id="updateProgress">
             <div class="update-progress-bar">
               <div class="update-progress-fill" id="progressFill"></div>
             </div>
             <div class="update-progress-text" id="progressText">${
               isMandatory
-                ? "Iniciando descarga obligatoria..."
+                ? "Iniciando descarga automática..."
                 : "Preparando descarga..."
             }</div>
           </div>
@@ -123,22 +117,16 @@ class UpdateManager {
           </div>
         </div>
         
+        ${!isMandatory ? `
         <div class="update-notification-actions">
-          ${
-            !isMandatory
-              ? `
           <button class="update-btn update-btn-secondary" id="laterUpdateBtn">
             Más tarde
           </button>
-          `
-              : ""
-          }
-          <button class="update-btn update-btn-primary" id="updateButton" ${
-            isMandatory ? 'style="width: 100%;"' : ""
-          }>
-            ${isMandatory ? "Instalando..." : "Actualizar ahora"}
+          <button class="update-btn update-btn-primary" id="updateButton">
+            Actualizar ahora
           </button>
         </div>
+        ` : ""}
       </div>
     `;
 
@@ -150,10 +138,18 @@ class UpdateManager {
       document.getElementById("updateNotification").classList.add("show");
 
       // Agregar event listeners después de insertar el HTML
-      this.attachEventListeners();
+      if (!isMandatory) {
+        this.attachEventListeners();
+      }
 
       // Si es obligatorio, iniciar descarga automáticamente
       if (isMandatory) {
+        // Mostrar información de reinicio inmediatamente
+        const restartInfo = document.getElementById("updateRestartInfo");
+        if (restartInfo) {
+          restartInfo.style.display = "block";
+        }
+        
         setTimeout(() => {
           this.startUpdate();
         }, 1000);
@@ -212,62 +208,75 @@ class UpdateManager {
     if (this.isDownloading || this.isInstalling) return;
 
     const updateButton = document.getElementById("updateButton");
-    updateButton.disabled = true;
-    updateButton.textContent = "Descargando...";
+    const isMandatory = this.updateInfo && this.updateInfo.mandatory === true;
+
+    if (updateButton) {
+      updateButton.disabled = true;
+      updateButton.textContent = "Descargando...";
+    }
 
     const progressElement = document.getElementById("updateProgress");
     const progressFill = document.getElementById("progressFill");
     const progressText = document.getElementById("progressText");
     const restartInfo = document.getElementById("updateRestartInfo");
 
-    progressElement.classList.add("show");
+    if (progressElement) {
+      progressElement.classList.add("show");
+    }
 
     try {
       this.isDownloading = true;
 
       // Mostrar información de reinicio
-      restartInfo.style.display = "block";
+      if (restartInfo) restartInfo.style.display = "block";
 
       // Descargar update con callback de progreso
-      progressText.textContent = "Descargando actualización...";
-      progressFill.style.width = "0%";
+      if (progressText) progressText.textContent = "Descargando actualización...";
+      if (progressFill) progressFill.style.width = "0%";
 
       const result = await window.api.downloadUpdate(this.updateInfo);
 
       if (result.success) {
-        progressFill.style.width = "100%";
-        progressText.textContent =
-          "Descarga completa. Preparando instalación...";
+        if (progressFill) progressFill.style.width = "100%";
+        if (progressText) {
+          progressText.textContent =
+            "Descarga completa. Preparando instalación...";
+        }
 
-        updateButton.textContent = "Instalando...";
-        updateButton.onclick = null;
+        if (updateButton) {
+          updateButton.textContent = "Instalando...";
+          updateButton.onclick = null;
+        }
 
         // Esperar un momento para que el usuario vea el mensaje
         await new Promise((resolve) => setTimeout(resolve, 2000));
 
         // Cambiar el mensaje para la instalación
-        progressText.textContent =
-          "Instalando actualización. La aplicación se reiniciará automáticamente...";
+        if (progressText) {
+          progressText.textContent =
+            "Instalando actualización. La aplicación se reiniciará automáticamente...";
+        }
 
         // Agregar un mensaje más prominente
-        const warningDiv = document.createElement("div");
-        warningDiv.style.cssText = `
-          background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-          color: white;
-          padding: 15px;
-          border-radius: 8px;
-          margin-top: 15px;
-          text-align: center;
-          font-weight: 600;
-          animation: pulse 1.5s infinite;
-        `;
-        warningDiv.innerHTML = `
-          <p style="margin: 0;">⏳ NO CIERRE LA APLICACIÓN</p>
-          <p style="margin: 5px 0 0 0; font-size: 14px;">Se reiniciará automáticamente en unos segundos...</p>
-        `;
-        document
-          .querySelector(".update-notification-body")
-          .appendChild(warningDiv);
+        const notificationBody = document.querySelector(".update-notification-body");
+        if (notificationBody) {
+          const warningDiv = document.createElement("div");
+          warningDiv.style.cssText = `
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            text-align: center;
+            font-weight: 600;
+            animation: pulse 1.5s infinite;
+          `;
+          warningDiv.innerHTML = `
+            <p style="margin: 0;">⏳ NO CIERRE LA APLICACIÓN</p>
+            <p style="margin: 5px 0 0 0; font-size: 14px;">Se reiniciará automáticamente en unos segundos...</p>
+          `;
+          notificationBody.appendChild(warningDiv);
+        }
 
         // Instalar update
         await this.installUpdate(result.localPath);
@@ -278,10 +287,12 @@ class UpdateManager {
       console.error("[UpdateManager] Error en actualización:", error);
       this.showError("Error al actualizar: " + error.message);
 
-      updateButton.disabled = false;
-      updateButton.textContent = "Reintentar";
-      progressText.textContent = "Error en la actualización";
-      progressFill.style.width = "0%";
+      if (updateButton) {
+        updateButton.disabled = false;
+        updateButton.textContent = "Reintentar";
+      }
+      if (progressText) progressText.textContent = "Error en la actualización";
+      if (progressFill) progressFill.style.width = "0%";
     } finally {
       this.isDownloading = false;
     }
