@@ -1,164 +1,164 @@
 {
   "top_utilized": [
     {
-      "Bin Id": "P-2-B201A201",
-      "Bin Type": "LIBRARY-DEEP",
-      "Floor": 2.0,
-      "Mod": "B",
-      "Utilization %": 41.10372986985714,
-      "Total Units": 42.0
-    },
-    {
-      "Bin Id": "P-2-B201A293",
-      "Bin Type": "LIBRARY-DEEP",
-      "Floor": 2.0,
-      "Mod": "B",
-      "Utilization %": 38.31839931819638,
-      "Total Units": 40.0
-    },
-    {
-      "Bin Id": "P-3-C346A562",
-      "Bin Type": "LIBRARY-DEEP",
-      "Floor": 3.0,
-      "Mod": "C",
-      "Utilization %": 29.983523130083725,
-      "Total Units": 30.0
-    },
-    {
-      "Bin Id": "P-3-C189A412",
-      "Bin Type": "LIBRARY-DEEP",
-      "Floor": 3.0,
-      "Mod": "C",
-      "Utilization %": 24.047542916780927,
-      "Total Units": 19.0
-    },
-    {
-      "Bin Id": "P-3-C261A671",
-      "Bin Type": "LIBRARY-DEEP",
-      "Floor": 3.0,
-      "Mod": "C",
-      "Utilization %": 17.147758571852847,
-      "Total Units": 71.0
-    },
-    {
-      "Bin Id": "P-1-B268A310",
-      "Bin Type": "LIBRARY-DEEP",
+      "Bin Id": "P-1-A205A210",
+      "Bin Type": "PALLET-SINGLE",
       "Floor": 1.0,
-      "Mod": "B",
-      "Utilization %": 15.408875006937805,
-      "Total Units": 44.0
-    },
-    {
-      "Bin Id": "P-3-C195A481",
-      "Bin Type": "LIBRARY-DEEP",
-      "Floor": 3.0,
-      "Mod": "C",
-      "Utilization %": 13.536442383925124,
-      "Total Units": 15.0
-    },
-    {
-      "Bin Id": "P-3-C196A352",
-      "Bin Type": "LIBRARY-DEEP",
-      "Floor": 3.0,
-      "Mod": "C",
-      "Utilization %": 13.535843587176698,
-      "Total Units": 16.0
-    },
-    {
-      "Bin Id": "P-4-B224A220",
-      "Bin Type": "LIBRARY-DEEP",
-      "Floor": 4.0,
-      "Mod": "B",
-      "Utilization %": 13.505430249577945,
-      "Total Units": 36.0
-    },
-    {
-      "Bin Id": "P-4-C251A531",
-      "Bin Type": "LIBRARY-DEEP",
-      "Floor": 4.0,
-      "Mod": "C",
-      "Utilization %": 13.33007317562609,
-      "Total Units": 4.0
-    },
-    {
-      "Bin Id": "P-4-B215A352",
-      "Bin Type": "LIBRARY-DEEP",
-      "Floor": 4.0,
-      "Mod": "B",
-      "Utilization %": 13.318088369697128,
-      "Total Units": 8.0
-    },
-    {
-      "Bin Id": "P-3-C227A722",
-      "Bin Type": "LIBRARY-DEEP",
-      "Floor": 3.0,
-      "Mod": "C",
-      "Utilization %": 12.504988295164612,
-      "Total Units": 23.0
-    },
-    {
-      "Bin Id": "P-1-B218A330",
-      "Bin Type": "LIBRARY-DEEP",
-      "Floor": 1.0,
-      "Mod": "B",
-      "Utilization %": 11.669993922897799,
-      "Total Units": 25.0
-    },
-    {
-      "Bin Id": "P-3-B231A293",
-      "Bin Type": "LIBRARY-DEEP",
-      "Floor": 3.0,
-      "Mod": "B",
-      "Utilization %": 10.68201240427314,
+      "Mod": "A",
+      "Utilization %": 1.0,
       "Total Units": 12.0
     },
     {
-      "Bin Id": "P-4-C246A633",
-      "Bin Type": "LIBRARY-DEEP",
-      "Floor": 4.0,
-      "Mod": "C",
-      "Utilization %": 9.908895592031767,
-      "Total Units": 3.0
-    },
-    {
-      "Bin Id": "P-4-B239D350",
-      "Bin Type": "LIBRARY-DEEP",
-      "Floor": 4.0,
-      "Mod": "B",
-      "Utilization %": 9.83547668070006,
-      "Total Units": 11.0
-    },
-    {
-      "Bin Id": "P-1-B263C332",
-      "Bin Type": "LIBRARY-DEEP",
+      "Bin Id": "P-1-A205C210",
+      "Bin Type": "PALLET-SINGLE",
       "Floor": 1.0,
-      "Mod": "B",
-      "Utilization %": 9.024182729669764,
+      "Mod": "A",
+      "Utilization %": 1.0,
+      "Total Units": 15.0
+    },
+    {
+      "Bin Id": "P-1-A205D210",
+      "Bin Type": "PALLET-SINGLE",
+      "Floor": 1.0,
+      "Mod": "A",
+      "Utilization %": 1.0,
+      "Total Units": 12.0
+    },
+    {
+      "Bin Id": "P-1-A205E210",
+      "Bin Type": "PALLET-SINGLE",
+      "Floor": 1.0,
+      "Mod": "A",
+      "Utilization %": 1.0,
       "Total Units": 18.0
     },
     {
-      "Bin Id": "P-4-B221A411",
-      "Bin Type": "LIBRARY-DEEP",
-      "Floor": 4.0,
-      "Mod": "B",
-      "Utilization %": 9.003620161435492,
+      "Bin Id": "P-1-A205F210",
+      "Bin Type": "PALLET-SINGLE",
+      "Floor": 1.0,
+      "Mod": "A",
+      "Utilization %": 1.0,
+      "Total Units": 15.0
+    },
+    {
+      "Bin Id": "P-1-A205G211",
+      "Bin Type": "PALLET-SINGLE",
+      "Floor": 1.0,
+      "Mod": "A",
+      "Utilization %": 1.0,
       "Total Units": 24.0
     },
     {
-      "Bin Id": "P-3-B262A423",
-      "Bin Type": "LIBRARY-DEEP",
-      "Floor": 3.0,
-      "Mod": "B",
-      "Utilization %": 8.901676998611146,
-      "Total Units": 10.0
+      "Bin Id": "P-1-A205F211",
+      "Bin Type": "PALLET-SINGLE",
+      "Floor": 1.0,
+      "Mod": "A",
+      "Utilization %": 1.0,
+      "Total Units": 14.0
     },
     {
-      "Bin Id": "P-1-B274A281",
-      "Bin Type": "LIBRARY-DEEP",
+      "Bin Id": "P-1-A205D211",
+      "Bin Type": "PALLET-SINGLE",
       "Floor": 1.0,
-      "Mod": "B",
-      "Utilization %": 8.613851581423495,
+      "Mod": "A",
+      "Utilization %": 1.0,
+      "Total Units": 40.0
+    },
+    {
+      "Bin Id": "P-1-A205C211",
+      "Bin Type": "PALLET-SINGLE",
+      "Floor": 1.0,
+      "Mod": "A",
+      "Utilization %": 1.0,
+      "Total Units": 20.0
+    },
+    {
+      "Bin Id": "P-1-A205B211",
+      "Bin Type": "PALLET-SINGLE",
+      "Floor": 1.0,
+      "Mod": "A",
+      "Utilization %": 1.0,
+      "Total Units": 65.0
+    },
+    {
+      "Bin Id": "P-1-A205A211",
+      "Bin Type": "PALLET-SINGLE",
+      "Floor": 1.0,
+      "Mod": "A",
+      "Utilization %": 1.0,
+      "Total Units": 41.0
+    },
+    {
+      "Bin Id": "P-1-A205A212",
+      "Bin Type": "PALLET-SINGLE",
+      "Floor": 1.0,
+      "Mod": "A",
+      "Utilization %": 1.0,
+      "Total Units": 5.0
+    },
+    {
+      "Bin Id": "P-1-A205B212",
+      "Bin Type": "PALLET-SINGLE",
+      "Floor": 1.0,
+      "Mod": "A",
+      "Utilization %": 1.0,
+      "Total Units": 25.0
+    },
+    {
+      "Bin Id": "P-1-A205C212",
+      "Bin Type": "PALLET-SINGLE",
+      "Floor": 1.0,
+      "Mod": "A",
+      "Utilization %": 1.0,
       "Total Units": 34.0
+    },
+    {
+      "Bin Id": "P-1-A205D212",
+      "Bin Type": "PALLET-SINGLE",
+      "Floor": 1.0,
+      "Mod": "A",
+      "Utilization %": 1.0,
+      "Total Units": 28.0
+    },
+    {
+      "Bin Id": "P-1-A205E212",
+      "Bin Type": "PALLET-SINGLE",
+      "Floor": 1.0,
+      "Mod": "A",
+      "Utilization %": 1.0,
+      "Total Units": 17.0
+    },
+    {
+      "Bin Id": "P-1-A205F212",
+      "Bin Type": "PALLET-SINGLE",
+      "Floor": 1.0,
+      "Mod": "A",
+      "Utilization %": 1.0,
+      "Total Units": 35.0
+    },
+    {
+      "Bin Id": "P-1-A205G212",
+      "Bin Type": "PALLET-SINGLE",
+      "Floor": 1.0,
+      "Mod": "A",
+      "Utilization %": 1.0,
+      "Total Units": 12.0
+    },
+    {
+      "Bin Id": "P-1-A205F213",
+      "Bin Type": "PALLET-SINGLE",
+      "Floor": 1.0,
+      "Mod": "A",
+      "Utilization %": 1.0,
+      "Total Units": 24.0
+    },
+    {
+      "Bin Id": "P-1-A205E213",
+      "Bin Type": "PALLET-SINGLE",
+      "Floor": 1.0,
+      "Mod": "A",
+      "Utilization %": 1.0,
+      "Total Units": 9.0
     }
   ],
   "top_units": [
@@ -303,7 +303,7 @@
       "Bin Type": "LIBRARY-DEEP",
       "Floor": 1.0,
       "Mod": "B",
-      "Utilization %": 0.12455364902947495,
+      "Utilization %": 0.0012455364902947,
       "Total Units": 303.0
     },
     {

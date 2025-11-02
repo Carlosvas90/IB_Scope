@@ -70,7 +70,8 @@ class StowMapDataService {
         'fullness_by_shelf.json',
         'summary_stats.json',
         'heatmap_zones.json',
-        'top_bins.json'
+        'top_bins.json',
+        'available_bins_for_search.json'
       ];
 
       const promises = files.map(file => 
@@ -202,6 +203,131 @@ class StowMapDataService {
         minute: '2-digit'
       });
     }
+  }
+
+  /**
+   * Busca bins disponibles más cercanas a una posición (pasillo) en un piso específico
+   * @param {number} floor - Número de piso (1-5)
+   * @param {number} currentAisle - Número de pasillo actual (ej: 245)
+   * @param {Object} options - Opciones de búsqueda
+   * @param {number} options.maxResults - Máximo de resultados (default: 20)
+   * @param {number} options.maxDistance - Distancia máxima en pasillos (default: 50)
+   * @param {number} options.maxUtilization - Utilization máxima permitida (default: 0.8 = 80%)
+   * @param {string} options.binType - Filtrar por tipo de bin (opcional)
+   * @returns {Array} Array de bins ordenadas por proximidad y luego por utilization
+   */
+  findNearestAvailableBins(floor, currentAisle, options = {}) {
+    const {
+      maxResults = options.maxResults || 20,
+      maxDistance = 50,
+      maxUtilization = 0.8,
+      binType = null
+    } = options;
+
+    const availableBins = this.dataCache['available_bins_for_search'];
+    if (!availableBins) {
+      console.warn('[StowMapDataService] available_bins_for_search no está cargado');
+      return [];
+    }
+
+    const floorData = availableBins[floor];
+    if (!floorData || !floorData.bins) {
+      console.warn(`[StowMapDataService] No hay datos para el piso ${floor}`);
+      return [];
+    }
+
+    // Filtrar y calcular distancias
+    const binsWithDistance = floorData.bins
+      .filter(bin => {
+        // Filtrar por utilization máxima
+        if (bin.u > maxUtilization) return false;
+        
+        // Filtrar por tipo de bin si se especifica
+        if (binType && bin.bt !== binType) return false;
+        
+        // Calcular distancia
+        const distance = Math.abs(bin.a - currentAisle);
+        return distance <= maxDistance;
+      })
+      .map(bin => {
+        const distance = Math.abs(bin.a - currentAisle);
+        return {
+          ...bin,
+          distance,
+          // Expandir campos abreviados para uso
+          bin_id: bin.b,
+          bay_id: bin.bay,
+          mod: bin.m,
+          aisle_number: bin.a,
+          utilization: bin.u,
+          bin_type: bin.bt,
+          shelf: bin.s || null,
+          total_units: bin.tu || 0
+        };
+      })
+      .sort((a, b) => {
+        // Ordenar primero por distancia, luego por utilization
+        if (a.distance !== b.distance) {
+          return a.distance - b.distance;
+        }
+        return a.utilization - b.utilization;
+      })
+      .slice(0, maxResults);
+
+    return binsWithDistance;
+  }
+
+  /**
+   * Busca bins disponibles con menor fullness en un piso
+   * @param {number} floor - Número de piso (1-5)
+   * @param {Object} options - Opciones de búsqueda
+   * @param {number} options.maxResults - Máximo de resultados (default: 20)
+   * @param {number} options.maxUtilization - Utilization máxima permitida (default: 0.8)
+   * @returns {Array} Array de bins ordenadas por utilization (menor primero)
+   */
+  findLowestFullnessBins(floor, options = {}) {
+    const {
+      maxResults = options.maxResults || 20,
+      maxUtilization = 0.8
+    } = options;
+
+    const availableBins = this.dataCache['available_bins_for_search'];
+    if (!availableBins) {
+      console.warn('[StowMapDataService] available_bins_for_search no está cargado');
+      return [];
+    }
+
+    const floorData = availableBins[floor];
+    if (!floorData || !floorData.bins) {
+      return [];
+    }
+
+    // Los bins ya están ordenados por utilization (menor primero)
+    return floorData.bins
+      .filter(bin => bin.u <= maxUtilization)
+      .slice(0, maxResults)
+      .map(bin => ({
+        ...bin,
+        bin_id: bin.b,
+        bay_id: bin.bay,
+        mod: bin.m,
+        aisle_number: bin.a,
+        utilization: bin.u,
+        bin_type: bin.bt,
+        shelf: bin.s || null,
+        total_units: bin.tu || 0
+      }));
+  }
+
+  /**
+   * Obtiene datos de bins disponibles para un piso
+   * @param {number} floor - Número de piso (1-5)
+   * @returns {Object|null} Datos del piso o null si no existe
+   */
+  getAvailableBinsByFloor(floor) {
+    const availableBins = this.dataCache['available_bins_for_search'];
+    if (!availableBins) return null;
+    return availableBins[floor] || null;
   }
 }
 

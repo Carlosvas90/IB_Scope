@@ -1,13 +1,26 @@
 const fs = require("fs");
 const path = require("path");
+const zlib = require("zlib");
 const { dialog, app } = require("electron");
 
 class FileSystemService {
   readJson(filePath) {
     try {
-      if (fs.existsSync(filePath)) {
-        const data = fs.readFileSync(filePath, "utf-8");
-        return { success: true, data: JSON.parse(data) };
+      // Verificar si existe el archivo .gz primero (versión comprimida)
+      const gzPath = filePath.endsWith('.gz') ? filePath : `${filePath}.gz`;
+      const regularPath = filePath.endsWith('.gz') ? filePath.replace('.gz', '') : filePath;
+      
+      // Intentar cargar versión comprimida primero (más eficiente)
+      if (fs.existsSync(gzPath)) {
+        const compressedData = fs.readFileSync(gzPath);
+        const decompressedData = zlib.gunzipSync(compressedData);
+        const jsonData = JSON.parse(decompressedData.toString("utf-8"));
+        return { success: true, data: jsonData, compressed: true };
+      }
+      // Si no existe .gz, cargar JSON normal
+      else if (fs.existsSync(regularPath)) {
+        const data = fs.readFileSync(regularPath, "utf-8");
+        return { success: true, data: JSON.parse(data), compressed: false };
       } else {
         return { success: false, error: "Archivo no encontrado" };
       }

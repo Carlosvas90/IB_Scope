@@ -393,6 +393,87 @@ function initSpaceHeatmap() {
       downloadBtnText.textContent = "Descargar StowMap";
     }
   });
+
+  // Botón para generar heatmaps
+  const generateHeatmapsBtn = document.getElementById("generate-heatmaps-btn");
+  if (generateHeatmapsBtn) {
+    generateHeatmapsBtn.addEventListener("click", async () => {
+      console.log("🖱️ Click en botón Generar Heatmaps detectado");
+
+      const statusMessage = document.getElementById("status-message");
+
+      try {
+        // Verificar que las APIs necesarias estén disponibles
+        if (!window.api.getUserDataPath || !window.api.executePythonScript) {
+          statusMessage.textContent = "❌ Error: Por favor, reinicia la aplicación para continuar.";
+          statusMessage.className = "status-message-banner error";
+          statusMessage.style.display = "block";
+          console.error("APIs no disponibles. Se requiere reinicio.");
+          return;
+        }
+
+        // Deshabilitar botón
+        generateHeatmapsBtn.disabled = true;
+        generateHeatmapsBtn.textContent = "Generando...";
+
+        // Mostrar mensaje de estado
+        statusMessage.textContent = "🎨 Generando heatmaps...";
+        statusMessage.className = "status-message-banner loading";
+        statusMessage.style.display = "block";
+
+        console.log("🚀 Ejecutando script de generación de heatmaps...");
+
+        // Obtener la ruta de userData de Electron
+        const userDataPath = await window.api.getUserDataPath();
+        console.log("📁 User Data Path:", userDataPath);
+
+        // Ejecutar script de Python
+        const result = await window.api.executePythonScript({
+          scriptPath: "src/renderer/apps/space-heatmap/py/Generar_Heatmaps.py",
+          args: userDataPath ? [userDataPath] : [],
+        });
+
+        console.log("📊 Resultado recibido:", result);
+
+        if (result.success) {
+          statusMessage.textContent = "✅ ¡Heatmaps generados exitosamente!";
+          statusMessage.className = "status-message-banner success";
+          console.log("✅ Heatmaps generados:", result.output);
+        } else {
+          statusMessage.textContent = `❌ Error: ${result.error || "Error desconocido"}`;
+          statusMessage.className = "status-message-banner error";
+          console.error("❌ Error:", result.error);
+        }
+      } catch (error) {
+        statusMessage.textContent = `❌ Error: ${error.message}`;
+        statusMessage.className = "status-message-banner error";
+        statusMessage.style.display = "block";
+        console.error("❌ Error al ejecutar script:", error);
+      } finally {
+        generateHeatmapsBtn.disabled = false;
+        generateHeatmapsBtn.innerHTML = `
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <path d="M9 3v18"></path>
+            <path d="M3 9h18"></path>
+          </svg>
+          <span>Generar Heatmaps</span>
+        `;
+      }
+    });
+  } else {
+    console.warn("⚠️ Botón generate-heatmaps-btn no encontrado");
+  }
 }
 
 // ===================================

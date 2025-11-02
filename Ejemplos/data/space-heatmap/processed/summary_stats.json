@@ -6,8 +6,8 @@
   "locked_bins": 3595,
   "total_units": 1274845,
   "occupancy_rate": 89.2,
-  "avg_utilization": 0.82,
+  "avg_utilization": 0.18,
   "floors": 5,
   "bin_types": 8,
-  "processed_at": "2025-11-01T23:00:57.199325"
+  "processed_at": "2025-11-01T23:55:23.290593"
 }

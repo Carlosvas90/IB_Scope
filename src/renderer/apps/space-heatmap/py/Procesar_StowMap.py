@@ -2,6 +2,8 @@ import pandas as pd
 import json
 import os
 import sys
+import re
+import gzip
 from datetime import datetime
 
 # ============================================
@@ -150,40 +152,81 @@ def procesar_stowmap(csv_path, output_dir):
     print("[OK] fullness_by_floor.json generado")
     
     # ============================================
-    # 2. FULLNESS POR BINTYPE
+    # 2. FULLNESS POR BINTYPE (por Floor y Storage Area)
     # ============================================
-    print("[Procesamiento] Calculando fullness por bintype...")
+    print("[Procesamiento] Calculando fullness por bintype (Floor + Storage Area)...")
+    
+    # Crear columna auxiliar para Storage Area
+    # A = High Rack, F = Pallet Land, B/C = Pick Tower (combinados)
+    def get_storage_area(mod):
+        if pd.isna(mod):
+            return None
+        mod_str = str(mod).upper()
+        if mod_str == 'A':
+            return 'High Rack'
+        elif mod_str == 'F':
+            return 'Pallet Land'
+        elif mod_str in ['B', 'C']:
+            return 'Pick Tower'
+        return None
+    
+    df['Storage_Area'] = df['Mod'].apply(get_storage_area)
+    
+    # Ajustar Utilization % para bins bloqueadas: IsLocked = True → 100%
+    # Crear columna de utilization ajustada
+    df['Utilization_Adjusted'] = df['Utilization %'].copy()
+    locked_mask = df['IsLocked'] == True
+    df.loc[locked_mask, 'Utilization_Adjusted'] = 1.0
+    print(f"[Info] Ajustadas {locked_mask.sum()} bins bloqueadas a 100% de utilización")
+    
     fullness_by_bintype = {}
     
-    for bintype in df['Bin Type'].unique():
-        if pd.isna(bintype):
-            continue
-        bintype_data = df[df['Bin Type'] == bintype]
-        total_bins = len(bintype_data)
+    # Agrupar por Floor → Storage Area → Bin Type
+    for floor in sorted(df['Floor'].dropna().unique()):
+        floor_data = df[df['Floor'] == floor]
+        floor_int = int(floor)
+        fullness_by_bintype[floor_int] = {}
         
-        if total_bins == 0:
-            continue
+        # Agrupar por Storage Area
+        for storage_area in ['High Rack', 'Pallet Land', 'Pick Tower']:
+            # Para Pick Tower, combinar B y C
+            if storage_area == 'Pick Tower':
+                area_data = floor_data[floor_data['Storage_Area'] == 'Pick Tower']
+            else:
+                area_data = floor_data[floor_data['Storage_Area'] == storage_area]
             
-        occupied_bins = len(bintype_data[bintype_data['Total Units'] > 0])
-        empty_bins = total_bins - occupied_bins
-        avg_utilization = bintype_data['Utilization %'].mean()
-        total_units = bintype_data['Total Units'].sum()
-        
-        fullness_by_bintype[str(bintype)] = {
-            'total_bins': int(total_bins),
-            'occupied_bins': int(occupied_bins),
-            'empty_bins': int(empty_bins),
-            'occupancy_rate': round(float((occupied_bins / total_bins) * 100), 2) if total_bins > 0 else 0.0,
-            'avg_utilization': round(float(avg_utilization), 2) if not pd.isna(avg_utilization) else 0.0,
-            'total_units': int(total_units)
-        }
-    
-    # Ordenar por total_bins descendente
-    fullness_by_bintype = dict(sorted(
-        fullness_by_bintype.items(), 
-        key=lambda x: x[1]['total_bins'], 
-        reverse=True
-    ))
+            if len(area_data) == 0:
+                continue
+            
+            fullness_by_bintype[floor_int][storage_area] = {}
+            
+            # Agrupar por Bin Type
+            for bintype in sorted(area_data['Bin Type'].dropna().unique()):
+                bintype_data = area_data[area_data['Bin Type'] == bintype]
+                total_bins = len(bintype_data)
+                
+                if total_bins == 0:
+                    continue
+                
+                # Calcular fullness promedio usando Utilization_Adjusted
+                avg_fullness = bintype_data['Utilization_Adjusted'].mean()
+                
+                # Contar bins bloqueadas
+                locked_bins = int(bintype_data['IsLocked'].sum())
+                
+                # Estadísticas adicionales
+                occupied_bins = len(bintype_data[bintype_data['Utilization_Adjusted'] > 0])
+                empty_bins = total_bins - occupied_bins
+                total_units = bintype_data['Total Units'].sum()
+                
+                fullness_by_bintype[floor_int][storage_area][str(bintype)] = {
+                    'total_bins': int(total_bins),
+                    'avg_fullness': round(float(avg_fullness), 4) if not pd.isna(avg_fullness) else 0.0,
+                    'locked_bins': locked_bins,
+                    'occupied_bins': int(occupied_bins),
+                    'empty_bins': int(empty_bins),
+                    'total_units': int(total_units)
+                }
     
     # Guardar JSON
     with open(os.path.join(output_dir, 'fullness_by_bintype.json'), 'w') as f:
@@ -359,6 +402,116 @@ def procesar_stowmap(csv_path, output_dir):
     with open(os.path.join(output_dir, 'top_bins.json'), 'w') as f:
         json.dump(top_bins, f, indent=2)
     print("[OK] top_bins.json generado")
+    
+    # ============================================
+    # 8. BINS DISPONIBLES PARA BÚSQUEDAS (Optimizado)
+    # ============================================
+    print("[Procesamiento] Generando JSON optimizado para busquedas por proximidad...")
+    
+    # Crear columna Utilization_Adjusted si no existe (por si acaso)
+    if 'Utilization_Adjusted' not in df.columns:
+        df['Utilization_Adjusted'] = df['Utilization %'].copy()
+        if 'IsLocked' in df.columns:
+            locked_mask = df['IsLocked'] == True
+            df.loc[locked_mask, 'Utilization_Adjusted'] = 1.0
+    
+    # Filtrar solo bins disponibles:
+    # - Utilization < 1.0 (no llenas al 100%)
+    # - No bloqueadas (IsLocked = False)
+    # - Con datos de ubicación válidos
+    
+    df_disponibles = df[
+        (df['Utilization_Adjusted'] < 1.0) & 
+        ((df['IsLocked'] == False) | (df['IsLocked'].isna())) &
+        (df['Aisle'].notna())
+    ].copy()
+    
+    print(f"[Procesamiento] Bins disponibles para busqueda: {len(df_disponibles)} (de {len(df)} totales)")
+    
+    # Función para extraer número de pasillo (aisle) para cálculo de distancia
+    def extraer_numero_pasillo(aisle):
+        """
+        Extrae el número del pasillo del campo Aisle
+        Ejemplo: '245' de '245' o 'Aisle-245' o similar
+        """
+        if pd.isna(aisle):
+            return None
+        
+        aisle_str = str(aisle).strip()
+        # Intentar extraer números
+        match = re.search(r'(\d+)', aisle_str)
+        if match:
+            return int(match.group(1))
+        return None
+    
+    # Agregar columna de número de pasillo
+    df_disponibles['Aisle_Number'] = df_disponibles['Aisle'].apply(extraer_numero_pasillo)
+    
+    # Filtrar solo los que tienen número de pasillo válido
+    df_disponibles = df_disponibles[df_disponibles['Aisle_Number'].notna()].copy()
+    
+    # Estructurar por Floor para búsquedas rápidas
+    available_bins_by_floor = {}
+    
+    for floor in sorted(df_disponibles['Floor'].dropna().unique()):
+        floor_data = df_disponibles[df_disponibles['Floor'] == floor].copy()
+        floor_int = int(floor)
+        
+        # Crear lista de bins disponibles con solo datos esenciales (optimizado)
+        bins_list = []
+        for _, row in floor_data.iterrows():
+            # Solo guardar campos esenciales para búsqueda y reducir tamaño
+            bin_data = {
+                'b': str(row['Bin Id']),           # bin_id (abreviado)
+                'bay': str(row['Bay Id']),         # bay_id (abreviado)
+                'm': str(row['Mod']),              # mod (abreviado)
+                'a': int(row['Aisle_Number']),     # aisle_number (abreviado)
+                'u': round(float(row['Utilization_Adjusted']), 3),  # utilization (abreviado, 3 decimales)
+                'bt': str(row['Bin Type']),        # bin_type (abreviado)
+            }
+            
+            # Solo agregar shelf si no es None (ahorrar espacio)
+            if pd.notna(row['Shelf']):
+                bin_data['s'] = str(row['Shelf'])
+            
+            # Solo agregar units si > 0 (ahorrar espacio)
+            units = int(row['Total Units'])
+            if units > 0:
+                bin_data['tu'] = units
+            
+            bins_list.append(bin_data)
+        
+        # Ordenar por fullness (menor primero) para búsquedas más rápidas
+        bins_list.sort(key=lambda x: x['u'])
+        
+        available_bins_by_floor[floor_int] = {
+            'total': len(bins_list),  # total_available_bins (abreviado)
+            'bins': bins_list
+        }
+    
+    # Guardar JSON optimizado (sin indentación para reducir tamaño)
+    json_output = os.path.join(output_dir, 'available_bins_for_search.json')
+    with open(json_output, 'w', encoding='utf-8') as f:
+        json.dump(available_bins_by_floor, f, separators=(',', ':'))  # Sin espacios ni indentación
+    
+    json_size_mb = os.path.getsize(json_output) / 1024 / 1024
+    
+    # También guardar versión comprimida (gzip) - más pequeño y rápido
+    gzip_output = os.path.join(output_dir, 'available_bins_for_search.json.gz')
+    with gzip.open(gzip_output, 'wt', encoding='utf-8') as f:
+        json.dump(available_bins_by_floor, f, separators=(',', ':'))
+    
+    gzip_size_mb = os.path.getsize(gzip_output) / 1024 / 1024
+    compression_ratio = (1 - gzip_size_mb / json_size_mb) * 100
+    
+    print("[OK] available_bins_for_search.json generado")
+    print(f"[OK] available_bins_for_search.json.gz generado (comprimido)")
+    print(f"[INFO] Total bins disponibles: {len(df_disponibles)}")
+    print(f"[INFO] Estructurado por {len(available_bins_by_floor)} pisos")
+    print(f"[INFO] Tamanio JSON: {json_size_mb:.2f} MB")
+    print(f"[INFO] Tamanio comprimido (gzip): {gzip_size_mb:.2f} MB ({compression_ratio:.1f}% mas pequeno)")
+    print(f"[INFO] Recomendado: usar .json.gz para carga mas rapida")
+    print(f"[INFO] Optimizado para busquedas rapidas por proximidad y fullness")
     
     print("\n[EXITO] Todos los archivos JSON generados correctamente!")
     print(f"[EXITO] Ubicacion: {output_dir}")

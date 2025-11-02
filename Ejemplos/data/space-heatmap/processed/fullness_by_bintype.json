@@ -1,66 +1,266 @@
 {
-  "LIBRARY-DEEP": {
-    "total_bins": 111990,
-    "occupied_bins": 101261,
-    "empty_bins": 10729,
-    "occupancy_rate": 90.42,
-    "avg_utilization": 0.83,
-    "total_units": 574756
+  "1": {
+    "High Rack": {
+      "BAT-BIN": {
+        "total_bins": 1288,
+        "avg_fullness": 0.1771,
+        "locked_bins": 226,
+        "occupied_bins": 468,
+        "empty_bins": 820,
+        "total_units": 2594
+      },
+      "CANTILEVER": {
+        "total_bins": 1288,
+        "avg_fullness": 0.1348,
+        "locked_bins": 170,
+        "occupied_bins": 904,
+        "empty_bins": 384,
+        "total_units": 6914
+      },
+      "FLOOR-PALLET": {
+        "total_bins": 460,
+        "avg_fullness": 0.0197,
+        "locked_bins": 7,
+        "occupied_bins": 456,
+        "empty_bins": 4,
+        "total_units": 4933
+      },
+      "PALLET-SINGLE": {
+        "total_bins": 29724,
+        "avg_fullness": 0.9281,
+        "locked_bins": 2338,
+        "occupied_bins": 27587,
+        "empty_bins": 2137,
+        "total_units": 566016
+      },
+      "PASS-THROUGH-BULKY": {
+        "total_bins": 529,
+        "avg_fullness": 0.2462,
+        "locked_bins": 130,
+        "occupied_bins": 233,
+        "empty_bins": 296,
+        "total_units": 897
+      }
+    },
+    "Pallet Land": {
+      "FLOOR-PALLET": {
+        "total_bins": 2,
+        "avg_fullness": 0.002,
+        "locked_bins": 0,
+        "occupied_bins": 1,
+        "empty_bins": 1,
+        "total_units": 1
+      },
+      "PALLET-SINGLE": {
+        "total_bins": 348,
+        "avg_fullness": 0.5517,
+        "locked_bins": 0,
+        "occupied_bins": 192,
+        "empty_bins": 156,
+        "total_units": 5368
+      }
+    },
+    "Pick Tower": {
+      "BARREL": {
+        "total_bins": 322,
+        "avg_fullness": 0.0065,
+        "locked_bins": 0,
+        "occupied_bins": 308,
+        "empty_bins": 14,
+        "total_units": 5164
+      },
+      "BAT-BIN": {
+        "total_bins": 72,
+        "avg_fullness": 0.0036,
+        "locked_bins": 0,
+        "occupied_bins": 54,
+        "empty_bins": 18,
+        "total_units": 476
+      },
+      "HALF-VERTICAL": {
+        "total_bins": 1139,
+        "avg_fullness": 0.0214,
+        "locked_bins": 15,
+        "occupied_bins": 1124,
+        "empty_bins": 15,
+        "total_units": 9218
+      },
+      "LIBRARY-DEEP": {
+        "total_bins": 15391,
+        "avg_fullness": 0.0191,
+        "locked_bins": 156,
+        "occupied_bins": 14979,
+        "empty_bins": 412,
+        "total_units": 126426
+      },
+      "PALLET-SINGLE": {
+        "total_bins": 52,
+        "avg_fullness": 0.8269,
+        "locked_bins": 0,
+        "occupied_bins": 43,
+        "empty_bins": 9,
+        "total_units": 1082
+      }
+    }
   },
-  "PALLET-SINGLE": {
-    "total_bins": 31338,
-    "occupied_bins": 27443,
-    "empty_bins": 3895,
-    "occupancy_rate": 87.57,
-    "avg_utilization": 0.88,
-    "total_units": 581555
+  "2": {
+    "Pick Tower": {
+      "BARREL": {
+        "total_bins": 18,
+        "avg_fullness": 0.0053,
+        "locked_bins": 0,
+        "occupied_bins": 18,
+        "empty_bins": 0,
+        "total_units": 149
+      },
+      "BAT-BIN": {
+        "total_bins": 72,
+        "avg_fullness": 0.0007,
+        "locked_bins": 0,
+        "occupied_bins": 17,
+        "empty_bins": 55,
+        "total_units": 30
+      },
+      "FLOOR-PALLET": {
+        "total_bins": 61,
+        "avg_fullness": 0.0086,
+        "locked_bins": 0,
+        "occupied_bins": 59,
+        "empty_bins": 2,
+        "total_units": 412
+      },
+      "HALF-VERTICAL": {
+        "total_bins": 1152,
+        "avg_fullness": 0.0381,
+        "locked_bins": 34,
+        "occupied_bins": 1115,
+        "empty_bins": 37,
+        "total_units": 5103
+      },
+      "LIBRARY-DEEP": {
+        "total_bins": 12419,
+        "avg_fullness": 0.0234,
+        "locked_bins": 254,
+        "occupied_bins": 4455,
+        "empty_bins": 7964,
+        "total_units": 13787
+      },
+      "PALLET-SINGLE": {
+        "total_bins": 29,
+        "avg_fullness": 0.931,
+        "locked_bins": 0,
+        "occupied_bins": 27,
+        "empty_bins": 2,
+        "total_units": 282
+      }
+    }
   },
-  "HALF-VERTICAL": {
-    "total_bins": 9204,
-    "occupied_bins": 9099,
-    "empty_bins": 105,
-    "occupancy_rate": 98.86,
-    "avg_utilization": 0.93,
-    "total_units": 73170
+  "3": {
+    "Pick Tower": {
+      "BARREL": {
+        "total_bins": 733,
+        "avg_fullness": 0.0074,
+        "locked_bins": 0,
+        "occupied_bins": 710,
+        "empty_bins": 23,
+        "total_units": 11318
+      },
+      "BAT-BIN": {
+        "total_bins": 240,
+        "avg_fullness": 0.0023,
+        "locked_bins": 0,
+        "occupied_bins": 131,
+        "empty_bins": 109,
+        "total_units": 1026
+      },
+      "FLOOR-PALLET": {
+        "total_bins": 216,
+        "avg_fullness": 0.0787,
+        "locked_bins": 15,
+        "occupied_bins": 216,
+        "empty_bins": 0,
+        "total_units": 1979
+      },
+      "HALF-VERTICAL": {
+        "total_bins": 3993,
+        "avg_fullness": 0.0133,
+        "locked_bins": 15,
+        "occupied_bins": 3990,
+        "empty_bins": 3,
+        "total_units": 32909
+      },
+      "LIBRARY-DEEP": {
+        "total_bins": 47340,
+        "avg_fullness": 0.0124,
+        "locked_bins": 153,
+        "occupied_bins": 46727,
+        "empty_bins": 613,
+        "total_units": 258123
+      }
+    }
   },
-  "BAT-BIN": {
-    "total_bins": 1858,
-    "occupied_bins": 540,
-    "empty_bins": 1318,
-    "occupancy_rate": 29.06,
-    "avg_utilization": 0.19,
-    "total_units": 4827
+  "4": {
+    "Pick Tower": {
+      "BARREL": {
+        "total_bins": 732,
+        "avg_fullness": 0.0951,
+        "locked_bins": 66,
+        "occupied_bins": 659,
+        "empty_bins": 73,
+        "total_units": 7646
+      },
+      "BAT-BIN": {
+        "total_bins": 186,
+        "avg_fullness": 0.0026,
+        "locked_bins": 0,
+        "occupied_bins": 86,
+        "empty_bins": 100,
+        "total_units": 701
+      },
+      "FLOOR-PALLET": {
+        "total_bins": 137,
+        "avg_fullness": 0.1184,
+        "locked_bins": 15,
+        "occupied_bins": 136,
+        "empty_bins": 1,
+        "total_units": 1121
+      },
+      "HALF-VERTICAL": {
+        "total_bins": 2920,
+        "avg_fullness": 0.0096,
+        "locked_bins": 0,
+        "occupied_bins": 2908,
+        "empty_bins": 12,
+        "total_units": 25940
+      },
+      "LIBRARY-DEEP": {
+        "total_bins": 36840,
+        "avg_fullness": 0.0086,
+        "locked_bins": 0,
+        "occupied_bins": 35365,
+        "empty_bins": 1475,
+        "total_units": 176420
+      }
+    }
   },
-  "BARREL": {
-    "total_bins": 1805,
-    "occupied_bins": 1670,
-    "empty_bins": 135,
-    "occupancy_rate": 92.52,
-    "avg_utilization": 0.63,
-    "total_units": 24277
-  },
-  "CANTILEVER": {
-    "total_bins": 1288,
-    "occupied_bins": 763,
-    "empty_bins": 525,
-    "occupancy_rate": 59.24,
-    "avg_utilization": 0.3,
-    "total_units": 6914
-  },
-  "FLOOR-PALLET": {
-    "total_bins": 879,
-    "occupied_bins": 847,
-    "empty_bins": 32,
-    "occupancy_rate": 96.36,
-    "avg_utilization": 0.67,
-    "total_units": 8449
-  },
-  "PASS-THROUGH-BULKY": {
-    "total_bins": 529,
-    "occupied_bins": 110,
-    "empty_bins": 419,
-    "occupancy_rate": 20.79,
-    "avg_utilization": 0.05,
-    "total_units": 897
+  "5": {
+    "Pick Tower": {
+      "FLOOR-PALLET": {
+        "total_bins": 3,
+        "avg_fullness": 0.0012,
+        "locked_bins": 0,
+        "occupied_bins": 2,
+        "empty_bins": 1,
+        "total_units": 3
+      },
+      "PALLET-SINGLE": {
+        "total_bins": 1185,
+        "avg_fullness": 0.9089,
+        "locked_bins": 1,
+        "occupied_bins": 1077,
+        "empty_bins": 108,
+        "total_units": 8807
+      }
+    }
   }
 }
