@@ -77,9 +77,10 @@ class StowMapDataService {
     try {
       console.log('[StowMapDataService] Cargando todos los datos procesados...');
       
-      // Solo cargar fullness_by_bintype.json (el único que generamos ahora)
+      // Cargar archivos JSON generados
       const files = [
-        'fullness_by_bintype.json'
+        'fullness_by_bintype.json',
+        'summary_kpis.json'
       ];
 
       const promises = files.map(file => 
@@ -111,10 +112,17 @@ class StowMapDataService {
   }
 
   /**
-   * Obtiene estadísticas generales
+   * Obtiene estadísticas generales (deprecated, usar getSummaryKPIs)
    */
   getSummaryStats() {
     return this.dataCache['summary_stats'] || null;
+  }
+
+  /**
+   * Obtiene KPIs generales calculados
+   */
+  getSummaryKPIs() {
+    return this.dataCache['summary_kpis'] || null;
   }
 
   /**

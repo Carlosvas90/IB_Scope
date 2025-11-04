@@ -2,13 +2,15 @@ import pandas as pd
 import json
 import os
 import sys
+import platform
+from datetime import datetime
 
 # ============================================
 # CONFIGURACIÓN: MODO DESARROLLO
 # ============================================
 # Cambiar a True para usar archivos de ejemplo desde Ejemplos/data/space-heatmap/
 # Cambiar a False para usar rutas normales (userData o proyecto)
-MODO_DEV = True
+MODO_DEV = False
 
 # ============================================
 # CONFIGURACIÓN: GUARDAR CSV CORREGIDO
@@ -193,6 +195,41 @@ def procesar_stowmap(csv_path, output_dir):
         json.dump(fullness_by_bintype, f, indent=2)
     print("[OK] fullness_by_bintype.json generado")
     
+    # ============================================
+    # SUMMARY KPIs (Métricas generales calculadas)
+    # ============================================
+    print("[Procesamiento] Calculando KPIs generales...")
+    
+    # Calcular fullness total: promedio directo de todas las bins
+    # Usar Utilization_Adjusted que ya tiene bins bloqueadas ajustadas a 100%
+    avg_fullness_all_bins = df['Utilization_Adjusted'].mean()
+    fullness_total = float(avg_fullness_all_bins * 100) if not pd.isna(avg_fullness_all_bins) else 0.0
+    
+    # Calcular totales desde el DataFrame completo
+    total_bins = len(df)
+    total_occupied_bins = len(df[df['Utilization_Adjusted'] > 0])
+    total_locked_bins = int(df['IsLocked'].sum())
+    total_units = int(df['Total Units'].sum())
+    
+    # Calcular occupancy rate (porcentaje de bins ocupadas)
+    occupancy_rate = (total_occupied_bins / total_bins * 100) if total_bins > 0 else 0.0
+    
+    summary_kpis = {
+        'fullness_total': round(float(fullness_total), 2),
+        'total_units': int(total_units),
+        'total_bins': int(total_bins),
+        'total_occupied_bins': int(total_occupied_bins),
+        'total_locked_bins': int(total_locked_bins),
+        'total_empty_bins': int(total_bins - total_occupied_bins),
+        'occupancy_rate': round(float(occupancy_rate), 2),
+        'processed_at': datetime.now().isoformat()
+    }
+    
+    # Guardar JSON
+    with open(os.path.join(output_dir, 'summary_kpis.json'), 'w') as f:
+        json.dump(summary_kpis, f, indent=2)
+    print("[OK] summary_kpis.json generado")
+    
     print("\n[EXITO] Procesamiento completado!")
     print(f"[EXITO] Ubicacion: {output_dir}")
     return True
@@ -214,11 +251,28 @@ if __name__ == '__main__':
         output_dir = os.path.join(user_data_path, "data", "space-heatmap", "processed")
         print(f"[MODO BUILD] Procesando desde userData")
     else:
-        # Ejecutado directamente - usar carpeta del proyecto (MODO DESARROLLO NORMAL)
-        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
-        csv_path = os.path.join(project_root, "data", "space-heatmap", "Stowmap_data.csv")
-        output_dir = os.path.join(project_root, "data", "space-heatmap", "processed")
-        print(f"[MODO DESARROLLO] Procesando desde proyecto")
+        # Ejecutado directamente - usar userData (roaming)
+        # En Windows: C:\Users\{username}\AppData\Roaming\inbound-scope
+        if platform.system() == 'Windows':
+            appdata_roaming = os.getenv('APPDATA')
+            if appdata_roaming:
+                user_data_path = os.path.join(appdata_roaming, "inbound-scope")
+                csv_path = os.path.join(user_data_path, "data", "space-heatmap", "Stowmap_data.csv")
+                output_dir = os.path.join(user_data_path, "data", "space-heatmap", "processed")
+                print(f"[MODO BUILD] Procesando desde userData (roaming): {user_data_path}")
+            else:
+                # Fallback: usar carpeta del proyecto
+                project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
+                csv_path = os.path.join(project_root, "data", "space-heatmap", "Stowmap_data.csv")
+                output_dir = os.path.join(project_root, "data", "space-heatmap", "processed")
+                print(f"[MODO DESARROLLO] APPDATA no encontrado, usando proyecto")
+        else:
+            # Linux/Mac: usar ~/.config/inbound-scope
+            home = os.path.expanduser("~")
+            user_data_path = os.path.join(home, ".config", "inbound-scope")
+            csv_path = os.path.join(user_data_path, "data", "space-heatmap", "Stowmap_data.csv")
+            output_dir = os.path.join(user_data_path, "data", "space-heatmap", "processed")
+            print(f"[MODO BUILD] Procesando desde userData: {user_data_path}")
     
     print(f"[Procesamiento] CSV input: {csv_path}")
     print(f"[Procesamiento] JSON output: {output_dir}")

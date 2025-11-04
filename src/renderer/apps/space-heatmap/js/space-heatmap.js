@@ -490,13 +490,17 @@ async function loadAndDisplayData() {
     
     console.log('[Visualización] Datos cargados exitosamente');
     
-    // Mostrar secciones de visualización
-    document.getElementById('kpis-section').style.display = 'grid';
-    document.getElementById('tables-section').style.display = 'flex';
-    
     // Cargar cada sección
     displayKPIs(dataService);
     displayPickTowerTable(dataService);
+    setupHeatmapButtons();
+    
+    // Mostrar secciones
+    const kpisSection = document.getElementById('kpis-section');
+    const tablesSection = document.getElementById('tables-section');
+    
+    if (kpisSection) kpisSection.style.display = 'grid';
+    if (tablesSection) tablesSection.style.display = 'block';
     
     return true;
   } catch (error) {
@@ -506,43 +510,19 @@ async function loadAndDisplayData() {
 }
 
 function displayKPIs(dataService) {
-  // Calcular KPIs desde fullness_by_bintype.json
-  const fullnessByBinType = dataService.getFullnessByBinType();
-  if (!fullnessByBinType || Object.keys(fullnessByBinType).length === 0) {
-    console.warn('[KPIs] No hay datos de fullness_by_bintype');
+  // Usar KPIs desde summary_kpis.json
+  const kpis = dataService.getSummaryKPIs();
+  if (!kpis) {
+    console.warn('[KPIs] No hay datos de summary_kpis');
     return;
   }
   
-  // Calcular totales sumando todos los floors y todas las storage areas
-  let totalBins = 0;
-  let occupiedBins = 0;
-  let totalUnits = 0;
-  let totalFullness = 0;
-  let countFullness = 0;
-  
-  for (const [floor, floorData] of Object.entries(fullnessByBinType)) {
-    for (const [storageArea, areaData] of Object.entries(floorData)) {
-      for (const [binType, binData] of Object.entries(areaData)) {
-        totalBins += binData.total_bins || 0;
-        occupiedBins += binData.occupied_bins || 0;
-        totalUnits += binData.total_units || 0;
-        if (binData.avg_fullness !== undefined) {
-          totalFullness += binData.avg_fullness;
-          countFullness++;
-        }
-      }
-    }
-  }
-  
-  const emptyBins = totalBins - occupiedBins;
-  const occupancyRate = totalBins > 0 ? (occupiedBins / totalBins * 100) : 0;
-  const avgUtilization = countFullness > 0 ? (totalFullness / countFullness * 100) : 0;
-  
-  document.getElementById('kpi-total-bins').textContent = totalBins.toLocaleString();
-  document.getElementById('kpi-occupied-bins').textContent = occupiedBins.toLocaleString();
-  document.getElementById('kpi-occupancy-rate').textContent = `${occupancyRate.toFixed(1)}%`;
-  document.getElementById('kpi-avg-utilization').textContent = `${avgUtilization.toFixed(1)}%`;
-  document.getElementById('kpi-total-units').textContent = totalUnits.toLocaleString();
+  // Actualizar KPIs
+  document.getElementById('kpi-fullness-total').textContent = `${kpis.fullness_total}%`;
+  document.getElementById('kpi-total-units').textContent = kpis.total_units.toLocaleString();
+  document.getElementById('kpi-total-bins').textContent = kpis.total_bins.toLocaleString();
+  document.getElementById('kpi-occupied-bins').textContent = kpis.total_occupied_bins.toLocaleString();
+  document.getElementById('kpi-locked-bins').textContent = kpis.total_locked_bins.toLocaleString();
 }
 
 function displayPickTowerTable(dataService) {
@@ -658,6 +638,32 @@ function getPercentageClass(value) {
   if (value >= 70) return 'high';
   if (value >= 40) return 'medium';
   return 'low';
+}
+
+function setupHeatmapButtons() {
+  const heatmapButtons = document.querySelectorAll('.kpi-heatmap-btn');
+  
+  heatmapButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const heatmapType = btn.getAttribute('data-heatmap');
+      openHeatmap(heatmapType);
+    });
+  });
+  
+  console.log('[Heatmaps] Botones configurados:', heatmapButtons.length);
+}
+
+function openHeatmap(heatmapType) {
+  console.log('[Heatmaps] Abriendo heatmap:', heatmapType);
+  
+  // TODO: Implementar la lógica para mostrar el SVG del heatmap
+  // Por ahora, mostramos un mensaje
+  alert(`Función de heatmap "${heatmapType}" en desarrollo.\n\nEste botón abrirá el heatmap SVG correspondiente.`);
+  
+  // En el futuro, esto podría:
+  // 1. Cargar un SVG desde un archivo o desde datos generados
+  // 2. Mostrar un modal con el SVG
+  // 3. Navegar a una vista específica del heatmap
 }
 
 // Inicializar cuando el DOM esté listo

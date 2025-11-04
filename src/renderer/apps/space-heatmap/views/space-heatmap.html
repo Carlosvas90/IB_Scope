@@ -91,31 +91,10 @@
         <!-- KPIs Generales -->
         <div id="kpis-section" class="kpis-section" style="display: none">
           <div class="kpi-card">
-            <div class="kpi-icon">📦</div>
-            <div class="kpi-content">
-              <div class="kpi-value" id="kpi-total-bins">-</div>
-              <div class="kpi-label">Total Bins</div>
-            </div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-icon">✅</div>
-            <div class="kpi-content">
-              <div class="kpi-value" id="kpi-occupied-bins">-</div>
-              <div class="kpi-label">Bins Ocupados</div>
-            </div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-icon">📊</div>
-            <div class="kpi-content">
-              <div class="kpi-value" id="kpi-occupancy-rate">-</div>
-              <div class="kpi-label">Tasa de Ocupación</div>
-            </div>
-          </div>
-          <div class="kpi-card">
             <div class="kpi-icon">📈</div>
             <div class="kpi-content">
-              <div class="kpi-value" id="kpi-avg-utilization">-</div>
-              <div class="kpi-label">Utilización Promedio</div>
+              <div class="kpi-value" id="kpi-fullness-total">-</div>
+              <div class="kpi-label">Fullness Total</div>
             </div>
           </div>
           <div class="kpi-card">
@@ -125,22 +104,72 @@
               <div class="kpi-label">Total Unidades</div>
             </div>
           </div>
+          <div class="kpi-card">
+            <div class="kpi-icon">📦</div>
+            <div class="kpi-content">
+              <div class="kpi-value" id="kpi-total-bins">-</div>
+              <div class="kpi-label">Total Bins</div>
+              <div class="kpi-subvalues">
+                <span class="kpi-subvalue">
+                  <span class="kpi-subvalue-label">Ocupados:</span>
+                  <span id="kpi-occupied-bins">-</span>
+                </span>
+                <span class="kpi-subvalue">
+                  <span class="kpi-subvalue-label">Bloqueados:</span>
+                  <span id="kpi-locked-bins">-</span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="kpi-card kpi-card-heatmap">
+            <div class="kpi-icon">🗺️</div>
+            <div class="kpi-content">
+              <div class="kpi-label">Heatmap Pick Tower</div>
+              <div class="kpi-heatmap-buttons">
+                <button class="kpi-heatmap-btn" data-heatmap="pick-tower-p1">
+                  P1
+                </button>
+                <button class="kpi-heatmap-btn" data-heatmap="pick-tower-p2">
+                  P2
+                </button>
+                <button class="kpi-heatmap-btn" data-heatmap="pick-tower-p3">
+                  P3
+                </button>
+                <button class="kpi-heatmap-btn" data-heatmap="pick-tower-p4">
+                  P4
+                </button>
+                <button class="kpi-heatmap-btn" data-heatmap="pick-tower-p5">
+                  P5
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="kpi-card kpi-card-heatmap">
+            <div class="kpi-icon">🗺️</div>
+            <div class="kpi-content">
+              <div class="kpi-label">Heatmap High Rack & Pallet Land</div>
+              <div class="kpi-heatmap-buttons">
+                <button class="kpi-heatmap-btn" data-heatmap="high-rack">
+                  High Rack
+                </button>
+                <button class="kpi-heatmap-btn" data-heatmap="pallet-land">
+                  Pallet Land
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Sección de Tablas -->
         <div id="tables-section" class="tables-section" style="display: none">
+          <!-- Separador: Pick Tower -->
+          <div class="section-separator">
+            <h3>Pick Tower</h3>
+          </div>
+          
           <!-- Tabla: Fullness Pick Tower -->
-          <div class="data-card">
-            <div class="data-card-header">
-              <h3>Pick Tower</h3>
-              <p class="data-card-subtitle">
-                Fullness Pick Tower: Tabla de fullness general por Floor, Zonas
-                y Bin Type
-              </p>
-            </div>
-            <div class="data-card-content">
-              <div class="table-container">
-                <table class="pick-tower-table">
+          <div class="table-container">
+            <table class="pick-tower-table">
                   <thead>
                     <tr>
                       <th class="floor-col">Floor</th>
@@ -231,8 +260,6 @@
                     <!-- Se llena dinámicamente con los datos de fullness_by_bintype.json -->
                   </tbody>
                 </table>
-              </div>
-            </div>
           </div>
         </div>
 
