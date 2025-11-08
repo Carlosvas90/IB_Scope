@@ -1,0 +1,103 @@
+{
+  "VLC1": {
+    "nombre": "VLC1",
+    "datos": {
+      "fullness": 0.8399,
+      "total_bins": 158891,
+      "occupied_bins": 144047,
+      "empty_bins": 14844,
+      "locked_bins": 3595,
+      "total_units": 1274845
+    }
+  },
+  "Pick Tower": {
+    "nombre": "Pick Tower",
+    "datos": {
+      "fullness": 0.833,
+      "total_bins": 125252,
+      "occupied_bins": 114206,
+      "empty_bins": 11046,
+      "locked_bins": 724,
+      "total_units": 688122
+    }
+  },
+  "High Rack": {
+    "nombre": "High Rack",
+    "datos": {
+      "fullness": 0.869,
+      "total_bins": 33289,
+      "occupied_bins": 29648,
+      "empty_bins": 3641,
+      "locked_bins": 2871,
+      "total_units": 581354
+    }
+  },
+  "Pallet Land": {
+    "nombre": "Pallet Land",
+    "datos": {
+      "fullness": 0.5497,
+      "total_bins": 350,
+      "occupied_bins": 193,
+      "empty_bins": 157,
+      "locked_bins": 0,
+      "total_units": 5369
+    }
+  },
+  "P1-Total": {
+    "nombre": "P1-Total",
+    "datos": {
+      "fullness": 0.8742
+    }
+  },
+  "P1-Vertical": {
+    "nombre": "P1-Vertical",
+    "datos": {
+      "fullness": 0.8387
+    }
+  },
+  "P1-Library": {
+    "nombre": "P1-Library",
+    "datos": {
+      "fullness": 0.9027
+    }
+  },
+  "P1-Barrel": {
+    "nombre": "P1-Barrel",
+    "datos": {
+      "fullness": 0.6497
+    }
+  },
+  "P1-BatBin": {
+    "nombre": "P1-BatBin",
+    "datos": {
+      "fullness": 0.3386
+    }
+  },
+  "P1-FloorPallet": {
+    "nombre": "P1-FloorPallet",
+    "datos": {
+      "fullness": 0.4651
+    }
+  },
+  "P1-PalletSingle": {
+    "nombre": "P1-PalletSingle",
+    "datos": {
+      "fullness": 0.9236,
+      "total_bins": 30124,
+      "occupied_bins": 27822,
+      "empty_bins": 2302
+    }
+  },
+  "P1-Z1": {
+    "nombre": "P1-Z1",
+    "datos": {
+      "fullness": 0.9426
+    }
+  },
+  "P1-Z1-Library": {
+    "nombre": "P1-Z1-Library",
+    "datos": {
+      "fullness": 0.9596
+    }
+  }
+}

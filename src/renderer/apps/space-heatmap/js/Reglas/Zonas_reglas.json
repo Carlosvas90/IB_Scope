@@ -1,0 +1,140 @@
+{
+  "P1_Z1": {
+    "floor": 1,
+    "storage_area": "Pick Tower",
+    "aisle_exclude_range": [201, 210],
+    "drop_zone_exclude": ["dz-P-HRV", "dz-P-DAMAGE"],
+    "bin_id_exclude_patterns": [
+      {
+        "aisle": [215, 216],
+        "bin_type": "LIBRARY-DEEP",
+        "endswith_range": [
+          [320, 329],
+          [330, 339],
+          [340, 349],
+          [350, 359],
+          [360, 369],
+          [370, 379],
+          [380, 389],
+          [390, 399]
+        ]
+      }
+    ]
+  },
+  "P1_Sortable": {
+    "floor": 1,
+    "storage_area": "Pick Tower",
+    "aisle_range": [201, 210]
+  },
+  "P2_Z1": {
+    "floor": 2,
+    "storage_area": "Pick Tower",
+    "drop_zone_exclude": ["dz-P-DAMAGE", "dz-Damage"]
+  },
+  "P2_Damage": {
+    "floor": 2,
+    "storage_area": "Pick Tower",
+    "drop_zone": ["dz-P-DAMAGE", "dz-Damage"]
+  },
+  "P3_Z2": {
+    "floor": 3,
+    "storage_area": "Pick Tower",
+    "aisle_range": [175, 249]
+  },
+  "P3_Z1": {
+    "floor": 3,
+    "storage_area": "Pick Tower",
+    "aisle_range": [250, 500]
+  },
+  "P4_Z2": {
+    "floor": 4,
+    "storage_area": "Pick Tower",
+    "aisle_range": [175, 249]
+  },
+  "P4_Z1": {
+    "floor": 4,
+    "storage_area": "Pick Tower",
+    "aisle_range": [250, 500],
+    "warehouse_id": "VLC1"
+  },
+  "P5_Z2": {
+    "floor": 5,
+    "storage_area": "Pick Tower",
+    "aisle_range": [175, 249]
+  },
+  "P5_Z1": {
+    "floor": 5,
+    "storage_area": "Pick Tower",
+    "aisle_range": [250, 500]
+  },
+  "HRV-PT": {
+    "storage_area": "Pick Tower",
+    "drop_zone": "dz-P-HRV"
+  },
+  "Ropa-PT": {
+    "floor": 1,
+    "storage_area": "Pick Tower",
+    "aisle_range": [215, 216],
+    "bin_type": "LIBRARY-DEEP",
+    "bin_id_endswith_ranges": [
+      [320, 329],
+      [330, 339],
+      [340, 349],
+      [350, 359],
+      [360, 369],
+      [370, 379],
+      [380, 389],
+      [390, 399]
+    ]
+  },
+  "Standard": {
+    "storage_area": "High Rack",
+    "exclude_categories": [
+      "Team Lift-HRK",
+      "PetFood-HRK",
+      "SIOC",
+      "BuildOut-Mono",
+      "HRV-HRK",
+      "Damage-HRK"
+    ]
+  },
+  "SIOC": {
+    "storage_area": "High Rack",
+    "aisle_range": [230, 250]
+  },
+  "Team Lift-HRK": {
+    "storage_area": "High Rack",
+    "drop_zone": "dz-P-TeamLift"
+  },
+  "PetFood-HRK": {
+    "storage_area": "High Rack",
+    "drop_zone": "dz-P-PETFOOD"
+  },
+  "HRV-HRK": {
+    "storage_area": "High Rack",
+    "aisle": 206,
+    "drop_zone_exclude": "dz-P-DAMAGE"
+  },
+  "BuildOut-Mono": {
+    "storage_area": "High Rack",
+    "aisle": [224, 225, 232, 233, 240, 241, 244],
+    "shelf": "A"
+  },
+  "Damage-HRK": {
+    "storage_area": "High Rack",
+    "aisle": 206,
+    "drop_zone": "dz-P-DAMAGE"
+  },
+  "Team Lift-PL": {
+    "storage_area": "Pallet Land",
+    "drop_zone": "dz-P-1-F-TeamLiftMONO"
+  },
+  "PetFood-PL": {
+    "storage_area": "Pallet Land",
+    "drop_zone": "dz-P-PETFOOD_TeamLift"
+  },
+  "VLC1": {
+    "total_site": true,
+    "warehouse_id": "VLC1"
+  }
+}
