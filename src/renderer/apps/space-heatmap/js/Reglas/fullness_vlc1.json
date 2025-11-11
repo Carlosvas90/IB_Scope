@@ -674,5 +674,427 @@
       "bin_type": ["PALLET-SINGLE"]
     },
     "metricas": ["fullness", "total_bins", "occupied_bins", "empty_bins"]
+  },
+  "P1-Z1-Library-A": {
+    "nombre": "P1-Z1-Library-A",
+    "filtros": {
+      "floor": ["1"],
+      "shelf": ["A"],
+      "zone": ["P1_Z1"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P1-Z1-Library-B": {
+    "nombre": "P1-Z1-Library-B",
+    "filtros": {
+      "floor": ["1"],
+      "shelf": ["B"],
+      "zone": ["P1_Z1"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P1-Z1-Library-C": {
+    "nombre": "P1-Z1-Library-C",
+    "filtros": {
+      "floor": ["1"],
+      "shelf": ["C"],
+      "zone": ["P1_Z1"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P1-Z1-Library-D": {
+    "nombre": "P1-Z1-Library-D",
+    "filtros": {
+      "floor": ["1"],
+      "shelf": ["D"],
+      "zone": ["P1_Z1"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P2-Z1-Library-A": {
+    "nombre": "P2-Z1-Library-A",
+    "filtros": {
+      "floor": ["2"],
+      "shelf": ["A"],
+      "zone": ["P2_Z1"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P2-Z1-Library-B": {
+    "nombre": "P2-Z1-Library-B",
+    "filtros": {
+      "floor": ["2"],
+      "shelf": ["B"],
+      "zone": ["P2_Z1"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P2-Z1-Library-C": {
+    "nombre": "P2-Z1-Library-C",
+    "filtros": {
+      "floor": ["2"],
+      "shelf": ["C"],
+      "zone": ["P2_Z1"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P2-Z1-Library-D": {
+    "nombre": "P2-Z1-Library-D",
+    "filtros": {
+      "floor": ["2"],
+      "shelf": ["D"],
+      "zone": ["P2_Z1"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P3-Z1-Library-A": {
+    "nombre": "P3-Z1-Library-A",
+    "filtros": {
+      "floor": ["3"],
+      "shelf": ["A"],
+      "zone": ["P3_Z1"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P3-Z1-Library-B": {
+    "nombre": "P3-Z1-Library-B",
+    "filtros": {
+      "floor": ["3"],
+      "shelf": ["B"],
+      "zone": ["P3_Z1"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P3-Z1-Library-C": {
+    "nombre": "P3-Z1-Library-C",
+    "filtros": {
+      "floor": ["3"],
+      "shelf": ["C"],
+      "zone": ["P3_Z1"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P3-Z1-Library-D": {
+    "nombre": "P3-Z1-Library-D",
+    "filtros": {
+      "floor": ["3"],
+      "shelf": ["D"],
+      "zone": ["P3_Z1"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P4-Z1-Library-A": {
+    "nombre": "P4-Z1-Library-A",
+    "filtros": {
+      "floor": ["4"],
+      "shelf": ["A"],
+      "zone": ["P4_Z1"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P4-Z1-Library-B": {
+    "nombre": "P4-Z1-Library-B",
+    "filtros": {
+      "floor": ["4"],
+      "shelf": ["B"],
+      "zone": ["P4_Z1"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P4-Z1-Library-C": {
+    "nombre": "P4-Z1-Library-C",
+    "filtros": {
+      "floor": ["4"],
+      "shelf": ["C"],
+      "zone": ["P4_Z1"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P4-Z1-Library-D": {
+    "nombre": "P4-Z1-Library-D",
+    "filtros": {
+      "floor": ["4"],
+      "shelf": ["D"],
+      "zone": ["P4_Z1"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P5-Z1-Library-A": {
+    "nombre": "P5-Z1-Library-A",
+    "filtros": {
+      "floor": ["5"],
+      "shelf": ["A"],
+      "zone": ["P5_Z1"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P5-Z1-Library-B": {
+    "nombre": "P5-Z1-Library-B",
+    "filtros": {
+      "floor": ["5"],
+      "shelf": ["B"],
+      "zone": ["P5_Z1"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P5-Z1-Library-C": {
+    "nombre": "P5-Z1-Library-C",
+    "filtros": {
+      "floor": ["5"],
+      "shelf": ["C"],
+      "zone": ["P5_Z1"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P5-Z1-Library-D": {
+    "nombre": "P5-Z1-Library-D",
+    "filtros": {
+      "floor": ["5"],
+      "shelf": ["D"],
+      "zone": ["P5_Z1"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P3-Z2-Library-A": {
+    "nombre": "P3-Z2-Library-A",
+    "filtros": {
+      "floor": ["3"],
+      "shelf": ["A"],
+      "zone": ["P3_Z2"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P3-Z2-Library-B": {
+    "nombre": "P3-Z2-Library-B",
+    "filtros": {
+      "floor": ["3"],
+      "shelf": ["B"],
+      "zone": ["P3_Z2"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P3-Z2-Library-C": {
+    "nombre": "P3-Z2-Library-C",
+    "filtros": {
+      "floor": ["3"],
+      "shelf": ["C"],
+      "zone": ["P3_Z2"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P3-Z2-Library-D": {
+    "nombre": "P3-Z2-Library-D",
+    "filtros": {
+      "floor": ["3"],
+      "shelf": ["D"],
+      "zone": ["P3_Z2"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P4-Z2-Library-A": {
+    "nombre": "P4-Z2-Library-A",
+    "filtros": {
+      "floor": ["4"],
+      "shelf": ["A"],
+      "zone": ["P4_Z2"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P4-Z2-Library-B": {
+    "nombre": "P4-Z2-Library-B",
+    "filtros": {
+      "floor": ["4"],
+      "shelf": ["B"],
+      "zone": ["P4_Z2"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P4-Z2-Library-C": {
+    "nombre": "P4-Z2-Library-C",
+    "filtros": {
+      "floor": ["4"],
+      "shelf": ["C"],
+      "zone": ["P4_Z2"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P4-Z2-Library-D": {
+    "nombre": "P4-Z2-Library-D",
+    "filtros": {
+      "floor": ["4"],
+      "shelf": ["D"],
+      "zone": ["P4_Z2"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P5-Z2-Library-A": {
+    "nombre": "P5-Z2-Library-A",
+    "filtros": {
+      "floor": ["5"],
+      "shelf": ["A"],
+      "zone": ["P5_Z2"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P5-Z2-Library-B": {
+    "nombre": "P5-Z2-Library-B",
+    "filtros": {
+      "floor": ["5"],
+      "shelf": ["B"],
+      "zone": ["P5_Z2"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P5-Z2-Library-C": {
+    "nombre": "P5-Z2-Library-C",
+    "filtros": {
+      "floor": ["5"],
+      "shelf": ["C"],
+      "zone": ["P5_Z2"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P5-Z2-Library-D": {
+    "nombre": "P5-Z2-Library-D",
+    "filtros": {
+      "floor": ["5"],
+      "shelf": ["D"],
+      "zone": ["P5_Z2"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "Pallet-Land-TL": {
+    "nombre": "Pallet-Land-TL",
+    "filtros": {
+      "zone": ["Team Lift-PL"]
+    },
+    "metricas": ["fullness", "total_bins", "occupied_bins", "empty_bins"]
+  },
+  "Pallet-Land-PetFood": {
+    "nombre": "Pallet-Land-PetFood",
+    "filtros": {
+      "zone": ["PetFood-PL"]
+    },
+    "metricas": ["fullness", "total_bins", "occupied_bins", "empty_bins"]
+  },
+  "HRK-BatBin": {
+    "nombre": "HRK-BatBin",
+    "filtros": {
+      "storage_area": ["High Rack"],
+      "bin_type": ["BAT-BIN"]
+    },
+    "metricas": ["fullness"]
+  },
+  "HRK-Cantilever": {
+    "nombre": "HRK-Cantilever",
+    "filtros": {
+      "storage_area": ["High Rack"],
+      "bin_type": ["CANTILEVER"]
+    },
+    "metricas": ["fullness"]
+  },
+  "HRK-PassThrough": {
+    "nombre": "HRK-PassThrough",
+    "filtros": {
+      "storage_area": ["High Rack"],
+      "bin_type": ["PASS-THROUGH-BULKY"]
+    },
+    "metricas": ["fullness"]
+  },
+  "HRK-FloorPallet": {
+    "nombre": "HRK-FloorPallet",
+    "filtros": {
+      "storage_area": ["High Rack"],
+      "bin_type": ["FLOOR-PALLET"]
+    },
+    "metricas": ["fullness"]
+  },
+  "HRK-PalletSingle": {
+    "nombre": "HRK-PalletSingle",
+    "filtros": {
+      "storage_area": ["High Rack"],
+      "bin_type": ["PALLET-SINGLE"]
+    },
+    "metricas": ["fullness", "total_bins", "occupied_bins", "empty_bins"]
+  },
+  "HRK-Standard": {
+    "nombre": "HRK-Standard",
+    "filtros": {
+      "zone": ["Standard"],
+      "bin_type": ["PALLET-SINGLE"]
+    },
+    "metricas": ["fullness", "total_bins", "occupied_bins", "empty_bins"]
+  },
+  "HRK-SIOC": {
+    "nombre": "HRK-SIOC",
+    "filtros": {
+      "zone": ["SIOC"],
+      "bin_type": ["PALLET-SINGLE"]
+    },
+    "metricas": ["fullness", "total_bins", "occupied_bins", "empty_bins"]
+  },
+  "HRK-TeamLift": {
+    "nombre": "HRK-TeamLift",
+    "filtros": {
+      "zone": ["Team Lift-HRK"],
+      "bin_type": ["PALLET-SINGLE"]
+    },
+    "metricas": ["fullness", "total_bins", "occupied_bins", "empty_bins"]
+  },
+  "HRK-PetFood": {
+    "nombre": "HRK-PetFood",
+    "filtros": {
+      "zone": ["PetFood-HRK"],
+      "bin_type": ["PALLET-SINGLE"]
+    },
+    "metricas": ["fullness", "total_bins", "occupied_bins", "empty_bins"]
+  },
+  "HRK-BuildOut-mono": {
+    "nombre": "HRK-BuildOut-mono",
+    "filtros": {
+      "zone": ["BuildOut-Mono"],
+      "bin_type": ["PALLET-SINGLE"]
+    },
+    "metricas": ["fullness", "total_bins", "occupied_bins", "empty_bins"]
+  },
+  "HRK-Damage": {
+    "nombre": "HRK-Damage",
+    "filtros": {
+      "zone": ["Damage-HRK"],
+      "bin_type": ["PALLET-SINGLE"]
+    },
+    "metricas": ["fullness", "total_bins", "occupied_bins", "empty_bins"]
   }
 }
