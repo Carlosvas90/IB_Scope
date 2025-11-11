@@ -46,7 +46,7 @@
   "P1-Total": {
     "nombre": "P1-Total",
     "datos": {
-      "fullness": 0.8742
+      "fullness": 0.8911
     }
   },
   "P1-Vertical": {
@@ -70,22 +70,20 @@
   "P1-BatBin": {
     "nombre": "P1-BatBin",
     "datos": {
-      "fullness": 0.3386
+      "fullness": 0.3559
     }
   },
   "P1-FloorPallet": {
     "nombre": "P1-FloorPallet",
-    "datos": {
-      "fullness": 0.4651
-    }
+    "datos": {}
   },
   "P1-PalletSingle": {
     "nombre": "P1-PalletSingle",
     "datos": {
-      "fullness": 0.9236,
-      "total_bins": 30124,
-      "occupied_bins": 27822,
-      "empty_bins": 2302
+      "fullness": 0.8269,
+      "total_bins": 52,
+      "occupied_bins": 43,
+      "empty_bins": 9
     }
   },
   "P1-Z1": {
@@ -98,6 +96,350 @@
     "nombre": "P1-Z1-Library",
     "datos": {
       "fullness": 0.9596
+    }
+  },
+  "P1-Z1-Vertical": {
+    "nombre": "P1-Z1-Vertical",
+    "datos": {
+      "fullness": 0.8524
+    }
+  },
+  "P1-Z1-Barrel": {
+    "nombre": "P1-Z1-Barrel",
+    "datos": {
+      "fullness": 0.6562
+    }
+  },
+  "P1-Z1-BatBin": {
+    "nombre": "P1-Z1-BatBin",
+    "datos": {
+      "fullness": 0.3016
+    }
+  },
+  "P1-Z1-FloorPallet": {
+    "nombre": "P1-Z1-FloorPallet",
+    "datos": {}
+  },
+  "P1-Z1-PalletSingle": {
+    "nombre": "P1-Z1-PalletSingle",
+    "datos": {
+      "fullness": 0.8269,
+      "total_bins": 52,
+      "occupied_bins": 43,
+      "empty_bins": 9
+    }
+  },
+  "P2-Z1": {
+    "nombre": "P2-Z1",
+    "datos": {
+      "fullness": 0.3007
+    }
+  },
+  "P2-Z1-Library": {
+    "nombre": "P2-Z1-Library",
+    "datos": {
+      "fullness": 0.2438
+    }
+  },
+  "P2-Z1-Vertical": {
+    "nombre": "P2-Z1-Vertical",
+    "datos": {
+      "fullness": 0.8938
+    }
+  },
+  "P2-Z1-Barrel": {
+    "nombre": "P2-Z1-Barrel",
+    "datos": {}
+  },
+  "P2-Z1-BatBin": {
+    "nombre": "P2-Z1-BatBin",
+    "datos": {
+      "fullness": 0.0356
+    }
+  },
+  "P2-Z1-FloorPallet": {
+    "nombre": "P2-Z1-FloorPallet",
+    "datos": {}
+  },
+  "P2-Z1-PalletSingle": {
+    "nombre": "P2-Z1-PalletSingle",
+    "datos": {
+      "fullness": 0.931,
+      "total_bins": 29,
+      "occupied_bins": 27,
+      "empty_bins": 2
+    }
+  },
+  "P2-Damage": {
+    "nombre": "P2-Damage",
+    "datos": {
+      "fullness": 0.7517
+    }
+  },
+  "P2-Damage-Library": {
+    "nombre": "P2-Damage-Library",
+    "datos": {
+      "fullness": 0.7512
+    }
+  },
+  "P2-Damage-Vertical": {
+    "nombre": "P2-Damage-Vertical",
+    "datos": {
+      "fullness": 0.8205
+    }
+  },
+  "P2-Damage-Barrel": {
+    "nombre": "P2-Damage-Barrel",
+    "datos": {
+      "fullness": 0.5295
+    }
+  },
+  "P2-Damage-BatBin": {
+    "nombre": "P2-Damage-BatBin",
+    "datos": {
+      "fullness": 0.154
+    }
+  },
+  "P2-Damage-FloorPallet": {
+    "nombre": "P2-Damage-FloorPallet",
+    "datos": {
+      "fullness": 0.8553
+    }
+  },
+  "P2-Damage-PalletSingle": {
+    "nombre": "P2-Damage-PalletSingle",
+    "datos": {}
+  },
+  "P3-Z1": {
+    "nombre": "P3-Z1",
+    "datos": {
+      "fullness": 0.9087
+    }
+  },
+  "P3-Z1-Library": {
+    "nombre": "P3-Z1-Library",
+    "datos": {
+      "fullness": 0.9082
+    }
+  },
+  "P3-Z1-Vertical": {
+    "nombre": "P3-Z1-Vertical",
+    "datos": {
+      "fullness": 0.9761
+    }
+  },
+  "P3-Z1-Barrel": {
+    "nombre": "P3-Z1-Barrel",
+    "datos": {
+      "fullness": 0.7049
+    }
+  },
+  "P3-Z1-BatBin": {
+    "nombre": "P3-Z1-BatBin",
+    "datos": {
+      "fullness": 0.2942
+    }
+  },
+  "P3-Z1-FloorPallet": {
+    "nombre": "P3-Z1-FloorPallet",
+    "datos": {
+      "fullness": 0.9531
+    }
+  },
+  "P3-Z1-PalletSingle": {
+    "nombre": "P3-Z1-PalletSingle",
+    "datos": {}
+  },
+  "P3-Z2": {
+    "nombre": "P3-Z2",
+    "datos": {
+      "fullness": 0.9195
+    }
+  },
+  "P3-Z2-Library": {
+    "nombre": "P3-Z2-Library",
+    "datos": {
+      "fullness": 0.9236
+    }
+  },
+  "P3-Z2-Vertical": {
+    "nombre": "P3-Z2-Vertical",
+    "datos": {
+      "fullness": 0.9449
+    }
+  },
+  "P3-Z2-Barrel": {
+    "nombre": "P3-Z2-Barrel",
+    "datos": {
+      "fullness": 0.7538
+    }
+  },
+  "P3-Z2-BatBin": {
+    "nombre": "P3-Z2-BatBin",
+    "datos": {
+      "fullness": 0.1627
+    }
+  },
+  "P3-Z2-FloorPallet": {
+    "nombre": "P3-Z2-FloorPallet",
+    "datos": {
+      "fullness": 1.0135
+    }
+  },
+  "P3-Z2-PalletSingle": {
+    "nombre": "P3-Z2-PalletSingle",
+    "datos": {}
+  },
+  "P4-Z1": {
+    "nombre": "P4-Z1",
+    "datos": {
+      "fullness": 0.7627
+    }
+  },
+  "P4-Z1-Library": {
+    "nombre": "P4-Z1-Library",
+    "datos": {
+      "fullness": 0.7542
+    }
+  },
+  "P4-Z1-Vertical": {
+    "nombre": "P4-Z1-Vertical",
+    "datos": {
+      "fullness": 0.9414
+    }
+  },
+  "P4-Z1-Barrel": {
+    "nombre": "P4-Z1-Barrel",
+    "datos": {
+      "fullness": 0.6364
+    }
+  },
+  "P4-Z1-BatBin": {
+    "nombre": "P4-Z1-BatBin",
+    "datos": {
+      "fullness": 0.21
+    }
+  },
+  "P4-Z1-FloorPallet": {
+    "nombre": "P4-Z1-FloorPallet",
+    "datos": {
+      "fullness": 0.9038
+    }
+  },
+  "P4-Z1-PalletSingle": {
+    "nombre": "P4-Z1-PalletSingle",
+    "datos": {}
+  },
+  "P4-Z2": {
+    "nombre": "P4-Z2",
+    "datos": {
+      "fullness": 0.9035
+    }
+  },
+  "P4-Z2-Library": {
+    "nombre": "P4-Z2-Library",
+    "datos": {
+      "fullness": 0.907
+    }
+  },
+  "P4-Z2-Vertical": {
+    "nombre": "P4-Z2-Vertical",
+    "datos": {
+      "fullness": 0.9706
+    }
+  },
+  "P4-Z2-Barrel": {
+    "nombre": "P4-Z2-Barrel",
+    "datos": {
+      "fullness": 0.5663
+    }
+  },
+  "P4-Z2-BatBin": {
+    "nombre": "P4-Z2-BatBin",
+    "datos": {
+      "fullness": 0.2896
+    }
+  },
+  "P4-Z2-FloorPallet": {
+    "nombre": "P4-Z2-FloorPallet",
+    "datos": {
+      "fullness": 1.1006
+    }
+  },
+  "P4-Z2-PalletSingle": {
+    "nombre": "P4-Z2-PalletSingle",
+    "datos": {}
+  },
+  "P5-Z1": {
+    "nombre": "P5-Z1",
+    "datos": {
+      "fullness": 0.8891
+    }
+  },
+  "P5-Z1-Library": {
+    "nombre": "P5-Z1-Library",
+    "datos": {}
+  },
+  "P5-Z1-Vertical": {
+    "nombre": "P5-Z1-Vertical",
+    "datos": {}
+  },
+  "P5-Z1-Barrel": {
+    "nombre": "P5-Z1-Barrel",
+    "datos": {}
+  },
+  "P5-Z1-BatBin": {
+    "nombre": "P5-Z1-BatBin",
+    "datos": {}
+  },
+  "P5-Z1-FloorPallet": {
+    "nombre": "P5-Z1-FloorPallet",
+    "datos": {
+      "fullness": 0.1183
+    }
+  },
+  "P5-Z1-PalletSingle": {
+    "nombre": "P5-Z1-PalletSingle",
+    "datos": {
+      "fullness": 0.8933,
+      "total_bins": 553,
+      "occupied_bins": 494,
+      "empty_bins": 59
+    }
+  },
+  "P5-Z2": {
+    "nombre": "P5-Z2",
+    "datos": {
+      "fullness": 0.9225
+    }
+  },
+  "P5-Z2-Library": {
+    "nombre": "P5-Z2-Library",
+    "datos": {}
+  },
+  "P5-Z2-Vertical": {
+    "nombre": "P5-Z2-Vertical",
+    "datos": {}
+  },
+  "P5-Z2-Barrel": {
+    "nombre": "P5-Z2-Barrel",
+    "datos": {}
+  },
+  "P5-Z2-BatBin": {
+    "nombre": "P5-Z2-BatBin",
+    "datos": {}
+  },
+  "P5-Z2-FloorPallet": {
+    "nombre": "P5-Z2-FloorPallet",
+    "datos": {}
+  },
+  "P5-Z2-PalletSingle": {
+    "nombre": "P5-Z2-PalletSingle",
+    "datos": {
+      "fullness": 0.9225,
+      "total_bins": 632,
+      "occupied_bins": 583,
+      "empty_bins": 49
     }
   }
 }

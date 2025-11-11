@@ -58,7 +58,8 @@
   "P1-Total": {
     "nombre": "P1-Total",
     "filtros": {
-      "floor": ["1"]
+      "floor": ["1"],
+      "storage_area": ["Pick Tower"]
     },
     "metricas": ["fullness"]
   },
@@ -66,6 +67,7 @@
     "nombre": "P1-Vertical",
     "filtros": {
       "floor": ["1"],
+      "storage_area": ["Pick Tower"],
       "bin_type": ["HALF-VERTICAL"]
     },
     "metricas": ["fullness"]
@@ -74,6 +76,7 @@
     "nombre": "P1-Library",
     "filtros": {
       "floor": ["1"],
+      "storage_area": ["Pick Tower"],
       "bin_type": ["LIBRARY-DEEP"]
     },
     "metricas": ["fullness"]
@@ -82,6 +85,7 @@
     "nombre": "P1-Barrel",
     "filtros": {
       "floor": ["1"],
+      "storage_area": ["Pick Tower"],
       "bin_type": ["BARREL"]
     },
     "metricas": ["fullness"]
@@ -90,6 +94,7 @@
     "nombre": "P1-BatBin",
     "filtros": {
       "floor": ["1"],
+      "storage_area": ["Pick Tower"],
       "bin_type": ["BAT-BIN"]
     },
     "metricas": ["fullness"]
@@ -98,6 +103,7 @@
     "nombre": "P1-FloorPallet",
     "filtros": {
       "floor": ["1"],
+      "storage_area": ["Pick Tower"],
       "bin_type": ["FLOOR-PALLET"]
     },
     "metricas": ["fullness"]
@@ -106,6 +112,7 @@
     "nombre": "P1-PalletSingle",
     "filtros": {
       "floor": ["1"],
+      "storage_area": ["Pick Tower"],
       "bin_type": ["PALLET-SINGLE"]
     },
     "metricas": ["fullness", "total_bins", "occupied_bins", "empty_bins"]
@@ -126,5 +133,546 @@
       "bin_type": ["LIBRARY-DEEP"]
     },
     "metricas": ["fullness"]
+  },
+  "P1-Z1-Vertical": {
+    "nombre": "P1-Z1-Vertical",
+    "filtros": {
+      "floor": ["1"],
+      "zone": ["P1_Z1"],
+      "bin_type": ["HALF-VERTICAL"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P1-Z1-Barrel": {
+    "nombre": "P1-Z1-Barrel",
+    "filtros": {
+      "floor": ["1"],
+      "zone": ["P1_Z1"],
+      "bin_type": ["BARREL"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P1-Z1-BatBin": {
+    "nombre": "P1-Z1-BatBin",
+    "filtros": {
+      "floor": ["1"],
+      "zone": ["P1_Z1"],
+      "bin_type": ["BAT-BIN"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P1-Z1-FloorPallet": {
+    "nombre": "P1-Z1-FloorPallet",
+    "filtros": {
+      "floor": ["1"],
+      "zone": ["P1_Z1"],
+      "bin_type": ["FLOOR-PALLET"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P1-Z1-PalletSingle": {
+    "nombre": "P1-Z1-PalletSingle",
+    "filtros": {
+      "floor": ["1"],
+      "zone": ["P1_Z1"],
+      "bin_type": ["PALLET-SINGLE"]
+    },
+    "metricas": ["fullness", "total_bins", "occupied_bins", "empty_bins"]
+  },
+  "P2-Z1": {
+    "nombre": "P2-Z1",
+    "filtros": {
+      "floor": ["2"],
+      "zone": ["P2_Z1"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P2-Z1-Library": {
+    "nombre": "P2-Z1-Library",
+    "filtros": {
+      "floor": ["2"],
+      "zone": ["P2_Z1"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P2-Z1-Vertical": {
+    "nombre": "P2-Z1-Vertical",
+    "filtros": {
+      "floor": ["2"],
+      "zone": ["P2_Z1"],
+      "bin_type": ["HALF-VERTICAL"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P2-Z1-Barrel": {
+    "nombre": "P2-Z1-Barrel",
+    "filtros": {
+      "floor": ["2"],
+      "zone": ["P2_Z1"],
+      "bin_type": ["BARREL"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P2-Z1-BatBin": {
+    "nombre": "P2-Z1-BatBin",
+    "filtros": {
+      "floor": ["2"],
+      "zone": ["P2_Z1"],
+      "bin_type": ["BAT-BIN"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P2-Z1-FloorPallet": {
+    "nombre": "P2-Z1-FloorPallet",
+    "filtros": {
+      "floor": ["2"],
+      "zone": ["P2_Z1"],
+      "bin_type": ["FLOOR-PALLET"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P2-Z1-PalletSingle": {
+    "nombre": "P2-Z1-PalletSingle",
+    "filtros": {
+      "floor": ["2"],
+      "zone": ["P2_Z1"],
+      "bin_type": ["PALLET-SINGLE"]
+    },
+    "metricas": ["fullness", "total_bins", "occupied_bins", "empty_bins"]
+  },
+  "P2-Damage": {
+    "nombre": "P2-Damage",
+    "filtros": {
+      "floor": ["2"],
+      "zone": ["P2_Damage"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P2-Damage-Library": {
+    "nombre": "P2-Damage-Library",
+    "filtros": {
+      "floor": ["2"],
+      "zone": ["P2_Damage"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P2-Damage-Vertical": {
+    "nombre": "P2-Damage-Vertical",
+    "filtros": {
+      "floor": ["2"],
+      "zone": ["P2_Damage"],
+      "bin_type": ["HALF-VERTICAL"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P2-Damage-Barrel": {
+    "nombre": "P2-Damage-Barrel",
+    "filtros": {
+      "floor": ["2"],
+      "zone": ["P2_Damage"],
+      "bin_type": ["BARREL"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P2-Damage-BatBin": {
+    "nombre": "P2-Damage-BatBin",
+    "filtros": {
+      "floor": ["2"],
+      "zone": ["P2_Damage"],
+      "bin_type": ["BAT-BIN"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P2-Damage-FloorPallet": {
+    "nombre": "P2-Damage-FloorPallet",
+    "filtros": {
+      "floor": ["2"],
+      "zone": ["P2_Damage"],
+      "bin_type": ["FLOOR-PALLET"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P2-Damage-PalletSingle": {
+    "nombre": "P2-Damage-PalletSingle",
+    "filtros": {
+      "floor": ["2"],
+      "zone": ["P2_Damage"],
+      "bin_type": ["PALLET-SINGLE"]
+    },
+    "metricas": ["fullness", "total_bins", "occupied_bins", "empty_bins"]
+  },
+  "P3-Z1": {
+    "nombre": "P3-Z1",
+    "filtros": {
+      "floor": ["3"],
+      "zone": ["P3_Z1"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P3-Z1-Library": {
+    "nombre": "P3-Z1-Library",
+    "filtros": {
+      "floor": ["3"],
+      "zone": ["P3_Z1"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P3-Z1-Vertical": {
+    "nombre": "P3-Z1-Vertical",
+    "filtros": {
+      "floor": ["3"],
+      "zone": ["P3_Z1"],
+      "bin_type": ["HALF-VERTICAL"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P3-Z1-Barrel": {
+    "nombre": "P3-Z1-Barrel",
+    "filtros": {
+      "floor": ["3"],
+      "zone": ["P3_Z1"],
+      "bin_type": ["BARREL"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P3-Z1-BatBin": {
+    "nombre": "P3-Z1-BatBin",
+    "filtros": {
+      "floor": ["3"],
+      "zone": ["P3_Z1"],
+      "bin_type": ["BAT-BIN"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P3-Z1-FloorPallet": {
+    "nombre": "P3-Z1-FloorPallet",
+    "filtros": {
+      "floor": ["3"],
+      "zone": ["P3_Z1"],
+      "bin_type": ["FLOOR-PALLET"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P3-Z1-PalletSingle": {
+    "nombre": "P3-Z1-PalletSingle",
+    "filtros": {
+      "floor": ["3"],
+      "zone": ["P3_Z1"],
+      "bin_type": ["PALLET-SINGLE"]
+    },
+    "metricas": ["fullness", "total_bins", "occupied_bins", "empty_bins"]
+  },
+  "P3-Z2": {
+    "nombre": "P3-Z2",
+    "filtros": {
+      "floor": ["3"],
+      "zone": ["P3_Z2"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P3-Z2-Library": {
+    "nombre": "P3-Z2-Library",
+    "filtros": {
+      "floor": ["3"],
+      "zone": ["P3_Z2"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P3-Z2-Vertical": {
+    "nombre": "P3-Z2-Vertical",
+    "filtros": {
+      "floor": ["3"],
+      "zone": ["P3_Z2"],
+      "bin_type": ["HALF-VERTICAL"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P3-Z2-Barrel": {
+    "nombre": "P3-Z2-Barrel",
+    "filtros": {
+      "floor": ["3"],
+      "zone": ["P3_Z2"],
+      "bin_type": ["BARREL"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P3-Z2-BatBin": {
+    "nombre": "P3-Z2-BatBin",
+    "filtros": {
+      "floor": ["3"],
+      "zone": ["P3_Z2"],
+      "bin_type": ["BAT-BIN"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P3-Z2-FloorPallet": {
+    "nombre": "P3-Z2-FloorPallet",
+    "filtros": {
+      "floor": ["3"],
+      "zone": ["P3_Z2"],
+      "bin_type": ["FLOOR-PALLET"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P3-Z2-PalletSingle": {
+    "nombre": "P3-Z2-PalletSingle",
+    "filtros": {
+      "floor": ["3"],
+      "zone": ["P3_Z2"],
+      "bin_type": ["PALLET-SINGLE"]
+    },
+    "metricas": ["fullness", "total_bins", "occupied_bins", "empty_bins"]
+  },
+  "P4-Z1": {
+    "nombre": "P4-Z1",
+    "filtros": {
+      "floor": ["4"],
+      "zone": ["P4_Z1"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P4-Z1-Library": {
+    "nombre": "P4-Z1-Library",
+    "filtros": {
+      "floor": ["4"],
+      "zone": ["P4_Z1"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P4-Z1-Vertical": {
+    "nombre": "P4-Z1-Vertical",
+    "filtros": {
+      "floor": ["4"],
+      "zone": ["P4_Z1"],
+      "bin_type": ["HALF-VERTICAL"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P4-Z1-Barrel": {
+    "nombre": "P4-Z1-Barrel",
+    "filtros": {
+      "floor": ["4"],
+      "zone": ["P4_Z1"],
+      "bin_type": ["BARREL"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P4-Z1-BatBin": {
+    "nombre": "P4-Z1-BatBin",
+    "filtros": {
+      "floor": ["4"],
+      "zone": ["P4_Z1"],
+      "bin_type": ["BAT-BIN"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P4-Z1-FloorPallet": {
+    "nombre": "P4-Z1-FloorPallet",
+    "filtros": {
+      "floor": ["4"],
+      "zone": ["P4_Z1"],
+      "bin_type": ["FLOOR-PALLET"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P4-Z1-PalletSingle": {
+    "nombre": "P4-Z1-PalletSingle",
+    "filtros": {
+      "floor": ["4"],
+      "zone": ["P4_Z1"],
+      "bin_type": ["PALLET-SINGLE"]
+    },
+    "metricas": ["fullness", "total_bins", "occupied_bins", "empty_bins"]
+  },
+  "P4-Z2": {
+    "nombre": "P4-Z2",
+    "filtros": {
+      "floor": ["4"],
+      "zone": ["P4_Z2"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P4-Z2-Library": {
+    "nombre": "P4-Z2-Library",
+    "filtros": {
+      "floor": ["4"],
+      "zone": ["P4_Z2"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P4-Z2-Vertical": {
+    "nombre": "P4-Z2-Vertical",
+    "filtros": {
+      "floor": ["4"],
+      "zone": ["P4_Z2"],
+      "bin_type": ["HALF-VERTICAL"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P4-Z2-Barrel": {
+    "nombre": "P4-Z2-Barrel",
+    "filtros": {
+      "floor": ["4"],
+      "zone": ["P4_Z2"],
+      "bin_type": ["BARREL"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P4-Z2-BatBin": {
+    "nombre": "P4-Z2-BatBin",
+    "filtros": {
+      "floor": ["4"],
+      "zone": ["P4_Z2"],
+      "bin_type": ["BAT-BIN"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P4-Z2-FloorPallet": {
+    "nombre": "P4-Z2-FloorPallet",
+    "filtros": {
+      "floor": ["4"],
+      "zone": ["P4_Z2"],
+      "bin_type": ["FLOOR-PALLET"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P4-Z2-PalletSingle": {
+    "nombre": "P4-Z2-PalletSingle",
+    "filtros": {
+      "floor": ["4"],
+      "zone": ["P4_Z2"],
+      "bin_type": ["PALLET-SINGLE"]
+    },
+    "metricas": ["fullness", "total_bins", "occupied_bins", "empty_bins"]
+  },
+  "P5-Z1": {
+    "nombre": "P5-Z1",
+    "filtros": {
+      "floor": ["5"],
+      "zone": ["P5_Z1"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P5-Z1-Library": {
+    "nombre": "P5-Z1-Library",
+    "filtros": {
+      "floor": ["5"],
+      "zone": ["P5_Z1"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P5-Z1-Vertical": {
+    "nombre": "P5-Z1-Vertical",
+    "filtros": {
+      "floor": ["5"],
+      "zone": ["P5_Z1"],
+      "bin_type": ["HALF-VERTICAL"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P5-Z1-Barrel": {
+    "nombre": "P5-Z1-Barrel",
+    "filtros": {
+      "floor": ["5"],
+      "zone": ["P5_Z1"],
+      "bin_type": ["BARREL"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P5-Z1-BatBin": {
+    "nombre": "P5-Z1-BatBin",
+    "filtros": {
+      "floor": ["5"],
+      "zone": ["P5_Z1"],
+      "bin_type": ["BAT-BIN"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P5-Z1-FloorPallet": {
+    "nombre": "P5-Z1-FloorPallet",
+    "filtros": {
+      "floor": ["5"],
+      "zone": ["P5_Z1"],
+      "bin_type": ["FLOOR-PALLET"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P5-Z1-PalletSingle": {
+    "nombre": "P5-Z1-PalletSingle",
+    "filtros": {
+      "floor": ["5"],
+      "zone": ["P5_Z1"],
+      "bin_type": ["PALLET-SINGLE"]
+    },
+    "metricas": ["fullness", "total_bins", "occupied_bins", "empty_bins"]
+  },
+  "P5-Z2": {
+    "nombre": "P5-Z2",
+    "filtros": {
+      "floor": ["5"],
+      "zone": ["P5_Z2"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P5-Z2-Library": {
+    "nombre": "P5-Z2-Library",
+    "filtros": {
+      "floor": ["5"],
+      "zone": ["P5_Z2"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P5-Z2-Vertical": {
+    "nombre": "P5-Z2-Vertical",
+    "filtros": {
+      "floor": ["5"],
+      "zone": ["P5_Z2"],
+      "bin_type": ["HALF-VERTICAL"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P5-Z2-Barrel": {
+    "nombre": "P5-Z2-Barrel",
+    "filtros": {
+      "floor": ["5"],
+      "zone": ["P5_Z2"],
+      "bin_type": ["BARREL"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P5-Z2-BatBin": {
+    "nombre": "P5-Z2-BatBin",
+    "filtros": {
+      "floor": ["5"],
+      "zone": ["P5_Z2"],
+      "bin_type": ["BAT-BIN"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P5-Z2-FloorPallet": {
+    "nombre": "P5-Z2-FloorPallet",
+    "filtros": {
+      "floor": ["5"],
+      "zone": ["P5_Z2"],
+      "bin_type": ["FLOOR-PALLET"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P5-Z2-PalletSingle": {
+    "nombre": "P5-Z2-PalletSingle",
+    "filtros": {
+      "floor": ["5"],
+      "zone": ["P5_Z2"],
+      "bin_type": ["PALLET-SINGLE"]
+    },
+    "metricas": ["fullness", "total_bins", "occupied_bins", "empty_bins"]
   }
 }
