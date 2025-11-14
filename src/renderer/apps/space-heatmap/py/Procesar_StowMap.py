@@ -431,10 +431,10 @@ def procesar_zonas(df, reglas_path, output_dir=None, metricas_default=None, guar
     
     # Guardar JSON de zonas procesadas solo si se solicita
     if guardar_archivo and output_dir:
-        output_file = os.path.join(output_dir, 'zonas_procesadas.json')
+        output_file = os.path.join(output_dir, 'Data_Fullness.json')
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(zonas_procesadas, f, indent=2, ensure_ascii=False)
-        print(f"[OK] zonas_procesadas.json generado: {output_file}")
+        print(f"[OK] Data_Fullness.json generado: {output_file}")
     
     return zonas_procesadas
 
@@ -622,10 +622,10 @@ def procesar_stowmap(csv_path, output_dir):
     
     # Guardar todas las zonas combinadas en un solo archivo
     if todas_las_zonas:
-        output_file = os.path.join(output_dir, 'zonas_procesadas.json')
+        output_file = os.path.join(output_dir, 'Data_Fullness.json')
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(todas_las_zonas, f, indent=2, ensure_ascii=False)
-        print(f"[OK] Total de {len(todas_las_zonas)} zonas guardadas en zonas_procesadas.json")
+        print(f"[OK] Total de {len(todas_las_zonas)} zonas guardadas en Data_Fullness.json")
     
     print("\n[EXITO] Procesamiento completado!")
     print(f"[EXITO] Ubicacion: {output_dir}")

@@ -63,10 +63,78 @@
     },
     "metricas": ["fullness"]
   },
+  "P2-Total": {
+    "nombre": "P2-Total",
+    "filtros": {
+      "floor": ["2"],
+      "storage_area": ["Pick Tower"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P3-Total": {
+    "nombre": "P3-Total",
+    "filtros": {
+      "floor": ["3"],
+      "storage_area": ["Pick Tower"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P4-Total": {
+    "nombre": "P4-Total",
+    "filtros": {
+      "floor": ["4"],
+      "storage_area": ["Pick Tower"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P5-Total": {
+    "nombre": "P5-Total",
+    "filtros": {
+      "floor": ["5"],
+      "storage_area": ["Pick Tower"]
+    },
+    "metricas": ["fullness"]
+  },
   "P1-Vertical": {
     "nombre": "P1-Vertical",
     "filtros": {
       "floor": ["1"],
+      "storage_area": ["Pick Tower"],
+      "bin_type": ["HALF-VERTICAL"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P2-Vertical": {
+    "nombre": "P2-Vertical",
+    "filtros": {
+      "floor": ["2"],
+      "storage_area": ["Pick Tower"],
+      "bin_type": ["HALF-VERTICAL"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P3-Vertical": {
+    "nombre": "P3-Vertical",
+    "filtros": {
+      "floor": ["3"],
+      "storage_area": ["Pick Tower"],
+      "bin_type": ["HALF-VERTICAL"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P4-Vertical": {
+    "nombre": "P4-Vertical",
+    "filtros": {
+      "floor": ["4"],
+      "storage_area": ["Pick Tower"],
+      "bin_type": ["HALF-VERTICAL"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P5-Vertical": {
+    "nombre": "P5-Vertical",
+    "filtros": {
+      "floor": ["5"],
       "storage_area": ["Pick Tower"],
       "bin_type": ["HALF-VERTICAL"]
     },
@@ -81,10 +149,82 @@
     },
     "metricas": ["fullness"]
   },
+  "P2-Library": {
+    "nombre": "P2-Library",
+    "filtros": {
+      "floor": ["2"],
+      "storage_area": ["Pick Tower"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P3-Library": {
+    "nombre": "P3-Library",
+    "filtros": {
+      "floor": ["3"],
+      "storage_area": ["Pick Tower"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P4-Library": {
+    "nombre": "P4-Library",
+    "filtros": {
+      "floor": ["4"],
+      "storage_area": ["Pick Tower"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P5-Library": {
+    "nombre": "P5-Library",
+    "filtros": {
+      "floor": ["5"],
+      "storage_area": ["Pick Tower"],
+      "bin_type": ["LIBRARY-DEEP"]
+    },
+    "metricas": ["fullness"]
+  },
   "P1-Barrel": {
     "nombre": "P1-Barrel",
     "filtros": {
       "floor": ["1"],
+      "storage_area": ["Pick Tower"],
+      "bin_type": ["BARREL"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P2-Barrel": {
+    "nombre": "P2-Barrel",
+    "filtros": {
+      "floor": ["2"],
+      "storage_area": ["Pick Tower"],
+      "bin_type": ["BARREL"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P3-Barrel": {
+    "nombre": "P3-Barrel",
+    "filtros": {
+      "floor": ["3"],
+      "storage_area": ["Pick Tower"],
+      "bin_type": ["BARREL"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P4-Barrel": {
+    "nombre": "P4-Barrel",
+    "filtros": {
+      "floor": ["4"],
+      "storage_area": ["Pick Tower"],
+      "bin_type": ["BARREL"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P5-Barrel": {
+    "nombre": "P5-Barrel",
+    "filtros": {
+      "floor": ["5"],
       "storage_area": ["Pick Tower"],
       "bin_type": ["BARREL"]
     },
@@ -99,6 +239,42 @@
     },
     "metricas": ["fullness"]
   },
+  "P2-BatBin": {
+    "nombre": "P2-BatBin",
+    "filtros": {
+      "floor": ["2"],
+      "storage_area": ["Pick Tower"],
+      "bin_type": ["BAT-BIN"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P3-BatBin": {
+    "nombre": "P3-BatBin",
+    "filtros": {
+      "floor": ["3"],
+      "storage_area": ["Pick Tower"],
+      "bin_type": ["BAT-BIN"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P4-BatBin": {
+    "nombre": "P4-BatBin",
+    "filtros": {
+      "floor": ["4"],
+      "storage_area": ["Pick Tower"],
+      "bin_type": ["BAT-BIN"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P5-BatBin": {
+    "nombre": "P5-BatBin",
+    "filtros": {
+      "floor": ["5"],
+      "storage_area": ["Pick Tower"],
+      "bin_type": ["BAT-BIN"]
+    },
+    "metricas": ["fullness"]
+  },
   "P1-FloorPallet": {
     "nombre": "P1-FloorPallet",
     "filtros": {
@@ -108,10 +284,82 @@
     },
     "metricas": ["fullness"]
   },
+  "P2-FloorPallet": {
+    "nombre": "P2-FloorPallet",
+    "filtros": {
+      "floor": ["2"],
+      "storage_area": ["Pick Tower"],
+      "bin_type": ["FLOOR-PALLET"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P3-FloorPallet": {
+    "nombre": "P3-FloorPallet",
+    "filtros": {
+      "floor": ["3"],
+      "storage_area": ["Pick Tower"],
+      "bin_type": ["FLOOR-PALLET"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P4-FloorPallet": {
+    "nombre": "P4-FloorPallet",
+    "filtros": {
+      "floor": ["4"],
+      "storage_area": ["Pick Tower"],
+      "bin_type": ["FLOOR-PALLET"]
+    },
+    "metricas": ["fullness"]
+  },
+  "P5-FloorPallet": {
+    "nombre": "P5-FloorPallet",
+    "filtros": {
+      "floor": ["5"],
+      "storage_area": ["Pick Tower"],
+      "bin_type": ["FLOOR-PALLET"]
+    },
+    "metricas": ["fullness"]
+  },
   "P1-PalletSingle": {
     "nombre": "P1-PalletSingle",
     "filtros": {
       "floor": ["1"],
+      "storage_area": ["Pick Tower"],
+      "bin_type": ["PALLET-SINGLE"]
+    },
+    "metricas": ["fullness", "total_bins", "occupied_bins", "empty_bins"]
+  },
+  "P2-PalletSingle": {
+    "nombre": "P2-PalletSingle",
+    "filtros": {
+      "floor": ["2"],
+      "storage_area": ["Pick Tower"],
+      "bin_type": ["PALLET-SINGLE"]
+    },
+    "metricas": ["fullness", "total_bins", "occupied_bins", "empty_bins"]
+  },
+  "P3-PalletSingle": {
+    "nombre": "P3-PalletSingle",
+    "filtros": {
+      "floor": ["3"],
+      "storage_area": ["Pick Tower"],
+      "bin_type": ["PALLET-SINGLE"]
+    },
+    "metricas": ["fullness", "total_bins", "occupied_bins", "empty_bins"]
+  },
+  "P4-PalletSingle": {
+    "nombre": "P4-PalletSingle",
+    "filtros": {
+      "floor": ["4"],
+      "storage_area": ["Pick Tower"],
+      "bin_type": ["PALLET-SINGLE"]
+    },
+    "metricas": ["fullness", "total_bins", "occupied_bins", "empty_bins"]
+  },
+  "P5-PalletSingle": {
+    "nombre": "P5-PalletSingle",
+    "filtros": {
+      "floor": ["5"],
       "storage_area": ["Pick Tower"],
       "bin_type": ["PALLET-SINGLE"]
     },

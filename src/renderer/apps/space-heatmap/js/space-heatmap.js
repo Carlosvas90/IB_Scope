@@ -494,6 +494,7 @@ async function loadAndDisplayData() {
     displayKPIs(dataService);
     displayPickTowerTable(dataService);
     setupHeatmapButtons();
+    loadBintypeIcons();
     
     // Mostrar secciones
     const kpisSection = document.getElementById('kpis-section');
@@ -510,23 +511,63 @@ async function loadAndDisplayData() {
 }
 
 function displayKPIs(dataService) {
-  // Usar KPIs desde summary_kpis.json
-  const kpis = dataService.getSummaryKPIs();
-  if (!kpis) {
-    console.warn('[KPIs] No hay datos de summary_kpis');
+  // Usar KPIs desde Data_Fullness.json (VLC1)
+  const dataFullness = dataService.getDataFullness();
+  const vlc1 = dataFullness['VLC1'];
+  
+  if (!vlc1 || !vlc1.datos) {
+    console.warn('[KPIs] No hay datos de VLC1 en Data_Fullness');
     return;
   }
   
-  // Actualizar KPIs
-  document.getElementById('kpi-fullness-total').textContent = `${kpis.fullness_total}%`;
-  document.getElementById('kpi-total-units').textContent = kpis.total_units.toLocaleString();
-  document.getElementById('kpi-total-bins').textContent = kpis.total_bins.toLocaleString();
-  document.getElementById('kpi-occupied-bins').textContent = kpis.total_occupied_bins.toLocaleString();
-  document.getElementById('kpi-locked-bins').textContent = kpis.total_locked_bins.toLocaleString();
+  const datos = vlc1.datos;
+  
+  // Función auxiliar para formatear fullness con 2 decimales
+  function formatFullness(value) {
+    if (value === null || value === undefined) return '-';
+    const percentage = (value * 100).toFixed(2);
+    // Separar parte entera y decimales para aplicar estilo diferente
+    const parts = percentage.split('.');
+    return `${parts[0]}.<span class="fullness-decimals">${parts[1]}</span>%`;
+  }
+  
+  // Actualizar KPIs principales
+  const fullnessTotal = formatFullness(datos.fullness);
+  document.getElementById('kpi-fullness-total').innerHTML = fullnessTotal;
+  document.getElementById('kpi-total-units').textContent = datos.total_units.toLocaleString();
+  document.getElementById('kpi-total-bins').textContent = datos.total_bins.toLocaleString();
+  document.getElementById('kpi-occupied-bins').textContent = datos.occupied_bins.toLocaleString();
+  document.getElementById('kpi-locked-bins').textContent = datos.locked_bins.toLocaleString();
+  
+  // Actualizar fullness por Storage Area
+  const pickTower = dataFullness['Pick Tower'];
+  const highRack = dataFullness['High Rack'];
+  const palletLand = dataFullness['Pallet Land'];
+  
+  if (pickTower && pickTower.datos) {
+    document.getElementById('kpi-fullness-pick-tower').innerHTML = formatFullness(pickTower.datos.fullness);
+  }
+  if (highRack && highRack.datos) {
+    document.getElementById('kpi-fullness-high-rack').innerHTML = formatFullness(highRack.datos.fullness);
+  }
+  if (palletLand && palletLand.datos) {
+    document.getElementById('kpi-fullness-pallet-land').innerHTML = formatFullness(palletLand.datos.fullness);
+  }
+  
+  // Actualizar total_units por Storage Area
+  if (pickTower && pickTower.datos && pickTower.datos.total_units) {
+    document.getElementById('kpi-units-pick-tower').textContent = pickTower.datos.total_units.toLocaleString();
+  }
+  if (highRack && highRack.datos && highRack.datos.total_units) {
+    document.getElementById('kpi-units-high-rack').textContent = highRack.datos.total_units.toLocaleString();
+  }
+  if (palletLand && palletLand.datos && palletLand.datos.total_units) {
+    document.getElementById('kpi-units-pallet-land').textContent = palletLand.datos.total_units.toLocaleString();
+  }
 }
 
 function displayPickTowerTable(dataService) {
-  const fullnessByBinType = dataService.getFullnessByBinType();
+  const dataFullness = dataService.getDataFullness();
   const tbody = document.getElementById('pick-tower-table-body');
   if (!tbody) {
     console.warn('[Pick Tower] Tabla no encontrada');
@@ -535,98 +576,86 @@ function displayPickTowerTable(dataService) {
   
   tbody.innerHTML = '';
   
-  // Mapeo de bin types del JSON a nombres de columnas
-  const binTypeMapping = {
-    'LIBRARY-DEEP': 'Library',
-    'HALF-VERTICAL': 'Vertical',
-    'BARREL': 'Barrel',
-    'BAT-BIN': 'BatBin',
-    'FLOOR-PALLET': 'Floor Pallet',
-    'PALLET-SINGLE': 'Pallet Single'
-  };
+  // Función auxiliar para obtener fullness de una zona
+  function getFullness(zoneKey) {
+    const zone = dataFullness[zoneKey];
+    if (!zone || !zone.datos || zone.datos.fullness === undefined) {
+      return null;
+    }
+    return zone.datos.fullness;
+  }
   
-  // Orden de las columnas (sin Floor que es la primera)
-  const columnOrder = ['Total Floor', 'Zone 1', 'Zone 2', 'Library', 'Vertical', 'Barrel', 'BatBin', 'Floor Pallet', 'Pallet Single'];
+  // Función auxiliar para obtener datos completos de una zona (para PalletSingle)
+  function getZoneData(zoneKey) {
+    const zone = dataFullness[zoneKey];
+    if (!zone || !zone.datos) {
+      return null;
+    }
+    return zone.datos;
+  }
   
   // Procesar cada floor (1-5)
   for (let floor = 1; floor <= 5; floor++) {
-    const floorData = fullnessByBinType[floor];
-    if (!floorData || !floorData['Pick Tower']) {
-      // Crear fila vacía si no hay datos
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>P${floor}</td>
-        <td class="empty-cell">-</td>
-        <td class="empty-cell">-</td>
-        <td class="empty-cell">-</td>
-        <td class="empty-cell">-</td>
-        <td class="empty-cell">-</td>
-        <td class="empty-cell">-</td>
-        <td class="empty-cell">-</td>
-        <td class="empty-cell">-</td>
-        <td class="empty-cell">-</td>
-      `;
-      tbody.appendChild(row);
-      continue;
-    }
+    const floorPrefix = `P${floor}`;
     
-    const pickTowerData = floorData['Pick Tower'];
-    
-    // Calcular Total Floor (promedio de avg_fullness de todos los bin types en Pick Tower)
-    let totalFullness = 0;
-    let totalCount = 0;
-    const binTypeValues = {};
-    
-    for (const [binType, data] of Object.entries(pickTowerData)) {
-      const mappedName = binTypeMapping[binType];
-      if (mappedName && data.avg_fullness !== undefined) {
-        totalFullness += data.avg_fullness;
-        totalCount++;
-        binTypeValues[mappedName] = {
-          avg_fullness: data.avg_fullness,
-          occupied_bins: data.occupied_bins,
-          total_bins: data.total_bins
-        };
-      }
-    }
-    
-    const totalFloorPercentage = totalCount > 0 
-      ? Math.round(totalFullness / totalCount * 100) 
-      : 0;
-    
-    // Zone 1 y Zone 2 - por ahora igual al Total Floor (se puede ajustar después)
-    const zone1Percentage = totalFloorPercentage;
-    const zone2Percentage = totalFloorPercentage;
+    // Obtener datos de cada zona/categoría
+    const totalFloor = getFullness(`${floorPrefix}-Total`);
+    const zone1 = getFullness(`${floorPrefix}-Z1`);
+    const zone2 = getFullness(`${floorPrefix}-Z2`);
+    const library = getFullness(`${floorPrefix}-Library`);
+    const vertical = getFullness(`${floorPrefix}-Vertical`);
+    const barrel = getFullness(`${floorPrefix}-Barrel`);
+    const batBin = getFullness(`${floorPrefix}-BatBin`);
+    const floorPallet = getFullness(`${floorPrefix}-FloorPallet`);
+    const palletSingleData = getZoneData(`${floorPrefix}-PalletSingle`);
     
     // Crear la fila
     const row = document.createElement('tr');
     let rowHTML = `<td>P${floor}</td>`;
     
+    // Función auxiliar para formatear fullness con 2 decimales
+    function formatFullnessCell(value) {
+      if (value === null || value === undefined) return '<td class="empty-cell">-</td>';
+      const percentage = (value * 100).toFixed(2);
+      const parts = percentage.split('.');
+      return `<td class="percentage-cell">${parts[0]}.<span class="fullness-decimals">${parts[1]}</span>%</td>`;
+    }
+    
     // Total Floor
-    rowHTML += `<td class="percentage-cell">${totalFloorPercentage}%</td>`;
+    rowHTML += formatFullnessCell(totalFloor);
     
-    // Zone 1 y Zone 2
-    rowHTML += `<td class="percentage-cell">${zone1Percentage}%</td>`;
-    rowHTML += `<td class="percentage-cell">${zone2Percentage}%</td>`;
+    // Zone 1
+    rowHTML += formatFullnessCell(zone1);
     
-    // Bin Types en orden
-    const binTypeColumns = ['Library', 'Vertical', 'Barrel', 'BatBin', 'Floor Pallet', 'Pallet Single'];
-    for (const binTypeName of binTypeColumns) {
-      const binData = binTypeValues[binTypeName];
-      if (binData) {
-        const percentage = Math.round(binData.avg_fullness * 100);
-        if (binTypeName === 'Pallet Single') {
-          // Mostrar ratio para Pallet Single
-          rowHTML += `<td class="percentage-cell">
-            ${percentage}%
-            <span class="pallet-single-ratio">${binData.occupied_bins} / ${binData.total_bins}</span>
-          </td>`;
-        } else {
-          rowHTML += `<td class="percentage-cell">${percentage}%</td>`;
-        }
-      } else {
-        rowHTML += `<td class="empty-cell">-</td>`;
-      }
+    // Zone 2
+    rowHTML += formatFullnessCell(zone2);
+    
+    // Library
+    rowHTML += formatFullnessCell(library);
+    
+    // Vertical (Half-Vertical)
+    rowHTML += formatFullnessCell(vertical);
+    
+    // Barrel
+    rowHTML += formatFullnessCell(barrel);
+    
+    // BatBin
+    rowHTML += formatFullnessCell(batBin);
+    
+    // FloorPallet
+    rowHTML += formatFullnessCell(floorPallet);
+    
+    // PalletSingle (mostrar fullness y empty_bins/total_bins en la misma línea)
+    if (palletSingleData && palletSingleData.fullness !== undefined) {
+      const percentage = (palletSingleData.fullness * 100).toFixed(2);
+      const parts = percentage.split('.');
+      const emptyBins = palletSingleData.empty_bins || 0;
+      const totalBins = palletSingleData.total_bins || 0;
+      rowHTML += `<td class="percentage-cell">
+        ${parts[0]}.<span class="fullness-decimals">${parts[1]}</span>% <span class="pallet-single-ratio">${emptyBins} / ${totalBins}</span>
+      </td>`;
+    } else {
+      rowHTML += `<td class="empty-cell">-</td>`;
     }
     
     row.innerHTML = rowHTML;
@@ -638,6 +667,63 @@ function getPercentageClass(value) {
   if (value >= 70) return 'high';
   if (value >= 40) return 'medium';
   return 'low';
+}
+
+async function loadBintypeIcons() {
+  /**
+   * Carga los SVG de los tipos de bin en los iconos de la tabla
+   */
+  const bintypeIcons = {
+    'library-icon': 'assets/svg/Bintypes/Library.svg',
+    'vertical-icon': 'assets/svg/Bintypes/Half-Vertical.svg',
+    'barrel-icon': 'assets/svg/Bintypes/Barrel.svg',
+    'batbin-icon': 'assets/svg/Bintypes/Bat-Bin.svg',
+    'floor-pallet-icon': 'assets/svg/Bintypes/Floor-pallet.svg',
+    'pallet-single-icon': 'assets/svg/Bintypes/Pallet_single.svg'
+  };
+  
+  // Verificar que el API esté disponible
+  if (!window.api || !window.api.readFile) {
+    console.warn('[Bintype Icons] API readFile no disponible');
+    return;
+  }
+  
+  // Cargar cada icono
+  for (const [iconId, svgPath] of Object.entries(bintypeIcons)) {
+    try {
+      const iconElement = document.getElementById(iconId);
+      if (!iconElement) {
+        console.warn(`[Bintype Icons] Elemento ${iconId} no encontrado`);
+        continue;
+      }
+      
+      const result = await window.api.readFile(svgPath);
+      if (result.success && result.content) {
+        // Insertar el SVG en el elemento
+        iconElement.innerHTML = result.content;
+        
+        // El CSS ya maneja el tamaño (40x40px), solo asegurar que el SVG sea responsive
+        const svgElement = iconElement.querySelector('svg');
+        if (svgElement) {
+          // Mantener el viewBox original pero hacer el SVG responsive
+          if (!svgElement.getAttribute('viewBox') && svgElement.getAttribute('width') && svgElement.getAttribute('height')) {
+            const width = svgElement.getAttribute('width');
+            const height = svgElement.getAttribute('height');
+            svgElement.setAttribute('viewBox', `0 0 ${width} ${height}`);
+          }
+          // El CSS ya establece width y height al 100%, así que removemos los atributos fijos
+          svgElement.removeAttribute('width');
+          svgElement.removeAttribute('height');
+        }
+        
+        console.log(`[Bintype Icons] ✓ Cargado: ${iconId}`);
+      } else {
+        console.warn(`[Bintype Icons] ✗ Error cargando ${svgPath}:`, result.error);
+      }
+    } catch (error) {
+      console.error(`[Bintype Icons] Error cargando ${iconId}:`, error);
+    }
+  }
 }
 
 function setupHeatmapButtons() {

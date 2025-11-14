@@ -79,8 +79,7 @@ class StowMapDataService {
       
       // Cargar archivos JSON generados
       const files = [
-        'fullness_by_bintype.json',
-        'summary_kpis.json'
+        'Data_Fullness.json'
       ];
 
       const promises = files.map(file => 
@@ -151,6 +150,13 @@ class StowMapDataService {
    */
   getFullnessByShelf() {
     return this.dataCache['fullness_by_shelf'] || {};
+  }
+
+  /**
+   * Obtiene datos de fullness por zonas desde Data_Fullness.json
+   */
+  getDataFullness() {
+    return this.dataCache['Data_Fullness'] || {};
   }
 
   /**

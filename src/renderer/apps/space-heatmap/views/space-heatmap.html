@@ -95,6 +95,20 @@
             <div class="kpi-content">
               <div class="kpi-value" id="kpi-fullness-total">-</div>
               <div class="kpi-label">Fullness Total</div>
+              <div class="kpi-subvalues">
+                <span class="kpi-subvalue">
+                  <span class="kpi-subvalue-label">Pick Tower:</span>
+                  <span id="kpi-fullness-pick-tower">-</span>
+                </span>
+                <span class="kpi-subvalue">
+                  <span class="kpi-subvalue-label">High Rack:</span>
+                  <span id="kpi-fullness-high-rack">-</span>
+                </span>
+                <span class="kpi-subvalue">
+                  <span class="kpi-subvalue-label">Pallet Land:</span>
+                  <span id="kpi-fullness-pallet-land">-</span>
+                </span>
+              </div>
             </div>
           </div>
           <div class="kpi-card">
@@ -102,6 +116,20 @@
             <div class="kpi-content">
               <div class="kpi-value" id="kpi-total-units">-</div>
               <div class="kpi-label">Total Unidades</div>
+              <div class="kpi-subvalues">
+                <span class="kpi-subvalue">
+                  <span class="kpi-subvalue-label">Pick Tower:</span>
+                  <span id="kpi-units-pick-tower">-</span>
+                </span>
+                <span class="kpi-subvalue">
+                  <span class="kpi-subvalue-label">High Rack:</span>
+                  <span id="kpi-units-high-rack">-</span>
+                </span>
+                <span class="kpi-subvalue">
+                  <span class="kpi-subvalue-label">Pallet Land:</span>
+                  <span id="kpi-units-pallet-land">-</span>
+                </span>
+              </div>
             </div>
           </div>
           <div class="kpi-card">
@@ -177,33 +205,13 @@
                       <th>
                         <div class="header-with-icon">
                           <span>Zone 1</span>
-                          <svg
-                            class="zone-icon"
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                          >
-                            <!-- Icono SVG para Zone 1 -->
-                            <path d="M3 12h18M12 3v18" stroke-width="2" />
-                          </svg>
+                          <span class="zone-badge zone-badge-ob">OB</span>
                         </div>
                       </th>
                       <th>
                         <div class="header-with-icon">
                           <span>Zone 2</span>
-                          <svg
-                            class="zone-icon"
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                          >
-                            <!-- Icono SVG para Zone 2 -->
-                            <path d="M3 12h18M12 3v18" stroke-width="2" />
-                          </svg>
+                          <span class="zone-badge zone-badge-ib">IB</span>
                         </div>
                       </th>
                       <th>
@@ -216,7 +224,7 @@
                       </th>
                       <th>
                         <div class="header-with-icon">
-                          <span>Vertical</span>
+                          <span>Half-Vertical</span>
                           <div class="bintype-icon" id="vertical-icon">
                             <!-- SVG de Vertical será insertado aquí -->
                           </div>
