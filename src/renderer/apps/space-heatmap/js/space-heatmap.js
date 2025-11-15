@@ -495,6 +495,7 @@ async function loadAndDisplayData() {
     displayPickTowerTable(dataService);
     setupHeatmapButtons();
     loadBintypeIcons();
+    loadKpiIcons();
     
     // Mostrar secciones
     const kpisSection = document.getElementById('kpis-section');
@@ -722,6 +723,62 @@ async function loadBintypeIcons() {
       }
     } catch (error) {
       console.error(`[Bintype Icons] Error cargando ${iconId}:`, error);
+    }
+  }
+}
+
+async function loadKpiIcons() {
+  /**
+   * Carga los SVG de los KPIs
+   */
+  const kpiIcons = {
+    'kpi-icon-fullness': 'assets/svg/Space_Svg/Fullness.svg',
+    'kpi-icon-units': 'assets/svg/Space_Svg/Units.svg',
+    'kpi-icon-bins': 'assets/svg/Space_Svg/Bins.svg',
+    'kpi-icon-heatmap-pt': 'assets/svg/Space_Svg/Heatmap_PT.svg',
+    'kpi-icon-heatmap-hrk-pl': 'assets/svg/Space_Svg/Heatmap_HRK_PL.svg'
+  };
+  
+  // Verificar que el API esté disponible
+  if (!window.api || !window.api.readFile) {
+    console.warn('[KPI Icons] API readFile no disponible');
+    return;
+  }
+  
+  // Cargar cada icono
+  for (const [iconId, svgPath] of Object.entries(kpiIcons)) {
+    try {
+      const iconElement = document.getElementById(iconId);
+      if (!iconElement) {
+        console.warn(`[KPI Icons] Elemento ${iconId} no encontrado`);
+        continue;
+      }
+      
+      const result = await window.api.readFile(svgPath);
+      if (result.success && result.content) {
+        // Insertar el SVG en el elemento
+        iconElement.innerHTML = result.content;
+        
+        // El CSS ya maneja el tamaño del kpi-icon, hacer el SVG responsive
+        const svgElement = iconElement.querySelector('svg');
+        if (svgElement) {
+          // Mantener el viewBox original pero hacer el SVG responsive
+          if (!svgElement.getAttribute('viewBox') && svgElement.getAttribute('width') && svgElement.getAttribute('height')) {
+            const width = svgElement.getAttribute('width');
+            const height = svgElement.getAttribute('height');
+            svgElement.setAttribute('viewBox', `0 0 ${width} ${height}`);
+          }
+          // El CSS ya establece width y height al 100%, así que removemos los atributos fijos
+          svgElement.removeAttribute('width');
+          svgElement.removeAttribute('height');
+        }
+        
+        console.log(`[KPI Icons] ✓ Cargado: ${iconId}`);
+      } else {
+        console.warn(`[KPI Icons] ✗ Error cargando ${svgPath}:`, result.error);
+      }
+    } catch (error) {
+      console.error(`[KPI Icons] Error cargando ${iconId}:`, error);
     }
   }
 }

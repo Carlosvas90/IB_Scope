@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" width="21.83" height="21.83" version="1.1" viewBox="0 0 21.83 21.83">
+  <!-- Generator: Adobe Illustrator 29.2.0, SVG Export Plug-In . SVG Version: 2.1.0 Build 108)  -->
+  <g>
+    <g>
+      <rect x=".61" y="5.83" width="4.83" height="6.41" fill="#9d7945"/>
+      <polygon points="5.44 5.83 5.44 12.24 .61 12.24 .61 12 5.28 12 5.28 5.83 5.44 5.83" fill="#7f5c32"/>
+    </g>
+    <g>
+      <rect x="5.6" y="5.83" width="4.83" height="6.41" fill="#9d7945"/>
+      <polygon points="10.42 5.83 10.42 12.24 5.6 12.24 5.6 12 10.26 12 10.26 5.83 10.42 5.83" fill="#7f5c32"/>
+    </g>
+    <g>
+      <rect x="10.58" y="5.83" width="4.83" height="6.41" fill="#9d7945"/>
+      <polygon points="15.41 5.83 15.41 12.24 10.58 12.24 10.58 12 15.25 12 15.25 5.83 15.41 5.83" fill="#7f5c32"/>
+    </g>
+    <g>
+      <rect x=".61" y="12.28" width="4.83" height="6.41" fill="#9d7945"/>
+      <polygon points="5.44 12.28 5.44 18.69 .61 18.69 .61 18.45 5.28 18.45 5.28 12.28 5.44 12.28" fill="#7f5c32"/>
+    </g>
+    <g>
+      <rect x="5.6" y="12.28" width="4.83" height="6.41" fill="#9d7945"/>
+      <polygon points="10.42 12.28 10.42 18.69 5.6 18.69 5.6 18.45 10.26 18.45 10.26 12.28 10.42 12.28" fill="#7f5c32"/>
+    </g>
+    <g>
+      <rect x="10.58" y="12.28" width="4.83" height="6.41" fill="#9d7945"/>
+      <polygon points="15.41 12.28 15.41 18.69 10.58 18.69 10.58 18.45 15.25 18.45 15.25 12.28 15.41 12.28" fill="#7f5c32"/>
+    </g>
+  </g>
+  <g>
+    <rect x="13.28" y="18.7" width="2.58" height=".58" fill="#7f5c32"/>
+    <rect x=".16" y="19.28" width="15.7" height=".29" fill="#9d7945"/>
+    <rect x="10" y="18.7" width="2.58" height=".58" fill="#7f5c32"/>
+    <rect x="6.72" y="18.7" width="2.58" height=".58" fill="#7f5c32"/>
+    <rect x="3.44" y="18.7" width="2.58" height=".58" fill="#7f5c32"/>
+    <rect x=".16" y="18.7" width="2.58" height=".58" fill="#7f5c32"/>
+    <path d="M15.86,19.57v2.07h-2.58v-2.07h2.58Z" fill="#674623"/>
+    <rect x="6.72" y="19.57" width="2.58" height="2.07" fill="#674623"/>
+    <path d="M2.74,19.57v2.07H.16v-2.07h2.58Z" fill="#674623"/>
+    <path d="M15.86,21.65v-2.05h-2.58c2.51.12,2.58,1.86,2.58,2.05Z" fill="#3a2919" isolation="isolate" opacity=".51"/>
+    <path d="M2.73,19.57c-.19,0-2.34.03-2.57,1.52v-1.52h2.57Z" fill="#3a2919" isolation="isolate" opacity=".31"/>
+    <rect x="6.72" y="19.57" width="2.58" height=".32" fill="#3a2919" isolation="isolate" opacity=".57"/>
+  </g>
+  <path d="M.62,15.98c.06-2.24,0-4.57,0-4.57,6.01,2.57,14.79-4.39,14.79-4.39-.08.39-.09,1.44-.06,2.79.09,3.9.51,10.29.51,10.29l-15.7-.21c.29-.57.42-2.22.46-3.92h0Z" fill="#f2f2f2" isolation="isolate" opacity=".19"/>
+  <path d="M15.27,20.1l-15.11-.2c.29-.57.42-2.22.46-3.92,6.7-.75,12.16-4.24,14.73-6.17.07,3.19.37,8.04.47,9.71.02.32-.23.58-.55.58Z" fill="#f2f2f2" isolation="isolate" opacity=".26"/>
+  <path d="M15.37,20.18l-12.58-.19c-.45,0-2.71-.17-2.71-.61l.46-1.58c0-.45-.1.75.35.75h14.49c.45,0,.81.36.81.81v.02c-.99.17-.36.81-.81.81h-.01Z" fill="#f2f2f2" isolation="isolate" opacity=".4"/>
+  <path d="M9.3,10.62s-1.61,5.74-1.18,6.39l.2-7.2.97.81h.01Z" fill="#9d7945" isolation="isolate" opacity=".6"/>
+</svg>
