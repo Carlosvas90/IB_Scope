@@ -507,6 +507,8 @@ async function loadAndDisplayData() {
     // Cargar cada sección
     displayKPIs(dataService);
     displayPickTowerTable(dataService);
+    displayZone1Table(dataService);
+    displayZone2Table(dataService);
     setupHeatmapButtons();
     loadBintypeIcons();
     loadKpiIcons();
@@ -685,6 +687,242 @@ function getPercentageClass(value) {
   return 'low';
 }
 
+function displayZone1Table(dataService) {
+  const dataFullness = dataService.getDataFullness();
+  const tbody = document.getElementById('zone1-table-body');
+  const shelfTbody = document.getElementById('zone1-shelf-table-body');
+  
+  if (!tbody || !shelfTbody) {
+    console.warn('[Zone 1] Tablas no encontradas');
+    return;
+  }
+  
+  tbody.innerHTML = '';
+  shelfTbody.innerHTML = '';
+  
+  // Función auxiliar para obtener fullness de una zona
+  function getFullness(zoneKey) {
+    const zone = dataFullness[zoneKey];
+    if (!zone || !zone.datos || zone.datos.fullness === undefined) {
+      return null;
+    }
+    return zone.datos.fullness;
+  }
+  
+  // Función auxiliar para obtener datos completos de una zona (para PalletSingle)
+  function getZoneData(zoneKey) {
+    const zone = dataFullness[zoneKey];
+    if (!zone || !zone.datos) {
+      return null;
+    }
+    return zone.datos;
+  }
+  
+  // Función auxiliar para formatear fullness con 2 decimales
+  function formatFullnessCell(value) {
+    if (value === null || value === undefined) return '<td class="empty-cell">-</td>';
+    const percentage = (value * 100).toFixed(2);
+    const parts = percentage.split('.');
+    return `<td class="percentage-cell">${parts[0]}.<span class="fullness-decimals">${parts[1]}</span>%</td>`;
+  }
+  
+  // Procesar cada floor (1-5) solo si tiene datos de Z1
+  for (let floor = 1; floor <= 5; floor++) {
+    const floorPrefix = `P${floor}`;
+    const zone1Key = `${floorPrefix}-Z1`;
+    
+    // Verificar si existe Zone 1 para este floor
+    const zone1Fullness = getFullness(zone1Key);
+    if (zone1Fullness === null) {
+      // No hay datos de Z1 para este floor, saltar
+      continue;
+    }
+    
+    // Obtener datos de cada categoría para Zone 1
+    const zone1 = getFullness(`${floorPrefix}-Z1`);
+    const library = getFullness(`${floorPrefix}-Z1-Library`);
+    const vertical = getFullness(`${floorPrefix}-Z1-Vertical`);
+    const barrel = getFullness(`${floorPrefix}-Z1-Barrel`);
+    const batBin = getFullness(`${floorPrefix}-Z1-BatBin`);
+    const floorPallet = getFullness(`${floorPrefix}-Z1-FloorPallet`);
+    const palletSingleData = getZoneData(`${floorPrefix}-Z1-PalletSingle`);
+    
+    // Crear la fila de la tabla principal
+    const row = document.createElement('tr');
+    let rowHTML = `<td>P${floor}</td>`;
+    
+    // Zone 1
+    rowHTML += formatFullnessCell(zone1);
+    
+    // Library
+    rowHTML += formatFullnessCell(library);
+    
+    // Vertical (Half-Vertical)
+    rowHTML += formatFullnessCell(vertical);
+    
+    // Barrel
+    rowHTML += formatFullnessCell(barrel);
+    
+    // BatBin
+    rowHTML += formatFullnessCell(batBin);
+    
+    // FloorPallet
+    rowHTML += formatFullnessCell(floorPallet);
+    
+    // PalletSingle (mostrar fullness y empty_bins/total_bins en la misma línea)
+    if (palletSingleData && palletSingleData.fullness !== undefined) {
+      const percentage = (palletSingleData.fullness * 100).toFixed(2);
+      const parts = percentage.split('.');
+      const emptyBins = palletSingleData.empty_bins || 0;
+      const totalBins = palletSingleData.total_bins || 0;
+      rowHTML += `<td class="percentage-cell">
+        ${parts[0]}.<span class="fullness-decimals">${parts[1]}</span>% <span class="pallet-single-ratio">${emptyBins} / ${totalBins}</span>
+      </td>`;
+    } else {
+      rowHTML += `<td class="empty-cell">-</td>`;
+    }
+    
+    row.innerHTML = rowHTML;
+    tbody.appendChild(row);
+    
+    // Crear la fila de la tabla Library Shelf
+    const shelfRow = document.createElement('tr');
+    let shelfRowHTML = '';
+    
+    // Obtener datos de Library Shelf A, B, C, D
+    const libraryA = getFullness(`${floorPrefix}-Z1-Library-A`);
+    const libraryB = getFullness(`${floorPrefix}-Z1-Library-B`);
+    const libraryC = getFullness(`${floorPrefix}-Z1-Library-C`);
+    const libraryD = getFullness(`${floorPrefix}-Z1-Library-D`);
+    
+    shelfRowHTML += formatFullnessCell(libraryA);
+    shelfRowHTML += formatFullnessCell(libraryB);
+    shelfRowHTML += formatFullnessCell(libraryC);
+    shelfRowHTML += formatFullnessCell(libraryD);
+    
+    shelfRow.innerHTML = shelfRowHTML;
+    shelfTbody.appendChild(shelfRow);
+  }
+}
+
+function displayZone2Table(dataService) {
+  const dataFullness = dataService.getDataFullness();
+  const tbody = document.getElementById('zone2-table-body');
+  const shelfTbody = document.getElementById('zone2-shelf-table-body');
+  
+  if (!tbody || !shelfTbody) {
+    console.warn('[Zone 2] Tablas no encontradas');
+    return;
+  }
+  
+  tbody.innerHTML = '';
+  shelfTbody.innerHTML = '';
+  
+  // Función auxiliar para obtener fullness de una zona
+  function getFullness(zoneKey) {
+    const zone = dataFullness[zoneKey];
+    if (!zone || !zone.datos || zone.datos.fullness === undefined) {
+      return null;
+    }
+    return zone.datos.fullness;
+  }
+  
+  // Función auxiliar para obtener datos completos de una zona (para PalletSingle)
+  function getZoneData(zoneKey) {
+    const zone = dataFullness[zoneKey];
+    if (!zone || !zone.datos) {
+      return null;
+    }
+    return zone.datos;
+  }
+  
+  // Función auxiliar para formatear fullness con 2 decimales
+  function formatFullnessCell(value) {
+    if (value === null || value === undefined) return '<td class="empty-cell">-</td>';
+    const percentage = (value * 100).toFixed(2);
+    const parts = percentage.split('.');
+    return `<td class="percentage-cell">${parts[0]}.<span class="fullness-decimals">${parts[1]}</span>%</td>`;
+  }
+  
+  // Procesar cada floor (1-5) solo si tiene datos de Z2
+  for (let floor = 1; floor <= 5; floor++) {
+    const floorPrefix = `P${floor}`;
+    const zone2Key = `${floorPrefix}-Z2`;
+    
+    // Verificar si existe Zone 2 para este floor
+    const zone2Fullness = getFullness(zone2Key);
+    if (zone2Fullness === null) {
+      // No hay datos de Z2 para este floor, saltar
+      continue;
+    }
+    
+    // Obtener datos de cada categoría para Zone 2
+    const zone2 = getFullness(`${floorPrefix}-Z2`);
+    const library = getFullness(`${floorPrefix}-Z2-Library`);
+    const vertical = getFullness(`${floorPrefix}-Z2-Vertical`);
+    const barrel = getFullness(`${floorPrefix}-Z2-Barrel`);
+    const batBin = getFullness(`${floorPrefix}-Z2-BatBin`);
+    const floorPallet = getFullness(`${floorPrefix}-Z2-FloorPallet`);
+    const palletSingleData = getZoneData(`${floorPrefix}-Z2-PalletSingle`);
+    
+    // Crear la fila de la tabla principal
+    const row = document.createElement('tr');
+    let rowHTML = `<td>P${floor}</td>`;
+    
+    // Zone 2
+    rowHTML += formatFullnessCell(zone2);
+    
+    // Library
+    rowHTML += formatFullnessCell(library);
+    
+    // Vertical (Half-Vertical)
+    rowHTML += formatFullnessCell(vertical);
+    
+    // Barrel
+    rowHTML += formatFullnessCell(barrel);
+    
+    // BatBin
+    rowHTML += formatFullnessCell(batBin);
+    
+    // FloorPallet
+    rowHTML += formatFullnessCell(floorPallet);
+    
+    // PalletSingle (mostrar fullness y empty_bins/total_bins en la misma línea)
+    if (palletSingleData && palletSingleData.fullness !== undefined) {
+      const percentage = (palletSingleData.fullness * 100).toFixed(2);
+      const parts = percentage.split('.');
+      const emptyBins = palletSingleData.empty_bins || 0;
+      const totalBins = palletSingleData.total_bins || 0;
+      rowHTML += `<td class="percentage-cell">
+        ${parts[0]}.<span class="fullness-decimals">${parts[1]}</span>% <span class="pallet-single-ratio">${emptyBins} / ${totalBins}</span>
+      </td>`;
+    } else {
+      rowHTML += `<td class="empty-cell">-</td>`;
+    }
+    
+    row.innerHTML = rowHTML;
+    tbody.appendChild(row);
+    
+    // Crear la fila de la tabla Library Shelf
+    const shelfRow = document.createElement('tr');
+    let shelfRowHTML = '';
+    
+    // Obtener datos de Library Shelf A, B, C, D
+    const libraryA = getFullness(`${floorPrefix}-Z2-Library-A`);
+    const libraryB = getFullness(`${floorPrefix}-Z2-Library-B`);
+    const libraryC = getFullness(`${floorPrefix}-Z2-Library-C`);
+    const libraryD = getFullness(`${floorPrefix}-Z2-Library-D`);
+    
+    shelfRowHTML += formatFullnessCell(libraryA);
+    shelfRowHTML += formatFullnessCell(libraryB);
+    shelfRowHTML += formatFullnessCell(libraryC);
+    shelfRowHTML += formatFullnessCell(libraryD);
+    
+    shelfRow.innerHTML = shelfRowHTML;
+    shelfTbody.appendChild(shelfRow);
+  }
+}
+
 async function loadBintypeIcons() {
   /**
    * Carga los SVG de los tipos de bin en los iconos de la tabla
@@ -695,7 +933,21 @@ async function loadBintypeIcons() {
     'barrel-icon': 'assets/svg/Bintypes/Barrel.svg',
     'batbin-icon': 'assets/svg/Bintypes/Bat-Bin.svg',
     'floor-pallet-icon': 'assets/svg/Bintypes/Floor-pallet.svg',
-    'pallet-single-icon': 'assets/svg/Bintypes/Pallet_single.svg'
+    'pallet-single-icon': 'assets/svg/Bintypes/Pallet_single.svg',
+    // Iconos para Zone 1
+    'zone1-library-icon': 'assets/svg/Bintypes/Library.svg',
+    'zone1-vertical-icon': 'assets/svg/Bintypes/Half-Vertical.svg',
+    'zone1-barrel-icon': 'assets/svg/Bintypes/Barrel.svg',
+    'zone1-batbin-icon': 'assets/svg/Bintypes/Bat-Bin.svg',
+    'zone1-floor-pallet-icon': 'assets/svg/Bintypes/Floor-pallet.svg',
+    'zone1-pallet-single-icon': 'assets/svg/Bintypes/Pallet_single.svg',
+    // Iconos para Zone 2
+    'zone2-library-icon': 'assets/svg/Bintypes/Library.svg',
+    'zone2-vertical-icon': 'assets/svg/Bintypes/Half-Vertical.svg',
+    'zone2-barrel-icon': 'assets/svg/Bintypes/Barrel.svg',
+    'zone2-batbin-icon': 'assets/svg/Bintypes/Bat-Bin.svg',
+    'zone2-floor-pallet-icon': 'assets/svg/Bintypes/Floor-pallet.svg',
+    'zone2-pallet-single-icon': 'assets/svg/Bintypes/Pallet_single.svg'
   };
   
   // Verificar que el API esté disponible
