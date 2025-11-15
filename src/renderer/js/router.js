@@ -241,10 +241,16 @@ class Router {
     this.updateSubmenusForApp(appName);
 
     // Si es la misma aplicación y ya está cargada, solo cambiar la vista
+    // PERO aún así emitir eventos para que la app pueda reinicializarse si es necesario
     if (this.currentApp === appName && this.loadedApps[appName]) {
       if (viewName) {
         await this.changeView(viewName);
       }
+      // Emitir eventos para permitir reinicialización (útil para apps como space-heatmap)
+      this.emitEvent("app:loaded", { app: appName, view: viewName });
+      setTimeout(() => {
+        this.emitEvent("app:ready", { app: appName, view: viewName });
+      }, 200);
       return true;
     }
 
@@ -908,11 +914,19 @@ class Router {
    * Emite un evento
    */
   emitEvent(eventName, data) {
+    // Emitir eventos internos del router
     if (this.events[eventName]) {
       this.events[eventName].forEach((callback) => {
         callback(data);
       });
     }
+    
+    // También emitir eventos del DOM para que los listeners de window funcionen
+    const domEvent = new CustomEvent(eventName, {
+      detail: data,
+      bubbles: true
+    });
+    window.dispatchEvent(domEvent);
   }
 }
 

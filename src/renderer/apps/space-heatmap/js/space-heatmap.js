@@ -155,31 +155,29 @@ let updateInterval = null;
 function initSpaceHeatmap() {
   console.log("🔧 space-heatmap.js inicializando...");
 
-  const downloadBtn = document.getElementById("download-stowmap-btn");
-  const downloadBtnText = document.getElementById("download-btn-text");
-  const statusMessage = document.getElementById("status-message");
+    const downloadBtn = document.getElementById("download-stowmap-btn");
+    const downloadBtnText = document.getElementById("download-btn-text");
+    const statusMessage = document.getElementById("status-message");
 
-  console.log("🔍 downloadBtn:", downloadBtn);
-  console.log("🔍 statusMessage:", statusMessage);
+    console.log("🔍 downloadBtn:", downloadBtn);
+    console.log("🔍 statusMessage:", statusMessage);
 
-  if (!downloadBtn) {
-    console.error("❌ No se encontró el botón download-stowmap-btn");
-    return;
-  }
+    if (!downloadBtn) {
+      console.error("❌ No se encontró el botón download-stowmap-btn");
+      return;
+    }
 
-  console.log("✅ Listeners de evento configurados");
-  
-  // Verificar el estado del archivo al cargar
-  updateFileStatus();
-  
-  // Configurar actualización automática cada 30 segundos
-  if (updateInterval) {
-    clearInterval(updateInterval);
-  }
-  updateInterval = setInterval(() => {
+    // Verificar el estado del archivo al cargar
     updateFileStatus();
-  }, 30000); // Actualizar cada 30 segundos
-  console.log("✅ Actualización automática configurada cada 30 segundos");
+    
+    // Configurar actualización automática cada 30 segundos
+    if (updateInterval) {
+      clearInterval(updateInterval);
+    }
+    updateInterval = setInterval(() => {
+      updateFileStatus();
+    }, 30000); // Actualizar cada 30 segundos
+    console.log("✅ Actualización automática configurada cada 30 segundos");
 
   // Función para verificar si el modal debe mostrarse (solo una vez al día)
   function shouldShowModal() {
@@ -228,7 +226,23 @@ function initSpaceHeatmap() {
     });
   }
 
-  downloadBtn.addEventListener("click", async () => {
+  // Remover listener anterior si existe para evitar duplicados al reinicializar
+  // Clonar el botón para remover todos los listeners anteriores
+  const newDownloadBtn = downloadBtn.cloneNode(true);
+  downloadBtn.parentNode.replaceChild(newDownloadBtn, downloadBtn);
+  
+  // Obtener referencias frescas después de clonar
+  const freshDownloadBtn = document.getElementById("download-stowmap-btn");
+  const freshDownloadBtnText = document.getElementById("download-btn-text");
+  
+  if (!freshDownloadBtn || !freshDownloadBtnText) {
+    console.error("❌ No se encontraron elementos después de clonar");
+    return;
+  }
+  
+  console.log("✅ Listeners de evento configurados");
+  
+  freshDownloadBtn.addEventListener("click", async () => {
     console.log("🖱️ Click en botón detectado");
 
     // Mostrar modal si es la primera vez hoy
@@ -256,9 +270,9 @@ function initSpaceHeatmap() {
       }
 
       // Deshabilitar botón y agregar animación
-      downloadBtn.disabled = true;
-      downloadBtn.classList.add("downloading");
-      downloadBtnText.textContent = "Descargando...";
+      freshDownloadBtn.disabled = true;
+      freshDownloadBtn.classList.add("downloading");
+      freshDownloadBtnText.textContent = "Descargando...";
       
       // Ocultar banner de estado y mostrar barra de progreso
       statusMessage.style.display = "none";
@@ -440,9 +454,9 @@ function initSpaceHeatmap() {
       statusMessage.style.display = "block";
       console.error("❌ Error al ejecutar script:", error);
     } finally {
-      downloadBtn.disabled = false;
-      downloadBtn.classList.remove("downloading");
-      downloadBtnText.textContent = "Descargar StowMap";
+      freshDownloadBtn.disabled = false;
+      freshDownloadBtn.classList.remove("downloading");
+      freshDownloadBtnText.textContent = "Descargar StowMap";
     }
   });
 }
@@ -857,19 +871,47 @@ function openHeatmap(heatmapType) {
   // 3. Navegar a una vista específica del heatmap
 }
 
-// Inicializar cuando el DOM esté listo
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", () => {
-    initSpaceHeatmap();
-    // Cargar banner inmediatamente
-    loadBannerIcon();
-    // Intentar cargar datos al iniciar
-    loadAndDisplayData();
-  });
-} else {
+// Función para inicializar la aplicación
+function initializeSpaceHeatmap() {
+  console.log("🔧 Inicializando Space Heatmap...");
   initSpaceHeatmap();
   // Cargar banner inmediatamente
   loadBannerIcon();
   // Intentar cargar datos al iniciar
   loadAndDisplayData();
 }
+
+// Inicializar cuando el DOM esté listo
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", () => {
+    initializeSpaceHeatmap();
+  });
+} else {
+  initializeSpaceHeatmap();
+}
+
+// También escuchar eventos del router para cuando se navega de vuelta a esta app
+window.addEventListener("app:ready", (event) => {
+  console.log("📢 Evento app:ready recibido:", event.detail);
+  if (event.detail && event.detail.app === "space-heatmap") {
+    console.log("🔄 Space Heatmap cargada de nuevo, reinicializando...");
+    // Pequeño delay para asegurar que el DOM esté completamente listo
+    setTimeout(() => {
+      initializeSpaceHeatmap();
+    }, 300);
+  }
+});
+
+// También escuchar el evento app:loaded por si acaso
+window.addEventListener("app:loaded", (event) => {
+  console.log("📢 Evento app:loaded recibido:", event.detail);
+  if (event.detail && event.detail.app === "space-heatmap") {
+    console.log("🔄 Space Heatmap cargada, reinicializando datos...");
+    // Pequeño delay para asegurar que el DOM esté completamente listo
+    setTimeout(() => {
+      // Solo recargar datos, no reinicializar todo (para evitar duplicar listeners)
+      loadBannerIcon();
+      loadAndDisplayData();
+    }, 300);
+  }
+});
