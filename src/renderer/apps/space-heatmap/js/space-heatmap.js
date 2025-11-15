@@ -496,6 +496,7 @@ async function loadAndDisplayData() {
     setupHeatmapButtons();
     loadBintypeIcons();
     loadKpiIcons();
+    loadBannerIcon();
     
     // Mostrar secciones
     const kpisSection = document.getElementById('kpis-section');
@@ -783,6 +784,53 @@ async function loadKpiIcons() {
   }
 }
 
+async function loadBannerIcon() {
+  /**
+   * Carga el SVG del banner en el header
+   */
+  const bannerElement = document.getElementById('header-banner-icon');
+  if (!bannerElement) {
+    console.warn('[Banner Icon] Elemento header-banner-icon no encontrado');
+    return;
+  }
+  
+  // Verificar que el API esté disponible
+  if (!window.api || !window.api.readFile) {
+    console.warn('[Banner Icon] API readFile no disponible');
+    return;
+  }
+  
+  try {
+    const result = await window.api.readFile('assets/svg/Space_Svg/Banner.svg');
+    if (result.success && result.content) {
+      // Insertar el SVG en el elemento
+      bannerElement.innerHTML = result.content;
+      
+      // Hacer el SVG responsive
+      const svgElement = bannerElement.querySelector('svg');
+      if (svgElement) {
+        // Mantener el viewBox original pero hacer el SVG responsive
+        if (!svgElement.getAttribute('viewBox') && svgElement.getAttribute('width') && svgElement.getAttribute('height')) {
+          const width = svgElement.getAttribute('width');
+          const height = svgElement.getAttribute('height');
+          svgElement.setAttribute('viewBox', `0 0 ${width} ${height}`);
+        }
+        // El contenedor ya tiene width y height definidos, hacer el SVG responsive
+        svgElement.removeAttribute('width');
+        svgElement.removeAttribute('height');
+        svgElement.style.width = '100%';
+        svgElement.style.height = '100%';
+      }
+      
+      console.log('[Banner Icon] ✓ Cargado');
+    } else {
+      console.warn('[Banner Icon] ✗ Error cargando Banner.svg:', result.error);
+    }
+  } catch (error) {
+    console.error('[Banner Icon] Error cargando:', error);
+  }
+}
+
 function setupHeatmapButtons() {
   const heatmapButtons = document.querySelectorAll('.kpi-heatmap-btn');
   
@@ -813,11 +861,15 @@ function openHeatmap(heatmapType) {
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", () => {
     initSpaceHeatmap();
+    // Cargar banner inmediatamente
+    loadBannerIcon();
     // Intentar cargar datos al iniciar
     loadAndDisplayData();
   });
 } else {
   initSpaceHeatmap();
+  // Cargar banner inmediatamente
+  loadBannerIcon();
   // Intentar cargar datos al iniciar
   loadAndDisplayData();
 }
