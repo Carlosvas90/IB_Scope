@@ -507,8 +507,11 @@ async function loadAndDisplayData() {
     // Cargar cada sección
     displayKPIs(dataService);
     displayPickTowerTable(dataService);
+    displayHighRackTable(dataService);
+    displayPalletLandTable(dataService);
     displayZone1Table(dataService);
     displayZone2Table(dataService);
+    setupTableNavigation();
     setupHeatmapButtons();
     loadBintypeIcons();
     loadKpiIcons();
@@ -685,6 +688,225 @@ function getPercentageClass(value) {
   if (value >= 70) return 'high';
   if (value >= 40) return 'medium';
   return 'low';
+}
+
+function displayHighRackTable(dataService) {
+  const dataFullness = dataService.getDataFullness();
+  const tbody = document.getElementById('high-rack-table-body');
+  
+  if (!tbody) {
+    console.warn('[High Rack] Tabla no encontrada');
+    return;
+  }
+  
+  tbody.innerHTML = '';
+  
+  // Función auxiliar para obtener datos de una zona
+  function getZoneData(zoneKey) {
+    const zone = dataFullness[zoneKey];
+    if (!zone || !zone.datos) {
+      return null;
+    }
+    return zone.datos;
+  }
+  
+  // Función auxiliar para formatear fullness con 2 decimales
+  function formatFullnessCell(value) {
+    if (value === null || value === undefined) return '<td class="empty-cell">-</td>';
+    const percentage = (value * 100).toFixed(2);
+    const parts = percentage.split('.');
+    return `<td class="percentage-cell">${parts[0]}.<span class="fullness-decimals">${parts[1]}</span>%</td>`;
+  }
+  
+  // Tipos de bins para High Rack
+  const binTypes = [
+    { key: 'HRK-BatBin', label: 'BatBin' },
+    { key: 'HRK-Cantilever', label: 'Cantilever' },
+    { key: 'HRK-PassThrough', label: 'Pass Through' },
+    { key: 'HRK-FloorPallet', label: 'Floor Pallet' },
+    { key: 'HRK-PalletSingle', label: 'Pallet Single' },
+    { key: 'HRK-Standard', label: 'Standard' },
+    { key: 'HRK-SIOC', label: 'SIOC' }
+  ];
+  
+  binTypes.forEach(binType => {
+    const data = getZoneData(binType.key);
+    
+    if (!data) {
+      return; // Saltar si no hay datos
+    }
+    
+    const row = document.createElement('tr');
+    let rowHTML = `<td>${binType.label}</td>`;
+    
+    // Fullness
+    rowHTML += formatFullnessCell(data.fullness);
+    
+    // Total Bins
+    if (data.total_bins !== undefined) {
+      rowHTML += `<td>${data.total_bins.toLocaleString()}</td>`;
+    } else {
+      rowHTML += '<td class="empty-cell">-</td>';
+    }
+    
+    // Occupied Bins
+    if (data.occupied_bins !== undefined) {
+      rowHTML += `<td>${data.occupied_bins.toLocaleString()}</td>`;
+    } else {
+      rowHTML += '<td class="empty-cell">-</td>';
+    }
+    
+    // Empty Bins
+    if (data.empty_bins !== undefined) {
+      rowHTML += `<td>${data.empty_bins.toLocaleString()}</td>`;
+    } else {
+      rowHTML += '<td class="empty-cell">-</td>';
+    }
+    
+    // Locked Bins
+    if (data.locked_bins !== undefined) {
+      rowHTML += `<td>${data.locked_bins.toLocaleString()}</td>`;
+    } else {
+      rowHTML += '<td class="empty-cell">-</td>';
+    }
+    
+    // Total Units
+    if (data.total_units !== undefined) {
+      rowHTML += `<td>${data.total_units.toLocaleString()}</td>`;
+    } else {
+      rowHTML += '<td class="empty-cell">-</td>';
+    }
+    
+    row.innerHTML = rowHTML;
+    tbody.appendChild(row);
+  });
+}
+
+function displayPalletLandTable(dataService) {
+  const dataFullness = dataService.getDataFullness();
+  const tbody = document.getElementById('pallet-land-table-body');
+  
+  if (!tbody) {
+    console.warn('[Pallet Land] Tabla no encontrada');
+    return;
+  }
+  
+  tbody.innerHTML = '';
+  
+  // Función auxiliar para obtener datos de una zona
+  function getZoneData(zoneKey) {
+    const zone = dataFullness[zoneKey];
+    if (!zone || !zone.datos) {
+      return null;
+    }
+    return zone.datos;
+  }
+  
+  // Función auxiliar para formatear fullness con 2 decimales
+  function formatFullnessCell(value) {
+    if (value === null || value === undefined) return '<td class="empty-cell">-</td>';
+    const percentage = (value * 100).toFixed(2);
+    const parts = percentage.split('.');
+    return `<td class="percentage-cell">${parts[0]}.<span class="fullness-decimals">${parts[1]}</span>%</td>`;
+  }
+  
+  // Zonas de Pallet Land
+  const zones = [
+    { key: 'Pallet-Land-TL', label: 'Team Lift' },
+    { key: 'Pallet-Land-PetFood', label: 'Pet Food' }
+  ];
+  
+  zones.forEach(zone => {
+    const data = getZoneData(zone.key);
+    
+    if (!data) {
+      return; // Saltar si no hay datos
+    }
+    
+    const row = document.createElement('tr');
+    let rowHTML = `<td>${zone.label}</td>`;
+    
+    // Fullness
+    rowHTML += formatFullnessCell(data.fullness);
+    
+    // Total Bins
+    if (data.total_bins !== undefined) {
+      rowHTML += `<td>${data.total_bins.toLocaleString()}</td>`;
+    } else {
+      rowHTML += '<td class="empty-cell">-</td>';
+    }
+    
+    // Occupied Bins
+    if (data.occupied_bins !== undefined) {
+      rowHTML += `<td>${data.occupied_bins.toLocaleString()}</td>`;
+    } else {
+      rowHTML += '<td class="empty-cell">-</td>';
+    }
+    
+    // Empty Bins
+    if (data.empty_bins !== undefined) {
+      rowHTML += `<td>${data.empty_bins.toLocaleString()}</td>`;
+    } else {
+      rowHTML += '<td class="empty-cell">-</td>';
+    }
+    
+    row.innerHTML = rowHTML;
+    tbody.appendChild(row);
+  });
+}
+
+function setupTableNavigation() {
+  const navButtons = document.querySelectorAll('.table-nav-btn');
+  const tableContainers = {
+    'pick-tower': document.getElementById('pick-tower-table-container'),
+    'high-rack': document.getElementById('high-rack-table-container'),
+    'pallet-land': document.getElementById('pallet-land-table-container')
+  };
+  
+  // Contenedores de Zone 1 y Zone 2 (solo se muestran con Pick Tower)
+  const zone1Separator = document.querySelector('.section-separator');
+  const zone1TablesContainer = zone1Separator ? zone1Separator.nextElementSibling : null;
+  const zone2Separator = document.querySelectorAll('.section-separator')[1];
+  const zone2TablesContainer = zone2Separator ? zone2Separator.nextElementSibling : null;
+  
+  navButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetTable = btn.getAttribute('data-table');
+      
+      // Remover clase active de todos los botones
+      navButtons.forEach(b => b.classList.remove('active'));
+      
+      // Agregar clase active al botón clickeado
+      btn.classList.add('active');
+      
+      // Ocultar todas las tablas principales
+      Object.values(tableContainers).forEach(container => {
+        if (container) {
+          container.style.display = 'none';
+        }
+      });
+      
+      // Mostrar la tabla seleccionada
+      if (tableContainers[targetTable]) {
+        tableContainers[targetTable].style.display = 'block';
+      }
+      
+      // Mostrar/ocultar tablas de Zone 1 y Zone 2 solo si es Pick Tower
+      if (targetTable === 'pick-tower') {
+        // Mostrar separadores y tablas de Zone 1 y Zone 2
+        if (zone1Separator) zone1Separator.style.display = 'block';
+        if (zone1TablesContainer) zone1TablesContainer.style.display = 'flex';
+        if (zone2Separator) zone2Separator.style.display = 'block';
+        if (zone2TablesContainer) zone2TablesContainer.style.display = 'flex';
+      } else {
+        // Ocultar separadores y tablas de Zone 1 y Zone 2
+        if (zone1Separator) zone1Separator.style.display = 'none';
+        if (zone1TablesContainer) zone1TablesContainer.style.display = 'none';
+        if (zone2Separator) zone2Separator.style.display = 'none';
+        if (zone2TablesContainer) zone2TablesContainer.style.display = 'none';
+      }
+    });
+  });
 }
 
 function displayZone1Table(dataService) {

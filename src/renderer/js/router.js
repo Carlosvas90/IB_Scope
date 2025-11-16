@@ -541,6 +541,7 @@ class Router {
             const link = document.createElement("link");
             link.rel = "stylesheet";
             link.href = cssPath;
+            link.setAttribute("data-app", appName); // Agregar atributo data-app
 
             await new Promise((resolve) => {
               link.onload = () => {
@@ -556,6 +557,10 @@ class Router {
           } catch (cssError) {
             console.warn(`⚠️ Error al cargar CSS: ${cssPath}`, cssError);
           }
+        } else {
+          // Si ya existe, asegurar que tenga el atributo data-app y esté habilitado
+          existingLink.setAttribute("data-app", appName);
+          existingLink.media = "all";
         }
       }
 
@@ -617,9 +622,71 @@ class Router {
   }
 
   /**
+   * Deshabilita los estilos de otras aplicaciones (excepto la actual)
+   */
+  disableOtherAppStyles(currentAppName) {
+    // Buscar TODOS los links de estilos, no solo los que tienen data-app
+    const allStyleLinks = document.querySelectorAll('link[rel="stylesheet"]');
+    
+    allStyleLinks.forEach((link) => {
+      const href = link.getAttribute("href") || "";
+      const appName = link.getAttribute("data-app");
+      
+      // Si tiene atributo data-app, usar ese
+      if (appName) {
+        if (appName !== currentAppName) {
+          link.media = "print"; // Deshabilitar usando media="print"
+          console.log(`[Router] Deshabilitando estilos de ${appName} (data-app)`);
+        }
+      } else {
+        // Si no tiene data-app, intentar detectar la app por la ruta del CSS
+        let detectedApp = null;
+        
+        if (href.includes("space-heatmap")) {
+          detectedApp = "space-heatmap";
+        } else if (href.includes("activity-scope") || href.includes("user-activity")) {
+          detectedApp = "activity-scope";
+        } else if (href.includes("feedback-tracker")) {
+          detectedApp = "feedback-tracker";
+        } else if (href.includes("dashboard")) {
+          detectedApp = "dashboard";
+        } else if (href.includes("pizarra")) {
+          detectedApp = "pizarra";
+        }
+        
+        // Si detectamos una app diferente a la actual, deshabilitar
+        if (detectedApp && detectedApp !== currentAppName) {
+          link.media = "print";
+          console.log(`[Router] Deshabilitando estilos de ${detectedApp} (detectado por ruta: ${href})`);
+        } else if (detectedApp === currentAppName) {
+          // Si es la app actual pero no tiene data-app, agregarlo y habilitar
+          link.setAttribute("data-app", detectedApp);
+          link.media = "all";
+          console.log(`[Router] Agregando data-app="${detectedApp}" y habilitando: ${href}`);
+        }
+      }
+    });
+  }
+
+  /**
+   * Habilita los estilos de una aplicación específica
+   */
+  enableAppStyles(appName) {
+    const styleLinks = document.querySelectorAll(`link[data-app="${appName}"][rel="stylesheet"]`);
+    
+    styleLinks.forEach((link) => {
+      link.media = "all"; // Habilitar usando media="all"
+      console.log(`[Router] Habilitando estilos de ${appName}`);
+    });
+  }
+
+  /**
    * Carga los estilos definidos para la aplicación
    */
   async loadAppStyles(appName) {
+    // Deshabilitar estilos de otras aplicaciones antes de cargar la nueva
+    this.disableOtherAppStyles(appName);
+
     // Verificar si la app tiene estilos definidos
     const app = this.routes[appName];
     if (!app.styles || !app.styles.length) {
@@ -637,6 +704,8 @@ class Router {
         );
         if (existingLink) {
           console.log(`Estilo ya cargado: ${stylePath}`);
+          // Asegurar que esté habilitado
+          existingLink.media = "all";
           continue;
         }
 
@@ -646,6 +715,7 @@ class Router {
         link.type = "text/css";
         link.href = stylePath;
         link.setAttribute("data-app", appName);
+        link.media = "all"; // Habilitar inmediatamente
 
         // Esperar a que se cargue
         await new Promise((resolve, reject) => {
@@ -760,6 +830,7 @@ class Router {
               const link = document.createElement("link");
               link.rel = "stylesheet";
               link.href = cssPath;
+              link.setAttribute("data-app", "activity-scope"); // Agregar atributo data-app
 
               // Esperar a que se cargue el CSS
               await new Promise((resolve, reject) => {
@@ -777,6 +848,9 @@ class Router {
               console.warn(`⚠️ Error al cargar CSS: ${cssPath}`, cssError);
             }
           } else {
+            // Si ya existe, asegurar que tenga el atributo data-app y esté habilitado
+            existingLink.setAttribute("data-app", "activity-scope");
+            existingLink.media = "all";
             console.log(`✅ CSS ya cargado: ${cssPath}`);
           }
 

@@ -808,7 +808,7 @@
 }
 
 .pick-tower-table th {
-  padding: 0.5rem 0.75rem;
+  padding: 0.3rem 0.75rem;
   text-align: center;
   font-weight: 600;
   font-size: 0.875rem;
@@ -824,8 +824,6 @@
 
 .pick-tower-table th.floor-col {
   width: 80px;
-  text-align: left;
-  opacity: 0.7;
   font-weight: 500;
 }
 
@@ -871,6 +869,20 @@
   height: 100%;
   max-width: 70px;
   max-height: 70px;
+}
+
+/* Estilos específicos para iconos en tablas Zone 1 y Zone 2 (más pequeños) */
+.zone1-table .header-with-icon .bintype-icon,
+.zone2-table .header-with-icon .bintype-icon {
+  width: 45px;
+  height: 45px;
+  left: 15%; /* Centrado */
+}
+
+.zone1-table .header-with-icon .bintype-icon svg,
+.zone2-table .header-with-icon .bintype-icon svg {
+  max-width: 50px;
+  max-height: 50px;
 }
 
 .zone-badge {
@@ -953,11 +965,49 @@
   font-weight: 400;
 }
 
+/* Navegación de tablas */
+.table-navigation {
+  display: flex;
+  gap: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.table-nav-btn {
+  padding: 0.5rem 1.5rem;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.table-nav-btn:hover {
+  background: #f9fafb;
+  border-color: #667eea;
+  color: #667eea;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+}
+
+.table-nav-btn.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: #667eea;
+  color: white;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.table-nav-btn.active:hover {
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+}
+
 /* Separador de sección */
 .section-separator {
-  margin: 2rem 0 1.5rem 0;
   padding-bottom: 0.75rem;
-  border-bottom: 2px solid #e5e7eb;
 }
 
 .section-separator h3 {
@@ -971,7 +1021,6 @@
 .zone1-tables-container {
   display: flex;
   gap: 1.5rem;
-  margin-bottom: 2rem;
   align-items: flex-start;
 }
 
@@ -985,8 +1034,83 @@
   min-width: 300px;
 }
 
-.zone1-table {
+/* Estilos específicos para tablas de Zone 1 y Zone 2 (más compactas en altura, no en texto) */
+.zone1-table,
+.zone2-table {
   width: 100%;
+}
+
+.zone1-table thead,
+.zone2-table thead {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.zone1-table th,
+.zone2-table th {
+  padding: 0.35rem 0.75rem; /* Padding vertical más pequeño, horizontal igual */
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.875rem; /* Mismo tamaño de fuente que la tabla principal */
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  line-height: 1.2;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.6),
+    0 3px 6px rgba(0, 0, 0, 0.4);
+}
+
+.zone1-table td,
+.zone2-table td {
+  padding: 0.35rem 0.75rem; /* Padding vertical más pequeño, horizontal igual */
+  text-align: center;
+  border-right: 1px solid #e5e7eb;
+  font-size: 0.875rem; /* Mismo tamaño de fuente que la tabla principal */
+  line-height: 1.3;
+}
+
+.zone1-table td:first-child,
+.zone2-table td:first-child {
+  text-align: left;
+  background-color: #f9fafb;
+  color: #111827;
+  font-weight: 600;
+  font-size: 0.875rem; /* Mismo tamaño de fuente */
+}
+
+/* Iconos SVG más pequeños en tablas Zone 1 y Zone 2 */
+.zone1-table .bintype-icon,
+.zone2-table .bintype-icon {
+  position: absolute;
+  width: 50px; /* Más pequeño que 70px */
+  height: 50px; /* Más pequeño que 70px */
+  opacity: 1;
+  z-index: 1;
+  pointer-events: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.zone1-table .bintype-icon svg,
+.zone2-table .bintype-icon svg {
+  max-width: 50px; /* Más pequeño que 70px */
+  max-height: 50px; /* Más pequeño que 70px */
+}
+
+.zone1-table .header-with-icon,
+.zone2-table .header-with-icon {
+  position: relative;
+  min-height: 55px; /* Más pequeño que 70px pero mantiene legibilidad */
+  padding: 0.15rem 0; /* Padding vertical más pequeño */
+}
+
+.zone1-table .header-with-icon span,
+.zone2-table .header-with-icon span {
+  z-index: 2;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.6),
+    0 3px 6px rgba(0, 0, 0, 0.4);
+  margin-top: 0.15rem;
+  line-height: 1.2;
+  font-size: 0.875rem; /* Mismo tamaño de fuente que la tabla principal */
 }
 
 .zone1-shelf-table-inner {
@@ -1071,10 +1195,10 @@
 }
 
 .zone1-shelf-table-inner td {
-  padding: 0.5rem 0.75rem;
+  padding: 0.35rem 0.75rem; /* Padding vertical más pequeño, horizontal igual */
   text-align: center;
   border-right: 1px solid #e5e7eb;
-  font-size: 0.875rem;
+  font-size: 0.875rem; /* Mismo tamaño de fuente */
   line-height: 1.3;
   background-color: transparent;
   font-weight: 600;
@@ -1086,6 +1210,20 @@
   background-color: transparent;
   color: #111827;
   font-weight: 600;
+}
+
+/* Estilos más compactos para Library Shelf en Zone 1 y Zone 2 */
+.zone1-shelf-table-inner .shelf-header-title {
+  padding: 0.35rem 0.75rem; /* Padding vertical más pequeño, horizontal igual */
+  font-size: 0.875rem; /* Mismo tamaño de fuente */
+}
+
+.zone1-shelf-table-inner .shelf-col-header {
+  padding: 0.25rem 0.25rem; /* Padding vertical más pequeño */
+}
+
+.zone1-shelf-table-inner .shelf-col-header span {
+  font-size: 0.875rem; /* Mismo tamaño de fuente */
 }
 
 .zone1-shelf-table-inner td:last-child {

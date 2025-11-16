@@ -187,13 +187,21 @@
 
         <!-- Sección de Tablas -->
         <div id="tables-section" class="tables-section" style="display: none">
-          <!-- Separador: Pick Tower -->
-          <div class="section-separator">
-            <h3>Pick Tower</h3>
+          <!-- Navegación de tablas: Pick Tower, High Rack, Pallet Land -->
+          <div class="table-navigation">
+            <button class="table-nav-btn active" data-table="pick-tower">
+              Pick Tower
+            </button>
+            <button class="table-nav-btn" data-table="high-rack">
+              High Rack
+            </button>
+            <button class="table-nav-btn" data-table="pallet-land">
+              Pallet Land
+            </button>
           </div>
-          
+
           <!-- Tabla: Fullness Pick Tower -->
-          <div class="table-container">
+          <div class="table-container" id="pick-tower-table-container">
             <table class="pick-tower-table">
                   <thead>
                     <tr>
@@ -265,6 +273,44 @@
                     <!-- Se llena dinámicamente con los datos de fullness_by_bintype.json -->
                   </tbody>
                 </table>
+          </div>
+
+          <!-- Tabla: High Rack -->
+          <div class="table-container" id="high-rack-table-container" style="display: none;">
+            <table class="pick-tower-table">
+              <thead>
+                <tr>
+                  <th class="floor-col">Tipo</th>
+                  <th>Fullness</th>
+                  <th>Total Bins</th>
+                  <th>Occupied Bins</th>
+                  <th>Empty Bins</th>
+                  <th>Locked Bins</th>
+                  <th>Total Units</th>
+                </tr>
+              </thead>
+              <tbody id="high-rack-table-body">
+                <!-- Se llena dinámicamente con los datos de Data_Fullness.json -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Tabla: Pallet Land -->
+          <div class="table-container" id="pallet-land-table-container" style="display: none;">
+            <table class="pick-tower-table">
+              <thead>
+                <tr>
+                  <th class="floor-col">Zona</th>
+                  <th>Fullness</th>
+                  <th>Total Bins</th>
+                  <th>Occupied Bins</th>
+                  <th>Empty Bins</th>
+                </tr>
+              </thead>
+              <tbody id="pallet-land-table-body">
+                <!-- Se llena dinámicamente con los datos de Data_Fullness.json -->
+              </tbody>
+            </table>
           </div>
           
           <!-- Separador: Zone 1 - OB -->
@@ -386,7 +432,7 @@
           <div class="zone1-tables-container">
             <!-- Tabla Principal Zone 2 -->
             <div class="table-container zone1-main-table">
-              <table class="pick-tower-table zone1-table">
+              <table class="pick-tower-table zone2-table">
                 <thead>
                   <tr>
                     <th class="floor-col">Floor</th>

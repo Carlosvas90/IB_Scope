@@ -171,6 +171,9 @@ class AppLoader {
       return;
     }
 
+    // Deshabilitar estilos de otras aplicaciones antes de cargar la nueva
+    this.disableOtherAppStyles(app);
+
     // Establecer como app actual
     this.currentApp = app;
 
@@ -179,10 +182,71 @@ class AppLoader {
       this.loadAppStyles(app);
     } else {
       console.log(`Estilos de ${app} ya estaban precargados, omitiendo carga`);
+      // Asegurar que los estilos estén habilitados
+      this.enableAppStyles(app);
     }
 
     // Inicializar la aplicación
     this.initializeApp(app, view);
+  }
+
+  /**
+   * Deshabilita los estilos de otras aplicaciones (excepto la actual)
+   */
+  disableOtherAppStyles(currentAppName) {
+    // Buscar TODOS los links de estilos, no solo los que tienen data-app
+    const allStyleLinks = document.querySelectorAll('link[rel="stylesheet"]');
+    
+    allStyleLinks.forEach((link) => {
+      const href = link.getAttribute("href") || "";
+      const appName = link.getAttribute("data-app");
+      
+      // Si tiene atributo data-app, usar ese
+      if (appName) {
+        if (appName !== currentAppName) {
+          link.media = "print"; // Deshabilitar usando media="print"
+          console.log(`[AppLoader] Deshabilitando estilos de ${appName} (data-app)`);
+        }
+      } else {
+        // Si no tiene data-app, intentar detectar la app por la ruta del CSS
+        let detectedApp = null;
+        
+        if (href.includes("space-heatmap")) {
+          detectedApp = "space-heatmap";
+        } else if (href.includes("activity-scope") || href.includes("user-activity")) {
+          detectedApp = "activity-scope";
+        } else if (href.includes("feedback-tracker")) {
+          detectedApp = "feedback-tracker";
+        } else if (href.includes("dashboard")) {
+          detectedApp = "dashboard";
+        } else if (href.includes("pizarra")) {
+          detectedApp = "pizarra";
+        }
+        
+        // Si detectamos una app diferente a la actual, deshabilitar
+        if (detectedApp && detectedApp !== currentAppName) {
+          link.media = "print";
+          console.log(`[AppLoader] Deshabilitando estilos de ${detectedApp} (detectado por ruta: ${href})`);
+        } else if (detectedApp === currentAppName) {
+          // Si es la app actual pero no tiene data-app, agregarlo y habilitar
+          link.setAttribute("data-app", detectedApp);
+          link.media = "all";
+          console.log(`[AppLoader] Agregando data-app="${detectedApp}" y habilitando: ${href}`);
+        }
+      }
+    });
+  }
+
+  /**
+   * Habilita los estilos de una aplicación específica
+   */
+  enableAppStyles(appName) {
+    const styleLinks = document.querySelectorAll(`link[data-app="${appName}"][rel="stylesheet"]`);
+    
+    styleLinks.forEach((link) => {
+      link.media = "all"; // Habilitar usando media="all"
+      console.log(`Habilitando estilos de ${appName}`);
+    });
   }
 
   /**
@@ -197,9 +261,10 @@ class AppLoader {
       return;
     }
 
-    // Si los estilos ya están cargados, no hacer nada
+    // Si los estilos ya están cargados, solo habilitarlos
     if (this.loadedStyles[appName]) {
-      console.log(`Estilos para ${appName} ya cargados`);
+      console.log(`Estilos para ${appName} ya cargados, habilitándolos`);
+      this.enableAppStyles(appName);
       console.timeEnd(`CSS:Load:${appName}`);
       return;
     }
@@ -209,8 +274,11 @@ class AppLoader {
     // Cargar cada estilo
     app.styles.forEach((styleUrl) => {
       // Verificar si el estilo ya está en el documento
-      if (document.querySelector(`link[href="${styleUrl}"]`)) {
+      const existingLink = document.querySelector(`link[href="${styleUrl}"]`);
+      if (existingLink) {
         console.log(`Estilo ya cargado: ${styleUrl}`);
+        // Asegurar que esté habilitado
+        existingLink.media = "all";
         return;
       }
 
