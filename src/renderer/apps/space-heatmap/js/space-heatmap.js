@@ -1423,6 +1423,11 @@ async function openHeatmap(heatmapType) {
         // Agregar clase para estilos
         svgElement.classList.add('heatmap-svg');
         
+        // Asegurar que el SVG se ajuste al contenedor sin barras de desplazamiento
+        svgElement.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+        svgElement.setAttribute('width', '100%');
+        svgElement.setAttribute('height', '100%');
+        
         // Insertar el SVG en el viewer
         viewer.appendChild(svgElement);
         
@@ -1431,7 +1436,8 @@ async function openHeatmap(heatmapType) {
         // Inicializar controles interactivos después de un pequeño delay para asegurar que el DOM esté listo
         setTimeout(() => {
           initializeHeatmapControls(viewer);
-          updateHeatmapStats(viewer);
+          setupHoverInteractivity(viewer);
+          updateHeatmapStats(viewer, 0);
           console.log('[Heatmaps] Heatmap inicializado correctamente');
         }, 100);
       } else {
@@ -1562,7 +1568,6 @@ function initializeHeatmapControls(viewer) {
     
     // Actualizar estadísticas
     updateHeatmapStats(viewer, lowFullnessCount);
-    updateBinTypeStats(viewer);
   }
   
   // Event listeners
@@ -1627,43 +1632,141 @@ function updateHeatmapStats(viewer, lowFullnessCount = 0) {
   if (lowFullnessEl) lowFullnessEl.textContent = `Zonas bajas (≤60%): ${lowFullnessCount}`;
 }
 
-function updateBinTypeStats(viewer) {
+/**
+ * Configura la interactividad de hover para mostrar información del pasillo
+ */
+function setupHoverInteractivity(viewer) {
   if (!viewer) return;
   
-  const statsContainer = document.getElementById('bin-type-stats');
-  if (!statsContainer) return;
+  const svg = viewer.querySelector('svg');
+  if (!svg) return;
   
-  const elements = Array.from(viewer.querySelectorAll('[data-fullness]')).filter(e => e.style.display !== 'none');
-  const binTypeCounts = {};
+  const aisleNumberEl = document.getElementById('aisle-number');
+  const hoverInfoPlaceholder = document.querySelector('.hover-info-placeholder');
+  const hoverInfoContent = document.getElementById('hover-info-content');
+  const hoverAisle = document.getElementById('hover-aisle');
+  const hoverAisleFullness = document.getElementById('hover-aisle-fullness');
+  const hoverBayFullness = document.getElementById('hover-bay-fullness');
+  const hoverBinType = document.getElementById('hover-bin-type');
+  
+  // Cache para almacenar fullness por pasillo (para optimización)
+  const aisleFullnessCache = {};
+  
+  /**
+   * Extrae el número de pasillo del ID del elemento
+   * Ejemplos:
+   * - P3-288A460 → 288
+   * - P1-294A200 → 294
+   * - HRK-250A200 → 250
+   */
+  function extractAisleNumber(bayId) {
+    if (!bayId) return null;
+    
+    // Formato: P{floor}-{aisle}A{altura} o HRK-{aisle}A{altura}
+    const match = bayId.match(/(?:P\d+-|HRK-|PL-)(\d+)/);
+    return match ? parseInt(match[1], 10) : null;
+  }
+  
+  /**
+   * Calcula el fullness promedio de un pasillo
+   */
+  function calculateAisleFullness(aisleNumber) {
+    if (aisleFullnessCache[aisleNumber] !== undefined) {
+      return aisleFullnessCache[aisleNumber];
+    }
+    
+    const elements = Array.from(svg.querySelectorAll('[data-fullness]'));
+    const aisleElements = elements.filter(elem => {
+      const bayId = elem.getAttribute('data-bay-id');
+      const elemAisle = extractAisleNumber(bayId);
+      return elemAisle === aisleNumber;
+    });
+    
+    if (aisleElements.length === 0) {
+      aisleFullnessCache[aisleNumber] = null;
+      return null;
+    }
+    
+    const fullnessSum = aisleElements.reduce((sum, elem) => {
+      const fullness = parseFloat(elem.getAttribute('data-fullness')) || 0;
+      return sum + fullness;
+    }, 0);
+    
+    const avgFullness = fullnessSum / aisleElements.length;
+    aisleFullnessCache[aisleNumber] = avgFullness;
+    return avgFullness;
+  }
+  
+  /**
+   * Formatea un valor de fullness como porcentaje
+   */
+  function formatFullness(fullness) {
+    if (fullness === null || fullness === undefined) return '—';
+    return `${(fullness * 100).toFixed(1)}%`;
+  }
+  
+  /**
+   * Maneja el evento hover sobre un elemento
+   */
+  function handleElementHover(elem) {
+    const bayId = elem.getAttribute('data-bay-id');
+    const bayFullness = parseFloat(elem.getAttribute('data-fullness')) || 0;
+    const binType = elem.getAttribute('data-bin-type-primary') || 'N/A';
+    
+    const aisleNumber = extractAisleNumber(bayId);
+    
+    if (aisleNumber !== null) {
+      // Mostrar número de pasillo arriba
+      if (aisleNumberEl) {
+        aisleNumberEl.textContent = aisleNumber;
+        aisleNumberEl.classList.add('has-value');
+      }
+      
+      // Calcular fullness del pasillo
+      const aisleFullness = calculateAisleFullness(aisleNumber);
+      
+      // Mostrar información detallada abajo
+      if (hoverInfoPlaceholder) hoverInfoPlaceholder.style.display = 'none';
+      if (hoverInfoContent) hoverInfoContent.style.display = 'flex';
+      
+      if (hoverAisle) hoverAisle.textContent = aisleNumber;
+      if (hoverAisleFullness) hoverAisleFullness.textContent = formatFullness(aisleFullness);
+      if (hoverBayFullness) hoverBayFullness.textContent = formatFullness(bayFullness);
+      if (hoverBinType) hoverBinType.textContent = binType;
+    }
+  }
+  
+  /**
+   * Maneja cuando el mouse sale del elemento
+   */
+  function handleElementLeave() {
+    if (aisleNumberEl) {
+      aisleNumberEl.textContent = '—';
+      aisleNumberEl.classList.remove('has-value');
+    }
+    
+    if (hoverInfoPlaceholder) hoverInfoPlaceholder.style.display = 'flex';
+    if (hoverInfoContent) hoverInfoContent.style.display = 'none';
+  }
+  
+  // Agregar event listeners a todos los elementos con data-fullness
+  const elements = svg.querySelectorAll('[data-fullness]');
   
   elements.forEach(elem => {
-    const binType = elem.getAttribute('data-bin-type-primary') || 'Desconocido';
-    const fullness = parseFloat(elem.getAttribute('data-fullness')) || 0;
-    
-    if (!binTypeCounts[binType]) {
-      binTypeCounts[binType] = { total: 0, lowFullness: 0 };
-    }
-    
-    binTypeCounts[binType].total++;
-    if (fullness <= 0.60) {
-      binTypeCounts[binType].lowFullness++;
-    }
+    elem.addEventListener('mouseenter', () => handleElementHover(elem));
+    elem.addEventListener('mouseleave', handleElementLeave);
   });
   
-  // Crear HTML con estadísticas
-  let html = '<div class="bin-type-stats-title">Estadísticas por tipo:</div>';
-  const sortedTypes = Object.entries(binTypeCounts).sort((a, b) => b[1].total - a[1].total);
+  // Limpiar cache cuando se aplican filtros (se recalculará)
+  const originalApplyFilters = window.__originalApplyFilters;
+  if (!originalApplyFilters) {
+    // Guardar referencia para limpiar cache cuando sea necesario
+    window.__clearAisleCache = () => {
+      Object.keys(aisleFullnessCache).forEach(key => delete aisleFullnessCache[key]);
+    };
+  }
   
-  sortedTypes.forEach(([type, stats]) => {
-    const percentage = stats.total > 0 ? Math.round((stats.lowFullness / stats.total) * 100) : 0;
-    html += `<div class="bin-type-stat-item">
-      <span class="bin-type-name">${type}:</span>
-      <span class="bin-type-count">${stats.total} total</span>
-      <span class="bin-type-low">${stats.lowFullness} bajas (${percentage}%)</span>
-    </div>`;
-  });
-  
-  statsContainer.innerHTML = html;
+  console.log('[Heatmaps] Hover interactivity configurado para', elements.length, 'elementos');
 }
 
 // Cerrar modal de heatmap

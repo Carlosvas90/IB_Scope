@@ -1,0 +1,20 @@
+esa super bien!, me gusta la parte arriba con colores etc, con la info del pasillo me parece muy bien 
+
+Pero me quitaste los filtros que habian antes, para ocultar por Bintypes, tb habia como una barra de fullness , eso lo quiero seguir viendo.
+
+Pero la parte de color de pasillo me gusto, 
+
+esta parte es la que debe ser interactiva como arriba (que ya lo es en parte), pero lo que esta de color arriba de dice Pasillo y va cambiando deberia estar abajo y dejar arriba para los filtros etc:
+
+Pasa el mouse sobre un elemento del mapa para ver información detallada
+
+---------------------
+
+Total: 1471
+Visibles: 1471
+Bloqueadas: 16
+Zonas bajas (≤60%): 0
+
+esto entiendo son datos de el Heatmap que tengo abierto.
+
+deberiamos hacer arriba, de nuevo los filtros y abajo toda la parte interactiva.

@@ -146,20 +146,28 @@ def generar_heatmap_svg(svg_path, csv_path, output_path):
         
         # Convertir Bay Id al formato del SVG
         # BAY-P-1-B294A200 → P1-294A200
+        # BAY-P-3-C288A460 → P3-288A460
         def convertir_bay_id_a_svg(bay_id):
             """
-            Convierte BAY-P-1-B294A200 a P1-294A200
+            Convierte BAY-P-{floor}-{MOD}{numero} a P{floor}-{numero}
+            Soporta MOD B y MOD C (la letra del MOD se omite en el SVG)
+            Ejemplos:
+            - BAY-P-1-B294A200 → P1-294A200
+            - BAY-P-3-C288A460 → P3-288A460
             """
             if pd.isna(bay_id):
                 return None
             
             bay_id_str = str(bay_id)
-            # Patrón: BAY-P-{floor}-B{numero}
-            # Ejemplo: BAY-P-1-B294A200
-            match = re.match(r'BAY-P-(\d+)-B(.+)', bay_id_str)
+            # Patrón: BAY-P-{floor}-{MOD}{numero}
+            # MOD puede ser B o C, pero se omite en el formato del SVG
+            # Ejemplos:
+            # - BAY-P-1-B294A200 (MOD B) → P1-294A200
+            # - BAY-P-3-C288A460 (MOD C) → P3-288A460
+            match = re.match(r'BAY-P-(\d+)-[BC](.+)', bay_id_str)
             if match:
                 floor = match.group(1)
-                resto = match.group(2)
+                resto = match.group(2)  # El resto sin la letra del MOD
                 return f'P{floor}-{resto}'
             return None
         

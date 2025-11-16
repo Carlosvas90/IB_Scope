@@ -537,71 +537,160 @@
         <!-- Modal de Heatmap -->
         <div id="heatmap-modal" class="modal-overlay" style="display: none">
           <div class="modal-content heatmap-modal-content">
-            <div class="modal-header">
-              <h3 id="heatmap-modal-title">Heatmap</h3>
-              <button id="close-heatmap-modal-btn" class="modal-close-btn">
-                &times;
-              </button>
+            <!-- Área superior (10%): Header + Filtros -->
+            <div class="heatmap-top-section">
+              <div class="modal-header">
+                <h3 id="heatmap-modal-title">Heatmap</h3>
+                <button id="close-heatmap-modal-btn" class="modal-close-btn">
+                  &times;
+                </button>
+              </div>
+              <!-- Controles/Filtros -->
+              <div class="heatmap-controls">
+                <div class="heatmap-control-group">
+                  <label>
+                    <input type="checkbox" id="show-locked-bins" checked>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
+                      <path d="M8 12L11 15L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Mostrar bins bloqueadas
+                  </label>
+                </div>
+                <div class="heatmap-control-group">
+                  <label>
+                    <input type="checkbox" id="best-zones-mode">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    🎯 Modo Mejores Zonas (resaltar zonas con bajo fullness)
+                  </label>
+                </div>
+                <div class="heatmap-control-group">
+                  <label>Filtrar por tipo de bin:</label>
+                  <select id="bin-type-filter">
+                    <option value="all">Todos los tipos</option>
+                    <option value="HALF-VERTICAL">Half-Vertical</option>
+                    <option value="LIBRARY-DEEP">Library</option>
+                    <option value="BARREL">Barrel</option>
+                    <option value="BATBIN">BatBin</option>
+                    <option value="FLOOR-PALLET">Floor Pallet</option>
+                    <option value="PALLET-SINGLE">Pallet Single</option>
+                  </select>
+                </div>
+                <div class="heatmap-control-group">
+                  <label>Filtrar por fullness:</label>
+                  <select id="fullness-filter">
+                    <option value="all">Todos</option>
+                    <option value="low">Bajo (≤60%)</option>
+                    <option value="medium">Medio (60-70%)</option>
+                    <option value="high">Alto (70-85%)</option>
+                    <option value="very-high">Muy Alto (>85%)</option>
+                  </select>
+                </div>
+                <div class="heatmap-control-group">
+                  <label>
+                    <input type="range" id="fullness-range" min="0" max="100" value="0" step="1">
+                    <span id="fullness-range-value">0%</span> mínimo
+                  </label>
+                </div>
+                <div class="heatmap-control-group">
+                  <button id="reset-heatmap-filters" class="btn btn-secondary btn-small">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M3 6H5H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Resetear filtros
+                  </button>
+                </div>
+              </div>
             </div>
-            <div class="heatmap-controls">
-              <div class="heatmap-control-group">
-                <label>
-                  <input type="checkbox" id="show-locked-bins" checked>
-                  Mostrar bins bloqueadas
-                </label>
-              </div>
-              <div class="heatmap-control-group">
-                <label>
-                  <input type="checkbox" id="best-zones-mode">
-                  🎯 Modo Mejores Zonas (resaltar zonas con bajo fullness)
-                </label>
-              </div>
-              <div class="heatmap-control-group">
-                <label>Filtrar por tipo de bin:</label>
-                <select id="bin-type-filter">
-                  <option value="all">Todos los tipos</option>
-                  <option value="HALF-VERTICAL">Half-Vertical</option>
-                  <option value="LIBRARY-DEEP">Library</option>
-                  <option value="BARREL">Barrel</option>
-                  <option value="BATBIN">BatBin</option>
-                  <option value="FLOOR-PALLET">Floor Pallet</option>
-                  <option value="PALLET-SINGLE">Pallet Single</option>
-                </select>
-              </div>
-              <div class="heatmap-control-group">
-                <label>Filtrar por fullness:</label>
-                <select id="fullness-filter">
-                  <option value="all">Todos</option>
-                  <option value="low">Bajo (≤60%)</option>
-                  <option value="medium">Medio (60-70%)</option>
-                  <option value="high">Alto (70-85%)</option>
-                  <option value="very-high">Muy Alto (>85%)</option>
-                </select>
-              </div>
-              <div class="heatmap-control-group">
-                <label>
-                  <input type="range" id="fullness-range" min="0" max="100" value="0" step="1">
-                  <span id="fullness-range-value">0%</span> mínimo
-                </label>
-              </div>
-              <div class="heatmap-control-group">
-                <button id="reset-heatmap-filters" class="btn btn-secondary">Resetear filtros</button>
-              </div>
-            </div>
+            <!-- Área central (80%): Mapa SVG -->
             <div class="heatmap-viewer-container">
               <div id="heatmap-viewer" class="heatmap-viewer">
                 <!-- El SVG del heatmap se cargará aquí -->
               </div>
             </div>
-            <div class="heatmap-info">
-              <div id="heatmap-stats">
-                <span id="total-elements">Total: 0</span>
-                <span id="visible-elements">Visibles: 0</span>
-                <span id="locked-elements">Bloqueadas: 0</span>
-                <span id="low-fullness-count">Zonas bajas: 0</span>
+            <!-- Área inferior (10%): Parte interactiva completa - 3 columnas -->
+            <div class="heatmap-bottom-section">
+              <!-- Columna 1: Info de Zona -->
+              <div class="heatmap-stats-column">
+                <div class="heatmap-info">
+                  <div id="heatmap-stats">
+                    <span id="total-elements">Total: 0</span>
+                    <span id="visible-elements">Visibles: 0</span>
+                    <span id="locked-elements">Bloqueadas: 0</span>
+                    <span id="low-fullness-count">Zonas bajas (≤60%): 0</span>
+                  </div>
+                </div>
               </div>
-              <div id="bin-type-stats" class="bin-type-stats">
-                <!-- Estadísticas por tipo de bin se mostrarán aquí -->
+              <!-- Columna 2: Info interactiva -->
+              <div id="hover-info" class="hover-info">
+                <div class="hover-info-placeholder">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <span>Pasa el mouse sobre un elemento del mapa para ver información detallada</span>
+                </div>
+                <div id="hover-info-content" class="hover-info-content" style="display: none;">
+                  <div class="hover-info-row">
+                    <div class="hover-info-item">
+                      <span class="hover-info-label">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M3 3H21V21H3V3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M9 3V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Pasillo:
+                      </span>
+                      <span id="hover-aisle" class="hover-info-value">—</span>
+                    </div>
+                    <div class="hover-info-item">
+                      <span class="hover-info-label">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Fullness Pasillo:
+                      </span>
+                      <span id="hover-aisle-fullness" class="hover-info-value">—</span>
+                    </div>
+                    <div class="hover-info-item">
+                      <span class="hover-info-label">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
+                          <path d="M9 9H15V15H9V9Z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        Fullness Bay:
+                      </span>
+                      <span id="hover-bay-fullness" class="hover-info-value">—</span>
+                    </div>
+                    <div class="hover-info-item">
+                      <span class="hover-info-label">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M20 7H4C2.89543 7 2 7.89543 2 9V19C2 20.1046 2.89543 21 4 21H20C21.1046 21 22 20.1046 22 19V9C22 7.89543 21.1046 7 20 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M16 21V5C16 4.46957 15.7893 3.96086 15.4142 3.58579C15.0391 3.21071 14.5304 3 14 3H10C9.46957 3 8.96086 3.21071 8.58579 3.58579C8.21071 3.96086 8 4.46957 8 5V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Bin Type:
+                      </span>
+                      <span id="hover-bin-type" class="hover-info-value">—</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Columna 3: Número pasillo grande -->
+              <div id="aisle-display" class="aisle-display">
+                <div class="aisle-display-icon">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 3H21V21H3V3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M9 3V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M15 3V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="aisle-display-text">
+                  <span class="aisle-label">Pasillo</span>
+                  <span id="aisle-number" class="aisle-number">—</span>
+                </div>
               </div>
             </div>
           </div>
