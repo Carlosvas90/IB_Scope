@@ -3,7 +3,9 @@ const fileSystemService = require("../services/fileSystem");
 
 class FilesHandler {
   constructor() {
+    console.log("[FilesHandler] Inicializando FilesHandler...");
     this.setupHandlers();
+    console.log("[FilesHandler] FilesHandler inicializado correctamente");
   }
 
   setupHandlers() {
@@ -18,6 +20,14 @@ class FilesHandler {
     ipcMain.handle("export-to-csv", async (event, data) => {
       return await fileSystemService.exportToCsv(data);
     });
+
+    // Handler específico para leer archivos desde userData (rutas absolutas)
+    ipcMain.handle("read-file-absolute", async (event, filePath) => {
+      console.log("[FilesHandler] read-file-absolute llamado con:", filePath);
+      return fileSystemService.readFileAbsolute(filePath);
+    });
+    
+    console.log("[FilesHandler] ✅ Handlers registrados correctamente, incluyendo read-file-absolute");
   }
 }
 

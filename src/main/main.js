@@ -278,7 +278,51 @@ ipcMain.handle("read-file", (event, filePath) => {
     console.log("[Main] App empaquetada:", app.isPackaged);
 
     let fullPath;
-    if (app.isPackaged) {
+    
+    // Verificar si la ruta es absoluta
+    // Primero verificar si ya contiene una ruta absoluta duplicada (error común)
+    // Buscar la última ocurrencia de una ruta absoluta de Windows (C:\ o C:/)
+    let cleanPath = filePath;
+    
+    if (process.platform === 'win32') {
+      // Buscar todas las rutas absolutas en la cadena usando un patrón más simple
+      // Buscar desde el final hacia atrás para encontrar la última ruta absoluta completa
+      const lastAbsoluteMatch = filePath.match(/[A-Za-z]:[\\/].*$/);
+      
+      if (lastAbsoluteMatch) {
+        cleanPath = lastAbsoluteMatch[0];
+        if (cleanPath !== filePath) {
+          console.log("[Main] ⚠️ Ruta duplicada detectada, limpiando:", { 
+            original: filePath, 
+            cleaned: cleanPath
+          });
+        } else {
+          console.log("[Main] Ruta absoluta única detectada:", cleanPath);
+        }
+      }
+    }
+    
+    // Verificar si la ruta limpia es absoluta
+    const isWindowsAbsolute = process.platform === 'win32' && /^[A-Za-z]:[\\/]/.test(cleanPath);
+    const isUnixAbsolute = !process.platform.includes('win') && cleanPath.startsWith('/');
+    const pathIsAbsolute = path.isAbsolute(cleanPath);
+    const isAbsolutePath = isWindowsAbsolute || isUnixAbsolute || pathIsAbsolute;
+    
+    console.log("[Main] Verificando ruta:", {
+      originalPath: filePath,
+      cleanPath: cleanPath,
+      platform: process.platform,
+      isWindowsAbsolute,
+      isUnixAbsolute,
+      pathIsAbsolute,
+      finalIsAbsolute: isAbsolutePath
+    });
+    
+    if (isAbsolutePath) {
+      // Si es una ruta absoluta, normalizarla y usarla directamente
+      fullPath = path.normalize(cleanPath);
+      console.log("[Main] ✅ Ruta absoluta detectada, usando directamente:", fullPath);
+    } else if (app.isPackaged) {
       // En aplicación compilada, los archivos están dentro del asar o en resources
       // Primero intentar en resources (para archivos copiados explícitamente)
       const resourcesPath = path.join(process.resourcesPath, filePath);

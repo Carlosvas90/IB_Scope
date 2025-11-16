@@ -129,6 +129,12 @@ contextBridge.exposeInMainWorld("api", {
    * @returns {Promise<object>} - Resultado con contenido del archivo
    */
   readFile: (filePath) => ipcRenderer.invoke("read-file", filePath),
+  /**
+   * Lee un archivo desde una ruta absoluta (especialmente útil para userData).
+   * @param {string} filePath - Ruta absoluta del archivo
+   * @returns {Promise<object>} - { success: boolean, content?: string, error?: string }
+   */
+  readFileAbsolute: (filePath) => ipcRenderer.invoke("read-file-absolute", filePath),
 
   // --- Enlaces externos ---
   openExternalLink: (url) => ipcRenderer.invoke("open-external-link", url),

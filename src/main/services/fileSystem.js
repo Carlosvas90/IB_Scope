@@ -81,6 +81,30 @@ class FileSystemService {
       return { success: false, error: error.message };
     }
   }
+
+  readFileAbsolute(filePath) {
+    try {
+      // Normalizar la ruta para manejar correctamente los separadores
+      const normalizedPath = path.normalize(filePath);
+      
+      // Verificar que la ruta es absoluta
+      if (!path.isAbsolute(normalizedPath)) {
+        return { success: false, error: `La ruta debe ser absoluta: ${filePath}` };
+      }
+
+      // Verificar que el archivo existe
+      if (!fs.existsSync(normalizedPath)) {
+        return { success: false, error: `Archivo no encontrado: ${normalizedPath}` };
+      }
+
+      // Leer el archivo
+      const content = fs.readFileSync(normalizedPath, "utf-8");
+      return { success: true, content };
+    } catch (error) {
+      console.error("Error al leer el archivo absoluto:", error);
+      return { success: false, error: error.message };
+    }
+  }
 }
 
 module.exports = new FileSystemService();

@@ -29,6 +29,8 @@ SVG_CONFIG = {
     'P3': True,
     'P4': True,
     'P5': True,
+    'HRK': True,  # High Rack
+    'PL': True,   # Pallet Land
 }
 
 def obtener_color_fullness(nivel):
@@ -122,54 +124,134 @@ def generar_heatmap_svg(svg_path, csv_path, output_path):
     else:
         df['Utilization_Adjusted'] = df['Utilization %']
     
-    # Extraer piso del nombre del SVG (P1, P2, etc.)
+    # Extraer tipo del nombre del SVG (P1, P2, HRK, PL, etc.)
     svg_name = os.path.basename(svg_path).replace('.svg', '')
-    piso_num_str = svg_name[1:] if svg_name.startswith('P') else svg_name
-    piso_num = float(piso_num_str)  # Convertir a float para comparar
     
     # Verificar que existe la columna Bay Id
     if 'Bay Id' not in df.columns:
         print("[ERROR] CSV no tiene la columna 'Bay Id'")
         return False
     
-    # Filtrar datos por piso (Floor es float64: 1.0, 2.0, etc.)
-    df_piso = df[df['Floor'] == piso_num].copy()
-    if df_piso.empty:
-        print(f"[ADVERTENCIA] No hay datos para el piso {piso_num}")
-        return False
-    
-    # Convertir Bay Id al formato del SVG
-    # BAY-P-1-B294A200 → P1-294A200
-    # Extraer el formato: P{floor}-{resto sin la B inicial}
-    def convertir_bay_id_a_svg(bay_id):
-        """
-        Convierte BAY-P-1-B294A200 a P1-294A200
-        """
-        if pd.isna(bay_id):
+    # Determinar si es un piso (P1-P5) o un área de almacenamiento especial (HRK, PL)
+    if svg_name.startswith('P') and len(svg_name) == 2:
+        # Es un piso normal (P1, P2, etc.)
+        piso_num_str = svg_name[1:]
+        piso_num = float(piso_num_str)
+        
+        # Filtrar datos por piso (Floor es float64: 1.0, 2.0, etc.)
+        df_filtrado = df[df['Floor'] == piso_num].copy()
+        if df_filtrado.empty:
+            print(f"[ADVERTENCIA] No hay datos para el piso {piso_num}")
+            return False
+        
+        # Convertir Bay Id al formato del SVG
+        # BAY-P-1-B294A200 → P1-294A200
+        def convertir_bay_id_a_svg(bay_id):
+            """
+            Convierte BAY-P-1-B294A200 a P1-294A200
+            """
+            if pd.isna(bay_id):
+                return None
+            
+            bay_id_str = str(bay_id)
+            # Patrón: BAY-P-{floor}-B{numero}
+            # Ejemplo: BAY-P-1-B294A200
+            match = re.match(r'BAY-P-(\d+)-B(.+)', bay_id_str)
+            if match:
+                floor = match.group(1)
+                resto = match.group(2)
+                return f'P{floor}-{resto}'
             return None
         
-        bay_id_str = str(bay_id)
-        # Patrón: BAY-P-{floor}-B{numero}
-        # Ejemplo: BAY-P-1-B294A200
-        match = re.match(r'BAY-P-(\d+)-B(.+)', bay_id_str)
-        if match:
-            floor = match.group(1)
-            resto = match.group(2)
-            return f'P{floor}-{resto}'
-        return None
-    
-    # Agregar columna con ID del SVG
-    df_piso['SVG_Bay_Id'] = df_piso['Bay Id'].apply(convertir_bay_id_a_svg)
-    
-    # Filtrar solo los que tienen ID válido
-    df_piso = df_piso[df_piso['SVG_Bay_Id'].notna()].copy()
-    
-    if df_piso.empty:
-        print(f"[ADVERTENCIA] No hay Bay Ids válidos para el piso {piso_num}")
+        # Agregar columna con ID del SVG
+        df_filtrado['SVG_Bay_Id'] = df_filtrado['Bay Id'].apply(convertir_bay_id_a_svg)
+        
+    elif svg_name == 'HRK':
+        # High Rack - filtrar por storage_area
+        if 'storage_area' not in df.columns:
+            print("[ERROR] CSV no tiene la columna 'storage_area'")
+            return False
+        
+        df_filtrado = df[df['storage_area'] == 'High Rack'].copy()
+        if df_filtrado.empty:
+            print(f"[ADVERTENCIA] No hay datos para High Rack")
+            return False
+        
+        # Convertir Bay Id al formato del SVG para HRK
+        # BAY-P-{floor}-A{numero} → HRK-{numero}
+        def convertir_bay_id_a_svg(bay_id):
+            """
+            Convierte BAY-P-{floor}-A{numero} a HRK-{numero}
+            Ejemplo: BAY-P-1-A250A200 → HRK-250A200
+            """
+            if pd.isna(bay_id):
+                return None
+            
+            bay_id_str = str(bay_id)
+            # Patrón: BAY-P-{floor}-A{numero}
+            match = re.match(r'BAY-P-\d+-A(.+)', bay_id_str)
+            if match:
+                resto = match.group(1)
+                return f'HRK-{resto}'
+            return None
+        
+        df_filtrado['SVG_Bay_Id'] = df_filtrado['Bay Id'].apply(convertir_bay_id_a_svg)
+        
+    elif svg_name == 'PL':
+        # Pallet Land - filtrar por storage_area
+        if 'storage_area' not in df.columns:
+            print("[ERROR] CSV no tiene la columna 'storage_area'")
+            return False
+        
+        df_filtrado = df[df['storage_area'] == 'Pallet Land'].copy()
+        if df_filtrado.empty:
+            print(f"[ADVERTENCIA] No hay datos para Pallet Land")
+            return False
+        
+        # Convertir Bay Id al formato del SVG para Pallet Land
+        # BAY-PL-B{numero} → PL-{numero}
+        def convertir_bay_id_a_svg(bay_id):
+            """
+            Convierte BAY-PL-B{numero} a PL-{numero}
+            """
+            if pd.isna(bay_id):
+                return None
+            
+            bay_id_str = str(bay_id)
+            # Patrón: BAY-PL-B{numero}
+            match = re.match(r'BAY-PL-B(.+)', bay_id_str)
+            if match:
+                resto = match.group(1)
+                return f'PL-{resto}'
+            return None
+        
+        df_filtrado['SVG_Bay_Id'] = df_filtrado['Bay Id'].apply(convertir_bay_id_a_svg)
+    else:
+        print(f"[ERROR] Tipo de SVG no reconocido: {svg_name}")
         return False
     
-    # Agrupar por SVG_Bay_Id y calcular fullness promedio
-    fullness_por_bay = df_piso.groupby('SVG_Bay_Id')['Utilization_Adjusted'].mean().to_dict()
+    # Filtrar solo los que tienen ID válido
+    df_filtrado = df_filtrado[df_filtrado['SVG_Bay_Id'].notna()].copy()
+    
+    if df_filtrado.empty:
+        print(f"[ADVERTENCIA] No hay Bay Ids válidos para {svg_name}")
+        return False
+    
+    # Agrupar por SVG_Bay_Id y calcular fullness promedio y tipos de bin
+    fullness_por_bay = df_filtrado.groupby('SVG_Bay_Id')['Utilization_Adjusted'].mean().to_dict()
+    
+    # Obtener tipos de bin más comunes por bay (para filtrado)
+    bin_types_por_bay = {}
+    if 'Bin Type' in df_filtrado.columns:
+        for bay_id, group in df_filtrado.groupby('SVG_Bay_Id'):
+            bin_types = group['Bin Type'].value_counts()
+            if not bin_types.empty:
+                # Guardar el tipo más común y todos los tipos únicos
+                bin_types_por_bay[bay_id] = {
+                    'primary': bin_types.index[0],
+                    'all': list(bin_types.index.unique())
+                }
+    
     print(f"[Heatmap] Fullness calculado para {len(fullness_por_bay)} bays")
     
     # Leer SVG como texto para preservar estructura
@@ -225,7 +307,7 @@ def generar_heatmap_svg(svg_path, csv_path, output_path):
         # Verificar si está bloqueado
         es_bloqueado = False
         if 'IsLocked' in df.columns:
-            bay_data = df_piso[df_piso['SVG_Bay_Id'] == bay_id_svg]
+            bay_data = df_filtrado[df_filtrado['SVG_Bay_Id'] == bay_id_svg]
             if not bay_data.empty and bay_data['IsLocked'].any():
                 es_bloqueado = True
         
@@ -240,6 +322,13 @@ def generar_heatmap_svg(svg_path, csv_path, output_path):
         # Agregar atributos data-* para fácil acceso desde JavaScript/CSS
         elem.set('data-fullness', str(round(fullness, 4)))
         elem.set('data-bay-id', str(bay_id_svg))
+        
+        # Agregar información de tipos de bin si está disponible
+        if bay_id_svg in bin_types_por_bay:
+            bin_info = bin_types_por_bay[bay_id_svg]
+            elem.set('data-bin-type-primary', bin_info['primary'])
+            elem.set('data-bin-types', ','.join(bin_info['all']))
+        
         if es_bloqueado:
             elem.set('data-locked', 'true')
             color = "rgb(186,186,186)"  # Gris para bloqueadas

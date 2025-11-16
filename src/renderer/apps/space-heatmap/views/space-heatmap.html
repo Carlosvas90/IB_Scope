@@ -534,6 +534,79 @@
           </div>
         </div>
 
+        <!-- Modal de Heatmap -->
+        <div id="heatmap-modal" class="modal-overlay" style="display: none">
+          <div class="modal-content heatmap-modal-content">
+            <div class="modal-header">
+              <h3 id="heatmap-modal-title">Heatmap</h3>
+              <button id="close-heatmap-modal-btn" class="modal-close-btn">
+                &times;
+              </button>
+            </div>
+            <div class="heatmap-controls">
+              <div class="heatmap-control-group">
+                <label>
+                  <input type="checkbox" id="show-locked-bins" checked>
+                  Mostrar bins bloqueadas
+                </label>
+              </div>
+              <div class="heatmap-control-group">
+                <label>
+                  <input type="checkbox" id="best-zones-mode">
+                  🎯 Modo Mejores Zonas (resaltar zonas con bajo fullness)
+                </label>
+              </div>
+              <div class="heatmap-control-group">
+                <label>Filtrar por tipo de bin:</label>
+                <select id="bin-type-filter">
+                  <option value="all">Todos los tipos</option>
+                  <option value="HALF-VERTICAL">Half-Vertical</option>
+                  <option value="LIBRARY-DEEP">Library</option>
+                  <option value="BARREL">Barrel</option>
+                  <option value="BATBIN">BatBin</option>
+                  <option value="FLOOR-PALLET">Floor Pallet</option>
+                  <option value="PALLET-SINGLE">Pallet Single</option>
+                </select>
+              </div>
+              <div class="heatmap-control-group">
+                <label>Filtrar por fullness:</label>
+                <select id="fullness-filter">
+                  <option value="all">Todos</option>
+                  <option value="low">Bajo (≤60%)</option>
+                  <option value="medium">Medio (60-70%)</option>
+                  <option value="high">Alto (70-85%)</option>
+                  <option value="very-high">Muy Alto (>85%)</option>
+                </select>
+              </div>
+              <div class="heatmap-control-group">
+                <label>
+                  <input type="range" id="fullness-range" min="0" max="100" value="0" step="1">
+                  <span id="fullness-range-value">0%</span> mínimo
+                </label>
+              </div>
+              <div class="heatmap-control-group">
+                <button id="reset-heatmap-filters" class="btn btn-secondary">Resetear filtros</button>
+              </div>
+            </div>
+            <div class="heatmap-viewer-container">
+              <div id="heatmap-viewer" class="heatmap-viewer">
+                <!-- El SVG del heatmap se cargará aquí -->
+              </div>
+            </div>
+            <div class="heatmap-info">
+              <div id="heatmap-stats">
+                <span id="total-elements">Total: 0</span>
+                <span id="visible-elements">Visibles: 0</span>
+                <span id="locked-elements">Bloqueadas: 0</span>
+                <span id="low-fullness-count">Zonas bajas: 0</span>
+              </div>
+              <div id="bin-type-stats" class="bin-type-stats">
+                <!-- Estadísticas por tipo de bin se mostrarán aquí -->
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Modal de información (solo se muestra la primera vez al día) -->
         <div id="info-modal" class="modal-overlay" style="display: none">
           <div class="modal-content">

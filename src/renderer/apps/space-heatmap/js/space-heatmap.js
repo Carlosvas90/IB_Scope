@@ -1329,20 +1329,362 @@ function setupHeatmapButtons() {
     });
   });
   
+  // Configurar modal de heatmap
+  setupHeatmapModal();
+  
   console.log('[Heatmaps] Botones configurados:', heatmapButtons.length);
 }
 
-function openHeatmap(heatmapType) {
+async function openHeatmap(heatmapType) {
   console.log('[Heatmaps] Abriendo heatmap:', heatmapType);
   
-  // TODO: Implementar la lógica para mostrar el SVG del heatmap
-  // Por ahora, mostramos un mensaje
-  alert(`Función de heatmap "${heatmapType}" en desarrollo.\n\nEste botón abrirá el heatmap SVG correspondiente.`);
+  const modal = document.getElementById('heatmap-modal');
+  const viewer = document.getElementById('heatmap-viewer');
+  const title = document.getElementById('heatmap-modal-title');
   
-  // En el futuro, esto podría:
-  // 1. Cargar un SVG desde un archivo o desde datos generados
-  // 2. Mostrar un modal con el SVG
-  // 3. Navegar a una vista específica del heatmap
+  if (!modal || !viewer) {
+    console.error('[Heatmaps] Modal o viewer no encontrado');
+    return;
+  }
+  
+  // Determinar qué archivo SVG cargar según el tipo
+  let svgFileName = null;
+  let displayTitle = '';
+  
+  if (heatmapType.startsWith('pick-tower-p')) {
+    const floor = heatmapType.replace('pick-tower-', '').toUpperCase();
+    svgFileName = `${floor}_heatmap.svg`;
+    displayTitle = `Heatmap Pick Tower - ${floor}`;
+  } else if (heatmapType === 'high-rack') {
+    svgFileName = 'HRK_heatmap.svg';
+    displayTitle = 'Heatmap High Rack';
+  } else if (heatmapType === 'pallet-land') {
+    svgFileName = 'PL_heatmap.svg';
+    displayTitle = 'Heatmap Pallet Land';
+  }
+  
+  if (!svgFileName) {
+    alert(`Tipo de heatmap no reconocido: ${heatmapType}`);
+    return;
+  }
+  
+  // Actualizar título
+  title.textContent = displayTitle;
+  
+  // Limpiar viewer
+  viewer.innerHTML = '<div class="loading-heatmap">Cargando heatmap...</div>';
+  
+  // Mostrar modal
+  modal.style.display = 'flex';
+  
+  // Cargar SVG
+  try {
+    const userDataPath = await window.api.getUserDataPath();
+    console.log('[Heatmaps] UserDataPath:', userDataPath);
+    
+    // Construir ruta usando path.join equivalente (normalizar separadores)
+    // Detectar Windows por la presencia de backslash o formato C:\
+    const isWindows = userDataPath.includes('\\') || /^[A-Za-z]:/.test(userDataPath);
+    const pathSeparator = isWindows ? '\\' : '/';
+    const svgPath = `${userDataPath}${pathSeparator}data${pathSeparator}space-heatmap${pathSeparator}heatmaps${pathSeparator}${svgFileName}`;
+    
+    // Asegurar que la ruta esté normalizada (sin dobles separadores, etc.)
+    const normalizedPath = svgPath.replace(/[\\/]+/g, pathSeparator);
+    
+    console.log('[Heatmaps] Intentando cargar SVG desde:', normalizedPath);
+    console.log('[Heatmaps] Archivo esperado:', svgFileName);
+    console.log('[Heatmaps] Detección Windows:', isWindows);
+    
+    // Usar readFileAbsolute para rutas absolutas desde userData
+    const result = await window.api.readFileAbsolute(normalizedPath);
+    
+    console.log('[Heatmaps] Resultado de readFile:', {
+      success: result.success,
+      hasContent: !!result.content,
+      error: result.error,
+      contentLength: result.content ? result.content.length : 0
+    });
+    
+    if (result.success && result.content) {
+      console.log('[Heatmaps] SVG cargado exitosamente, insertando en viewer...');
+      console.log('[Heatmaps] Tamaño del contenido:', result.content.length, 'caracteres');
+      
+      // Limpiar viewer primero
+      viewer.innerHTML = '';
+      
+      // Crear un contenedor temporal para parsear el SVG
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = result.content;
+      
+      // Obtener el elemento SVG
+      const svgElement = tempDiv.querySelector('svg');
+      
+      if (svgElement) {
+        // Agregar clase para estilos
+        svgElement.classList.add('heatmap-svg');
+        
+        // Insertar el SVG en el viewer
+        viewer.appendChild(svgElement);
+        
+        console.log('[Heatmaps] SVG insertado en el DOM');
+        
+        // Inicializar controles interactivos después de un pequeño delay para asegurar que el DOM esté listo
+        setTimeout(() => {
+          initializeHeatmapControls(viewer);
+          updateHeatmapStats(viewer);
+          console.log('[Heatmaps] Heatmap inicializado correctamente');
+        }, 100);
+      } else {
+        console.error('[Heatmaps] No se encontró elemento SVG en el contenido');
+        viewer.innerHTML = `<div class="error-heatmap">Error: El archivo SVG no tiene un formato válido</div>`;
+      }
+    } else {
+      const errorMsg = result.error || 'Archivo no encontrado';
+      console.error('[Heatmaps] Error al cargar:', errorMsg);
+      viewer.innerHTML = `<div class="error-heatmap">Error al cargar el heatmap: ${errorMsg}<br><small>Ruta intentada: ${svgPath}</small></div>`;
+    }
+  } catch (error) {
+    console.error('[Heatmaps] Excepción al cargar SVG:', error);
+    viewer.innerHTML = `<div class="error-heatmap">Error al cargar el heatmap: ${error.message}<br><small>${error.stack}</small></div>`;
+  }
+}
+
+function initializeHeatmapControls(viewer) {
+  const showLockedCheckbox = document.getElementById('show-locked-bins');
+  const bestZonesMode = document.getElementById('best-zones-mode');
+  const binTypeFilter = document.getElementById('bin-type-filter');
+  const fullnessFilter = document.getElementById('fullness-filter');
+  const fullnessRange = document.getElementById('fullness-range');
+  const fullnessRangeValue = document.getElementById('fullness-range-value');
+  const resetBtn = document.getElementById('reset-heatmap-filters');
+  
+  if (!viewer) return;
+  
+  // Función para aplicar filtros
+  function applyFilters() {
+    const showLocked = showLockedCheckbox ? showLockedCheckbox.checked : true;
+    const bestZones = bestZonesMode ? bestZonesMode.checked : false;
+    const binType = binTypeFilter ? binTypeFilter.value : 'all';
+    const filterType = fullnessFilter ? fullnessFilter.value : 'all';
+    const minFullness = fullnessRange ? parseFloat(fullnessRange.value) / 100 : 0;
+    
+    const elements = viewer.querySelectorAll('[data-fullness]');
+    let visibleCount = 0;
+    let lowFullnessCount = 0;
+    
+    elements.forEach(elem => {
+      const fullness = parseFloat(elem.getAttribute('data-fullness')) || 0;
+      const isLocked = elem.getAttribute('data-locked') === 'true';
+      const binTypePrimary = elem.getAttribute('data-bin-type-primary') || '';
+      const binTypes = elem.getAttribute('data-bin-types') || '';
+      
+      // Determinar si debe mostrarse según filtros
+      let shouldShow = true;
+      let isLowFullness = fullness <= 0.60 && !isLocked;
+      
+      // Filtro de bins bloqueadas
+      if (isLocked && !showLocked) {
+        shouldShow = false;
+      }
+      
+      // Filtro por tipo de bin
+      if (shouldShow && binType !== 'all') {
+        // Normalizar nombres de bin types para comparación
+        // Mapeo de nombres del filtro a nombres del CSV
+        const binTypeMap = {
+          'HALF-VERTICAL': ['HALF-VERTICAL', 'VERTICAL'],
+          'LIBRARY-DEEP': ['LIBRARY-DEEP', 'LIBRARY'],
+          'BARREL': ['BARREL'],
+          'BATBIN': ['BATBIN'],
+          'FLOOR-PALLET': ['FLOOR-PALLET', 'FLOORPALLET'],
+          'PALLET-SINGLE': ['PALLET-SINGLE', 'PALLETSINGLE']
+        };
+        
+        const normalizedBinType = binType.toUpperCase();
+        const normalizedPrimary = binTypePrimary.toUpperCase();
+        const normalizedAll = binTypes.toUpperCase();
+        
+        // Obtener variantes posibles del tipo de bin
+        const possibleNames = binTypeMap[normalizedBinType] || [normalizedBinType];
+        
+        // Verificar si el tipo coincide con el filtro
+        const matches = possibleNames.some(name => 
+          normalizedPrimary.includes(name) || 
+          normalizedAll.includes(name) ||
+          name.includes(normalizedPrimary)
+        );
+        
+        if (!matches) {
+          shouldShow = false;
+        }
+      }
+      
+      // Filtro por tipo de fullness
+      if (shouldShow && filterType !== 'all') {
+        const clase = elem.getAttribute('class') || '';
+        if (filterType === 'low' && !clase.includes('fullness-low')) shouldShow = false;
+        else if (filterType === 'medium' && !clase.includes('fullness-medium')) shouldShow = false;
+        else if (filterType === 'high' && !clase.includes('fullness-high')) shouldShow = false;
+        else if (filterType === 'very-high' && !clase.includes('fullness-very-high')) shouldShow = false;
+      }
+      
+      // Filtro por rango mínimo de fullness
+      if (shouldShow && fullness < minFullness) {
+        shouldShow = false;
+      }
+      
+      // Aplicar visibilidad y efectos visuales
+      if (shouldShow) {
+        elem.style.display = '';
+        
+        // Modo "Mejores Zonas": resaltar zonas con bajo fullness
+        if (bestZones && isLowFullness) {
+          elem.style.opacity = '1';
+          elem.style.stroke = '#00ff00';
+          elem.style.strokeWidth = '3';
+          elem.style.strokeDasharray = '5,5';
+          elem.classList.add('best-zone-highlight');
+          lowFullnessCount++;
+        } else {
+          elem.style.opacity = '1';
+          elem.style.stroke = '';
+          elem.style.strokeWidth = '';
+          elem.style.strokeDasharray = '';
+          elem.classList.remove('best-zone-highlight');
+        }
+        
+        visibleCount++;
+      } else {
+        elem.style.display = 'none';
+        elem.classList.remove('best-zone-highlight');
+      }
+    });
+    
+    // Actualizar estadísticas
+    updateHeatmapStats(viewer, lowFullnessCount);
+    updateBinTypeStats(viewer);
+  }
+  
+  // Event listeners
+  if (showLockedCheckbox) {
+    showLockedCheckbox.addEventListener('change', applyFilters);
+  }
+  
+  if (bestZonesMode) {
+    bestZonesMode.addEventListener('change', applyFilters);
+  }
+  
+  if (binTypeFilter) {
+    binTypeFilter.addEventListener('change', applyFilters);
+  }
+  
+  if (fullnessFilter) {
+    fullnessFilter.addEventListener('change', applyFilters);
+  }
+  
+  if (fullnessRange) {
+    fullnessRange.addEventListener('input', (e) => {
+      if (fullnessRangeValue) {
+        fullnessRangeValue.textContent = `${e.target.value}%`;
+      }
+      applyFilters();
+    });
+  }
+  
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      if (showLockedCheckbox) showLockedCheckbox.checked = true;
+      if (bestZonesMode) bestZonesMode.checked = false;
+      if (binTypeFilter) binTypeFilter.value = 'all';
+      if (fullnessFilter) fullnessFilter.value = 'all';
+      if (fullnessRange) {
+        fullnessRange.value = 0;
+        if (fullnessRangeValue) fullnessRangeValue.textContent = '0%';
+      }
+      applyFilters();
+    });
+  }
+  
+  // Aplicar filtros iniciales
+  applyFilters();
+}
+
+function updateHeatmapStats(viewer, lowFullnessCount = 0) {
+  if (!viewer) return;
+  
+  const elements = viewer.querySelectorAll('[data-fullness]');
+  const visibleElements = Array.from(elements).filter(e => e.style.display !== 'none');
+  const lockedElements = Array.from(elements).filter(e => e.getAttribute('data-locked') === 'true');
+  
+  const totalEl = document.getElementById('total-elements');
+  const visibleEl = document.getElementById('visible-elements');
+  const lockedEl = document.getElementById('locked-elements');
+  const lowFullnessEl = document.getElementById('low-fullness-count');
+  
+  if (totalEl) totalEl.textContent = `Total: ${elements.length}`;
+  if (visibleEl) visibleEl.textContent = `Visibles: ${visibleElements.length}`;
+  if (lockedEl) lockedEl.textContent = `Bloqueadas: ${lockedElements.length}`;
+  if (lowFullnessEl) lowFullnessEl.textContent = `Zonas bajas (≤60%): ${lowFullnessCount}`;
+}
+
+function updateBinTypeStats(viewer) {
+  if (!viewer) return;
+  
+  const statsContainer = document.getElementById('bin-type-stats');
+  if (!statsContainer) return;
+  
+  const elements = Array.from(viewer.querySelectorAll('[data-fullness]')).filter(e => e.style.display !== 'none');
+  const binTypeCounts = {};
+  
+  elements.forEach(elem => {
+    const binType = elem.getAttribute('data-bin-type-primary') || 'Desconocido';
+    const fullness = parseFloat(elem.getAttribute('data-fullness')) || 0;
+    
+    if (!binTypeCounts[binType]) {
+      binTypeCounts[binType] = { total: 0, lowFullness: 0 };
+    }
+    
+    binTypeCounts[binType].total++;
+    if (fullness <= 0.60) {
+      binTypeCounts[binType].lowFullness++;
+    }
+  });
+  
+  // Crear HTML con estadísticas
+  let html = '<div class="bin-type-stats-title">Estadísticas por tipo:</div>';
+  const sortedTypes = Object.entries(binTypeCounts).sort((a, b) => b[1].total - a[1].total);
+  
+  sortedTypes.forEach(([type, stats]) => {
+    const percentage = stats.total > 0 ? Math.round((stats.lowFullness / stats.total) * 100) : 0;
+    html += `<div class="bin-type-stat-item">
+      <span class="bin-type-name">${type}:</span>
+      <span class="bin-type-count">${stats.total} total</span>
+      <span class="bin-type-low">${stats.lowFullness} bajas (${percentage}%)</span>
+    </div>`;
+  });
+  
+  statsContainer.innerHTML = html;
+}
+
+// Cerrar modal de heatmap
+function setupHeatmapModal() {
+  const modal = document.getElementById('heatmap-modal');
+  const closeBtn = document.getElementById('close-heatmap-modal-btn');
+  
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      if (modal) modal.style.display = 'none';
+    });
+  }
+  
+  // Cerrar al hacer clic fuera del modal
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+  }
 }
 
 // Función para inicializar la aplicación
