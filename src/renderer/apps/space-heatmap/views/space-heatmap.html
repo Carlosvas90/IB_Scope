@@ -558,15 +558,6 @@
                   </label>
                 </div>
                 <div class="heatmap-control-group">
-                  <label>
-                    <input type="checkbox" id="best-zones-mode">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    🎯 Modo Mejores Zonas (resaltar zonas con bajo fullness)
-                  </label>
-                </div>
-                <div class="heatmap-control-group">
                   <label>Filtrar por tipo de bin:</label>
                   <select id="bin-type-filter">
                     <option value="all">Todos los tipos</option>
@@ -579,19 +570,9 @@
                   </select>
                 </div>
                 <div class="heatmap-control-group">
-                  <label>Filtrar por fullness:</label>
-                  <select id="fullness-filter">
-                    <option value="all">Todos</option>
-                    <option value="low">Bajo (≤60%)</option>
-                    <option value="medium">Medio (60-70%)</option>
-                    <option value="high">Alto (70-85%)</option>
-                    <option value="very-high">Muy Alto (>85%)</option>
-                  </select>
-                </div>
-                <div class="heatmap-control-group">
                   <label>
-                    <input type="range" id="fullness-range" min="0" max="100" value="0" step="1">
-                    <span id="fullness-range-value">0%</span> mínimo
+                    <input type="range" id="fullness-range" min="0" max="100" value="100" step="1">
+                    <span id="fullness-range-value">100%</span> máximo (ocultar lo más lleno)
                   </label>
                 </div>
                 <div class="heatmap-control-group">

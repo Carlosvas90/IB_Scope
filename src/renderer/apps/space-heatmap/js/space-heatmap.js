@@ -1457,9 +1457,7 @@ async function openHeatmap(heatmapType) {
 
 function initializeHeatmapControls(viewer) {
   const showLockedCheckbox = document.getElementById('show-locked-bins');
-  const bestZonesMode = document.getElementById('best-zones-mode');
   const binTypeFilter = document.getElementById('bin-type-filter');
-  const fullnessFilter = document.getElementById('fullness-filter');
   const fullnessRange = document.getElementById('fullness-range');
   const fullnessRangeValue = document.getElementById('fullness-range-value');
   const resetBtn = document.getElementById('reset-heatmap-filters');
@@ -1469,10 +1467,8 @@ function initializeHeatmapControls(viewer) {
   // Función para aplicar filtros
   function applyFilters() {
     const showLocked = showLockedCheckbox ? showLockedCheckbox.checked : true;
-    const bestZones = bestZonesMode ? bestZonesMode.checked : false;
     const binType = binTypeFilter ? binTypeFilter.value : 'all';
-    const filterType = fullnessFilter ? fullnessFilter.value : 'all';
-    const minFullness = fullnessRange ? parseFloat(fullnessRange.value) / 100 : 0;
+    const maxFullness = fullnessRange ? parseFloat(fullnessRange.value) / 100 : 1.0;
     
     const elements = viewer.querySelectorAll('[data-fullness]');
     let visibleCount = 0;
@@ -1525,40 +1521,21 @@ function initializeHeatmapControls(viewer) {
         }
       }
       
-      // Filtro por tipo de fullness
-      if (shouldShow && filterType !== 'all') {
-        const clase = elem.getAttribute('class') || '';
-        if (filterType === 'low' && !clase.includes('fullness-low')) shouldShow = false;
-        else if (filterType === 'medium' && !clase.includes('fullness-medium')) shouldShow = false;
-        else if (filterType === 'high' && !clase.includes('fullness-high')) shouldShow = false;
-        else if (filterType === 'very-high' && !clase.includes('fullness-very-high')) shouldShow = false;
-      }
-      
-      // Filtro por rango mínimo de fullness
-      if (shouldShow && fullness < minFullness) {
+      // Filtro por rango máximo de fullness (ocultar lo más lleno)
+      // Si el fullness es mayor al máximo, ocultarlo
+      // Nota: Si maxFullness es 1.0 (100%), mostrar todo sin importar el valor de fullness
+      if (shouldShow && maxFullness < 1.0 && fullness > maxFullness) {
         shouldShow = false;
       }
       
-      // Aplicar visibilidad y efectos visuales
+      // Aplicar visibilidad
       if (shouldShow) {
         elem.style.display = '';
-        
-        // Modo "Mejores Zonas": resaltar zonas con bajo fullness
-        if (bestZones && isLowFullness) {
-          elem.style.opacity = '1';
-          elem.style.stroke = '#00ff00';
-          elem.style.strokeWidth = '3';
-          elem.style.strokeDasharray = '5,5';
-          elem.classList.add('best-zone-highlight');
-          lowFullnessCount++;
-        } else {
-          elem.style.opacity = '1';
-          elem.style.stroke = '';
-          elem.style.strokeWidth = '';
-          elem.style.strokeDasharray = '';
-          elem.classList.remove('best-zone-highlight');
-        }
-        
+        elem.style.opacity = '1';
+        elem.style.stroke = '';
+        elem.style.strokeWidth = '';
+        elem.style.strokeDasharray = '';
+        elem.classList.remove('best-zone-highlight');
         visibleCount++;
       } else {
         elem.style.display = 'none';
@@ -1575,16 +1552,8 @@ function initializeHeatmapControls(viewer) {
     showLockedCheckbox.addEventListener('change', applyFilters);
   }
   
-  if (bestZonesMode) {
-    bestZonesMode.addEventListener('change', applyFilters);
-  }
-  
   if (binTypeFilter) {
     binTypeFilter.addEventListener('change', applyFilters);
-  }
-  
-  if (fullnessFilter) {
-    fullnessFilter.addEventListener('change', applyFilters);
   }
   
   if (fullnessRange) {
@@ -1599,12 +1568,10 @@ function initializeHeatmapControls(viewer) {
   if (resetBtn) {
     resetBtn.addEventListener('click', () => {
       if (showLockedCheckbox) showLockedCheckbox.checked = true;
-      if (bestZonesMode) bestZonesMode.checked = false;
       if (binTypeFilter) binTypeFilter.value = 'all';
-      if (fullnessFilter) fullnessFilter.value = 'all';
       if (fullnessRange) {
-        fullnessRange.value = 0;
-        if (fullnessRangeValue) fullnessRangeValue.textContent = '0%';
+        fullnessRange.value = 100;
+        if (fullnessRangeValue) fullnessRangeValue.textContent = '100%';
       }
       applyFilters();
     });
