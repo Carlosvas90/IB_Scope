@@ -280,13 +280,47 @@
             <table class="pick-tower-table">
               <thead>
                 <tr>
-                  <th class="floor-col">Tipo</th>
-                  <th>Fullness</th>
-                  <th>Total Bins</th>
-                  <th>Occupied Bins</th>
-                  <th>Empty Bins</th>
-                  <th>Locked Bins</th>
-                  <th>Total Units</th>
+                  <th class="floor-col">Total</th>
+                  <th>
+                    <div class="header-with-icon">
+                      <span>BatBin</span>
+                      <div class="bintype-icon" id="hrk-batbin-icon">
+                        <!-- SVG de BatBin será insertado aquí -->
+                      </div>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="header-with-icon">
+                      <span>Cantilever</span>
+                      <div class="bintype-icon" id="hrk-cantilever-icon">
+                        <!-- SVG de Cantilever será insertado aquí -->
+                      </div>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="header-with-icon">
+                      <span>Pass Through</span>
+                      <div class="bintype-icon" id="hrk-passthrough-icon">
+                        <!-- SVG de Pass Through será insertado aquí -->
+                      </div>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="header-with-icon">
+                      <span>Floor Pallet</span>
+                      <div class="bintype-icon" id="hrk-floor-pallet-icon">
+                        <!-- SVG de Floor Pallet será insertado aquí -->
+                      </div>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="header-with-icon">
+                      <span>Pallet Single</span>
+                      <div class="bintype-icon" id="hrk-pallet-single-icon">
+                        <!-- SVG de Pallet Single será insertado aquí -->
+                      </div>
+                    </div>
+                  </th>
                 </tr>
               </thead>
               <tbody id="high-rack-table-body">
@@ -313,13 +347,83 @@
             </table>
           </div>
           
+          <!-- Separador: High Rack Pallet Single -->
+          <div class="section-separator" id="hrk-pallet-single-separator" style="display: none;">
+            <h3>High Rack Pallet Single</h3>
+          </div>
+          
+          <!-- Tablas High Rack Pallet Single: Principal y Shelf lado a lado -->
+          <div class="zone1-tables-container" id="hrk-pallet-single-tables-container" style="display: none;">
+            <!-- Tabla Principal High Rack Pallet Single -->
+            <div class="table-container zone1-main-table">
+              <table class="pick-tower-table zone1-table">
+                <thead>
+                  <tr>
+                    <th class="floor-col">Zona Pallet Single</th>
+                    <th>Fullness</th>
+                    <th>Empty</th>
+                  </tr>
+                </thead>
+                <tbody id="hrk-pallet-single-table-body">
+                  <!-- Se llena dinámicamente con los datos de Data_Fullness.json -->
+                </tbody>
+              </table>
+            </div>
+            
+            <!-- Tabla Shelf A-G -->
+            <div class="table-container zone1-shelf-table">
+              <table class="pick-tower-table zone1-shelf-table-inner">
+                <thead>
+                  <tr>
+                    <th colspan="7" class="shelf-table-header">
+                      <div class="shelf-header-title">Shelf</div>
+                      <div class="shelf-column-headers">
+                        <div class="shelf-col-header shelf-col-a">
+                          <div class="shelf-color-bar shelf-bar-a"></div>
+                          <span>A</span>
+                        </div>
+                        <div class="shelf-col-header shelf-col-b">
+                          <div class="shelf-color-bar shelf-bar-b"></div>
+                          <span>B</span>
+                        </div>
+                        <div class="shelf-col-header shelf-col-c">
+                          <div class="shelf-color-bar shelf-bar-c"></div>
+                          <span>C</span>
+                        </div>
+                        <div class="shelf-col-header shelf-col-d">
+                          <div class="shelf-color-bar shelf-bar-d"></div>
+                          <span>D</span>
+                        </div>
+                        <div class="shelf-col-header shelf-col-e">
+                          <div class="shelf-color-bar shelf-bar-e"></div>
+                          <span>E</span>
+                        </div>
+                        <div class="shelf-col-header shelf-col-f">
+                          <div class="shelf-color-bar shelf-bar-f"></div>
+                          <span>F</span>
+                        </div>
+                        <div class="shelf-col-header shelf-col-g">
+                          <div class="shelf-color-bar shelf-bar-g"></div>
+                          <span>G</span>
+                        </div>
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody id="hrk-pallet-single-shelf-table-body">
+                  <!-- Se llena dinámicamente con los datos de Data_Fullness.json -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
           <!-- Separador: Zone 1 - OB -->
-          <div class="section-separator">
+          <div class="section-separator" id="zone1-separator">
             <h3>Zone 1 - OB</h3>
           </div>
           
           <!-- Tablas Zone 1: Principal y Library Shelf lado a lado -->
-          <div class="zone1-tables-container">
+          <div class="zone1-tables-container" id="zone1-tables-container">
             <!-- Tabla Principal Zone 1 -->
             <div class="table-container zone1-main-table">
               <table class="pick-tower-table zone1-table">
@@ -424,12 +528,12 @@
           </div>
           
           <!-- Separador: Zone 2 - IB -->
-          <div class="section-separator">
+          <div class="section-separator" id="zone2-separator">
             <h3>Zone 2 - IB</h3>
           </div>
           
           <!-- Tablas Zone 2: Principal y Library Shelf lado a lado -->
-          <div class="zone1-tables-container">
+          <div class="zone1-tables-container" id="zone2-tables-container">
             <!-- Tabla Principal Zone 2 -->
             <div class="table-container zone1-main-table">
               <table class="pick-tower-table zone2-table">

@@ -1562,15 +1562,27 @@
 }
 
 .shelf-bar-b {
-  background-color: #10b981;
+  background-color: #00b700;
 }
 
 .shelf-bar-c {
-  background-color: #8b5cf6;
+  background-color: #740077;
 }
 
 .shelf-bar-d {
-  background-color: #fbbf24;
+  background-color: #ffc200;
+}
+
+.shelf-bar-e {
+  background-color: #06ffff;
+}
+
+.shelf-bar-f {
+  background-color: #d00607;
+}
+
+.shelf-bar-g {
+  background-color: #f7982c;
 }
 
 /* Asegurar que las filas de ambas tablas tengan la misma altura */

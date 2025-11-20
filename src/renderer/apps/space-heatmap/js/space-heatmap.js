@@ -508,6 +508,7 @@ async function loadAndDisplayData() {
     displayKPIs(dataService);
     displayPickTowerTable(dataService);
     displayHighRackTable(dataService);
+    displayHighRackPalletSingleTable(dataService);
     displayPalletLandTable(dataService);
     displayZone1Table(dataService);
     displayZone2Table(dataService);
@@ -701,13 +702,105 @@ function displayHighRackTable(dataService) {
   
   tbody.innerHTML = '';
   
-  // Función auxiliar para obtener datos de una zona
+  // Función auxiliar para obtener fullness de una zona
+  function getFullness(zoneKey) {
+    const zone = dataFullness[zoneKey];
+    if (!zone || !zone.datos || zone.datos.fullness === undefined) {
+      return null;
+    }
+    return zone.datos.fullness;
+  }
+  
+  // Función auxiliar para obtener datos completos de una zona (para PalletSingle)
   function getZoneData(zoneKey) {
     const zone = dataFullness[zoneKey];
     if (!zone || !zone.datos) {
       return null;
     }
     return zone.datos;
+  }
+  
+  // Obtener datos de cada categoría
+  const total = getFullness('High Rack');
+  const batBin = getFullness('HRK-BatBin');
+  const cantilever = getFullness('HRK-Cantilever');
+  const passThrough = getFullness('HRK-PassThrough');
+  const floorPallet = getFullness('HRK-FloorPallet');
+  const palletSingleData = getZoneData('HRK-PalletSingle');
+  
+  // Función auxiliar para formatear fullness con 2 decimales
+  function formatFullnessCell(value) {
+    if (value === null || value === undefined) return '<td class="empty-cell">-</td>';
+    const percentage = (value * 100).toFixed(2);
+    const parts = percentage.split('.');
+    return `<td class="percentage-cell">${parts[0]}.<span class="fullness-decimals">${parts[1]}</span>%</td>`;
+  }
+  
+  // Crear la fila (solo una fila con los totales)
+  const row = document.createElement('tr');
+  let rowHTML = '';
+  
+  // Total High Rack (primera columna)
+  rowHTML += formatFullnessCell(total);
+  
+  // BatBin
+  rowHTML += formatFullnessCell(batBin);
+  
+  // Cantilever
+  rowHTML += formatFullnessCell(cantilever);
+  
+  // PassThrough
+  rowHTML += formatFullnessCell(passThrough);
+  
+  // FloorPallet
+  rowHTML += formatFullnessCell(floorPallet);
+  
+  // PalletSingle (mostrar fullness y empty_bins/total_bins en la misma línea)
+  if (palletSingleData && palletSingleData.fullness !== undefined) {
+    const percentage = (palletSingleData.fullness * 100).toFixed(2);
+    const parts = percentage.split('.');
+    const emptyBins = palletSingleData.empty_bins || 0;
+    const totalBins = palletSingleData.total_bins || 0;
+    rowHTML += `<td class="percentage-cell">
+      ${parts[0]}.<span class="fullness-decimals">${parts[1]}</span>% <span class="pallet-single-ratio">${emptyBins} / ${totalBins}</span>
+    </td>`;
+  } else {
+    rowHTML += '<td class="empty-cell">-</td>';
+  }
+  
+  row.innerHTML = rowHTML;
+  tbody.appendChild(row);
+}
+
+function displayHighRackPalletSingleTable(dataService) {
+  const dataFullness = dataService.getDataFullness();
+  const tbody = document.getElementById('hrk-pallet-single-table-body');
+  const shelfTbody = document.getElementById('hrk-pallet-single-shelf-table-body');
+  
+  if (!tbody || !shelfTbody) {
+    console.warn('[High Rack Pallet Single] Tablas no encontradas');
+    return;
+  }
+  
+  tbody.innerHTML = '';
+  shelfTbody.innerHTML = '';
+  
+  // Función auxiliar para obtener datos completos de una zona
+  function getZoneData(zoneKey) {
+    const zone = dataFullness[zoneKey];
+    if (!zone || !zone.datos) {
+      return null;
+    }
+    return zone.datos;
+  }
+  
+  // Función auxiliar para obtener fullness de una zona
+  function getFullness(zoneKey) {
+    const zone = dataFullness[zoneKey];
+    if (!zone || !zone.datos || zone.datos.fullness === undefined) {
+      return null;
+    }
+    return zone.datos.fullness;
   }
   
   // Función auxiliar para formatear fullness con 2 decimales
@@ -718,67 +811,68 @@ function displayHighRackTable(dataService) {
     return `<td class="percentage-cell">${parts[0]}.<span class="fullness-decimals">${parts[1]}</span>%</td>`;
   }
   
-  // Tipos de bins para High Rack
-  const binTypes = [
-    { key: 'HRK-BatBin', label: 'BatBin' },
-    { key: 'HRK-Cantilever', label: 'Cantilever' },
-    { key: 'HRK-PassThrough', label: 'Pass Through' },
-    { key: 'HRK-FloorPallet', label: 'Floor Pallet' },
-    { key: 'HRK-PalletSingle', label: 'Pallet Single' },
+  // Zonas de Pallet Single para High Rack
+  // Los keys tienen el prefijo HRK- pero los labels se muestran sin él
+  const zones = [
     { key: 'HRK-Standard', label: 'Standard' },
-    { key: 'HRK-SIOC', label: 'SIOC' }
+    { key: 'HRK-SIOC', label: 'SIOC' },
+    { key: 'HRK-TeamLift', label: 'TeamLift' },
+    { key: 'HRK-PetFood', label: 'PetFood' },
+    { key: 'HRK-BuildOut-mono', label: 'BuildOut-mono' },
+    { key: 'HRK-Damage', label: 'Damage' }
   ];
   
-  binTypes.forEach(binType => {
-    const data = getZoneData(binType.key);
+  zones.forEach(zone => {
+    const data = getZoneData(zone.key);
     
-    if (!data) {
-      return; // Saltar si no hay datos
-    }
-    
+    // Crear la fila de la tabla principal (siempre mostrar, aunque no haya datos)
     const row = document.createElement('tr');
-    let rowHTML = `<td>${binType.label}</td>`;
+    let rowHTML = `<td>${zone.label}</td>`;
     
     // Fullness
-    rowHTML += formatFullnessCell(data.fullness);
-    
-    // Total Bins
-    if (data.total_bins !== undefined) {
-      rowHTML += `<td>${data.total_bins.toLocaleString()}</td>`;
+    if (data && data.fullness !== undefined) {
+      const percentage = (data.fullness * 100).toFixed(2);
+      const parts = percentage.split('.');
+      rowHTML += `<td class="percentage-cell">${parts[0]}.<span class="fullness-decimals">${parts[1]}</span>%</td>`;
     } else {
       rowHTML += '<td class="empty-cell">-</td>';
     }
     
-    // Occupied Bins
-    if (data.occupied_bins !== undefined) {
-      rowHTML += `<td>${data.occupied_bins.toLocaleString()}</td>`;
-    } else {
-      rowHTML += '<td class="empty-cell">-</td>';
-    }
-    
-    // Empty Bins
-    if (data.empty_bins !== undefined) {
-      rowHTML += `<td>${data.empty_bins.toLocaleString()}</td>`;
-    } else {
-      rowHTML += '<td class="empty-cell">-</td>';
-    }
-    
-    // Locked Bins
-    if (data.locked_bins !== undefined) {
-      rowHTML += `<td>${data.locked_bins.toLocaleString()}</td>`;
-    } else {
-      rowHTML += '<td class="empty-cell">-</td>';
-    }
-    
-    // Total Units
-    if (data.total_units !== undefined) {
-      rowHTML += `<td>${data.total_units.toLocaleString()}</td>`;
+    // Empty (empty_bins / total_bins)
+    if (data && data.empty_bins !== undefined && data.total_bins !== undefined) {
+      const emptyBins = data.empty_bins || 0;
+      const totalBins = data.total_bins || 0;
+      rowHTML += `<td class="pallet-single-ratio">${emptyBins} / ${totalBins}</td>`;
     } else {
       rowHTML += '<td class="empty-cell">-</td>';
     }
     
     row.innerHTML = rowHTML;
     tbody.appendChild(row);
+    
+    // Crear la fila de la tabla Shelf (A-G) - siempre mostrar todas las columnas
+    const shelfRow = document.createElement('tr');
+    let shelfRowHTML = '';
+    
+    // Obtener datos de Shelf A, B, C, D, E, F, G
+    const shelfA = getFullness(`${zone.key}-A`);
+    const shelfB = getFullness(`${zone.key}-B`);
+    const shelfC = getFullness(`${zone.key}-C`);
+    const shelfD = getFullness(`${zone.key}-D`);
+    const shelfE = getFullness(`${zone.key}-E`);
+    const shelfF = getFullness(`${zone.key}-F`);
+    const shelfG = getFullness(`${zone.key}-G`);
+    
+    shelfRowHTML += formatFullnessCell(shelfA);
+    shelfRowHTML += formatFullnessCell(shelfB);
+    shelfRowHTML += formatFullnessCell(shelfC);
+    shelfRowHTML += formatFullnessCell(shelfD);
+    shelfRowHTML += formatFullnessCell(shelfE);
+    shelfRowHTML += formatFullnessCell(shelfF);
+    shelfRowHTML += formatFullnessCell(shelfG);
+    
+    shelfRow.innerHTML = shelfRowHTML;
+    shelfTbody.appendChild(shelfRow);
   });
 }
 
@@ -864,10 +958,10 @@ function setupTableNavigation() {
   };
   
   // Contenedores de Zone 1 y Zone 2 (solo se muestran con Pick Tower)
-  const zone1Separator = document.querySelector('.section-separator');
-  const zone1TablesContainer = zone1Separator ? zone1Separator.nextElementSibling : null;
-  const zone2Separator = document.querySelectorAll('.section-separator')[1];
-  const zone2TablesContainer = zone2Separator ? zone2Separator.nextElementSibling : null;
+  const zone1Separator = document.getElementById('zone1-separator');
+  const zone1TablesContainer = document.getElementById('zone1-tables-container');
+  const zone2Separator = document.getElementById('zone2-separator');
+  const zone2TablesContainer = document.getElementById('zone2-tables-container');
   
   navButtons.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -898,12 +992,33 @@ function setupTableNavigation() {
         if (zone1TablesContainer) zone1TablesContainer.style.display = 'flex';
         if (zone2Separator) zone2Separator.style.display = 'block';
         if (zone2TablesContainer) zone2TablesContainer.style.display = 'flex';
+        // Ocultar tablas de High Rack Pallet Single
+        const hrkPalletSingleSeparator = document.getElementById('hrk-pallet-single-separator');
+        const hrkPalletSingleTablesContainer = document.getElementById('hrk-pallet-single-tables-container');
+        if (hrkPalletSingleSeparator) hrkPalletSingleSeparator.style.display = 'none';
+        if (hrkPalletSingleTablesContainer) hrkPalletSingleTablesContainer.style.display = 'none';
+      } else if (targetTable === 'high-rack') {
+        // Mostrar tablas de High Rack Pallet Single
+        const hrkPalletSingleSeparator = document.getElementById('hrk-pallet-single-separator');
+        const hrkPalletSingleTablesContainer = document.getElementById('hrk-pallet-single-tables-container');
+        if (hrkPalletSingleSeparator) hrkPalletSingleSeparator.style.display = 'block';
+        if (hrkPalletSingleTablesContainer) hrkPalletSingleTablesContainer.style.display = 'flex';
+        // Ocultar separadores y tablas de Zone 1 y Zone 2
+        if (zone1Separator) zone1Separator.style.display = 'none';
+        if (zone1TablesContainer) zone1TablesContainer.style.display = 'none';
+        if (zone2Separator) zone2Separator.style.display = 'none';
+        if (zone2TablesContainer) zone2TablesContainer.style.display = 'none';
       } else {
         // Ocultar separadores y tablas de Zone 1 y Zone 2
         if (zone1Separator) zone1Separator.style.display = 'none';
         if (zone1TablesContainer) zone1TablesContainer.style.display = 'none';
         if (zone2Separator) zone2Separator.style.display = 'none';
         if (zone2TablesContainer) zone2TablesContainer.style.display = 'none';
+        // Ocultar tablas de High Rack Pallet Single
+        const hrkPalletSingleSeparator = document.getElementById('hrk-pallet-single-separator');
+        const hrkPalletSingleTablesContainer = document.getElementById('hrk-pallet-single-tables-container');
+        if (hrkPalletSingleSeparator) hrkPalletSingleSeparator.style.display = 'none';
+        if (hrkPalletSingleTablesContainer) hrkPalletSingleTablesContainer.style.display = 'none';
       }
     });
   });
@@ -1169,7 +1284,13 @@ async function loadBintypeIcons() {
     'zone2-barrel-icon': 'assets/svg/Bintypes/Barrel.svg',
     'zone2-batbin-icon': 'assets/svg/Bintypes/Bat-Bin.svg',
     'zone2-floor-pallet-icon': 'assets/svg/Bintypes/Floor-pallet.svg',
-    'zone2-pallet-single-icon': 'assets/svg/Bintypes/Pallet_single.svg'
+    'zone2-pallet-single-icon': 'assets/svg/Bintypes/Pallet_single.svg',
+    // Iconos para High Rack
+    'hrk-batbin-icon': 'assets/svg/Bintypes/Bat-Bin_HRK.svg',
+    'hrk-cantilever-icon': 'assets/svg/Bintypes/Cantilever_HRK.svg',
+    'hrk-passthrough-icon': 'assets/svg/Bintypes/PassThrough_HRK.svg',
+    'hrk-floor-pallet-icon': 'assets/svg/Bintypes/FloorPallet_HRK.svg',
+    'hrk-pallet-single-icon': 'assets/svg/Bintypes/PalletSingle_HRK.svg'
   };
   
   // Verificar que el API esté disponible
