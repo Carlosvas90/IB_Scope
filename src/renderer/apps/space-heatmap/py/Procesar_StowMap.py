@@ -424,10 +424,14 @@ def procesar_zonas(df, reglas_path, output_dir=None, metricas_default=None, guar
     
     # Guardar JSON de zonas procesadas solo si se solicita
     if guardar_archivo and output_dir:
-        output_file = os.path.join(output_dir, 'Data_Fullness.json')
-        with open(output_file, 'w', encoding='utf-8') as f:
-            json.dump(zonas_procesadas, f, indent=2, ensure_ascii=False)
-        print(f"[OK] Data_Fullness.json generado: {output_file}")
+        try:
+            output_file = os.path.join(output_dir, 'Data_Fullness.json')
+            with open(output_file, 'w', encoding='utf-8') as f:
+                json.dump(zonas_procesadas, f, indent=2, ensure_ascii=False)
+            print(f"[OK] Data_Fullness.json generado: {output_file}")
+        except Exception as e:
+            print(f"[ERROR] No se pudo guardar Data_Fullness.json en procesar_zonas: {str(e)}")
+            raise
     
     return zonas_procesadas
 
@@ -454,13 +458,42 @@ def procesar_stowmap(csv_path, output_dir):
     
     # Sobrescribir CSV original si está habilitado
     if GUARDAR_CSV_CORREGIDO:
-        df.to_csv(csv_path, index=False)
-        print(f"[OK] CSV corregido sobrescrito en: {csv_path}")
+        try:
+            # Asegurar que el directorio del CSV existe
+            csv_dir = os.path.dirname(csv_path)
+            if csv_dir and not os.path.exists(csv_dir):
+                os.makedirs(csv_dir, exist_ok=True)
+                print(f"[Procesamiento] Directorio del CSV creado: {csv_dir}")
+            
+            # Guardar CSV corregido
+            df.to_csv(csv_path, index=False)
+            print(f"[OK] CSV corregido sobrescrito en: {csv_path}")
+            
+            # Verificar que el archivo se guardó correctamente
+            if os.path.exists(csv_path):
+                file_size = os.path.getsize(csv_path)
+                print(f"[OK] Archivo verificado: {file_size} bytes")
+            else:
+                print(f"[ERROR] El archivo no se guardó correctamente: {csv_path}")
+        except PermissionError as e:
+            print(f"[ERROR] Sin permisos para escribir en: {csv_path}")
+            print(f"[ERROR] Detalle: {str(e)}")
+        except Exception as e:
+            print(f"[ERROR] Error al guardar CSV corregido: {str(e)}")
+            import traceback
+            traceback.print_exc()
     
     # Crear directorio de salida si no existe
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-        print(f"[Procesamiento] Directorio creado: {output_dir}")
+    try:
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir, exist_ok=True)
+            print(f"[Procesamiento] Directorio creado: {output_dir}")
+        else:
+            print(f"[Procesamiento] Directorio de salida existe: {output_dir}")
+    except Exception as e:
+        print(f"[ERROR] No se pudo crear el directorio de salida: {output_dir}")
+        print(f"[ERROR] Detalle: {str(e)}")
+        raise
     
     # ============================================
     # FULLNESS POR BINTYPE (por Floor y Storage Area)
@@ -529,9 +562,14 @@ def procesar_stowmap(csv_path, output_dir):
                 }
     
     # Guardar JSON
-    with open(os.path.join(output_dir, 'fullness_by_bintype.json'), 'w') as f:
-        json.dump(fullness_by_bintype, f, indent=2)
-    print("[OK] fullness_by_bintype.json generado")
+    try:
+        json_path = os.path.join(output_dir, 'fullness_by_bintype.json')
+        with open(json_path, 'w', encoding='utf-8') as f:
+            json.dump(fullness_by_bintype, f, indent=2)
+        print(f"[OK] fullness_by_bintype.json generado: {json_path}")
+    except Exception as e:
+        print(f"[ERROR] No se pudo guardar fullness_by_bintype.json: {str(e)}")
+        raise
     
     # ============================================
     # SUMMARY KPIs (Métricas generales calculadas)
@@ -565,9 +603,14 @@ def procesar_stowmap(csv_path, output_dir):
     }
     
     # Guardar JSON
-    with open(os.path.join(output_dir, 'summary_kpis.json'), 'w') as f:
-        json.dump(summary_kpis, f, indent=2)
-    print("[OK] summary_kpis.json generado")
+    try:
+        json_path = os.path.join(output_dir, 'summary_kpis.json')
+        with open(json_path, 'w', encoding='utf-8') as f:
+            json.dump(summary_kpis, f, indent=2)
+        print(f"[OK] summary_kpis.json generado: {json_path}")
+    except Exception as e:
+        print(f"[ERROR] No se pudo guardar summary_kpis.json: {str(e)}")
+        raise
     
     # ============================================
     # PROCESAR ZONAS SEGÚN REGLAS
@@ -615,10 +658,14 @@ def procesar_stowmap(csv_path, output_dir):
     
     # Guardar todas las zonas combinadas en un solo archivo
     if todas_las_zonas:
-        output_file = os.path.join(output_dir, 'Data_Fullness.json')
-        with open(output_file, 'w', encoding='utf-8') as f:
-            json.dump(todas_las_zonas, f, indent=2, ensure_ascii=False)
-        print(f"[OK] Total de {len(todas_las_zonas)} zonas guardadas en Data_Fullness.json")
+        try:
+            output_file = os.path.join(output_dir, 'Data_Fullness.json')
+            with open(output_file, 'w', encoding='utf-8') as f:
+                json.dump(todas_las_zonas, f, indent=2, ensure_ascii=False)
+            print(f"[OK] Total de {len(todas_las_zonas)} zonas guardadas en Data_Fullness.json: {output_file}")
+        except Exception as e:
+            print(f"[ERROR] No se pudo guardar Data_Fullness.json: {str(e)}")
+            raise
     
     print("\n[EXITO] Procesamiento completado!")
     print(f"[EXITO] Ubicacion: {output_dir}")
