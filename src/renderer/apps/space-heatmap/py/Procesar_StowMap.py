@@ -6,13 +6,6 @@ import platform
 from datetime import datetime
 
 # ============================================
-# CONFIGURACIÓN: MODO DESARROLLO
-# ============================================
-# Cambiar a True para usar archivos de ejemplo desde Ejemplos/data/space-heatmap/
-# Cambiar a False para usar rutas normales (userData o proyecto)
-MODO_DEV = True
-
-# ============================================
 # CONFIGURACIÓN: GUARDAR CSV CORREGIDO
 # ============================================
 # Cambiar a True para sobrescribir el CSV original con las correcciones aplicadas
@@ -632,21 +625,13 @@ def procesar_stowmap(csv_path, output_dir):
     return True
 
 if __name__ == '__main__':
-    # Determinar rutas según configuración
-    if MODO_DEV:
-        # MODO DEV: Usar archivos de ejemplo desde Ejemplos/
-        # Subir 6 niveles: py -> space-heatmap -> apps -> renderer -> src -> raíz
-        script_path = os.path.abspath(__file__)
-        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(script_path))))))
-        csv_path = os.path.join(project_root, "Ejemplos", "data", "space-heatmap", "Stowmap_data.csv")
-        output_dir = os.path.join(project_root, "Ejemplos", "data", "space-heatmap", "processed")
-        print(f"[MODO DEV] Procesando desde Ejemplos/data/space-heatmap/")
-    elif len(sys.argv) > 1:
-        # Ejecutado desde Electron con userData path (MODO BUILD)
+    # Siempre usar userData (roaming) - ya no hay modo DEV
+    if len(sys.argv) > 1:
+        # Ejecutado desde Electron con userData path
         user_data_path = sys.argv[1]
         csv_path = os.path.join(user_data_path, "data", "space-heatmap", "Stowmap_data.csv")
         output_dir = os.path.join(user_data_path, "data", "space-heatmap", "processed")
-        print(f"[MODO BUILD] Procesando desde userData")
+        print(f"[Procesamiento] Ejecutado desde Electron - userData: {user_data_path}")
     else:
         # Ejecutado directamente - usar userData (roaming)
         # En Windows: C:\Users\{username}\AppData\Roaming\inbound-scope
@@ -656,20 +641,17 @@ if __name__ == '__main__':
                 user_data_path = os.path.join(appdata_roaming, "inbound-scope")
                 csv_path = os.path.join(user_data_path, "data", "space-heatmap", "Stowmap_data.csv")
                 output_dir = os.path.join(user_data_path, "data", "space-heatmap", "processed")
-                print(f"[MODO BUILD] Procesando desde userData (roaming): {user_data_path}")
+                print(f"[Procesamiento] Usando userData (roaming): {user_data_path}")
             else:
-                # Fallback: usar carpeta del proyecto
-                project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
-                csv_path = os.path.join(project_root, "data", "space-heatmap", "Stowmap_data.csv")
-                output_dir = os.path.join(project_root, "data", "space-heatmap", "processed")
-                print(f"[MODO DESARROLLO] APPDATA no encontrado, usando proyecto")
+                print("[ERROR] No se pudo encontrar APPDATA. No se puede determinar la ruta de userData.")
+                sys.exit(1)
         else:
             # Linux/Mac: usar ~/.config/inbound-scope
             home = os.path.expanduser("~")
             user_data_path = os.path.join(home, ".config", "inbound-scope")
             csv_path = os.path.join(user_data_path, "data", "space-heatmap", "Stowmap_data.csv")
             output_dir = os.path.join(user_data_path, "data", "space-heatmap", "processed")
-            print(f"[MODO BUILD] Procesando desde userData: {user_data_path}")
+            print(f"[Procesamiento] Usando userData: {user_data_path}")
     
     print(f"[Procesamiento] CSV input: {csv_path}")
     print(f"[Procesamiento] JSON output: {output_dir}")
