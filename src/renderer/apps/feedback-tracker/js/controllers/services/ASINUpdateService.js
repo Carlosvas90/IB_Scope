@@ -9,6 +9,7 @@ export class ASINUpdateService {
     this.filePath = null;
     this.isInitialized = false;
     this.initPromise = null;
+    this.dataPaths = null; // Inicializar para que esté disponible
   }
 
   /**
@@ -38,36 +39,23 @@ export class ASINUpdateService {
         JSON.stringify(config, null, 2)
       );
 
-      // El config se devuelve directo, no tiene .success ni .data
-      if (config && config.data_paths) {
+      // Usar data_paths del config (primero red, luego local)
+      console.log("🔧 Config tiene data_paths?:", !!config?.data_paths);
+      console.log("🔧 data_paths es array?:", Array.isArray(config?.data_paths));
+      console.log("🔧 data_paths length:", config?.data_paths?.length);
+      
+      if (config && config.data_paths && Array.isArray(config.data_paths) && config.data_paths.length > 0) {
         console.log("✅ data_paths encontrado:", config.data_paths);
-        // Usar el primer data_path disponible
-        const dataPaths = config.data_paths;
-        let dataPath = null;
-
-        // Intentar usar el segundo path (local)
-        if (dataPaths.length > 1) {
-          dataPath = dataPaths[1];
-          console.log("📂 Usando path local (índice 1):", dataPath);
-        } else if (dataPaths.length > 0) {
-          dataPath = dataPaths[0];
-          console.log("📂 Usando path (índice 0):", dataPath);
-        }
-
-        if (dataPath) {
-          // Asegurar que la ruta termine con \\ (Windows)
-          if (!dataPath.endsWith("\\")) {
-            dataPath += "\\";
-          }
-
-          this.filePath = `${dataPath}asins_to_update.json`;
-          this.isInitialized = true;
-          console.log(
-            "✅ ASINUpdateService inicializado con path correcto:",
-            this.filePath
-          );
-          return true;
-        }
+        this.dataPaths = config.data_paths;
+        
+        // Usar la primera ruta (red) por defecto
+        // Si falla al escribir, se intentará en las rutas alternativas en el método addASIN
+        const firstPath = this.dataPaths[0];
+        const normalizedPath = firstPath.endsWith("\\") ? firstPath : firstPath + "\\";
+        this.filePath = `${normalizedPath}asins_to_update.json`;
+        this.isInitialized = true;
+        console.log("✅ ASINUpdateService inicializado con primera ruta (red):", this.filePath);
+        return true;
       } else {
         console.warn("⚠️ Config no tiene data_paths:", config);
       }
@@ -136,9 +124,12 @@ export class ASINUpdateService {
 
       console.log(`📝 Agregando ASIN para actualización: ${asin}`);
       console.log(`📂 Ruta del archivo: ${this.filePath}`);
+      console.log(`📂 DataPaths disponibles:`, this.dataPaths);
 
       // Leer archivo actual
+      console.log("📖 Leyendo archivo actual...");
       const data = await this.readFile();
+      console.log("📖 Datos leídos:", data);
 
       // Verificar si el ASIN ya existe
       const existingIndex = data.asins.findIndex((item) => item.asin === asin);
@@ -171,8 +162,8 @@ export class ASINUpdateService {
         .replace("T", " ")
         .substring(0, 19);
 
-      // Guardar archivo
-      const result = await window.api.writeJson(this.filePath, data);
+      // Guardar archivo - intentar en todas las rutas disponibles si falla
+      let result = await window.api.writeJson(this.filePath, data);
 
       if (result.success) {
         console.log(
@@ -180,8 +171,36 @@ export class ASINUpdateService {
         );
         return true;
       } else {
+        console.warn(
+          "⚠️ Error al guardar en ruta principal, intentando rutas alternativas:",
+          result.error
+        );
+        
+        // Si falla, intentar en las otras rutas disponibles
+        if (this.dataPaths && this.dataPaths.length > 1) {
+          for (let i = 1; i < this.dataPaths.length; i++) {
+            const altPath = this.dataPaths[i];
+            const normalizedPath = altPath.endsWith("\\") ? altPath : altPath + "\\";
+            const altFilePath = `${normalizedPath}asins_to_update.json`;
+            
+            console.log(`🔄 Intentando guardar en ruta alternativa ${i}:`, altFilePath);
+            result = await window.api.writeJson(altFilePath, data);
+            
+            if (result.success) {
+              // Actualizar filePath para futuras operaciones
+              this.filePath = altFilePath;
+              console.log(
+                "✅ Archivo asins_to_update.json actualizado correctamente en ruta alternativa"
+              );
+              return true;
+            } else {
+              console.warn(`⚠️ Error en ruta alternativa ${i}:`, result.error);
+            }
+          }
+        }
+        
         console.error(
-          "❌ Error al guardar asins_to_update.json:",
+          "❌ Error al guardar asins_to_update.json en todas las rutas:",
           result.error
         );
         return false;

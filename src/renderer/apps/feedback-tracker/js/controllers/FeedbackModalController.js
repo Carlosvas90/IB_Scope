@@ -486,19 +486,64 @@ export class FeedbackModalController {
     let feedbackComment = "";
 
     if (action === "exception") {
+      // Asegurar que el servicio esté inicializado y usar rutas correctas
+      console.log("🔧 Inicializando ExceptionsService...");
+      
+      // Si el servicio ya está inicializado pero usa ruta fallback, reinicializar
+      const isUsingFallback = this.exceptionsService.filePath && 
+        this.exceptionsService.filePath.includes("Ejemplos");
+      
+      if (!this.exceptionsService.isInitialized || isUsingFallback) {
+        console.log("🔄 Reinicializando ExceptionsService para usar rutas del config...");
+        this.exceptionsService.isInitialized = false;
+        this.exceptionsService.initPromise = null;
+        await this.exceptionsService.init();
+      }
+      
+      console.log("🔧 ExceptionsService inicializado:", this.exceptionsService.isInitialized);
+      console.log("🔧 Ruta del archivo:", this.exceptionsService.filePath);
+      console.log("🔧 ExceptionsPaths:", this.exceptionsService.exceptionsPaths);
+      
       // Agregar excepción
+      console.log("📝 Llamando a addException con:", {
+        asin: errorData.asin,
+        violation: errorData.violation
+      });
       success = await this.exceptionsService.addException(
         errorData.asin,
         errorData.violation,
         "Excepción manual del usuario - No es considerado un error"
       );
+      console.log("📝 Resultado de addException:", success);
       feedbackComment = "EXCEPCIÓN: No es considerado un error";
     } else if (action === "update-asin") {
+      // Asegurar que el servicio esté inicializado y usar rutas correctas
+      console.log("🔧 Inicializando ASINUpdateService...");
+      
+      // Si el servicio ya está inicializado pero usa ruta fallback, reinicializar
+      const isUsingFallback = this.asinUpdateService.filePath && 
+        this.asinUpdateService.filePath.includes("Ejemplos");
+      
+      if (!this.asinUpdateService.isInitialized || isUsingFallback) {
+        console.log("🔄 Reinicializando ASINUpdateService para usar rutas del config...");
+        this.asinUpdateService.isInitialized = false;
+        this.asinUpdateService.initPromise = null;
+        await this.asinUpdateService.init();
+      }
+      
+      console.log("🔧 ASINUpdateService inicializado:", this.asinUpdateService.isInitialized);
+      console.log("🔧 Ruta del archivo:", this.asinUpdateService.filePath);
+      console.log("🔧 DataPaths:", this.asinUpdateService.dataPaths);
+      
       // Marcar para actualización
+      console.log("📝 Llamando a addASIN con:", {
+        asin: errorData.asin
+      });
       success = await this.asinUpdateService.addASIN(
         errorData.asin,
         "Datos desactualizados - Solicitud manual del usuario"
       );
+      console.log("📝 Resultado de addASIN:", success);
       feedbackComment = "ACTUALIZAR ASIN: Datos desactualizados";
     }
 

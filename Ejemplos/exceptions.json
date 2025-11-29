@@ -1,0 +1,29 @@
+{
+  "exceptions": [
+    {
+      "rule_id": "Peso > 7 ubicado Library B (Vertical)",
+      "type": "asin_list",
+      "asins": [
+        "B08LTSXK88"
+      ],
+      "reason": "Excepción manual del usuario - No es considerado un error"
+    },
+    {
+      "rule_id": "Peso < 5 ubicado en Shelf C o B",
+      "type": "asin_list",
+      "asins": [
+        "B0CRVK18WK",
+        "B00GSSJHE8",
+        "B0CSN3CJYP"
+      ],
+      "reason": "Excepción manual del usuario - No es considerado un error"
+    }
+  ],
+  "global_exceptions": {
+    "description": "Excepciones globales que aplican a todas las reglas",
+    "asins": [],
+    "user_ids": [],
+    "bins": []
+  },
+  "last_updated": "2025-11-29 17:13:45"
+}

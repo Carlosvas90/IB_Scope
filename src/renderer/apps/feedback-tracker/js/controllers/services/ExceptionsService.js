@@ -9,6 +9,7 @@ export class ExceptionsService {
     this.filePath = null;
     this.isInitialized = false;
     this.initPromise = null;
+    this.exceptionsPaths = null; // Inicializar para que esté disponible
   }
 
   /**
@@ -27,43 +28,37 @@ export class ExceptionsService {
 
   async _initialize() {
     try {
-      // Leer configuración para obtener data_paths
+      // Leer configuración para obtener exceptions_paths o data_paths
       console.log("🔧 ExceptionsService: Leyendo configuración...");
       const config = await window.api.getConfig();
-      console.log("🔧 Config recibido:", config);
+      console.log("🔧 Config recibido (completo):", JSON.stringify(config, null, 2));
+      
+      // Intentar usar exceptions_paths primero, si no existe usar data_paths
+      let pathsToUse = null;
+      
+      if (config && config.exceptions_paths && Array.isArray(config.exceptions_paths) && config.exceptions_paths.length > 0) {
+        console.log("✅ exceptions_paths encontrado:", config.exceptions_paths);
+        pathsToUse = config.exceptions_paths;
+      } else if (config && config.data_paths && Array.isArray(config.data_paths) && config.data_paths.length > 0) {
+        console.log("✅ exceptions_paths no encontrado, usando data_paths:", config.data_paths);
+        // Usar data_paths directamente (sin crear subcarpeta exceptions)
+        pathsToUse = config.data_paths;
+        console.log("✅ Rutas de excepciones usando data_paths directamente:", pathsToUse);
+      }
 
-      // El config se devuelve directo, no tiene .success ni .data
-      if (config && config.data_paths) {
-        console.log("✅ data_paths encontrado:", config.data_paths);
-        // Usar el primer data_path disponible
-        const dataPaths = config.data_paths;
-        let dataPath = null;
-
-        // Intentar usar el segundo path (local)
-        if (dataPaths.length > 1) {
-          dataPath = dataPaths[1];
-          console.log("📂 Usando path local (índice 1):", dataPath);
-        } else if (dataPaths.length > 0) {
-          dataPath = dataPaths[0];
-          console.log("📂 Usando path (índice 0):", dataPath);
-        }
-
-        if (dataPath) {
-          // Asegurar que la ruta termine con \\ (Windows)
-          if (!dataPath.endsWith("\\")) {
-            dataPath += "\\";
-          }
-
-          this.filePath = `${dataPath}exceptions.json`;
-          this.isInitialized = true;
-          console.log(
-            "✅ ExceptionsService inicializado con path correcto:",
-            this.filePath
-          );
-          return true;
-        }
+      if (pathsToUse && pathsToUse.length > 0) {
+        this.exceptionsPaths = pathsToUse;
+        
+        // Usar la primera ruta (red) por defecto
+        // Si falla al escribir, se intentará en las rutas alternativas en el método addException
+        const firstPath = this.exceptionsPaths[0];
+        const normalizedPath = firstPath.endsWith("\\") ? firstPath : firstPath + "\\";
+        this.filePath = `${normalizedPath}exceptions.json`;
+        this.isInitialized = true;
+        console.log("✅ ExceptionsService inicializado con primera ruta (red):", this.filePath);
+        return true;
       } else {
-        console.warn("⚠️ Config no tiene data_paths:", config);
+        console.warn("⚠️ Config no tiene exceptions_paths ni data_paths:", config);
       }
 
       // Fallback si no se puede leer config
@@ -162,9 +157,12 @@ export class ExceptionsService {
         `📝 Agregando excepción para ASIN: ${asin}, Regla: ${violation}`
       );
       console.log(`📂 Ruta del archivo: ${this.filePath}`);
+      console.log(`📂 ExceptionsPaths disponibles:`, this.exceptionsPaths);
 
       // Leer archivo actual
+      console.log("📖 Leyendo archivo actual...");
       const data = await this.readFile();
+      console.log("📖 Datos leídos:", data);
 
       // Usar el texto EXACTO del error como rule_id (sin transformar)
       const ruleId = violation;
@@ -208,14 +206,42 @@ export class ExceptionsService {
         .replace("T", " ")
         .substring(0, 19);
 
-      // Guardar archivo
-      const result = await window.api.writeJson(this.filePath, data);
+      // Guardar archivo - intentar en todas las rutas disponibles si falla
+      let result = await window.api.writeJson(this.filePath, data);
 
       if (result.success) {
         console.log("✅ Archivo exceptions.json actualizado correctamente");
         return true;
       } else {
-        console.error("❌ Error al guardar exceptions.json:", result.error);
+        console.warn(
+          "⚠️ Error al guardar en ruta principal, intentando rutas alternativas:",
+          result.error
+        );
+        
+        // Si falla, intentar en las otras rutas disponibles
+        if (this.exceptionsPaths && this.exceptionsPaths.length > 1) {
+          for (let i = 1; i < this.exceptionsPaths.length; i++) {
+            const altPath = this.exceptionsPaths[i];
+            const normalizedPath = altPath.endsWith("\\") ? altPath : altPath + "\\";
+            const altFilePath = `${normalizedPath}exceptions.json`;
+            
+            console.log(`🔄 Intentando guardar en ruta alternativa ${i}:`, altFilePath);
+            result = await window.api.writeJson(altFilePath, data);
+            
+            if (result.success) {
+              // Actualizar filePath para futuras operaciones
+              this.filePath = altFilePath;
+              console.log(
+                "✅ Archivo exceptions.json actualizado correctamente en ruta alternativa"
+              );
+              return true;
+            } else {
+              console.warn(`⚠️ Error en ruta alternativa ${i}:`, result.error);
+            }
+          }
+        }
+        
+        console.error("❌ Error al guardar exceptions.json en todas las rutas:", result.error);
         return false;
       }
     } catch (error) {
