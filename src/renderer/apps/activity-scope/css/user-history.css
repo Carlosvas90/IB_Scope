@@ -497,3 +497,521 @@ body {
     height: 250px;
   }
 }
+
+/* ============================================
+   NUEVOS ESTILOS PARA FILTROS MEJORADOS
+   ============================================ */
+
+/* Selector de período */
+.user-history-period-selector {
+  background: var(--user-history-card-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--user-history-shadow);
+}
+
+.user-history-period-selector h3 {
+  margin: 0 0 1rem 0;
+  color: var(--user-history-text-primary);
+  font-size: 1.1rem;
+}
+
+.period-buttons {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.period-btn {
+  padding: 0.75rem 1.5rem;
+  border: 2px solid var(--user-history-border);
+  border-radius: 8px;
+  background: var(--user-history-card-bg);
+  color: var(--user-history-text-primary);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.period-btn:hover {
+  border-color: var(--user-history-primary);
+  background: var(--user-history-primary);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.period-btn.active {
+  background: var(--user-history-primary);
+  color: white;
+  border-color: var(--user-history-primary);
+}
+
+/* Selector de usuario mejorado */
+.user-history-filter-group-search {
+  position: relative;
+  flex: 1;
+  min-width: 300px;
+}
+
+.user-select-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.user-select {
+  width: 100%;
+}
+
+.user-search-alternative {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.user-search-alternative span {
+  color: var(--user-history-text-secondary);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.search-input {
+  flex: 1;
+}
+
+.search-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--user-history-card-bg);
+  border: 1px solid var(--user-history-border);
+  border-radius: 8px;
+  margin-top: 4px;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.suggestion-item {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  border-bottom: 1px solid var(--user-history-border);
+  transition: background 0.2s ease;
+}
+
+.suggestion-item:hover {
+  background: var(--user-history-primary);
+  color: white;
+}
+
+.suggestion-item:last-child {
+  border-bottom: none;
+}
+
+.suggestion-item strong {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.suggestion-item small {
+  display: block;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+/* Información del usuario seleccionado */
+.selected-user-info {
+  background: var(--user-history-card-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--user-history-shadow);
+  border-left: 4px solid var(--user-history-primary);
+}
+
+.selected-user-info h3 {
+  margin: 0 0 0.5rem 0;
+  color: var(--user-history-text-primary);
+}
+
+.selected-user-info p {
+  margin: 0;
+  color: var(--user-history-text-secondary);
+}
+
+/* Tarjetas KPI */
+.user-history-kpi-section {
+  margin-bottom: 2rem;
+}
+
+.user-history-kpi-section h3 {
+  margin-bottom: 1.5rem;
+  color: var(--user-history-text-primary);
+}
+
+.user-history-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.user-history-kpi-card {
+  background: var(--user-history-card-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: var(--user-history-shadow);
+  border-top: 4px solid var(--user-history-primary);
+}
+
+.user-history-kpi-card h4 {
+  margin: 0 0 1rem 0;
+  color: var(--user-history-text-secondary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.kpi-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--user-history-text-primary);
+  margin: 0.5rem 0;
+}
+
+.kpi-value.positive {
+  color: var(--user-history-success);
+}
+
+.kpi-value.negative {
+  color: var(--user-history-error);
+}
+
+.kpi-label {
+  font-size: 0.85rem;
+  color: var(--user-history-text-secondary);
+  margin: 0.5rem 0;
+}
+
+.kpi-diff {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.kpi-diff.positive {
+  color: var(--user-history-success);
+}
+
+.kpi-diff.negative {
+  color: var(--user-history-error);
+}
+
+.percentile-bar {
+  height: 8px;
+  background: var(--user-history-border);
+  border-radius: 4px;
+  margin-top: 0.75rem;
+  overflow: hidden;
+}
+
+.percentile-bar.very-high {
+  background: linear-gradient(90deg, var(--user-history-success) 0%, var(--user-history-success) 100%);
+}
+
+.percentile-bar.high {
+  background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
+}
+
+.percentile-bar.medium {
+  background: linear-gradient(90deg, var(--user-history-warning) 0%, #fbbf24 100%);
+}
+
+.percentile-bar.low {
+  background: linear-gradient(90deg, var(--user-history-error) 0%, #f87171 100%);
+}
+
+.diff-indicator {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.diff-indicator.very-high {
+  background: var(--user-history-success);
+  color: white;
+}
+
+.diff-indicator.high {
+  background: #34d399;
+  color: white;
+}
+
+.diff-indicator.medium {
+  background: var(--user-history-warning);
+  color: white;
+}
+
+.diff-indicator.low {
+  background: var(--user-history-error);
+  color: white;
+}
+
+/* Métricas de esfuerzo */
+.user-history-effort-section {
+  margin-bottom: 2rem;
+}
+
+.user-history-effort-section h3 {
+  margin-bottom: 1.5rem;
+  color: var(--user-history-text-primary);
+}
+
+.user-history-effort-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.user-history-effort-card {
+  background: var(--user-history-card-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: var(--user-history-shadow);
+  text-align: center;
+}
+
+.user-history-effort-card h4 {
+  margin: 0 0 1rem 0;
+  color: var(--user-history-text-secondary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.effort-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--user-history-text-primary);
+  margin: 0.5rem 0;
+}
+
+.effort-label {
+  font-size: 0.85rem;
+  color: var(--user-history-text-secondary);
+  margin: 0.5rem 0;
+}
+
+/* Tabla de rendimiento */
+#performance-table td.positive {
+  color: var(--user-history-success);
+  font-weight: 600;
+}
+
+#performance-table td.negative {
+  color: var(--user-history-error);
+  font-weight: 600;
+}
+
+#performance-table .main-task-row {
+  background: rgba(139, 92, 246, 0.05);
+  border-left: 3px solid var(--user-history-primary);
+}
+
+#performance-table .pallet-task-row {
+  background: rgba(16, 185, 129, 0.05);
+  border-left: 3px solid var(--user-history-success);
+}
+
+.main-task-badge {
+  display: inline-block;
+  background: var(--user-history-primary);
+  color: white;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-left: 0.5rem;
+}
+
+.pallet-badge {
+  display: inline-block;
+  background: var(--user-history-success);
+  color: white;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-left: 0.5rem;
+}
+
+/* Gráficas comparativas */
+.rate-comparison-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.rate-comparison-item {
+  background: var(--user-history-card-bg);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--user-history-border);
+}
+
+.rate-comparison-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.rate-comparison-label strong {
+  font-size: 1rem;
+  color: var(--user-history-text-primary);
+}
+
+.rate-diff {
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.rate-diff.positive {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--user-history-success);
+}
+
+.rate-diff.negative {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--user-history-error);
+}
+
+.rate-comparison-bars-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.rate-bar-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.rate-bar-label {
+  min-width: 80px;
+  font-size: 0.85rem;
+  color: var(--user-history-text-secondary);
+  font-weight: 600;
+}
+
+.rate-bar {
+  flex: 1;
+  height: 32px;
+  background: var(--user-history-border);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.rate-bar-fill {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 0.5rem;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.rate-bar-fill.user-rate {
+  background: linear-gradient(90deg, var(--user-history-primary) 0%, #a78bfa 100%);
+}
+
+.rate-bar-fill.avg-rate {
+  background: linear-gradient(90deg, var(--user-history-text-secondary) 0%, #9ca3af 100%);
+}
+
+.rate-value {
+  color: white;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.task-comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.task-comparison-card {
+  background: var(--user-history-card-bg);
+  padding: 1.25rem;
+  border-radius: 8px;
+  border: 1px solid var(--user-history-border);
+  text-align: center;
+}
+
+.task-comparison-card h4 {
+  margin: 0 0 1rem 0;
+  color: var(--user-history-text-primary);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.task-rate-user {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--user-history-primary);
+  margin: 0.5rem 0;
+}
+
+.task-rate-avg {
+  font-size: 0.9rem;
+  color: var(--user-history-text-secondary);
+  margin: 0.25rem 0;
+}
+
+.task-rate-diff {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0.5rem 0;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.task-rate-diff.positive {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--user-history-success);
+}
+
+.task-rate-diff.negative {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--user-history-error);
+}
+
+.task-percentile {
+  font-size: 0.85rem;
+  color: var(--user-history-text-secondary);
+  margin-top: 0.5rem;
+}
+
+.section-description {
+  font-size: 0.9rem;
+  color: var(--user-history-text-secondary);
+  margin: 0.5rem 0 1rem 0;
+  font-style: italic;
+}

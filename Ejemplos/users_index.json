@@ -1,0 +1,1701 @@
+{
+  "last_updated": "2025-11-29 23:54:00",
+  "total_users": 238,
+  "users_with_recent_activity": 102,
+  "available_managers": [
+    "adespe",
+    "alarluis",
+    "cargagog",
+    "cealbvaz",
+    "chuecc",
+    "franfrq",
+    "manacost",
+    "mebaudil",
+    "mgalinm",
+    "mmilkova",
+    "oufkirm",
+    "pabsua",
+    "paudofus",
+    "pdelolmo",
+    "pnavarrq",
+    "rijbapti"
+  ],
+  "available_shifts": [
+    "T1",
+    "T2",
+    "T3",
+    "T4",
+    "T5",
+    "T6",
+    "T7",
+    "T8"
+  ],
+  "users": [
+    {
+      "login": "alejjsa",
+      "name": "Sanchez,alejandro",
+      "shift": "T2",
+      "manager": "pdelolmo",
+      "has_recent_activity": true
+    },
+    {
+      "login": "aletolea",
+      "name": "Tolea,alexandru",
+      "shift": "T2",
+      "manager": "pdelolmo",
+      "has_recent_activity": true
+    },
+    {
+      "login": "alvaperd",
+      "name": "Perez,alvaro",
+      "shift": "T3",
+      "manager": "chuecc",
+      "has_recent_activity": true
+    },
+    {
+      "login": "angejuaq",
+      "name": "Angel,juan Carlos",
+      "shift": "T3",
+      "manager": "paudofus",
+      "has_recent_activity": true
+    },
+    {
+      "login": "anorodye",
+      "name": "Añó Rodenas,yeray",
+      "shift": "T3",
+      "manager": "chuecc",
+      "has_recent_activity": true
+    },
+    {
+      "login": "anromery",
+      "name": "Romero,mariana",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "has_recent_activity": true
+    },
+    {
+      "login": "asuajfrb",
+      "name": "Asuaje,frank",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "has_recent_activity": true
+    },
+    {
+      "login": "belhloud",
+      "name": "Belhamra,loubna",
+      "shift": "T3",
+      "manager": "chuecc",
+      "has_recent_activity": true
+    },
+    {
+      "login": "benkasem",
+      "name": "Benkasem,iman Tnoukhi",
+      "shift": "T2",
+      "manager": "alarluis",
+      "has_recent_activity": true
+    },
+    {
+      "login": "bicricar",
+      "name": "Bicet- Borboña,ricardo",
+      "shift": "T1",
+      "manager": "cealbvaz",
+      "has_recent_activity": true
+    },
+    {
+      "login": "bmarioal",
+      "name": "Bautista Alcantara,mario Alberto",
+      "shift": "T2",
+      "manager": "pdelolmo",
+      "has_recent_activity": true
+    },
+    {
+      "login": "burbanof",
+      "name": "Burbano,alexandra",
+      "shift": "T2",
+      "manager": "pdelolmo",
+      "has_recent_activity": true
+    },
+    {
+      "login": "cabaldpa",
+      "name": "Caballero,pablo",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "has_recent_activity": true
+    },
+    {
+      "login": "camaantn",
+      "name": "Camacho,antonio Del Carmen",
+      "shift": "T1",
+      "manager": "adespe",
+      "has_recent_activity": true
+    },
+    {
+      "login": "carginic",
+      "name": "Cargini Guerrero,claudio",
+      "shift": "T3",
+      "manager": "chuecc",
+      "has_recent_activity": true
+    },
+    {
+      "login": "cerezuee",
+      "name": "Cerezuela,eva",
+      "shift": "T3",
+      "manager": "chuecc",
+      "has_recent_activity": true
+    },
+    {
+      "login": "choumery",
+      "name": "Choudna Ouadi,meryame",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "has_recent_activity": true
+    },
+    {
+      "login": "cjuacost",
+      "name": "Piña,juan Carlos",
+      "shift": "T1",
+      "manager": "cealbvaz",
+      "has_recent_activity": true
+    },
+    {
+      "login": "costbica",
+      "name": "Bica,costinel Ovidiu",
+      "shift": "T2",
+      "manager": "pdelolmo",
+      "has_recent_activity": true
+    },
+    {
+      "login": "crejuanw",
+      "name": "Crespo,juan Pedro",
+      "shift": "T2",
+      "manager": "pdelolmo",
+      "has_recent_activity": true
+    },
+    {
+      "login": "cricelam",
+      "name": "Amaya,cricelis",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "has_recent_activity": true
+    },
+    {
+      "login": "danmasac",
+      "name": "Masache Delgado,daniela",
+      "shift": "T1",
+      "manager": "cealbvaz",
+      "has_recent_activity": true
+    },
+    {
+      "login": "divyasmi",
+      "name": "Diaz,yasmin",
+      "shift": "T1",
+      "manager": "mebaudil",
+      "has_recent_activity": true
+    },
+    {
+      "login": "fabperis",
+      "name": "Peris Gregorio,fabian",
+      "shift": "T2",
+      "manager": "alarluis",
+      "has_recent_activity": true
+    },
+    {
+      "login": "fonterui",
+      "name": "Fonte,jorge",
+      "shift": "T2",
+      "manager": "pdelolmo",
+      "has_recent_activity": true
+    },
+    {
+      "login": "fpinamon",
+      "name": "Pina Montanes,aaron",
+      "shift": "T2",
+      "manager": "pdelolmo",
+      "has_recent_activity": true
+    },
+    {
+      "login": "frannrod",
+      "name": "Rodriguez Jimenez,francisco",
+      "shift": "T2",
+      "manager": "pdelolmo",
+      "has_recent_activity": true
+    },
+    {
+      "login": "gabimori",
+      "name": "Moragas,gabi",
+      "shift": "T3",
+      "manager": "chuecc",
+      "has_recent_activity": true
+    },
+    {
+      "login": "gimenoma",
+      "name": "Gimeno,manuel",
+      "shift": "T3",
+      "manager": "pabsua",
+      "has_recent_activity": true
+    },
+    {
+      "login": "gomezqsa",
+      "name": "Gomez Peidro,salva",
+      "shift": "T3",
+      "manager": "chuecc",
+      "has_recent_activity": true
+    },
+    {
+      "login": "gonzolgd",
+      "name": "González Castro,olga",
+      "shift": "T3",
+      "manager": "paudofus",
+      "has_recent_activity": true
+    },
+    {
+      "login": "gregopin",
+      "name": "Pinto Leon,gregoria Josefina",
+      "shift": "T2",
+      "manager": "pdelolmo",
+      "has_recent_activity": true
+    },
+    {
+      "login": "gueleaza",
+      "name": "Guerra Marino,eleazar Rafael",
+      "shift": "T3",
+      "manager": "chuecc",
+      "has_recent_activity": true
+    },
+    {
+      "login": "guiltgar",
+      "name": "Arias,guillermo Garcia-riego",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "has_recent_activity": true
+    },
+    {
+      "login": "habdessf",
+      "name": "Hassani Bahra,abdessamad",
+      "shift": "T4",
+      "manager": "rijbapti",
+      "has_recent_activity": true
+    },
+    {
+      "login": "hayeloua",
+      "name": "Elouaziki,hayat",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "has_recent_activity": true
+    },
+    {
+      "login": "iakarima",
+      "name": "Aboulhaoul,karima",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "has_recent_activity": true
+    },
+    {
+      "login": "ijhern",
+      "name": "Hernandez Marrero,jose Luis",
+      "shift": "T1",
+      "manager": "cealbvaz",
+      "has_recent_activity": true
+    },
+    {
+      "login": "jcpatani",
+      "name": "Patania,carmela",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "has_recent_activity": true
+    },
+    {
+      "login": "jereyesg",
+      "name": "Reyes,jesús",
+      "shift": "T1",
+      "manager": "mebaudil",
+      "has_recent_activity": true
+    },
+    {
+      "login": "jesumolf",
+      "name": "Molina,jesus",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "has_recent_activity": true
+    },
+    {
+      "login": "jijdavid",
+      "name": "Jimenez Gomez,david",
+      "shift": "T1",
+      "manager": "cealbvaz",
+      "has_recent_activity": true
+    },
+    {
+      "login": "johhgarc",
+      "name": "Garcia,johnny",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "has_recent_activity": true
+    },
+    {
+      "login": "jorrayar",
+      "name": "Raya Ruiz,jorge",
+      "shift": "T3",
+      "manager": "chuecc",
+      "has_recent_activity": true
+    },
+    {
+      "login": "josborrq",
+      "name": "Borras,jose",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "has_recent_activity": true
+    },
+    {
+      "login": "juanfelv",
+      "name": "Vicente Hernandez,juan Felipe",
+      "shift": "T1",
+      "manager": "adespe",
+      "has_recent_activity": true
+    },
+    {
+      "login": "juanfgra",
+      "name": "Granell Ferrer,juan",
+      "shift": "T1",
+      "manager": "cealbvaz",
+      "has_recent_activity": true
+    },
+    {
+      "login": "juliramq",
+      "name": "Ramos,julio",
+      "shift": "T3",
+      "manager": "chuecc",
+      "has_recent_activity": true
+    },
+    {
+      "login": "kacostaf",
+      "name": "Acosta Flores,elvis Rodolfo",
+      "shift": "T1",
+      "manager": "cealbvaz",
+      "has_recent_activity": true
+    },
+    {
+      "login": "lagcrisb",
+      "name": "Laya,crisbel",
+      "shift": "T3",
+      "manager": "chuecc",
+      "has_recent_activity": true
+    },
+    {
+      "login": "laurpato",
+      "name": "Patiño Zuluaga,laura",
+      "shift": "T1",
+      "manager": "cealbvaz",
+      "has_recent_activity": true
+    },
+    {
+      "login": "lgledezm",
+      "name": "Ledezma,leonard Jhonabrian",
+      "shift": "T1",
+      "manager": "cealbvaz",
+      "has_recent_activity": true
+    },
+    {
+      "login": "linaorte",
+      "name": "Correa Ortega,lina Viviana",
+      "shift": "T3",
+      "manager": "paudofus",
+      "has_recent_activity": true
+    },
+    {
+      "login": "lnkhadoj",
+      "name": "El Ghoufairi,khadija",
+      "shift": "T6",
+      "manager": "cealbvaz",
+      "has_recent_activity": true
+    },
+    {
+      "login": "loubnaji",
+      "name": "Joua,loubna",
+      "shift": "T2",
+      "manager": "pdelolmo",
+      "has_recent_activity": true
+    },
+    {
+      "login": "lvargasd",
+      "name": "Vargas De Oliveira,larissa Gabrielle",
+      "shift": "T1",
+      "manager": "cealbvaz",
+      "has_recent_activity": true
+    },
+    {
+      "login": "manueega",
+      "name": "Garzon Cano,manuel",
+      "shift": "T4",
+      "manager": "pnavarrq",
+      "has_recent_activity": true
+    },
+    {
+      "login": "mariaauf",
+      "name": "Fernandes Reale,maria Auxiliadora",
+      "shift": "T1",
+      "manager": "cealbvaz",
+      "has_recent_activity": true
+    },
+    {
+      "login": "mateorag",
+      "name": "Ramirez Sanchez,mateo",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "has_recent_activity": true
+    },
+    {
+      "login": "megeaser",
+      "name": "Egea Serrano,miguel",
+      "shift": "T1",
+      "manager": "cealbvaz",
+      "has_recent_activity": true
+    },
+    {
+      "login": "merchfer",
+      "name": "Munoz Ferrezuelo,mercedes Munoz",
+      "shift": "T2",
+      "manager": "pdelolmo",
+      "has_recent_activity": true
+    },
+    {
+      "login": "micabalv",
+      "name": "Caballero,miguel",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "has_recent_activity": true
+    },
+    {
+      "login": "mikeledu",
+      "name": "Duno,mikele Ale",
+      "shift": "T1",
+      "manager": "cealbvaz",
+      "has_recent_activity": true
+    },
+    {
+      "login": "moufidmo",
+      "name": "Moufid Moufyd,soumia",
+      "shift": "T6",
+      "manager": "mmilkova",
+      "has_recent_activity": true
+    },
+    {
+      "login": "mulamrin",
+      "name": "Lamrini,mustapha",
+      "shift": "T3",
+      "manager": "chuecc",
+      "has_recent_activity": true
+    },
+    {
+      "login": "mzprr",
+      "name": "Villabona Parra,alejandra",
+      "shift": "T3",
+      "manager": "chuecc",
+      "has_recent_activity": true
+    },
+    {
+      "login": "navaranx",
+      "name": "Navarro Montero,angel",
+      "shift": "T1",
+      "manager": "mebaudil",
+      "has_recent_activity": true
+    },
+    {
+      "login": "navarwgr",
+      "name": "Navarrete Fernández,greg",
+      "shift": "T2",
+      "manager": "pdelolmo",
+      "has_recent_activity": true
+    },
+    {
+      "login": "ndiacast",
+      "name": "Castellet Benitez,diana",
+      "shift": "T2",
+      "manager": "pdelolmo",
+      "has_recent_activity": true
+    },
+    {
+      "login": "nissamou",
+      "name": "Samouh El Hariri,nisrine",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "has_recent_activity": true
+    },
+    {
+      "login": "nquintem",
+      "name": "Quintero,natalia",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "has_recent_activity": true
+    },
+    {
+      "login": "oivanovf",
+      "name": "Ivanova,olha",
+      "shift": "T2",
+      "manager": "pdelolmo",
+      "has_recent_activity": true
+    },
+    {
+      "login": "pdanprie",
+      "name": "Prieto,daniel",
+      "shift": "T1",
+      "manager": "cealbvaz",
+      "has_recent_activity": true
+    },
+    {
+      "login": "penacans",
+      "name": "Pena Canseco,eugenio",
+      "shift": "T1",
+      "manager": "cealbvaz",
+      "has_recent_activity": true
+    },
+    {
+      "login": "pmmezo",
+      "name": "López Mezo,pablo",
+      "shift": "T2",
+      "manager": "alarluis",
+      "has_recent_activity": true
+    },
+    {
+      "login": "prezjkb",
+      "name": "Molina,leo",
+      "shift": "T2",
+      "manager": "pdelolmo",
+      "has_recent_activity": true
+    },
+    {
+      "login": "qsoaaron",
+      "name": "Solorzano,aaron",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "has_recent_activity": true
+    },
+    {
+      "login": "ramicesr",
+      "name": "Ramirez Gomez,cesar Antonio",
+      "shift": "T2",
+      "manager": "alarluis",
+      "has_recent_activity": true
+    },
+    {
+      "login": "rosafead",
+      "name": "Rosa Fernandez,adrian",
+      "shift": "T3",
+      "manager": "chuecc",
+      "has_recent_activity": true
+    },
+    {
+      "login": "rquesadp",
+      "name": "Quesada Cerezo,rafael",
+      "shift": "T7",
+      "manager": "cealbvaz",
+      "has_recent_activity": true
+    },
+    {
+      "login": "rubemira",
+      "name": "Garcia Miranda,ruben",
+      "shift": "T3",
+      "manager": "chuecc",
+      "has_recent_activity": true
+    },
+    {
+      "login": "sabirbti",
+      "name": "Sabir Bouharrada,btissam",
+      "shift": "T2",
+      "manager": "pdelolmo",
+      "has_recent_activity": true
+    },
+    {
+      "login": "samybouh",
+      "name": "Bouhou,samia",
+      "shift": "T7",
+      "manager": "pnavarrq",
+      "has_recent_activity": true
+    },
+    {
+      "login": "sewemalg",
+      "name": "Seweryn,małgorzata Aneta",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "has_recent_activity": true
+    },
+    {
+      "login": "tasmayou",
+      "name": "Tasmani Chaouat,yousra",
+      "shift": "T1",
+      "manager": "adespe",
+      "has_recent_activity": true
+    },
+    {
+      "login": "teixekan",
+      "name": "Teixeira,kandicia",
+      "shift": "T3",
+      "manager": "chuecc",
+      "has_recent_activity": true
+    },
+    {
+      "login": "tgraaida",
+      "name": "Granell Vilar,aida",
+      "shift": "T2",
+      "manager": "pdelolmo",
+      "has_recent_activity": true
+    },
+    {
+      "login": "tmariavs",
+      "name": "Hernandez,victoria",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "has_recent_activity": true
+    },
+    {
+      "login": "tmolinac",
+      "name": "Molina Castro,cristhian Camilo",
+      "shift": "T7",
+      "manager": "pdelolmo",
+      "has_recent_activity": true
+    },
+    {
+      "login": "toroscai",
+      "name": "Torres Chavez,oscar Jose",
+      "shift": "T3",
+      "manager": "chuecc",
+      "has_recent_activity": true
+    },
+    {
+      "login": "uantonsa",
+      "name": "Sanchez Toledo,antonio",
+      "shift": "T3",
+      "manager": "chuecc",
+      "has_recent_activity": true
+    },
+    {
+      "login": "uroselma",
+      "name": "Rosell,maria",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "has_recent_activity": true
+    },
+    {
+      "login": "velosaca",
+      "name": "Velosa,camila",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "has_recent_activity": true
+    },
+    {
+      "login": "whilmara",
+      "name": "Asuaje,hilmar",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "has_recent_activity": true
+    },
+    {
+      "login": "wrobalej",
+      "name": "Robles,alejandra",
+      "shift": "T1",
+      "manager": "cealbvaz",
+      "has_recent_activity": true
+    },
+    {
+      "login": "xfergarc",
+      "name": "Garcia,fernanda",
+      "shift": "T1",
+      "manager": "cealbvaz",
+      "has_recent_activity": true
+    },
+    {
+      "login": "xrmariad",
+      "name": "Rodriguez Contreras,maria Del Carmen Mamen",
+      "shift": "T4",
+      "manager": "mgalinm",
+      "has_recent_activity": true
+    },
+    {
+      "login": "xsiivasc",
+      "name": "Ivascu,simona",
+      "shift": "T4",
+      "manager": "pnavarrq",
+      "has_recent_activity": true
+    },
+    {
+      "login": "yhonsmay",
+      "name": "Ayala Colmenares,yhonsmely Paola",
+      "shift": "T4",
+      "manager": "rijbapti",
+      "has_recent_activity": true
+    },
+    {
+      "login": "younkarg",
+      "name": "Karzi,younes",
+      "shift": "T3",
+      "manager": "paudofus",
+      "has_recent_activity": true
+    },
+    {
+      "login": "yvdavil",
+      "name": "Davila,yvonly Josseline",
+      "shift": "T2",
+      "manager": "pdelolmo",
+      "has_recent_activity": true
+    },
+    {
+      "login": "zmarloai",
+      "name": "Loaiza Poloche,maricela",
+      "shift": "T2",
+      "manager": "pdelolmo",
+      "has_recent_activity": true
+    },
+    {
+      "login": "abragut",
+      "name": "Gutierrez Parra,abraham Alberto Alberto",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "has_recent_activity": false
+    },
+    {
+      "login": "albouzia",
+      "name": "Al Bouzia,rachid",
+      "shift": "T5",
+      "manager": "adespe",
+      "has_recent_activity": false
+    },
+    {
+      "login": "alvveros",
+      "name": "Alvarado,veronica Andrea",
+      "shift": "T3",
+      "manager": "paudofus",
+      "has_recent_activity": false
+    },
+    {
+      "login": "amillped",
+      "name": "Millan Siles,pedro Antonio",
+      "shift": "T5",
+      "manager": "pnavarrq",
+      "has_recent_activity": false
+    },
+    {
+      "login": "anahlemu",
+      "name": "Lemus Zabala,anahis",
+      "shift": "T3",
+      "manager": "paudofus",
+      "has_recent_activity": false
+    },
+    {
+      "login": "anavivej",
+      "name": "Vives Tena,ana",
+      "shift": "T7",
+      "manager": "mmilkova",
+      "has_recent_activity": false
+    },
+    {
+      "login": "anbaronj",
+      "name": "Baron Ayala,andres",
+      "shift": "T4",
+      "manager": "rijbapti",
+      "has_recent_activity": false
+    },
+    {
+      "login": "androsma",
+      "name": "Osma,andres",
+      "shift": "T1",
+      "manager": "cealbvaz",
+      "has_recent_activity": false
+    },
+    {
+      "login": "andrrrub",
+      "name": "Andreu Álvaro,rubén José",
+      "shift": "T3",
+      "manager": "paudofus",
+      "has_recent_activity": false
+    },
+    {
+      "login": "antoshke",
+      "name": "Antoshkevych Vazhnyuk,illya Antoshkevych",
+      "shift": "T4",
+      "manager": "pnavarrq",
+      "has_recent_activity": false
+    },
+    {
+      "login": "aocenten",
+      "name": "Centeno,annibel Joheisy",
+      "shift": "T6",
+      "manager": "mmilkova",
+      "has_recent_activity": false
+    },
+    {
+      "login": "arnelsm",
+      "name": "Suarez Marquez,arnelsy Grisel",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "has_recent_activity": false
+    },
+    {
+      "login": "avbolano",
+      "name": "Bolanos,alejandra",
+      "shift": "T4",
+      "manager": "pnavarrq",
+      "has_recent_activity": false
+    },
+    {
+      "login": "baezacri",
+      "name": "Baeza Placeres,cristobal Jose",
+      "shift": "T2",
+      "manager": "pdelolmo",
+      "has_recent_activity": false
+    },
+    {
+      "login": "barbozne",
+      "name": "Barboza,neo Neo",
+      "shift": "T1",
+      "manager": "mebaudil",
+      "has_recent_activity": false
+    },
+    {
+      "login": "barenalq",
+      "name": "Arenales Estrano,brian Alexis Alexis",
+      "shift": "T1",
+      "manager": "adespe",
+      "has_recent_activity": false
+    },
+    {
+      "login": "bejjarab",
+      "name": "Bejja,rabi",
+      "shift": "T1",
+      "manager": "adespe",
+      "has_recent_activity": false
+    },
+    {
+      "login": "blancuje",
+      "name": "Blanco,jean Luis",
+      "shift": "T4",
+      "manager": "pdelolmo",
+      "has_recent_activity": false
+    },
+    {
+      "login": "borrnuri",
+      "name": "Borras Aliaga,nuria",
+      "shift": "T4",
+      "manager": "pdelolmo",
+      "has_recent_activity": false
+    },
+    {
+      "login": "candresg",
+      "name": "Borges,andres Leonardo Chirinos",
+      "shift": "T1",
+      "manager": "cealbvaz",
+      "has_recent_activity": false
+    },
+    {
+      "login": "ccjohann",
+      "name": "Campo,johanna",
+      "shift": "T2",
+      "manager": "alarluis",
+      "has_recent_activity": false
+    },
+    {
+      "login": "cgongreg",
+      "name": "Gonzalez,gregorio Jose",
+      "shift": "T2",
+      "manager": "alarluis",
+      "has_recent_activity": false
+    },
+    {
+      "login": "chuecc",
+      "name": "Vasquez Chuecos,carlos Alberto",
+      "shift": "T4",
+      "manager": "oufkirm",
+      "has_recent_activity": false
+    },
+    {
+      "login": "cipohcec",
+      "name": "Cipolletta,cecilia Maria",
+      "shift": "T2",
+      "manager": "alarluis",
+      "has_recent_activity": false
+    },
+    {
+      "login": "cpemanue",
+      "name": "Pedros,manuel",
+      "shift": "T2",
+      "manager": "alarluis",
+      "has_recent_activity": false
+    },
+    {
+      "login": "dancoagb",
+      "name": "Coa Garcia,danis Alfredo",
+      "shift": "T4",
+      "manager": "pnavarrq",
+      "has_recent_activity": false
+    },
+    {
+      "login": "delgcrub",
+      "name": "Delgado Huguet,ruben",
+      "shift": "",
+      "manager": "manacost",
+      "has_recent_activity": false
+    },
+    {
+      "login": "diazfkar",
+      "name": "Diaz Florido,karlo Yoel",
+      "shift": "T2",
+      "manager": "alarluis",
+      "has_recent_activity": false
+    },
+    {
+      "login": "eborrasr",
+      "name": "Borras Ramos,enric",
+      "shift": "T1",
+      "manager": "cealbvaz",
+      "has_recent_activity": false
+    },
+    {
+      "login": "eguinape",
+      "name": "Guinan,pedro Andree",
+      "shift": "T3",
+      "manager": "chuecc",
+      "has_recent_activity": false
+    },
+    {
+      "login": "emacheam",
+      "name": "Acheampong Boakye,emmanuel",
+      "shift": "T1",
+      "manager": "adespe",
+      "has_recent_activity": false
+    },
+    {
+      "login": "enefreyt",
+      "name": "Torres,enefreyin Yurbano",
+      "shift": "T1",
+      "manager": "mebaudil",
+      "has_recent_activity": false
+    },
+    {
+      "login": "essyouna",
+      "name": "Essyouti Bakali,nabil",
+      "shift": "T4",
+      "manager": "rijbapti",
+      "has_recent_activity": false
+    },
+    {
+      "login": "esteclav",
+      "name": "Clavijo,estefania",
+      "shift": "T4",
+      "manager": "mgalinm",
+      "has_recent_activity": false
+    },
+    {
+      "login": "etorreed",
+      "name": "Torres,eduardo Jose",
+      "shift": "T4",
+      "manager": "pnavarrq",
+      "has_recent_activity": false
+    },
+    {
+      "login": "evelilia",
+      "name": "Velosa,liliana Marcela",
+      "shift": "T2",
+      "manager": "alarluis",
+      "has_recent_activity": false
+    },
+    {
+      "login": "fearteag",
+      "name": "Arteaga Rodriguez,fernando Jose",
+      "shift": "T3",
+      "manager": "pabsua",
+      "has_recent_activity": false
+    },
+    {
+      "login": "fthaydee",
+      "name": "Fuenmayor,thaydee Josefina",
+      "shift": "T2",
+      "manager": "cargagog",
+      "has_recent_activity": false
+    },
+    {
+      "login": "gabrijaf",
+      "name": "Jaimes Perez,gabriel Abrahan",
+      "shift": "T3",
+      "manager": "pabsua",
+      "has_recent_activity": false
+    },
+    {
+      "login": "gallonju",
+      "name": "Gallón Bejarano,juan Jose",
+      "shift": "T3",
+      "manager": "chuecc",
+      "has_recent_activity": false
+    },
+    {
+      "login": "garcamax",
+      "name": "Garcia Moreno,maximo",
+      "shift": "T8",
+      "manager": "cargagog",
+      "has_recent_activity": false
+    },
+    {
+      "login": "garomanu",
+      "name": "Garcia,manuel",
+      "shift": "T3",
+      "manager": "pabsua",
+      "has_recent_activity": false
+    },
+    {
+      "login": "gergecs",
+      "name": "Stefan Ciucurel,george Cosmin",
+      "shift": "T6",
+      "manager": "pabsua",
+      "has_recent_activity": false
+    },
+    {
+      "login": "ggarcika",
+      "name": "Garcia,kathy Kathy",
+      "shift": "T2",
+      "manager": "alarluis",
+      "has_recent_activity": false
+    },
+    {
+      "login": "ginetspe",
+      "name": "Perez,ginetsy",
+      "shift": "T3",
+      "manager": "paudofus",
+      "has_recent_activity": false
+    },
+    {
+      "login": "gpejordi",
+      "name": "Pérez Hermosa,jordi",
+      "shift": "T1",
+      "manager": "adespe",
+      "has_recent_activity": false
+    },
+    {
+      "login": "haelabbo",
+      "name": "El Abboudi,hayat",
+      "shift": "T7",
+      "manager": "cargagog",
+      "has_recent_activity": false
+    },
+    {
+      "login": "hajjbouj",
+      "name": "Boujnane,hajjar",
+      "shift": "T3",
+      "manager": "chuecc",
+      "has_recent_activity": false
+    },
+    {
+      "login": "hanllequ",
+      "name": "Quinones,hanllensan Stwar",
+      "shift": "T7",
+      "manager": "chuecc",
+      "has_recent_activity": false
+    },
+    {
+      "login": "hdmontan",
+      "name": "Montanez,daniela Andreina",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "has_recent_activity": false
+    },
+    {
+      "login": "herradoi",
+      "name": "Herrador Marti,iker",
+      "shift": "T3",
+      "manager": "paudofus",
+      "has_recent_activity": false
+    },
+    {
+      "login": "hkobilal",
+      "name": "Koujia Chafik,bilal Koujia",
+      "shift": "T1",
+      "manager": "cealbvaz",
+      "has_recent_activity": false
+    },
+    {
+      "login": "hrojarog",
+      "name": "Rojas,rogelio",
+      "shift": "T3",
+      "manager": "pabsua",
+      "has_recent_activity": false
+    },
+    {
+      "login": "irenetis",
+      "name": "Tiso,irene",
+      "shift": "T2",
+      "manager": "alarluis",
+      "has_recent_activity": false
+    },
+    {
+      "login": "jaimyosm",
+      "name": "Jaimes,yosman",
+      "shift": "T3",
+      "manager": "pabsua",
+      "has_recent_activity": false
+    },
+    {
+      "login": "jebellor",
+      "name": "Bellorin Bermudez,jesus Elias Elias",
+      "shift": "",
+      "manager": "manacost",
+      "has_recent_activity": false
+    },
+    {
+      "login": "jesustvi",
+      "name": "Villabona,jesus",
+      "shift": "T1",
+      "manager": "adespe",
+      "has_recent_activity": false
+    },
+    {
+      "login": "jijgutas",
+      "name": "Jgutashvili,jaba",
+      "shift": "T3",
+      "manager": "pabsua",
+      "has_recent_activity": false
+    },
+    {
+      "login": "jojhanb",
+      "name": "Suarez Bernal,jojhan Stiven",
+      "shift": "T2",
+      "manager": "alarluis",
+      "has_recent_activity": false
+    },
+    {
+      "login": "jorgervi",
+      "name": "Villanueva Esquivel,jorge Ricardo Ricardo",
+      "shift": "T2",
+      "manager": "cargagog",
+      "has_recent_activity": false
+    },
+    {
+      "login": "juahsana",
+      "name": "Sanabria Mora,juan David",
+      "shift": "T3",
+      "manager": "paudofus",
+      "has_recent_activity": false
+    },
+    {
+      "login": "kmguebba",
+      "name": "Guebbas,khadija",
+      "shift": "T4",
+      "manager": "rijbapti",
+      "has_recent_activity": false
+    },
+    {
+      "login": "laitabde",
+      "name": "Lait Makboul,abdelali",
+      "shift": "T6",
+      "manager": "pabsua",
+      "has_recent_activity": false
+    },
+    {
+      "login": "lauratmo",
+      "name": "Moreno San Eusebio,laura",
+      "shift": "T2",
+      "manager": "alarluis",
+      "has_recent_activity": false
+    },
+    {
+      "login": "ldaniesh",
+      "name": "Hernandez,danieska",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "has_recent_activity": false
+    },
+    {
+      "login": "leznadia",
+      "name": "Ledesma,nadia",
+      "shift": "T3",
+      "manager": "paudofus",
+      "has_recent_activity": false
+    },
+    {
+      "login": "llvicent",
+      "name": "Llorens Gil,vicente Vicente",
+      "shift": "T2",
+      "manager": "cargagog",
+      "has_recent_activity": false
+    },
+    {
+      "login": "loismaik",
+      "name": "Martinez Gonzalez,lois Maikel Maikel",
+      "shift": "T2",
+      "manager": "cargagog",
+      "has_recent_activity": false
+    },
+    {
+      "login": "lopmicae",
+      "name": "Lopez,micaela Belen",
+      "shift": "T3",
+      "manager": "chuecc",
+      "has_recent_activity": false
+    },
+    {
+      "login": "lsilvinq",
+      "name": "Ledesma,silvina",
+      "shift": "T2",
+      "manager": "alarluis",
+      "has_recent_activity": false
+    },
+    {
+      "login": "lsuerika",
+      "name": "Suarez Gutierrez,erika Johanna",
+      "shift": "T4",
+      "manager": "mgalinm",
+      "has_recent_activity": false
+    },
+    {
+      "login": "luckpers",
+      "name": "Perez Perez,luck",
+      "shift": "T2",
+      "manager": "alarluis",
+      "has_recent_activity": false
+    },
+    {
+      "login": "macnunez",
+      "name": "Vazquez Nunez,macken Macnunez",
+      "shift": "T4",
+      "manager": "rijbapti",
+      "has_recent_activity": false
+    },
+    {
+      "login": "maitdesi",
+      "name": "Maita Rojas,desiree Carolina",
+      "shift": "T3",
+      "manager": "franfrq",
+      "has_recent_activity": false
+    },
+    {
+      "login": "marcmalv",
+      "name": "Alvarez Albert,marc",
+      "shift": "T4",
+      "manager": "pnavarrq",
+      "has_recent_activity": false
+    },
+    {
+      "login": "mariacsg",
+      "name": "Garcia Gonzalez,maria Concepcion",
+      "shift": "T1",
+      "manager": "mebaudil",
+      "has_recent_activity": false
+    },
+    {
+      "login": "marstagn",
+      "name": "Stagno,marianna",
+      "shift": "T1",
+      "manager": "pabsua",
+      "has_recent_activity": false
+    },
+    {
+      "login": "matabuan",
+      "name": "Matabuena,andreu",
+      "shift": "T1",
+      "manager": "adespe",
+      "has_recent_activity": false
+    },
+    {
+      "login": "mejiapen",
+      "name": "Mejia Pena,stiven Arturo",
+      "shift": "T1",
+      "manager": "cealbvaz",
+      "has_recent_activity": false
+    },
+    {
+      "login": "mfuenant",
+      "name": "Fuentes,antonio",
+      "shift": "T3",
+      "manager": "chuecc",
+      "has_recent_activity": false
+    },
+    {
+      "login": "minaiard",
+      "name": "Ardy,mina",
+      "shift": "T1",
+      "manager": "mebaudil",
+      "has_recent_activity": false
+    },
+    {
+      "login": "montejup",
+      "name": "Montes Ricardo,enrique",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "has_recent_activity": false
+    },
+    {
+      "login": "moralmaz",
+      "name": "Osuna,maria Morales",
+      "shift": "T5",
+      "manager": "cargagog",
+      "has_recent_activity": false
+    },
+    {
+      "login": "morilglo",
+      "name": "Morillo Moros,gloria",
+      "shift": "T7",
+      "manager": "pnavarrq",
+      "has_recent_activity": false
+    },
+    {
+      "login": "mvmarica",
+      "name": "Irigaray Martinez,mari Carmen",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "has_recent_activity": false
+    },
+    {
+      "login": "nadrprie",
+      "name": "Prieto Mora,adriana Alejandra",
+      "shift": "T1",
+      "manager": "mebaudil",
+      "has_recent_activity": false
+    },
+    {
+      "login": "narmarim",
+      "name": "Naranjo,mari",
+      "shift": "T3",
+      "manager": "pabsua",
+      "has_recent_activity": false
+    },
+    {
+      "login": "navafait",
+      "name": "Navarro Bolinaga,aitor",
+      "shift": "T2",
+      "manager": "cargagog",
+      "has_recent_activity": false
+    },
+    {
+      "login": "navdoris",
+      "name": "Navarrete Velis,doris",
+      "shift": "T3",
+      "manager": "chuecc",
+      "has_recent_activity": false
+    },
+    {
+      "login": "neanab",
+      "name": "Negrette Rodríguez,ana Sarahy",
+      "shift": "T2",
+      "manager": "cargagog",
+      "has_recent_activity": false
+    },
+    {
+      "login": "neusalfo",
+      "name": "Alfonso Burgos,neus",
+      "shift": "T1",
+      "manager": "mebaudil",
+      "has_recent_activity": false
+    },
+    {
+      "login": "nmartpab",
+      "name": "Martínez Tornador,pablo",
+      "shift": "T2",
+      "manager": "pdelolmo",
+      "has_recent_activity": false
+    },
+    {
+      "login": "noelisue",
+      "name": "Soto Sueiro,noelia",
+      "shift": "T2",
+      "manager": "alarluis",
+      "has_recent_activity": false
+    },
+    {
+      "login": "nuralber",
+      "name": "Albert Sancho,nuria",
+      "shift": "T2",
+      "manager": "cargagog",
+      "has_recent_activity": false
+    },
+    {
+      "login": "ocarolgi",
+      "name": "Giraldo Montoya,sindy Carolina",
+      "shift": "T3",
+      "manager": "pabsua",
+      "has_recent_activity": false
+    },
+    {
+      "login": "olijudit",
+      "name": "Olivera Vasquez,judith Margot",
+      "shift": "T3",
+      "manager": "pabsua",
+      "has_recent_activity": false
+    },
+    {
+      "login": "omaorias",
+      "name": "Orias,omar Alberto",
+      "shift": "T3",
+      "manager": "pabsua",
+      "has_recent_activity": false
+    },
+    {
+      "login": "oriamich",
+      "name": "Orias Pontiles,michelle Alejandra",
+      "shift": "T3",
+      "manager": "paudofus",
+      "has_recent_activity": false
+    },
+    {
+      "login": "orioalva",
+      "name": "Alvarez Albert,oriol",
+      "shift": "T4",
+      "manager": "rijbapti",
+      "has_recent_activity": false
+    },
+    {
+      "login": "pedenisc",
+      "name": "Pereira De Carvalho Tanase,denise",
+      "shift": "T3",
+      "manager": "paudofus",
+      "has_recent_activity": false
+    },
+    {
+      "login": "peredavm",
+      "name": "Perez Martinez,david Daniel",
+      "shift": "T3",
+      "manager": "paudofus",
+      "has_recent_activity": false
+    },
+    {
+      "login": "perosofi",
+      "name": "Perez Benitez,sofia",
+      "shift": "T3",
+      "manager": "chuecc",
+      "has_recent_activity": false
+    },
+    {
+      "login": "pintdarc",
+      "name": "Pinto,darianny Nazaret",
+      "shift": "T1",
+      "manager": "adespe",
+      "has_recent_activity": false
+    },
+    {
+      "login": "placderb",
+      "name": "Placeres Moya,derbis Josefina Josefina",
+      "shift": "T2",
+      "manager": "alarluis",
+      "has_recent_activity": false
+    },
+    {
+      "login": "psalvajo",
+      "name": "Salvador Arago,jose Manuel",
+      "shift": "T4",
+      "manager": "pnavarrq",
+      "has_recent_activity": false
+    },
+    {
+      "login": "pyurbely",
+      "name": "Pena,yurbely",
+      "shift": "T4",
+      "manager": "mgalinm",
+      "has_recent_activity": false
+    },
+    {
+      "login": "qachachl",
+      "name": "Qachach Lote,salim Salim",
+      "shift": "T3",
+      "manager": "pabsua",
+      "has_recent_activity": false
+    },
+    {
+      "login": "qltorcat",
+      "name": "Torcates,liumber Dubraska",
+      "shift": "T1",
+      "manager": "adespe",
+      "has_recent_activity": false
+    },
+    {
+      "login": "qmarygon",
+      "name": "Gonzalez Rojas,mary Yoselin",
+      "shift": "",
+      "manager": "manacost",
+      "has_recent_activity": false
+    },
+    {
+      "login": "qsammend",
+      "name": "Mendez,samanta Vanesa",
+      "shift": "T1",
+      "manager": "adespe",
+      "has_recent_activity": false
+    },
+    {
+      "login": "romapmar",
+      "name": "Marco,roman",
+      "shift": "T3",
+      "manager": "pabsua",
+      "has_recent_activity": false
+    },
+    {
+      "login": "rubfeito",
+      "name": "Feito Martín,rubèn",
+      "shift": "T1",
+      "manager": "mebaudil",
+      "has_recent_activity": false
+    },
+    {
+      "login": "rubvalos",
+      "name": "Valos,ruben",
+      "shift": "T3",
+      "manager": "chuecc",
+      "has_recent_activity": false
+    },
+    {
+      "login": "salinyei",
+      "name": "Salinas,yeison",
+      "shift": "T1",
+      "manager": "mebaudil",
+      "has_recent_activity": false
+    },
+    {
+      "login": "sebasank",
+      "name": "Sandoval,sebastian",
+      "shift": "T4",
+      "manager": "rijbapti",
+      "has_recent_activity": false
+    },
+    {
+      "login": "segurasw",
+      "name": "Segura,selena",
+      "shift": "T3",
+      "manager": "pabsua",
+      "has_recent_activity": false
+    },
+    {
+      "login": "selbrodr",
+      "name": "Rodriguez Tejera,selene",
+      "shift": "T2",
+      "manager": "alarluis",
+      "has_recent_activity": false
+    },
+    {
+      "login": "sogllopb",
+      "name": "Llop Baeza,sonia",
+      "shift": "T1",
+      "manager": "cealbvaz",
+      "has_recent_activity": false
+    },
+    {
+      "login": "sorkdumi",
+      "name": "Dumitroiu,sorin",
+      "shift": "T2",
+      "manager": "cargagog",
+      "has_recent_activity": false
+    },
+    {
+      "login": "tdmilano",
+      "name": "Milano Pimentel,daniel Andres",
+      "shift": "T3",
+      "manager": "chuecc",
+      "has_recent_activity": false
+    },
+    {
+      "login": "tgramsgo",
+      "name": "Gomez,gramscys",
+      "shift": "T1",
+      "manager": "mebaudil",
+      "has_recent_activity": false
+    },
+    {
+      "login": "tlesmori",
+      "name": "Morin,lesley Suzanne",
+      "shift": "T1",
+      "manager": "mebaudil",
+      "has_recent_activity": false
+    },
+    {
+      "login": "tpmaikel",
+      "name": "Toledo,maikel Jesus",
+      "shift": "T4",
+      "manager": "mgalinm",
+      "has_recent_activity": false
+    },
+    {
+      "login": "urbinpab",
+      "name": "Urbina Barragán,pablo Eduardo",
+      "shift": "T1",
+      "manager": "adespe",
+      "has_recent_activity": false
+    },
+    {
+      "login": "vakjguta",
+      "name": "Jgutashvili,vakhtang",
+      "shift": "T3",
+      "manager": "paudofus",
+      "has_recent_activity": false
+    },
+    {
+      "login": "vazanama",
+      "name": "Vazquez,ana Maria",
+      "shift": "T3",
+      "manager": "mmilkova",
+      "has_recent_activity": false
+    },
+    {
+      "login": "vihgrana",
+      "name": "Granada,victor",
+      "shift": "T2",
+      "manager": "pdelolmo",
+      "has_recent_activity": false
+    },
+    {
+      "login": "villgonn",
+      "name": "Villarreal,gonzalo Uriel",
+      "shift": "T2",
+      "manager": "pdelolmo",
+      "has_recent_activity": false
+    },
+    {
+      "login": "vzcrlo",
+      "name": "Fernandez Vazquez,carlos Javier",
+      "shift": "T4",
+      "manager": "rijbapti",
+      "has_recent_activity": false
+    },
+    {
+      "login": "wmirmart",
+      "name": "Martinez Elekes,miriam",
+      "shift": "T2",
+      "manager": "alarluis",
+      "has_recent_activity": false
+    },
+    {
+      "login": "xmaldobr",
+      "name": "Maldonado,brenda",
+      "shift": "T1",
+      "manager": "mebaudil",
+      "has_recent_activity": false
+    },
+    {
+      "login": "ybrfatim",
+      "name": "Briones,fátima",
+      "shift": "T3",
+      "manager": "chuecc",
+      "has_recent_activity": false
+    },
+    {
+      "login": "yoksansa",
+      "name": "Sambora,oksana",
+      "shift": "T7",
+      "manager": "alarluis",
+      "has_recent_activity": false
+    },
+    {
+      "login": "ysjimene",
+      "name": "Jimenez Recuenco,yolanda",
+      "shift": "T2",
+      "manager": "pdelolmo",
+      "has_recent_activity": false
+    },
+    {
+      "login": "zfaneite",
+      "name": "Faneite,zasha Tailing",
+      "shift": "T4",
+      "manager": "pnavarrq",
+      "has_recent_activity": false
+    },
+    {
+      "login": "zreynarm",
+      "name": "Reyna,miguel Eduardo",
+      "shift": "T1",
+      "manager": "cealbvaz",
+      "has_recent_activity": false
+    }
+  ]
+}

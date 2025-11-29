@@ -22,141 +22,175 @@
         </div>
       </div>
 
-      <!-- Filtros avanzados -->
+      <!-- Filtros mejorados -->
       <div class="user-history-filters">
-        <h3><span id="icon-filter-advanced" class="icon-svg icon-20"></span> Filtros Avanzados</h3>
+        <h3><span id="icon-filter-advanced" class="icon-svg icon-20"></span> Filtros de Búsqueda</h3>
         <div class="filters-section">
-          <div class="user-history-filter-group">
-            <label for="history-user-filter">Usuario:</label>
-            <select id="history-user-filter" class="form-control">
-              <option value="">Todos los usuarios</option>
-            </select>
-          </div>
-          <div class="user-history-filter-group">
-            <label for="date-range-start">Desde:</label>
-            <input type="date" id="date-range-start" class="form-control" />
-          </div>
-          <div class="user-history-filter-group">
-            <label for="date-range-end">Hasta:</label>
-            <input type="date" id="date-range-end" class="form-control" />
-          </div>
           <div class="user-history-filter-group">
             <label for="history-shift-filter">Turno:</label>
             <select id="history-shift-filter" class="form-control">
               <option value="">Todos los turnos</option>
-              <option value="day">Día</option>
-              <option value="night">Noche</option>
             </select>
           </div>
           <div class="user-history-filter-group">
-            <button
-              id="apply-filters"
-              class="user-history-btn user-history-btn-primary"
-            >
-              <span id="icon-apply-filter" class="icon-svg icon-16"></span> Aplicar Filtros
-            </button>
+            <label for="history-manager-filter">Manager:</label>
+            <select id="history-manager-filter" class="form-control">
+              <option value="">Todos los managers</option>
+            </select>
+          </div>
+          <div class="user-history-filter-group user-history-filter-group-search">
+            <label for="history-user-select">Seleccionar Usuario:</label>
+            <div class="user-select-wrapper">
+              <select id="history-user-select" class="form-control user-select">
+                <option value="">-- Selecciona un usuario --</option>
+              </select>
+              <div class="user-search-alternative">
+                <span>o</span>
+                <input 
+                  type="text" 
+                  id="history-user-search" 
+                  class="form-control search-input" 
+                  placeholder="Escribe el login..."
+                  autocomplete="off"
+                />
+                <div id="user-search-suggestions" class="search-suggestions" style="display: none;"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Resumen del período -->
-      <div class="user-history-summary">
-        <h3><span id="icon-summary-period" class="icon-svg icon-24"></span> Resumen del Período</h3>
-        <div class="user-history-summary-grid">
-          <div class="user-history-summary-card">
-            <h4>Período Seleccionado</h4>
-            <p id="selected-period">Últimos 30 días</p>
+      <!-- Selector de período -->
+      <div class="user-history-period-selector">
+        <h3>Período de Análisis</h3>
+        <div class="period-buttons">
+          <button class="period-btn active" data-period="last_week">Última Semana</button>
+          <button class="period-btn" data-period="last_month">Último Mes</button>
+          <button class="period-btn" data-period="last_3_months">Últimos 3 Meses</button>
+          <button class="period-btn" data-period="last_6_months">Últimos 6 Meses</button>
+        </div>
+      </div>
+
+      <!-- Información del usuario seleccionado -->
+      <div id="selected-user-info" class="selected-user-info" style="display: none;">
+        <h3 id="selected-user-name">Usuario: -</h3>
+        <p id="selected-user-details">Login: - | Turno: - | Manager: -</p>
+      </div>
+
+      <!-- Tarjetas KPI de comparación -->
+      <div class="user-history-kpi-section">
+        <h3><span id="icon-summary-period" class="icon-svg icon-24"></span> Comparación con Promedio General</h3>
+        <div class="user-history-kpi-grid">
+          <div class="user-history-kpi-card">
+            <h4>Rate Actual</h4>
+            <p id="kpi-rate-actual" class="kpi-value">-</p>
+            <p class="kpi-label">vs Promedio: <span id="kpi-rate-avg">-</span></p>
+            <div id="kpi-rate-diff" class="kpi-diff">-</div>
           </div>
-          <div class="user-history-summary-card">
-            <h4>Usuarios Analizados</h4>
-            <p id="analyzed-users">45</p>
+          <div class="user-history-kpi-card">
+            <h4>Percentil</h4>
+            <p id="kpi-percentile" class="kpi-value">-</p>
+            <p class="kpi-label">Posición en ranking</p>
+            <div id="kpi-percentile-bar" class="percentile-bar"></div>
           </div>
-          <div class="user-history-summary-card">
-            <h4>Total de Stows</h4>
-            <p id="total-period-stows">28,450</p>
+          <div class="user-history-kpi-card">
+            <h4>Rank</h4>
+            <p id="kpi-rank" class="kpi-value">-</p>
+            <p class="kpi-label">de <span id="kpi-total-users">-</span> usuarios</p>
           </div>
-          <div class="user-history-summary-card">
-            <h4>Promedio Diario</h4>
-            <p id="daily-average">948</p>
+          <div class="user-history-kpi-card">
+            <h4>Diferencia</h4>
+            <p id="kpi-difference" class="kpi-value">-</p>
+            <p class="kpi-label">vs Promedio General</p>
+            <div id="kpi-diff-indicator" class="diff-indicator">-</div>
           </div>
         </div>
       </div>
 
-      <!-- Gráficos de tendencias -->
+      <!-- Gráficos comparativos -->
       <div class="user-history-charts">
         <div class="user-history-chart-container full-width">
-          <h3><span id="icon-trends-performance" class="icon-svg icon-24"></span> Tendencias de Rendimiento (30 días)</h3>
-          <div id="performance-trends-chart" class="user-history-chart">
+          <h3><span id="icon-trends-performance" class="icon-svg icon-24"></span> Comparación Rate Usuario vs Promedios</h3>
+          <div id="rate-comparison-chart" class="user-history-chart">
             <div style="padding: 20px; text-align: center; color: #666">
-              <p><span id="icon-chart-trend" class="icon-svg icon-20"></span> Evolución del rendimiento por usuario</p>
-              <p>Análisis de tendencias a largo plazo</p>
+              <p>Selecciona un usuario para ver la comparación</p>
             </div>
           </div>
         </div>
         <div class="user-history-chart-container">
-          <h3><span id="icon-calendar-activity" class="icon-svg icon-24"></span> Actividad por Día</h3>
-          <div id="daily-activity-chart" class="user-history-chart">
+          <h3><span id="icon-efficiency-distribution" class="icon-svg icon-24"></span> Comparación por Tipo de Tarea</h3>
+          <div id="task-comparison-chart" class="user-history-chart">
             <div style="padding: 20px; text-align: center; color: #666">
-              <p><span id="icon-activity-daily" class="icon-svg icon-20"></span> Distribución de actividad diaria</p>
-              <p>Patrones de trabajo por día de la semana</p>
-            </div>
-          </div>
-        </div>
-        <div class="user-history-chart-container">
-          <h3><span id="icon-efficiency-distribution" class="icon-svg icon-24"></span> Distribución de Eficiencia</h3>
-          <div id="efficiency-distribution-chart" class="user-history-chart">
-            <div style="padding: 20px; text-align: center; color: #666">
-              <p><span id="icon-target-efficiency" class="icon-svg icon-20"></span> Análisis de eficiencia por usuario</p>
-              <p>Clasificación: Alta, Media, Baja</p>
+              <p>Comparación usuario vs promedio por tipo de tarea</p>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Tabla de historial detallado -->
+      <!-- Tabla detallada de rendimiento -->
       <div class="user-history-table-section">
-        <h3><span id="icon-history-table" class="icon-svg icon-24"></span> Historial Detallado</h3>
-        <div class="user-history-table-controls">
-          <div class="user-history-table-info">
-            <span id="table-info">Mostrando 0 registros</span>
-          </div>
-          <div class="user-history-table-pagination">
-            <button
-              id="prev-page"
-              class="user-history-btn user-history-btn-secondary"
-              disabled
-            >
-              ← Anterior
-            </button>
-            <span id="page-info">Página 1 de 1</span>
-            <button
-              id="next-page"
-              class="user-history-btn user-history-btn-secondary"
-              disabled
-            >
-              Siguiente →
-            </button>
-          </div>
-        </div>
+        <h3><span id="icon-history-table" class="icon-svg icon-24"></span> Rendimiento por Tipo de Tarea</h3>
         <div class="user-history-table-container">
-          <table id="history-table" class="user-history-table">
+          <table id="performance-table" class="user-history-table">
             <thead>
               <tr>
-                <th>Fecha</th>
-                <th>Usuario</th>
-                <th>Login</th>
-                <th>Turno</th>
-                <th>Stows</th>
-                <th>Rate/Hora</th>
-                <th>Eficiencia</th>
-                <th>Horas Trabajadas</th>
-                <th>Acciones</th>
+                <th>Tipo de Tarea</th>
+                <th>Rate Usuario</th>
+                <th>Promedio General</th>
+                <th>Diferencia</th>
+                <th>Percentil</th>
+                <th>Rank</th>
+                <th>Total Usuarios</th>
               </tr>
             </thead>
             <tbody>
               <!-- Datos se cargarán dinámicamente -->
             </tbody>
           </table>
+        </div>
+      </div>
+
+      <!-- Métricas de Esfuerzo (Separado) -->
+      <div class="user-history-effort-section">
+        <h3><span id="icon-target-efficiency" class="icon-svg icon-24"></span> Rate por Esfuerzo (Métrica Adicional)</h3>
+        <p class="section-description">Esta métrica combina el rendimiento con el esfuerzo físico realizado</p>
+        <div class="user-history-effort-grid">
+          <div class="user-history-effort-card">
+            <h4>UPH</h4>
+            <p id="effort-uph" class="effort-value">-</p>
+            <p class="effort-label">vs Promedio: <span id="effort-uph-avg">-</span></p>
+          </div>
+          <div class="user-history-effort-card">
+            <h4>Rate por Esfuerzo</h4>
+            <p id="effort-rate" class="effort-value">-</p>
+            <p class="effort-label">vs Promedio: <span id="effort-rate-avg">-</span></p>
+          </div>
+          <div class="user-history-effort-card">
+            <h4>Distancia Total</h4>
+            <p id="effort-distance" class="effort-value">-</p>
+            <p class="effort-label">Distancia por hora: <span id="effort-distance-hour">-</span></p>
+          </div>
+          <div class="user-history-effort-card">
+            <h4>ASINs Únicos</h4>
+            <p id="effort-asins" class="effort-value">-</p>
+          </div>
+          <div class="user-history-effort-card">
+            <h4>Bins Únicos</h4>
+            <p id="effort-bins" class="effort-value">-</p>
+          </div>
+          <div class="user-history-effort-card">
+            <h4>Cambios de Carro</h4>
+            <p id="effort-cart-changes" class="effort-value">-</p>
+          </div>
+          <div class="user-history-effort-card">
+            <h4>Errores</h4>
+            <p id="effort-errors" class="effort-value">-</p>
+          </div>
+          <div class="user-history-effort-card">
+            <h4>Percentil Esfuerzo</h4>
+            <p id="effort-percentile" class="effort-value">-</p>
+            <p class="effort-label">Rank: <span id="effort-rank">-</span></p>
+          </div>
         </div>
       </div>
 
