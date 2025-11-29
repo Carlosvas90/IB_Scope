@@ -301,8 +301,8 @@ class UserHistoryController {
       });
     }
 
-    // Selector de período
-    const periodButtons = document.querySelectorAll(".period-btn");
+    // Selector de período (tanto .period-btn como .period-btn-compact)
+    const periodButtons = document.querySelectorAll(".period-btn, .period-btn-compact");
     periodButtons.forEach(btn => {
       btn.addEventListener("click", (e) => {
         const period = e.target.dataset.period;
@@ -597,15 +597,15 @@ class UserHistoryController {
     const user = this.usersIndex.users.find(u => u.login === login);
     
     if (user) {
-      // Mostrar información del usuario
-      const userInfoEl = document.getElementById("selected-user-info");
-      const userNameEl = document.getElementById("selected-user-name");
-      const userDetailsEl = document.getElementById("selected-user-details");
+      // Mostrar información del usuario (versión compacta)
+      const userInfoEl = document.getElementById("selected-user-info-compact");
+      const userNameEl = document.getElementById("selected-user-name-compact");
+      const userDetailsEl = document.getElementById("selected-user-details-compact");
       
-      if (userInfoEl) userInfoEl.style.display = "block";
+      if (userInfoEl) userInfoEl.style.display = "flex";
       if (userNameEl) userNameEl.textContent = `Usuario: ${user.name}`;
       if (userDetailsEl) {
-        userDetailsEl.textContent = `Login: ${user.login} | Turno: ${user.shift || "N/A"} | Manager: ${user.manager || "N/A"}`;
+        userDetailsEl.textContent = `| Login: ${user.login} | Turno: ${user.shift || "N/A"} | Manager: ${user.manager || "N/A"}`;
       }
     }
     
@@ -746,6 +746,8 @@ class UserHistoryController {
   updateVisualization() {
     if (!this.currentUserData || !this.metadataUsers) {
       console.warn("⚠️ No hay datos para visualizar");
+      console.warn("⚠️ currentUserData:", this.currentUserData);
+      console.warn("⚠️ metadataUsers:", this.metadataUsers);
       return;
     }
     
@@ -753,16 +755,25 @@ class UserHistoryController {
     const userPeriodData = this.currentUserData[period];
     const metadataPeriodData = this.metadataUsers.periods?.[period];
     
-    if (!userPeriodData || !metadataPeriodData) {
-      console.warn(`⚠️ No hay datos para el período ${period}`);
+    console.log(`📊 Actualizando visualización para período: ${period}`);
+    console.log("📊 userPeriodData:", userPeriodData);
+    console.log("📊 metadataPeriodData:", metadataPeriodData);
+    console.log("📊 userPeriodData.each_stow:", userPeriodData?.each_stow);
+    
+    if (!userPeriodData) {
+      console.warn(`⚠️ No hay datos del usuario para el período ${period}`);
       return;
+    }
+    
+    if (!metadataPeriodData) {
+      console.warn(`⚠️ No hay metadata para el período ${period}, continuando sin comparaciones`);
     }
     
     // Actualizar KPIs
     this.updateKPIs(userPeriodData, metadataPeriodData);
     
-    // Actualizar tabla de rendimiento
-    this.updatePerformanceTable(userPeriodData, metadataPeriodData);
+    // Actualizar tabla de rendimiento (aunque no haya metadata, mostrar los datos del usuario)
+    this.updatePerformanceTable(userPeriodData, metadataPeriodData || {});
     
     // Actualizar métricas de esfuerzo
     this.updateEffortMetrics(userPeriodData, metadataPeriodData);
@@ -873,62 +884,115 @@ class UserHistoryController {
   }
 
   /**
-   * Actualiza la tabla de rendimiento - Enfocado en tareas principales
+   * Actualiza la tabla de rendimiento - Muestra TODAS las categorías con rate
    */
   updatePerformanceTable(userData, metadataData) {
     const tbody = document.querySelector("#performance-table tbody");
-    if (!tbody) return;
+    if (!tbody) {
+      console.error("❌ Tabla #performance-table tbody no encontrada");
+      return;
+    }
     
     tbody.innerHTML = "";
     
-    // Tareas principales primero
-    const mainTaskTypes = [
-      { key: "combined", label: "Combined", priority: 1 },
-      { key: "stow_to_prime", label: "Stow to Prime", priority: 2 },
-      { key: "transfer_in", label: "Transfer In (TSI)", priority: 3 }
-    ];
+    console.log("📊 ===== ACTUALIZANDO TABLA DE RENDIMIENTO =====");
+    console.log("📊 userData:", userData);
+    console.log("📊 userData.each_stow:", userData?.each_stow);
     
-    // Tareas secundarias
-    const secondaryTaskTypes = [
-      { key: "stow_to_prime_e", label: "Stow to Prime (E)", priority: 4 },
-      { key: "stow_to_prime_w", label: "Stow to Prime (W)", priority: 5 },
-      { key: "transfer_in_e", label: "Transfer In (E)", priority: 6 },
-      { key: "transfer_in_w", label: "Transfer In (W)", priority: 7 },
-      { key: "combined_e", label: "Combined (E)", priority: 8 },
-      { key: "combined_w", label: "Combined (W)", priority: 9 }
-    ];
-    
-    // Combinar y ordenar
-    const taskTypes = [...mainTaskTypes, ...secondaryTaskTypes].sort((a, b) => a.priority - b.priority);
-    
-    // También incluir pallet_stow si existe
-    const palletTasks = [];
-    if (userData.pallet_stow) {
-      Object.keys(userData.pallet_stow).forEach(key => {
-        if (userData.pallet_stow[key] && Object.keys(userData.pallet_stow[key]).length > 0) {
-          palletTasks.push({ key, label: `Pallet ${key.replace(/_/g, ' ')}`, isPallet: true });
-        }
-      });
+    if (!userData || !userData.each_stow) {
+      console.error("❌ No hay datos each_stow en userData");
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px;">No hay datos disponibles</td></tr>';
+      return;
     }
     
-    // Procesar tareas each_stow
-    taskTypes.forEach(task => {
-      const userTask = userData.each_stow?.[task.key];
-      const metadataTask = metadataData.each_stow?.[task.key];
+    // Mapeo de labels
+    const taskLabels = {
+      "combined": "Combined",
+      "stow_to_prime": "Stow to Prime",
+      "transfer_in": "Transfer In (TSI)",
+      "stow_to_prime_e": "Stow to Prime (E)",
+      "stow_to_prime_w": "Stow to Prime (W)",
+      "transfer_in_e": "Transfer In (E)",
+      "transfer_in_w": "Transfer In (W)",
+      "combined_e": "Combined (E)",
+      "combined_w": "Combined (W)"
+    };
+    
+    // Orden de prioridad - PRINCIPALES PRIMERO
+    const mainKeys = ["combined", "stow_to_prime", "transfer_in"];
+    const secondaryKeys = ["stow_to_prime_e", "stow_to_prime_w", "transfer_in_e", "transfer_in_w", "combined_e", "combined_w"];
+    
+    // Obtener TODAS las claves que existen en each_stow
+    const allTaskKeys = Object.keys(userData.each_stow);
+    console.log("📊 Total de categorías encontradas:", allTaskKeys.length);
+    console.log("📊 Categorías:", allTaskKeys);
+    
+    // Verificar que las principales existan
+    mainKeys.forEach(key => {
+      if (allTaskKeys.includes(key)) {
+        const task = userData.each_stow[key];
+        console.log(`✅ ${key} encontrado:`, task);
+        if (task.rate !== undefined) {
+          console.log(`   Rate: ${task.rate}`);
+        } else {
+          console.warn(`   ⚠️ ${key} NO tiene rate`);
+        }
+      } else {
+        console.warn(`❌ ${key} NO encontrado en los datos`);
+      }
+    });
+    
+    // Ordenar: principales primero, luego secundarias, luego el resto
+    const sortedTaskKeys = [];
+    
+    // Añadir principales en orden (OBLIGATORIO mostrarlas si existen)
+    mainKeys.forEach(key => {
+      if (allTaskKeys.includes(key)) {
+        sortedTaskKeys.push(key);
+        console.log(`✅ Categoría principal añadida: ${key}`);
+      }
+    });
+    
+    // Añadir secundarias en orden
+    secondaryKeys.forEach(key => {
+      if (allTaskKeys.includes(key)) sortedTaskKeys.push(key);
+    });
+    
+    // Añadir cualquier otra que no esté en las listas
+    allTaskKeys.forEach(key => {
+      if (!sortedTaskKeys.includes(key)) sortedTaskKeys.push(key);
+    });
+    
+    console.log("📊 Categorías ordenadas para mostrar:", sortedTaskKeys);
+    
+    // Procesar cada tarea - OBLIGATORIO mostrar todas las que tienen rate
+    let rowsAdded = 0;
+    sortedTaskKeys.forEach(taskKey => {
+      const userTask = userData.each_stow[taskKey];
       
-      if (!userTask || !metadataTask) return;
+      if (!userTask) {
+        console.warn(`⚠️ ${taskKey}: userTask es null/undefined`);
+        return;
+      }
+      
+      // OBLIGATORIO: Mostrar todas las que tienen rate válido
+      if (userTask.rate === undefined || userTask.rate === null) {
+        console.warn(`⚠️ Saltando ${taskKey}: no tiene rate válido (rate=${userTask.rate})`);
+        return;
+      }
+      
+      const metadataTask = metadataData?.each_stow?.[taskKey];
+      const avg = metadataTask?.avg || 0;
+      const taskLabel = taskLabels[taskKey] || taskKey.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+      const isMain = mainKeys.includes(taskKey);
       
       const row = document.createElement("tr");
       const rate = userTask.rate || 0;
-      const avg = metadataTask.avg || 0;
       const diff = rate - avg;
       const diffPercent = avg > 0 ? ((diff / avg) * 100).toFixed(1) : 0;
       
-      // Marcar las tareas principales
-      const isMain = task.priority <= 3;
-      
       row.innerHTML = `
-        <td><strong>${task.label}</strong>${isMain ? ' <span class="main-task-badge">Principal</span>' : ''}</td>
+        <td><strong>${taskLabel}</strong>${isMain ? ' <span class="main-task-badge">Principal</span>' : ''}</td>
         <td>${rate.toFixed(2)}</td>
         <td>${avg.toFixed(2)}</td>
         <td class="${diff >= 0 ? 'positive' : 'negative'}">
@@ -940,36 +1004,63 @@ class UserHistoryController {
       `;
       if (isMain) row.classList.add("main-task-row");
       tbody.appendChild(row);
+      rowsAdded++;
+      
+      console.log(`✅ Añadida fila para ${taskKey}: rate=${rate.toFixed(2)}, avg=${avg.toFixed(2)}`);
     });
     
-    // Procesar tareas pallet_stow si existen
-    palletTasks.forEach(task => {
-      const userTask = userData.pallet_stow?.[task.key];
-      const metadataTask = metadataData.pallet_stow?.[task.key];
-      
-      if (!userTask || !metadataTask) return;
-      
-      // Para pallet, usar avg_each o avg_pallet según lo que esté disponible
-      const rate = userTask.avg_each || userTask.avg_pallet || 0;
-      const avg = metadataTask.avg_each || metadataTask.avg_pallet || 0;
-      const diff = rate - avg;
-      const diffPercent = avg > 0 ? ((diff / avg) * 100).toFixed(1) : 0;
-      
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td><strong>${task.label}</strong> <span class="pallet-badge">Pallet</span></td>
-        <td>${rate.toFixed(2)}</td>
-        <td>${avg.toFixed(2)}</td>
-        <td class="${diff >= 0 ? 'positive' : 'negative'}">
-          ${diff >= 0 ? '+' : ''}${diff.toFixed(2)} (${diffPercent >= 0 ? '+' : ''}${diffPercent}%)
-        </td>
-        <td>${userTask.percentile_pallet !== undefined ? userTask.percentile_pallet.toFixed(1) + '%' : '-'}</td>
-        <td>${userTask.rank_pallet !== undefined ? '#' + userTask.rank_pallet : '-'}</td>
-        <td>${userTask.total_users || '-'}</td>
+    console.log(`📊 Total de filas añadidas: ${rowsAdded}`);
+    
+    if (rowsAdded === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align: center; padding: 20px; color: #666;">
+            No se encontraron datos de rendimiento para este período
+          </td>
+        </tr>
       `;
-      row.classList.add("pallet-task-row");
-      tbody.appendChild(row);
-    });
+    }
+    
+    // Procesar tareas pallet_stow si existen
+    if (userData.pallet_stow) {
+      Object.keys(userData.pallet_stow).forEach(taskKey => {
+        const userTask = userData.pallet_stow[taskKey];
+        
+        if (!userTask) return;
+        
+        // Para pallet, usar pallet_rate
+        const rate = userTask.pallet_rate || 0;
+        
+        if (rate === 0) return; // Saltar si no hay rate
+        
+        const metadataTask = metadataData?.pallet_stow?.[taskKey];
+        const avg = metadataTask?.avg_pallet_general || 0;
+        
+        const diff = rate - avg;
+        const diffPercent = avg > 0 ? ((diff / avg) * 100).toFixed(1) : 0;
+        
+        const label = taskKey.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td><strong>${label}</strong> <span class="pallet-badge">Pallet</span></td>
+          <td>${rate.toFixed(2)}</td>
+          <td>${avg.toFixed(2)}</td>
+          <td class="${diff >= 0 ? 'positive' : 'negative'}">
+            ${diff >= 0 ? '+' : ''}${diff.toFixed(2)} (${diffPercent >= 0 ? '+' : ''}${diffPercent}%)
+          </td>
+          <td>${userTask.percentile_pallet !== undefined ? userTask.percentile_pallet.toFixed(1) + '%' : '-'}</td>
+          <td>${userTask.rank_pallet !== undefined ? '#' + userTask.rank_pallet : '-'}</td>
+          <td>${userTask.total_users || '-'}</td>
+        `;
+        row.classList.add("pallet-task-row");
+        tbody.appendChild(row);
+        rowsAdded++;
+        console.log(`✅ Añadida fila pallet para ${taskKey}: rate=${rate.toFixed(2)}`);
+      });
+    }
+    
+    console.log(`📊 Total final de filas: ${rowsAdded}`);
   }
 
   /**
@@ -1058,17 +1149,28 @@ class UserHistoryController {
    */
   updateRateComparisonChart(userData, metadataData) {
     const chartEl = document.getElementById("rate-comparison-chart");
-    if (!chartEl) return;
+    if (!chartEl) {
+      console.warn("⚠️ Elemento rate-comparison-chart no encontrado");
+      return;
+    }
     
-    // Obtener datos principales
+    console.log("📊 Actualizando gráfica de comparación de rates...");
+    
+    // Obtener datos principales - verificar que existan
     const tasks = [
       { key: "combined", label: "Combined", userData: userData.each_stow?.combined, metadataData: metadataData.each_stow?.combined },
       { key: "stow_to_prime", label: "Stow to Prime", userData: userData.each_stow?.stow_to_prime, metadataData: metadataData.each_stow?.stow_to_prime },
       { key: "transfer_in", label: "Transfer In (TSI)", userData: userData.each_stow?.transfer_in, metadataData: metadataData.each_stow?.transfer_in }
     ];
     
-    // Filtrar solo las que tienen datos
-    const validTasks = tasks.filter(t => t.userData && t.metadataData && t.userData.rate !== undefined);
+    // Filtrar solo las que tienen datos válidos
+    const validTasks = tasks.filter(t => {
+      const hasUserData = t.userData && t.userData.rate !== undefined && t.userData.rate !== null;
+      const hasMetadata = t.metadataData && t.metadataData.avg !== undefined && t.metadataData.avg !== null;
+      return hasUserData && hasMetadata;
+    });
+    
+    console.log("📊 Tareas válidas encontradas:", validTasks.length, validTasks.map(t => t.label));
     
     if (validTasks.length === 0) {
       chartEl.innerHTML = '<div style="padding: 20px; text-align: center; color: #666">No hay datos disponibles para este período</div>';
@@ -1126,7 +1228,12 @@ class UserHistoryController {
    */
   updateTaskComparisonChart(userData, metadataData) {
     const chartEl = document.getElementById("task-comparison-chart");
-    if (!chartEl) return;
+    if (!chartEl) {
+      console.warn("⚠️ Elemento task-comparison-chart no encontrado");
+      return;
+    }
+    
+    console.log("📊 Actualizando gráfica de comparación por tipo de tarea...");
     
     // Similar a la anterior pero más compacta
     const tasks = [
@@ -1136,12 +1243,17 @@ class UserHistoryController {
     ];
     
     let html = '<div class="task-comparison-grid">';
+    let hasData = false;
     
     tasks.forEach(task => {
       const userTask = userData.each_stow?.[task.key];
       const metadataTask = metadataData.each_stow?.[task.key];
       
-      if (!userTask || !metadataTask || userTask.rate === undefined) return;
+      if (!userTask || userTask.rate === undefined || !metadataTask || metadataTask.avg === undefined) {
+        return;
+      }
+      
+      hasData = true;
       
       const userRate = userTask.rate;
       const avgRate = metadataTask.avg;
@@ -1162,7 +1274,12 @@ class UserHistoryController {
     });
     
     html += '</div>';
-    chartEl.innerHTML = html;
+    
+    if (!hasData) {
+      chartEl.innerHTML = '<div style="padding: 20px; text-align: center; color: #666">No hay datos disponibles para este período</div>';
+    } else {
+      chartEl.innerHTML = html;
+    }
   }
 
   /**

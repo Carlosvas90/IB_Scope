@@ -8,101 +8,89 @@
   </head>
   <body>
     <div class="user-history-container">
-      <!-- Header -->
-      <div class="user-history-header">
-        <h1><span id="icon-history-header" class="icon-svg icon-24"></span> User History</h1>
-        <p>Análisis histórico y tendencias de rendimiento de usuarios</p>
-        <div class="header-actions">
-          <button
-            id="refresh-history"
-            class="user-history-btn user-history-btn-primary"
-          >
-            <span id="icon-refresh-history" class="icon-svg icon-16"></span> Actualizar Historial
+      <!-- Header compacto -->
+      <header class="app-header-card">
+        <h1>
+          <span id="icon-history-header" class="icon-svg icon-32"></span>
+          User History
+        </h1>
+        <div class="app-header-controls">
+          <button id="refresh-history" class="btn btn-primary">
+            <span id="icon-refresh-history" class="icon-svg icon-16"></span>
+            Actualizar
           </button>
         </div>
-      </div>
+      </header>
 
-      <!-- Filtros mejorados -->
-      <div class="user-history-filters">
-        <h3><span id="icon-filter-advanced" class="icon-svg icon-20"></span> Filtros de Búsqueda</h3>
-        <div class="filters-section">
-          <div class="user-history-filter-group">
+      <!-- Filtros compactos en una línea -->
+      <div class="user-history-filters-compact">
+        <div class="filters-row">
+          <div class="filter-item">
             <label for="history-shift-filter">Turno:</label>
-            <select id="history-shift-filter" class="form-control">
-              <option value="">Todos los turnos</option>
+            <select id="history-shift-filter" class="form-control compact">
+              <option value="">Todos</option>
             </select>
           </div>
-          <div class="user-history-filter-group">
+          <div class="filter-item">
             <label for="history-manager-filter">Manager:</label>
-            <select id="history-manager-filter" class="form-control">
-              <option value="">Todos los managers</option>
+            <select id="history-manager-filter" class="form-control compact">
+              <option value="">Todos</option>
             </select>
           </div>
-          <div class="user-history-filter-group user-history-filter-group-search">
-            <label for="history-user-select">Seleccionar Usuario:</label>
-            <div class="user-select-wrapper">
-              <select id="history-user-select" class="form-control user-select">
-                <option value="">-- Selecciona un usuario --</option>
-              </select>
-              <div class="user-search-alternative">
-                <span>o</span>
-                <input 
-                  type="text" 
-                  id="history-user-search" 
-                  class="form-control search-input" 
-                  placeholder="Escribe el login..."
-                  autocomplete="off"
-                />
-                <div id="user-search-suggestions" class="search-suggestions" style="display: none;"></div>
-              </div>
+          <div class="filter-item filter-item-user">
+            <label for="history-user-select">Usuario:</label>
+            <select id="history-user-select" class="form-control compact">
+              <option value="">-- Seleccionar --</option>
+            </select>
+          </div>
+          <div class="filter-item filter-item-search">
+            <input 
+              type="text" 
+              id="history-user-search" 
+              class="form-control compact search-input" 
+              placeholder="Buscar login..."
+              autocomplete="off"
+            />
+            <div id="user-search-suggestions" class="search-suggestions" style="display: none;"></div>
+          </div>
+          <div class="filter-item filter-item-period">
+            <div class="period-buttons-compact">
+              <button class="period-btn-compact active" data-period="last_week">Semana</button>
+              <button class="period-btn-compact" data-period="last_month">Mes</button>
+              <button class="period-btn-compact" data-period="last_3_months">3 Meses</button>
+              <button class="period-btn-compact" data-period="last_6_months">6 Meses</button>
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- Selector de período -->
-      <div class="user-history-period-selector">
-        <h3>Período de Análisis</h3>
-        <div class="period-buttons">
-          <button class="period-btn active" data-period="last_week">Última Semana</button>
-          <button class="period-btn" data-period="last_month">Último Mes</button>
-          <button class="period-btn" data-period="last_3_months">Últimos 3 Meses</button>
-          <button class="period-btn" data-period="last_6_months">Últimos 6 Meses</button>
+        <!-- Info usuario seleccionado compacta -->
+        <div id="selected-user-info-compact" class="selected-user-info-compact" style="display: none;">
+          <span id="selected-user-name-compact">Usuario: -</span>
+          <span id="selected-user-details-compact">| Login: - | Turno: - | Manager: -</span>
         </div>
       </div>
 
-      <!-- Información del usuario seleccionado -->
-      <div id="selected-user-info" class="selected-user-info" style="display: none;">
-        <h3 id="selected-user-name">Usuario: -</h3>
-        <p id="selected-user-details">Login: - | Turno: - | Manager: -</p>
-      </div>
-
-      <!-- Tarjetas KPI de comparación -->
-      <div class="user-history-kpi-section">
-        <h3><span id="icon-summary-period" class="icon-svg icon-24"></span> Comparación con Promedio General</h3>
-        <div class="user-history-kpi-grid">
-          <div class="user-history-kpi-card">
-            <h4>Rate Actual</h4>
-            <p id="kpi-rate-actual" class="kpi-value">-</p>
-            <p class="kpi-label">vs Promedio: <span id="kpi-rate-avg">-</span></p>
-            <div id="kpi-rate-diff" class="kpi-diff">-</div>
+      <!-- Tarjetas KPI compactas -->
+      <div class="user-history-kpi-section-compact">
+        <div class="kpi-compact-grid">
+          <div class="kpi-compact-card">
+            <span class="kpi-compact-label">Rate Combined</span>
+            <span id="kpi-rate-actual" class="kpi-compact-value">-</span>
+            <span class="kpi-compact-sub">vs <span id="kpi-rate-avg">-</span></span>
           </div>
-          <div class="user-history-kpi-card">
-            <h4>Percentil</h4>
-            <p id="kpi-percentile" class="kpi-value">-</p>
-            <p class="kpi-label">Posición en ranking</p>
-            <div id="kpi-percentile-bar" class="percentile-bar"></div>
+          <div class="kpi-compact-card">
+            <span class="kpi-compact-label">Percentil</span>
+            <span id="kpi-percentile" class="kpi-compact-value">-</span>
+            <div id="kpi-percentile-bar" class="percentile-bar-compact"></div>
           </div>
-          <div class="user-history-kpi-card">
-            <h4>Rank</h4>
-            <p id="kpi-rank" class="kpi-value">-</p>
-            <p class="kpi-label">de <span id="kpi-total-users">-</span> usuarios</p>
+          <div class="kpi-compact-card">
+            <span class="kpi-compact-label">Rank</span>
+            <span id="kpi-rank" class="kpi-compact-value">-</span>
+            <span class="kpi-compact-sub">de <span id="kpi-total-users">-</span></span>
           </div>
-          <div class="user-history-kpi-card">
-            <h4>Diferencia</h4>
-            <p id="kpi-difference" class="kpi-value">-</p>
-            <p class="kpi-label">vs Promedio General</p>
-            <div id="kpi-diff-indicator" class="diff-indicator">-</div>
+          <div class="kpi-compact-card">
+            <span class="kpi-compact-label">Diferencia</span>
+            <span id="kpi-difference" class="kpi-compact-value">-</span>
+            <span id="kpi-diff-indicator" class="kpi-compact-indicator">-</span>
           </div>
         </div>
       </div>
@@ -219,3 +207,4 @@
     <script src="../js/user-history.js"></script>
   </body>
 </html>
+
