@@ -121,12 +121,6 @@ class UserHistoryController {
       refreshBtn.addEventListener("click", () => this.refreshData());
     }
 
-    // Botón de exportar
-    const exportBtn = document.getElementById("export-history");
-    if (exportBtn) {
-      exportBtn.addEventListener("click", () => this.exportData());
-    }
-
     // Botón de aplicar filtros
     const applyFiltersBtn = document.getElementById("apply-filters");
     if (applyFiltersBtn) {
@@ -423,7 +417,60 @@ class UserHistoryController {
    */
   async refreshData() {
     console.log("🔄 Refrescando datos de historial...");
-    await this.loadData();
+    
+    // Obtener el botón de actualizar
+    const refreshBtn = document.getElementById("refresh-history");
+    const originalText = refreshBtn ? refreshBtn.innerHTML : "";
+    
+    try {
+      // Deshabilitar botón y mostrar estado de carga
+      if (refreshBtn) {
+        refreshBtn.disabled = true;
+        const iconElement = refreshBtn.querySelector('#icon-refresh-history');
+        if (iconElement) {
+          // Añadir animación de rotación al icono
+          iconElement.style.animation = 'spin 1s linear infinite';
+        }
+        // Cambiar texto del botón
+        const textNodes = Array.from(refreshBtn.childNodes).filter(node => node.nodeType === Node.TEXT_NODE);
+        if (textNodes.length > 0) {
+          textNodes[0].textContent = ' Actualizando...';
+        } else {
+          refreshBtn.appendChild(document.createTextNode(' Actualizando...'));
+        }
+      }
+      
+      // Mostrar notificación si está disponible
+      if (window.showToast) {
+        window.showToast("Actualizando historial...", "info");
+      }
+      
+      // Recargar datos
+      await this.loadData();
+      this.updateUI();
+      
+      // Mostrar mensaje de éxito
+      if (window.showToast) {
+        window.showToast("Historial actualizado correctamente", "success");
+      }
+      
+      console.log("✅ Historial actualizado correctamente");
+    } catch (error) {
+      console.error("❌ Error al actualizar historial:", error);
+      if (window.showToast) {
+        window.showToast("Error al actualizar historial", "error");
+      }
+    } finally {
+      // Restaurar botón
+      if (refreshBtn) {
+        refreshBtn.disabled = false;
+        refreshBtn.innerHTML = originalText;
+        const iconElement = refreshBtn.querySelector('#icon-refresh-history');
+        if (iconElement) {
+          iconElement.style.animation = '';
+        }
+      }
+    }
   }
 
   /**

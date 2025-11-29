@@ -191,16 +191,10 @@ class UserActivityController {
    * Configura los event listeners
    */
   setupEventListeners() {
-    // Botón de actualizar datos
-    const refreshBtn = document.getElementById("refresh-data");
+    // Botón de actualizar datos (refresh-activity-btn)
+    const refreshBtn = document.getElementById("refresh-activity-btn");
     if (refreshBtn) {
       refreshBtn.addEventListener("click", () => this.refreshData());
-    }
-
-    // Botón de exportar
-    const exportBtn = document.getElementById("export-data");
-    if (exportBtn) {
-      exportBtn.addEventListener("click", () => this.exportData());
     }
 
     // Botones de categoría
@@ -1394,8 +1388,60 @@ class UserActivityController {
    */
   async refreshData() {
     console.log("🔄 Refrescando datos...");
-    await this.loadData();
-    this.updateTable();
+    
+    // Obtener el botón de actualizar
+    const refreshBtn = document.getElementById("refresh-activity-btn");
+    const originalText = refreshBtn ? refreshBtn.innerHTML : "";
+    
+    try {
+      // Deshabilitar botón y mostrar estado de carga
+      if (refreshBtn) {
+        refreshBtn.disabled = true;
+        const iconElement = refreshBtn.querySelector('#icon-refresh-activity');
+        if (iconElement) {
+          // Añadir animación de rotación al icono
+          iconElement.style.animation = 'spin 1s linear infinite';
+        }
+        // Cambiar texto del botón
+        const textNodes = Array.from(refreshBtn.childNodes).filter(node => node.nodeType === Node.TEXT_NODE);
+        if (textNodes.length > 0) {
+          textNodes[0].textContent = ' Actualizando...';
+        } else {
+          refreshBtn.appendChild(document.createTextNode(' Actualizando...'));
+        }
+      }
+      
+      // Mostrar notificación si está disponible
+      if (window.showToast) {
+        window.showToast("Actualizando datos...", "info");
+      }
+      
+      // Recargar datos
+      await this.loadData();
+      this.updateTable();
+      
+      // Mostrar mensaje de éxito
+      if (window.showToast) {
+        window.showToast("Datos actualizados correctamente", "success");
+      }
+      
+      console.log("✅ Datos actualizados correctamente");
+    } catch (error) {
+      console.error("❌ Error al actualizar datos:", error);
+      if (window.showToast) {
+        window.showToast("Error al actualizar datos", "error");
+      }
+    } finally {
+      // Restaurar botón
+      if (refreshBtn) {
+        refreshBtn.disabled = false;
+        refreshBtn.innerHTML = originalText;
+        const iconElement = refreshBtn.querySelector('#icon-refresh-activity');
+        if (iconElement) {
+          iconElement.style.animation = '';
+        }
+      }
+    }
   }
 
   /**

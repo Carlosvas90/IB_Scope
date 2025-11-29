@@ -46,6 +46,16 @@
   margin-right: 4px;
 }
 
+/* Animación de rotación para iconos de carga */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* Reset básico */
 * {
   box-sizing: border-box;

@@ -42,6 +42,16 @@
   margin-right: 4px;
 }
 
+/* Animación de rotación para iconos de carga */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* Importar variables base */
 @import url("../../../css/themes/variables.css");
 @import url("../../../css/themes/variables2.css");
