@@ -312,4 +312,32 @@ export class UserImageService {
     this.currentLogin = null;
     this.currentCell = null; // Limpiar referencia de celda
   }
+
+  /**
+   * Elimina físicamente todos los popups del DOM
+   * Útil cuando se cambia de app para evitar que persistan visualmente
+   */
+  removeAllPopups() {
+    this.cancelHidePopup();
+    this.cancelShowPopup();
+    const popups = document.querySelectorAll(".user-image-popup");
+    popups.forEach((popup) => {
+      if (popup.parentNode) {
+        popup.parentNode.removeChild(popup);
+      }
+    });
+    this.activePopup = null;
+    this.currentLogin = null;
+    this.currentCell = null;
+  }
+
+  /**
+   * Limpia todos los recursos del servicio
+   * Debe llamarse cuando se cambia de app o se destruye el controlador
+   */
+  cleanup() {
+    this.removeAllPopups();
+    this.cancelHidePopup();
+    this.cancelShowPopup();
+  }
 }

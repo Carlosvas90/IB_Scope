@@ -21,6 +21,9 @@ let isLoading = true; // Controlar estado de carga
 window.initFeedbackTracker = function (view) {
   console.log("Inicializando Feedback Tracker", view);
 
+  // Limpiar popups residuales de imágenes de usuario que puedan quedar de otras apps
+  cleanupUserImagePopups();
+
   // Mostrar pantalla de carga inmediatamente
   showLoadingScreen();
 
@@ -65,6 +68,9 @@ window.initFeedbackTracker = function (view) {
   // Configurar eventos
   setupEvents();
 
+  // Escuchar eventos de cambio de app para limpiar popups cuando se sale de feedback-tracker
+  setupAppChangeListener();
+
   // Registrar callback para cuando terminen de cargar los datos
   dataService.onRefresh((data) => {
     console.log("onRefresh callback ejecutado con status:", data.status);
@@ -92,6 +98,27 @@ window.initFeedbackTracker = function (view) {
 
   return true;
 };
+
+/**
+ * Limpia todos los popups de imágenes de usuario que puedan quedar en el DOM
+ * Útil cuando se cambia de app para evitar que persistan visualmente
+ */
+function cleanupUserImagePopups() {
+  const popups = document.querySelectorAll(".user-image-popup");
+  if (popups.length > 0) {
+    console.log(`🧹 Limpiando ${popups.length} popup(s) de imágenes residuales`);
+    popups.forEach((popup) => {
+      if (popup.parentNode) {
+        popup.parentNode.removeChild(popup);
+      }
+    });
+  }
+  
+  // También limpiar si hay un controlador activo
+  if (errorsTableController && errorsTableController.imageService) {
+    errorsTableController.imageService.cleanup();
+  }
+}
 
 /**
  * Muestra una pantalla de carga mientras se cargan los datos
@@ -697,6 +724,29 @@ function updateErrorDropdown() {
   } catch (error) {
     console.error("Error al actualizar dropdown de error:", error);
   }
+}
+
+/**
+ * Configura un listener para limpiar popups cuando se cambia a otra app
+ */
+function setupAppChangeListener() {
+  // Escuchar eventos de carga de app
+  window.addEventListener("app:loaded", (event) => {
+    const { app } = event.detail || {};
+    // Si se carga una app diferente a feedback-tracker, limpiar popups
+    if (app && app !== "feedback-tracker") {
+      cleanupUserImagePopups();
+    }
+  });
+
+  // También escuchar eventos de navegación
+  window.addEventListener("navigate", (event) => {
+    const { app } = event.detail || {};
+    // Si se navega a una app diferente a feedback-tracker, limpiar popups
+    if (app && app !== "feedback-tracker") {
+      cleanupUserImagePopups();
+    }
+  });
 }
 
 /**
