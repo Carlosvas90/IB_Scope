@@ -11,67 +11,16 @@
       <!-- Header con estilo similar a feedback-tracker y estadísticas -->
       <header class="app-header-card">
         <h1>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="32"
-            height="32"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            style="
-              display: inline-flex;
-              align-items: center;
-              vertical-align: middle;
-              margin-right: 8px;
-            "
-          >
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-            <circle cx="9" cy="7" r="4"></circle>
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-          </svg>
+          <span id="icon-user-activity-header" class="icon-svg icon-32"></span>
           User Activity
         </h1>
         <div class="app-header-controls">
           <button id="refresh-activity-btn" class="btn btn-primary">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M23 4v6h-6"></path>
-              <path d="M1 20v-6h6"></path>
-              <path
-                d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"
-              ></path>
-            </svg>
+            <span id="icon-refresh-activity" class="icon-svg icon-16"></span>
             Actualizar
           </button>
           <button id="export-activity-btn" class="btn btn-secondary">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-              <polyline points="7 10 12 15 17 10"></polyline>
-              <line x1="12" y1="15" x2="12" y2="3"></line>
-            </svg>
+            <span id="icon-export-activity" class="icon-svg icon-16"></span>
             Exportar CSV
           </button>
         </div>
@@ -82,20 +31,7 @@
         <!-- Barra de cierre -->
         <div class="user-detail-close-bar">
           <button id="close-user-detail" class="btn-close-detail">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
+            <span id="icon-close-user-detail" class="icon-svg icon-16"></span>
             Cerrar vista de <span id="current-user-login-label">--</span>
           </button>
         </div>
@@ -105,7 +41,10 @@
           <!-- KPI 1: Información del usuario -->
           <div class="user-info-kpi">
             <div class="kpi-header">
-              <h3>👤 Información del Usuario</h3>
+              <h3>
+                <span id="icon-user-info" class="icon-svg icon-24"></span>
+                Información del Usuario
+              </h3>
             </div>
             <div class="kpi-content">
               <div class="user-photo-section">
@@ -148,7 +87,10 @@
           <!-- KPI 2: Actividad últimos 30 minutos -->
           <div class="user-activity-kpi">
             <div class="kpi-header">
-              <h3>📊 Actividad Últimos 30 Minutos</h3>
+              <h3>
+                <span id="icon-activity-30min" class="icon-svg icon-24"></span>
+                Actividad Últimos 30 Minutos
+              </h3>
             </div>
             <div class="kpi-content">
               <div class="activity-summary">
@@ -177,7 +119,10 @@
           <!-- KPI 3: HEATMAP Stow -->
           <div class="user-heatmap-kpi">
             <div class="kpi-header">
-              <h3>🗺️ HEATMAP Stow</h3>
+              <h3>
+                <span id="icon-heatmap-stow" class="icon-svg icon-24"></span>
+                HEATMAP Stow
+              </h3>
             </div>
             <div class="kpi-content">
               <div class="heatmap-zones">
@@ -192,30 +137,54 @@
         <!-- Bloque 1: KPI Análisis General -->
         <div class="kpi-independent effort-simple-kpis">
           <div class="kpi-header">
-            <h3>📊 Análisis General</h3>
+            <h3>
+              <span id="icon-analysis-general" class="icon-svg icon-24"></span>
+              Análisis General
+            </h3>
           </div>
           <div class="kpi-content">
             <div class="metric-row">
               <div class="metric-item">
-                <span class="metric-label">⏰ Horas trabajadas:</span>
+                <span class="metric-label"
+                  ><span id="icon-clock-worked" class="icon-svg icon-20"></span>
+                  Horas trabajadas:</span
+                >
                 <span class="metric-value" id="effort-hours">--</span>
               </div>
               <div class="metric-item">
-                <span class="metric-label">📏 Distancia recorrida:</span>
+                <span class="metric-label"
+                  ><span
+                    id="icon-ruler-distance"
+                    class="icon-svg icon-20"
+                  ></span>
+                  Distancia recorrida:</span
+                >
                 <span class="metric-value" id="effort-distance">--</span>
               </div>
               <div class="metric-item">
-                <span class="metric-label">📦 Promedio units/bin:</span>
+                <span class="metric-label"
+                  ><span id="icon-box-units" class="icon-svg icon-20"></span>
+                  Promedio units/bin:</span
+                >
                 <span class="metric-value" id="effort-units-per-bin">--</span>
               </div>
             </div>
             <div class="metric-row">
               <div class="metric-item">
-                <span class="metric-label">🛒 Cambios de carrito:</span>
+                <span class="metric-label"
+                  ><span id="icon-cart-changes" class="icon-svg icon-20"></span>
+                  Cambios de carrito:</span
+                >
                 <span class="metric-value" id="effort-cart-changes">--</span>
               </div>
               <div class="metric-item">
-                <span class="metric-label">❌ Errores cometidos:</span>
+                <span class="metric-label"
+                  ><span
+                    id="icon-error-committed"
+                    class="icon-svg icon-20"
+                  ></span>
+                  Errores cometidos:</span
+                >
                 <span class="metric-value" id="effort-errors">--</span>
               </div>
             </div>
@@ -227,7 +196,13 @@
           <!-- KPI Distribución por Categorías -->
           <div class="kpi-independent effort-categories">
             <div class="kpi-header">
-              <h3>📊 Distribución por Categorías</h3>
+              <h3>
+                <span
+                  id="icon-distribution-categories"
+                  class="icon-svg icon-24"
+                ></span>
+                Distribución por Categorías
+              </h3>
             </div>
             <div class="kpi-content">
               <div class="categories-comparison">
@@ -322,7 +297,13 @@
           <!-- KPI Top ASINs por Categoría -->
           <div class="kpi-independent effort-top-asins">
             <div class="kpi-header">
-              <h3>🏆 Top ASINs por Categoría</h3>
+              <h3>
+                <span
+                  id="icon-trophy-top-asins"
+                  class="icon-svg icon-24"
+                ></span>
+                Top ASINs por Categoría
+              </h3>
             </div>
             <div class="kpi-content">
               <div class="top-asins-layout">
@@ -339,7 +320,10 @@
           <!-- KPI Tiempo entre Stow -->
           <div class="kpi-independent effort-stow-times">
             <div class="kpi-header">
-              <h3>⏱️ Tiempo entre Stow por Menú</h3>
+              <h3>
+                <span id="icon-timer-stow-time" class="icon-svg icon-24"></span>
+                Tiempo entre Stow por Menú
+              </h3>
             </div>
             <div class="kpi-content">
               <div id="effort-stow-times">
@@ -354,7 +338,10 @@
           <!-- KPI Distribución por Tipos de Bin -->
           <div class="kpi-independent effort-bin-types">
             <div class="kpi-header">
-              <h3>📦 Distribución por Tipos de Bin</h3>
+              <h3>
+                <span id="icon-bin-types" class="icon-svg icon-24"></span>
+                Distribución por Tipos de Bin
+              </h3>
             </div>
             <div class="kpi-content">
               <div class="bin-types-comparison">
@@ -377,7 +364,10 @@
           <!-- KPI Distribución por Estantes -->
           <div class="kpi-independent effort-shelves">
             <div class="kpi-header">
-              <h3>🏗️ Distribución por Estantes</h3>
+              <h3>
+                <span id="icon-shelves" class="icon-svg icon-24"></span>
+                Distribución por Estantes
+              </h3>
             </div>
             <div class="kpi-content">
               <div class="shelves-comparison">
@@ -402,7 +392,7 @@
             <div class="heatmap-modal-header">
               <h3 id="heatmap-modal-title">HEATMAP Stow</h3>
               <button class="heatmap-modal-close" id="heatmap-modal-close">
-                &times;
+                <span id="icon-times-modal" class="icon-svg icon-20"></span>
               </button>
             </div>
             <div class="heatmap-modal-body">
@@ -422,7 +412,10 @@
       <!-- Tabla de usuarios con selector de categorías -->
       <div class="user-activity-table-section">
         <div class="table-header-with-controls">
-          <h3>📋 Detalle de Usuarios - Rates de Stow</h3>
+          <h3>
+            <span id="icon-table-detail" class="icon-svg icon-24"></span>
+            Detalle de Usuarios - Rates de Stow
+          </h3>
 
           <!-- Filtros principales en una línea -->
           <div class="main-filters-row">
@@ -430,13 +423,15 @@
             <div class="rotation-filters">
               <span class="filter-label">Filtrar por turno:</span>
               <button class="rotation-filter-btn active" data-filter="all">
-                🌅 Todos
+                <span id="icon-sunrise-all" class="icon-svg icon-16"></span>
+                Todos
               </button>
               <button class="rotation-filter-btn" data-filter="early">
-                🌅 Early
+                <span id="icon-sunrise-early" class="icon-svg icon-16"></span>
+                Early
               </button>
               <button class="rotation-filter-btn" data-filter="late">
-                🌙 Late
+                <span id="icon-moon-late" class="icon-svg icon-16"></span> Late
               </button>
             </div>
 
@@ -444,23 +439,30 @@
             <div class="sort-controls">
               <span class="sort-label">Ordenar por:</span>
               <button class="sort-btn active" data-sort="combined-uph">
-                📊 UPH Combined
+                <span id="icon-chart-uph" class="icon-svg icon-16"></span> UPH
+                Combined
               </button>
               <button class="sort-btn" data-sort="combined-hours">
-                ⏰ Horas Combined
+                <span id="icon-clock-hours" class="icon-svg icon-16"></span>
+                Horas Combined
               </button>
               <button class="sort-btn" data-sort="combined-units">
-                📦 Units Combined
+                <span
+                  id="icon-box-units-combined"
+                  class="icon-svg icon-16"
+                ></span>
+                Units Combined
               </button>
               <button class="sort-btn" data-sort="rate-ajustado">
-                🎯 Rate Ajustado
+                <span id="icon-target-rate" class="icon-svg icon-16"></span>
+                Rate Ajustado
               </button>
               <button
                 class="sort-direction-btn"
                 id="sort-direction-btn"
                 title="Cambiar dirección"
               >
-                🔽
+                <span id="icon-arrow-down" class="icon-svg icon-16"></span>
               </button>
             </div>
           </div>
@@ -469,25 +471,35 @@
           <div class="table-category-filters">
             <div class="category-selector">
               <button class="category-btn active" data-category="each">
-                📦 Each Stow
+                <span id="icon-box-each-stow" class="icon-svg icon-16"></span>
+                Each Stow
               </button>
               <button class="category-btn" data-category="each-e">
-                📦 Each E
+                <span id="icon-box-each-e" class="icon-svg icon-16"></span> Each
+                E
               </button>
               <button class="category-btn" data-category="each-w">
-                📦 Each W
+                <span id="icon-box-each-w" class="icon-svg icon-16"></span> Each
+                W
               </button>
               <button class="category-btn" data-category="pallet">
-                🚛 Pallet
+                <span id="icon-truck-pallet" class="icon-svg icon-16"></span>
+                Pallet
               </button>
               <button class="category-btn" data-category="pallet-e">
-                🚛 Pallet E
+                <span id="icon-truck-pallet-e" class="icon-svg icon-16"></span>
+                Pallet E
               </button>
               <button class="category-btn" data-category="pallet-w">
-                🚛 Pallet W
+                <span id="icon-truck-pallet-w" class="icon-svg icon-16"></span>
+                Pallet W
               </button>
               <button class="category-btn" data-category="effort">
-                ⚡ Esfuerzo
+                <span
+                  id="icon-lightning-effort"
+                  class="icon-svg icon-16"
+                ></span>
+                Esfuerzo
               </button>
             </div>
           </div>

@@ -140,6 +140,7 @@ class UserActivityController {
     await this.loadRotationData();
     await this.loadAssetsPaths();
     await this.loadEffortData();
+    await this.loadActivityScopeIcons();
     this.setupEventListeners();
     this.setupHeatmapModalEvents();
     this.updateTable();
@@ -2387,6 +2388,100 @@ class UserActivityController {
     if (modal) {
       modal.classList.remove("show");
       document.body.style.overflow = ""; // Restaurar scroll del body
+    }
+  }
+
+  /**
+   * Carga los SVG de ActivityScope
+   */
+  async loadActivityScopeIcons() {
+    /**
+     * Carga los SVG de los iconos de ActivityScope
+     */
+    const activityScopeIcons = {
+      // Header icons
+      'icon-user-activity-header': 'assets/svg/ActivityScope/UserActivity.svg',
+      'icon-refresh-activity': 'assets/svg/ActivityScope/Refresh.svg',
+      'icon-export-activity': 'assets/svg/ActivityScope/Export.svg',
+      'icon-close-user-detail': 'assets/svg/ActivityScope/Close.svg',
+      
+      // KPI section icons
+      'icon-user-info': 'assets/svg/ActivityScope/UserInfo.svg',
+      'icon-activity-30min': 'assets/svg/ActivityScope/Activity.svg',
+      'icon-heatmap-stow': 'assets/svg/ActivityScope/Heatmap.svg',
+      'icon-analysis-general': 'assets/svg/ActivityScope/Analysis.svg',
+      'icon-clock-worked': 'assets/svg/ActivityScope/Clock.svg',
+      'icon-ruler-distance': 'assets/svg/ActivityScope/Ruler.svg',
+      'icon-box-units': 'assets/svg/ActivityScope/Box.svg',
+      'icon-cart-changes': 'assets/svg/ActivityScope/Cart.svg',
+      'icon-error-committed': 'assets/svg/ActivityScope/Error.svg',
+      'icon-distribution-categories': 'assets/svg/ActivityScope/Distribution.svg',
+      'icon-trophy-top-asins': 'assets/svg/ActivityScope/Trophy.svg',
+      'icon-timer-stow-time': 'assets/svg/ActivityScope/Timer.svg',
+      'icon-bin-types': 'assets/svg/ActivityScope/BinTypes.svg',
+      'icon-shelves': 'assets/svg/ActivityScope/Shelves.svg',
+      'icon-table-detail': 'assets/svg/ActivityScope/Table.svg',
+      
+      // Filter and sort icons
+      'icon-sunrise-all': 'assets/svg/ActivityScope/Sunrise.svg',
+      'icon-sunrise-early': 'assets/svg/ActivityScope/Sunrise.svg',
+      'icon-moon-late': 'assets/svg/ActivityScope/Moon.svg',
+      'icon-chart-uph': 'assets/svg/ActivityScope/Chart.svg',
+      'icon-clock-hours': 'assets/svg/ActivityScope/ClockSmall.svg',
+      'icon-box-units-combined': 'assets/svg/ActivityScope/BoxSmall.svg',
+      'icon-target-rate': 'assets/svg/ActivityScope/Target.svg',
+      'icon-arrow-down': 'assets/svg/ActivityScope/ArrowDown.svg',
+      'icon-box-each-stow': 'assets/svg/ActivityScope/BoxSmall.svg',
+      'icon-box-each-e': 'assets/svg/ActivityScope/BoxSmall.svg',
+      'icon-box-each-w': 'assets/svg/ActivityScope/BoxSmall.svg',
+      'icon-truck-pallet': 'assets/svg/ActivityScope/Truck.svg',
+      'icon-truck-pallet-e': 'assets/svg/ActivityScope/Truck.svg',
+      'icon-truck-pallet-w': 'assets/svg/ActivityScope/Truck.svg',
+      'icon-lightning-effort': 'assets/svg/ActivityScope/Lightning.svg',
+      'icon-times-modal': 'assets/svg/ActivityScope/Times.svg'
+    };
+    
+    // Verificar que el API esté disponible
+    if (!window.api || !window.api.readFile) {
+      console.warn('[ActivityScope Icons] API readFile no disponible');
+      return;
+    }
+    
+    // Cargar cada icono
+    for (const [iconId, svgPath] of Object.entries(activityScopeIcons)) {
+      try {
+        const iconElement = document.getElementById(iconId);
+        if (!iconElement) {
+          // No mostrar warning para iconos que pueden no existir en todas las vistas
+          continue;
+        }
+        
+        const result = await window.api.readFile(svgPath);
+        if (result.success && result.content) {
+          // Insertar el SVG en el elemento
+          iconElement.innerHTML = result.content;
+          
+          // Hacer el SVG responsive según la clase de tamaño
+          const svgElement = iconElement.querySelector('svg');
+          if (svgElement) {
+            // Mantener el viewBox original pero hacer el SVG responsive
+            if (!svgElement.getAttribute('viewBox') && svgElement.getAttribute('width') && svgElement.getAttribute('height')) {
+              const width = svgElement.getAttribute('width');
+              const height = svgElement.getAttribute('height');
+              svgElement.setAttribute('viewBox', `0 0 ${width} ${height}`);
+            }
+            // Remover atributos fijos de width y height para que el CSS controle el tamaño
+            svgElement.removeAttribute('width');
+            svgElement.removeAttribute('height');
+          }
+          
+          console.log(`[ActivityScope Icons] ✓ Cargado: ${iconId}`);
+        } else {
+          console.warn(`[ActivityScope Icons] ✗ Error cargando ${svgPath}:`, result.error);
+        }
+      } catch (error) {
+        console.error(`[ActivityScope Icons] Error cargando ${iconId}:`, error);
+      }
     }
   }
 

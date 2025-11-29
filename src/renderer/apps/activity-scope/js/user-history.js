@@ -31,10 +31,84 @@ class UserHistoryController {
   /**
    * Inicializa el controlador
    */
-  init() {
+  async init() {
     console.log("🚀 Inicializando UserHistoryController...");
     this.setupEventListeners();
+    await this.loadHistoryIcons();
     this.loadData();
+  }
+
+  /**
+   * Carga los SVG de ActivityScope para User History
+   */
+  async loadHistoryIcons() {
+    /**
+     * Carga los SVG de los iconos de User History
+     */
+    const historyIcons = {
+      // Header icons
+      'icon-history-header': 'assets/svg/ActivityScope/History.svg',
+      'icon-refresh-history': 'assets/svg/ActivityScope/RefreshHistory.svg',
+      'icon-export-history': 'assets/svg/ActivityScope/ExportHistory.svg',
+      
+      // Filter icons
+      'icon-filter-advanced': 'assets/svg/ActivityScope/Filter.svg',
+      'icon-apply-filter': 'assets/svg/ActivityScope/ApplyFilter.svg',
+      
+      // Summary and chart icons
+      'icon-summary-period': 'assets/svg/ActivityScope/Summary.svg',
+      'icon-trends-performance': 'assets/svg/ActivityScope/Trends.svg',
+      'icon-chart-trend': 'assets/svg/ActivityScope/ChartTrend.svg',
+      'icon-calendar-activity': 'assets/svg/ActivityScope/Calendar.svg',
+      'icon-activity-daily': 'assets/svg/ActivityScope/Activity.svg',
+      'icon-efficiency-distribution': 'assets/svg/ActivityScope/Efficiency.svg',
+      'icon-target-efficiency': 'assets/svg/ActivityScope/Target.svg',
+      'icon-history-table': 'assets/svg/ActivityScope/HistoryTable.svg',
+      'icon-times-history-modal': 'assets/svg/ActivityScope/Times.svg'
+    };
+    
+    // Verificar que el API esté disponible
+    if (!window.api || !window.api.readFile) {
+      console.warn('[History Icons] API readFile no disponible');
+      return;
+    }
+    
+    // Cargar cada icono
+    for (const [iconId, svgPath] of Object.entries(historyIcons)) {
+      try {
+        const iconElement = document.getElementById(iconId);
+        if (!iconElement) {
+          // No mostrar warning para iconos que pueden no existir
+          continue;
+        }
+        
+        const result = await window.api.readFile(svgPath);
+        if (result.success && result.content) {
+          // Insertar el SVG en el elemento
+          iconElement.innerHTML = result.content;
+          
+          // Hacer el SVG responsive según la clase de tamaño
+          const svgElement = iconElement.querySelector('svg');
+          if (svgElement) {
+            // Mantener el viewBox original pero hacer el SVG responsive
+            if (!svgElement.getAttribute('viewBox') && svgElement.getAttribute('width') && svgElement.getAttribute('height')) {
+              const width = svgElement.getAttribute('width');
+              const height = svgElement.getAttribute('height');
+              svgElement.setAttribute('viewBox', `0 0 ${width} ${height}`);
+            }
+            // Remover atributos fijos de width y height para que el CSS controle el tamaño
+            svgElement.removeAttribute('width');
+            svgElement.removeAttribute('height');
+          }
+          
+          console.log(`[History Icons] ✓ Cargado: ${iconId}`);
+        } else {
+          console.warn(`[History Icons] ✗ Error cargando ${svgPath}:`, result.error);
+        }
+      } catch (error) {
+        console.error(`[History Icons] Error cargando ${iconId}:`, error);
+      }
+    }
   }
 
   /**
