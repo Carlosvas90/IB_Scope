@@ -57,6 +57,9 @@ class UserHistoryController {
     // Cargar metadata para comparaciones
     await this.loadMetadataUsers();
     
+    // Deshabilitar todos los botones inicialmente (hasta que se seleccione un usuario)
+    this.disableAllPeriodButtons();
+    
     // Luego cargar el resto de datos
     this.loadData();
   }
@@ -141,10 +144,14 @@ class UserHistoryController {
       if (userData) {
         this.currentUserData = userData;
         console.log("✅ Datos del usuario cargados correctamente");
+        // Actualizar estado de botones de período según datos disponibles
+        this.updatePeriodButtons();
         this.updateVisualization();
       } else {
         console.warn(`⚠️ No se pudo cargar datos del usuario ${login}`);
         this.currentUserData = null;
+        // Deshabilitar todos los botones si no hay datos
+        this.disableAllPeriodButtons();
         if (window.showToast) {
           window.showToast(`No se encontraron datos para el usuario ${login}`, "error");
         }
@@ -305,16 +312,16 @@ class UserHistoryController {
     const periodButtons = document.querySelectorAll(".period-btn, .period-btn-compact");
     periodButtons.forEach(btn => {
       btn.addEventListener("click", (e) => {
+        // Prevenir clic si el botón está deshabilitado
+        if (btn.disabled || btn.classList.contains("disabled") || btn.classList.contains("no-data")) {
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
         const period = e.target.dataset.period;
         this.selectPeriod(period);
       });
     });
-
-    // Modal
-    const closeModalBtn = document.getElementById("close-modal");
-    if (closeModalBtn) {
-      closeModalBtn.addEventListener("click", () => this.closeModal());
-    }
   }
 
   /**
@@ -626,15 +633,110 @@ class UserHistoryController {
   }
 
   /**
+   * Verifica si un período tiene datos disponibles
+   */
+  hasPeriodData(period) {
+    if (!this.currentUserData) return false;
+    
+    const periodData = this.currentUserData[period];
+    if (!periodData) return false;
+    
+    // Verificar si tiene datos en each_stow (específicamente combined)
+    const hasEachStow = periodData.each_stow && 
+                        Object.keys(periodData.each_stow).length > 0 &&
+                        periodData.each_stow.combined &&
+                        periodData.each_stow.combined.rate !== undefined &&
+                        periodData.each_stow.combined.rate !== null;
+    
+    return hasEachStow;
+  }
+
+  /**
+   * Actualiza el estado de los botones de período según datos disponibles
+   */
+  updatePeriodButtons() {
+    const periods = ["last_week", "last_month", "last_3_months", "last_6_months"];
+    const periodLabels = {
+      "last_week": "Semana",
+      "last_month": "Mes",
+      "last_3_months": "3 Meses",
+      "last_6_months": "6 Meses"
+    };
+    
+    // Siempre verificar manualmente que realmente haya datos (no confiar solo en metadata)
+    const availablePeriods = [];
+    periods.forEach(period => {
+      if (this.hasPeriodData(period)) {
+        availablePeriods.push(period);
+      }
+    });
+    
+    console.log("📊 Períodos disponibles:", availablePeriods);
+    
+    // Actualizar cada botón
+    document.querySelectorAll(".period-btn, .period-btn-compact").forEach(btn => {
+      const period = btn.dataset.period;
+      const hasData = this.hasPeriodData(period);
+      
+      if (hasData) {
+        // Habilitar botón
+        btn.disabled = false;
+        btn.classList.remove("disabled", "no-data");
+        btn.title = `Ver datos de ${periodLabels[period] || period}`;
+      } else {
+        // Deshabilitar botón
+        btn.disabled = true;
+        btn.classList.add("disabled", "no-data");
+        btn.title = `No hay datos disponibles para ${periodLabels[period] || period}`;
+        // Si estaba activo, remover la clase active
+        if (btn.classList.contains("active")) {
+          btn.classList.remove("active");
+        }
+      }
+    });
+    
+    // Si el período actual no tiene datos, cambiar al primer disponible
+    if (!this.hasPeriodData(this.currentPeriod)) {
+      if (availablePeriods.length > 0) {
+        this.currentPeriod = availablePeriods[0];
+        this.selectPeriod(availablePeriods[0]);
+      } else {
+        // Si no hay ningún período disponible, limpiar la visualización
+        this.showUserSelectionMessage();
+      }
+    }
+  }
+
+  /**
+   * Deshabilita todos los botones de período
+   */
+  disableAllPeriodButtons() {
+    document.querySelectorAll(".period-btn, .period-btn-compact").forEach(btn => {
+      btn.disabled = true;
+      btn.classList.add("disabled", "no-data");
+      btn.classList.remove("active");
+    });
+  }
+
+  /**
    * Selecciona un período
    */
   selectPeriod(period) {
+    // Verificar que el período tenga datos antes de seleccionarlo
+    if (!this.hasPeriodData(period)) {
+      console.warn(`⚠️ Intento de seleccionar período sin datos: ${period}`);
+      if (window.showToast) {
+        window.showToast("Este período no tiene datos disponibles", "warning");
+      }
+      return;
+    }
+    
     this.currentPeriod = period;
     
-    // Actualizar botones
-    document.querySelectorAll(".period-btn").forEach(btn => {
+    // Actualizar botones (tanto period-btn como period-btn-compact)
+    document.querySelectorAll(".period-btn, .period-btn-compact").forEach(btn => {
       btn.classList.remove("active");
-      if (btn.dataset.period === period) {
+      if (btn.dataset.period === period && !btn.disabled) {
         btn.classList.add("active");
       }
     });
@@ -744,16 +846,15 @@ class UserHistoryController {
    * Actualiza toda la visualización con los datos del usuario
    */
   updateVisualization() {
-    if (!this.currentUserData || !this.metadataUsers) {
-      console.warn("⚠️ No hay datos para visualizar");
-      console.warn("⚠️ currentUserData:", this.currentUserData);
-      console.warn("⚠️ metadataUsers:", this.metadataUsers);
+    if (!this.currentUserData) {
+      console.warn("⚠️ No hay datos del usuario para visualizar");
+      this.showUserSelectionMessage();
       return;
     }
     
     const period = this.currentPeriod;
     const userPeriodData = this.currentUserData[period];
-    const metadataPeriodData = this.metadataUsers.periods?.[period];
+    const metadataPeriodData = this.metadataUsers?.periods?.[period] || {};
     
     console.log(`📊 Actualizando visualización para período: ${period}`);
     console.log("📊 userPeriodData:", userPeriodData);
@@ -762,115 +863,601 @@ class UserHistoryController {
     
     if (!userPeriodData) {
       console.warn(`⚠️ No hay datos del usuario para el período ${period}`);
+      this.showUserSelectionMessage();
       return;
     }
     
-    if (!metadataPeriodData) {
+    if (!this.metadataUsers || !this.metadataUsers.periods?.[period]) {
       console.warn(`⚠️ No hay metadata para el período ${period}, continuando sin comparaciones`);
     }
     
-    // Actualizar KPIs
+    // Actualizar KPIs (funciona aunque no haya metadata)
     this.updateKPIs(userPeriodData, metadataPeriodData);
     
-    // Actualizar tabla de rendimiento (aunque no haya metadata, mostrar los datos del usuario)
-    this.updatePerformanceTable(userPeriodData, metadataPeriodData || {});
-    
-    // Actualizar métricas de esfuerzo
-    this.updateEffortMetrics(userPeriodData, metadataPeriodData);
-    
-    // Actualizar gráficos (placeholder por ahora)
-    this.updateCharts(userPeriodData, metadataPeriodData);
+    // Actualizar gráficos de evolución temporal
+    this.updateEvolutionCharts();
   }
 
   /**
-   * Muestra mensaje de selección de usuario
+   * Muestra mensaje de selección de usuario y limpia los elementos
    */
   showUserSelectionMessage() {
-    const tableBody = document.querySelector("#performance-table tbody");
-    if (tableBody) {
-      tableBody.innerHTML = `
-        <tr>
-          <td colspan="7" style="text-align: center; padding: 40px; color: #666;">
-            <p>Por favor, selecciona un usuario usando los filtros de búsqueda</p>
-          </td>
-        </tr>
-      `;
+    // Limpiar todos los KPIs usando el método auxiliar
+    this.updateKPIGroup(null, null, "combined");
+    this.updateKPIGroup(null, null, "stp");
+    this.updateKPIGroup(null, null, "ti");
+    
+    // Limpiar gráficos de evolución
+    this.clearEvolutionCharts();
+  }
+
+  /**
+   * Actualiza un grupo de KPIs específico
+   */
+  updateKPIGroup(userTask, metadataTask, prefix) {
+    if (!userTask) {
+      // Limpiar todos los elementos si no hay datos
+      const elements = [
+        `${prefix}-rate`, `${prefix}-avg`, `${prefix}-percentile`,
+        `${prefix}-rank`, `${prefix}-total-users`, `${prefix}-difference`,
+        `${prefix}-diff-indicator`, `${prefix}-percentile-bar`
+      ];
+      elements.forEach(id => {
+        const el = document.getElementById(`kpi-${id}`);
+        if (el) {
+          if (id.includes('percentile-bar')) {
+            el.style.width = "0%";
+            el.className = "percentile-bar-compact";
+          } else {
+            el.textContent = "-";
+          }
+        }
+      });
+      return;
+    }
+
+    // Rate
+    const rateEl = document.getElementById(`kpi-${prefix}-rate`);
+    if (rateEl) {
+      rateEl.textContent = userTask.rate?.toFixed(2) || "-";
+    }
+
+    // Promedio (solo si hay metadata)
+    const avgEl = document.getElementById(`kpi-${prefix}-avg`);
+    if (avgEl) {
+      if (metadataTask?.avg !== undefined) {
+        avgEl.textContent = metadataTask.avg.toFixed(2);
+      } else {
+        avgEl.textContent = "-";
+      }
+    }
+
+    // Percentil
+    const percentileEl = document.getElementById(`kpi-${prefix}-percentile`);
+    if (percentileEl) {
+      if (userTask.percentile !== undefined) {
+        percentileEl.textContent = `${userTask.percentile.toFixed(1)}%`;
+      } else {
+        percentileEl.textContent = "-";
+      }
+    }
+
+    // Rank
+    const rankEl = document.getElementById(`kpi-${prefix}-rank`);
+    const totalUsersEl = document.getElementById(`kpi-${prefix}-total-users`);
+    if (rankEl) {
+      if (userTask.rank !== undefined) {
+        rankEl.textContent = `#${userTask.rank}`;
+      } else {
+        rankEl.textContent = "-";
+      }
+    }
+    if (totalUsersEl) {
+      if (userTask.total_users !== undefined) {
+        totalUsersEl.textContent = userTask.total_users;
+      } else {
+        totalUsersEl.textContent = "-";
+      }
+    }
+
+    // Diferencia
+    const differenceEl = document.getElementById(`kpi-${prefix}-difference`);
+    const diffIndicatorEl = document.getElementById(`kpi-${prefix}-diff-indicator`);
+    if (differenceEl && userTask.rate !== undefined) {
+      if (metadataTask?.avg !== undefined) {
+        const diff = userTask.rate - metadataTask.avg;
+        differenceEl.textContent = `${diff >= 0 ? '+' : ''}${diff.toFixed(2)}`;
+        differenceEl.className = `kpi-compact-value ${diff >= 0 ? 'positive' : 'negative'}`;
+        
+        // Actualizar indicador basado en la diferencia (no en el percentil)
+        if (diffIndicatorEl) {
+          let indicator = "";
+          let className = "";
+          if (diff > 0) {
+            // Diferencia positiva = por encima del promedio
+            if (diff >= metadataTask.avg * 0.2) {
+              // Más del 20% por encima = muy por encima
+              indicator = "Muy por encima";
+              className = "very-high";
+            } else {
+              indicator = "Por encima";
+              className = "high";
+            }
+          } else if (diff < 0) {
+            // Diferencia negativa = por debajo del promedio
+            if (Math.abs(diff) >= metadataTask.avg * 0.2) {
+              // Más del 20% por debajo = muy por debajo
+              indicator = "Muy por debajo";
+              className = "very-low";
+            } else {
+              indicator = "Por debajo";
+              className = "low";
+            }
+          } else {
+            // Diferencia = 0 = en el promedio
+            indicator = "En promedio";
+            className = "medium";
+          }
+          diffIndicatorEl.textContent = indicator;
+          diffIndicatorEl.className = `kpi-compact-indicator ${className}`;
+        }
+      } else {
+        differenceEl.textContent = userTask.rate.toFixed(2);
+        differenceEl.className = "kpi-compact-value";
+        if (diffIndicatorEl) {
+          diffIndicatorEl.textContent = "-";
+          diffIndicatorEl.className = "kpi-compact-indicator";
+        }
+      }
+    }
+
+    // Barra de percentil
+    const percentileBarEl = document.getElementById(`kpi-${prefix}-percentile-bar`);
+    if (percentileBarEl && userTask.percentile !== undefined) {
+      percentileBarEl.style.width = `${userTask.percentile}%`;
+      percentileBarEl.className = `percentile-bar-compact ${this.getPercentileClass(userTask.percentile)}`;
     }
   }
 
   /**
-   * Actualiza las tarjetas KPI - Enfocado en Combined
+   * Actualiza las tarjetas KPI - Combined, Stow to Prime y Transfer In
    */
   updateKPIs(userData, metadataData) {
-    // Obtener datos de combined (tarea principal)
+    // Actualizar Combined
     const userCombined = userData.each_stow?.combined;
-    const metadataCombined = metadataData.each_stow?.combined;
-    
-    if (userCombined && metadataCombined) {
-      // Rate Actual
-      const rateEl = document.getElementById("kpi-rate-actual");
-      const avgEl = document.getElementById("kpi-rate-avg");
-      const diffEl = document.getElementById("kpi-rate-diff");
-      
-      if (rateEl) rateEl.textContent = userCombined.rate?.toFixed(2) || "-";
-      if (avgEl) avgEl.textContent = metadataCombined.avg?.toFixed(2) || "-";
-      
-      if (diffEl && userCombined.rate && metadataCombined.avg) {
-        const diff = userCombined.rate - metadataCombined.avg;
-        const diffPercent = ((diff / metadataCombined.avg) * 100).toFixed(1);
-        diffEl.textContent = `${diff >= 0 ? '+' : ''}${diff.toFixed(2)} (${diffPercent >= 0 ? '+' : ''}${diffPercent}%)`;
-        diffEl.className = `kpi-diff ${diff >= 0 ? 'positive' : 'negative'}`;
-      }
-      
-      // Percentil
-      const percentileEl = document.getElementById("kpi-percentile");
-      if (percentileEl && userCombined.percentile !== undefined) {
-        percentileEl.textContent = `${userCombined.percentile.toFixed(1)}%`;
-      }
-      
-      // Rank
-      const rankEl = document.getElementById("kpi-rank");
-      const totalUsersEl = document.getElementById("kpi-total-users");
-      if (rankEl && userCombined.rank !== undefined) {
-        rankEl.textContent = `#${userCombined.rank}`;
-      }
-      if (totalUsersEl && userCombined.total_users !== undefined) {
-        totalUsersEl.textContent = userCombined.total_users;
-      }
-      
-      // Diferencia general
-      const differenceEl = document.getElementById("kpi-difference");
-      const diffIndicatorEl = document.getElementById("kpi-diff-indicator");
-      if (differenceEl && userCombined.rate && metadataCombined.avg) {
-        const diff = userCombined.rate - metadataCombined.avg;
-        differenceEl.textContent = `${diff >= 0 ? '+' : ''}${diff.toFixed(2)}`;
-        differenceEl.className = `kpi-value ${diff >= 0 ? 'positive' : 'negative'}`;
-      }
-      if (diffIndicatorEl && userCombined.percentile !== undefined) {
-        const percentile = userCombined.percentile;
-        let indicator = "Bajo promedio";
-        let className = "low";
-        if (percentile >= 75) {
-          indicator = "Muy por encima";
-          className = "very-high";
-        } else if (percentile >= 50) {
-          indicator = "Por encima";
-          className = "high";
-        } else if (percentile >= 25) {
-          indicator = "Promedio";
-          className = "medium";
-        }
-        diffIndicatorEl.textContent = indicator;
-        diffIndicatorEl.className = `diff-indicator ${className}`;
-      }
-      
-      // Barra de percentil
-      const percentileBarEl = document.getElementById("kpi-percentile-bar");
-      if (percentileBarEl && userCombined.percentile !== undefined) {
-        percentileBarEl.style.width = `${userCombined.percentile}%`;
-        percentileBarEl.className = `percentile-bar ${this.getPercentileClass(userCombined.percentile)}`;
-      }
+    const metadataCombined = metadataData?.each_stow?.combined;
+    this.updateKPIGroup(userCombined, metadataCombined, "combined");
+
+    // Actualizar Stow to Prime
+    const userStp = userData.each_stow?.stow_to_prime;
+    const metadataStp = metadataData?.each_stow?.stow_to_prime;
+    this.updateKPIGroup(userStp, metadataStp, "stp");
+
+    // Actualizar Transfer In
+    const userTi = userData.each_stow?.transfer_in;
+    const metadataTi = metadataData?.each_stow?.transfer_in;
+    this.updateKPIGroup(userTi, metadataTi, "ti");
+  }
+
+  /**
+   * Actualiza todos los gráficos de evolución temporal
+   */
+  updateEvolutionCharts() {
+    if (!this.currentUserData) {
+      this.clearEvolutionCharts();
+      return;
     }
+
+    // Recopilar datos de todos los períodos disponibles
+    const periods = ["last_week", "last_month", "last_3_months", "last_6_months"];
+    const periodLabels = {
+      "last_week": "Semana",
+      "last_month": "Mes",
+      "last_3_months": "3 Meses",
+      "last_6_months": "6 Meses"
+    };
+
+    // Actualizar cada gráfico
+    this.updateRateEvolutionChart(periods, periodLabels);
+    this.updateTaskComparisonEvolutionChart(periods, periodLabels);
+    this.updateRankEvolutionChart(periods, periodLabels);
+    this.updatePercentileEvolutionChart(periods, periodLabels);
+  }
+
+  /**
+   * Limpia todos los gráficos de evolución
+   */
+  clearEvolutionCharts() {
+    const chartIds = [
+      "rate-evolution-chart",
+      "task-comparison-evolution-chart",
+      "rank-evolution-chart",
+      "percentile-evolution-chart"
+    ];
+    
+    chartIds.forEach(id => {
+      const chartEl = document.getElementById(id);
+      if (chartEl) {
+        chartEl.innerHTML = '<div style="padding: 20px; text-align: center; color: #666"><p>Selecciona un usuario para ver la evolución</p></div>';
+      }
+    });
+  }
+
+  /**
+   * Actualiza gráfico de evolución del rate (usuario vs promedio)
+   */
+  updateRateEvolutionChart(periods, periodLabels) {
+    const chartEl = document.getElementById("rate-evolution-chart");
+    if (!chartEl) return;
+
+    const dataPoints = [];
+    const periodsWithData = [];
+
+    periods.forEach(period => {
+      const periodData = this.currentUserData[period];
+      const metadataPeriod = this.metadataUsers?.periods?.[period];
+      
+      if (periodData?.each_stow?.combined?.rate !== undefined) {
+        const userRate = periodData.each_stow.combined.rate;
+        const avgRate = metadataPeriod?.each_stow?.combined?.avg || periodData.each_stow.combined.avg_general || 0;
+        
+        dataPoints.push({
+          period: periodLabels[period],
+          userRate: userRate,
+          avgRate: avgRate
+        });
+        periodsWithData.push(periodLabels[period]);
+      }
+    });
+
+    if (dataPoints.length === 0) {
+      chartEl.innerHTML = '<div style="padding: 20px; text-align: center; color: #666">No hay datos suficientes para mostrar la evolución</div>';
+      return;
+    }
+
+    // Crear gráfico de línea temporal
+    const maxRate = Math.max(...dataPoints.map(d => Math.max(d.userRate, d.avgRate))) * 1.1;
+    const chartHeight = 300;
+    const chartWidth = Math.max(600, periodsWithData.length * 150);
+    const padding = { top: 40, right: 40, bottom: 60, left: 60 };
+    const graphWidth = chartWidth - padding.left - padding.right;
+    const graphHeight = chartHeight - padding.top - padding.bottom;
+
+    let svg = `
+      <svg width="${chartWidth}" height="${chartHeight}" style="overflow: visible;">
+        <defs>
+          <linearGradient id="userLineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:var(--user-history-primary);stop-opacity:0.3" />
+            <stop offset="100%" style="stop-color:var(--user-history-primary);stop-opacity:0" />
+          </linearGradient>
+          <linearGradient id="avgLineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#666;stop-opacity:0.3" />
+            <stop offset="100%" style="stop-color:#666;stop-opacity:0" />
+          </linearGradient>
+        </defs>
+        
+        <!-- Ejes -->
+        <line x1="${padding.left}" y1="${padding.top}" x2="${padding.left}" y2="${padding.top + graphHeight}" 
+              stroke="var(--user-history-border)" stroke-width="2"/>
+        <line x1="${padding.left}" y1="${padding.top + graphHeight}" x2="${padding.left + graphWidth}" y2="${padding.top + graphHeight}" 
+              stroke="var(--user-history-border)" stroke-width="2"/>
+        
+        <!-- Líneas de referencia -->
+    `;
+
+    // Líneas de referencia horizontales
+    for (let i = 0; i <= 5; i++) {
+      const y = padding.top + (graphHeight * (1 - i / 5));
+      const value = (maxRate * i / 5).toFixed(0);
+      svg += `
+        <line x1="${padding.left - 5}" y1="${y}" x2="${padding.left + graphWidth}" y2="${y}" 
+              stroke="var(--user-history-border)" stroke-width="1" stroke-dasharray="4,4" opacity="0.3"/>
+        <text x="${padding.left - 10}" y="${y + 4}" text-anchor="end" font-size="12" fill="var(--user-history-text-secondary)">${value}</text>
+      `;
+    }
+
+    // Área bajo la línea del usuario
+    let userPath = `M ${padding.left},${padding.top + graphHeight}`;
+    dataPoints.forEach((point, index) => {
+      const x = padding.left + (index * (graphWidth / (dataPoints.length - 1)));
+      const y = padding.top + graphHeight - (point.userRate / maxRate * graphHeight);
+      userPath += ` L ${x},${y}`;
+    });
+    userPath += ` L ${padding.left + graphWidth},${padding.top + graphHeight} Z`;
+    svg += `<path d="${userPath}" fill="url(#userLineGradient)"/>`;
+
+    // Área bajo la línea del promedio
+    let avgPath = `M ${padding.left},${padding.top + graphHeight}`;
+    dataPoints.forEach((point, index) => {
+      const x = padding.left + (index * (graphWidth / (dataPoints.length - 1)));
+      const y = padding.top + graphHeight - (point.avgRate / maxRate * graphHeight);
+      avgPath += ` L ${x},${y}`;
+    });
+    avgPath += ` L ${padding.left + graphWidth},${padding.top + graphHeight} Z`;
+    svg += `<path d="${avgPath}" fill="url(#avgLineGradient)"/>`;
+
+    // Línea del usuario
+    let userLinePath = `M ${padding.left},${padding.top + graphHeight - (dataPoints[0].userRate / maxRate * graphHeight)}`;
+    dataPoints.forEach((point, index) => {
+      if (index > 0) {
+        const x = padding.left + (index * (graphWidth / (dataPoints.length - 1)));
+        const y = padding.top + graphHeight - (point.userRate / maxRate * graphHeight);
+        userLinePath += ` L ${x},${y}`;
+      }
+    });
+    svg += `<path d="${userLinePath}" fill="none" stroke="var(--user-history-primary)" stroke-width="3" stroke-linecap="round"/>`;
+
+    // Línea del promedio
+    let avgLinePath = `M ${padding.left},${padding.top + graphHeight - (dataPoints[0].avgRate / maxRate * graphHeight)}`;
+    dataPoints.forEach((point, index) => {
+      if (index > 0) {
+        const x = padding.left + (index * (graphWidth / (dataPoints.length - 1)));
+        const y = padding.top + graphHeight - (point.avgRate / maxRate * graphHeight);
+        avgLinePath += ` L ${x},${y}`;
+      }
+    });
+    svg += `<path d="${avgLinePath}" fill="none" stroke="#666" stroke-width="2" stroke-dasharray="5,5" opacity="0.7"/>`;
+
+    // Puntos y etiquetas
+    dataPoints.forEach((point, index) => {
+      const x = padding.left + (index * (graphWidth / (dataPoints.length - 1)));
+      const userY = padding.top + graphHeight - (point.userRate / maxRate * graphHeight);
+      const avgY = padding.top + graphHeight - (point.avgRate / maxRate * graphHeight);
+      
+      // Puntos
+      svg += `<circle cx="${x}" cy="${userY}" r="5" fill="var(--user-history-primary)" stroke="white" stroke-width="2"/>`;
+      svg += `<circle cx="${x}" cy="${avgY}" r="4" fill="#666" stroke="white" stroke-width="2"/>`;
+      
+      // Etiquetas de valor
+      svg += `<text x="${x}" y="${userY - 10}" text-anchor="middle" font-size="11" font-weight="600" fill="var(--user-history-primary)">${point.userRate.toFixed(1)}</text>`;
+      svg += `<text x="${x}" y="${avgY - 10}" text-anchor="middle" font-size="10" fill="#666">${point.avgRate.toFixed(1)}</text>`;
+      
+      // Etiquetas de período
+      svg += `<text x="${x}" y="${padding.top + graphHeight + 20}" text-anchor="middle" font-size="11" fill="var(--user-history-text-secondary)">${point.period}</text>`;
+    });
+
+    // Leyenda
+    svg += `
+      <g transform="translate(${padding.left + graphWidth - 150}, ${padding.top + 10})">
+        <line x1="0" y1="10" x2="30" y2="10" stroke="var(--user-history-primary)" stroke-width="3"/>
+        <text x="35" y="14" font-size="12" fill="var(--user-history-text-primary)">Usuario</text>
+        <line x1="0" y1="30" x2="30" y2="30" stroke="#666" stroke-width="2" stroke-dasharray="5,5" opacity="0.7"/>
+        <text x="35" y="34" font-size="12" fill="var(--user-history-text-primary)">Promedio</text>
+      </g>
+    `;
+
+    svg += '</svg>';
+    chartEl.innerHTML = svg;
+  }
+
+  /**
+   * Actualiza gráfico de comparación de tareas por período
+   */
+  updateTaskComparisonEvolutionChart(periods, periodLabels) {
+    const chartEl = document.getElementById("task-comparison-evolution-chart");
+    if (!chartEl) return;
+
+    const tasks = [
+      { key: "combined", label: "Combined", color: "var(--user-history-primary)" },
+      { key: "stow_to_prime", label: "Stow to Prime", color: "#10b981" },
+      { key: "transfer_in", label: "Transfer In", color: "#3b82f6" }
+    ];
+
+    const dataByPeriod = [];
+    periods.forEach(period => {
+      const periodData = this.currentUserData[period];
+      if (periodData?.each_stow) {
+        const periodTasks = {};
+        tasks.forEach(task => {
+          const taskData = periodData.each_stow[task.key];
+          if (taskData?.rate !== undefined) {
+            periodTasks[task.key] = taskData.rate;
+          }
+        });
+        if (Object.keys(periodTasks).length > 0) {
+          dataByPeriod.push({
+            period: periodLabels[period],
+            tasks: periodTasks
+          });
+        }
+      }
+    });
+
+    if (dataByPeriod.length === 0) {
+      chartEl.innerHTML = '<div style="padding: 20px; text-align: center; color: #666">No hay datos suficientes</div>';
+      return;
+    }
+
+    // Crear gráfico de barras agrupadas
+    const maxRate = Math.max(...dataByPeriod.flatMap(p => Object.values(p.tasks))) * 1.2;
+    const chartHeight = 300;
+    const barWidth = 60;
+    const barSpacing = 20;
+    const groupSpacing = 40;
+    const chartWidth = dataByPeriod.length * (tasks.length * barWidth + (tasks.length - 1) * barSpacing + groupSpacing) + 100;
+    const padding = { top: 40, right: 40, bottom: 60, left: 80 };
+
+    let svg = `<svg width="${chartWidth}" height="${chartHeight}" style="overflow: visible;">`;
+    
+    // Ejes
+    svg += `<line x1="${padding.left}" y1="${padding.top}" x2="${padding.left}" y2="${chartHeight - padding.bottom}" stroke="var(--user-history-border)" stroke-width="2"/>`;
+    svg += `<line x1="${padding.left}" y1="${chartHeight - padding.bottom}" x2="${chartWidth - padding.right}" y2="${chartHeight - padding.bottom}" stroke="var(--user-history-border)" stroke-width="2"/>`;
+
+    // Líneas de referencia
+    for (let i = 0; i <= 5; i++) {
+      const y = padding.top + ((chartHeight - padding.top - padding.bottom) * (1 - i / 5));
+      const value = (maxRate * i / 5).toFixed(0);
+      svg += `<line x1="${padding.left - 5}" y1="${y}" x2="${chartWidth - padding.right}" y2="${y}" stroke="var(--user-history-border)" stroke-width="1" stroke-dasharray="4,4" opacity="0.3"/>`;
+      svg += `<text x="${padding.left - 10}" y="${y + 4}" text-anchor="end" font-size="12" fill="var(--user-history-text-secondary)">${value}</text>`;
+    }
+
+    // Barras
+    dataByPeriod.forEach((periodData, periodIndex) => {
+      const groupX = padding.left + periodIndex * (tasks.length * barWidth + (tasks.length - 1) * barSpacing + groupSpacing) + groupSpacing / 2;
+      
+      tasks.forEach((task, taskIndex) => {
+        const rate = periodData.tasks[task.key];
+        if (rate !== undefined) {
+          const barX = groupX + taskIndex * (barWidth + barSpacing);
+          const barHeight = (rate / maxRate) * (chartHeight - padding.top - padding.bottom);
+          const barY = chartHeight - padding.bottom - barHeight;
+          
+          svg += `<rect x="${barX}" y="${barY}" width="${barWidth}" height="${barHeight}" fill="${task.color}" opacity="0.8" rx="4"/>`;
+          svg += `<text x="${barX + barWidth / 2}" y="${barY - 5}" text-anchor="middle" font-size="11" font-weight="600" fill="${task.color}">${rate.toFixed(1)}</text>`;
+        }
+      });
+      
+      // Etiqueta de período
+      svg += `<text x="${groupX + (tasks.length * barWidth + (tasks.length - 1) * barSpacing) / 2}" y="${chartHeight - padding.bottom + 20}" text-anchor="middle" font-size="11" fill="var(--user-history-text-secondary)">${periodData.period}</text>`;
+    });
+
+    // Leyenda
+    const legendX = padding.left + 20;
+    const legendY = padding.top - 20;
+    tasks.forEach((task, index) => {
+      const x = legendX + index * 150;
+      svg += `<rect x="${x}" y="${legendY}" width="20" height="12" fill="${task.color}" rx="2"/>`;
+      svg += `<text x="${x + 25}" y="${legendY + 9}" font-size="12" fill="var(--user-history-text-primary)">${task.label}</text>`;
+    });
+
+    svg += '</svg>';
+    chartEl.innerHTML = svg;
+  }
+
+  /**
+   * Actualiza gráfico de evolución del rank
+   */
+  updateRankEvolutionChart(periods, periodLabels) {
+    const chartEl = document.getElementById("rank-evolution-chart");
+    if (!chartEl) return;
+
+    const dataPoints = [];
+    periods.forEach(period => {
+      const periodData = this.currentUserData[period];
+      if (periodData?.each_stow?.combined?.rank !== undefined) {
+        dataPoints.push({
+          period: periodLabels[period],
+          rank: periodData.each_stow.combined.rank,
+          totalUsers: periodData.each_stow.combined.total_users || 0
+        });
+      }
+    });
+
+    if (dataPoints.length === 0) {
+      chartEl.innerHTML = '<div style="padding: 20px; text-align: center; color: #666">No hay datos</div>';
+      return;
+    }
+
+    // Crear gráfico de barras invertido (rank más bajo = mejor)
+    const maxRank = Math.max(...dataPoints.map(d => d.totalUsers || d.rank)) * 1.1;
+    const chartHeight = 250;
+    const chartWidth = Math.max(400, dataPoints.length * 120);
+    const padding = { top: 40, right: 40, bottom: 60, left: 60 };
+    const graphWidth = chartWidth - padding.left - padding.right;
+    const graphHeight = chartHeight - padding.top - padding.bottom;
+
+    let svg = `<svg width="${chartWidth}" height="${chartHeight}">`;
+    
+    // Ejes
+    svg += `<line x1="${padding.left}" y1="${padding.top}" x2="${padding.left}" y2="${padding.top + graphHeight}" stroke="var(--user-history-border)" stroke-width="2"/>`;
+    svg += `<line x1="${padding.left}" y1="${padding.top + graphHeight}" x2="${padding.left + graphWidth}" y2="${padding.top + graphHeight}" stroke="var(--user-history-border)" stroke-width="2"/>`;
+
+    // Barras
+    const barWidth = graphWidth / dataPoints.length * 0.6;
+    const barSpacing = graphWidth / dataPoints.length * 0.4;
+    
+    dataPoints.forEach((point, index) => {
+      const x = padding.left + index * (graphWidth / dataPoints.length) + barSpacing / 2;
+      const barHeight = (point.rank / maxRank) * graphHeight;
+      const barY = padding.top + graphHeight - barHeight;
+      const color = point.rank <= (point.totalUsers || maxRank) * 0.25 ? "#10b981" : 
+                    point.rank <= (point.totalUsers || maxRank) * 0.5 ? "#3b82f6" : 
+                    point.rank <= (point.totalUsers || maxRank) * 0.75 ? "#f59e0b" : "#ef4444";
+      
+      svg += `<rect x="${x}" y="${barY}" width="${barWidth}" height="${barHeight}" fill="${color}" opacity="0.8" rx="4"/>`;
+      svg += `<text x="${x + barWidth / 2}" y="${barY - 5}" text-anchor="middle" font-size="12" font-weight="600" fill="${color}">#${point.rank}</text>`;
+      svg += `<text x="${x + barWidth / 2}" y="${padding.top + graphHeight + 20}" text-anchor="middle" font-size="11" fill="var(--user-history-text-secondary)">${point.period}</text>`;
+    });
+
+    svg += '</svg>';
+    chartEl.innerHTML = svg;
+  }
+
+  /**
+   * Actualiza gráfico de evolución del percentil
+   */
+  updatePercentileEvolutionChart(periods, periodLabels) {
+    const chartEl = document.getElementById("percentile-evolution-chart");
+    if (!chartEl) return;
+
+    const dataPoints = [];
+    periods.forEach(period => {
+      const periodData = this.currentUserData[period];
+      if (periodData?.each_stow?.combined?.percentile !== undefined) {
+        dataPoints.push({
+          period: periodLabels[period],
+          percentile: periodData.each_stow.combined.percentile
+        });
+      }
+    });
+
+    if (dataPoints.length === 0) {
+      chartEl.innerHTML = '<div style="padding: 20px; text-align: center; color: #666">No hay datos</div>';
+      return;
+    }
+
+    // Crear gráfico de área
+    const chartHeight = 250;
+    const chartWidth = Math.max(400, dataPoints.length * 120);
+    const padding = { top: 40, right: 40, bottom: 60, left: 60 };
+    const graphWidth = chartWidth - padding.left - padding.right;
+    const graphHeight = chartHeight - padding.top - padding.bottom;
+
+    let svg = `<svg width="${chartWidth}" height="${chartHeight}">`;
+    
+    // Ejes
+    svg += `<line x1="${padding.left}" y1="${padding.top}" x2="${padding.left}" y2="${padding.top + graphHeight}" stroke="var(--user-history-border)" stroke-width="2"/>`;
+    svg += `<line x1="${padding.left}" y1="${padding.top + graphHeight}" x2="${padding.left + graphWidth}" y2="${padding.top + graphHeight}" stroke="var(--user-history-border)" stroke-width="2"/>`;
+
+    // Líneas de referencia (0%, 25%, 50%, 75%, 100%)
+    [0, 25, 50, 75, 100].forEach(percent => {
+      const y = padding.top + graphHeight - (percent / 100 * graphHeight);
+      svg += `<line x1="${padding.left - 5}" y1="${y}" x2="${padding.left + graphWidth}" y2="${y}" stroke="var(--user-history-border)" stroke-width="1" stroke-dasharray="4,4" opacity="0.3"/>`;
+      svg += `<text x="${padding.left - 10}" y="${y + 4}" text-anchor="end" font-size="11" fill="var(--user-history-text-secondary)">${percent}%</text>`;
+    });
+
+    // Área bajo la curva
+    let areaPath = `M ${padding.left},${padding.top + graphHeight}`;
+    dataPoints.forEach((point, index) => {
+      const x = padding.left + (index * (graphWidth / (dataPoints.length - 1)));
+      const y = padding.top + graphHeight - (point.percentile / 100 * graphHeight);
+      areaPath += ` L ${x},${y}`;
+    });
+    areaPath += ` L ${padding.left + graphWidth},${padding.top + graphHeight} Z`;
+    svg += `<path d="${areaPath}" fill="var(--user-history-primary)" opacity="0.2"/>`;
+
+    // Línea
+    let linePath = `M ${padding.left},${padding.top + graphHeight - (dataPoints[0].percentile / 100 * graphHeight)}`;
+    dataPoints.forEach((point, index) => {
+      if (index > 0) {
+        const x = padding.left + (index * (graphWidth / (dataPoints.length - 1)));
+        const y = padding.top + graphHeight - (point.percentile / 100 * graphHeight);
+        linePath += ` L ${x},${y}`;
+      }
+    });
+    svg += `<path d="${linePath}" fill="none" stroke="var(--user-history-primary)" stroke-width="3" stroke-linecap="round"/>`;
+
+    // Puntos
+    dataPoints.forEach((point, index) => {
+      const x = padding.left + (index * (graphWidth / (dataPoints.length - 1)));
+      const y = padding.top + graphHeight - (point.percentile / 100 * graphHeight);
+      svg += `<circle cx="${x}" cy="${y}" r="5" fill="var(--user-history-primary)" stroke="white" stroke-width="2"/>`;
+      svg += `<text x="${x}" y="${y - 10}" text-anchor="middle" font-size="11" font-weight="600" fill="var(--user-history-primary)">${point.percentile.toFixed(1)}%</text>`;
+      svg += `<text x="${x}" y="${padding.top + graphHeight + 20}" text-anchor="middle" font-size="11" fill="var(--user-history-text-secondary)">${point.period}</text>`;
+    });
+
+    svg += '</svg>';
+    chartEl.innerHTML = svg;
   }
 
   /**
@@ -1158,16 +1745,15 @@ class UserHistoryController {
     
     // Obtener datos principales - verificar que existan
     const tasks = [
-      { key: "combined", label: "Combined", userData: userData.each_stow?.combined, metadataData: metadataData.each_stow?.combined },
-      { key: "stow_to_prime", label: "Stow to Prime", userData: userData.each_stow?.stow_to_prime, metadataData: metadataData.each_stow?.stow_to_prime },
-      { key: "transfer_in", label: "Transfer In (TSI)", userData: userData.each_stow?.transfer_in, metadataData: metadataData.each_stow?.transfer_in }
+      { key: "combined", label: "Combined", userData: userData.each_stow?.combined, metadataData: metadataData?.each_stow?.combined },
+      { key: "stow_to_prime", label: "Stow to Prime", userData: userData.each_stow?.stow_to_prime, metadataData: metadataData?.each_stow?.stow_to_prime },
+      { key: "transfer_in", label: "Transfer In (TSI)", userData: userData.each_stow?.transfer_in, metadataData: metadataData?.each_stow?.transfer_in }
     ];
     
-    // Filtrar solo las que tienen datos válidos
+    // Filtrar solo las que tienen datos del usuario (metadata es opcional)
     const validTasks = tasks.filter(t => {
       const hasUserData = t.userData && t.userData.rate !== undefined && t.userData.rate !== null;
-      const hasMetadata = t.metadataData && t.metadataData.avg !== undefined && t.metadataData.avg !== null;
-      return hasUserData && hasMetadata;
+      return hasUserData;
     });
     
     console.log("📊 Tareas válidas encontradas:", validTasks.length, validTasks.map(t => t.label));
@@ -1182,11 +1768,11 @@ class UserHistoryController {
     
     validTasks.forEach(task => {
       const userRate = task.userData.rate;
-      const avgRate = task.metadataData.avg;
-      const maxRate = Math.max(userRate, avgRate) * 1.2; // 20% más para el máximo
+      const avgRate = task.metadataData?.avg || 0; // Usar 0 si no hay metadata
+      const maxRate = Math.max(userRate, avgRate || userRate) * 1.2; // 20% más para el máximo
       const userPercent = (userRate / maxRate) * 100;
-      const avgPercent = (avgRate / maxRate) * 100;
-      const diff = userRate - avgRate;
+      const avgPercent = avgRate > 0 ? (avgRate / maxRate) * 100 : 0;
+      const diff = avgRate > 0 ? userRate - avgRate : 0;
       const diffPercent = avgRate > 0 ? ((diff / avgRate) * 100).toFixed(1) : 0;
       
       html += `
@@ -1206,6 +1792,7 @@ class UserHistoryController {
                 </div>
               </div>
             </div>
+            ${avgRate > 0 ? `
             <div class="rate-bar-wrapper">
               <div class="rate-bar-label">Promedio</div>
               <div class="rate-bar">
@@ -1214,6 +1801,7 @@ class UserHistoryController {
                 </div>
               </div>
             </div>
+            ` : ''}
           </div>
         </div>
       `;
@@ -1247,27 +1835,30 @@ class UserHistoryController {
     
     tasks.forEach(task => {
       const userTask = userData.each_stow?.[task.key];
-      const metadataTask = metadataData.each_stow?.[task.key];
+      const metadataTask = metadataData?.each_stow?.[task.key];
       
-      if (!userTask || userTask.rate === undefined || !metadataTask || metadataTask.avg === undefined) {
+      // Mostrar si hay datos del usuario (metadata es opcional)
+      if (!userTask || userTask.rate === undefined) {
         return;
       }
       
       hasData = true;
       
       const userRate = userTask.rate;
-      const avgRate = metadataTask.avg;
-      const diff = userRate - avgRate;
+      const avgRate = metadataTask?.avg || 0;
+      const diff = avgRate > 0 ? userRate - avgRate : 0;
       const diffPercent = avgRate > 0 ? ((diff / avgRate) * 100).toFixed(1) : 0;
       
       html += `
         <div class="task-comparison-card">
           <h4>${task.label}</h4>
           <div class="task-rate-user">${userRate.toFixed(2)}</div>
-          <div class="task-rate-avg">Promedio: ${avgRate.toFixed(2)}</div>
+          ${avgRate > 0 ? `<div class="task-rate-avg">Promedio: ${avgRate.toFixed(2)}</div>` : '<div class="task-rate-avg">Promedio: N/A</div>'}
+          ${avgRate > 0 ? `
           <div class="task-rate-diff ${diff >= 0 ? 'positive' : 'negative'}">
             ${diff >= 0 ? '+' : ''}${diff.toFixed(2)} (${diffPercent >= 0 ? '+' : ''}${diffPercent}%)
           </div>
+          ` : ''}
           <div class="task-percentile">Percentil: ${userTask.percentile !== undefined ? userTask.percentile.toFixed(1) + '%' : 'N/A'}</div>
         </div>
       `;

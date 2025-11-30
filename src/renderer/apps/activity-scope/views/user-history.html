@@ -69,135 +69,126 @@
         </div>
       </div>
 
-      <!-- Tarjetas KPI compactas -->
+      <!-- Tarjetas KPI compactas - Combined -->
       <div class="user-history-kpi-section-compact">
+        <h3 class="kpi-section-title">Combined (Stow to Prime + Transfer In)</h3>
         <div class="kpi-compact-grid">
           <div class="kpi-compact-card">
             <span class="kpi-compact-label">Rate Combined</span>
-            <span id="kpi-rate-actual" class="kpi-compact-value">-</span>
-            <span class="kpi-compact-sub">vs <span id="kpi-rate-avg">-</span></span>
+            <span id="kpi-combined-rate" class="kpi-compact-value">-</span>
+            <span class="kpi-compact-sub">vs <span id="kpi-combined-avg">-</span></span>
           </div>
           <div class="kpi-compact-card">
             <span class="kpi-compact-label">Percentil</span>
-            <span id="kpi-percentile" class="kpi-compact-value">-</span>
-            <div id="kpi-percentile-bar" class="percentile-bar-compact"></div>
+            <span id="kpi-combined-percentile" class="kpi-compact-value">-</span>
+            <div id="kpi-combined-percentile-bar" class="percentile-bar-compact"></div>
           </div>
           <div class="kpi-compact-card">
             <span class="kpi-compact-label">Rank</span>
-            <span id="kpi-rank" class="kpi-compact-value">-</span>
-            <span class="kpi-compact-sub">de <span id="kpi-total-users">-</span></span>
+            <span id="kpi-combined-rank" class="kpi-compact-value">-</span>
+            <span class="kpi-compact-sub">de <span id="kpi-combined-total-users">-</span></span>
           </div>
           <div class="kpi-compact-card">
             <span class="kpi-compact-label">Diferencia</span>
-            <span id="kpi-difference" class="kpi-compact-value">-</span>
-            <span id="kpi-diff-indicator" class="kpi-compact-indicator">-</span>
+            <span id="kpi-combined-difference" class="kpi-compact-value">-</span>
+            <span id="kpi-combined-diff-indicator" class="kpi-compact-indicator">-</span>
           </div>
         </div>
       </div>
 
-      <!-- Gráficos comparativos -->
-      <div class="user-history-charts">
+      <!-- Tarjetas KPI compactas - Stow to Prime -->
+      <div class="user-history-kpi-section-compact">
+        <h3 class="kpi-section-title">Stow to Prime</h3>
+        <div class="kpi-compact-grid">
+          <div class="kpi-compact-card">
+            <span class="kpi-compact-label">Rate Stow to Prime</span>
+            <span id="kpi-stp-rate" class="kpi-compact-value">-</span>
+            <span class="kpi-compact-sub">vs <span id="kpi-stp-avg">-</span></span>
+          </div>
+          <div class="kpi-compact-card">
+            <span class="kpi-compact-label">Percentil</span>
+            <span id="kpi-stp-percentile" class="kpi-compact-value">-</span>
+            <div id="kpi-stp-percentile-bar" class="percentile-bar-compact"></div>
+          </div>
+          <div class="kpi-compact-card">
+            <span class="kpi-compact-label">Rank</span>
+            <span id="kpi-stp-rank" class="kpi-compact-value">-</span>
+            <span class="kpi-compact-sub">de <span id="kpi-stp-total-users">-</span></span>
+          </div>
+          <div class="kpi-compact-card">
+            <span class="kpi-compact-label">Diferencia</span>
+            <span id="kpi-stp-difference" class="kpi-compact-value">-</span>
+            <span id="kpi-stp-diff-indicator" class="kpi-compact-indicator">-</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tarjetas KPI compactas - Transfer In -->
+      <div class="user-history-kpi-section-compact">
+        <h3 class="kpi-section-title">Transfer In (TSI)</h3>
+        <div class="kpi-compact-grid">
+          <div class="kpi-compact-card">
+            <span class="kpi-compact-label">Rate Transfer In</span>
+            <span id="kpi-ti-rate" class="kpi-compact-value">-</span>
+            <span class="kpi-compact-sub">vs <span id="kpi-ti-avg">-</span></span>
+          </div>
+          <div class="kpi-compact-card">
+            <span class="kpi-compact-label">Percentil</span>
+            <span id="kpi-ti-percentile" class="kpi-compact-value">-</span>
+            <div id="kpi-ti-percentile-bar" class="percentile-bar-compact"></div>
+          </div>
+          <div class="kpi-compact-card">
+            <span class="kpi-compact-label">Rank</span>
+            <span id="kpi-ti-rank" class="kpi-compact-value">-</span>
+            <span class="kpi-compact-sub">de <span id="kpi-ti-total-users">-</span></span>
+          </div>
+          <div class="kpi-compact-card">
+            <span class="kpi-compact-label">Diferencia</span>
+            <span id="kpi-ti-difference" class="kpi-compact-value">-</span>
+            <span id="kpi-ti-diff-indicator" class="kpi-compact-indicator">-</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gráficos de Evolución Temporal -->
+      <div class="user-history-charts-section">
+        <h3 class="charts-section-title">📈 Evolución Temporal del Rendimiento</h3>
+        
+        <!-- Gráfico 1: Evolución Rate vs Promedio (Línea Temporal) -->
         <div class="user-history-chart-container full-width">
-          <h3><span id="icon-trends-performance" class="icon-svg icon-24"></span> Comparación Rate Usuario vs Promedios</h3>
-          <div id="rate-comparison-chart" class="user-history-chart">
+          <h4 class="chart-title">Evolución del Rate: Usuario vs Promedio General</h4>
+          <div id="rate-evolution-chart" class="user-history-chart">
             <div style="padding: 20px; text-align: center; color: #666">
-              <p>Selecciona un usuario para ver la comparación</p>
+              <p>Selecciona un usuario para ver la evolución</p>
             </div>
           </div>
         </div>
+
+        <!-- Gráfico 2: Comparación por Tipo de Tarea en cada Período -->
+        <div class="user-history-chart-container full-width">
+          <h4 class="chart-title">Comparación por Tipo de Tarea (Combined, Stow to Prime, Transfer In)</h4>
+          <div id="task-comparison-evolution-chart" class="user-history-chart">
+            <div style="padding: 20px; text-align: center; color: #666">
+              <p>Comparación de tipos de tarea por período</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gráfico 3: Evolución del Rank y Percentil -->
         <div class="user-history-chart-container">
-          <h3><span id="icon-efficiency-distribution" class="icon-svg icon-24"></span> Comparación por Tipo de Tarea</h3>
-          <div id="task-comparison-chart" class="user-history-chart">
+          <h4 class="chart-title">Evolución del Rank</h4>
+          <div id="rank-evolution-chart" class="user-history-chart">
             <div style="padding: 20px; text-align: center; color: #666">
-              <p>Comparación usuario vs promedio por tipo de tarea</p>
+              <p>Evolución del ranking</p>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Tabla detallada de rendimiento -->
-      <div class="user-history-table-section">
-        <h3><span id="icon-history-table" class="icon-svg icon-24"></span> Rendimiento por Tipo de Tarea</h3>
-        <div class="user-history-table-container">
-          <table id="performance-table" class="user-history-table">
-            <thead>
-              <tr>
-                <th>Tipo de Tarea</th>
-                <th>Rate Usuario</th>
-                <th>Promedio General</th>
-                <th>Diferencia</th>
-                <th>Percentil</th>
-                <th>Rank</th>
-                <th>Total Usuarios</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Datos se cargarán dinámicamente -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Métricas de Esfuerzo (Separado) -->
-      <div class="user-history-effort-section">
-        <h3><span id="icon-target-efficiency" class="icon-svg icon-24"></span> Rate por Esfuerzo (Métrica Adicional)</h3>
-        <p class="section-description">Esta métrica combina el rendimiento con el esfuerzo físico realizado</p>
-        <div class="user-history-effort-grid">
-          <div class="user-history-effort-card">
-            <h4>UPH</h4>
-            <p id="effort-uph" class="effort-value">-</p>
-            <p class="effort-label">vs Promedio: <span id="effort-uph-avg">-</span></p>
-          </div>
-          <div class="user-history-effort-card">
-            <h4>Rate por Esfuerzo</h4>
-            <p id="effort-rate" class="effort-value">-</p>
-            <p class="effort-label">vs Promedio: <span id="effort-rate-avg">-</span></p>
-          </div>
-          <div class="user-history-effort-card">
-            <h4>Distancia Total</h4>
-            <p id="effort-distance" class="effort-value">-</p>
-            <p class="effort-label">Distancia por hora: <span id="effort-distance-hour">-</span></p>
-          </div>
-          <div class="user-history-effort-card">
-            <h4>ASINs Únicos</h4>
-            <p id="effort-asins" class="effort-value">-</p>
-          </div>
-          <div class="user-history-effort-card">
-            <h4>Bins Únicos</h4>
-            <p id="effort-bins" class="effort-value">-</p>
-          </div>
-          <div class="user-history-effort-card">
-            <h4>Cambios de Carro</h4>
-            <p id="effort-cart-changes" class="effort-value">-</p>
-          </div>
-          <div class="user-history-effort-card">
-            <h4>Errores</h4>
-            <p id="effort-errors" class="effort-value">-</p>
-          </div>
-          <div class="user-history-effort-card">
-            <h4>Percentil Esfuerzo</h4>
-            <p id="effort-percentile" class="effort-value">-</p>
-            <p class="effort-label">Rank: <span id="effort-rank">-</span></p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Modal de detalles -->
-      <div
-        id="user-detail-modal"
-        class="user-history-modal"
-        style="display: none"
-      >
-        <div class="user-history-modal-content">
-          <div class="user-history-modal-header">
-            <h3 id="modal-user-name">Detalles del Usuario</h3>
-            <button id="close-modal" class="user-history-modal-close">
-              <span id="icon-times-history-modal" class="icon-svg icon-20"></span>
-            </button>
-          </div>
-          <div class="user-history-modal-body">
-            <div id="user-detail-content">
-              <!-- Contenido se cargará dinámicamente -->
+        <div class="user-history-chart-container">
+          <h4 class="chart-title">Evolución del Percentil</h4>
+          <div id="percentile-evolution-chart" class="user-history-chart">
+            <div style="padding: 20px; text-align: center; color: #666">
+              <p>Evolución del percentil</p>
             </div>
           </div>
         </div>

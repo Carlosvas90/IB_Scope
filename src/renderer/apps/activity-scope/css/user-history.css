@@ -1165,3 +1165,41 @@ body {
 .user-history-chart-container.full-width {
   grid-column: 1 / -1;
 }
+
+/* Sección de gráficos de evolución temporal */
+.user-history-charts-section {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.charts-section-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--user-history-text-primary);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 3px solid var(--user-history-primary);
+}
+
+.chart-title {
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--user-history-text-primary);
+}
+
+.user-history-chart svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Ajustes para gráficos más pequeños */
+.user-history-chart-container:not(.full-width) .user-history-chart {
+  min-height: 250px;
+}
+
+.diff-indicator.very-low {
+  background: #dc2626;
+  color: white;
+}
