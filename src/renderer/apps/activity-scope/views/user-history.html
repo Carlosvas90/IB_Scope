@@ -142,7 +142,55 @@
         </div>
       </div>
 
-      <!-- Tarjetas KPI compactas - Combined -->
+      <!-- Gráficos de Evolución Temporal (arriba) -->
+      <div class="user-history-charts-section">
+        <h3 class="charts-section-title">📈 Evolución Temporal del Rendimiento</h3>
+        
+        <!-- Gráficos principales juntos: Rate y Percentil -->
+        <div class="user-history-charts-primary">
+          <!-- Gráfico 1: Evolución Rate vs Promedio (Línea Temporal) -->
+          <div class="user-history-chart-container">
+            <h4 class="chart-title">Evolución del Rate: Usuario vs Promedio General</h4>
+            <div id="rate-evolution-chart" class="user-history-chart">
+              <div style="padding: 20px; text-align: center; color: #666">
+                <p>Selecciona un usuario para ver la evolución</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gráfico 2: Evolución del Percentil -->
+          <div class="user-history-chart-container">
+            <h4 class="chart-title">Evolución del Percentil</h4>
+            <div id="percentile-evolution-chart" class="user-history-chart">
+              <div style="padding: 20px; text-align: center; color: #666">
+                <p>Evolución del percentil</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gráfico 3: Comparación por Tipo de Tarea en cada Período -->
+        <div class="user-history-chart-container full-width">
+          <h4 class="chart-title">Comparación por Tipo de Tarea (Combined, Stow to Prime, Transfer In)</h4>
+          <div id="task-comparison-evolution-chart" class="user-history-chart">
+            <div style="padding: 20px; text-align: center; color: #666">
+              <p>Comparación de tipos de tarea por período</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gráfico 4: Evolución del Rank -->
+        <div class="user-history-chart-container">
+          <h4 class="chart-title">Evolución del Rank</h4>
+          <div id="rank-evolution-chart" class="user-history-chart">
+            <div style="padding: 20px; text-align: center; color: #666">
+              <p>Evolución del ranking</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tarjetas KPI compactas - Combined (al final) -->
       <div class="user-history-kpi-section-compact">
         <h3 class="kpi-section-title">Combined (Stow to Prime + Transfer In)</h3>
         <div class="kpi-compact-grid">
@@ -169,7 +217,7 @@
         </div>
       </div>
 
-      <!-- Tarjetas KPI compactas - Stow to Prime -->
+      <!-- Tarjetas KPI compactas - Stow to Prime (al final) -->
       <div class="user-history-kpi-section-compact">
         <h3 class="kpi-section-title">Stow to Prime</h3>
         <div class="kpi-compact-grid">
@@ -196,7 +244,7 @@
         </div>
       </div>
 
-      <!-- Tarjetas KPI compactas - Transfer In -->
+      <!-- Tarjetas KPI compactas - Transfer In (al final) -->
       <div class="user-history-kpi-section-compact">
         <h3 class="kpi-section-title">Transfer In (TSI)</h3>
         <div class="kpi-compact-grid">
@@ -219,50 +267,6 @@
             <span class="kpi-compact-label">Diferencia</span>
             <span id="kpi-ti-difference" class="kpi-compact-value">-</span>
             <span id="kpi-ti-diff-indicator" class="kpi-compact-indicator">-</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Gráficos de Evolución Temporal -->
-      <div class="user-history-charts-section">
-        <h3 class="charts-section-title">📈 Evolución Temporal del Rendimiento</h3>
-        
-        <!-- Gráfico 1: Evolución Rate vs Promedio (Línea Temporal) -->
-        <div class="user-history-chart-container full-width">
-          <h4 class="chart-title">Evolución del Rate: Usuario vs Promedio General</h4>
-          <div id="rate-evolution-chart" class="user-history-chart">
-            <div style="padding: 20px; text-align: center; color: #666">
-              <p>Selecciona un usuario para ver la evolución</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Gráfico 2: Comparación por Tipo de Tarea en cada Período -->
-        <div class="user-history-chart-container full-width">
-          <h4 class="chart-title">Comparación por Tipo de Tarea (Combined, Stow to Prime, Transfer In)</h4>
-          <div id="task-comparison-evolution-chart" class="user-history-chart">
-            <div style="padding: 20px; text-align: center; color: #666">
-              <p>Comparación de tipos de tarea por período</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Gráfico 3: Evolución del Rank y Percentil -->
-        <div class="user-history-chart-container">
-          <h4 class="chart-title">Evolución del Rank</h4>
-          <div id="rank-evolution-chart" class="user-history-chart">
-            <div style="padding: 20px; text-align: center; color: #666">
-              <p>Evolución del ranking</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="user-history-chart-container">
-          <h4 class="chart-title">Evolución del Percentil</h4>
-          <div id="percentile-evolution-chart" class="user-history-chart">
-            <div style="padding: 20px; text-align: center; color: #666">
-              <p>Evolución del percentil</p>
-            </div>
           </div>
         </div>
       </div>
