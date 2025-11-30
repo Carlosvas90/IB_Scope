@@ -25,6 +25,18 @@
       <!-- Filtros compactos en una línea -->
       <div class="user-history-filters-compact">
         <div class="filters-row">
+          <!-- Búsqueda por login (PRIMERO, no afectada por filtros) -->
+          <div class="filter-item filter-item-search">
+            <label for="history-user-search">Buscar por Login:</label>
+            <input 
+              type="text" 
+              id="history-user-search" 
+              class="form-control compact search-input" 
+              placeholder="Escribe el login..."
+              autocomplete="off"
+            />
+            <div id="user-search-suggestions" class="search-suggestions" style="display: none;"></div>
+          </div>
           <div class="filter-item">
             <label for="history-shift-filter">Turno:</label>
             <select id="history-shift-filter" class="form-control compact">
@@ -43,16 +55,6 @@
               <option value="">-- Seleccionar --</option>
             </select>
           </div>
-          <div class="filter-item filter-item-search">
-            <input 
-              type="text" 
-              id="history-user-search" 
-              class="form-control compact search-input" 
-              placeholder="Buscar login..."
-              autocomplete="off"
-            />
-            <div id="user-search-suggestions" class="search-suggestions" style="display: none;"></div>
-          </div>
           <div class="filter-item filter-item-period">
             <div class="period-buttons-compact">
               <button class="period-btn-compact active" data-period="last_week">Semana</button>
@@ -62,10 +64,32 @@
             </div>
           </div>
         </div>
-        <!-- Info usuario seleccionado compacta -->
-        <div id="selected-user-info-compact" class="selected-user-info-compact" style="display: none;">
-          <span id="selected-user-name-compact">Usuario: -</span>
-          <span id="selected-user-details-compact">| Login: - | Turno: - | Manager: -</span>
+      </div>
+
+      <!-- Información del usuario seleccionado (similar a user-activity) -->
+      <div id="selected-user-info-card" class="selected-user-info-card" style="display: none;">
+        <div class="user-info-photo-section">
+          <div class="user-photo-large" id="selected-user-photo">
+            <!-- Foto se cargará dinámicamente -->
+          </div>
+        </div>
+        <div class="user-info-details-section">
+          <div class="user-info-row">
+            <span class="user-info-label">Login:</span>
+            <span class="user-info-value" id="selected-user-login">-</span>
+          </div>
+          <div class="user-info-row">
+            <span class="user-info-label">Nombre:</span>
+            <span class="user-info-value" id="selected-user-name">-</span>
+          </div>
+          <div class="user-info-row">
+            <span class="user-info-label">Turno:</span>
+            <span class="user-info-value" id="selected-user-shift">-</span>
+          </div>
+          <div class="user-info-row">
+            <span class="user-info-label">Manager:</span>
+            <span class="user-info-value" id="selected-user-manager">-</span>
+          </div>
         </div>
       </div>
 

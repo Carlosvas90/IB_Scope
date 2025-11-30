@@ -39,6 +39,10 @@ class UserHistoryController {
     this.selectedShift = "";
     this.selectedManager = "";
     this.filteredUsers = [];
+    
+    // Navegación de sugerencias
+    this.currentSuggestionIndex = -1;
+    this.suggestions = [];
 
     this.init();
   }
@@ -266,10 +270,13 @@ class UserHistoryController {
       });
     }
 
-    // Búsqueda alternativa
+    // Búsqueda por login (PRIMERO, busca en TODOS los usuarios, no afectada por filtros)
     const userSearch = document.getElementById("history-user-search");
     if (userSearch) {
-      userSearch.addEventListener("input", (e) => this.onUserSearch(e.target.value));
+      userSearch.addEventListener("input", (e) => {
+        this.currentSuggestionIndex = -1;
+        this.onUserSearch(e.target.value);
+      });
       userSearch.addEventListener("focus", () => {
         if (userSearch.value.length >= 2) {
           this.onUserSearch(userSearch.value);
@@ -279,31 +286,54 @@ class UserHistoryController {
         setTimeout(() => this.hideSuggestions(), 200);
       });
       userSearch.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
+        const suggestionsEl = document.getElementById("user-search-suggestions");
+        const visibleSuggestions = suggestionsEl && suggestionsEl.style.display !== "none" 
+          ? Array.from(suggestionsEl.querySelectorAll(".suggestion-item"))
+          : [];
+        
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          if (visibleSuggestions.length > 0) {
+            this.currentSuggestionIndex = Math.min(
+              this.currentSuggestionIndex + 1,
+              visibleSuggestions.length - 1
+            );
+            this.highlightSuggestion(visibleSuggestions, this.currentSuggestionIndex);
+          }
+        } else if (e.key === "ArrowUp") {
+          e.preventDefault();
+          if (visibleSuggestions.length > 0) {
+            this.currentSuggestionIndex = Math.max(this.currentSuggestionIndex - 1, 0);
+            this.highlightSuggestion(visibleSuggestions, this.currentSuggestionIndex);
+          }
+        } else if (e.key === "Enter") {
           e.preventDefault();
           const login = userSearch.value.trim();
           if (login) {
-            const user = this.filteredUsers.find(u => u.login.toLowerCase() === login.toLowerCase());
-            if (user) {
-              this.selectUser(user.login);
+            // Si hay una sugerencia seleccionada, usar esa
+            if (this.currentSuggestionIndex >= 0 && this.suggestions[this.currentSuggestionIndex]) {
+              const selectedUser = this.suggestions[this.currentSuggestionIndex];
+              this.selectUser(selectedUser.login);
               this.hideSuggestions();
-              // Actualizar el select también
-              if (userSelect) userSelect.value = user.login;
+              if (userSelect) userSelect.value = selectedUser.login;
             } else {
-              if (this.usersIndex && this.usersIndex.users) {
-                const allUser = this.usersIndex.users.find(u => u.login.toLowerCase() === login.toLowerCase());
-                if (allUser) {
-                  this.selectUser(allUser.login);
-                  this.hideSuggestions();
-                  if (userSelect) userSelect.value = allUser.login;
-                } else {
-                  if (window.showToast) {
-                    window.showToast(`Usuario ${login} no encontrado`, "error");
-                  }
+              // Buscar en TODOS los usuarios (no solo en filteredUsers)
+              const allUsers = this.usersIndex?.users || [];
+              const foundUser = allUsers.find(u => u.login.toLowerCase() === login.toLowerCase());
+              if (foundUser) {
+                this.selectUser(foundUser.login);
+                this.hideSuggestions();
+                if (userSelect) userSelect.value = foundUser.login;
+              } else {
+                if (window.showToast) {
+                  window.showToast(`Usuario ${login} no encontrado`, "error");
                 }
               }
             }
           }
+        } else if (e.key === "Escape") {
+          this.hideSuggestions();
+          this.currentSuggestionIndex = -1;
         }
       });
     }
@@ -536,21 +566,39 @@ class UserHistoryController {
   }
 
   /**
-   * Maneja la búsqueda de usuario
+   * Maneja la búsqueda de usuario (busca en TODOS los usuarios, no solo en filteredUsers)
    */
   onUserSearch(query) {
     if (!query || query.length < 2) {
       this.hideSuggestions();
+      this.suggestions = [];
       return;
     }
     
-    const filtered = this.filteredUsers.filter(user => {
+    // Buscar en TODOS los usuarios del índice (no afectado por filtros)
+    const allUsers = this.usersIndex?.users || [];
+    const filtered = allUsers.filter(user => {
       const loginMatch = user.login.toLowerCase().includes(query.toLowerCase());
-      const nameMatch = user.name.toLowerCase().includes(query.toLowerCase());
+      const nameMatch = user.name?.toLowerCase().includes(query.toLowerCase());
       return loginMatch || nameMatch;
     }).slice(0, 10); // Limitar a 10 sugerencias
     
+    this.suggestions = filtered;
     this.showSuggestions(filtered, query);
+  }
+  
+  /**
+   * Resalta una sugerencia específica
+   */
+  highlightSuggestion(suggestions, index) {
+    suggestions.forEach((item, i) => {
+      if (i === index) {
+        item.classList.add("suggestion-highlighted");
+        item.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      } else {
+        item.classList.remove("suggestion-highlighted");
+      }
+    });
   }
 
   /**
@@ -566,22 +614,28 @@ class UserHistoryController {
     }
     
     suggestionsEl.innerHTML = "";
-    users.forEach(user => {
+    users.forEach((user, index) => {
       const item = document.createElement("div");
       item.className = "suggestion-item";
+      // Orden: Login primero, luego nombre
       item.innerHTML = `
-        <strong>${user.login}</strong> - ${user.name}
-        <small>${user.shift} | ${user.manager}</small>
+        <strong>${user.login}</strong> - ${user.name || "N/A"}
+        <small>${user.shift || "N/A"} | ${user.manager || "N/A"}</small>
       `;
       item.addEventListener("click", () => {
         document.getElementById("history-user-search").value = user.login;
         this.selectUser(user.login);
         this.hideSuggestions();
       });
+      item.addEventListener("mouseenter", () => {
+        this.currentSuggestionIndex = index;
+        this.highlightSuggestion(Array.from(suggestionsEl.querySelectorAll(".suggestion-item")), index);
+      });
       suggestionsEl.appendChild(item);
     });
     
     suggestionsEl.style.display = "block";
+    this.currentSuggestionIndex = -1; // Reset al mostrar nuevas sugerencias
   }
 
   /**
@@ -601,18 +655,27 @@ class UserHistoryController {
     if (!login) return;
     
     this.currentLogin = login;
-    const user = this.usersIndex.users.find(u => u.login === login);
+    const user = this.usersIndex?.users?.find(u => u.login === login);
     
     if (user) {
-      // Mostrar información del usuario (versión compacta)
-      const userInfoEl = document.getElementById("selected-user-info-compact");
-      const userNameEl = document.getElementById("selected-user-name-compact");
-      const userDetailsEl = document.getElementById("selected-user-details-compact");
-      
-      if (userInfoEl) userInfoEl.style.display = "flex";
-      if (userNameEl) userNameEl.textContent = `Usuario: ${user.name}`;
-      if (userDetailsEl) {
-        userDetailsEl.textContent = `| Login: ${user.login} | Turno: ${user.shift || "N/A"} | Manager: ${user.manager || "N/A"}`;
+      // Mostrar información del usuario con foto (similar a user-activity)
+      const userInfoCard = document.getElementById("selected-user-info-card");
+      if (userInfoCard) {
+        userInfoCard.style.display = "flex";
+        
+        // Actualizar datos en orden: Login, Nombre, Turno, Manager
+        const loginEl = document.getElementById("selected-user-login");
+        const nameEl = document.getElementById("selected-user-name");
+        const shiftEl = document.getElementById("selected-user-shift");
+        const managerEl = document.getElementById("selected-user-manager");
+        
+        if (loginEl) loginEl.textContent = user.login || "-";
+        if (nameEl) nameEl.textContent = user.name || "-";
+        if (shiftEl) shiftEl.textContent = user.shift || "N/A";
+        if (managerEl) managerEl.textContent = user.manager || "N/A";
+        
+        // Cargar foto del usuario
+        this.updateUserPhoto(login);
       }
     }
     
@@ -625,11 +688,33 @@ class UserHistoryController {
       userSelect.value = login;
     }
     
-    // Limpiar el campo de búsqueda
-    const userSearch = document.getElementById("history-user-search");
-    if (userSearch) {
-      userSearch.value = "";
-    }
+    // NO limpiar el campo de búsqueda (mantener el login escrito)
+  }
+  
+  /**
+   * Obtiene la URL de la foto del usuario
+   */
+  getUserPhotoUrl(login) {
+    if (!login) return "";
+    return `https://internal-cdn.amazon.com/badgephotos.amazon.com/?uid=${login}`;
+  }
+
+  /**
+   * Actualiza la foto del usuario
+   */
+  updateUserPhoto(login) {
+    const photoContainer = document.getElementById("selected-user-photo");
+    if (!photoContainer) return;
+    
+    const photoUrl = this.getUserPhotoUrl(login);
+    photoContainer.innerHTML = `
+      <img 
+        src="${photoUrl}" 
+        alt="${login}" 
+        onerror="this.parentElement.innerHTML='<div style=\\'display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:2rem;font-weight:bold;color:white;\\'>${login.substring(0, 2).toUpperCase()}</div>'"
+        style="width:100%;height:100%;object-fit:cover;"
+      />
+    `;
   }
 
   /**
@@ -882,6 +967,12 @@ class UserHistoryController {
    * Muestra mensaje de selección de usuario y limpia los elementos
    */
   showUserSelectionMessage() {
+    // Ocultar tarjeta de información del usuario
+    const userInfoCard = document.getElementById("selected-user-info-card");
+    if (userInfoCard) {
+      userInfoCard.style.display = "none";
+    }
+    
     // Limpiar todos los KPIs usando el método auxiliar
     this.updateKPIGroup(null, null, "combined");
     this.updateKPIGroup(null, null, "stp");
