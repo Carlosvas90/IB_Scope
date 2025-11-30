@@ -1315,7 +1315,7 @@ class UserHistoryController {
     const maxRate = Math.max(...dataPoints.map(d => Math.max(d.userRate, d.avgRate))) * 1.1;
     const chartHeight = 300;
     const chartWidth = Math.max(600, periodsWithData.length * 150);
-    const padding = { top: 40, right: 40, bottom: 60, left: 60 };
+    const padding = { top: 40, right: 180, bottom: 60, left: 60 }; // Más espacio a la derecha para la leyenda
     const graphWidth = chartWidth - padding.left - padding.right;
     const graphHeight = chartHeight - padding.top - padding.bottom;
 
@@ -1394,36 +1394,303 @@ class UserHistoryController {
     });
     svg += `<path d="${avgLinePath}" fill="none" stroke="#666" stroke-width="2" stroke-dasharray="5,5" opacity="0.7"/>`;
 
-    // Puntos y etiquetas
+    // Puntos y etiquetas con interactividad
     dataPoints.forEach((point, index) => {
       const x = padding.left + (index * (graphWidth / (dataPoints.length - 1)));
       const userY = padding.top + graphHeight - (point.userRate / maxRate * graphHeight);
       const avgY = padding.top + graphHeight - (point.avgRate / maxRate * graphHeight);
       
-      // Puntos
-      svg += `<circle cx="${x}" cy="${userY}" r="5" fill="var(--user-history-primary)" stroke="white" stroke-width="2"/>`;
-      svg += `<circle cx="${x}" cy="${avgY}" r="4" fill="#666" stroke="white" stroke-width="2"/>`;
+      // Área invisible más grande para facilitar hover y click
+      const hoverRadius = 12;
+      svg += `<circle cx="${x}" cy="${userY}" r="${hoverRadius}" fill="transparent" class="chart-point-hover" 
+              data-period="${point.period}" data-type="user" data-value="${point.userRate.toFixed(2)}" 
+              data-avg="${point.avgRate.toFixed(2)}" style="cursor: pointer;"/>`;
+      svg += `<circle cx="${x}" cy="${avgY}" r="${hoverRadius}" fill="transparent" class="chart-point-hover" 
+              data-period="${point.period}" data-type="avg" data-value="${point.avgRate.toFixed(2)}" 
+              data-user="${point.userRate.toFixed(2)}" style="cursor: pointer;"/>`;
       
-      // Etiquetas de valor
-      svg += `<text x="${x}" y="${userY - 10}" text-anchor="middle" font-size="11" font-weight="600" fill="var(--user-history-primary)">${point.userRate.toFixed(1)}</text>`;
-      svg += `<text x="${x}" y="${avgY - 10}" text-anchor="middle" font-size="10" fill="#666">${point.avgRate.toFixed(1)}</text>`;
+      // Puntos visibles
+      svg += `<circle cx="${x}" cy="${userY}" r="5" fill="var(--user-history-primary)" stroke="white" stroke-width="2" 
+              class="chart-point-user" data-period="${point.period}" style="cursor: pointer;"/>`;
+      svg += `<circle cx="${x}" cy="${avgY}" r="4" fill="#666" stroke="white" stroke-width="2" 
+              class="chart-point-avg" data-period="${point.period}" style="cursor: pointer;"/>`;
+      
+      // Etiquetas de valor (ocultas por defecto, se muestran en tooltip)
+      svg += `<text x="${x}" y="${userY - 10}" text-anchor="middle" font-size="11" font-weight="600" 
+              fill="var(--user-history-primary)" class="chart-value-label" style="pointer-events: none;">${point.userRate.toFixed(1)}</text>`;
+      svg += `<text x="${x}" y="${avgY - 10}" text-anchor="middle" font-size="10" 
+              fill="#666" class="chart-value-label" style="pointer-events: none;">${point.avgRate.toFixed(1)}</text>`;
       
       // Etiquetas de período
-      svg += `<text x="${x}" y="${padding.top + graphHeight + 20}" text-anchor="middle" font-size="11" fill="var(--user-history-text-secondary)">${point.period}</text>`;
+      svg += `<text x="${x}" y="${padding.top + graphHeight + 20}" text-anchor="middle" font-size="11" 
+              fill="var(--user-history-text-secondary)" style="pointer-events: none;">${point.period}</text>`;
     });
 
-    // Leyenda
+    // Leyenda interactiva (fuera del área del gráfico, a la derecha)
+    const legendX = chartWidth - padding.right + 20; // Fuera del área del gráfico
+    const legendY = padding.top + 20;
     svg += `
-      <g transform="translate(${padding.left + graphWidth - 150}, ${padding.top + 10})">
-        <line x1="0" y1="10" x2="30" y2="10" stroke="var(--user-history-primary)" stroke-width="3"/>
-        <text x="35" y="14" font-size="12" fill="var(--user-history-text-primary)">Usuario</text>
-        <line x1="0" y1="30" x2="30" y2="30" stroke="#666" stroke-width="2" stroke-dasharray="5,5" opacity="0.7"/>
-        <text x="35" y="34" font-size="12" fill="var(--user-history-text-primary)">Promedio</text>
+      <g transform="translate(${legendX}, ${legendY})">
+        <g class="chart-legend-item" data-series="user" style="cursor: pointer;">
+          <line x1="0" y1="10" x2="30" y2="10" stroke="var(--user-history-primary)" stroke-width="3" class="legend-line-user"/>
+          <text x="35" y="14" font-size="12" fill="var(--user-history-text-primary)" class="legend-text-user">Usuario</text>
+        </g>
+        <g class="chart-legend-item" data-series="avg" style="cursor: pointer;" transform="translate(0, 20)">
+          <line x1="0" y1="10" x2="30" y2="10" stroke="#666" stroke-width="2" stroke-dasharray="5,5" opacity="0.7" class="legend-line-avg"/>
+          <text x="35" y="14" font-size="12" fill="var(--user-history-text-primary)" class="legend-text-avg">Promedio</text>
+        </g>
+      </g>
+    `;
+
+    // Tooltip
+    svg += `
+      <g id="rate-chart-tooltip" style="display: none; pointer-events: none;">
+        <rect x="0" y="0" width="140" height="80" fill="rgba(0,0,0,0.85)" rx="6" ry="6"/>
+        <text x="10" y="20" font-size="12" font-weight="600" fill="white" id="tooltip-period">Período</text>
+        <text x="10" y="40" font-size="11" fill="#a0d2ff" id="tooltip-user">Usuario: -</text>
+        <text x="10" y="55" font-size="11" fill="#cccccc" id="tooltip-avg">Promedio: -</text>
+        <text x="10" y="70" font-size="11" font-weight="600" fill="white" id="tooltip-diff">Diferencia: -</text>
       </g>
     `;
 
     svg += '</svg>';
     chartEl.innerHTML = svg;
+    
+    // Agregar interactividad después de insertar el SVG
+    this.setupRateChartInteractivity(chartEl, dataPoints, periods);
+  }
+
+  /**
+   * Configura interactividad para el gráfico de evolución del rate
+   */
+  setupRateChartInteractivity(chartEl, dataPoints, periods) {
+    const svg = chartEl.querySelector('svg');
+    if (!svg) return;
+
+    const tooltip = svg.querySelector('#rate-chart-tooltip');
+    const tooltipPeriod = svg.querySelector('#tooltip-period');
+    const tooltipUser = svg.querySelector('#tooltip-user');
+    const tooltipAvg = svg.querySelector('#tooltip-avg');
+    const tooltipDiff = svg.querySelector('#tooltip-diff');
+
+    let userLineVisible = true;
+    let avgLineVisible = true;
+
+    // Tooltips y click en puntos
+    const hoverPoints = svg.querySelectorAll('.chart-point-hover');
+    hoverPoints.forEach(point => {
+      const period = point.getAttribute('data-period');
+      const type = point.getAttribute('data-type');
+      const value = parseFloat(point.getAttribute('data-value'));
+      const otherValue = parseFloat(point.getAttribute(type === 'user' ? 'data-avg' : 'data-user'));
+
+      // Hover para tooltip
+      point.addEventListener('mouseenter', (e) => {
+        if (tooltip && tooltipPeriod && tooltipUser && tooltipAvg && tooltipDiff) {
+          const rect = svg.getBoundingClientRect();
+          const pointRect = point.getBoundingClientRect();
+          const svgPoint = svg.createSVGPoint();
+          svgPoint.x = e.clientX - rect.left;
+          svgPoint.y = e.clientY - rect.top;
+
+          tooltipPeriod.textContent = period;
+          if (type === 'user') {
+            tooltipUser.textContent = `Usuario: ${value.toFixed(2)}`;
+            tooltipAvg.textContent = `Promedio: ${otherValue.toFixed(2)}`;
+          } else {
+            tooltipUser.textContent = `Usuario: ${otherValue.toFixed(2)}`;
+            tooltipAvg.textContent = `Promedio: ${value.toFixed(2)}`;
+          }
+          const diff = (type === 'user' ? value : otherValue) - (type === 'user' ? otherValue : value);
+          tooltipDiff.textContent = `Diferencia: ${diff >= 0 ? '+' : ''}${diff.toFixed(2)}`;
+          tooltipDiff.setAttribute('fill', diff >= 0 ? '#10b981' : '#ef4444');
+
+          tooltip.setAttribute('transform', `translate(${svgPoint.x - 70}, ${svgPoint.y - 90})`);
+          tooltip.style.display = 'block';
+        }
+      });
+
+      point.addEventListener('mouseleave', () => {
+        if (tooltip) {
+          tooltip.style.display = 'none';
+        }
+      });
+
+      point.addEventListener('mousemove', (e) => {
+        if (tooltip && tooltip.style.display !== 'none') {
+          const rect = svg.getBoundingClientRect();
+          const svgPoint = svg.createSVGPoint();
+          svgPoint.x = e.clientX - rect.left;
+          svgPoint.y = e.clientY - rect.top;
+          tooltip.setAttribute('transform', `translate(${svgPoint.x - 70}, ${svgPoint.y - 90})`);
+        }
+      });
+
+      // Click para detalles
+      point.addEventListener('click', () => {
+        this.showPeriodDetails(period, periods);
+      });
+    });
+
+    // Leyendas interactivas
+    const legendItems = svg.querySelectorAll('.chart-legend-item');
+    legendItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const series = item.getAttribute('data-series');
+        if (series === 'user') {
+          userLineVisible = !userLineVisible;
+          const userLine = svg.querySelector('path[stroke="var(--user-history-primary)"]');
+          const userPath = svg.querySelector('path[fill="url(#userLineGradient)"]');
+          const userPoints = svg.querySelectorAll('.chart-point-user');
+          const userLabels = svg.querySelectorAll('.chart-value-label');
+          if (userLine) userLine.style.opacity = userLineVisible ? '1' : '0.3';
+          if (userPath) userPath.style.opacity = userLineVisible ? '1' : '0.3';
+          userPoints.forEach(p => p.style.opacity = userLineVisible ? '1' : '0.3');
+          userLabels.forEach((label, i) => {
+            if (i % 2 === 0) label.style.opacity = userLineVisible ? '1' : '0.3';
+          });
+          const legendLine = item.querySelector('.legend-line-user');
+          const legendText = item.querySelector('.legend-text-user');
+          if (legendLine) legendLine.style.opacity = userLineVisible ? '1' : '0.3';
+          if (legendText) legendText.style.opacity = userLineVisible ? '1' : '0.5';
+        } else if (series === 'avg') {
+          avgLineVisible = !avgLineVisible;
+          const avgLine = svg.querySelector('path[stroke="#666"]');
+          const avgPath = svg.querySelector('path[fill="url(#avgLineGradient)"]');
+          const avgPoints = svg.querySelectorAll('.chart-point-avg');
+          const avgLabels = svg.querySelectorAll('.chart-value-label');
+          if (avgLine) avgLine.style.opacity = avgLineVisible ? '0.7' : '0.2';
+          if (avgPath) avgPath.style.opacity = avgLineVisible ? '1' : '0.2';
+          avgPoints.forEach(p => p.style.opacity = avgLineVisible ? '1' : '0.2');
+          avgLabels.forEach((label, i) => {
+            if (i % 2 === 1) label.style.opacity = avgLineVisible ? '1' : '0.2';
+          });
+          const legendLine = item.querySelector('.legend-line-avg');
+          const legendText = item.querySelector('.legend-text-avg');
+          if (legendLine) legendLine.style.opacity = avgLineVisible ? '0.7' : '0.2';
+          if (legendText) legendText.style.opacity = avgLineVisible ? '1' : '0.5';
+        }
+      });
+    });
+  }
+
+  /**
+   * Muestra detalles de un período específico
+   */
+  showPeriodDetails(periodLabel, periods) {
+    // Encontrar el período correspondiente
+    const periodMap = {
+      'Semana': 'last_week',
+      'Mes': 'last_month',
+      '3 Meses': 'last_3_months',
+      '6 Meses': 'last_6_months'
+    };
+    const periodKey = periodMap[periodLabel];
+    if (!periodKey) return;
+
+    const periodData = this.currentUserData[periodKey];
+    const metadataPeriod = this.metadataUsers?.periods?.[periodKey];
+    
+    if (!periodData) return;
+
+    const combined = periodData.each_stow?.combined;
+    const stp = periodData.each_stow?.stow_to_prime;
+    const ti = periodData.each_stow?.transfer_in;
+
+    // Crear modal de detalles
+    const modal = document.createElement('div');
+    modal.className = 'period-details-modal';
+    modal.innerHTML = `
+      <div class="period-details-content">
+        <div class="period-details-header">
+          <h3>Detalles del Período: ${periodLabel}</h3>
+          <button class="period-details-close">&times;</button>
+        </div>
+        <div class="period-details-body">
+          ${combined ? `
+            <div class="period-detail-section">
+              <h4>Combined</h4>
+              <div class="period-detail-grid">
+                <div class="period-detail-item">
+                  <span class="period-detail-label">Rate:</span>
+                  <span class="period-detail-value">${combined.rate?.toFixed(2) || '-'}</span>
+                </div>
+                <div class="period-detail-item">
+                  <span class="period-detail-label">Artículos:</span>
+                  <span class="period-detail-value">${combined.total_units?.toLocaleString() || '-'}</span>
+                </div>
+                <div class="period-detail-item">
+                  <span class="period-detail-label">Horas:</span>
+                  <span class="period-detail-value">${combined.total_hours?.toFixed(1) || '-'}h</span>
+                </div>
+                <div class="period-detail-item">
+                  <span class="period-detail-label">Rank:</span>
+                  <span class="period-detail-value">#${combined.rank || '-'} / ${combined.total_users || '-'}</span>
+                </div>
+                <div class="period-detail-item">
+                  <span class="period-detail-label">Percentil:</span>
+                  <span class="period-detail-value">${combined.percentile?.toFixed(1) || '-'}%</span>
+                </div>
+                <div class="period-detail-item">
+                  <span class="period-detail-label">Promedio General:</span>
+                  <span class="period-detail-value">${(metadataPeriod?.each_stow?.combined?.avg || combined.avg_general || 0).toFixed(2)}</span>
+                </div>
+              </div>
+            </div>
+          ` : ''}
+          ${stp ? `
+            <div class="period-detail-section">
+              <h4>Stow to Prime</h4>
+              <div class="period-detail-grid">
+                <div class="period-detail-item">
+                  <span class="period-detail-label">Rate:</span>
+                  <span class="period-detail-value">${stp.rate?.toFixed(2) || '-'}</span>
+                </div>
+                <div class="period-detail-item">
+                  <span class="period-detail-label">Artículos:</span>
+                  <span class="period-detail-value">${stp.total_units?.toLocaleString() || '-'}</span>
+                </div>
+                <div class="period-detail-item">
+                  <span class="period-detail-label">Horas:</span>
+                  <span class="period-detail-value">${stp.total_hours?.toFixed(1) || '-'}h</span>
+                </div>
+              </div>
+            </div>
+          ` : ''}
+          ${ti ? `
+            <div class="period-detail-section">
+              <h4>Transfer In</h4>
+              <div class="period-detail-grid">
+                <div class="period-detail-item">
+                  <span class="period-detail-label">Rate:</span>
+                  <span class="period-detail-value">${ti.rate?.toFixed(2) || '-'}</span>
+                </div>
+                <div class="period-detail-item">
+                  <span class="period-detail-label">Artículos:</span>
+                  <span class="period-detail-value">${ti.total_units?.toLocaleString() || '-'}</span>
+                </div>
+                <div class="period-detail-item">
+                  <span class="period-detail-label">Horas:</span>
+                  <span class="period-detail-value">${ti.total_hours?.toFixed(1) || '-'}h</span>
+                </div>
+              </div>
+            </div>
+          ` : ''}
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // Cerrar modal
+    const closeBtn = modal.querySelector('.period-details-close');
+    const closeModal = () => {
+      modal.remove();
+    };
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
   }
 
   /**
@@ -1643,17 +1910,95 @@ class UserHistoryController {
     });
     svg += `<path d="${linePath}" fill="none" stroke="var(--user-history-primary)" stroke-width="3" stroke-linecap="round"/>`;
 
-    // Puntos
+    // Puntos con interactividad
     dataPoints.forEach((point, index) => {
       const x = padding.left + (index * (graphWidth / (dataPoints.length - 1)));
       const y = padding.top + graphHeight - (point.percentile / 100 * graphHeight);
-      svg += `<circle cx="${x}" cy="${y}" r="5" fill="var(--user-history-primary)" stroke="white" stroke-width="2"/>`;
-      svg += `<text x="${x}" y="${y - 10}" text-anchor="middle" font-size="11" font-weight="600" fill="var(--user-history-primary)">${point.percentile.toFixed(1)}%</text>`;
-      svg += `<text x="${x}" y="${padding.top + graphHeight + 20}" text-anchor="middle" font-size="11" fill="var(--user-history-text-secondary)">${point.period}</text>`;
+      
+      // Área invisible más grande para facilitar hover y click
+      const hoverRadius = 12;
+      svg += `<circle cx="${x}" cy="${y}" r="${hoverRadius}" fill="transparent" class="chart-point-hover" 
+              data-period="${point.period}" data-value="${point.percentile.toFixed(2)}" style="cursor: pointer;"/>`;
+      
+      // Punto visible
+      svg += `<circle cx="${x}" cy="${y}" r="5" fill="var(--user-history-primary)" stroke="white" stroke-width="2" 
+              class="chart-point-percentile" data-period="${point.period}" style="cursor: pointer;"/>`;
+      svg += `<text x="${x}" y="${y - 10}" text-anchor="middle" font-size="11" font-weight="600" 
+              fill="var(--user-history-primary)" class="chart-value-label" style="pointer-events: none;">${point.percentile.toFixed(1)}%</text>`;
+      svg += `<text x="${x}" y="${padding.top + graphHeight + 20}" text-anchor="middle" font-size="11" 
+              fill="var(--user-history-text-secondary)" style="pointer-events: none;">${point.period}</text>`;
     });
+
+    // Tooltip
+    svg += `
+      <g id="percentile-chart-tooltip" style="display: none; pointer-events: none;">
+        <rect x="0" y="0" width="120" height="60" fill="rgba(0,0,0,0.85)" rx="6" ry="6"/>
+        <text x="10" y="20" font-size="12" font-weight="600" fill="white" id="tooltip-period-pct">Período</text>
+        <text x="10" y="40" font-size="11" fill="#a0d2ff" id="tooltip-percentile">Percentil: -</text>
+      </g>
+    `;
 
     svg += '</svg>';
     chartEl.innerHTML = svg;
+    
+    // Agregar interactividad después de insertar el SVG
+    this.setupPercentileChartInteractivity(chartEl, dataPoints, periods);
+  }
+
+  /**
+   * Configura interactividad para el gráfico de evolución del percentil
+   */
+  setupPercentileChartInteractivity(chartEl, dataPoints, periods) {
+    const svg = chartEl.querySelector('svg');
+    if (!svg) return;
+
+    const tooltip = svg.querySelector('#percentile-chart-tooltip');
+    const tooltipPeriod = svg.querySelector('#tooltip-period-pct');
+    const tooltipPercentile = svg.querySelector('#tooltip-percentile');
+
+    // Tooltips y click en puntos
+    const hoverPoints = svg.querySelectorAll('.chart-point-hover');
+    hoverPoints.forEach(point => {
+      const period = point.getAttribute('data-period');
+      const value = parseFloat(point.getAttribute('data-value'));
+
+      // Hover para tooltip
+      point.addEventListener('mouseenter', (e) => {
+        if (tooltip && tooltipPeriod && tooltipPercentile) {
+          const rect = svg.getBoundingClientRect();
+          const svgPoint = svg.createSVGPoint();
+          svgPoint.x = e.clientX - rect.left;
+          svgPoint.y = e.clientY - rect.top;
+
+          tooltipPeriod.textContent = period;
+          tooltipPercentile.textContent = `Percentil: ${value.toFixed(1)}%`;
+
+          tooltip.setAttribute('transform', `translate(${svgPoint.x - 60}, ${svgPoint.y - 70})`);
+          tooltip.style.display = 'block';
+        }
+      });
+
+      point.addEventListener('mouseleave', () => {
+        if (tooltip) {
+          tooltip.style.display = 'none';
+        }
+      });
+
+      point.addEventListener('mousemove', (e) => {
+        if (tooltip && tooltip.style.display !== 'none') {
+          const rect = svg.getBoundingClientRect();
+          const svgPoint = svg.createSVGPoint();
+          svgPoint.x = e.clientX - rect.left;
+          svgPoint.y = e.clientY - rect.top;
+          tooltip.setAttribute('transform', `translate(${svgPoint.x - 60}, ${svgPoint.y - 70})`);
+        }
+      });
+
+      // Click para detalles
+      point.addEventListener('click', () => {
+        this.showPeriodDetails(period, periods);
+      });
+    });
   }
 
   /**
