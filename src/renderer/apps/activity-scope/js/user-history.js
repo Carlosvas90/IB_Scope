@@ -1258,6 +1258,7 @@ class UserHistoryController {
     this.updateTaskComparisonEvolutionChart(periods, periodLabels);
     this.updateRankEvolutionChart(periods, periodLabels);
     this.updatePercentileEvolutionChart(periods, periodLabels);
+    this.updateEffortRateEvolutionChart(periods, periodLabels);
   }
 
   /**
@@ -1268,7 +1269,8 @@ class UserHistoryController {
       "rate-evolution-chart",
       "task-comparison-evolution-chart",
       "rank-evolution-chart",
-      "percentile-evolution-chart"
+      "percentile-evolution-chart",
+      "effort-rate-evolution-chart"
     ];
     
     chartIds.forEach(id => {
@@ -1997,6 +1999,295 @@ class UserHistoryController {
       // Click para detalles
       point.addEventListener('click', () => {
         this.showPeriodDetails(period, periods);
+      });
+    });
+  }
+
+  /**
+   * Actualiza gráfico de evolución del rate por esfuerzo
+   */
+  updateEffortRateEvolutionChart(periods, periodLabels) {
+    const chartEl = document.getElementById("effort-rate-evolution-chart");
+    if (!chartEl) return;
+
+    const dataPoints = [];
+    periods.forEach(period => {
+      const periodData = this.currentUserData[period];
+      if (periodData?.rate_por_esfuerzo?.rate_por_esfuerzo !== undefined) {
+        const userRate = periodData.rate_por_esfuerzo.rate_por_esfuerzo;
+        const avgRate = periodData.rate_por_esfuerzo.avg_rate_esfuerzo_general || 0;
+        
+        dataPoints.push({
+          period: periodLabels[period],
+          effortRate: userRate,
+          avgRate: avgRate
+        });
+      }
+    });
+
+    if (dataPoints.length === 0) {
+      chartEl.innerHTML = '<div style="padding: 20px; text-align: center; color: #666">No hay datos suficientes</div>';
+      return;
+    }
+
+    // Crear gráfico de línea temporal
+    const maxRate = Math.max(...dataPoints.map(d => Math.max(d.effortRate, d.avgRate))) * 1.1;
+    const chartHeight = 250;
+    const chartWidth = Math.max(400, dataPoints.length * 120);
+    const padding = { top: 40, right: 180, bottom: 60, left: 60 }; // Más espacio a la derecha para la leyenda
+    const graphWidth = chartWidth - padding.left - padding.right;
+    const graphHeight = chartHeight - padding.top - padding.bottom;
+
+    let svg = `
+      <svg width="${chartWidth}" height="${chartHeight}" style="overflow: visible;">
+        <defs>
+          <linearGradient id="effortLineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:0.3" />
+            <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:0" />
+          </linearGradient>
+          <linearGradient id="effortAvgLineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#666;stop-opacity:0.3" />
+            <stop offset="100%" style="stop-color:#666;stop-opacity:0" />
+          </linearGradient>
+        </defs>
+        
+        <!-- Ejes -->
+        <line x1="${padding.left}" y1="${padding.top}" x2="${padding.left}" y2="${padding.top + graphHeight}" 
+              stroke="var(--user-history-border)" stroke-width="2"/>
+        <line x1="${padding.left}" y1="${padding.top + graphHeight}" x2="${padding.left + graphWidth}" y2="${padding.top + graphHeight}" 
+              stroke="var(--user-history-border)" stroke-width="2"/>
+        
+        <!-- Líneas de referencia -->
+    `;
+
+    // Líneas de referencia horizontales
+    for (let i = 0; i <= 5; i++) {
+      const y = padding.top + (graphHeight * (1 - i / 5));
+      const value = (maxRate * i / 5).toFixed(0);
+      svg += `
+        <line x1="${padding.left - 5}" y1="${y}" x2="${padding.left + graphWidth}" y2="${y}" 
+              stroke="var(--user-history-border)" stroke-width="1" stroke-dasharray="4,4" opacity="0.3"/>
+        <text x="${padding.left - 10}" y="${y + 4}" text-anchor="end" font-size="12" fill="var(--user-history-text-secondary)">${value}</text>
+      `;
+    }
+
+    // Área bajo la línea del usuario
+    let userAreaPath = `M ${padding.left},${padding.top + graphHeight}`;
+    dataPoints.forEach((point, index) => {
+      const x = padding.left + (index * (graphWidth / (dataPoints.length - 1)));
+      const y = padding.top + graphHeight - (point.effortRate / maxRate * graphHeight);
+      userAreaPath += ` L ${x},${y}`;
+    });
+    userAreaPath += ` L ${padding.left + graphWidth},${padding.top + graphHeight} Z`;
+    svg += `<path d="${userAreaPath}" fill="url(#effortLineGradient)"/>`;
+
+    // Área bajo la línea del promedio
+    let avgAreaPath = `M ${padding.left},${padding.top + graphHeight}`;
+    dataPoints.forEach((point, index) => {
+      const x = padding.left + (index * (graphWidth / (dataPoints.length - 1)));
+      const y = padding.top + graphHeight - (point.avgRate / maxRate * graphHeight);
+      avgAreaPath += ` L ${x},${y}`;
+    });
+    avgAreaPath += ` L ${padding.left + graphWidth},${padding.top + graphHeight} Z`;
+    svg += `<path d="${avgAreaPath}" fill="url(#effortAvgLineGradient)"/>`;
+
+    // Línea del usuario
+    let userLinePath = `M ${padding.left},${padding.top + graphHeight - (dataPoints[0].effortRate / maxRate * graphHeight)}`;
+    dataPoints.forEach((point, index) => {
+      if (index > 0) {
+        const x = padding.left + (index * (graphWidth / (dataPoints.length - 1)));
+        const y = padding.top + graphHeight - (point.effortRate / maxRate * graphHeight);
+        userLinePath += ` L ${x},${y}`;
+      }
+    });
+    svg += `<path d="${userLinePath}" fill="none" stroke="#f59e0b" stroke-width="3" stroke-linecap="round" class="effort-user-line"/>`;
+
+    // Línea del promedio
+    let avgLinePath = `M ${padding.left},${padding.top + graphHeight - (dataPoints[0].avgRate / maxRate * graphHeight)}`;
+    dataPoints.forEach((point, index) => {
+      if (index > 0) {
+        const x = padding.left + (index * (graphWidth / (dataPoints.length - 1)));
+        const y = padding.top + graphHeight - (point.avgRate / maxRate * graphHeight);
+        avgLinePath += ` L ${x},${y}`;
+      }
+    });
+    svg += `<path d="${avgLinePath}" fill="none" stroke="#666" stroke-width="2" stroke-dasharray="5,5" opacity="0.7" class="effort-avg-line"/>`;
+
+    // Puntos con interactividad
+    dataPoints.forEach((point, index) => {
+      const x = padding.left + (index * (graphWidth / (dataPoints.length - 1)));
+      const userY = padding.top + graphHeight - (point.effortRate / maxRate * graphHeight);
+      const avgY = padding.top + graphHeight - (point.avgRate / maxRate * graphHeight);
+      
+      // Área invisible más grande para facilitar hover y click
+      const hoverRadius = 12;
+      svg += `<circle cx="${x}" cy="${userY}" r="${hoverRadius}" fill="transparent" class="chart-point-hover" 
+              data-period="${point.period}" data-type="user" data-value="${point.effortRate.toFixed(2)}" 
+              data-avg="${point.avgRate.toFixed(2)}" style="cursor: pointer;"/>`;
+      svg += `<circle cx="${x}" cy="${avgY}" r="${hoverRadius}" fill="transparent" class="chart-point-hover" 
+              data-period="${point.period}" data-type="avg" data-value="${point.avgRate.toFixed(2)}" 
+              data-user="${point.effortRate.toFixed(2)}" style="cursor: pointer;"/>`;
+      
+      // Puntos visibles
+      svg += `<circle cx="${x}" cy="${userY}" r="5" fill="#f59e0b" stroke="white" stroke-width="2" 
+              class="chart-point-effort-user" data-period="${point.period}" style="cursor: pointer;"/>`;
+      svg += `<circle cx="${x}" cy="${avgY}" r="4" fill="#666" stroke="white" stroke-width="2" 
+              class="chart-point-effort-avg" data-period="${point.period}" style="cursor: pointer;"/>`;
+      
+      // Etiquetas de valor
+      svg += `<text x="${x}" y="${userY - 10}" text-anchor="middle" font-size="11" font-weight="600" 
+              fill="#f59e0b" class="chart-value-label" style="pointer-events: none;">${point.effortRate.toFixed(1)}</text>`;
+      svg += `<text x="${x}" y="${avgY - 10}" text-anchor="middle" font-size="10" 
+              fill="#666" class="chart-value-label" style="pointer-events: none;">${point.avgRate.toFixed(1)}</text>`;
+      
+      // Etiquetas de período
+      svg += `<text x="${x}" y="${padding.top + graphHeight + 20}" text-anchor="middle" font-size="11" 
+              fill="var(--user-history-text-secondary)" style="pointer-events: none;">${point.period}</text>`;
+    });
+
+    // Leyenda interactiva (fuera del área del gráfico, a la derecha)
+    const legendX = chartWidth - padding.right + 20;
+    const legendY = padding.top + 20;
+    svg += `
+      <g transform="translate(${legendX}, ${legendY})">
+        <g class="chart-legend-item" data-series="user" style="cursor: pointer;">
+          <line x1="0" y1="10" x2="30" y2="10" stroke="#f59e0b" stroke-width="3" class="legend-line-user-effort"/>
+          <text x="35" y="14" font-size="12" fill="var(--user-history-text-primary)" class="legend-text-user-effort">Usuario</text>
+        </g>
+        <g class="chart-legend-item" data-series="avg" style="cursor: pointer;" transform="translate(0, 20)">
+          <line x1="0" y1="10" x2="30" y2="10" stroke="#666" stroke-width="2" stroke-dasharray="5,5" opacity="0.7" class="legend-line-avg-effort"/>
+          <text x="35" y="14" font-size="12" fill="var(--user-history-text-primary)" class="legend-text-avg-effort">Promedio</text>
+        </g>
+      </g>
+    `;
+
+    // Tooltip
+    svg += `
+      <g id="effort-chart-tooltip" style="display: none; pointer-events: none;">
+        <rect x="0" y="0" width="140" height="80" fill="rgba(0,0,0,0.85)" rx="6" ry="6"/>
+        <text x="10" y="20" font-size="12" font-weight="600" fill="white" id="tooltip-period-effort">Período</text>
+        <text x="10" y="40" font-size="11" fill="#fbbf24" id="tooltip-effort-user">Usuario: -</text>
+        <text x="10" y="55" font-size="11" fill="#cccccc" id="tooltip-effort-avg">Promedio: -</text>
+        <text x="10" y="70" font-size="11" font-weight="600" fill="white" id="tooltip-effort-diff">Diferencia: -</text>
+      </g>
+    `;
+
+    svg += '</svg>';
+    chartEl.innerHTML = svg;
+    
+    // Agregar interactividad después de insertar el SVG
+    this.setupEffortRateChartInteractivity(chartEl, dataPoints, periods);
+  }
+
+  /**
+   * Configura interactividad para el gráfico de evolución del rate por esfuerzo
+   */
+  setupEffortRateChartInteractivity(chartEl, dataPoints, periods) {
+    const svg = chartEl.querySelector('svg');
+    if (!svg) return;
+
+    const tooltip = svg.querySelector('#effort-chart-tooltip');
+    const tooltipPeriod = svg.querySelector('#tooltip-period-effort');
+    const tooltipUser = svg.querySelector('#tooltip-effort-user');
+    const tooltipAvg = svg.querySelector('#tooltip-effort-avg');
+    const tooltipDiff = svg.querySelector('#tooltip-effort-diff');
+
+    let userLineVisible = true;
+    let avgLineVisible = true;
+
+    // Tooltips y click en puntos
+    const hoverPoints = svg.querySelectorAll('.chart-point-hover');
+    hoverPoints.forEach(point => {
+      const period = point.getAttribute('data-period');
+      const type = point.getAttribute('data-type');
+      const value = parseFloat(point.getAttribute('data-value'));
+      const otherValue = parseFloat(point.getAttribute(type === 'user' ? 'data-avg' : 'data-user'));
+
+      // Hover para tooltip
+      point.addEventListener('mouseenter', (e) => {
+        if (tooltip && tooltipPeriod && tooltipUser && tooltipAvg && tooltipDiff) {
+          const rect = svg.getBoundingClientRect();
+          const svgPoint = svg.createSVGPoint();
+          svgPoint.x = e.clientX - rect.left;
+          svgPoint.y = e.clientY - rect.top;
+
+          tooltipPeriod.textContent = period;
+          if (type === 'user') {
+            tooltipUser.textContent = `Usuario: ${value.toFixed(2)}`;
+            tooltipAvg.textContent = `Promedio: ${otherValue.toFixed(2)}`;
+          } else {
+            tooltipUser.textContent = `Usuario: ${otherValue.toFixed(2)}`;
+            tooltipAvg.textContent = `Promedio: ${value.toFixed(2)}`;
+          }
+          const diff = (type === 'user' ? value : otherValue) - (type === 'user' ? otherValue : value);
+          tooltipDiff.textContent = `Diferencia: ${diff >= 0 ? '+' : ''}${diff.toFixed(2)}`;
+          tooltipDiff.setAttribute('fill', diff >= 0 ? '#10b981' : '#ef4444');
+
+          tooltip.setAttribute('transform', `translate(${svgPoint.x - 70}, ${svgPoint.y - 90})`);
+          tooltip.style.display = 'block';
+        }
+      });
+
+      point.addEventListener('mouseleave', () => {
+        if (tooltip) {
+          tooltip.style.display = 'none';
+        }
+      });
+
+      point.addEventListener('mousemove', (e) => {
+        if (tooltip && tooltip.style.display !== 'none') {
+          const rect = svg.getBoundingClientRect();
+          const svgPoint = svg.createSVGPoint();
+          svgPoint.x = e.clientX - rect.left;
+          svgPoint.y = e.clientY - rect.top;
+          tooltip.setAttribute('transform', `translate(${svgPoint.x - 70}, ${svgPoint.y - 90})`);
+        }
+      });
+
+      // Click para detalles
+      point.addEventListener('click', () => {
+        this.showPeriodDetails(period, periods);
+      });
+    });
+
+    // Leyendas interactivas
+    const legendItems = svg.querySelectorAll('.chart-legend-item');
+    legendItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const series = item.getAttribute('data-series');
+        if (series === 'user') {
+          userLineVisible = !userLineVisible;
+          const userLine = svg.querySelector('.effort-user-line');
+          const userPath = svg.querySelector('path[fill="url(#effortLineGradient)"]');
+          const userPoints = svg.querySelectorAll('.chart-point-effort-user');
+          const userLabels = svg.querySelectorAll('.chart-value-label');
+          if (userLine) userLine.style.opacity = userLineVisible ? '1' : '0.3';
+          if (userPath) userPath.style.opacity = userLineVisible ? '1' : '0.3';
+          userPoints.forEach(p => p.style.opacity = userLineVisible ? '1' : '0.3');
+          userLabels.forEach((label, i) => {
+            if (i % 2 === 0) label.style.opacity = userLineVisible ? '1' : '0.3';
+          });
+          const legendLine = item.querySelector('.legend-line-user-effort');
+          const legendText = item.querySelector('.legend-text-user-effort');
+          if (legendLine) legendLine.style.opacity = userLineVisible ? '1' : '0.3';
+          if (legendText) legendText.style.opacity = userLineVisible ? '1' : '0.5';
+        } else if (series === 'avg') {
+          avgLineVisible = !avgLineVisible;
+          const avgLine = svg.querySelector('.effort-avg-line');
+          const avgPath = svg.querySelector('path[fill="url(#effortAvgLineGradient)"]');
+          const avgPoints = svg.querySelectorAll('.chart-point-effort-avg');
+          const avgLabels = svg.querySelectorAll('.chart-value-label');
+          if (avgLine) avgLine.style.opacity = avgLineVisible ? '0.7' : '0.2';
+          if (avgPath) avgPath.style.opacity = avgLineVisible ? '1' : '0.2';
+          avgPoints.forEach(p => p.style.opacity = avgLineVisible ? '1' : '0.2');
+          avgLabels.forEach((label, i) => {
+            if (i % 2 === 1) label.style.opacity = avgLineVisible ? '1' : '0.2';
+          });
+          const legendLine = item.querySelector('.legend-line-avg-effort');
+          const legendText = item.querySelector('.legend-text-avg-effort');
+          if (legendLine) legendLine.style.opacity = avgLineVisible ? '0.7' : '0.2';
+          if (legendText) legendText.style.opacity = avgLineVisible ? '1' : '0.5';
+        }
       });
     });
   }

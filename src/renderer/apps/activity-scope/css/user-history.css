@@ -1341,10 +1341,10 @@ body {
   margin-bottom: 2rem;
 }
 
-/* Contenedor para gráficos principales (Rate y Percentil juntos) */
+/* Contenedor para gráficos principales (Rate, Percentil y Rate por Esfuerzo) */
 .user-history-charts-primary {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
   margin-bottom: 1.5rem;
 }
