@@ -658,6 +658,12 @@ class UserHistoryController {
     const user = this.usersIndex?.users?.find(u => u.login === login);
     
     if (user) {
+      // Mostrar contenedor principal
+      const userContainer = document.getElementById("selected-user-container");
+      if (userContainer) {
+        userContainer.style.display = "grid";
+      }
+      
       // Mostrar información del usuario con foto (similar a user-activity)
       const userInfoCard = document.getElementById("selected-user-info-card");
       if (userInfoCard) {
@@ -670,7 +676,21 @@ class UserHistoryController {
         const managerEl = document.getElementById("selected-user-manager");
         
         if (loginEl) loginEl.textContent = user.login || "-";
-        if (nameEl) nameEl.textContent = user.name || "-";
+        
+        // Formatear nombre: "Apellidos, Nombres" -> "Apellidos\nNombres"
+        if (nameEl && user.name) {
+          const nameParts = user.name.split(",");
+          if (nameParts.length === 2) {
+            const apellidos = nameParts[0].trim();
+            const nombres = nameParts[1].trim();
+            nameEl.innerHTML = `<span style="display:block;">${apellidos}</span><span style="display:block;">${nombres}</span>`;
+          } else {
+            nameEl.textContent = user.name;
+          }
+        } else if (nameEl) {
+          nameEl.textContent = "-";
+        }
+        
         if (shiftEl) shiftEl.textContent = user.shift || "N/A";
         if (managerEl) managerEl.textContent = user.manager || "N/A";
         
@@ -681,6 +701,9 @@ class UserHistoryController {
     
     // Cargar datos del usuario
     await this.loadUserData(login);
+    
+    // Actualizar métricas por período después de cargar los datos
+    this.updatePeriodMetrics();
     
     // Actualizar el select también
     const userSelect = document.getElementById("history-user-select");
@@ -715,6 +738,85 @@ class UserHistoryController {
         style="width:100%;height:100%;object-fit:cover;"
       />
     `;
+  }
+
+  /**
+   * Actualiza las métricas por período (artículos, horas, ranking, rate)
+   */
+  updatePeriodMetrics() {
+    if (!this.currentUserData) {
+      // Limpiar todas las métricas
+      this.clearPeriodMetrics();
+      return;
+    }
+
+    const periods = [
+      { key: "last_week", label: "week" },
+      { key: "last_month", label: "month" },
+      { key: "last_3_months", label: "3months" },
+      { key: "last_6_months", label: "6months" }
+    ];
+
+    periods.forEach(period => {
+      const periodData = this.currentUserData[period.key];
+      const combinedData = periodData?.each_stow?.combined;
+
+      // Artículos ubicados (total_units)
+      const unitsEl = document.getElementById(`metric-units-${period.label}`);
+      if (unitsEl) {
+        if (combinedData?.total_units !== undefined) {
+          unitsEl.textContent = combinedData.total_units.toLocaleString();
+        } else {
+          unitsEl.textContent = "-";
+        }
+      }
+
+      // Horas trabajadas (total_hours)
+      const hoursEl = document.getElementById(`metric-hours-${period.label}`);
+      if (hoursEl) {
+        if (combinedData?.total_hours !== undefined) {
+          hoursEl.textContent = combinedData.total_hours.toFixed(1) + "h";
+        } else {
+          hoursEl.textContent = "-";
+        }
+      }
+
+      // Ranking Combined
+      const rankEl = document.getElementById(`metric-rank-${period.label}`);
+      if (rankEl) {
+        if (combinedData?.rank !== undefined) {
+          const totalUsers = combinedData.total_users || 0;
+          rankEl.textContent = `#${combinedData.rank} / ${totalUsers}`;
+        } else {
+          rankEl.textContent = "-";
+        }
+      }
+
+      // Rate Combined
+      const rateEl = document.getElementById(`metric-rate-${period.label}`);
+      if (rateEl) {
+        if (combinedData?.rate !== undefined) {
+          rateEl.textContent = combinedData.rate.toFixed(2);
+        } else {
+          rateEl.textContent = "-";
+        }
+      }
+    });
+  }
+
+  /**
+   * Limpia todas las métricas por período
+   */
+  clearPeriodMetrics() {
+    const periods = ["week", "month", "3months", "6months"];
+    const metrics = ["units", "hours", "rank", "rate"];
+
+    periods.forEach(period => {
+      metrics.forEach(metric => {
+        const el = document.getElementById(`metric-${metric}-${period}`);
+        if (el) el.textContent = "-";
+      });
+    });
   }
 
   /**
@@ -967,11 +1069,14 @@ class UserHistoryController {
    * Muestra mensaje de selección de usuario y limpia los elementos
    */
   showUserSelectionMessage() {
-    // Ocultar tarjeta de información del usuario
-    const userInfoCard = document.getElementById("selected-user-info-card");
-    if (userInfoCard) {
-      userInfoCard.style.display = "none";
+    // Ocultar contenedor principal
+    const userContainer = document.getElementById("selected-user-container");
+    if (userContainer) {
+      userContainer.style.display = "none";
     }
+    
+    // Limpiar métricas por período
+    this.clearPeriodMetrics();
     
     // Limpiar todos los KPIs usando el método auxiliar
     this.updateKPIGroup(null, null, "combined");

@@ -734,17 +734,26 @@ body {
   color: var(--user-history-text-secondary);
 }
 
-/* Tarjeta de información del usuario con foto (similar a user-activity) */
+/* Contenedor principal para ficha y métricas (layout de 2 columnas) */
+.selected-user-container {
+  display: grid;
+  grid-template-columns: 35% 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  align-items: stretch; /* Ambas columnas con la misma altura */
+}
+
+/* Tarjeta de información del usuario con foto (columna izquierda) */
 .selected-user-info-card {
   background: var(--user-history-card-bg);
   border: 1px solid var(--user-history-border);
   border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
+  padding: 1.25rem;
   box-shadow: var(--user-history-shadow);
   display: flex;
-  gap: 1.5rem;
+  gap: 1.25rem;
   align-items: flex-start;
+  height: 100%; /* Ocupa toda la altura del contenedor */
 }
 
 .user-info-photo-section {
@@ -762,8 +771,9 @@ body {
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: bold;
+  flex-shrink: 0;
 }
 
 .user-photo-large img {
@@ -773,15 +783,17 @@ body {
 }
 
 .user-info-details-section {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.5rem;
+  justify-content: flex-start;
+  flex: 1;
+  min-width: 0;
 }
 
 .user-info-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.5rem;
 }
 
@@ -789,13 +801,96 @@ body {
   font-weight: 600;
   color: var(--user-history-text-secondary);
   font-size: 0.9rem;
-  min-width: 80px;
+  min-width: 75px;
+  flex-shrink: 0;
 }
 
 .user-info-value {
   color: var(--user-history-text-primary);
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 500;
+  word-break: break-word;
+  white-space: normal;
+  line-height: 1.5;
+}
+
+/* Panel de métricas (columna derecha) */
+.user-metrics-panel {
+  background: var(--user-history-card-bg);
+  border: 1px solid var(--user-history-border);
+  border-radius: 12px;
+  padding: 0.75rem;
+  box-shadow: var(--user-history-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0; /* Permite que se ajuste */
+  height: 100%; /* Ocupa toda la altura del contenedor */
+}
+
+.metrics-panel-title {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--user-history-text-primary);
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--user-history-border);
+}
+
+/* Tabla de métricas compacta */
+.user-metrics-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.user-metrics-table thead {
+  border-bottom: 2px solid var(--user-history-border);
+}
+
+.user-metrics-table th {
+  padding: 0.4rem 0.5rem;
+  text-align: left;
+  font-weight: 700;
+  color: var(--user-history-text-primary);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.metric-period-header {
+  width: 25%;
+}
+
+.metric-type-header {
+  text-align: center;
+}
+
+.user-metrics-table tbody tr {
+  border-bottom: 1px solid var(--user-history-border);
+}
+
+.user-metrics-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.user-metrics-table tbody tr:hover {
+  background: var(--user-history-bg);
+}
+
+.metric-period-label {
+  padding: 0.4rem 0.5rem;
+  font-weight: 600;
+  color: var(--user-history-text-secondary);
+  font-size: 0.8rem;
+}
+
+.metric-value-cell {
+  padding: 0.4rem 0.5rem;
+  text-align: center;
+  font-weight: 700;
+  color: var(--user-history-primary);
+  font-size: 0.85rem;
 }
 
 /* Tarjetas KPI compactas */

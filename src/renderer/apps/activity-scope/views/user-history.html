@@ -66,30 +66,79 @@
         </div>
       </div>
 
-      <!-- Información del usuario seleccionado (similar a user-activity) -->
-      <div id="selected-user-info-card" class="selected-user-info-card" style="display: none;">
-        <div class="user-info-photo-section">
-          <div class="user-photo-large" id="selected-user-photo">
-            <!-- Foto se cargará dinámicamente -->
+      <!-- Contenedor principal para ficha de usuario y métricas -->
+      <div id="selected-user-container" class="selected-user-container" style="display: none;">
+        <!-- Ficha usuario (columna izquierda) -->
+        <div id="selected-user-info-card" class="selected-user-info-card">
+          <div class="user-info-photo-section">
+            <div class="user-photo-large" id="selected-user-photo">
+              <!-- Foto se cargará dinámicamente -->
+            </div>
+          </div>
+          <div class="user-info-details-section">
+            <div class="user-info-row">
+              <span class="user-info-label">Login:</span>
+              <span class="user-info-value" id="selected-user-login">-</span>
+            </div>
+            <div class="user-info-row">
+              <span class="user-info-label">Nombre:</span>
+              <span class="user-info-value" id="selected-user-name">-</span>
+            </div>
+            <div class="user-info-row">
+              <span class="user-info-label">Turno:</span>
+              <span class="user-info-value" id="selected-user-shift">-</span>
+            </div>
+            <div class="user-info-row">
+              <span class="user-info-label">Manager:</span>
+              <span class="user-info-value" id="selected-user-manager">-</span>
+            </div>
           </div>
         </div>
-        <div class="user-info-details-section">
-          <div class="user-info-row">
-            <span class="user-info-label">Login:</span>
-            <span class="user-info-value" id="selected-user-login">-</span>
-          </div>
-          <div class="user-info-row">
-            <span class="user-info-label">Nombre:</span>
-            <span class="user-info-value" id="selected-user-name">-</span>
-          </div>
-          <div class="user-info-row">
-            <span class="user-info-label">Turno:</span>
-            <span class="user-info-value" id="selected-user-shift">-</span>
-          </div>
-          <div class="user-info-row">
-            <span class="user-info-label">Manager:</span>
-            <span class="user-info-value" id="selected-user-manager">-</span>
-          </div>
+
+        <!-- Panel de métricas (columna derecha) -->
+        <div class="user-metrics-panel">
+          <h4 class="metrics-panel-title">Métricas por Período</h4>
+          <table class="user-metrics-table">
+            <thead>
+              <tr>
+                <th class="metric-period-header">Período</th>
+                <th class="metric-type-header">Artículos</th>
+                <th class="metric-type-header">Horas</th>
+                <th class="metric-type-header">Rank</th>
+                <th class="metric-type-header">Rate</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="metric-period-label">Semana</td>
+                <td class="metric-value-cell" id="metric-units-week">-</td>
+                <td class="metric-value-cell" id="metric-hours-week">-</td>
+                <td class="metric-value-cell" id="metric-rank-week">-</td>
+                <td class="metric-value-cell" id="metric-rate-week">-</td>
+              </tr>
+              <tr>
+                <td class="metric-period-label">Mes</td>
+                <td class="metric-value-cell" id="metric-units-month">-</td>
+                <td class="metric-value-cell" id="metric-hours-month">-</td>
+                <td class="metric-value-cell" id="metric-rank-month">-</td>
+                <td class="metric-value-cell" id="metric-rate-month">-</td>
+              </tr>
+              <tr>
+                <td class="metric-period-label">3 Meses</td>
+                <td class="metric-value-cell" id="metric-units-3months">-</td>
+                <td class="metric-value-cell" id="metric-hours-3months">-</td>
+                <td class="metric-value-cell" id="metric-rank-3months">-</td>
+                <td class="metric-value-cell" id="metric-rate-3months">-</td>
+              </tr>
+              <tr>
+                <td class="metric-period-label">6 Meses</td>
+                <td class="metric-value-cell" id="metric-units-6months">-</td>
+                <td class="metric-value-cell" id="metric-hours-6months">-</td>
+                <td class="metric-value-cell" id="metric-rank-6months">-</td>
+                <td class="metric-value-cell" id="metric-rate-6months">-</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
