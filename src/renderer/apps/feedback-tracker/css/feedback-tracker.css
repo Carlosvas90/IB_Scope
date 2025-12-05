@@ -1,6 +1,5 @@
 /* Estilos específicos para Feedback Tracker */
 @import url("../../../css/themes/variables.css");
-@import url("../../../css/themes/variables2.css");
 
 /* Importar componente de header reutilizable */
 @import url("../../../css/header-component.css");
@@ -131,8 +130,8 @@ body {
 
 .btn svg {
   margin-right: var(--spacing-sm);
-  width: 1rem; /* 16px */
-  height: 1rem; /* 16px */
+  width: 1rem;
+  height: 1rem;
 }
 
 .btn:disabled {
@@ -162,7 +161,7 @@ body {
 .btn-primary,
 .btn-secondary {
   padding: var(--stats-spacing-sm) var(--stats-spacing-md);
-  border: 1px solid var(--stats-border-color);
+  border: 0.0625rem solid var(--stats-border-color);
   border-radius: var(--stats-radius-md);
   background: var(--stats-bg-primary);
   color: var(--Texto-Botones);
@@ -194,7 +193,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
-  min-width: 200px;
+  min-width: 12.5rem;
 }
 
 .filter-label {
@@ -211,7 +210,7 @@ body {
 
 .filter-btn {
   padding: var(--spacing-xs) var(--spacing-sm);
-  border: 1px solid var(--border-color);
+  border: 0.0625rem solid var(--border-color);
   background-color: var(--bg-main);
   color: var(--text-secondary);
   border-radius: var(--border-radius-sm);
@@ -220,7 +219,7 @@ body {
   cursor: pointer;
   transition: all var(--transition-fast);
   outline: none;
-  min-width: 70px;
+  min-width: 4.375rem;
   text-align: center;
 }
 
@@ -249,14 +248,14 @@ body {
 
 .filter-select {
   padding: var(--spacing-xs) var(--spacing-sm);
-  border: 1px solid var(--border-color);
+  border: 0.0625rem solid var(--border-color);
   background-color: var(--bg-main);
   color: var(--text-primary);
   border-radius: var(--border-radius-sm);
   font-size: var(--font-size-xs);
   cursor: pointer;
   outline: none;
-  min-width: 200px;
+  min-width: 12.5rem;
   transition: border-color var(--transition-fast);
 }
 
@@ -266,7 +265,7 @@ body {
 
 .filter-select:focus {
   border-color: var(--accent-blue);
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+  box-shadow: 0 0 0 0.125rem rgba(59, 130, 246, 0.1);
 }
 
 /* Resumen de estadísticas */
@@ -287,7 +286,7 @@ body {
   align-items: center;
   gap: var(--spacing-sm);
   padding-right: var(--spacing-md);
-  border-right: 1px solid var(--border-color);
+  border-right: 0.0625rem solid var(--border-color);
 }
 
 .stat-item:last-child {
@@ -355,7 +354,7 @@ body {
 .form-control {
   width: 100%;
   padding: var(--spacing-sm);
-  border: 1px solid var(--border-color);
+  border: 0.0625rem solid var(--border-color);
   border-radius: var(--border-radius-sm);
   background-color: var(--bg-main);
   color: var(--text-primary);
@@ -379,9 +378,9 @@ body {
 }
 
 .loading-spinner {
-  width: 20px;
-  height: 20px;
-  border: 2px solid var(--element-secondary);
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 0.125rem solid var(--element-secondary);
   border-top-color: var(--accent-blue);
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -425,11 +424,11 @@ body {
   background-color: var(--card-bg);
   border-radius: var(--border-radius-lg);
   width: 90%;
-  max-width: 31.25rem; /* 500px */
+  max-width: 31.25rem;
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: var(--box-shadow-lg);
-  transform: translateY(-20px);
+  transform: translateY(-1.25rem);
   transition: transform var(--transition-normal);
 }
 
@@ -442,7 +441,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: var(--spacing-lg);
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 0.0625rem solid var(--border-color);
 }
 
 .modal-header h2 {
@@ -513,7 +512,7 @@ body {
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 48rem) {
   .actions-bar {
     flex-direction: column;
     align-items: flex-start;
@@ -525,7 +524,7 @@ body {
 
   .stat-item {
     border-right: none;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 0.0625rem solid var(--border-color);
     padding-bottom: var(--spacing-sm);
   }
 
@@ -556,13 +555,13 @@ body {
   gap: var(--spacing-sm);
   margin-bottom: var(--spacing-lg);
   padding-bottom: var(--spacing-md);
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 0.0625rem solid var(--border-color);
 }
 
 .btn-not-error-action {
   flex: 1;
-  padding: 10px 16px;
-  border: 2px solid #f59e0b;
+  padding: 0.625rem 1rem;
+  border: 0.125rem solid #f59e0b;
   border-radius: var(--border-radius);
   background: #fffbeb;
   color: #92400e;
@@ -580,8 +579,8 @@ body {
 }
 
 .btn-not-error-action:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(-0.125rem);
+  box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.1);
 }
 
 .btn-not-error-action:active {
@@ -602,16 +601,16 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10000 !important; /* Por encima del modal de feedback */
-  backdrop-filter: blur(4px);
+  z-index: 10000 !important;
+  backdrop-filter: blur(0.25rem);
 }
 
 .modal-content-small {
   background: var(--card-background, #fff);
-  border-radius: var(--border-radius, 12px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  border-radius: var(--border-radius, 0.75rem);
+  box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.15);
   width: 90%;
-  max-width: 480px;
+  max-width: 30rem;
   max-height: 90vh;
   overflow: hidden;
   animation: modalSlideIn 0.2s ease-out;
@@ -621,7 +620,7 @@ body {
 
 .modal-header-confirm {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 20px 24px;
+  padding: 1.25rem 1.5rem;
   color: white;
 }
 
@@ -632,7 +631,7 @@ body {
 }
 
 .modal-body-confirm {
-  padding: 32px 24px;
+  padding: 2rem 1.5rem;
   font-size: 1rem;
   line-height: 1.6;
   color: var(--text-primary, #333);
@@ -643,21 +642,21 @@ body {
 }
 
 .modal-footer-confirm {
-  padding: 16px 24px;
+  padding: 1rem 1.5rem;
   display: flex;
-  gap: 12px;
+  gap: 0.75rem;
   justify-content: flex-end;
-  border-top: 1px solid var(--border-color, #e0e0e0);
+  border-top: 0.0625rem solid var(--border-color, #e0e0e0);
 }
 
 .btn-cancel {
-  padding: 10px 24px;
-  border: 2px solid #6c757d;
+  padding: 0.625rem 1.5rem;
+  border: 0.125rem solid #6c757d;
   background: transparent;
   color: #6c757d;
   font-weight: 600;
   font-size: 0.95rem;
-  border-radius: var(--border-radius, 8px);
+  border-radius: var(--border-radius, 0.5rem);
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -665,25 +664,25 @@ body {
 .btn-cancel:hover {
   background: #6c757d;
   color: white;
-  transform: translateY(-1px);
+  transform: translateY(-0.0625rem);
 }
 
 .btn-confirm {
-  padding: 10px 24px;
+  padding: 0.625rem 1.5rem;
   border: none;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   font-weight: 600;
   font-size: 0.95rem;
-  border-radius: var(--border-radius, 8px);
+  border-radius: var(--border-radius, 0.5rem);
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 0.25rem 0.75rem rgba(102, 126, 234, 0.3);
 }
 
 .btn-confirm:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+  transform: translateY(-0.125rem);
+  box-shadow: 0 0.375rem 1rem rgba(102, 126, 234, 0.4);
 }
 
 .btn-confirm:active,
@@ -704,7 +703,7 @@ body {
   align-items: center;
   gap: var(--spacing-md);
   padding: var(--spacing-md);
-  border: 2px solid var(--border-color);
+  border: 0.125rem solid var(--border-color);
   border-radius: var(--border-radius);
   background: var(--background-light);
   cursor: pointer;
@@ -722,7 +721,7 @@ body {
   display: block;
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 4px;
+  margin-bottom: 0.25rem;
 }
 
 .action-type-btn small {
@@ -734,8 +733,8 @@ body {
 .action-type-btn:hover {
   border-color: var(--color-primary);
   background: var(--color-primary-light);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-0.125rem);
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
 }
 
 .action-type-btn:active {
@@ -746,8 +745,8 @@ body {
 .btn-back {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
+  gap: 0.375rem;
+  padding: 0.5rem 0.75rem;
   border: none;
   background: transparent;
   color: var(--color-primary);
@@ -759,7 +758,7 @@ body {
 
 .btn-back:hover {
   background: var(--color-primary-light);
-  border-radius: 4px;
+  border-radius: 0.25rem;
 }
 
 .btn-back svg {
@@ -767,7 +766,7 @@ body {
 }
 
 .btn-back:hover svg {
-  transform: translateX(-3px);
+  transform: translateX(-0.1875rem);
 }
 
 /* Pasos del formulario */
@@ -778,7 +777,7 @@ body {
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(0.625rem);
   }
   to {
     opacity: 1;
@@ -790,16 +789,16 @@ body {
 .exception-info,
 .update-asin-info {
   background: #e0f2fe;
-  border-left: 4px solid #0284c7;
+  border-left: 0.25rem solid #0284c7;
   padding: var(--spacing-md);
-  border-radius: 4px;
+  border-radius: 0.25rem;
   margin-bottom: var(--spacing-md);
 }
 
 .exception-info p,
 .update-asin-info p {
   margin: 0;
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
 }
 
 .exception-info p:last-child,
@@ -821,13 +820,13 @@ body {
 }
 
 /* Responsive adjustments para botones de acción */
-@media (max-width: 768px) {
+@media (max-width: 48rem) {
   .action-type-btn {
     flex-direction: column;
     text-align: center;
   }
 
   .action-type-btn svg {
-    margin-bottom: 8px;
+    margin-bottom: 0.5rem;
   }
 }

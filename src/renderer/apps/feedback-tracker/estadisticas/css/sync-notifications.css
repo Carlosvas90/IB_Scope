@@ -6,16 +6,16 @@
 /* Contenedor principal de notificaciones */
 .sync-notification {
   position: fixed;
-  top: 80px;
-  right: 20px;
+  top: 5rem;
+  right: 1.25rem;
   background: var(--Color-Green-3, #10b981);
   color: white;
-  padding: 12px 20px;
-  border-radius: 8px;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
   box-shadow: var(
     --shadow-lg,
-    0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05)
+    0 0.625rem 0.9375rem -0.1875rem rgba(0, 0, 0, 0.1),
+    0 0.25rem 0.375rem -0.125rem rgba(0, 0, 0, 0.05)
   );
   z-index: 10000;
   font-family: var(
@@ -26,24 +26,24 @@
     Roboto,
     sans-serif
   );
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
-  min-width: 250px;
-  max-width: 350px;
+  min-width: 15.625rem;
+  max-width: 21.875rem;
   transition: all 0.3s ease;
-  border-left: 4px solid var(--Color-Green-4, #059669);
+  border-left: 0.25rem solid var(--Color-Green-4, #059669);
 }
 
 /* Contenido de la notificación */
 .sync-notification-content {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 0.75rem;
 }
 
 /* Icono de la notificación */
 .sync-notification-icon {
-  font-size: 18px;
+  font-size: 1.125rem;
   flex-shrink: 0;
 }
 
@@ -58,10 +58,10 @@
   background: none;
   border: none;
   color: white;
-  font-size: 16px;
+  font-size: 1rem;
   cursor: pointer;
-  padding: 4px;
-  border-radius: 4px;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
   transition: background-color 0.2s ease;
   flex-shrink: 0;
 }
@@ -73,7 +73,7 @@
 /* Animaciones */
 @keyframes slideIn {
   from {
-    transform: translateX(400px);
+    transform: translateX(25rem);
     opacity: 0;
   }
   to {
@@ -88,7 +88,7 @@
     opacity: 1;
   }
   to {
-    transform: translateX(400px);
+    transform: translateX(25rem);
     opacity: 0;
   }
 }
@@ -124,11 +124,11 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 48rem) {
   .sync-notification {
-    top: 60px;
-    right: 10px;
-    left: 10px;
+    top: 3.75rem;
+    right: 0.625rem;
+    left: 0.625rem;
     min-width: auto;
     max-width: none;
   }
@@ -139,8 +139,8 @@
   .sync-notification {
     background: var(--Color-Green-4, #059669);
     color: var(--Color-Gray-1, #f9fafb);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3),
-      0 4px 6px -2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0.625rem 0.9375rem -0.1875rem rgba(0, 0, 0, 0.3),
+      0 0.25rem 0.375rem -0.125rem rgba(0, 0, 0, 0.2);
   }
 
   .sync-notification.success {
@@ -164,10 +164,10 @@
 .sync-indicator {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 12px;
+  gap: 0.375rem;
+  font-size: 0.75rem;
   color: var(--Color-Gray-6, #6b7280);
-  margin-left: 12px;
+  margin-left: 0.75rem;
 }
 
 .sync-indicator.active {
@@ -175,8 +175,8 @@
 }
 
 .sync-indicator-icon {
-  width: 8px;
-  height: 8px;
+  width: 0.5rem;
+  height: 0.5rem;
   border-radius: 50%;
   background: currentColor;
   animation: pulse 2s infinite;
@@ -200,12 +200,12 @@
 .sync-status::after {
   content: "";
   position: absolute;
-  top: -2px;
-  right: -2px;
-  width: 8px;
-  height: 8px;
+  top: -0.125rem;
+  right: -0.125rem;
+  width: 0.5rem;
+  height: 0.5rem;
   background: var(--Color-Green-5, #10b981);
   border-radius: 50%;
-  border: 2px solid white;
+  border: 0.125rem solid white;
   animation: pulse 2s infinite;
 }

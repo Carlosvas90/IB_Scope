@@ -16,20 +16,20 @@
 }
 
 .selected-for-batch .status-btn {
-  box-shadow: 0 0 0 2px var(--accent-blue, #3b82f6);
+  box-shadow: 0 0 0 0.125rem var(--accent-blue, #3b82f6);
 }
 
 /* Contador de selección */
 .selection-counter {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 1.25rem;
+  right: 1.25rem;
   background-color: var(--accent-blue, #3b82f6);
   color: white;
-  padding: 8px 16px;
-  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  border-radius: 1.25rem;
   font-weight: 600;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.2);
   z-index: 1000;
   display: none;
   animation: fadeIn 0.3s ease-in-out;
@@ -39,7 +39,7 @@
 .btn-info {
   background-color: var(--accent-blue, #3b82f6);
   color: white;
-  border: 1px solid var(--accent-blue, #3b82f6);
+  border: 0.0625rem solid var(--accent-blue, #3b82f6);
 }
 
 .btn-info:hover {
@@ -59,17 +59,17 @@
 .multi-select-mode .status-btn::after {
   content: "+";
   position: absolute;
-  top: -5px;
-  right: -5px;
+  top: -0.3125rem;
+  right: -0.3125rem;
   background-color: var(--accent-blue, #3b82f6);
   color: white;
-  width: 16px;
-  height: 16px;
+  width: 1rem;
+  height: 1rem;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 0.75rem;
   opacity: 0;
   transform: scale(0.8);
   transition: opacity 0.2s ease, transform 0.2s ease;
@@ -84,7 +84,7 @@
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(0.625rem);
   }
   to {
     opacity: 1;
@@ -95,36 +95,36 @@
 /* Estilos para el modal de actualización por lotes */
 .batch-selection-info {
   background-color: rgba(59, 130, 246, 0.1);
-  border-left: 4px solid var(--accent-blue, #3b82f6);
-  padding: 12px;
-  margin-bottom: 16px;
-  border-radius: 4px;
+  border-left: 0.25rem solid var(--accent-blue, #3b82f6);
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 0.25rem;
 }
 
 .selection-warning {
   color: var(--text-warning, #f59e0b);
   font-weight: 500;
-  margin-top: 8px;
+  margin-top: 0.5rem;
 }
 
 /* Botón de feedback por lotes */
 .batch-feedback-btn {
   position: fixed;
-  bottom: 20px;
-  right: 220px;
+  bottom: 1.25rem;
+  right: 13.75rem;
   background-color: var(--accent-success, #10b981);
   color: white;
-  border: 1px solid var(--accent-success, #10b981);
-  padding: 8px 16px;
-  border-radius: 20px;
+  border: 0.0625rem solid var(--accent-success, #10b981);
+  padding: 0.5rem 1rem;
+  border-radius: 1.25rem;
   font-weight: 600;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.2);
   z-index: 1000;
   display: none;
   animation: fadeIn 0.3s ease-in-out;
   cursor: pointer;
   transition: background-color 0.2s ease;
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 .batch-feedback-btn:hover {
@@ -132,21 +132,21 @@
 }
 
 .batch-feedback-btn svg {
-  margin-right: 6px;
+  margin-right: 0.375rem;
 }
 
 /* Botón para cancelar selección */
 .cancel-selection {
   position: fixed;
-  bottom: 20px;
-  right: 400px;
+  bottom: 1.25rem;
+  right: 25rem;
   background-color: var(--bg-main, #ffffff);
   color: var(--text-secondary);
-  border: 1px solid var(--border-color);
-  padding: 8px 16px;
-  border-radius: 20px;
+  border: 0.0625rem solid var(--border-color);
+  padding: 0.5rem 1rem;
+  border-radius: 1.25rem;
   font-weight: 500;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
   z-index: 1000;
   display: none;
   animation: fadeIn 0.3s ease-in-out;

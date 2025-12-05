@@ -2,13 +2,12 @@
 
 /* Import variables only once at the top */
 @import url("../../../css/themes/variables.css");
-@import url("../../../css/themes/variables2.css");
 /* Base table container - simplified */
 .table-container {
   width: calc(100% - var(--spacing-lg) * 2);
   overflow-x: auto;
   border-radius: var(--border-radius-md);
-  border: 1px solid var(--border-color);
+  border: 0.0625rem solid var(--border-color);
   margin: 0 var(--spacing-lg) 2rem;
   position: relative;
 }
@@ -33,14 +32,14 @@
   background-color: var(--Fondo-tabla);
   color: var(--text-primary);
   font-weight: 600;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 0.0625rem solid var(--border-color);
   white-space: nowrap;
 }
 
 /* Row styles - simplified */
 .data-table tbody tr {
   transition: background-color var(--transition-fast);
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 0.0625rem solid var(--border-color);
 }
 
 .data-table tbody tr:last-child {
@@ -54,7 +53,7 @@
 /* Cell styles - simplified */
 .data-table td {
   padding: var(--spacing-md);
-  border-right: 1px solid var(--border-color);
+  border-right: 0.0625rem solid var(--border-color);
   vertical-align: middle;
   color: var(--texto-tabla);
 }
@@ -88,7 +87,7 @@
 }
 
 .status-btn:hover {
-  transform: translateY(-1px);
+  transform: translateY(-0.0625rem);
 }
 
 .status-btn:active {
@@ -118,12 +117,12 @@
 
 /* Icon styles - combined */
 .status-icon {
-  width: 1rem; /* 16px */
-  height: 1rem; /* 16px */
+  width: 1rem;
+  height: 1rem;
 }
 
 .status-cell {
-  min-width: 7.5rem; /* 120px */
+  min-width: 7.5rem;
 }
 
 /* Links styling */
@@ -150,7 +149,7 @@
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.2s, visibility 0.2s;
-  max-width: 10rem; /* 160px */
+  max-width: 10rem;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -161,8 +160,8 @@
 }
 
 .user-image-container {
-  width: 9rem; /* 144px */
-  height: 12rem; /* 192px */
+  width: 9rem;
+  height: 12rem;
   overflow: hidden;
   border-radius: var(--border-radius-sm);
   display: flex;
@@ -183,7 +182,7 @@
   border-left: 0.5rem solid transparent;
   border-right: 0.5rem solid transparent;
   border-bottom: 0.5rem solid var(--popup-bg, white);
-  top: -0.5rem; /* -8px */
+  top: -0.5rem;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -209,7 +208,7 @@
 /* Details grid - simplified */
 .details-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr));
   gap: var(--spacing-md);
   color: var(--texto-tabla-secundario);
 }
@@ -233,15 +232,15 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  max-height: 150px;
+  max-height: 9.375rem;
   overflow-y: auto;
-  border: 1px solid var(--border-color);
+  border: 0.0625rem solid var(--border-color);
   border-radius: var(--border-radius-sm);
 }
 
 .occurrences-list li {
   padding: var(--spacing-xs) var(--spacing-sm);
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 0.0625rem solid var(--border-color);
   font-size: var(--font-size-xs);
 }
 
@@ -259,9 +258,9 @@
 }
 
 .loading-spinner {
-  width: 20px;
-  height: 20px;
-  border: 2px solid var(--element-secondary, #eee);
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 0.125rem solid var(--element-secondary, #eee);
   border-top-color: var(--accent-blue, #2196f3);
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -281,7 +280,7 @@
 }
 
 /* Responsive adjustments - simplified */
-@media (max-width: 768px) {
+@media (max-width: 48rem) {
   .data-table {
     font-size: var(--font-size-xs);
   }

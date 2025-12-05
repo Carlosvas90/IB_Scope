@@ -4,7 +4,6 @@
  */
 
 @import url("../../../css/themes/variables.css");
-@import url("../../../css/themes/variables2.css");
 /* Fondo del modal */
 .modal {
   display: none;
@@ -32,11 +31,11 @@
   border-radius: var(--border-radius-lg);
   box-shadow: var(--box-shadow-lg);
   width: 90%;
-  max-width: 31.25rem; /* 500px */
+  max-width: 31.25rem;
   max-height: 90%;
   display: flex;
   flex-direction: column;
-  transform: translateY(-20px);
+  transform: translateY(-1.25rem);
   transition: transform var(--transition-normal);
   overflow: hidden;
 }
@@ -48,7 +47,7 @@
 /* Encabezado del modal */
 .modal-header {
   padding: var(--spacing-md) var(--spacing-lg);
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 0.0625rem solid var(--border-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -101,7 +100,7 @@
 #feedback-form .form-control {
   width: 100%;
   padding: var(--spacing-sm);
-  border: 1px solid var(--border-color);
+  border: 0.0625rem solid var(--border-color);
   border-radius: var(--border-radius-sm);
   background-color: var(--bg-main);
   color: var(--text-primary);
@@ -110,7 +109,7 @@
 
 #feedback-form textarea.form-control {
   resize: vertical;
-  min-height: 6.25rem; /* 100px */
+  min-height: 6.25rem;
 }
 
 /* Estilos para la sección de errores similares */
@@ -119,7 +118,7 @@
   padding: var(--spacing-md);
   background-color: var(--bg-secondary);
   border-radius: var(--border-radius-md);
-  border: 1px solid var(--border-color);
+  border: 0.0625rem solid var(--border-color);
 }
 
 .similar-errors-header h3 {
@@ -138,11 +137,11 @@
   padding: var(--spacing-sm);
   background-color: var(--bg-main);
   border-radius: var(--border-radius-sm);
-  border-left: 3px solid var(--color-info);
+  border-left: 0.1875rem solid var(--color-info);
 }
 
 .similar-errors-details {
-  max-height: 200px;
+  max-height: 12.5rem;
   overflow-y: auto;
   margin-bottom: var(--spacing-md);
 }
@@ -155,14 +154,14 @@
   margin-bottom: var(--spacing-xs);
   background-color: var(--bg-main);
   border-radius: var(--border-radius-sm);
-  border: 1px solid var(--border-color);
+  border: 0.0625rem solid var(--border-color);
   font-size: var(--font-size-xs);
 }
 
 .similar-error-info {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 0.125rem;
   flex: 1;
 }
 
@@ -184,7 +183,7 @@
 .similar-error-quantity {
   background-color: var(--color-warning);
   color: white;
-  padding: 2px 6px;
+  padding: 0.125rem 0.375rem;
   border-radius: var(--border-radius-sm);
   font-size: 0.7rem;
   font-weight: 600;
@@ -198,7 +197,7 @@
   padding: var(--spacing-sm);
   background-color: var(--bg-main);
   border-radius: var(--border-radius-sm);
-  border: 1px solid var(--border-color);
+  border: 0.0625rem solid var(--border-color);
 }
 
 .similar-errors-info p {
@@ -206,7 +205,7 @@
 }
 
 /* Responsivo */
-@media (max-width: 768px) {
+@media (max-width: 48rem) {
   .modal-content {
     width: 95%;
     max-height: 80%;
