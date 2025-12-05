@@ -90,22 +90,39 @@ class StowMapDataService {
 
       const results = await Promise.all(promises);
       
-      // Almacenar en caché
+      let hasValidData = false;
+      
+      // Almacenar en caché y validar
       results.forEach(result => {
         if (result.success) {
           const key = result.file.replace('.json', '');
           this.dataCache[key] = result.data;
-          console.log(`[StowMapDataService] ✓ Cargado: ${result.file}`);
+          
+          // Validar que los datos no estén vacíos
+          if (result.data && typeof result.data === 'object' && Object.keys(result.data).length > 0) {
+            hasValidData = true;
+            console.log(`[StowMapDataService] ✓ Cargado: ${result.file} (${Object.keys(result.data).length} claves)`);
+          } else {
+            console.warn(`[StowMapDataService] ⚠️ ${result.file} está vacío o no es válido`);
+          }
         } else {
-          console.warn(`[StowMapDataService] ✗ Error: ${result.file}`, result.error);
+          console.error(`[StowMapDataService] ✗ Error cargando ${result.file}:`, result.error);
         }
       });
 
-      this.isLoaded = true;
-      console.log('[StowMapDataService] Todos los datos cargados en caché');
-      return true;
+      // Solo marcar como cargado si hay datos válidos
+      if (hasValidData) {
+        this.isLoaded = true;
+        console.log('[StowMapDataService] ✓ Todos los datos cargados y validados en caché');
+        return true;
+      } else {
+        console.error('[StowMapDataService] ✗ No se cargaron datos válidos');
+        this.isLoaded = false;
+        return false;
+      }
     } catch (error) {
       console.error('[StowMapDataService] Error al cargar datos:', error);
+      this.isLoaded = false;
       return false;
     }
   }
@@ -174,10 +191,24 @@ class StowMapDataService {
   }
 
   /**
-   * Verifica si los datos están cargados
+   * Verifica si los datos están cargados y son válidos
    */
   isDataLoaded() {
-    return this.isLoaded && Object.keys(this.dataCache).length > 0;
+    if (!this.isLoaded) {
+      return false;
+    }
+    
+    if (Object.keys(this.dataCache).length === 0) {
+      return false;
+    }
+    
+    // Verificar que Data_Fullness existe y tiene datos
+    const dataFullness = this.dataCache['Data_Fullness'];
+    if (!dataFullness || typeof dataFullness !== 'object' || Object.keys(dataFullness).length === 0) {
+      return false;
+    }
+    
+    return true;
   }
 
   /**

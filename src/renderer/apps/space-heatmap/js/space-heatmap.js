@@ -465,14 +465,79 @@ function initSpaceHeatmap() {
 // FUNCIONES DE VISUALIZACIÓN DE DATOS
 // ===================================
 
+// Función auxiliar para mostrar mensaje de estado al usuario
+function showDataLoadStatus(message, type = 'info') {
+  const statusText = document.getElementById('status-text');
+  const statusIcon = document.getElementById('status-icon');
+  
+  if (statusText) {
+    statusText.textContent = message;
+  }
+  
+  if (statusIcon) {
+    if (type === 'error') {
+      statusIcon.textContent = '❌';
+    } else if (type === 'success') {
+      statusIcon.textContent = '✅';
+    } else if (type === 'loading') {
+      statusIcon.textContent = '⏳';
+    } else {
+      statusIcon.textContent = '📊';
+    }
+  }
+  
+  console.log(`[Estado] ${message}`);
+}
+
+// Función auxiliar para mostrar mensaje de error visible
+function showErrorMessage(message) {
+  const tablesSection = document.getElementById('tables-section');
+  if (tablesSection) {
+    // Crear o actualizar mensaje de error
+    let errorMessage = document.getElementById('data-load-error-message');
+    if (!errorMessage) {
+      errorMessage = document.createElement('div');
+      errorMessage.id = 'data-load-error-message';
+      errorMessage.style.cssText = `
+        padding: 1.5rem;
+        margin: 1rem;
+        background-color: var(--Color-Red-1, #fee2e2);
+        color: var(--Color-Red-5, #991b1b);
+        border: 0.125rem solid var(--Color-Red-3, #ef4444);
+        border-radius: 0.5rem;
+        text-align: center;
+        font-weight: 500;
+      `;
+      tablesSection.insertBefore(errorMessage, tablesSection.firstChild);
+    }
+    errorMessage.textContent = `⚠️ ${message}`;
+    errorMessage.style.display = 'block';
+  }
+  
+  showDataLoadStatus(message, 'error');
+}
+
 async function loadAndDisplayData() {
   try {
-    console.log('[Visualización] Intentando cargar datos procesados...');
+    console.log('[Visualización] ===== Iniciando carga de datos =====');
+    showDataLoadStatus('Cargando datos...', 'loading');
     
-    // Esperar a que el servicio esté disponible (con timeout)
+    // Verificar que los elementos DOM críticos existan
+    const kpisSection = document.getElementById('kpis-section');
+    const tablesSection = document.getElementById('tables-section');
+    
+    if (!kpisSection || !tablesSection) {
+      const errorMsg = 'Elementos del DOM no encontrados. Por favor, recarga la página.';
+      console.error('[Visualización]', errorMsg);
+      showErrorMessage(errorMsg);
+      return false;
+    }
+    
+    // Esperar a que el servicio esté disponible (con timeout aumentado)
     let attempts = 0;
-    const maxAttempts = 50; // 5 segundos máximo
+    const maxAttempts = 100; // 10 segundos máximo (aumentado de 50)
     
+    console.log('[Visualización] Esperando StowMapDataService...');
     while (!window.StowMapDataService && attempts < maxAttempts) {
       await new Promise(resolve => setTimeout(resolve, 100));
       attempts++;
@@ -480,65 +545,195 @@ async function loadAndDisplayData() {
     
     // Verificar que el servicio esté disponible
     if (!window.StowMapDataService) {
-      console.error('[Visualización] StowMapDataService no está disponible después de esperar');
+      const errorMsg = 'Servicio de datos no disponible. Por favor, reinicia la aplicación.';
+      console.error('[Visualización]', errorMsg);
       console.error('[Visualización] window.StowMapDataService:', window.StowMapDataService);
+      showErrorMessage(errorMsg);
       return false;
     }
     
-    console.log('[Visualización] StowMapDataService encontrado');
+    console.log('[Visualización] ✓ StowMapDataService encontrado');
     
     const dataService = window.StowMapDataService;
     
-    // Inicializar y cargar datos
+    // Verificar que el servicio esté completamente inicializado
+    if (typeof dataService.initialize !== 'function' || typeof dataService.loadAll !== 'function') {
+      const errorMsg = 'Servicio de datos no está completamente inicializado.';
+      console.error('[Visualización]', errorMsg);
+      showErrorMessage(errorMsg);
+      return false;
+    }
+    
+    // Inicializar el servicio
+    console.log('[Visualización] Inicializando servicio...');
     const initialized = await dataService.initialize();
     if (!initialized) {
-      console.warn('[Visualización] No se pudo inicializar el servicio');
+      const errorMsg = 'No se pudo inicializar el servicio de datos. Verifica los permisos.';
+      console.warn('[Visualización]', errorMsg);
+      showErrorMessage(errorMsg);
       return false;
     }
     
+    console.log('[Visualización] ✓ Servicio inicializado');
+    
+    // Cargar datos
+    console.log('[Visualización] Cargando datos procesados...');
     const loaded = await dataService.loadAll();
-    if (!loaded || !dataService.isDataLoaded()) {
-      console.warn('[Visualización] No hay datos procesados disponibles');
+    
+    if (!loaded) {
+      const errorMsg = 'No se pudieron cargar los datos. Verifica que los archivos procesados existan.';
+      console.warn('[Visualización]', errorMsg);
+      showErrorMessage(errorMsg);
       return false;
     }
     
-    console.log('[Visualización] Datos cargados exitosamente');
+    // Verificar que los datos realmente se cargaron
+    if (!dataService.isDataLoaded()) {
+      const errorMsg = 'Los datos no se marcaron como cargados correctamente.';
+      console.warn('[Visualización]', errorMsg);
+      showErrorMessage(errorMsg);
+      return false;
+    }
     
-    // Cargar cada sección
-    displayKPIs(dataService);
-    displayPickTowerTable(dataService);
-    displayHighRackTable(dataService);
-    displayHighRackPalletSingleTable(dataService);
-    displayPalletLandTable(dataService);
-    displayZone1Table(dataService);
-    displayZone2Table(dataService);
-    setupTableNavigation();
-    setupHeatmapButtons();
-    loadBintypeIcons();
-    loadKpiIcons();
-    loadBannerIcon();
+    // Verificar que hay datos en caché
+    const dataFullness = dataService.getDataFullness();
+    if (!dataFullness || Object.keys(dataFullness).length === 0) {
+      const errorMsg = 'Los datos están vacíos. Por favor, descarga y procesa los datos nuevamente.';
+      console.warn('[Visualización]', errorMsg);
+      console.warn('[Visualización] dataFullness:', dataFullness);
+      showErrorMessage(errorMsg);
+      return false;
+    }
+    
+    // Verificar que hay datos válidos (al menos VLC1 o algún piso)
+    const hasValidData = dataFullness['VLC1'] || 
+                         dataFullness['P1-Total'] || 
+                         dataFullness['P2-Total'] ||
+                         Object.keys(dataFullness).length > 0;
+    
+    if (!hasValidData) {
+      const errorMsg = 'Los datos no contienen información válida. Por favor, descarga los datos nuevamente.';
+      console.warn('[Visualización]', errorMsg);
+      console.warn('[Visualización] Claves disponibles:', Object.keys(dataFullness));
+      showErrorMessage(errorMsg);
+      return false;
+    }
+    
+    console.log('[Visualización] ✓ Datos cargados y validados exitosamente');
+    console.log('[Visualización] Claves de datos disponibles:', Object.keys(dataFullness).slice(0, 10), '...');
+    
+    // Ocultar mensaje de error si existe
+    const errorMessage = document.getElementById('data-load-error-message');
+    if (errorMessage) {
+      errorMessage.style.display = 'none';
+    }
+    
+    // Cargar cada sección con validación
+    try {
+      displayKPIs(dataService);
+      console.log('[Visualización] ✓ KPIs renderizados');
+    } catch (error) {
+      console.error('[Visualización] Error renderizando KPIs:', error);
+    }
+    
+    try {
+      displayPickTowerTable(dataService);
+      console.log('[Visualización] ✓ Tabla Pick Tower renderizada');
+    } catch (error) {
+      console.error('[Visualización] Error renderizando Pick Tower:', error);
+    }
+    
+    try {
+      displayHighRackTable(dataService);
+      console.log('[Visualización] ✓ Tabla High Rack renderizada');
+    } catch (error) {
+      console.error('[Visualización] Error renderizando High Rack:', error);
+    }
+    
+    try {
+      displayHighRackPalletSingleTable(dataService);
+      console.log('[Visualización] ✓ Tabla High Rack Pallet Single renderizada');
+    } catch (error) {
+      console.error('[Visualización] Error renderizando High Rack Pallet Single:', error);
+    }
+    
+    try {
+      displayPalletLandTable(dataService);
+      console.log('[Visualización] ✓ Tabla Pallet Land renderizada');
+    } catch (error) {
+      console.error('[Visualización] Error renderizando Pallet Land:', error);
+    }
+    
+    try {
+      displayZone1Table(dataService);
+      console.log('[Visualización] ✓ Tabla Zone 1 renderizada');
+    } catch (error) {
+      console.error('[Visualización] Error renderizando Zone 1:', error);
+    }
+    
+    try {
+      displayZone2Table(dataService);
+      console.log('[Visualización] ✓ Tabla Zone 2 renderizada');
+    } catch (error) {
+      console.error('[Visualización] Error renderizando Zone 2:', error);
+    }
+    
+    // Configurar navegación y botones
+    try {
+      setupTableNavigation();
+      setupHeatmapButtons();
+      loadBintypeIcons();
+      loadKpiIcons();
+      loadBannerIcon();
+      console.log('[Visualización] ✓ Elementos de UI configurados');
+    } catch (error) {
+      console.error('[Visualización] Error configurando UI:', error);
+    }
     
     // Mostrar secciones
-    const kpisSection = document.getElementById('kpis-section');
-    const tablesSection = document.getElementById('tables-section');
+    if (kpisSection) {
+      kpisSection.style.display = 'grid';
+      console.log('[Visualización] ✓ Sección KPIs mostrada');
+    }
     
-    if (kpisSection) kpisSection.style.display = 'grid';
-    if (tablesSection) tablesSection.style.display = 'block';
+    if (tablesSection) {
+      tablesSection.style.display = 'block';
+      console.log('[Visualización] ✓ Sección de tablas mostrada');
+    }
+    
+    showDataLoadStatus('Datos cargados correctamente', 'success');
+    console.log('[Visualización] ===== Carga de datos completada exitosamente =====');
     
     return true;
   } catch (error) {
-    console.error('[Visualización] Error al cargar datos:', error);
+    const errorMsg = `Error inesperado al cargar datos: ${error.message}`;
+    console.error('[Visualización]', errorMsg, error);
+    console.error('[Visualización] Stack trace:', error.stack);
+    showErrorMessage(errorMsg);
     return false;
   }
 }
 
 function displayKPIs(dataService) {
+  // Validar que el servicio y los datos existen
+  if (!dataService) {
+    console.error('[KPIs] DataService no proporcionado');
+    return;
+  }
+  
   // Usar KPIs desde Data_Fullness.json (VLC1)
   const dataFullness = dataService.getDataFullness();
+  
+  if (!dataFullness || typeof dataFullness !== 'object' || Object.keys(dataFullness).length === 0) {
+    console.warn('[KPIs] DataFullness está vacío o no es válido');
+    return;
+  }
+  
   const vlc1 = dataFullness['VLC1'];
   
   if (!vlc1 || !vlc1.datos) {
     console.warn('[KPIs] No hay datos de VLC1 en Data_Fullness');
+    console.warn('[KPIs] Claves disponibles:', Object.keys(dataFullness));
     return;
   }
   
@@ -589,10 +784,22 @@ function displayKPIs(dataService) {
 }
 
 function displayPickTowerTable(dataService) {
+  // Validar que el servicio y los datos existen
+  if (!dataService) {
+    console.error('[Pick Tower] DataService no proporcionado');
+    return;
+  }
+  
   const dataFullness = dataService.getDataFullness();
+  
+  if (!dataFullness || typeof dataFullness !== 'object' || Object.keys(dataFullness).length === 0) {
+    console.warn('[Pick Tower] DataFullness está vacío o no es válido');
+    return;
+  }
+  
   const tbody = document.getElementById('pick-tower-table-body');
   if (!tbody) {
-    console.warn('[Pick Tower] Tabla no encontrada');
+    console.error('[Pick Tower] Elemento tbody no encontrado en el DOM');
     return;
   }
   
@@ -692,11 +899,23 @@ function getPercentageClass(value) {
 }
 
 function displayHighRackTable(dataService) {
-  const dataFullness = dataService.getDataFullness();
-  const tbody = document.getElementById('high-rack-table-body');
+  // Validar que el servicio y los datos existen
+  if (!dataService) {
+    console.error('[High Rack] DataService no proporcionado');
+    return;
+  }
   
+  const dataFullness = dataService.getDataFullness();
+  
+  if (!dataFullness || typeof dataFullness !== 'object' || Object.keys(dataFullness).length === 0) {
+    console.warn('[High Rack] DataFullness está vacío o no es válido');
+    return;
+  }
+  
+  const tbody = document.getElementById('high-rack-table-body');
+
   if (!tbody) {
-    console.warn('[High Rack] Tabla no encontrada');
+    console.error('[High Rack] Elemento tbody no encontrado en el DOM');
     return;
   }
   
@@ -773,12 +992,24 @@ function displayHighRackTable(dataService) {
 }
 
 function displayHighRackPalletSingleTable(dataService) {
+  // Validar que el servicio y los datos existen
+  if (!dataService) {
+    console.error('[High Rack Pallet Single] DataService no proporcionado');
+    return;
+  }
+  
   const dataFullness = dataService.getDataFullness();
+  
+  if (!dataFullness || typeof dataFullness !== 'object' || Object.keys(dataFullness).length === 0) {
+    console.warn('[High Rack Pallet Single] DataFullness está vacío o no es válido');
+    return;
+  }
+  
   const tbody = document.getElementById('hrk-pallet-single-table-body');
   const shelfTbody = document.getElementById('hrk-pallet-single-shelf-table-body');
-  
+
   if (!tbody || !shelfTbody) {
-    console.warn('[High Rack Pallet Single] Tablas no encontradas');
+    console.error('[High Rack Pallet Single] Elementos tbody no encontrados en el DOM');
     return;
   }
   
@@ -877,11 +1108,23 @@ function displayHighRackPalletSingleTable(dataService) {
 }
 
 function displayPalletLandTable(dataService) {
-  const dataFullness = dataService.getDataFullness();
-  const tbody = document.getElementById('pallet-land-table-body');
+  // Validar que el servicio y los datos existen
+  if (!dataService) {
+    console.error('[Pallet Land] DataService no proporcionado');
+    return;
+  }
   
+  const dataFullness = dataService.getDataFullness();
+  
+  if (!dataFullness || typeof dataFullness !== 'object' || Object.keys(dataFullness).length === 0) {
+    console.warn('[Pallet Land] DataFullness está vacío o no es válido');
+    return;
+  }
+  
+  const tbody = document.getElementById('pallet-land-table-body');
+
   if (!tbody) {
-    console.warn('[Pallet Land] Tabla no encontrada');
+    console.error('[Pallet Land] Elemento tbody no encontrado en el DOM');
     return;
   }
   
@@ -1025,12 +1268,24 @@ function setupTableNavigation() {
 }
 
 function displayZone1Table(dataService) {
+  // Validar que el servicio y los datos existen
+  if (!dataService) {
+    console.error('[Zone 1] DataService no proporcionado');
+    return;
+  }
+  
   const dataFullness = dataService.getDataFullness();
+  
+  if (!dataFullness || typeof dataFullness !== 'object' || Object.keys(dataFullness).length === 0) {
+    console.warn('[Zone 1] DataFullness está vacío o no es válido');
+    return;
+  }
+  
   const tbody = document.getElementById('zone1-table-body');
   const shelfTbody = document.getElementById('zone1-shelf-table-body');
-  
+
   if (!tbody || !shelfTbody) {
-    console.warn('[Zone 1] Tablas no encontradas');
+    console.error('[Zone 1] Elementos tbody no encontrados en el DOM');
     return;
   }
   
@@ -1143,12 +1398,24 @@ function displayZone1Table(dataService) {
 }
 
 function displayZone2Table(dataService) {
+  // Validar que el servicio y los datos existen
+  if (!dataService) {
+    console.error('[Zone 2] DataService no proporcionado');
+    return;
+  }
+  
   const dataFullness = dataService.getDataFullness();
+  
+  if (!dataFullness || typeof dataFullness !== 'object' || Object.keys(dataFullness).length === 0) {
+    console.warn('[Zone 2] DataFullness está vacío o no es válido');
+    return;
+  }
+  
   const tbody = document.getElementById('zone2-table-body');
   const shelfTbody = document.getElementById('zone2-shelf-table-body');
-  
+
   if (!tbody || !shelfTbody) {
-    console.warn('[Zone 2] Tablas no encontradas');
+    console.error('[Zone 2] Elementos tbody no encontrados en el DOM');
     return;
   }
   
@@ -1881,6 +2148,24 @@ function setupHeatmapModal() {
 // Función para inicializar la aplicación
 function initializeSpaceHeatmap() {
   console.log("🔧 Inicializando Space Heatmap...");
+  
+  // Verificar que los elementos DOM críticos existan antes de continuar
+  const kpisSection = document.getElementById('kpis-section');
+  const tablesSection = document.getElementById('tables-section');
+  
+  if (!kpisSection || !tablesSection) {
+    console.warn('[Space Heatmap] Elementos DOM no encontrados, esperando 200ms...');
+    setTimeout(() => {
+      if (document.getElementById('kpis-section') && document.getElementById('tables-section')) {
+        initializeSpaceHeatmap();
+      } else {
+        console.error('[Space Heatmap] No se pudieron encontrar los elementos DOM después de esperar');
+        showErrorMessage('Error: No se encontraron los elementos necesarios. Por favor, recarga la página.');
+      }
+    }, 200);
+    return;
+  }
+  
   initSpaceHeatmap();
   // Cargar banner inmediatamente
   loadBannerIcon();
@@ -1902,10 +2187,25 @@ window.addEventListener("app:ready", (event) => {
   console.log("📢 Evento app:ready recibido:", event.detail);
   if (event.detail && event.detail.app === "space-heatmap") {
     console.log("🔄 Space Heatmap cargada de nuevo, reinicializando...");
-    // Pequeño delay para asegurar que el DOM esté completamente listo
+    // Delay aumentado para asegurar que el DOM esté completamente listo
     setTimeout(() => {
-      initializeSpaceHeatmap();
-    }, 300);
+      // Verificar que los elementos DOM existan antes de inicializar
+      const kpisSection = document.getElementById('kpis-section');
+      const tablesSection = document.getElementById('tables-section');
+      
+      if (kpisSection && tablesSection) {
+        initializeSpaceHeatmap();
+      } else {
+        console.warn('[Space Heatmap] Elementos DOM no listos, reintentando en 200ms...');
+        setTimeout(() => {
+          if (document.getElementById('kpis-section') && document.getElementById('tables-section')) {
+            initializeSpaceHeatmap();
+          } else {
+            console.error('[Space Heatmap] No se pudieron encontrar los elementos DOM después de múltiples intentos');
+          }
+        }, 200);
+      }
+    }, 500); // Aumentado de 300ms a 500ms
   }
 });
 
@@ -1914,11 +2214,28 @@ window.addEventListener("app:loaded", (event) => {
   console.log("📢 Evento app:loaded recibido:", event.detail);
   if (event.detail && event.detail.app === "space-heatmap") {
     console.log("🔄 Space Heatmap cargada, reinicializando datos...");
-    // Pequeño delay para asegurar que el DOM esté completamente listo
+    // Delay aumentado para asegurar que el DOM esté completamente listo
     setTimeout(() => {
-      // Solo recargar datos, no reinicializar todo (para evitar duplicar listeners)
-      loadBannerIcon();
-      loadAndDisplayData();
-    }, 300);
+      // Verificar que los elementos DOM existan antes de cargar datos
+      const kpisSection = document.getElementById('kpis-section');
+      const tablesSection = document.getElementById('tables-section');
+      
+      if (kpisSection && tablesSection) {
+        // Solo recargar datos, no reinicializar todo (para evitar duplicar listeners)
+        loadBannerIcon();
+        loadAndDisplayData();
+      } else {
+        console.warn('[Space Heatmap] Elementos DOM no listos, reintentando en 200ms...');
+        setTimeout(() => {
+          if (document.getElementById('kpis-section') && document.getElementById('tables-section')) {
+            loadBannerIcon();
+            loadAndDisplayData();
+          } else {
+            console.error('[Space Heatmap] No se pudieron encontrar los elementos DOM después de múltiples intentos');
+            showErrorMessage('Error: No se encontraron los elementos necesarios. Por favor, recarga la página.');
+          }
+        }, 200);
+      }
+    }, 500); // Aumentado de 300ms a 500ms
   }
 });
