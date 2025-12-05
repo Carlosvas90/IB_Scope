@@ -315,6 +315,37 @@ class AdminPanel {
     return displayNames[appName] || appName;
   }
 
+  getViewDisplayName(appName, viewName) {
+    // Mapeo de nombres de vistas a nombres de display
+    const viewDisplayNames = {
+      "space-heatmap": {
+        "Dashboard": "Dashboard",
+        "p1": "Dashboard", // Retrocompatibilidad
+        "P1": "Dashboard", // Retrocompatibilidad
+        "p2": "P2",
+        "P2": "P2",
+        "p3": "P3",
+        "p4": "P4",
+        "p5": "P5",
+        "high-rack": "High Rack",
+        "pallet-land": "Pallet Land",
+      },
+      "Inventory-Healt": {
+        "Incidencias": "Incidencias",
+        "Estadisticas": "Estadísticas",
+        "Errors": "Incidencias", // Retrocompatibilidad
+      },
+    };
+
+    // Si hay un mapeo específico para esta app y vista, usarlo
+    if (viewDisplayNames[appName] && viewDisplayNames[appName][viewName]) {
+      return viewDisplayNames[appName][viewName];
+    }
+
+    // Si no hay mapeo, devolver el nombre original
+    return viewName;
+  }
+
   renderUserCard(user) {
     const permissionTags = Object.entries(user.permissions)
       .map(([app, perm]) => {
@@ -322,7 +353,9 @@ class AdminPanel {
           perm.type === "full" ? "permission-tag" : "permission-tag partial";
         const displayName = this.getAppDisplayName(app);
         const viewsText =
-          perm.type === "full" ? "" : ` (${perm.views.join(", ")})`;
+          perm.type === "full"
+            ? ""
+            : ` (${perm.views.map((v) => this.getViewDisplayName(app, v)).join(", ")})`;
         return `<span class="${className}">${displayName}${viewsText}</span>`;
       })
       .join("");
@@ -758,7 +791,7 @@ class AdminPanel {
             <div class="permission-checkbox">
               <input type="checkbox" id="view_${appName}_${viewName}" name="views" value="${appName}:${viewName}" ${checked}>
               <label for="view_${appName}_${viewName}">${
-                viewName === "*" ? "Acceso general" : viewName
+                viewName === "*" ? "Acceso general" : this.getViewDisplayName(appName, viewName)
               }</label>
             </div>
           `;
