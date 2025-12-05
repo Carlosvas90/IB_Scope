@@ -1,0 +1,187 @@
+{
+  "_admin_roles": {
+    "master": [
+      "chuecc",
+      "carlo"
+    ],
+    "admins": []
+  },
+  "dashboard": [
+    "carlo",
+    "guiltgar",
+    "rubemira",
+    "delgcrub",
+    "agrjorge",
+    "pdelolmo",
+    "juanfelv",
+    "fpinamon",
+    "mmilkova",
+    "barcenil",
+    "chuecc"
+  ],
+  "shift-tasks": [
+    "chuecc"
+  ],
+  "feedback-tracker": {
+    "*": [
+      "carlo",
+      "guiltgar",
+      "rubemira",
+      "delgcrub",
+      "agrjorge",
+      "pdelolmo",
+      "juanfelv",
+      "fpinamon",
+      "mmilkova",
+      "barcenil",
+      "chuecc"
+    ],
+    "Errors": [
+      "carlo",
+      "guiltgar",
+      "rubemira",
+      "delgcrub",
+      "agrjorge",
+      "pdelolmo",
+      "juanfelv",
+      "fpinamon",
+      "mmilkova",
+      "barcenil",
+      "chuecc"
+    ]
+  },
+  "Inventory-Healt": {
+    "*": [
+      "carlo",
+      "guiltgar",
+      "rubemira",
+      "delgcrub",
+      "agrjorge",
+      "pdelolmo",
+      "juanfelv",
+      "fpinamon",
+      "mmilkova",
+      "barcenil",
+      "chuecc"
+    ],
+    "Incidencias": [
+      "carlo",
+      "guiltgar",
+      "rubemira",
+      "delgcrub",
+      "agrjorge",
+      "pdelolmo",
+      "juanfelv",
+      "fpinamon",
+      "mmilkova",
+      "barcenil",
+      "chuecc"
+    ],
+    "Estadisticas": [
+      "carlo",
+      "guiltgar",
+      "rubemira",
+      "delgcrub",
+      "agrjorge",
+      "pdelolmo",
+      "juanfelv",
+      "fpinamon",
+      "mmilkova",
+      "barcenil",
+      "chuecc"
+    ]
+  },
+  "utilidades": {
+    "*": [],
+    "pizarra": [
+      "carlo"
+    ],
+    "imanes": [
+      "carlo"
+    ]
+  },
+  "idle-time": {
+    "*": [
+      "chuecc"
+    ],
+    "desviaciones": [],
+    "corecciones": []
+  },
+  "activity-scope": [
+    "pdelolmo",
+    "juanfelv",
+    "mmilkova",
+    "chuecc"
+  ],
+  "space-heatmap": {
+    "*": [
+      "carlo",
+      "pdelolmo",
+      "juanfelv",
+      "mmilkova",
+      "chuecc"
+    ],
+    "p1": [
+      "pdelolmo",
+      "juanfelv",
+      "mmilkova"
+    ],
+    "p2": [],
+    "p3": [],
+    "p4": [],
+    "p5": [],
+    "high-rack": [],
+    "pallet-land": [],
+    "P1": [
+      "carlo"
+    ],
+    "P2": [
+      "carlo"
+    ]
+  },
+  "dock-control": [
+    "chuecc"
+  ],
+  "_groups": {
+    "Leads": [
+      "juanfelv",
+      "abragut"
+    ]
+  },
+  "_user_groups": {
+    "groups": {
+      "1749558535826": {
+        "name": "Leads",
+        "description": "",
+        "color": "#3B82F6",
+        "created": "2025-06-10T12:28:55.826Z",
+        "modified": "2025-06-10T12:28:55.826Z"
+      },
+      "1749558669608": {
+        "name": "Managers",
+        "description": "",
+        "color": "#10B981",
+        "created": "2025-06-10T12:31:09.608Z",
+        "modified": "2025-06-10T12:31:09.608Z"
+      },
+      "1749558677806": {
+        "name": "Ops",
+        "description": "",
+        "color": "#F59E0B",
+        "created": "2025-06-10T12:31:17.806Z",
+        "modified": "2025-06-10T12:31:17.806Z"
+      },
+      "1749558697645": {
+        "name": "Admin",
+        "description": "",
+        "color": "#EF4444",
+        "created": "2025-06-10T12:31:37.645Z",
+        "modified": "2025-06-10T12:31:37.645Z"
+      }
+    },
+    "assignments": {
+      "chuecc": "1749558697645",
+      "carlo": "1749558697645"
+    }
+  }
+}

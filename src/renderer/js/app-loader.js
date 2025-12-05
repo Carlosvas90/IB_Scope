@@ -17,22 +17,18 @@ class AppLoader {
         initializer: "initDashboard",
         styles: ["../apps/dashboard/css/dashboard.css"],
       },
-      "feedback-tracker": {
-        name: "Feedback Tracker",
-        description: "Seguimiento y gestión de errores",
+      "Inventory-Healt": {
+        name: "Inventory Health",
+        description: "Seguimiento y gestión de incidencias y estadísticas",
         icon: "alert-triangle",
         initializer: "initFeedbackTracker",
         styles: [
           "../apps/feedback-tracker/css/feedback-tracker.css",
           "../apps/feedback-tracker/css/table.css",
+          "../apps/feedback-tracker/estadisticas/css/estadisticas.css",
+          "../apps/feedback-tracker/estadisticas/css/modular-charts.css",
+          "../apps/feedback-tracker/estadisticas/css/sync-notifications.css",
         ],
-      },
-      estadisticas: {
-        name: "Estadísticas",
-        description: "Dashboard de estadísticas de errores",
-        icon: "bar-chart-2",
-        initializer: "initEstadisticas",
-        styles: ["../apps/feedback-tracker/estadisticas/css/estadisticas.css"],
       },
       "inventory-stats": {
         name: "Stats",
@@ -186,7 +182,17 @@ class AppLoader {
       this.enableAppStyles(app);
     }
 
-    // Inicializar la aplicación
+    // Para vistas especiales (como Estadisticas), el router ya cargó el script necesario
+    // No necesitamos llamar al initializer de la app principal
+    const isSpecialView = view === "Estadisticas";
+    
+    if (isSpecialView) {
+      console.log(`Vista especial detectada: ${view}. El script fue cargado por el router.`);
+      this.currentApp = app;
+      return;
+    }
+
+    // Inicializar la aplicación normalmente para otras vistas
     this.initializeApp(app, view);
   }
 
@@ -216,7 +222,7 @@ class AppLoader {
         } else if (href.includes("activity-scope") || href.includes("user-activity")) {
           detectedApp = "activity-scope";
         } else if (href.includes("feedback-tracker")) {
-          detectedApp = "feedback-tracker";
+          detectedApp = "Inventory-Healt";
         } else if (href.includes("dashboard")) {
           detectedApp = "dashboard";
         } else if (href.includes("pizarra")) {

@@ -28,19 +28,19 @@ class Router {
         path: "../apps/shift-tasks/views/shift-tasks.html",
         scripts: ["../apps/shift-tasks/js/shift-tasks.js"],
       },
-      "feedback-tracker": {
+      "Inventory-Healt": {
         path: "../apps/feedback-tracker/views/index.html",
         views: {
-          errors: "#errors-view",
+          Incidencias: "#errors-view",
+          Estadisticas: {
+            path: "../apps/feedback-tracker/estadisticas/views/Estadisticas.html",
+            scripts: ["../apps/feedback-tracker/estadisticas/js/estadisticas.js"]
+          },
           settings: "#settings-view",
         },
-        defaultView: "errors",
+        defaultView: "Incidencias",
         scripts: ["../apps/feedback-tracker/js/feedback-tracker.js"],
         hasSubmenu: true,
-      },
-      estadisticas: {
-        path: "../apps/feedback-tracker/estadisticas/views/Estadisticas.html",
-        scripts: ["../apps/feedback-tracker/estadisticas/js/estadisticas.js"],
       },
       "inventory-stats": {
         path: "../apps/feedback-tracker/stats/views/stats.html",
@@ -244,9 +244,36 @@ class Router {
     // PERO aún así emitir eventos para que la app pueda reinicializarse si es necesario
     if (this.currentApp === appName && this.loadedApps[appName]) {
       if (viewName) {
-        await this.changeView(viewName);
+        // Verificar si es una vista especial que necesita cargar su propio HTML
+        const viewConfig = app.views && app.views[viewName];
+        const isSpecialView = typeof viewConfig === 'object' && viewConfig.path;
+        
+        if (isSpecialView) {
+          // Para vistas especiales (como Estadisticas), cargar la app completa
+          this.loadApp(appName, app.path, viewName, updateHistory);
+          return true;
+        } else {
+          // Para vistas normales (como Incidencias), necesitamos verificar
+          // si estamos viniendo de una vista especial
+          // Si es así, necesitamos recargar el HTML base
+          const currentViewConfig = app.views && app.views[this.currentView];
+          const wasSpecialView = typeof currentViewConfig === 'object' && currentViewConfig.path;
+          
+          if (wasSpecialView) {
+            // Recargar la app completa para volver al HTML base
+            console.log("🔄 Volviendo de vista especial a vista normal, recargando HTML base...");
+            this.loadApp(appName, app.path, viewName, updateHistory);
+            return true;
+          }
+          
+          // Si ya estamos en el HTML base, solo cambiar vista internamente
+          this.updateActiveLink(appName, viewName);
+          
+          // Emitir evento para que la app cambie internamente
+          this.emitEvent("view:changed", { app: appName, view: viewName });
+        }
       }
-      // Emitir eventos para permitir reinicialización (útil para apps como space-heatmap)
+      // Emitir eventos para permitir reinicialización
       this.emitEvent("app:loaded", { app: appName, view: viewName });
       setTimeout(() => {
         this.emitEvent("app:ready", { app: appName, view: viewName });
@@ -789,9 +816,13 @@ class Router {
 
     console.log(`📋 Vistas disponibles:`, app.views);
 
-    // Para activity-scope, cargar directamente el archivo HTML de la vista
-    if (this.currentApp === "activity-scope") {
-      const viewPath = app.views[viewName];
+    // Obtener la configuración de la vista
+    const viewConfig = app.views[viewName];
+    const isSpecialView = typeof viewConfig === 'object' && viewConfig.path;
+
+    // Para vistas especiales con path propio (activity-scope, Estadisticas en Inventory-Healt, etc.)
+    if (this.currentApp === "activity-scope" || (this.currentApp === "Inventory-Healt" && isSpecialView)) {
+      const viewPath = isSpecialView ? viewConfig.path : viewConfig;
       console.log(`🎯 Cargando vista desde archivo:`, viewPath);
 
       try {
@@ -819,65 +850,159 @@ class Router {
           document.dispatchEvent(viewLoadedEvent);
           console.log(`📢 Evento view:loaded disparado para: ${viewName}`);
 
-          // Cargar el CSS correspondiente si existe
-          const cssPath = `../apps/activity-scope/css/${viewName}.css`;
-          const existingLink = document.querySelector(
-            `link[href="${cssPath}"]`
-          );
+          // Cargar CSS para activity-scope
+          if (this.currentApp === "activity-scope") {
+            const cssPath = `../apps/activity-scope/css/${viewName}.css`;
+            const existingLink = document.querySelector(
+              `link[href="${cssPath}"]`
+            );
 
-          if (!existingLink) {
-            try {
-              const link = document.createElement("link");
-              link.rel = "stylesheet";
-              link.href = cssPath;
-              link.setAttribute("data-app", "activity-scope"); // Agregar atributo data-app
+            if (!existingLink) {
+              try {
+                const link = document.createElement("link");
+                link.rel = "stylesheet";
+                link.href = cssPath;
+                link.setAttribute("data-app", "activity-scope");
 
-              // Esperar a que se cargue el CSS
-              await new Promise((resolve, reject) => {
-                link.onload = () => {
-                  console.log(`✅ CSS cargado: ${cssPath}`);
-                  resolve();
-                };
-                link.onerror = () => {
-                  console.warn(`⚠️ No se pudo cargar CSS: ${cssPath}`);
-                  resolve(); // No rechazar, continuar de todos modos
-                };
-                document.head.appendChild(link);
-              });
-            } catch (cssError) {
-              console.warn(`⚠️ Error al cargar CSS: ${cssPath}`, cssError);
+                await new Promise((resolve, reject) => {
+                  link.onload = () => {
+                    console.log(`✅ CSS cargado: ${cssPath}`);
+                    resolve();
+                  };
+                  link.onerror = () => {
+                    console.warn(`⚠️ No se pudo cargar CSS: ${cssPath}`);
+                    resolve();
+                  };
+                  document.head.appendChild(link);
+                });
+              } catch (cssError) {
+                console.warn(`⚠️ Error al cargar CSS: ${cssPath}`, cssError);
+              }
+            } else {
+              existingLink.setAttribute("data-app", "activity-scope");
+              existingLink.media = "all";
+              console.log(`✅ CSS ya cargado: ${cssPath}`);
             }
-          } else {
-            // Si ya existe, asegurar que tenga el atributo data-app y esté habilitado
-            existingLink.setAttribute("data-app", "activity-scope");
-            existingLink.media = "all";
-            console.log(`✅ CSS ya cargado: ${cssPath}`);
           }
 
-          // Cargar el script correspondiente si existe (solo una vez)
-          const scriptPath = `../apps/activity-scope/js/${viewName}.js`;
-          const scriptId = `activity-scope-${viewName}-script`;
-          const existingScript = document.getElementById(scriptId);
+          // Cargar scripts específicos si existen
+          const scriptsToLoad = isSpecialView && viewConfig.scripts ? viewConfig.scripts : 
+                               (this.currentApp === "activity-scope" ? [`../apps/activity-scope/js/${viewName}.js`] : []);
+          
+          for (const scriptPath of scriptsToLoad) {
+            const scriptId = `${this.currentApp}-${viewName}-script-${scriptPath.replace(/[^a-z0-9]/gi, '-')}`;
+            const existingScript = document.getElementById(scriptId);
 
-          if (!existingScript) {
-            try {
-              const scriptResponse = await fetch(scriptPath);
-              if (scriptResponse.ok) {
-                const scriptText = await scriptResponse.text();
+            if (!existingScript) {
+              try {
                 const script = document.createElement("script");
                 script.id = scriptId;
-                script.textContent = scriptText;
-                document.head.appendChild(script);
-                console.log(`✅ Script cargado: ${scriptPath}`);
+                script.type = "module";
+                script.src = scriptPath;
+                
+                await new Promise((resolve, reject) => {
+                  script.onload = () => {
+                    console.log(`✅ Script cargado: ${scriptPath}`);
+                    resolve();
+                  };
+                  script.onerror = () => {
+                    console.warn(`⚠️ No se pudo cargar script: ${scriptPath}`);
+                    resolve();
+                  };
+                  document.body.appendChild(script);
+                });
+                
+                // Inicializar scripts específicos después de cargarlos
+                if (this.currentApp === "Inventory-Healt" && viewName === "Estadisticas") {
+                  // El contenedor ya está oculto desde el HTML con opacity: 0
+                  const estadisticasContainer = document.querySelector('.estadisticas-container');
+                  
+                  // Esperar a que el DOM esté completamente renderizado
+                  await new Promise(resolve => setTimeout(resolve, 100));
+                  
+                  if (typeof window.initEstadisticas === "function") {
+                    console.log("🚀 Inicializando estadisticas...");
+                    try {
+                      await window.initEstadisticas();
+                      console.log("✅ Estadisticas inicializado correctamente");
+                      
+                      // Forzar redimensionamiento de gráficos después de inicializar
+                      await new Promise(resolve => setTimeout(resolve, 150));
+                      
+                      if (typeof window.resizeEstadisticasCharts === "function") {
+                        window.resizeEstadisticasCharts();
+                        console.log("✅ Gráficos redimensionados");
+                      }
+                      
+                      // Mostrar el contenedor con transición suave
+                      if (estadisticasContainer) {
+                        estadisticasContainer.style.opacity = '1';
+                      }
+                    } catch (error) {
+                      console.error("❌ Error al inicializar estadisticas:", error);
+                      // Mostrar el contenedor incluso si hay error
+                      if (estadisticasContainer) {
+                        estadisticasContainer.style.opacity = '1';
+                      }
+                    }
+                  } else {
+                    console.warn("⚠️ window.initEstadisticas no está disponible");
+                    // Mostrar el contenedor
+                    if (estadisticasContainer) {
+                      estadisticasContainer.style.opacity = '1';
+                    }
+                  }
+                }
+              } catch (scriptError) {
+                console.warn(
+                  `⚠️ Error al cargar script: ${scriptPath}`,
+                  scriptError
+                );
               }
-            } catch (scriptError) {
-              console.warn(
-                `⚠️ No se pudo cargar script: ${scriptPath}`,
-                scriptError
-              );
+            } else {
+              console.log(`✅ Script ya cargado: ${scriptPath}`);
+              
+              // Si el script ya estaba cargado pero necesita reinicializarse
+              if (this.currentApp === "Inventory-Healt" && viewName === "Estadisticas") {
+                // El contenedor ya está oculto desde el HTML
+                const estadisticasContainer = document.querySelector('.estadisticas-container');
+                
+                // Asegurar que esté oculto antes de reinicializar
+                if (estadisticasContainer) {
+                  estadisticasContainer.style.opacity = '0';
+                }
+                
+                // Esperar a que el DOM se actualice
+                await new Promise(resolve => setTimeout(resolve, 100));
+                
+                if (typeof window.initEstadisticas === "function") {
+                  console.log("🔄 Reinicializando estadisticas...");
+                  try {
+                    await window.initEstadisticas();
+                    console.log("✅ Estadisticas reinicializado correctamente");
+                    
+                    // Forzar redimensionamiento después de reinicializar
+                    await new Promise(resolve => setTimeout(resolve, 150));
+                    
+                    if (typeof window.resizeEstadisticasCharts === "function") {
+                      window.resizeEstadisticasCharts();
+                      console.log("✅ Gráficos redimensionados");
+                    }
+                    
+                    // Mostrar el contenedor con transición suave
+                    if (estadisticasContainer) {
+                      estadisticasContainer.style.opacity = '1';
+                    }
+                  } catch (error) {
+                    console.error("❌ Error al reinicializar estadisticas:", error);
+                    // Mostrar el contenedor incluso si hay error
+                    if (estadisticasContainer) {
+                      estadisticasContainer.style.opacity = '1';
+                    }
+                  }
+                }
+              }
             }
-          } else {
-            console.log(`✅ Script ya cargado: ${scriptPath}`);
           }
 
           // Actualizar enlace activo

@@ -9,18 +9,13 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/date-fns@2.29.3/index.min.js"></script>
 
-    <!-- Estilos -->
-    <link rel="stylesheet" href="../css/estadisticas.css" />
-    <!-- NUEVO: Estilos para sistema modular -->
-    <link rel="stylesheet" href="../css/modular-charts.css" />
-    <!-- FASE 3: Estilos para notificaciones de sincronización -->
-    <link rel="stylesheet" href="../css/sync-notifications.css" />
-
+    <!-- Los estilos se cargan automáticamente por el router/app-loader -->
+    
     <!-- ECharts Library -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
   </head>
   <body>
-    <div class="estadisticas-container">
+    <div class="estadisticas-container" style="opacity: 0; transition: opacity 0.3s ease;">
       <!-- Header -->
       <header class="estadisticas-header">
         <h1>
@@ -52,7 +47,6 @@
             <label for="date-range">Período:</label>
             <select id="date-range">
               <option value="0" selected>Hoy</option>
-              <option value="1">Ayer</option>
               <option value="3">Últimos 3 días</option>
               <option value="7">Última semana</option>
               <option value="30">Último mes</option>

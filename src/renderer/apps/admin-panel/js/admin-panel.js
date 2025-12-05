@@ -11,8 +11,6 @@ class AdminPanel {
     this.userRole = null;
     this.isEditing = false;
     this.editingUser = null;
-    this.virtualGroups = null;
-    this.useVirtualGroups = true;
 
     this.init();
   }
@@ -50,37 +48,9 @@ class AdminPanel {
       if (!this.permisosData) {
         throw new Error("No se pudieron cargar los permisos");
       }
-
-      // Cargar configuración de grupos virtuales
-      await this.loadVirtualGroupsConfig();
     } catch (error) {
       console.error("Error al cargar permisos:", error);
       throw error;
-    }
-  }
-
-  async loadVirtualGroupsConfig() {
-    try {
-      const configPath = "config/permission-groups.json";
-      const result = await window.api.readJson(configPath);
-
-      if (result && result.success) {
-        this.virtualGroups = result.data;
-        console.log(
-          "Configuración de grupos virtuales cargada:",
-          this.virtualGroups
-        );
-      } else {
-        console.warn(
-          "No se pudo cargar la configuración de grupos virtuales, usando vista tradicional"
-        );
-        this.virtualGroups = null;
-        this.useVirtualGroups = false;
-      }
-    } catch (error) {
-      console.warn("Error al cargar grupos virtuales:", error);
-      this.virtualGroups = null;
-      this.useVirtualGroups = false;
     }
   }
 
@@ -335,9 +305,8 @@ class AdminPanel {
   getAppDisplayName(appName) {
     const displayNames = {
       dashboard: "Dashboard",
-      "feedback-tracker": "Inventory Health",
+      "Inventory-Healt": "Inventory Health",
       "shift-tasks": "Shift Tasks",
-      estadisticas: "Estadísticas",
       "activity-scope": "Activity Scope",
       "idle-time": "Idle Time",
       "space-heatmap": "Space HeatMap",
@@ -747,135 +716,7 @@ class AdminPanel {
     const container = document.getElementById("app-permissions");
     if (!container) return;
 
-    if (this.useVirtualGroups && this.virtualGroups) {
-      this.populateVirtualGroupPermissions(username);
-    } else {
-      this.populateTraditionalPermissions(username);
-    }
-  }
-
-  populateVirtualGroupPermissions(username = null) {
-    const container = document.getElementById("app-permissions");
-    const userPermissions = username ? this.getUserPermissions(username) : {};
-
-    // Agregar botón para cambiar a vista tradicional
-    const headerHtml = `
-      <div class="permissions-header">
-        <div class="permissions-title">
-          <h3>Permisos por Categorías</h3>
-        </div>
-        <button type="button" class="btn btn-small btn-secondary" onclick="adminPanel.togglePermissionView()">
-          Vista Tradicional
-        </button>
-      </div>
-    `;
-
-    const groupsHtml = Object.entries(this.virtualGroups.virtualGroups)
-      .map(([groupId, group]) => {
-        const groupPermissions = this.getUserVirtualGroupPermissions(
-          userPermissions,
-          group
-        );
-        const allSelected = groupPermissions.allSelected;
-        const partialSelected = groupPermissions.partialSelected;
-
-        const groupHeaderClass = allSelected
-          ? "group-header selected"
-          : partialSelected
-          ? "group-header partial"
-          : "group-header";
-
-        const bulkActionsHtml = Object.entries(group.bulkActions || {})
-          .map(([actionId, action]) => {
-            const actionSelected = this.isBulkActionSelected(
-              userPermissions,
-              action
-            );
-            return `
-                <div class="permission-checkbox">
-                  <input type="checkbox" 
-                         id="bulk_${groupId}_${actionId}" 
-                         name="bulkActions" 
-                         value="${groupId}:${actionId}" 
-                         ${actionSelected ? "checked" : ""}
-                         onchange="adminPanel.handleBulkActionChange('${groupId}', '${actionId}', this.checked)">
-                  <label for="bulk_${groupId}_${actionId}">
-                    ${action.name}
-                  </label>
-                </div>
-              `;
-          })
-          .join("");
-
-        const permissionsHtml = group.permissions
-          .map((permission) => {
-            const appPermisos = this.permisosData[permission.app];
-            const userHasApp = userPermissions[permission.app] || {};
-
-            if (permission.views.includes("*") || Array.isArray(appPermisos)) {
-              // Permiso completo para la app
-              const checked = userHasApp.type === "full" ? "checked" : "";
-              return `
-                <div class="permission-item">
-                  <div class="permission-app">${permission.displayName}</div>
-                  <div class="permission-checkbox">
-                    <input type="checkbox" 
-                           id="vapp_${permission.app}" 
-                           name="apps" 
-                           value="${permission.app}" 
-                           ${checked}>
-                    <label for="vapp_${permission.app}">Acceso completo</label>
-                  </div>
-                </div>
-              `;
-            } else {
-              // Permisos específicos por vista
-              const viewsHtml = permission.views
-                .map((viewName) => {
-                  const checked =
-                    userHasApp.views && userHasApp.views.includes(viewName)
-                      ? "checked"
-                      : "";
-                  return `
-                    <div class="permission-checkbox">
-                      <input type="checkbox" 
-                             id="vview_${permission.app}_${viewName}" 
-                             name="views" 
-                             value="${permission.app}:${viewName}" 
-                             ${checked}>
-                      <label for="vview_${permission.app}_${viewName}">${viewName}</label>
-                    </div>
-                  `;
-                })
-                .join("");
-
-              return `
-                <div class="permission-item">
-                  <div class="permission-app">${permission.displayName}</div>
-                  ${viewsHtml}
-                </div>
-              `;
-            }
-          })
-          .join("");
-
-        return `
-          <div class="group-section">
-            <h4 class="group-title">${group.name}</h4>
-            ${
-              bulkActionsHtml
-                ? `<div class="bulk-action-row">${bulkActionsHtml}</div>`
-                : ""
-            }
-            <div class="permissions-grid">
-              ${permissionsHtml}
-            </div>
-          </div>
-        `;
-      })
-      .join("");
-
-    container.innerHTML = headerHtml + groupsHtml;
+    this.populateTraditionalPermissions(username);
   }
 
   populateTraditionalPermissions(username = null) {
@@ -885,19 +726,8 @@ class AdminPanel {
       (key) => !key.startsWith("_")
     );
 
-    // Agregar botón para cambiar a vista por grupos (si están disponibles)
-    const headerHtml = this.virtualGroups
-      ? `
-      <div class="permissions-header">
-        <div class="permissions-title">
-          <h3>Permisos Tradicionales</h3>
-        </div>
-        <button type="button" class="btn btn-small btn-secondary" onclick="adminPanel.togglePermissionView()">
-          Vista por Categorías
-        </button>
-      </div>
-    `
-      : '<div class="permissions-header"><h3>Permisos de Aplicación</h3></div>';
+    // Header sin botón de cambio de vista
+    const headerHtml = '<h3 style="margin-bottom: 1rem; color: var(--text-color-three);">Permisos de Aplicación</h3>';
 
     const appsHtml = apps
       .map((appName) => {
@@ -954,93 +784,6 @@ class AdminPanel {
     return user ? user.permissions : {};
   }
 
-  // Funciones auxiliares para grupos virtuales
-  togglePermissionView() {
-    this.useVirtualGroups = !this.useVirtualGroups;
-    this.populateUserPermissions(this.editingUser);
-  }
-
-  getUserVirtualGroupPermissions(userPermissions, group) {
-    let totalPermissions = 0;
-    let userHasPermissions = 0;
-
-    group.permissions.forEach((permission) => {
-      const userHasApp = userPermissions[permission.app] || {};
-
-      if (permission.views.includes("*")) {
-        totalPermissions += 1;
-        if (userHasApp.type === "full") {
-          userHasPermissions += 1;
-        }
-      } else {
-        permission.views.forEach((view) => {
-          totalPermissions += 1;
-          if (userHasApp.views && userHasApp.views.includes(view)) {
-            userHasPermissions += 1;
-          }
-        });
-      }
-    });
-
-    return {
-      allSelected:
-        userHasPermissions === totalPermissions && totalPermissions > 0,
-      partialSelected:
-        userHasPermissions > 0 && userHasPermissions < totalPermissions,
-      userHasPermissions,
-      totalPermissions,
-    };
-  }
-
-  isBulkActionSelected(userPermissions, action) {
-    return action.grants.every((grant) => {
-      const [app, view] = grant.split(":");
-      const userHasApp = userPermissions[app] || {};
-
-      if (view === "*") {
-        return userHasApp.type === "full";
-      } else {
-        return userHasApp.views && userHasApp.views.includes(view);
-      }
-    });
-  }
-
-  handleBulkActionChange(groupId, actionId, isChecked) {
-    const group = this.virtualGroups.virtualGroups[groupId];
-    const action = group.bulkActions[actionId];
-
-    if (isChecked) {
-      // Seleccionar todos los permisos de la acción
-      action.grants.forEach((grant) => {
-        const [app, view] = grant.split(":");
-
-        if (view === "*") {
-          // Marcar checkbox de app completa
-          const checkbox = document.getElementById(`vapp_${app}`);
-          if (checkbox) checkbox.checked = true;
-        } else {
-          // Marcar checkbox de vista específica
-          const checkbox = document.getElementById(`vview_${app}_${view}`);
-          if (checkbox) checkbox.checked = true;
-        }
-      });
-    } else {
-      // Deseleccionar todos los permisos de la acción
-      action.grants.forEach((grant) => {
-        const [app, view] = grant.split(":");
-
-        if (view === "*") {
-          // Desmarcar checkbox de app completa
-          const checkbox = document.getElementById(`vapp_${app}`);
-          if (checkbox) checkbox.checked = false;
-        } else {
-          // Desmarcar checkbox de vista específica
-          const checkbox = document.getElementById(`vview_${app}_${view}`);
-          if (checkbox) checkbox.checked = false;
-        }
-      });
-    }
-  }
 
   showAdminModal() {
     const modal = document.getElementById("admin-modal");
@@ -1916,7 +1659,7 @@ window.initAdminPanel = function () {
       document.getElementById("app-container") || document.body;
     appContainer.innerHTML = `
       <div style="display: flex; align-items: center; justify-content: center; height: 100vh; text-align: center; padding: 2rem;">
-        <div style="background: var(--sidebar_bg_ch, #f8f9fa); padding: 2rem; border-radius: 8px; border: 1px solid var(--Limit-Sidebar, #ddd);">
+        <div style="background: var(--sidebar_bg_ch, #f8f9fa); padding: 2rem; border-radius: 0.5rem; border: 0.0625rem solid var(--Limit-Sidebar, #ddd);">
           <h2 style="color: var(--text-color-three, #333); margin-bottom: 1rem;">Acceso Denegado</h2>
           <p style="color: var(--text-color-one, #666);">No tienes permisos para acceder al panel de administración.</p>
         </div>

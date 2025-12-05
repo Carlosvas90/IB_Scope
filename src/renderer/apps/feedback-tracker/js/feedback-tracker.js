@@ -96,6 +96,15 @@ window.initFeedbackTracker = function (view) {
     changeView(view);
   }
 
+  // Escuchar eventos de cambio de vista del router
+  window.addEventListener("view:changed", (e) => {
+    const { app, view: newView } = e.detail;
+    if (app === "Inventory-Healt" && newView) {
+      console.log(`📢 Evento de cambio de vista recibido: ${newView}`);
+      changeView(newView);
+    }
+  });
+
   return true;
 };
 
@@ -753,8 +762,25 @@ function setupAppChangeListener() {
  * Cambia a una vista específica
  */
 function changeView(viewName) {
+  // Estadisticas es una vista especial que se carga en un HTML diferente
+  // El router se encarga de cargarla, no este script
+  if (viewName === "Estadisticas") {
+    console.log("Vista Estadisticas será manejada por el router");
+    return true;
+  }
+
+  // Mapeo de nombres nuevos a nombres antiguos para retrocompatibilidad
+  const viewMap = {
+    "Incidencias": "errors",
+    "errors": "errors",
+    "stats": "stats",
+    "settings": "settings"
+  };
+
+  const mappedView = viewMap[viewName];
+  
   // Verificar vista solicitada
-  if (!["errors", "stats", "settings"].includes(viewName)) {
+  if (!mappedView) {
     console.error("Vista no válida:", viewName);
     return false;
   }
@@ -764,11 +790,11 @@ function changeView(viewName) {
     view.classList.remove("active");
   });
 
-  // Mostrar vista solicitada
-  const view = document.getElementById(`${viewName}-view`);
+  // Mostrar vista solicitada usando el nombre mapeado
+  const view = document.getElementById(`${mappedView}-view`);
   if (view) {
     view.classList.add("active");
-    currentView = viewName;
+    currentView = mappedView;
 
     return true;
   }

@@ -1352,6 +1352,32 @@ window.initEstadisticas = async function (view) {
   }
 };
 
+// Función global para forzar redimensionamiento de gráficos
+window.resizeEstadisticasCharts = function () {
+  console.log("📐 Redimensionando gráficos de estadísticas...");
+  
+  if (estadisticasController && estadisticasController.useModularCharts) {
+    try {
+      chartRegistry.resizeAll();
+      console.log("✅ Gráficos redimensionados correctamente");
+    } catch (error) {
+      console.warn("⚠️ Error al redimensionar gráficos:", error);
+    }
+  } else if (estadisticasController) {
+    // Fallback: redimensionar gráficos tradicionales
+    try {
+      Object.values(estadisticasController.charts || {}).forEach(chart => {
+        if (chart && typeof chart.resize === 'function') {
+          chart.resize();
+        }
+      });
+      console.log("✅ Gráficos tradicionales redimensionados");
+    } catch (error) {
+      console.warn("⚠️ Error al redimensionar gráficos tradicionales:", error);
+    }
+  }
+};
+
 // Inicializar cuando el DOM esté listo (fallback para carga directa)
 document.addEventListener("DOMContentLoaded", async () => {
   // Solo inicializar automáticamente si no se ha inicializado ya por el app-loader
