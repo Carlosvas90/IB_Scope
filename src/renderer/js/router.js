@@ -513,6 +513,13 @@ class Router {
    */
   async loadApp(appName, appPath, viewName, updateHistory) {
     try {
+      // Ocultar contenedor actual con fade-out
+      this.appContainer.classList.add('loading');
+      this.appContainer.classList.remove('ready');
+      
+      // Esperar a que termine la animación de fade-out (sincronizado con CSS)
+      await new Promise(resolve => setTimeout(resolve, 150));
+      
       // Mostrar indicador de carga
       this.appContainer.innerHTML = `
         <div class="loading-app">
@@ -520,6 +527,9 @@ class Router {
           <p>Cargando aplicación...</p>
         </div>
       `;
+
+      // Cargar estilos PRIMERO (antes del HTML) para evitar FOUC
+      await this.loadAppStyles(appName);
 
       let html;
 
@@ -558,11 +568,10 @@ class Router {
       const doc = parser.parseFromString(html, "text/html");
       const content = doc.querySelector("body").innerHTML;
 
-      // Insertar el contenido en el contenedor
+      // Insertar el contenido en el contenedor (aún oculto)
       this.appContainer.innerHTML = content;
 
-      // Cargar estilos y scripts definidos en la aplicación
-      await this.loadAppStyles(appName);
+      // Cargar scripts definidos en la aplicación
       await this.loadAppScripts(appName);
 
       // Si es activity-scope, cargar el CSS de la vista principal (user-activity)
@@ -628,10 +637,17 @@ class Router {
       // Emitir evento de aplicación cargada
       this.emitEvent("app:loaded", { app: appName, view: viewName });
 
+      // Esperar un frame para asegurar que todo se haya renderizado
+      await new Promise(resolve => requestAnimationFrame(resolve));
+      
+      // Mostrar contenido con fade-in suave
+      this.appContainer.classList.remove('loading');
+      this.appContainer.classList.add('ready');
+
       // Emitir evento de aplicación lista después de un momento para permitir la inicialización
       setTimeout(() => {
         this.emitEvent("app:ready", { app: appName, view: viewName });
-      }, 200);
+      }, 300);
 
       return true;
     } catch (error) {
@@ -645,6 +661,10 @@ class Router {
           <button id="retry-btn" class="btn btn-primary">Reintentar</button>
         </div>
       `;
+
+      // Mostrar el error con fade-in
+      this.appContainer.classList.remove('loading');
+      this.appContainer.classList.add('ready');
 
       // Configurar botón de reintento
       document.getElementById("retry-btn").addEventListener("click", () => {
@@ -833,6 +853,13 @@ class Router {
       console.log(`🎯 Cargando vista desde archivo:`, viewPath);
 
       try {
+        // Ocultar contenedor actual con fade-out
+        this.appContainer.classList.add('loading');
+        this.appContainer.classList.remove('ready');
+        
+        // Esperar a que termine la animación de fade-out
+        await new Promise(resolve => setTimeout(resolve, 200));
+        
         // Mostrar indicador de carga
         this.appContainer.innerHTML = `
           <div class="loading-app">
@@ -841,25 +868,9 @@ class Router {
           </div>
         `;
 
-        // Cargar el archivo HTML de la vista
-        const response = await fetch(viewPath);
-        if (response.ok) {
-          const html = await response.text();
-          this.appContainer.innerHTML = html;
-
-          this.currentView = viewName;
-          console.log(`✅ Vista cargada exitosamente: ${viewName}`);
-
-          // Disparar evento personalizado para notificar que la vista se cargó
-          const viewLoadedEvent = new CustomEvent("view:loaded", {
-            detail: { app: this.currentApp, view: viewName },
-          });
-          document.dispatchEvent(viewLoadedEvent);
-          console.log(`📢 Evento view:loaded disparado para: ${viewName}`);
-
-          // Cargar CSS para activity-scope
-          if (this.currentApp === "activity-scope") {
-            const cssPath = `../apps/activity-scope/css/${viewName}.css`;
+        // Cargar CSS PRIMERO para activity-scope (antes del HTML)
+        if (this.currentApp === "activity-scope") {
+          const cssPath = `../apps/activity-scope/css/${viewName}.css`;
             const existingLink = document.querySelector(
               `link[href="${cssPath}"]`
             );
@@ -891,6 +902,22 @@ class Router {
               console.log(`✅ CSS ya cargado: ${cssPath}`);
             }
           }
+
+        // Cargar el archivo HTML de la vista (DESPUÉS del CSS)
+        const response = await fetch(viewPath);
+        if (response.ok) {
+          const html = await response.text();
+          this.appContainer.innerHTML = html;
+
+          this.currentView = viewName;
+          console.log(`✅ Vista cargada exitosamente: ${viewName}`);
+
+          // Disparar evento personalizado para notificar que la vista se cargó
+          const viewLoadedEvent = new CustomEvent("view:loaded", {
+            detail: { app: this.currentApp, view: viewName },
+          });
+          document.dispatchEvent(viewLoadedEvent);
+          console.log(`📢 Evento view:loaded disparado para: ${viewName}`);
 
           // Cargar scripts específicos si existen
           const scriptsToLoad = isSpecialView && viewConfig.scripts ? viewConfig.scripts : 
@@ -1018,6 +1045,13 @@ class Router {
           // Asegurar que los submenús estén en el estado correcto
           this.updateSubmenusForApp(this.currentApp);
 
+          // Esperar un frame para asegurar que todo se haya renderizado
+          await new Promise(resolve => requestAnimationFrame(resolve));
+          
+          // Mostrar contenido con fade-in suave
+          this.appContainer.classList.remove('loading');
+          this.appContainer.classList.add('ready');
+
           // Emitir evento de cambio de vista
           this.emitEvent("view:changed", {
             app: this.currentApp,
@@ -1037,6 +1071,9 @@ class Router {
             <button id="retry-btn" class="btn-primary">Reintentar</button>
           </div>
         `;
+        // Mostrar el error con fade-in
+        this.appContainer.classList.remove('loading');
+        this.appContainer.classList.add('ready');
         return false;
       }
     }

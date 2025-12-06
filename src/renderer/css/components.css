@@ -179,6 +179,43 @@
   height: 100%;
   gap: var(--spacing-md);
   color: var(--text-color-three);
+  /* Aparecer suavemente */
+  animation: fadeIn 0.3s ease-in-out;
+  background-color: var(--Fondo-paginas);
+  /* Evitar que se vea contenido detrás */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Prevenir flash de SVG sin dimensiones - SOLO en app-container */
+#app-container svg:not([width]):not([height]) {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Asegurar que los iconos SVG mantengan su tamaño - SOLO en app-container */
+#app-container .icon-svg {
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* Prevenir reflow de imágenes durante carga - SOLO en app-container */
+#app-container img:not([width]):not([height]) {
+  max-width: 100%;
+  height: auto;
 }
 
 /* Toast para notificaciones */

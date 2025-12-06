@@ -25,6 +25,32 @@
   height: 100%;
   width: 100%;
   position: relative;
+  /* Transición suave y rápida para cambios de contenido */
+  transition: opacity 0.15s ease-in-out;
+}
+
+/* Estado de carga - ocultar contenido */
+#app-container.loading {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Estado de contenido listo - mostrar con fade-in */
+#app-container.ready {
+  opacity: 1;
+  pointer-events: auto;
+  animation: slideInContent 0.2s ease-out;
+}
+
+@keyframes slideInContent {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Oculta modal antes de cargar tablas de feedback tracker */
