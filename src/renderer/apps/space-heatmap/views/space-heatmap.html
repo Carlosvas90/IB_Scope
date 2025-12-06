@@ -823,6 +823,67 @@
             </div>
           </div>
         </div>
+
+        <!-- Modal de instalación de Python -->
+        <div id="python-install-modal" class="modal-overlay" style="display: none">
+          <div class="modal-content python-install-modal">
+            <div class="modal-header">
+              <h3>🐍 Python Requerido</h3>
+            </div>
+            <div class="modal-body">
+              <p>
+                Esta funcionalidad requiere <strong>Python</strong> para descargar datos de StowMap.
+              </p>
+              <div class="info-features">
+                <div class="feature-item">
+                  <span class="feature-icon">📦</span>
+                  <div class="feature-text">
+                    <strong>Instalación Automática</strong>
+                    <p>
+                      Python portable se instalará automáticamente (≈60 MB)
+                    </p>
+                  </div>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-icon">⚡</span>
+                  <div class="feature-text">
+                    <strong>Rápido y Sencillo</strong>
+                    <p>
+                      Solo tardará unos minutos y no requiere permisos de administrador
+                    </p>
+                  </div>
+                </div>
+                <div class="feature-item">
+                  <span class="feature-icon">🔒</span>
+                  <div class="feature-text">
+                    <strong>Aislado y Seguro</strong>
+                    <p>
+                      Python portable no interferirá con otras instalaciones
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Barra de progreso de instalación (oculta por defecto) -->
+              <div id="python-install-progress" class="python-install-progress" style="display: none">
+                <div class="progress-header">
+                  <span id="python-install-progress-text">Instalando Python...</span>
+                </div>
+                <div class="progress-bar-wrapper">
+                  <div id="python-install-progress-bar" class="progress-bar" style="width: 0%"></div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button id="python-install-cancel" class="btn btn-secondary">
+                Cancelar
+              </button>
+              <button id="python-install-btn" class="btn btn-primary">
+                Instalar Python Portable
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </body>

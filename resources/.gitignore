@@ -1,0 +1,3 @@
+# Ignorar Python portable descargado (se descarga automáticamente durante el build)
+python-portable/
+

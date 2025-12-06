@@ -164,6 +164,35 @@ contextBridge.exposeInMainWorld("api", {
   executePythonScript: (options) =>
     ipcRenderer.invoke("execute-python-script", options),
 
+  /**
+   * Verifica si Python está disponible en el sistema.
+   * @returns {Promise<object>} - { available: boolean, portable: boolean, version: string, error: string }
+   */
+  checkPython: () => ipcRenderer.invoke("check-python"),
+
+  /**
+   * Instala Python portable en la aplicación.
+   * @returns {Promise<object>} - { success: boolean, message: string, error: string }
+   */
+  installPortablePython: () => ipcRenderer.invoke("install-portable-python"),
+
+  /**
+   * Escucha el progreso de instalación de Python portable.
+   * @param {function} callback - Función a ejecutar con el progreso
+   */
+  onPythonInstallProgress: (callback) => {
+    ipcRenderer.on("python-install-progress", (event, progress) =>
+      callback(progress)
+    );
+  },
+
+  /**
+   * Verifica si las dependencias de Python están instaladas.
+   * @returns {Promise<object>} - { installed: boolean, missing: Array }
+   */
+  checkPythonDependencies: () =>
+    ipcRenderer.invoke("check-python-dependencies"),
+
   // --- Sistema de Updates ---
   /**
    * Verifica si hay actualizaciones disponibles.

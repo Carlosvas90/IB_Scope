@@ -10,6 +10,7 @@ const configHandler = require("./handlers/config");
 const filesHandler = require("./handlers/files");
 const updateHandler = require("./handlers/update");
 const updateService = require("./services/updateService");
+const pythonService = require("./services/pythonService");
 
 // Cargar better-sqlite3 al inicio
 let Database;
@@ -459,9 +460,56 @@ ipcMain.handle("get-table-schema", async (event, dbPath, tableName) => {
   }
 });
 
+// Verificar disponibilidad de Python
+ipcMain.handle("check-python", async () => {
+  try {
+    return await pythonService.checkPythonAvailable();
+  } catch (error) {
+    console.error("[Main] Error verificando Python:", error);
+    return {
+      available: false,
+      error: error.message,
+      needsInstall: true,
+    };
+  }
+});
+
+// Instalar Python portable
+ipcMain.handle("install-portable-python", async (event) => {
+  try {
+    console.log("[Main] Iniciando instalación de Python portable...");
+    
+    const result = await pythonService.installPortablePython((progress) => {
+      // Enviar progreso al renderer
+      event.sender.send("python-install-progress", progress);
+    });
+    
+    return result;
+  } catch (error) {
+    console.error("[Main] Error instalando Python portable:", error);
+    return {
+      success: false,
+      error: error.message,
+    };
+  }
+});
+
+// Verificar dependencias de Python
+ipcMain.handle("check-python-dependencies", async () => {
+  try {
+    return await pythonService.checkDependencies();
+  } catch (error) {
+    console.error("[Main] Error verificando dependencias:", error);
+    return {
+      installed: false,
+      error: error.message,
+    };
+  }
+});
+
 // Ejecutar script de Python
 ipcMain.handle("execute-python-script", async (event, options) => {
-  return new Promise((resolve) => {
+  return new Promise(async (resolve) => {
     const { scriptPath, args = [] } = options;
 
     console.log(`[Main] 🐍 Ejecutando script de Python: ${scriptPath}`);
@@ -493,8 +541,24 @@ ipcMain.handle("execute-python-script", async (event, options) => {
       return;
     }
 
+    // Obtener ejecutable de Python (portable o del sistema)
+    let pythonExecutable;
+    try {
+      pythonExecutable = await pythonService.getPythonExecutable();
+      console.log(`[Main] Usando Python: ${pythonExecutable}`);
+    } catch (error) {
+      console.error(`[Main] ❌ Python no disponible:`, error);
+      resolve({
+        success: false,
+        error: "PYTHON_NOT_FOUND",
+        message: "Python no está instalado. Por favor, instala Python portable desde la aplicación.",
+        output: "",
+      });
+      return;
+    }
+
     // Ejecutar el script de Python
-    const pythonProcess = spawn("python", [fullScriptPath, ...args], {
+    const pythonProcess = spawn(pythonExecutable, [fullScriptPath, ...args], {
       cwd: path.dirname(fullScriptPath),
       stdio: "pipe",
     });

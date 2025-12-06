@@ -1,3 +1,116 @@
+/**
+ * Verifica si Python está disponible y lo instala si es necesario
+ * @returns {Promise<boolean>} true si Python está disponible, false en caso contrario
+ */
+async function checkAndSetupPython() {
+  try {
+    // Verificar disponibilidad de Python
+    const pythonStatus = await window.api.checkPython();
+    
+    if (pythonStatus.available) {
+      console.log("✅ Python disponible:", pythonStatus.version);
+      return true;
+    }
+    
+    // Python no está disponible, mostrar modal de instalación
+    console.warn("⚠️ Python no disponible:", pythonStatus.error);
+    
+    // Mostrar modal para instalar Python
+    const installModal = document.getElementById("python-install-modal");
+    if (!installModal) {
+      console.error("Modal de instalación de Python no encontrado");
+      return false;
+    }
+    
+    installModal.style.display = "flex";
+    
+    // Esperar a que el usuario acepte o cancele
+    return new Promise((resolve) => {
+      const installBtn = document.getElementById("python-install-btn");
+      const cancelBtn = document.getElementById("python-install-cancel");
+      
+      const handleInstall = async () => {
+        cleanup();
+        await installPython();
+        resolve(true);
+      };
+      
+      const handleCancel = () => {
+        cleanup();
+        installModal.style.display = "none";
+        resolve(false);
+      };
+      
+      const cleanup = () => {
+        installBtn.removeEventListener("click", handleInstall);
+        cancelBtn.removeEventListener("click", handleCancel);
+      };
+      
+      installBtn.addEventListener("click", handleInstall);
+      cancelBtn.addEventListener("click", handleCancel);
+    });
+  } catch (error) {
+    console.error("Error verificando Python:", error);
+    return false;
+  }
+}
+
+/**
+ * Instala Python portable
+ */
+async function installPython() {
+  const installModal = document.getElementById("python-install-modal");
+  const progressContainer = document.getElementById("python-install-progress");
+  const progressBar = document.getElementById("python-install-progress-bar");
+  const progressText = document.getElementById("python-install-progress-text");
+  const installBtn = document.getElementById("python-install-btn");
+  const cancelBtn = document.getElementById("python-install-cancel");
+  
+  // Ocultar botones, mostrar progreso
+  installBtn.style.display = "none";
+  cancelBtn.style.display = "none";
+  progressContainer.style.display = "block";
+  
+  try {
+    // Configurar listener de progreso
+    window.api.onPythonInstallProgress((progress) => {
+      const percent = Math.round(progress.progress);
+      progressBar.style.width = `${percent}%`;
+      progressText.textContent = progress.message || `${percent}%`;
+    });
+    
+    // Iniciar instalación
+    const result = await window.api.installPortablePython();
+    
+    if (result.success) {
+      progressText.textContent = "¡Python instalado correctamente!";
+      setTimeout(() => {
+        installModal.style.display = "none";
+        // Resetear modal
+        progressContainer.style.display = "none";
+        installBtn.style.display = "block";
+        cancelBtn.style.display = "block";
+        progressBar.style.width = "0%";
+      }, 2000);
+    } else {
+      throw new Error(result.error || "Error desconocido al instalar Python");
+    }
+  } catch (error) {
+    console.error("Error instalando Python:", error);
+    progressText.textContent = `Error: ${error.message}`;
+    progressText.style.color = "#ef4444";
+    
+    // Mostrar botones nuevamente después de 3 segundos
+    setTimeout(() => {
+      progressContainer.style.display = "none";
+      installBtn.style.display = "block";
+      cancelBtn.style.display = "block";
+      progressBar.style.width = "0%";
+      progressText.style.color = "";
+    }, 3000);
+  }
+}
+
 async function checkFileAge() {
   try {
     // Verificar que las APIs necesarias estén disponibles
@@ -266,6 +379,15 @@ function initSpaceHeatmap() {
         statusMessage.className = "status-message-banner error";
         statusMessage.style.display = "block";
         console.error("APIs no disponibles. Se requiere reinicio.");
+        return;
+      }
+
+      // Verificar y configurar Python antes de continuar
+      const pythonReady = await checkAndSetupPython();
+      if (!pythonReady) {
+        statusMessage.textContent = "❌ Python no está disponible. La descarga requiere Python.";
+        statusMessage.className = "status-message-banner error";
+        statusMessage.style.display = "block";
         return;
       }
 

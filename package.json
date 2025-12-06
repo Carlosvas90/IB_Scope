@@ -6,12 +6,15 @@
   "scripts": {
     "start": "electron .",
     "dev": "electron . --dev",
+    "prebuild": "node scripts/download-python.js",
     "build": "electron-builder --win portable",
+    "build:skip-python": "electron-builder --win portable",
     "fix-case": "node fix-case-sensitivity.js"
   },
   "author": "Chuecc",
   "license": "MIT",
   "dependencies": {
+    "adm-zip": "^0.5.10",
     "better-sqlite3": "^12.4.1",
     "echarts": "^5.4.3",
     "electron-store": "^8.1.0",
@@ -59,6 +62,13 @@
       {
         "from": "config",
         "to": "config"
+      },
+      {
+        "from": "resources/python-portable",
+        "to": "python-portable",
+        "filter": [
+          "**/*"
+        ]
       }
     ],
     "asar": true,
