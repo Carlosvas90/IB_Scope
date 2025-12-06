@@ -50,9 +50,16 @@ class Router {
         path: "../apps/activity-scope/views/user-activity.html",
         scripts: ["../apps/activity-scope/js/user-activity.js"],
         hasSubmenu: true,
+        defaultView: "user-activity",
         views: {
-          "user-activity": "../apps/activity-scope/views/user-activity.html",
-          "user-history": "../apps/activity-scope/views/user-history.html",
+          "user-activity": {
+            path: "../apps/activity-scope/views/user-activity.html",
+            scripts: ["../apps/activity-scope/js/user-activity.js"]
+          },
+          "user-history": {
+            path: "../apps/activity-scope/views/user-history.html",
+            scripts: ["../apps/activity-scope/js/user-history.js"]
+          },
         },
       },
       "idle-time": {
