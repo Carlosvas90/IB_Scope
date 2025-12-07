@@ -208,7 +208,7 @@ if __name__ == '__main__':
         os.makedirs(data_folder)
     
     # Crear archivo de progreso inicial ANTES de cualquier otra operación
-    write_progress(data_folder, 0, "Preparando descarga de StowMap...")
+    write_progress(data_folder, 0, "Iniciando descarga")
     print("Iniciando el proceso de descarga y combinacion de datos de StowMap.", flush=True)
     sys.stdout.flush()
     # Pausa para que se vea el mensaje inicial
@@ -216,18 +216,10 @@ if __name__ == '__main__':
 
     # Descargar pisos 1-5 (60% del progreso total, 12% por piso)
     total_floors = 5
-    floor_messages = [
-        (1, "Descargando P1... empezando por HRK que queda un poco lejos 🤔"),
-        (2, "Descargando P2... Colchones, Damage, Team Lift... ¿por qué P2 es tan raro? 🤨"),
-        (3, "Descargando P3... estas escaleras cansan mucho ¿tendrán algún tipo de brujería? 🧙‍♂️"),
-        (4, "Descargando P4... ok comprobado no puedo más... y falta 1 piso más 😮‍💨"),
-        (5, "Des... cargando.... P5... HES1??? creo que estoy alucinando, contaré solo los pallets de VLC1 🎭")
-    ]
     
     for floor in range(1, total_floors + 1):
         progress_pct = int((floor - 1) * 12)  # 0, 12, 24, 36, 48
-        floor_msg = floor_messages[floor - 1][1]
-        write_progress(data_folder, progress_pct, floor_msg)
+        write_progress(data_folder, progress_pct, f"Descargando P{floor}")
         # Pausa para que se vea el mensaje antes de empezar la descarga
         time.sleep(0.3)
         print(f"Descargando Piso {floor}...", flush=True)
@@ -240,17 +232,7 @@ if __name__ == '__main__':
                 df['Floor'] = floor
             all_dfs.append(df)
             progress_pct_complete = int(floor * 12)  # 12, 24, 36, 48, 60
-            # Mensajes de completado también divertidos
-            if floor == 1:
-                write_progress(data_folder, progress_pct_complete, "P1 listo... HRK ya no está tan lejos 😊")
-            elif floor == 2:
-                write_progress(data_folder, progress_pct_complete, "P2 listo... sí, guardan colchones ahí 🛏️")
-            elif floor == 3:
-                write_progress(data_folder, progress_pct_complete, "P3 listo... confirmado: hay brujería en las escaleras 🪄")
-            elif floor == 4:
-                write_progress(data_folder, progress_pct_complete, "P4 listo... aguanta, solo queda 1 más! 💪")
-            else:
-                write_progress(data_folder, progress_pct_complete, "P5 listo... HES1 existe pero ignorado, solo VLC1 ✅")
+            write_progress(data_folder, progress_pct_complete, f"P{floor} completado")
             # Pausa para que se vea el mensaje de completado
             time.sleep(0.3)
             print(f"[OK] Piso {floor} descargado", flush=True)
@@ -258,18 +240,18 @@ if __name__ == '__main__':
         else:
             print(f"Fallo al obtener datos para el Piso {floor}.", flush=True)
             sys.stdout.flush()
-            write_progress(data_folder, progress_pct, f"P{floor} falló... quizás no quería que lo descargáramos 🤷")
+            write_progress(data_folder, progress_pct, f"Error descargando P{floor}")
 
     if all_dfs:
         # 60-67%: Combinando y procesando datos
-        write_progress(data_folder, 60, "Mezclando todos los pisos...")
+        write_progress(data_folder, 60, "Combinando datos")
         time.sleep(0.3)
         print("Generando Csv...", flush=True)
         sys.stdout.flush()
         combined_df = pd.concat(all_dfs, ignore_index=True)
 
         # Eliminar las columnas no deseadas si existen
-        write_progress(data_folder, 62, "Limpiando datos innecesarios...")
+        write_progress(data_folder, 62, "Limpiando datos")
         time.sleep(0.3)
         columnas_a_eliminar = [
             'Bin Size',
@@ -285,7 +267,7 @@ if __name__ == '__main__':
         combined_df.drop(columns=columnas_presentes, inplace=True)
         
         # 64%: Guardando datos
-        write_progress(data_folder, 64, "Guardando datos...")
+        write_progress(data_folder, 64, "Guardando CSV")
         time.sleep(0.3)
         sys.stdout.flush()
         
@@ -299,7 +281,7 @@ if __name__ == '__main__':
         sys.stdout.flush()
         
         # 67%: Guardando metadata
-        write_progress(data_folder, 67, "Guardando metadata...")
+        write_progress(data_folder, 67, "Guardando metadata")
         time.sleep(0.3)
         
         # Guardar archivo de última actualización (JSON simple y rápido de leer)
@@ -316,7 +298,7 @@ if __name__ == '__main__':
         sys.stdout.flush()
         
         # 70-90%: Procesamiento de datos
-        write_progress(data_folder, 70, "Iniciando procesamiento de datos...")
+        write_progress(data_folder, 70, "Procesando datos")
         time.sleep(0.3)
         print("\n[Procesamiento] Iniciando procesamiento de datos...", flush=True)
         sys.stdout.flush()
@@ -324,7 +306,7 @@ if __name__ == '__main__':
             script_dir = os.path.dirname(os.path.abspath(__file__))
             procesar_script = os.path.join(script_dir, "Procesar_StowMap.py")
             
-            write_progress(data_folder, 72, "Calculando estadísticas...")
+            write_progress(data_folder, 72, "Calculando estadísticas")
             time.sleep(0.3)
             
             # Ejecutar script de procesamiento con el mismo userData path si existe
@@ -370,23 +352,23 @@ if __name__ == '__main__':
         sys.exit(1)
     
     # 90-100%: Descargar datos adicionales del DPS Portal
-    write_progress(data_folder, 90, "Descargando datos adicionales del DPS Portal...")
+    write_progress(data_folder, 90, "Descargando datos adicionales")
     time.sleep(0.3)
     print("\n" + "="*50, flush=True)
     print("Iniciando descarga de datos adicionales del DPS Portal...", flush=True)
     print("="*50, flush=True)
     sys.stdout.flush()
     
-    # Lista de funciones de descarga con sus nombres de archivo y mensajes graciosos
+    # Lista de funciones de descarga con sus nombres de archivo
     downloads = [
-        (get_locked_empty_bins, "LockedEmptyBins_data.csv", "Locked Empty Bins", "Descargando bins bloqueados... muchas bins por reparar 🔒"),
-        (get_pending_verification_bins, "PendingVerificationBins_data.csv", "Pending Verification Bins", "Descargando bins pendientes de verificación... será que hoy sí bajarán los pallets 🤷"),
-        (get_pending_stow_bins, "PendingStowBins_data.csv", "Pending Stow Bins", "Descargando bins esperando stow... menu 39 ¿estás ahí? ⏰")
+        (get_locked_empty_bins, "LockedEmptyBins_data.csv", "Locked Empty Bins"),
+        (get_pending_verification_bins, "PendingVerificationBins_data.csv", "Pending Verification Bins"),
+        (get_pending_stow_bins, "PendingStowBins_data.csv", "Pending Stow Bins")
     ]
     
-    for idx, (download_func, filename, data_name, funny_msg) in enumerate(downloads, 1):
+    for idx, (download_func, filename, data_name) in enumerate(downloads, 1):
         progress_pct = 90 + int((idx - 1) * 3.33)  # 90, 93, 96 aproximadamente
-        write_progress(data_folder, progress_pct, funny_msg)
+        write_progress(data_folder, progress_pct, f"Descargando {data_name}")
         time.sleep(0.3)
         print(f"\nDescargando {data_name}...", flush=True)
         sys.stdout.flush()
@@ -407,7 +389,7 @@ if __name__ == '__main__':
             sys.stdout.flush()
     
     # 100%: Completado
-    write_progress(data_folder, 100, "¡Listo! Ya puedes sentarte y relajarte... hasta la próxima vez 🎉")
+    write_progress(data_folder, 100, "Descarga completada")
     print("\n[OK] Proceso de descarga completado!", flush=True)
     sys.stdout.flush()
 
