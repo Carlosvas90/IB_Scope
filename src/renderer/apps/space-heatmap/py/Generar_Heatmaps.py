@@ -17,7 +17,7 @@ from datetime import datetime
 # ============================================
 # Cambiar a True para usar archivos de ejemplo desde Ejemplos/data/space-heatmap/
 # Cambiar a False para usar rutas normales (userData o proyecto)
-MODO_DEV = True
+MODO_DEV = False
 
 # ============================================
 # CONFIGURACIÓN DE HEATMAPS
@@ -417,31 +417,32 @@ def main():
     """
     print("[Heatmap] Iniciando generacion de Heatmaps SVG...")
     
+    # Obtener root del proyecto (siempre)
+    project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))))
+    
+    # SVG dir SIEMPRE desde assets (son los templates base de la aplicación)
+    svg_dir = os.path.join(project_root, "assets", "svg", "Space_Heatmaps")
+    
     # Determinar rutas según configuración
     if MODO_DEV:
-        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))))
         data_dir = os.path.join(project_root, "Ejemplos", "data", "space-heatmap")
-        svg_dir = os.path.join(data_dir, "svg")
         output_dir = os.path.join(data_dir, "heatmaps")
         csv_path = os.path.join(data_dir, "Stowmap_data.csv")
         print(f"[MODO DEV] Procesando desde Ejemplos/data/space-heatmap/")
     elif len(sys.argv) > 1:
         user_data_path = sys.argv[1]
         data_dir = os.path.join(user_data_path, "data", "space-heatmap")
-        svg_dir = os.path.join(data_dir, "svg")
         output_dir = os.path.join(data_dir, "heatmaps")
         csv_path = os.path.join(data_dir, "Stowmap_data.csv")
         print(f"[MODO BUILD] Procesando desde userData")
     else:
-        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))))
         data_dir = os.path.join(project_root, "data", "space-heatmap")
-        svg_dir = os.path.join(data_dir, "svg")
         output_dir = os.path.join(data_dir, "heatmaps")
         csv_path = os.path.join(data_dir, "Stowmap_data.csv")
         print(f"[MODO DESARROLLO] Procesando desde proyecto")
     
     print(f"[Heatmap] CSV input: {csv_path}")
-    print(f"[Heatmap] SVG dir: {svg_dir}")
+    print(f"[Heatmap] SVG templates: {svg_dir}")
     print(f"[Heatmap] Output dir: {output_dir}")
     
     # Crear directorio de salida

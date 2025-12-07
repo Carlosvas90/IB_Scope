@@ -388,6 +388,56 @@ if __name__ == '__main__':
             print(f"[WARNING] No se pudieron obtener los datos de {data_name}.", flush=True)
             sys.stdout.flush()
     
+    # 96-100%: Generar Heatmaps SVG
+    write_progress(data_folder, 96, "Generando heatmaps SVG")
+    time.sleep(0.3)
+    print("\n" + "="*50, flush=True)
+    print("Generando Heatmaps SVG...", flush=True)
+    print("="*50, flush=True)
+    sys.stdout.flush()
+    
+    try:
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        generar_heatmaps_script = os.path.join(script_dir, "Generar_Heatmaps.py")
+        
+        # Ejecutar script de generación de heatmaps con el mismo userData path si existe
+        if len(sys.argv) > 1:
+            result = subprocess.run(
+                [sys.executable, generar_heatmaps_script, sys.argv[1]],
+                capture_output=True,
+                text=True
+            )
+        else:
+            result = subprocess.run(
+                [sys.executable, generar_heatmaps_script],
+                capture_output=True,
+                text=True
+            )
+        
+        # Mostrar output de la generación
+        if result.stdout:
+            print(result.stdout, flush=True)
+        if result.stderr and result.returncode != 0:
+            print("[WARNING] Errores durante la generación de heatmaps:", flush=True)
+            print(result.stderr, flush=True)
+        
+        if result.returncode == 0:
+            print("[OK] Heatmaps SVG generados exitosamente!", flush=True)
+            sys.stdout.flush()
+            write_progress(data_folder, 98, "Heatmaps SVG completados")
+            time.sleep(0.3)
+        else:
+            print("[WARNING] La generación de heatmaps terminó con errores.", flush=True)
+            sys.stdout.flush()
+            write_progress(data_folder, 98, "Heatmaps con advertencias")
+            time.sleep(0.3)
+    except Exception as e:
+        print(f"[WARNING] Error al ejecutar generación de heatmaps: {str(e)}", flush=True)
+        print("[INFO] Puedes ejecutar manualmente: python Generar_Heatmaps.py", flush=True)
+        sys.stdout.flush()
+        write_progress(data_folder, 98, "Error generando heatmaps")
+        time.sleep(0.3)
+    
     # 100%: Completado
     write_progress(data_folder, 100, "Descarga completada")
     print("\n[OK] Proceso de descarga completado!", flush=True)
