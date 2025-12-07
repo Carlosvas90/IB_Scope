@@ -18,7 +18,7 @@
   "preferred_theme": "light",
   "auto_refresh": 60,
   "app_name": "Inbound Scope",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "default_app": "dashboard",
   "apps": {
     "dashboard": {
@@ -26,13 +26,13 @@
       "icon": "home",
       "default": true
     },
-    "feedback-tracker": {
-      "name": "Feedback Tracker",
+    "Inventory-Healt": {
+      "name": "Inventory Health",
       "icon": "alert-triangle",
       "files": {
         "errors": "error_tracker.json"
       },
-      "views": ["errors", "stats", "settings"]
+      "views": ["Incidencias", "Estadisticas"]
     }
   },
   "permisosPath": [

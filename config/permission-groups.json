@@ -5,9 +5,9 @@
       "color": "#10B981",
       "permissions": [
         {
-          "app": "feedback-tracker",
+          "app": "Inventory-Healt",
           "views": ["*"],
-          "displayName": "Feedback Tracker"
+          "displayName": "Inventory Health"
         },
         {
           "app": "estadisticas",
@@ -24,7 +24,7 @@
         "accessAll": {
           "name": "Acceso Total",
           "grants": [
-            "feedback-tracker:*",
+            "Inventory-Healt:*",
             "estadisticas:errors",
             "estadisticas:inventory",
             "estadisticas:analysis"
