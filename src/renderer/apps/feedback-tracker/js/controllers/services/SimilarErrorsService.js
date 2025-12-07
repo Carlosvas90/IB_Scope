@@ -10,7 +10,7 @@ export class SimilarErrorsService {
   }
 
   /**
-   * Encuentra errores similares basados en login y tipo de error
+   * Encuentra errores similares basados en login, tipo de error y ASIN
    * @param {string} errorId - ID del error de referencia
    * @returns {Object} Objeto con información de errores similares
    */
@@ -33,11 +33,13 @@ export class SimilarErrorsService {
     // Criterios para considerar errores similares:
     // 1. Mismo user_id (login)
     // 2. Mismo tipo de error (violation)
+    // 3. Mismo ASIN
     const similarErrors = allErrors.filter(
       (error) =>
         error.id !== errorId && // Excluir el error de referencia
         error.user_id === referenceError.user_id &&
-        error.violation === referenceError.violation
+        error.violation === referenceError.violation &&
+        error.asin === referenceError.asin // Agregar verificación de ASIN
     );
 
     // Contar errores pendientes (que no están marcados como "done")
@@ -142,7 +144,8 @@ export class SimilarErrorsService {
     }
 
     const userName = similarInfo.referenceError?.user_id || "este usuario";
-    return `${similarInfo.pendingCount} errores del mismo usuario se completarán automáticamente`;
+    const asin = similarInfo.referenceError?.asin || "este ASIN";
+    return `${similarInfo.pendingCount} errores del mismo usuario y ASIN (${asin}) se completarán automáticamente`;
   }
 
   /**

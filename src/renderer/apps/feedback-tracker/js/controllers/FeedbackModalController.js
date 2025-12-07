@@ -153,7 +153,7 @@ export class FeedbackModalController {
     // Botones de "NO ES UN ERROR" - Usar delegación de eventos
     document.addEventListener("click", (event) => {
       const btn = event.target.closest(
-        '[data-action="exception"], [data-action="update-asin"]'
+        '[data-action="exception"], [data-action="update-asin"], [data-action="binding-incorrect"]'
       );
 
       if (btn) {
@@ -419,7 +419,7 @@ export class FeedbackModalController {
 
   /**
    * Maneja las acciones de "NO ES UN ERROR"
-   * @param {string} action - 'exception' o 'update-asin'
+   * @param {string} action - 'exception', 'update-asin' o 'binding-incorrect'
    */
   async handleNotErrorAction(action) {
     // Intentar obtener datos de currentErrorData o del DOM (backup)
@@ -460,6 +460,14 @@ export class FeedbackModalController {
         `Este ASIN se agregará a la lista de excepciones.\n` +
         `NO saldrá más como error para este motivo.\n\n` +
         `Los futuros errores de este ASIN serán ignorados.`;
+    } else if (action === "binding-incorrect") {
+      title = "Binding Incorrecto";
+      message =
+        `ASIN: ${asin}\n` +
+        `Regla: ${violation}\n\n` +
+        `Este ASIN se agregará a la lista de excepciones\n` +
+        `con motivo "Binding Incorrecto".\n\n` +
+        `NO saldrá más como error para este motivo.`;
     } else if (action === "update-asin") {
       title = "Actualizar Datos del ASIN";
       message =
@@ -516,6 +524,37 @@ export class FeedbackModalController {
       );
       console.log("📝 Resultado de addException:", success);
       feedbackComment = "EXCEPCIÓN: No es considerado un error";
+    } else if (action === "binding-incorrect") {
+      // Asegurar que el servicio esté inicializado y usar rutas correctas
+      console.log("🔧 Inicializando ExceptionsService (Binding Incorrecto)...");
+      
+      // Si el servicio ya está inicializado pero usa ruta fallback, reinicializar
+      const isUsingFallback = this.exceptionsService.filePath && 
+        this.exceptionsService.filePath.includes("Ejemplos");
+      
+      if (!this.exceptionsService.isInitialized || isUsingFallback) {
+        console.log("🔄 Reinicializando ExceptionsService para usar rutas del config...");
+        this.exceptionsService.isInitialized = false;
+        this.exceptionsService.initPromise = null;
+        await this.exceptionsService.init();
+      }
+      
+      console.log("🔧 ExceptionsService inicializado:", this.exceptionsService.isInitialized);
+      console.log("🔧 Ruta del archivo:", this.exceptionsService.filePath);
+      console.log("🔧 ExceptionsPaths:", this.exceptionsService.exceptionsPaths);
+      
+      // Agregar excepción con motivo específico
+      console.log("📝 Llamando a addException con:", {
+        asin: errorData.asin,
+        violation: errorData.violation
+      });
+      success = await this.exceptionsService.addException(
+        errorData.asin,
+        errorData.violation,
+        "Binding incorrecto - Error en el empaquetado del producto"
+      );
+      console.log("📝 Resultado de addException:", success);
+      feedbackComment = "Binding Incorrecto";
     } else if (action === "update-asin") {
       // Asegurar que el servicio esté inicializado y usar rutas correctas
       console.log("🔧 Inicializando ASINUpdateService...");
@@ -552,13 +591,19 @@ export class FeedbackModalController {
 
       // Ejecutar callback
       if (typeof this.onSubmitCallback === "function") {
+        let reasonLabel = "";
+        if (action === "exception") {
+          reasonLabel = "Excepción agregada";
+        } else if (action === "binding-incorrect") {
+          reasonLabel = "Binding Incorrecto";
+        } else if (action === "update-asin") {
+          reasonLabel = "ASIN marcado para actualización";
+        }
+        
         this.onSubmitCallback({
           errorId: this.currentErrorId,
           action: action,
-          reasonLabel:
-            action === "exception"
-              ? "Excepción agregada"
-              : "ASIN marcado para actualización",
+          reasonLabel: reasonLabel,
           comment: feedbackComment,
           feedbackComment: feedbackComment,
         });

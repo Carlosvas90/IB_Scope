@@ -6,8 +6,9 @@ Esta funcionalidad permite aplicar automáticamente el mismo feedback a errores 
 
 - **Mismo usuario** (`user_id`)
 - **Mismo tipo de error** (`violation`)
+- **Mismo ASIN** (`asin`)
 
-**Nota**: El ASIN ya no es un criterio de similitud, por lo que se aplicará el feedback a todos los errores del mismo usuario con el mismo tipo de error, independientemente del producto.
+**Importante**: Se aplicará el feedback SOLO a errores del mismo usuario, mismo tipo de error Y mismo ASIN, ya que cada ASIN puede tener situaciones diferentes (error real, necesita actualización, no es error, etc.).
 
 ## 🎯 Objetivo
 
@@ -21,7 +22,7 @@ Optimizar el proceso de feedback al permitir que un solo comentario se aplique a
 
 **Funcionalidades**:
 
-- `findSimilarErrors(errorId)`: Encuentra errores similares basados en login y tipo de error
+- `findSimilarErrors(errorId)`: Encuentra errores similares basados en login, tipo de error y ASIN
 - `applyFeedbackToSimilarErrors(referenceErrorId, feedbackData, username)`: Aplica el mismo feedback a errores similares
 - `generateSimilarErrorsMessage(similarInfo)`: Genera mensajes descriptivos
 - `getSimilarErrorsDetails(similarInfo)`: Obtiene detalles para mostrar en el modal
