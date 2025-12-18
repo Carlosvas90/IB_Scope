@@ -74,6 +74,7 @@ function checkAndCloseSplash() {
     console.log("Cerrando splashscreen y mostrando ventana principal");
     splashWindow.destroy();
     splashWindow = null;
+    mainWindow.maximize(); // Maximizar la ventana
     mainWindow.show();
   }
 
@@ -85,6 +86,7 @@ function checkAndCloseSplash() {
       if (splashWindow) {
         splashWindow.destroy();
         splashWindow = null;
+        mainWindow.maximize(); // Maximizar la ventana
         mainWindow.show();
       }
     }, 5000);
