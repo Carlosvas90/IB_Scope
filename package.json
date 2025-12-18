@@ -65,7 +65,9 @@
     "asarUnpack": [
       "node_modules/ffmpeg-static/**/*",
       "node_modules/better-sqlite3/**/*",
-      "src/renderer/apps/space-heatmap/py/**/*"
+      "src/renderer/apps/space-heatmap/py/**/*",
+      "src/renderer/apps/space-heatmap/js/Reglas/**/*",
+      "assets/svg/Space_Heatmaps/**/*"
     ],
     "forceCodeSigning": false,
     "compression": "maximum",

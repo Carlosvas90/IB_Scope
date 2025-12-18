@@ -417,11 +417,48 @@ def main():
     """
     print("[Heatmap] Iniciando generacion de Heatmaps SVG...")
     
-    # Obtener root del proyecto (siempre)
-    project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))))
+    script_path = os.path.abspath(__file__)
     
-    # SVG dir SIEMPRE desde assets (son los templates base de la aplicación)
-    svg_dir = os.path.join(project_root, "assets", "svg", "Space_Heatmaps")
+    # Lista de posibles rutas para buscar los SVGs (en orden de prioridad)
+    posibles_rutas_svg = []
+    
+    # 1. Ruta desde la raíz del proyecto (modo desarrollo)
+    project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(script_path))))))
+    svg_dir_proyecto = os.path.join(project_root, "assets", "svg", "Space_Heatmaps")
+    posibles_rutas_svg.append(svg_dir_proyecto)
+    
+    # 2. Si estamos empaquetados, buscar en resources/app.asar.unpacked
+    # Normalizar el path para manejar tanto / como \ correctamente
+    script_path_normalized = os.path.normpath(script_path)
+    if 'resources' in script_path_normalized or 'app.asar' in script_path_normalized:
+        parts = script_path_normalized.split(os.sep)
+        resources_idx = None
+        for i, part in enumerate(parts):
+            if part == 'resources':
+                resources_idx = i
+                break
+        
+        if resources_idx is not None:
+            resources_dir = os.sep.join(parts[:resources_idx + 1])
+            # Intentar en app.asar.unpacked primero (preferido, porque están unpacked)
+            unpacked_svg_dir = os.path.normpath(os.path.join(resources_dir, "app.asar.unpacked", "assets", "svg", "Space_Heatmaps"))
+            posibles_rutas_svg.insert(0, unpacked_svg_dir)  # Insertar al inicio (mayor prioridad)
+            # Intentar en app.asar como fallback
+            asar_svg_dir = os.path.normpath(os.path.join(resources_dir, "app.asar", "assets", "svg", "Space_Heatmaps"))
+            posibles_rutas_svg.append(asar_svg_dir)
+    
+    # Buscar la primera ruta que exista
+    svg_dir = None
+    for ruta in posibles_rutas_svg:
+        if os.path.exists(ruta):
+            svg_dir = ruta
+            print(f"[Heatmap] Directorio de SVGs encontrado en: {svg_dir}")
+            break
+    
+    # Si no se encontró ninguna ruta, usar la primera como fallback (para mostrar el error)
+    if svg_dir is None:
+        svg_dir = posibles_rutas_svg[0]
+        print(f"[ADVERTENCIA] No se encontró el directorio de SVGs. Buscando en: {svg_dir}")
     
     # Determinar rutas según configuración
     if MODO_DEV:

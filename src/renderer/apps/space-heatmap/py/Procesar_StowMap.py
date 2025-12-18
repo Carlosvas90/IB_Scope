@@ -5,6 +5,25 @@ import sys
 import platform
 from datetime import datetime
 
+# Configurar encoding UTF-8 para stdout/stderr en Windows
+# Usar método compatible con versiones anteriores de Python
+if platform.system() == 'Windows':
+    try:
+        # Python 3.7+
+        if hasattr(sys.stdout, 'reconfigure'):
+            if sys.stdout.encoding != 'utf-8':
+                sys.stdout.reconfigure(encoding='utf-8')
+            if sys.stderr.encoding != 'utf-8':
+                sys.stderr.reconfigure(encoding='utf-8')
+        else:
+            # Para versiones anteriores, usar env vars
+            import io
+            sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+            sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
+    except (AttributeError, ValueError):
+        # Si falla, continuar sin cambiar encoding (usar ASCII seguro)
+        pass
+
 # ============================================
 # CONFIGURACIÓN: GUARDAR CSV CORREGIDO
 # ============================================
@@ -62,6 +81,8 @@ def corregir_csv(df):
     # 2. Crear columna Fullness: copia de Utilization % en decimales
     # Fullness es la columna PRINCIPAL que se usa en TODOS los cálculos automáticos
     # AQUÍ sí aplicar corrección de PALLET-SINGLE (si > 0 → 1.0)
+    # Usar .copy() explícitamente para evitar SettingWithCopyWarning
+    df = df.copy()
     df['Fullness'] = df['Utilization %'].copy()
     
     if 'Bin Type' in df.columns:
@@ -619,14 +640,60 @@ def procesar_stowmap(csv_path, output_dir):
     # Script está en: src/renderer/apps/space-heatmap/py/Procesar_StowMap.py
     # Reglas están en: src/renderer/apps/space-heatmap/js/Reglas/
     script_path = os.path.abspath(__file__)
+    
+    # Lista de posibles rutas para buscar los archivos de reglas (en orden de prioridad)
+    posibles_rutas_reglas = []
+    
+    # 1. Ruta relativa directa desde el script (funciona en dev y build si están unpacked)
     # Subir 1 nivel desde py/ a space-heatmap/
     space_heatmap_dir = os.path.dirname(os.path.dirname(script_path))
-    reglas_dir = os.path.join(space_heatmap_dir, "js", "Reglas")
+    reglas_dir_relativo = os.path.join(space_heatmap_dir, "js", "Reglas")
+    posibles_rutas_reglas.append(reglas_dir_relativo)
     
-    # Si no existe, intentar ruta alternativa desde la raíz del proyecto
-    if not os.path.exists(reglas_dir):
-        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(script_path))))))
-        reglas_dir = os.path.join(project_root, "src", "renderer", "apps", "space-heatmap", "js", "Reglas")
+    # 2. Ruta desde la raíz del proyecto (modo desarrollo)
+    project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(script_path))))))
+    reglas_dir_proyecto = os.path.join(project_root, "src", "renderer", "apps", "space-heatmap", "js", "Reglas")
+    posibles_rutas_reglas.append(reglas_dir_proyecto)
+    
+    # 3. Si estamos empaquetados, buscar en resources/app.asar.unpacked
+    # En Windows, el path puede ser: D:\...\resources\app.asar.unpacked\src\renderer\apps\space-heatmap\py\
+    # Normalizar el path para manejar tanto / como \ correctamente
+    script_path_normalized = os.path.normpath(script_path)
+    if 'resources' in script_path_normalized or 'app.asar' in script_path_normalized:
+        # Usar normpath para normalizar separadores de ruta
+        parts = script_path_normalized.split(os.sep)
+        resources_idx = None
+        for i, part in enumerate(parts):
+            if part == 'resources':
+                resources_idx = i
+                break
+        
+        if resources_idx is not None:
+            resources_dir = os.sep.join(parts[:resources_idx + 1])
+            # Intentar en app.asar.unpacked primero (preferido, porque están unpacked)
+            unpacked_reglas = os.path.normpath(os.path.join(resources_dir, "app.asar.unpacked", "src", "renderer", "apps", "space-heatmap", "js", "Reglas"))
+            posibles_rutas_reglas.insert(0, unpacked_reglas)  # Mayor prioridad
+            # Intentar en app.asar como fallback
+            asar_reglas = os.path.normpath(os.path.join(resources_dir, "app.asar", "src", "renderer", "apps", "space-heatmap", "js", "Reglas"))
+            posibles_rutas_reglas.append(asar_reglas)
+    
+    # Buscar la primera ruta que exista
+    reglas_dir = None
+    for ruta in posibles_rutas_reglas:
+        if os.path.exists(ruta):
+            reglas_dir = ruta
+            print(f"[Zonas] [OK] Archivos de reglas encontrados en: {reglas_dir}")
+            break
+    
+    # CRÍTICO: Si no se encontró el directorio de reglas, mostrar error y detener
+    if reglas_dir is None:
+        error_msg = f"[ERROR CRÍTICO] No se encontró el directorio de reglas. Rutas buscadas:\n"
+        for i, ruta in enumerate(posibles_rutas_reglas, 1):
+            error_msg += f"  {i}. {ruta}\n"
+        error_msg += "\nLos archivos de reglas son OBLIGATORIOS para generar Data_Fullness.json.\n"
+        error_msg += "Verifica que los archivos estén incluidos en el build (package.json asarUnpack)."
+        print(error_msg)
+        raise FileNotFoundError(error_msg)
     
     # Procesar zonas desde fullness_vlc1.json
     # NOTA: Zonas_reglas.json es solo un archivo de referencia para resolver 'zone',
@@ -638,34 +705,53 @@ def procesar_stowmap(csv_path, output_dir):
     zonas_reglas_path = os.path.join(reglas_dir, "Zonas_reglas.json")
     zonas_reglas_dict = None
     if os.path.exists(zonas_reglas_path):
-        print(f"[Zonas] Cargando Zonas_reglas.json como referencia para resolver 'zone': {zonas_reglas_path}")
+        print(f"[Zonas] [OK] Cargando Zonas_reglas.json como referencia para resolver 'zone': {zonas_reglas_path}")
         with open(zonas_reglas_path, 'r', encoding='utf-8-sig') as f:
             zonas_reglas_dict = json.load(f)
-        print(f"[Zonas] Cargadas {len(zonas_reglas_dict)} zonas de referencia (solo para resolver 'zone', no se generan datos)")
+        print(f"[Zonas] [OK] Cargadas {len(zonas_reglas_dict)} zonas de referencia (solo para resolver 'zone', no se generan datos)")
     else:
-        print(f"[ADVERTENCIA] No se encontro Zonas_reglas.json en: {zonas_reglas_path}")
+        error_msg = f"[ERROR CRÍTICO] No se encontro Zonas_reglas.json en: {zonas_reglas_path}\n"
+        error_msg += "Este archivo es OBLIGATORIO para procesar las zonas correctamente."
+        print(error_msg)
+        raise FileNotFoundError(error_msg)
     
     # Procesar SOLO fullness_vlc1.json (este es el único que genera datos en el JSON final)
     # Pasar zonas_reglas_dict para resolver referencias 'zone'
     fullness_path = os.path.join(reglas_dir, "fullness_vlc1.json")
     if os.path.exists(fullness_path):
-        print(f"[Zonas] Procesando fullness_vlc1.json (genera datos en JSON final): {fullness_path}")
+        print(f"[Zonas] [OK] Procesando fullness_vlc1.json (genera datos en JSON final): {fullness_path}")
         resultado_fullness = procesar_zonas(df, fullness_path, output_dir, zonas_reglas_dict=zonas_reglas_dict)
         if resultado_fullness:
             todas_las_zonas.update(resultado_fullness)
+            print(f"[Zonas] [OK] Procesadas {len(todas_las_zonas)} zonas desde fullness_vlc1.json")
+        else:
+            error_msg = f"[ERROR CRÍTICO] No se procesaron zonas desde fullness_vlc1.json.\n"
+            error_msg += "El archivo existe pero no se pudieron procesar los datos."
+            print(error_msg)
+            raise ValueError(error_msg)
     else:
-        print(f"[ADVERTENCIA] No se encontro fullness_vlc1.json en: {fullness_path}")
+        error_msg = f"[ERROR CRÍTICO] No se encontro fullness_vlc1.json en: {fullness_path}\n"
+        error_msg += "Este archivo es OBLIGATORIO para generar Data_Fullness.json."
+        print(error_msg)
+        raise FileNotFoundError(error_msg)
     
     # Guardar todas las zonas combinadas en un solo archivo
-    if todas_las_zonas:
-        try:
-            output_file = os.path.join(output_dir, 'Data_Fullness.json')
-            with open(output_file, 'w', encoding='utf-8') as f:
-                json.dump(todas_las_zonas, f, indent=2, ensure_ascii=False)
-            print(f"[OK] Total de {len(todas_las_zonas)} zonas guardadas en Data_Fullness.json: {output_file}")
-        except Exception as e:
-            print(f"[ERROR] No se pudo guardar Data_Fullness.json: {str(e)}")
-            raise
+    # CRÍTICO: Solo generar el archivo si hay zonas procesadas
+    if not todas_las_zonas or len(todas_las_zonas) == 0:
+        error_msg = "[ERROR CRÍTICO] No se procesaron zonas. No se puede generar Data_Fullness.json.\n"
+        error_msg += "Verifica que los archivos de reglas (Zonas_reglas.json y fullness_vlc1.json) existan y sean válidos."
+        print(error_msg)
+        raise ValueError(error_msg)
+    
+    try:
+        output_file = os.path.join(output_dir, 'Data_Fullness.json')
+        with open(output_file, 'w', encoding='utf-8') as f:
+            json.dump(todas_las_zonas, f, indent=2, ensure_ascii=False)
+        print(f"[OK] Total de {len(todas_las_zonas)} zonas guardadas en Data_Fullness.json: {output_file}")
+    except Exception as e:
+        error_msg = f"[ERROR CRÍTICO] No se pudo guardar Data_Fullness.json: {str(e)}"
+        print(error_msg)
+        raise
     
     print("\n[EXITO] Procesamiento completado!")
     print(f"[EXITO] Ubicacion: {output_dir}")
