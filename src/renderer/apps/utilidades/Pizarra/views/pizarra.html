@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pizarra - Roster de Empleados</title>
+    <title>Pizarra - Gestión de Puestos</title>
     <!-- CSS se carga dinámicamente por el router -->
   </head>
   <body>
     <div class="pizarra-container">
-      <!-- Header con estilo similar a space-heatmap -->
+      <!-- Header -->
       <header class="app-header-card">
         <h1>
           <svg
@@ -33,92 +33,244 @@
             <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
             <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
           </svg>
-          Pizarra - Roster de Empleados
+          Pizarra - Gestión de Puestos
         </h1>
         <div class="app-header-controls">
-          <!-- Estado del archivo en el header -->
+          <button id="btn-generar-skillmatrix" class="btn btn-secondary btn-sm" title="Generar skillmatrix desde roster">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+              <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            </svg>
+            Generar SkillMatrix
+          </button>
           <div id="file-status-header" class="file-status-header">
             <span id="status-icon">📊</span>
             <span id="status-text">Cargando...</span>
           </div>
-          <button id="download-roster-btn" class="btn btn-primary">
-            <svg
-              id="download-icon"
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-              <polyline points="7 10 12 15 17 10"></polyline>
-              <line x1="12" y1="15" x2="12" y2="3"></line>
-            </svg>
-            <span id="download-btn-text">Descargar Roster</span>
-          </button>
         </div>
       </header>
 
       <!-- Contenido principal -->
       <div class="pizarra-content">
-        <!-- Mensaje de estado (solo se muestra durante descarga o errores) -->
-        <div id="status-message" class="status-message-banner" style="display: none;"></div>
-        
-        <!-- Barra de progreso (solo visible durante descarga) -->
-        <div id="progress-container" class="progress-container" style="display: none;">
-          <div class="progress-header">
-            <span id="progress-text">Iniciando descarga...</span>
-            <span id="progress-percentage">0%</span>
-          </div>
-          <div class="progress-bar-wrapper">
-            <div id="progress-bar" class="progress-bar" style="width: 0%;"></div>
+        <!-- Área de escaneo -->
+        <div class="scanning-section">
+          <div class="scan-card">
+            <div class="scan-header">
+              <h2>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="9" y1="3" x2="9" y2="21"></line>
+                </svg>
+                Escaneo de Puestos y Usuarios
+              </h2>
+            </div>
+            <div class="scan-content">
+              <div class="scan-step">
+                <label>Escanear Puesto o Usuario:</label>
+                <div class="input-group">
+                  <input
+                    type="text"
+                    id="scan-input"
+                    placeholder="Escanea QR o escribe (Puesto primero, luego Usuario)"
+                    autocomplete="off"
+                  />
+                  <button id="btn-agregar-puesto" class="btn-icon" title="Agregar puesto personalizado">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="12" y1="5" x2="12" y2="19"></line>
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                  </button>
+                </div>
+                <div id="scan-info" class="info-display"></div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Mensaje inicial (cuando no hay datos) -->
-        <div id="no-data-message" class="info-card">
-          <div class="info-card-header">
-            <h3>ℹ️ Información del Proceso</h3>
-          </div>
-          <div class="info-card-content">
-            <p>
-              Este proceso descarga el <strong>roster de empleados</strong> desde el portal FCLM
-              para el centro de distribución <strong>VLC1</strong>.
-            </p>
-            <div class="info-features">
-              <div class="feature-item">
-                <span class="feature-icon">🔐</span>
-                <div class="feature-text">
-                  <strong>Autenticación segura</strong>
-                  <p>Se abrirá una ventana CMD para ingresar tu PIN de Midway</p>
-                </div>
-              </div>
-              <div class="feature-item">
-                <span class="feature-icon">👥</span>
-                <div class="feature-text">
-                  <strong>Datos completos de empleados</strong>
-                  <p>Incluye información de empleados activos, en LOA, Amazon, temporales y 3rd party</p>
-                </div>
-              </div>
-              <div class="feature-item">
-                <span class="feature-icon">⏱️</span>
-                <div class="feature-text">
-                  <strong>Actualización recomendada</strong>
-                  <p>Los datos deben actualizarse periódicamente para mantener precisión</p>
-                </div>
+        <!-- Dashboard -->
+        <div class="dashboard-section">
+          <div class="dashboard-header">
+            <h2>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+              Dashboard de Asignaciones
+            </h2>
+            <div class="dashboard-stats">
+              <div class="stat-item">
+                <span class="stat-label">Total Asignados:</span>
+                <span class="stat-value" id="total-asignados">0</span>
               </div>
             </div>
+          </div>
+          <div id="dashboard-content" class="dashboard-content">
+            <!-- Se generará dinámicamente -->
           </div>
         </div>
       </div>
     </div>
 
+    <!-- Modal: Agregar Puesto Personalizado -->
+    <div id="modal-puesto-personalizado" class="modal" style="display: none;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Agregar Puesto Personalizado</h3>
+          <button class="modal-close" id="close-modal-puesto">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Nombre del Puesto:</label>
+            <input type="text" id="puesto-nombre-input" placeholder="Ej: Ayudante MAD7" />
+          </div>
+          <div class="form-group">
+            <label>Departamento Principal:</label>
+            <select id="puesto-depto-principal">
+              <option value="Inbound">Inbound</option>
+              <option value="Outbound">Outbound</option>
+              <option value="ICQA">ICQA</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Departamento Secundario:</label>
+            <input type="text" id="puesto-depto-secundario" placeholder="Ej: Stow, Pick, etc." />
+          </div>
+          <div class="form-group">
+            <label>Función:</label>
+            <input type="text" id="puesto-funcion" placeholder="Ej: Ayudante MAD7" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" id="cancel-puesto">Cancelar</button>
+          <button class="btn btn-primary" id="save-puesto">Guardar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Alerta Skill Matrix -->
+    <div id="modal-skill-alert" class="modal" style="display: none;">
+      <div class="modal-content modal-alert">
+        <div class="modal-header">
+          <h3>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+              <line x1="12" y1="9" x2="12" y2="13"></line>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+            Alerta: Formación No Verificada
+          </h3>
+        </div>
+        <div class="modal-body">
+          <p id="skill-alert-message"></p>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="confirm-skill-checkbox" />
+              Confirmar que el usuario tiene formación para este puesto
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" id="cancel-skill">Cancelar</button>
+          <button class="btn btn-primary" id="confirm-skill">Confirmar y Asignar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Cambio de Puesto -->
+    <div id="modal-cambio-puesto" class="modal" style="display: none;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Cambio de Puesto</h3>
+        </div>
+        <div class="modal-body">
+          <p id="cambio-puesto-message"></p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" id="cancel-cambio">Cancelar</button>
+          <button class="btn btn-primary" id="confirm-cambio">Mover a Nuevo Puesto</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Agregar Usuario a Puesto -->
+    <div id="modal-agregar-usuario" class="modal" style="display: none;">
+      <div class="modal-content modal-large">
+        <div class="modal-header">
+          <h3>Agregar Personal a <span id="puesto-nombre-modal"></span></h3>
+          <button class="modal-close" id="close-modal-agregar-usuario">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="search-box">
+            <input type="text" id="search-usuario-input" placeholder="Buscar usuario..." autocomplete="off" />
+          </div>
+          <div id="usuarios-disponibles-list" class="usuarios-disponibles-list">
+            <!-- Se llenará dinámicamente -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" id="cancel-agregar-usuario">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Skill Matrix del Usuario -->
+    <div id="modal-skill-matrix" class="modal" style="display: none;">
+      <div class="modal-content modal-large">
+        <div class="modal-header">
+          <h3>Formaciones de <span id="usuario-nombre-skill"></span></h3>
+          <button class="modal-close" id="close-modal-skill-matrix">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div id="skill-matrix-content" class="skill-matrix-content">
+            <!-- Se llenará dinámicamente -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" id="cancel-skill-matrix">Cerrar</button>
+          <button class="btn btn-primary" id="save-skill-matrix">Guardar Cambios</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notificación Toast -->
+    <div id="toast-notification" class="toast" style="display: none;"></div>
+
     <!-- Script principal -->
-    <script src="js/pizarra.js"></script>
+    <script type="module" src="js/pizarra.js"></script>
+    
+    <!-- Cerrar menús al hacer click fuera -->
+    <script>
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.usuario-menu-container')) {
+          document.querySelectorAll('.usuario-menu').forEach(menu => {
+            menu.style.display = 'none';
+          });
+        }
+      });
+    </script>
   </body>
 </html>
-

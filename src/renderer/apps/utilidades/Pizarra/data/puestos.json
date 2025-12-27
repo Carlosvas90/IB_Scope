@@ -1,0 +1,117 @@
+{
+  "puestos_predefinidos": [
+    {
+      "id": "water-spider",
+      "nombre": "Water Spider",
+      "departamento_principal": "Inbound",
+      "departamento_secundario": "Stow",
+      "funcion": "Water Spider",
+      "activo": true
+    },
+    {
+      "id": "cart-runner",
+      "nombre": "Cart Runner",
+      "departamento_principal": "Inbound",
+      "departamento_secundario": "Stow",
+      "funcion": "Cart Runner",
+      "activo": true
+    },
+    {
+      "id": "pit-a",
+      "nombre": "Pit-A",
+      "departamento_principal": "Inbound",
+      "departamento_secundario": "Stow",
+      "funcion": "Pit-A",
+      "activo": true
+    },
+    {
+      "id": "pit-b",
+      "nombre": "Pit-B",
+      "departamento_principal": "Inbound",
+      "departamento_secundario": "Stow",
+      "funcion": "Pit-B",
+      "activo": true
+    },
+    {
+      "id": "pick-tower",
+      "nombre": "Pick - Pick Tower",
+      "departamento_principal": "Outbound",
+      "departamento_secundario": "Pick",
+      "funcion": "Pick Tower",
+      "activo": true
+    },
+    {
+      "id": "pick-highrack",
+      "nombre": "Pick - Highrack",
+      "departamento_principal": "Outbound",
+      "departamento_secundario": "Pick",
+      "funcion": "Highrack",
+      "activo": true
+    },
+    {
+      "id": "pit-c",
+      "nombre": "Pit-C",
+      "departamento_principal": "Inbound",
+      "departamento_secundario": "Stow",
+      "funcion": "Pit-C",
+      "activo": true
+    },
+    {
+      "id": "stow",
+      "nombre": "Stow",
+      "departamento_principal": "Inbound",
+      "departamento_secundario": "Stow",
+      "funcion": "Stow",
+      "activo": true
+    },
+    {
+      "id": "decant",
+      "nombre": "Decant",
+      "departamento_principal": "Inbound",
+      "departamento_secundario": "Decant",
+      "funcion": "Decant",
+      "activo": true
+    },
+    {
+      "id": "noncon",
+      "nombre": "Noncon",
+      "departamento_principal": "Inbound",
+      "departamento_secundario": "Noncon",
+      "funcion": "Noncon",
+      "activo": true
+    },
+    {
+      "id": "pick",
+      "nombre": "Pick",
+      "departamento_principal": "Outbound",
+      "departamento_secundario": "Pick",
+      "funcion": "Pick",
+      "activo": true
+    },
+    {
+      "id": "ps-receive",
+      "nombre": "PS-Receive",
+      "departamento_principal": "Inbound",
+      "departamento_secundario": "Receive",
+      "funcion": "PS-Receive",
+      "activo": true
+    },
+    {
+      "id": "sweeper",
+      "nombre": "Sweeper",
+      "departamento_principal": "Inbound",
+      "departamento_secundario": "Stow",
+      "funcion": "Sweeper",
+      "activo": true
+    },
+    {
+      "id": "pout",
+      "nombre": "POUT",
+      "departamento_principal": "Outbound",
+      "departamento_secundario": "Pick",
+      "funcion": "POUT",
+      "activo": true
+    }
+  ],
+  "puestos_personalizados": []
+}
