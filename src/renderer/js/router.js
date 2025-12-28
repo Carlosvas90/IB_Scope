@@ -77,6 +77,10 @@ class Router {
         path: "../apps/utilidades/Pizarra/views/pizarra.html",
         scripts: ["../apps/utilidades/Pizarra/js/pizarra.js"],
       },
+      "skillmatrix": {
+        path: "../apps/utilidades/SkillMatrix/views/skillmatrix.html",
+        scripts: ["../apps/utilidades/SkillMatrix/js/skillmatrix.js"],
+      },
       "imanes": {
         path: "../apps/utilidades/Imanes/views/imanes.html",
         scripts: [],

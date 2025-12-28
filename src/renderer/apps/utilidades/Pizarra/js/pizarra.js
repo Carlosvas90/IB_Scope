@@ -22,6 +22,8 @@ class PizarraController {
     this.usuarioActualSkillMatrix = null; // Usuario actual en modal de skill matrix
     this.puestoSeleccionadoParaAgregar = null; // Puesto seleccionado para agregar usuario
     this.usuariosDisponiblesFiltrados = null; // Usuarios filtrados en modal
+    this.saveTimeout = null; // Para debounce del guardado
+    this.pendingSave = false; // Flag para indicar si hay guardado pendiente
 
     // Configurar listeners del EventBus
     this.configurarEventListeners();
@@ -510,6 +512,31 @@ class PizarraController {
     }
   }
 
+  /**
+   * Guarda los datos con debounce para evitar múltiples guardados durante escaneo rápido
+   * Espera 500ms después del último cambio antes de guardar
+   */
+  guardarDatosDebounced() {
+    // Limpiar timeout anterior si existe
+    if (this.saveTimeout) {
+      clearTimeout(this.saveTimeout);
+    }
+
+    // Marcar que hay guardado pendiente
+    this.pendingSave = true;
+
+    // Establecer nuevo timeout
+    this.saveTimeout = setTimeout(async () => {
+      if (this.pendingSave) {
+        this.pendingSave = false;
+        // Guardar en segundo plano sin bloquear
+        this.guardarDatos().catch((error) => {
+          console.error("Error en guardado debounced:", error);
+        });
+      }
+    }, 500); // Esperar 500ms después del último cambio
+  }
+
   configurarEventos() {
     // Input único de escaneo
     const scanInput = document.getElementById("scan-input");
@@ -609,6 +636,9 @@ class PizarraController {
       // Es un puesto
       this.puestoActual = puesto;
       this.mostrarInfoEscaneo(`Puesto: ${puesto.nombre}`, "success");
+
+      // ACTUALIZAR DASHBOARD INMEDIATAMENTE para mostrar el puesto (aunque esté vacío)
+      this.actualizarDashboard();
 
       // Emitir evento
       this.eventBus.emit(PIZARRA_EVENTS.PUESTO_SELECCIONADO, {
@@ -755,27 +785,30 @@ class PizarraController {
     };
     this.pizarraActual.historial_cambios.push(historial);
 
-    await this.guardarDatos();
+    // ACTUALIZAR DASHBOARD INMEDIATAMENTE (sin esperar guardado)
+    this.actualizarDashboard();
 
-    // Emitir evento de asignación creada
+    // Emitir eventos inmediatamente
     this.eventBus.emit(PIZARRA_EVENTS.ASIGNACION_CREADA, {
       asignacion: asignacion,
       timestamp: historial.fecha,
     });
 
-    // Emitir evento de pizarra actualizada
     this.eventBus.emit(PIZARRA_EVENTS.PIZARRA_ACTUALIZADA, {
       asignaciones: this.pizarraActual.asignaciones,
       total: this.pizarraActual.asignaciones.length,
       timestamp: new Date().toISOString(),
     });
 
-    this.actualizarDashboard();
+    // Feedback inmediato
     this.mostrarToast(
       `Usuario ${login} asignado a ${this.puestoActual.nombre}`,
       "success"
     );
     this.reproducirSonido("success");
+
+    // Guardar datos de forma asíncrona con debounce (no bloquea)
+    this.guardarDatosDebounced();
 
     // Resetear para siguiente escaneo
     this.resetearEscaneo();
@@ -854,7 +887,9 @@ class PizarraController {
     };
 
     this.puestosData.puestos_personalizados.push(nuevoPuesto);
-    await this.guardarDatos();
+
+    // ACTUALIZAR DASHBOARD INMEDIATAMENTE (sin esperar guardado)
+    this.actualizarDashboard();
 
     // Emitir evento de puesto creado
     this.eventBus.emit(PIZARRA_EVENTS.PUESTO_CREADO, {
@@ -868,6 +903,9 @@ class PizarraController {
     // Asignar el puesto recién creado
     this.puestoActual = nuevoPuesto;
     this.mostrarInfoEscaneo(`Puesto: ${nuevoPuesto.nombre}`, "success");
+
+    // Guardar datos de forma asíncrona (no bloquea)
+    this.guardarDatosDebounced();
   }
 
   actualizarDashboard() {
@@ -882,7 +920,7 @@ class PizarraController {
       asignaciones: this.pizarraActual.asignaciones,
     });
 
-    // Agrupar por departamento principal
+    // Agrupar asignaciones por departamento principal
     const porDepartamento = {};
 
     this.pizarraActual.asignaciones.forEach((asignacion) => {
@@ -893,11 +931,40 @@ class PizarraController {
 
       const deptoSec = asignacion.departamento_secundario;
       if (!porDepartamento[depto][deptoSec]) {
-        porDepartamento[depto][deptoSec] = [];
+        porDepartamento[depto][deptoSec] = {};
       }
 
-      porDepartamento[depto][deptoSec].push(asignacion);
+      // Agrupar por puesto dentro del subdepartamento
+      if (!porDepartamento[depto][deptoSec][asignacion.puesto_id]) {
+        porDepartamento[depto][deptoSec][asignacion.puesto_id] = [];
+      }
+      porDepartamento[depto][deptoSec][asignacion.puesto_id].push(asignacion);
     });
+
+    // Si hay un puesto actual seleccionado pero sin asignaciones, agregarlo al dashboard
+    if (this.puestoActual) {
+      const depto = this.puestoActual.departamento_principal;
+      const deptoSec = this.puestoActual.departamento_secundario;
+
+      // Verificar si el puesto ya está en el dashboard (tiene asignaciones)
+      const yaEnDashboard =
+        porDepartamento[depto] &&
+        porDepartamento[depto][deptoSec] &&
+        porDepartamento[depto][deptoSec][this.puestoActual.id];
+
+      // Si no está en el dashboard, agregarlo vacío
+      if (!yaEnDashboard) {
+        if (!porDepartamento[depto]) {
+          porDepartamento[depto] = {};
+        }
+        if (!porDepartamento[depto][deptoSec]) {
+          porDepartamento[depto][deptoSec] = {};
+        }
+        if (!porDepartamento[depto][deptoSec][this.puestoActual.id]) {
+          porDepartamento[depto][deptoSec][this.puestoActual.id] = [];
+        }
+      }
+    }
 
     // Generar HTML del dashboard
     let html = "";
@@ -921,21 +988,14 @@ class PizarraController {
             <div class="puestos-grid">
         `;
 
-            // Agrupar por puesto dentro del subdepartamento
-            const porPuesto = {};
-            porDepartamento[deptoPrincipal][deptoSecundario].forEach(
-              (asignacion) => {
-                if (!porPuesto[asignacion.puesto_id]) {
-                  porPuesto[asignacion.puesto_id] = [];
-                }
-                porPuesto[asignacion.puesto_id].push(asignacion);
-              }
-            );
-
-            Object.keys(porPuesto).forEach((puestoId) => {
+            // Mostrar puestos del subdepartamento (solo los que tienen asignaciones o están seleccionados)
+            Object.keys(
+              porDepartamento[deptoPrincipal][deptoSecundario]
+            ).forEach((puestoId) => {
+              const asignaciones =
+                porDepartamento[deptoPrincipal][deptoSecundario][puestoId];
               const puesto = this.obtenerPuestoPorId(puestoId);
               const nombrePuesto = puesto ? puesto.nombre : puestoId;
-              const asignaciones = porPuesto[puestoId];
 
               html += `
             <div class="puesto-card">

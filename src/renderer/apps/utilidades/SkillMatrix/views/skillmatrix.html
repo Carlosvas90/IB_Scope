@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skill Matrix - Gestión de Formaciones</title>
+    <!-- CSS se carga dinámicamente por el router -->
+  </head>
+  <body>
+    <div class="skillmatrix-container">
+      <!-- Header -->
+      <header class="app-header-card">
+        <h1>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            style="
+              display: inline-flex;
+              align-items: center;
+              vertical-align: middle;
+              margin-right: 8px;
+            "
+          >
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          Skill Matrix - Gestión de Formaciones
+        </h1>
+        <div class="app-header-controls">
+          <div id="file-status-header" class="file-status-header">
+            <span id="status-icon">📊</span>
+            <span id="status-text">Cargando...</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Contenido principal -->
+      <div class="skillmatrix-content">
+        <!-- Búsqueda y filtros -->
+        <div class="search-section">
+          <div class="search-card">
+            <div class="search-header">
+              <h2>Búsqueda de Usuarios</h2>
+            </div>
+            <div class="search-content">
+              <div class="search-box">
+                <input
+                  type="text"
+                  id="search-usuario"
+                  placeholder="Buscar por login o nombre..."
+                  autocomplete="off"
+                />
+              </div>
+              <div class="filter-options">
+                <div class="filter-group">
+                  <label for="filter-turno">Filtrar por Turno:</label>
+                  <select id="filter-turno">
+                    <option value="">Todos los turnos</option>
+                  </select>
+                </div>
+                <div class="filter-group">
+                  <label for="filter-puesto">Filtrar por Formación:</label>
+                  <select id="filter-puesto">
+                    <option value="">Todas las formaciones</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lista de usuarios -->
+        <div class="usuarios-section">
+          <div class="usuarios-card">
+            <div class="usuarios-header">
+              <h2>Usuarios</h2>
+              <div class="usuarios-stats">
+                <span id="total-usuarios">0</span> usuarios
+              </div>
+            </div>
+            <div class="usuarios-content">
+              <div id="usuarios-list" class="usuarios-list">
+                <!-- Se llena dinámicamente -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal para editar skill matrix de un usuario -->
+    <div id="modal-skill-matrix" class="modal">
+      <div class="modal-content modal-large">
+        <div class="modal-header">
+          <h3>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+            Formaciones de <span id="modal-usuario-login"></span>
+          </h3>
+          <button class="modal-close" id="close-modal-skill-matrix">×</button>
+        </div>
+        <div class="modal-body">
+          <div id="skill-matrix-content" class="skill-matrix-content">
+            <!-- Se llena dinámicamente -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="cancel-skill-matrix" class="btn btn-secondary">Cancelar</button>
+          <button id="save-skill-matrix" class="btn btn-primary">Guardar Cambios</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="js/skillmatrix.js"></script>
+  </body>
+</html>
+

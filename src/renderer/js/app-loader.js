@@ -51,6 +51,13 @@ class AppLoader {
         initializer: undefined, // No requiere inicializador
         styles: ["../apps/utilidades/Pizarra/css/pizarra.css"], // CSS se carga desde app-loader
       },
+      "skillmatrix": {
+        name: "Skill Matrix",
+        description: "Gestión de formaciones y habilidades de usuarios",
+        icon: "file-text",
+        initializer: undefined, // No requiere inicializador
+        styles: ["../apps/utilidades/SkillMatrix/css/skillmatrix.css"], // CSS se carga desde app-loader
+      },
       "imanes": {
         name: "Imanes",
         description: "Gestión de imanes",
