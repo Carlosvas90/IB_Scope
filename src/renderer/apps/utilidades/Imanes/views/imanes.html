@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Imanes - Generación de Fichas</title>
+    <!-- CSS se carga dinámicamente por el router -->
+  </head>
+  <body>
+    <div class="imanes-container">
+      <!-- Header -->
+      <header class="app-header-card">
+        <h1>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            style="
+              display: inline-flex;
+              align-items: center;
+              vertical-align: middle;
+              margin-right: 8px;
+            "
+          >
+            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+            <path d="M2 17l10 5 10-5"></path>
+            <path d="M2 12l10 5 10-5"></path>
+          </svg>
+          Imanes - Generación de Fichas
+        </h1>
+        <div class="app-header-controls">
+          <div id="file-status-header" class="file-status-header">
+            <span id="status-icon">📊</span>
+            <span id="status-text">Cargando...</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Contenido principal -->
+      <div class="imanes-content">
+        <!-- Sección de selección de logins -->
+        <div class="selection-section">
+          <div class="selection-card">
+            <div class="selection-header">
+              <h2>Selección de Logins</h2>
+            </div>
+            <div class="selection-content">
+              <div class="search-box">
+                <input
+                  type="text"
+                  id="search-login"
+                  placeholder="Buscar por login o nombre..."
+                  autocomplete="off"
+                />
+              </div>
+              <div class="login-list-container">
+                <div id="login-list" class="login-list">
+                  <!-- Se llena dinámicamente -->
+                </div>
+              </div>
+              <div class="selected-logins">
+                <h3>Logins Seleccionados (<span id="selected-count">0</span>)</h3>
+                <div id="selected-logins-list" class="selected-logins-list">
+                  <!-- Se llena dinámicamente -->
+                </div>
+                <div class="selected-actions">
+                  <button id="btn-limpiar-seleccion" class="btn btn-secondary">
+                    Limpiar Selección
+                  </button>
+                  <button id="btn-generar-preview" class="btn btn-primary">
+                    Generar Vista Previa
+                  </button>
+                  <button id="btn-exportar-pdf" class="btn btn-success" disabled>
+                    Exportar a PDF
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sección de vista previa -->
+        <div class="preview-section" id="preview-section" style="display: none;">
+          <div class="preview-card">
+            <div class="preview-header">
+              <h2>Vista Previa de Imanes</h2>
+              <button id="btn-cerrar-preview" class="btn-icon-small">×</button>
+            </div>
+            <div class="preview-content">
+              <div id="imanes-preview" class="imanes-preview">
+                <!-- Se generan los imanes aquí -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notificación Toast -->
+    <div id="toast-notification" class="toast" style="display: none;"></div>
+
+    <!-- Scripts -->
+    <script type="module" src="js/imanes.js"></script>
+  </body>
+</html>
+

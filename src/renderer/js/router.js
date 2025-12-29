@@ -83,7 +83,7 @@ class Router {
       },
       "imanes": {
         path: "../apps/utilidades/Imanes/views/imanes.html",
-        scripts: [],
+        scripts: ["../apps/utilidades/Imanes/js/imanes.js"],
       },
       "dock-control": {
         path: "../apps/dock-control/views/dock-control.html",

@@ -13,9 +13,12 @@
   "license": "MIT",
   "dependencies": {
     "better-sqlite3": "^12.4.1",
+    "bwip-js": "^4.8.0",
     "echarts": "^5.4.3",
     "electron-store": "^8.1.0",
     "ffmpeg-static": "^5.2.0",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.2",
     "lottie-web": "^5.12.2"
   },
   "devDependencies": {

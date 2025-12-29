@@ -60,10 +60,10 @@ class AppLoader {
       },
       "imanes": {
         name: "Imanes",
-        description: "Gestión de imanes",
+        description: "Generación de fichas de imanes para trabajadores",
         icon: "magnet",
         initializer: undefined, // No requiere inicializador
-        styles: [], // CSS se carga desde app-loader
+        styles: ["../apps/utilidades/Imanes/css/imanes.css"], // CSS se carga desde app-loader
       },
       // Aquí se pueden registrar más aplicaciones en el futuro
     };
