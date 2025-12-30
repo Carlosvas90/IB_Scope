@@ -4,97 +4,117 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Imanes - Generación de Fichas</title>
-    <!-- CSS se carga dinámicamente por el router -->
   </head>
   <body>
     <div class="imanes-container">
-      <!-- Header -->
-      <header class="app-header-card">
+      <!-- Header compacto con SVG dinámico -->
+      <header class="app-header-card compact">
         <h1>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="32"
-            height="32"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            style="
-              display: inline-flex;
-              align-items: center;
-              vertical-align: middle;
-              margin-right: 8px;
-            "
-          >
-            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-            <path d="M2 17l10 5 10-5"></path>
-            <path d="M2 12l10 5 10-5"></path>
-          </svg>
-          Imanes - Generación de Fichas
-        </h1>
-        <div class="app-header-controls">
-          <div id="file-status-header" class="file-status-header">
-            <span id="status-icon">📊</span>
-            <span id="status-text">Cargando...</span>
+          <div id="header-banner-icon" class="header-icon">
+            <!-- SVG se carga dinámicamente -->
           </div>
-        </div>
+          Imanes
+        </h1>
       </header>
 
       <!-- Contenido principal -->
       <div class="imanes-content">
-        <!-- Sección de selección de logins -->
-        <div class="selection-section">
-          <div class="selection-card">
-            <div class="selection-header">
-              <h2>Selección de Logins</h2>
+        <!-- Barra de selección compacta -->
+        <div class="selection-bar">
+          <!-- Input con autocompletado -->
+          <div class="search-wrapper">
+            <input
+              type="text"
+              id="search-login"
+              placeholder="Buscar login o nombre..."
+              autocomplete="off"
+            />
+            <div id="autocomplete-list" class="autocomplete-list"></div>
+          </div>
+
+          <!-- Filtro por turno -->
+          <div class="turno-filter">
+            <select id="turno-select">
+              <option value="">Todos los turnos</option>
+            </select>
+            <button id="btn-agregar-turno" class="btn btn-sm btn-secondary" title="Agregar todo el turno">
+              + Turno
+            </button>
+          </div>
+
+          <!-- Toggle colorear formaciones -->
+          <div class="toggle-option">
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggle-colorear-formaciones" />
+              <span class="toggle-slider"></span>
+            </label>
+            <span class="toggle-label">Colorear formaciones</span>
+          </div>
+
+          <!-- Toggle colores estándar/personalizado -->
+          <div class="toggle-option">
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggle-color-personalizado" />
+              <span class="toggle-slider"></span>
+            </label>
+            <span class="toggle-label" id="label-modo-color">Estándar</span>
+          </div>
+
+          <!-- Acciones -->
+          <div class="action-buttons">
+            <button id="btn-limpiar-seleccion" class="btn btn-sm btn-outline">
+              Limpiar
+            </button>
+            <button id="btn-generar-preview" class="btn btn-sm btn-primary">
+              Generar
+            </button>
+            <button id="btn-exportar-pdf" class="btn btn-sm btn-success" disabled>
+              PDF
+            </button>
+          </div>
+        </div>
+
+        <!-- Lista de logins seleccionados (compacta) -->
+        <div class="selected-bar" id="selected-bar" style="display: none;">
+          <span class="selected-label">Seleccionados (<span id="selected-count">0</span>):</span>
+          <div id="selected-logins-list" class="selected-chips">
+            <!-- Chips de logins seleccionados -->
+          </div>
+        </div>
+
+        <!-- Panel de personalización de colores (solo visible en modo personalizado) -->
+        <div class="customization-panel" id="customization-panel" style="display: none;">
+          <div class="customization-content" id="customization-content">
+            <div class="color-option">
+              <label for="color-turno">Turno:</label>
+              <input type="color" id="color-turno" value="#c2c1c0" />
             </div>
-            <div class="selection-content">
-              <div class="search-box">
-                <input
-                  type="text"
-                  id="search-login"
-                  placeholder="Buscar por login o nombre..."
-                  autocomplete="off"
-                />
-              </div>
-              <div class="login-list-container">
-                <div id="login-list" class="login-list">
-                  <!-- Se llena dinámicamente -->
-                </div>
-              </div>
-              <div class="selected-logins">
-                <h3>Logins Seleccionados (<span id="selected-count">0</span>)</h3>
-                <div id="selected-logins-list" class="selected-logins-list">
-                  <!-- Se llena dinámicamente -->
-                </div>
-                <div class="selected-actions">
-                  <button id="btn-limpiar-seleccion" class="btn btn-secondary">
-                    Limpiar Selección
-                  </button>
-                  <button id="btn-generar-preview" class="btn btn-primary">
-                    Generar Vista Previa
-                  </button>
-                  <button id="btn-exportar-pdf" class="btn btn-success" disabled>
-                    Exportar a PDF
-                  </button>
-                </div>
-              </div>
+            <div class="color-option">
+              <label for="color-login">Login:</label>
+              <input type="color" id="color-login" value="#606161" />
+            </div>
+            <div class="color-option">
+              <label for="color-variacion">Variación:</label>
+              <input type="color" id="color-variacion" value="#3a3838" />
+            </div>
+            <div class="color-option">
+              <label for="color-type-aa">Type AA:</label>
+              <input type="color" id="color-type-aa" value="#29ade4" />
             </div>
           </div>
         </div>
 
-        <!-- Sección de vista previa -->
-        <div class="preview-section" id="preview-section" style="display: none;">
+        <!-- Sección de vista previa (área principal) -->
+        <div class="preview-section" id="preview-section">
           <div class="preview-card">
             <div class="preview-header">
-              <h2>Vista Previa de Imanes</h2>
-              <button id="btn-cerrar-preview" class="btn-icon-small">×</button>
+              <h2>Vista Previa</h2>
             </div>
             <div class="preview-content">
               <div id="imanes-preview" class="imanes-preview">
-                <!-- Se generan los imanes aquí -->
+                <div class="empty-preview">
+                  <p>Busca y selecciona logins para generar imanes</p>
+                </div>
               </div>
             </div>
           </div>
@@ -104,9 +124,5 @@
 
     <!-- Notificación Toast -->
     <div id="toast-notification" class="toast" style="display: none;"></div>
-
-    <!-- Scripts -->
-    <script type="module" src="js/imanes.js"></script>
   </body>
 </html>
-

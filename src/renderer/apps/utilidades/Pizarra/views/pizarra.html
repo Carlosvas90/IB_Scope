@@ -4,132 +4,124 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pizarra - Gestión de Puestos</title>
-    <!-- CSS se carga dinámicamente por el router -->
   </head>
   <body>
     <div class="pizarra-container">
-      <!-- Header -->
-      <header class="app-header-card">
+      <!-- Header compacto -->
+      <header class="app-header-card compact">
         <h1>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="32"
-            height="32"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            style="
-              display: inline-flex;
-              align-items: center;
-              vertical-align: middle;
-              margin-right: 8px;
-            "
-          >
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
             <circle cx="9" cy="7" r="4"></circle>
             <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
             <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
           </svg>
-          Pizarra - Gestión de Puestos
+          Pizarra
         </h1>
-        <div class="app-header-controls">
-          <button id="btn-generar-skillmatrix" class="btn btn-secondary btn-sm" title="Generar skillmatrix desde roster">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-              <line x1="12" y1="22.08" x2="12" y2="12"></line>
+        <div class="header-actions">
+          <button id="btn-generar-pizarra" class="btn btn-header btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="9" y1="3" x2="9" y2="21"></line>
             </svg>
-            Generar SkillMatrix
+            Generar
           </button>
-          <div id="file-status-header" class="file-status-header">
-            <span id="status-icon">📊</span>
-            <span id="status-text">Cargando...</span>
-          </div>
+          <button id="btn-exportar-pizarra" class="btn btn-header btn-secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Exportar
+          </button>
+          <button id="btn-subir-pizarra" class="btn btn-header btn-outline" disabled title="Próximamente">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+            Subir
+          </button>
         </div>
       </header>
 
-      <!-- Contenido principal -->
-      <div class="pizarra-content">
-        <!-- Área de escaneo -->
-        <div class="scanning-section">
-          <div class="scan-card">
-            <div class="scan-header">
-              <h2>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                  <line x1="9" y1="3" x2="9" y2="21"></line>
-                </svg>
-                Escaneo de Puestos y Usuarios
-              </h2>
-            </div>
-            <div class="scan-content">
-              <div class="scan-step">
-                <label>Escanear Puesto o Usuario:</label>
-                <div class="input-group">
-                  <input
-                    type="text"
-                    id="scan-input"
-                    placeholder="Escanea QR o escribe (Puesto primero, luego Usuario)"
-                    autocomplete="off"
-                  />
-                  <button id="btn-agregar-puesto" class="btn-icon" title="Agregar puesto personalizado">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <line x1="12" y1="5" x2="12" y2="19"></line>
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg>
-                  </button>
-                </div>
-                <div id="scan-info" class="info-display"></div>
-              </div>
-            </div>
+      <!-- Panel de escaneo (colapsable) -->
+      <div class="scan-panel" id="scan-panel" style="display: none;">
+        <div class="scan-panel-header">
+          <span>Escaneo de Puestos y Usuarios</span>
+          <button id="btn-cerrar-scan" class="btn-close">×</button>
+        </div>
+        <div class="scan-panel-content">
+          <div class="input-group">
+            <input
+              type="text"
+              id="scan-input"
+              placeholder="Escanea QR o escribe (Puesto → Usuario)"
+              autocomplete="off"
+            />
+            <button id="btn-agregar-puesto" class="btn-icon" title="Agregar puesto personalizado">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </button>
+          </div>
+          <div id="scan-info" class="scan-info"></div>
+        </div>
+      </div>
+
+      <!-- Dashboard Principal (foco de la UI) -->
+      <div class="dashboard-main">
+        <div class="dashboard-header-bar">
+          <div class="dashboard-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            Dashboard
+          </div>
+          <div class="dashboard-stats-bar">
+            <span class="stat-badge">
+              <strong id="total-asignados">0</strong> asignados
+            </span>
           </div>
         </div>
 
-        <!-- Dashboard -->
-        <div class="dashboard-section">
-          <div class="dashboard-header">
-            <h2>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <rect x="3" y="3" width="7" height="7"></rect>
-                <rect x="14" y="3" width="7" height="7"></rect>
-                <rect x="14" y="14" width="7" height="7"></rect>
-                <rect x="3" y="14" width="7" height="7"></rect>
-              </svg>
-              Dashboard de Asignaciones
-            </h2>
-            <div class="dashboard-stats">
-              <div class="stat-item">
-                <span class="stat-label">Total Asignados:</span>
-                <span class="stat-value" id="total-asignados">0</span>
-              </div>
-            </div>
+        <div id="dashboard-content" class="dashboard-grid">
+          <!-- Procesos se generan dinámicamente -->
+          <div class="empty-dashboard">
+            <p>No hay asignaciones. Usa "Generar" para comenzar a escanear.</p>
           </div>
-          <div id="dashboard-content" class="dashboard-content">
-            <!-- Se generará dinámicamente -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Detalle de Proceso -->
+    <div id="modal-detalle-proceso" class="modal" style="display: none;">
+      <div class="modal-content modal-large">
+        <div class="modal-header">
+          <h3 id="modal-proceso-titulo">Proceso</h3>
+          <button class="modal-close" id="close-modal-proceso">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="proceso-alertas" id="proceso-alertas">
+            <!-- Alertas del proceso -->
           </div>
+          <div class="proceso-personal-list" id="proceso-personal-list">
+            <!-- Lista de personal -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" id="btn-cerrar-detalle">Cerrar</button>
+          <button class="btn btn-primary" id="btn-agregar-al-proceso">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Agregar Personal
+          </button>
         </div>
       </div>
     </div>
@@ -176,7 +168,7 @@
       <div class="modal-content modal-alert">
         <div class="modal-header">
           <h3>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
               <line x1="12" y1="9" x2="12" y2="13"></line>
               <line x1="12" y1="17" x2="12.01" y2="17"></line>
@@ -212,6 +204,39 @@
         <div class="modal-footer">
           <button class="btn btn-secondary" id="cancel-cambio">Cancelar</button>
           <button class="btn btn-primary" id="confirm-cambio">Mover a Nuevo Puesto</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Solicitud de Cambio (para websocket futuro) -->
+    <div id="modal-solicitud-cambio" class="modal" style="display: none;">
+      <div class="modal-content modal-alert">
+        <div class="modal-header modal-header-warning">
+          <h3>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            Solicitud de Cambio
+          </h3>
+        </div>
+        <div class="modal-body">
+          <p id="solicitud-cambio-message"></p>
+          <div class="solicitud-info">
+            <div class="solicitud-from">
+              <span class="label">Desde:</span>
+              <span id="solicitud-from-depto"></span>
+            </div>
+            <div class="solicitud-to">
+              <span class="label">Hacia:</span>
+              <span id="solicitud-to-depto"></span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-danger" id="rechazar-solicitud">Rechazar</button>
+          <button class="btn btn-success" id="aceptar-solicitud">Aceptar</button>
         </div>
       </div>
     </div>
@@ -258,6 +283,18 @@
 
     <!-- Notificación Toast -->
     <div id="toast-notification" class="toast" style="display: none;"></div>
+
+    <!-- Indicador de cambio (efecto visual) -->
+    <div id="cambio-indicator" class="cambio-indicator" style="display: none;">
+      <div class="cambio-content">
+        <span id="cambio-login"></span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+        <span id="cambio-destino"></span>
+      </div>
+    </div>
 
     <!-- Script principal -->
     <script type="module" src="js/pizarra.js"></script>

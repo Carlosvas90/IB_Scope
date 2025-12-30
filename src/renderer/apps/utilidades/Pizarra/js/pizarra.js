@@ -24,6 +24,7 @@ class PizarraController {
     this.usuariosDisponiblesFiltrados = null; // Usuarios filtrados en modal
     this.saveTimeout = null; // Para debounce del guardado
     this.pendingSave = false; // Flag para indicar si hay guardado pendiente
+    this.procesoActualDetalle = null; // Proceso actual en modal de detalle
 
     // Configurar listeners del EventBus
     this.configurarEventListeners();
@@ -538,29 +539,77 @@ class PizarraController {
   }
 
   configurarEventos() {
+    // Botón Generar Pizarra (mostrar panel de escaneo)
+    const btnGenerarPizarra = document.getElementById("btn-generar-pizarra");
+    if (btnGenerarPizarra) {
+      btnGenerarPizarra.addEventListener("click", () => {
+        this.toggleScanPanel();
+      });
+    }
+
+    // Botón cerrar panel de escaneo
+    const btnCerrarScan = document.getElementById("btn-cerrar-scan");
+    if (btnCerrarScan) {
+      btnCerrarScan.addEventListener("click", () => {
+        this.toggleScanPanel(false);
+      });
+    }
+
+    // Botón Exportar
+    const btnExportar = document.getElementById("btn-exportar-pizarra");
+    if (btnExportar) {
+      btnExportar.addEventListener("click", () => {
+        this.exportarPizarra();
+      });
+    }
+
+    // Botón Subir (preparado para futuro)
+    const btnSubir = document.getElementById("btn-subir-pizarra");
+    if (btnSubir) {
+      btnSubir.addEventListener("click", () => {
+        this.mostrarToast("Funcionalidad próximamente disponible", "info");
+      });
+    }
+
     // Input único de escaneo
     const scanInput = document.getElementById("scan-input");
-    scanInput.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") {
-        this.procesarEscaneo(scanInput.value.trim());
-        scanInput.value = ""; // Limpiar inmediatamente para siguiente escaneo
-      }
-    });
+    if (scanInput) {
+      scanInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          this.procesarEscaneo(scanInput.value.trim());
+          scanInput.value = "";
+        }
+      });
+    }
 
     // Botón agregar puesto personalizado
-    document
-      .getElementById("btn-agregar-puesto")
-      .addEventListener("click", () => {
+    const btnAgregarPuesto = document.getElementById("btn-agregar-puesto");
+    if (btnAgregarPuesto) {
+      btnAgregarPuesto.addEventListener("click", () => {
         this.mostrarModalPuestoPersonalizado();
       });
+    }
 
-    // Botón generar skillmatrix desde roster
-    const btnGenerarSkillMatrix = document.getElementById(
-      "btn-generar-skillmatrix"
-    );
-    if (btnGenerarSkillMatrix) {
-      btnGenerarSkillMatrix.addEventListener("click", async () => {
-        await this.generarSkillMatrixDesdeRoster();
+    // Modal detalle proceso
+    const closeModalProceso = document.getElementById("close-modal-proceso");
+    if (closeModalProceso) {
+      closeModalProceso.addEventListener("click", () => {
+        this.cerrarModal("modal-detalle-proceso");
+      });
+    }
+    const btnCerrarDetalle = document.getElementById("btn-cerrar-detalle");
+    if (btnCerrarDetalle) {
+      btnCerrarDetalle.addEventListener("click", () => {
+        this.cerrarModal("modal-detalle-proceso");
+      });
+    }
+    const btnAgregarAlProceso = document.getElementById("btn-agregar-al-proceso");
+    if (btnAgregarAlProceso) {
+      btnAgregarAlProceso.addEventListener("click", () => {
+        if (this.procesoActualDetalle) {
+          this.cerrarModal("modal-detalle-proceso");
+          this.mostrarModalAgregarUsuario(this.procesoActualDetalle);
+        }
       });
     }
 
@@ -912,7 +961,9 @@ class PizarraController {
     const dashboardContent = document.getElementById("dashboard-content");
     const totalAsignados = document.getElementById("total-asignados");
 
-    totalAsignados.textContent = this.pizarraActual.asignaciones.length;
+    if (totalAsignados) {
+      totalAsignados.textContent = this.pizarraActual.asignaciones.length;
+    }
 
     // Emitir evento de dashboard actualizado
     this.eventBus.emit(PIZARRA_EVENTS.DASHBOARD_ACTUALIZADO, {
@@ -920,196 +971,72 @@ class PizarraController {
       asignaciones: this.pizarraActual.asignaciones,
     });
 
-    // Agrupar asignaciones por departamento principal
-    const porDepartamento = {};
+    // Agrupar asignaciones por puesto
+    const porPuesto = {};
 
     this.pizarraActual.asignaciones.forEach((asignacion) => {
-      const depto = asignacion.departamento_principal;
-      if (!porDepartamento[depto]) {
-        porDepartamento[depto] = {};
+      if (!porPuesto[asignacion.puesto_id]) {
+        porPuesto[asignacion.puesto_id] = {
+          puesto_id: asignacion.puesto_id,
+          puesto_nombre: asignacion.puesto_nombre,
+          departamento: asignacion.departamento_principal,
+          subdepartamento: asignacion.departamento_secundario,
+          asignaciones: [],
+          alertas: 0
+        };
       }
-
-      const deptoSec = asignacion.departamento_secundario;
-      if (!porDepartamento[depto][deptoSec]) {
-        porDepartamento[depto][deptoSec] = {};
+      porPuesto[asignacion.puesto_id].asignaciones.push(asignacion);
+      if (!asignacion.tiene_formacion) {
+        porPuesto[asignacion.puesto_id].alertas++;
       }
-
-      // Agrupar por puesto dentro del subdepartamento
-      if (!porDepartamento[depto][deptoSec][asignacion.puesto_id]) {
-        porDepartamento[depto][deptoSec][asignacion.puesto_id] = [];
-      }
-      porDepartamento[depto][deptoSec][asignacion.puesto_id].push(asignacion);
     });
 
-    // Si hay un puesto actual seleccionado pero sin asignaciones, agregarlo al dashboard
-    if (this.puestoActual) {
-      const depto = this.puestoActual.departamento_principal;
-      const deptoSec = this.puestoActual.departamento_secundario;
-
-      // Verificar si el puesto ya está en el dashboard (tiene asignaciones)
-      const yaEnDashboard =
-        porDepartamento[depto] &&
-        porDepartamento[depto][deptoSec] &&
-        porDepartamento[depto][deptoSec][this.puestoActual.id];
-
-      // Si no está en el dashboard, agregarlo vacío
-      if (!yaEnDashboard) {
-        if (!porDepartamento[depto]) {
-          porDepartamento[depto] = {};
-        }
-        if (!porDepartamento[depto][deptoSec]) {
-          porDepartamento[depto][deptoSec] = {};
-        }
-        if (!porDepartamento[depto][deptoSec][this.puestoActual.id]) {
-          porDepartamento[depto][deptoSec][this.puestoActual.id] = [];
-        }
-      }
+    // Si hay un puesto actual seleccionado pero sin asignaciones, agregarlo
+    if (this.puestoActual && !porPuesto[this.puestoActual.id]) {
+      porPuesto[this.puestoActual.id] = {
+        puesto_id: this.puestoActual.id,
+        puesto_nombre: this.puestoActual.nombre,
+        departamento: this.puestoActual.departamento_principal,
+        subdepartamento: this.puestoActual.departamento_secundario,
+        asignaciones: [],
+        alertas: 0
+      };
     }
 
-    // Generar HTML del dashboard
-    let html = "";
+    // Generar HTML compacto del dashboard
+    if (!dashboardContent) return;
 
-    Object.keys(porDepartamento)
-      .sort()
-      .forEach((deptoPrincipal) => {
-        html += `
-        <div class="dashboard-departamento">
-          <div class="depto-header">
-            <h3>${deptoPrincipal}</h3>
-          </div>
+    if (Object.keys(porPuesto).length === 0) {
+      dashboardContent.innerHTML = `
+        <div class="empty-dashboard">
+          <p>No hay asignaciones. Usa "Generar" para comenzar a escanear.</p>
+        </div>
       `;
-
-        Object.keys(porDepartamento[deptoPrincipal])
-          .sort()
-          .forEach((deptoSecundario) => {
-            html += `
-          <div class="dashboard-subdepartamento">
-            <h4>${deptoSecundario}</h4>
-            <div class="puestos-grid">
-        `;
-
-            // Mostrar puestos del subdepartamento (solo los que tienen asignaciones o están seleccionados)
-            Object.keys(
-              porDepartamento[deptoPrincipal][deptoSecundario]
-            ).forEach((puestoId) => {
-              const asignaciones =
-                porDepartamento[deptoPrincipal][deptoSecundario][puestoId];
-              const puesto = this.obtenerPuestoPorId(puestoId);
-              const nombrePuesto = puesto ? puesto.nombre : puestoId;
-
-              html += `
-            <div class="puesto-card">
-              <div class="puesto-card-header">
-                <strong>${nombrePuesto}</strong>
-                <div class="puesto-header-actions">
-                  <span class="puesto-count">${asignaciones.length}</span>
-                  <button class="btn-add-usuario" onclick="pizarraController.mostrarModalAgregarUsuario('${puestoId}')" title="Agregar personal">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <line x1="12" y1="5" x2="12" y2="19"></line>
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-              <div class="usuarios-list">
-          `;
-
-              asignaciones.forEach((asignacion) => {
-                const skillIcon = asignacion.tiene_formacion
-                  ? '<span class="skill-icon skill-ok" title="Formación verificada">✓</span>'
-                  : '<span class="skill-icon skill-warning" title="Formación no verificada">⚠</span>';
-
-                const menuId =
-                  `menu-${asignacion.usuario_login}-${asignacion.puesto_id}`.replace(
-                    /[^a-zA-Z0-9-]/g,
-                    "-"
-                  );
-
-                html += `
-              <div class="usuario-item" data-login="${
-                asignacion.usuario_login
-              }">
-                ${skillIcon}
-                <span class="usuario-login">${asignacion.usuario_login}</span>
-                <div class="usuario-menu-container">
-                  <button class="btn-icon-small btn-menu-trigger" onclick="pizarraController.toggleUsuarioMenu('${menuId}')" title="Opciones">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <circle cx="12" cy="12" r="1"></circle>
-                      <circle cx="12" cy="5" r="1"></circle>
-                      <circle cx="12" cy="19" r="1"></circle>
-                    </svg>
-                  </button>
-                  <div id="${menuId}" class="usuario-menu" style="display: none;">
-                    ${
-                      !asignacion.tiene_formacion ||
-                      asignacion.tiene_formacion === false
-                        ? `
-                    <button class="menu-item" onclick="pizarraController.verificarSkill('${asignacion.usuario_login}', '${asignacion.puesto_id}')">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                      Verificar Formación
-                    </button>
-                    `
-                        : `
-                    <button class="menu-item" onclick="pizarraController.quitarSkill('${asignacion.usuario_login}', '${asignacion.puesto_id}')">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="18" y1="6" x2="6" y2="6"></line>
-                        <line x1="18" y1="12" x2="6" y2="12"></line>
-                        <line x1="18" y1="18" x2="6" y2="18"></line>
-                      </svg>
-                      Quitar Verificación
-                    </button>
-                    `
-                    }
-                    <button class="menu-item" onclick="pizarraController.mostrarModalSkillMatrix('${
-                      asignacion.usuario_login
-                    }')">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                        <polyline points="14 2 14 8 20 8"></polyline>
-                        <line x1="16" y1="13" x2="8" y2="13"></line>
-                        <line x1="16" y1="17" x2="8" y2="17"></line>
-                        <polyline points="10 9 9 9 8 9"></polyline>
-                      </svg>
-                      Ver/Editar Formaciones
-                    </button>
-                    <button class="menu-item menu-item-danger" onclick="pizarraController.removerAsignacion('${
-                      asignacion.usuario_login
-                    }', '${asignacion.puesto_id}')">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="3 6 5 6 21 6"></polyline>
-                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                      </svg>
-                      Eliminar
-                    </button>
-                  </div>
-                </div>
-              </div>
-            `;
-              });
-
-              html += `
-              </div>
-            </div>
-          `;
-            });
-
-            html += `
-            </div>
-          </div>
-        `;
-          });
-
-        html += `</div>`;
-      });
-
-    if (html === "") {
-      html =
-        '<div class="dashboard-empty"><p>No hay asignaciones aún. Comienza escaneando puestos y usuarios.</p></div>';
+      return;
     }
 
-    dashboardContent.innerHTML = html;
+    // Ordenar puestos por departamento y nombre
+    const puestosOrdenados = Object.values(porPuesto).sort((a, b) => {
+      if (a.departamento !== b.departamento) {
+        return a.departamento.localeCompare(b.departamento);
+      }
+      return a.puesto_nombre.localeCompare(b.puesto_nombre);
+    });
+
+    dashboardContent.innerHTML = puestosOrdenados.map((p) => {
+      const hasAlerts = p.alertas > 0;
+      return `
+        <div class="proceso-card ${hasAlerts ? 'has-alerts' : ''}" 
+             data-puesto-id="${p.puesto_id}"
+             onclick="pizarraController.mostrarDetalleProceso('${p.puesto_id}')">
+          <div class="proceso-nombre">${p.puesto_nombre}</div>
+          <div class="proceso-stats">
+            <span class="proceso-count">${p.asignaciones.length}</span>
+            <span class="proceso-depto">${p.subdepartamento || p.departamento}</span>
+          </div>
+        </div>
+      `;
+    }).join("");
   }
 
   toggleUsuarioMenu(menuId) {
@@ -1994,6 +1921,198 @@ class PizarraController {
       return `${diffHours} hora${diffHours !== 1 ? "s" : ""}`;
     } else {
       return `${diffDays} día${diffDays !== 1 ? "s" : ""}`;
+    }
+  }
+
+  /**
+   * Muestra/oculta el panel de escaneo
+   */
+  toggleScanPanel(show = null) {
+    const scanPanel = document.getElementById("scan-panel");
+    if (!scanPanel) return;
+
+    const shouldShow = show !== null ? show : scanPanel.style.display === "none";
+    scanPanel.style.display = shouldShow ? "block" : "none";
+
+    if (shouldShow) {
+      const scanInput = document.getElementById("scan-input");
+      if (scanInput) {
+        setTimeout(() => scanInput.focus(), 100);
+      }
+    }
+  }
+
+  /**
+   * Muestra el modal de detalle de un proceso
+   */
+  mostrarDetalleProceso(puestoId) {
+    const puesto = this.obtenerPuestoPorId(puestoId);
+    if (!puesto) return;
+
+    this.procesoActualDetalle = puestoId;
+
+    // Obtener asignaciones de este puesto
+    const asignaciones = this.pizarraActual.asignaciones.filter(
+      (a) => a.puesto_id === puestoId
+    );
+
+    // Actualizar título del modal
+    const titulo = document.getElementById("modal-proceso-titulo");
+    if (titulo) {
+      titulo.textContent = `${puesto.nombre} (${asignaciones.length})`;
+    }
+
+    // Generar alertas
+    const alertasContainer = document.getElementById("proceso-alertas");
+    const alertas = asignaciones.filter((a) => !a.tiene_formacion);
+    
+    if (alertas.length > 0 && alertasContainer) {
+      alertasContainer.innerHTML = alertas.map((a) => `
+        <div class="alerta-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+            <line x1="12" y1="9" x2="12" y2="13"></line>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          <span><strong>${a.usuario_login}</strong> sin formación verificada</span>
+        </div>
+      `).join("");
+    } else if (alertasContainer) {
+      alertasContainer.innerHTML = "";
+    }
+
+    // Generar lista de personal
+    const personalList = document.getElementById("proceso-personal-list");
+    if (personalList) {
+      if (asignaciones.length === 0) {
+        personalList.innerHTML = '<div class="empty-state">No hay personal asignado</div>';
+      } else {
+        personalList.innerHTML = asignaciones.map((a) => {
+          const usuario = this.rosterData?.find((u) => u.login === a.usuario_login);
+          const nombre = usuario?.employee_name || a.usuario_login;
+          const skillClass = a.tiene_formacion ? "skill-ok" : "skill-warning";
+          const skillIcon = a.tiene_formacion ? "✓" : "⚠";
+
+          return `
+            <div class="personal-item" data-login="${a.usuario_login}">
+              <div class="personal-info">
+                <span class="skill-icon ${skillClass}" title="${a.tiene_formacion ? 'Formación verificada' : 'Sin formación'}">${skillIcon}</span>
+                <div>
+                  <span class="personal-login">${a.usuario_login}</span>
+                  <span class="personal-nombre">${nombre}</span>
+                </div>
+              </div>
+              <div class="personal-actions">
+                <button class="btn-icon-small" onclick="pizarraController.mostrarSkillMatrix('${a.usuario_login}')" title="Ver formaciones">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                  </svg>
+                </button>
+                <button class="btn-icon-small btn-danger" onclick="pizarraController.removerAsignacion('${a.usuario_login}', '${puestoId}')" title="Remover">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
+    }
+
+    this.mostrarModal("modal-detalle-proceso");
+  }
+
+  /**
+   * Muestra efecto visual de cambio de usuario
+   */
+  mostrarEfectoCambio(login, destino, origen = null) {
+    const indicator = document.getElementById("cambio-indicator");
+    if (!indicator) return;
+
+    const loginSpan = document.getElementById("cambio-login");
+    const destinoSpan = document.getElementById("cambio-destino");
+
+    if (loginSpan) loginSpan.textContent = login;
+    if (destinoSpan) destinoSpan.textContent = destino;
+
+    indicator.style.display = "block";
+
+    // Ocultar después de la animación
+    setTimeout(() => {
+      indicator.style.display = "none";
+    }, 1500);
+
+    // Animar tarjetas de proceso
+    if (origen) {
+      const origenCards = document.querySelectorAll(`[data-puesto-id="${origen}"]`);
+      origenCards.forEach((card) => {
+        card.classList.add("usuario-removed");
+        setTimeout(() => card.classList.remove("usuario-removed"), 300);
+      });
+    }
+
+    const destinoCards = document.querySelectorAll(`[data-puesto-id="${destino}"]`);
+    destinoCards.forEach((card) => {
+      card.classList.add("usuario-added");
+      setTimeout(() => card.classList.remove("usuario-added"), 500);
+    });
+  }
+
+  /**
+   * Exporta la pizarra a XLSX
+   */
+  async exportarPizarra() {
+    try {
+      if (!this.pizarraActual?.asignaciones?.length) {
+        this.mostrarToast("No hay datos para exportar", "warning");
+        return;
+      }
+
+      // Preparar datos para exportación
+      const datos = this.pizarraActual.asignaciones.map((a) => {
+        const usuario = this.rosterData?.find((u) => u.login === a.usuario_login);
+        return {
+          Login: a.usuario_login,
+          Nombre: usuario?.employee_name || "",
+          Turno: usuario?.shift || "",
+          Departamento: a.departamento_principal,
+          SubDepartamento: a.departamento_secundario,
+          Puesto: a.puesto_nombre,
+          Formacion: a.tiene_formacion ? "Sí" : "No",
+          Hora: new Date(a.hora_asignacion).toLocaleTimeString()
+        };
+      });
+
+      // Intentar usar la API de exportación si existe
+      if (window.api?.exportToExcel) {
+        const result = await window.api.exportToExcel({
+          data: datos,
+          filename: `pizarra_${new Date().toISOString().split("T")[0]}.xlsx`,
+          sheetName: "Pizarra"
+        });
+
+        if (result.success) {
+          this.mostrarToast("Pizarra exportada correctamente", "success");
+        } else {
+          throw new Error(result.error || "Error al exportar");
+        }
+      } else {
+        // Fallback: descargar como JSON
+        const blob = new Blob([JSON.stringify(datos, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `pizarra_${new Date().toISOString().split("T")[0]}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        this.mostrarToast("Pizarra exportada como JSON", "success");
+      }
+    } catch (error) {
+      console.error("Error exportando pizarra:", error);
+      this.mostrarToast("Error al exportar: " + error.message, "error");
     }
   }
 }

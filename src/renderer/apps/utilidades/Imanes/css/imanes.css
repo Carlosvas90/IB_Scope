@@ -1,57 +1,67 @@
 /* ============================================
    IMANES - ESTILOS ESPECÍFICOS
+   Diseño compacto con foco en vista previa
    ============================================ */
 
-/* Importar variables base */
 @import url("../../../../css/themes/variables.css");
 @import url("../../../../css/themes/variables2.css");
 
-/* Estilos para el contenedor principal */
+/* Contenedor principal */
 .imanes-container {
-  padding: var(--spacing-lg, 2rem);
+  padding: var(--spacing-md, 1rem);
   height: 100%;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   background-color: var(--Fondo-paginas, #f8fafc);
 }
 
-/* Header Card */
-.imanes-container .app-header-card {
+/* Header compacto */
+.imanes-container .app-header-card.compact {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 16px;
-  padding: 1.5rem 2rem;
-  margin-bottom: 2rem;
-  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+  border-radius: 12px;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 12px rgba(102, 126, 234, 0.25);
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: white;
+  flex-shrink: 0;
 }
 
 .imanes-container .app-header-card h1 {
-  font-size: 1.75rem;
-  font-weight: 700;
+  font-size: 1.25rem;
+  font-weight: 600;
   margin: 0;
   display: flex;
   align-items: center;
+  gap: 0.5rem;
   color: white;
 }
 
-.imanes-container .app-header-controls {
+.header-icon {
+  width: 28px;
+  height: 28px;
   display: flex;
-  gap: 1rem;
   align-items: center;
+  justify-content: center;
 }
 
-/* Estado del archivo en el header */
+.header-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: white;
+}
+
 .imanes-container .file-status-header {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 1rem;
+  padding: 0.35rem 0.75rem;
   background: rgba(255, 255, 255, 0.15);
-  border-radius: 8px;
-  backdrop-filter: blur(10px);
-  font-size: 0.875rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
   font-weight: 500;
 }
 
@@ -59,205 +69,195 @@
 .imanes-content {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-}
-
-/* Sección de selección */
-.selection-section {
-  margin-bottom: 1.5rem;
-}
-
-.selection-card {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  flex: 1;
+  gap: 0.75rem;
   overflow: hidden;
 }
 
-.selection-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 1rem 1.5rem;
-}
-
-.selection-header h2 {
-  margin: 0;
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-
-.selection-content {
-  padding: 1.5rem;
-}
-
-.search-box {
-  margin-bottom: 1.5rem;
-}
-
-.search-box input {
-  width: 100%;
+/* Barra de selección compacta */
+.selection-bar {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
   padding: 0.75rem 1rem;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: border-color 0.3s;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  flex-shrink: 0;
 }
 
-.search-box input:focus {
+/* Input con autocompletado */
+.search-wrapper {
+  position: relative;
+  flex: 1;
+  max-width: 300px;
+}
+
+.search-wrapper input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: border-color 0.2s;
+}
+
+.search-wrapper input:focus {
   outline: none;
   border-color: #667eea;
 }
 
-/* Lista de logins */
-.login-list-container {
-  max-height: 400px;
-  overflow-y: auto;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
-}
-
-.login-list {
-  display: flex;
-  flex-direction: column;
-}
-
-.login-item {
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid #f0f0f0;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.login-item:hover {
-  background-color: #f8f9fa;
-}
-
-.login-item.selected {
-  background-color: #e8f0fe;
-}
-
-.login-item label {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  width: 100%;
-}
-
-.login-item input[type="checkbox"] {
-  margin-right: 0.75rem;
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-}
-
-.login-info {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-.login-name {
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 0.25rem;
-}
-
-.login-details {
-  font-size: 0.875rem;
-  color: #666;
-}
-
-.empty-state {
-  padding: 2rem;
-  text-align: center;
-  color: #999;
-}
-
-/* Logins seleccionados */
-.selected-logins {
-  margin-top: 1.5rem;
-  padding-top: 1.5rem;
-  border-top: 2px solid #e0e0e0;
-}
-
-.selected-logins h3 {
-  margin: 0 0 1rem 0;
-  font-size: 1rem;
-  color: #333;
-}
-
-.selected-logins-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-  min-height: 50px;
-  padding: 0.5rem;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-}
-
-.selected-login-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0.75rem;
+.autocomplete-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
   background: white;
   border: 1px solid #e0e0e0;
   border-radius: 6px;
-  font-size: 0.875rem;
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 100;
+  display: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.selected-login-name {
+.autocomplete-list.show {
+  display: block;
+}
+
+.autocomplete-item {
+  padding: 0.6rem 0.75rem;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+}
+
+.autocomplete-item:last-child {
+  border-bottom: none;
+}
+
+.autocomplete-item:hover {
+  background: #f3f4f6;
+}
+
+.autocomplete-item .login {
   font-weight: 600;
   color: #667eea;
+  font-size: 0.9rem;
 }
 
-.selected-login-details {
-  color: #666;
+.autocomplete-item .name {
   font-size: 0.8rem;
+  color: #666;
 }
 
-.btn-remove {
-  background: #ef4444;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
+/* Filtro por turno */
+.turno-filter {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.turno-filter select {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  background: white;
   cursor: pointer;
-  font-size: 14px;
-  line-height: 1;
-  padding: 0;
+  min-width: 140px;
+}
+
+.turno-filter select:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+/* Toggle options */
+.toggle-option {
   display: flex;
   align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s;
+  gap: 0.5rem;
+  padding: 0 0.75rem;
+  border-left: 1px solid #e0e0e0;
 }
 
-.btn-remove:hover {
-  background: #dc2626;
+.toggle-label {
+  font-size: 0.8rem;
+  color: #555;
+  white-space: nowrap;
 }
 
-.selected-actions {
+.toggle-switch {
+  position: relative;
+  width: 36px;
+  height: 20px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.3s;
+  border-radius: 20px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background-color: #667eea;
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+  transform: translateX(16px);
+}
+
+/* Botones de acción */
+.action-buttons {
   display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-left: auto;
 }
 
 /* Botones */
 .btn {
-  padding: 0.75rem 1.5rem;
+  padding: 0.6rem 1rem;
   border: none;
-  border-radius: 8px;
-  font-size: 0.875rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.35rem;
+}
+
+.btn-sm {
+  padding: 0.5rem 0.85rem;
+  font-size: 0.8rem;
 }
 
 .btn-primary {
@@ -287,70 +287,176 @@
   background: #059669;
 }
 
+.btn-outline {
+  background: transparent;
+  color: #667eea;
+  border: 1px solid #667eea;
+}
+
+.btn-outline:hover {
+  background: #667eea;
+  color: white;
+}
+
 .btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.btn-icon-small {
-  background: transparent;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
+/* Barra de seleccionados */
+.selected-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  flex-shrink: 0;
+  overflow-x: auto;
+}
+
+.selected-label {
+  font-size: 0.8rem;
   color: #666;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.selected-chips {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.selected-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
   padding: 0.25rem 0.5rem;
+  background: #667eea;
+  color: white;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.selected-chip .remove {
+  cursor: pointer;
+  opacity: 0.7;
+  font-size: 0.9rem;
   line-height: 1;
 }
 
-.btn-icon-small:hover {
-  color: #333;
+.selected-chip .remove:hover {
+  opacity: 1;
 }
 
-/* Sección de vista previa */
+/* Panel de personalización de colores */
+.customization-panel {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.customization-content {
+  display: flex;
+  gap: 1.25rem;
+  padding: 0.6rem 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.color-option {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.color-option label {
+  font-size: 0.8rem;
+  color: #555;
+}
+
+.color-option input[type="color"] {
+  width: 28px;
+  height: 24px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 1px;
+}
+
+/* Sección de vista previa (área principal) */
 .preview-section {
-  margin-top: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 .preview-card {
   background: white;
-  border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
 }
 
 .preview-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 1rem 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
 }
 
 .preview-header h2 {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
 }
 
+.preview-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.preview-actions .btn-outline {
+  border-color: rgba(255, 255, 255, 0.5);
+  color: white;
+}
+
+.preview-actions .btn-outline:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: white;
+}
+
 .preview-content {
-  padding: 1.5rem;
-  max-height: 600px;
+  flex: 1;
+  padding: 1rem;
   overflow-y: auto;
 }
 
+/* Grid de imanes */
 .imanes-preview {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  gap: 0.75rem;
 }
 
 .iman-preview-item {
   border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 0.75rem;
+  border-radius: 6px;
+  padding: 0.5rem;
   background: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
 .iman-svg-container {
@@ -358,11 +464,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 0.5rem;
   background: white;
-  border: 1px solid #ddd;
   border-radius: 4px;
-  padding: 0.25rem;
   /* Proporciones del imán: 117mm x 31.8mm (ratio 3.68:1) */
   aspect-ratio: 3.68 / 1;
 }
@@ -375,17 +478,33 @@
 
 .iman-info {
   text-align: center;
-  font-size: 0.875rem;
-  color: #666;
-  padding-top: 0.5rem;
-  border-top: 1px solid #f0f0f0;
+  font-size: 0.75rem;
+  color: #888;
+  padding-top: 0.35rem;
 }
 
+/* Estado vacío */
+.empty-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  color: #999;
+  text-align: center;
+}
+
+.empty-preview p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* Estados de carga/error */
 .loading,
 .error {
   padding: 2rem;
   text-align: center;
-  font-size: 1rem;
+  font-size: 0.95rem;
 }
 
 .loading {
@@ -399,13 +518,14 @@
 /* Toast notifications */
 .toast {
   position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  padding: 1rem 1.5rem;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  padding: 0.75rem 1.25rem;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   z-index: 10000;
   font-weight: 500;
+  font-size: 0.9rem;
   animation: slideIn 0.3s ease-out;
 }
 
@@ -440,26 +560,30 @@
   }
 }
 
-/* Scrollbar personalizado */
-.login-list-container::-webkit-scrollbar,
-.preview-content::-webkit-scrollbar {
-  width: 8px;
+/* Scrollbars */
+.preview-content::-webkit-scrollbar,
+.autocomplete-list::-webkit-scrollbar,
+.selected-bar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
 
-.login-list-container::-webkit-scrollbar-track,
-.preview-content::-webkit-scrollbar-track {
+.preview-content::-webkit-scrollbar-track,
+.autocomplete-list::-webkit-scrollbar-track,
+.selected-bar::-webkit-scrollbar-track {
   background: #f1f1f1;
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
-.login-list-container::-webkit-scrollbar-thumb,
-.preview-content::-webkit-scrollbar-thumb {
+.preview-content::-webkit-scrollbar-thumb,
+.autocomplete-list::-webkit-scrollbar-thumb,
+.selected-bar::-webkit-scrollbar-thumb {
   background: #c1c1c1;
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
-.login-list-container::-webkit-scrollbar-thumb:hover,
-.preview-content::-webkit-scrollbar-thumb:hover {
+.preview-content::-webkit-scrollbar-thumb:hover,
+.autocomplete-list::-webkit-scrollbar-thumb:hover,
+.selected-bar::-webkit-scrollbar-thumb:hover {
   background: #a1a1a1;
 }
-
