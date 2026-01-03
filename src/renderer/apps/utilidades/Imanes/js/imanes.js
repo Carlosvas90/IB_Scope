@@ -251,15 +251,46 @@ class ImanesController {
     return null;
   }
 
+  /**
+   * Obtiene la ruta del roster.json desde data_paths (no desde pizarra_paths)
+   * El roster siempre está en Data/, no en Data_Flow/
+   */
+  async obtenerRutaRoster() {
+    const config = await window.api.getConfig();
+    const rosterPaths = config?.data_paths || [];
+
+    if (rosterPaths.length === 0) {
+      return null;
+    }
+
+    for (const basePath of rosterPaths) {
+      const normalizedBase = this.normalizarRutaWindows(basePath);
+      const normalizedPath = normalizedBase.endsWith("\\") ? normalizedBase : normalizedBase + "\\";
+      const filePath = normalizedPath + "roster.json";
+
+      try {
+        const result = await window.api.readJson(filePath);
+        if (result.success) {
+          return { path: filePath, data: result.data, basePath: normalizedPath };
+        }
+      } catch (error) {
+        continue;
+      }
+    }
+
+    return null;
+  }
+
   async cargarDatos() {
     try {
-      const rosterResult = await this.obtenerRutaCompartida("roster.json");
+      // Cargar roster desde data_paths (no desde pizarra_paths)
+      const rosterResult = await this.obtenerRutaRoster();
       if (rosterResult?.data?.roster) {
         this.rosterData = rosterResult.data.roster;
-        console.log(`✅ Roster: ${this.rosterData.length} usuarios`);
+        console.log(`✅ Roster cargado desde: ${rosterResult.path} (${this.rosterData.length} usuarios)`);
       } else {
         this.rosterData = [];
-        console.warn("⚠️ Roster no encontrado");
+        console.warn("⚠️ Roster no encontrado en data_paths");
       }
 
       const skillResult = await this.obtenerRutaCompartida("skillmatrix.json");
@@ -573,6 +604,58 @@ class ImanesController {
       .map(([formacion, _]) => formacion);
   }
 
+  /**
+   * Obtiene la URL de la foto del empleado desde Amazon
+   * @param {string} login
+   * @returns {string}
+   */
+  getUserPhotoUrl(login) {
+    if (!login) return "";
+    return `https://internal-cdn.amazon.com/badgephotos.amazon.com/?uid=${login}`;
+  }
+
+  /**
+   * Carga la foto del empleado y la convierte a data URL (base64)
+   * @param {string} login
+   * @returns {Promise<string>} Data URL de la imagen
+   */
+  async cargarFotoEmpleado(login) {
+    if (!login) return null;
+
+    const photoUrl = this.getUserPhotoUrl(login);
+    
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = "anonymous"; // Permitir CORS si es necesario
+      
+      img.onload = () => {
+        try {
+          // Crear canvas para convertir a base64
+          const canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0);
+          
+          // Convertir a data URL
+          const dataUrl = canvas.toDataURL("image/jpeg", 0.9);
+          console.log(`✅ Foto cargada para ${login}`);
+          resolve(dataUrl);
+        } catch (error) {
+          console.warn(`⚠️ Error convirtiendo foto a base64 para ${login}:`, error);
+          reject(error);
+        }
+      };
+      
+      img.onerror = (error) => {
+        console.warn(`⚠️ No se pudo cargar la foto para ${login} desde ${photoUrl}`);
+        reject(error);
+      };
+      
+      img.src = photoUrl;
+    });
+  }
+
   async generarDataMatrix(login) {
     return new Promise((resolve, reject) => {
       let attempts = 0;
@@ -625,6 +708,10 @@ class ImanesController {
       const svgDoc = parser.parseFromString(svgTemplate, "image/svg+xml");
       const svg = svgDoc.documentElement;
 
+      // Establecer dimensiones exactas: 127mm x 33mm
+      svg.setAttribute("width", "127mm");
+      svg.setAttribute("height", "33mm");
+
       const nombreCompleto = usuario.employee_name || "";
       const partes = nombreCompleto.split(",");
       const apellidos = partes[0]?.trim() || "";
@@ -643,6 +730,27 @@ class ImanesController {
       this.aplicarColorElemento(svg, "LoginColor", colores.login);
       this.aplicarColorElemento(svg, "VariacionColor", colores.variacion);
       this.aplicarColorElemento(svg, "Type_x5F_aa", colores.typeAa);
+
+      // Cargar y actualizar foto del empleado
+      const fotoRect = svg.querySelector("#Foto");
+      if (fotoRect && usuario.login) {
+        try {
+          const fotoDataUrl = await this.cargarFotoEmpleado(usuario.login);
+          if (fotoDataUrl) {
+            const fotoImage = svgDoc.createElementNS("http://www.w3.org/2000/svg", "image");
+            fotoImage.setAttribute("href", fotoDataUrl);
+            fotoImage.setAttribute("x", fotoRect.getAttribute("x"));
+            fotoImage.setAttribute("y", fotoRect.getAttribute("y"));
+            fotoImage.setAttribute("width", fotoRect.getAttribute("width"));
+            fotoImage.setAttribute("height", fotoRect.getAttribute("height"));
+            fotoImage.setAttribute("preserveAspectRatio", "xMidYMid slice");
+            fotoRect.parentNode.replaceChild(fotoImage, fotoRect);
+          }
+        } catch (error) {
+          console.warn(`⚠️ No se pudo cargar la foto para ${usuario.login}:`, error);
+          // Mantener el rect original si falla la carga
+        }
+      }
 
       // Generar y actualizar DataMatrix
       const datamatrixDataUrl = await this.generarDataMatrix(usuario.login);
@@ -808,15 +916,16 @@ class ImanesController {
         await new Promise((resolve) => setTimeout(resolve, 500));
       }
 
-      const IMAN_WIDTH = 117;
-      const IMAN_HEIGHT = 31.8;
+      // Dimensiones exactas del imán: 127mm x 33mm
+      const IMAN_WIDTH = 127;
+      const IMAN_HEIGHT = 33;
       const SEPARACION = 2;
       const COLUMNAS = 2;
       const FILAS = 5;
       const IMANES_POR_PAGINA = COLUMNAS * FILAS;
 
-      const PAGE_WIDTH = 297;
-      const PAGE_HEIGHT = 210;
+      const PAGE_WIDTH = 297; // A4 landscape width
+      const PAGE_HEIGHT = 210; // A4 landscape height
 
       const CONTENT_WIDTH = (IMAN_WIDTH * COLUMNAS) + (SEPARACION * (COLUMNAS - 1));
       const CONTENT_HEIGHT = (IMAN_HEIGHT * FILAS) + (SEPARACION * (FILAS - 1));

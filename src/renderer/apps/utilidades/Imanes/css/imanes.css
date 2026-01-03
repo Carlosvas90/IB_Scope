@@ -466,8 +466,8 @@
   align-items: center;
   background: white;
   border-radius: 4px;
-  /* Proporciones del imán: 117mm x 31.8mm (ratio 3.68:1) */
-  aspect-ratio: 3.68 / 1;
+  /* Proporciones exactas del imán: 127mm x 33mm (ratio 3.848:1) */
+  aspect-ratio: 127 / 33;
 }
 
 .iman-svg-container svg {
