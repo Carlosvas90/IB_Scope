@@ -81,7 +81,6 @@ class ImanesController {
 
       await this.cargarDatos();
       this.configurarEventos();
-      this.poblarFiltroTurnos();
 
       console.log("✅ ImanesController inicializado");
     } catch (error) {
@@ -387,7 +386,7 @@ class ImanesController {
             shift: user.shift || "",
             employee_type: user.employee_type || "",
             formaciones: user.formaciones || [],
-            manager: user.manager || "",
+            manager: user.login_manager || user.manager || "", // Usar login_manager del roster
             employee_status: user.employee_status || ""
           }));
         
@@ -400,18 +399,6 @@ class ImanesController {
     }
   }
 
-  /**
-   * Rellena el selector de turnos
-   */
-  poblarFiltroTurnos() {
-    const select = document.getElementById("turno-select");
-    if (!select) return;
-
-    select.innerHTML = '<option value="">Todos los turnos</option>';
-    for (const turno of this.turnos) {
-      select.innerHTML += `<option value="${turno}">${turno}</option>`;
-    }
-  }
 
   configurarEventos() {
     // Autocompletado de búsqueda
@@ -466,10 +453,20 @@ class ImanesController {
       });
     }
 
-    // Botón agregar turno completo
+    // Botón agregar por turno (modal)
     const btnAgregarTurno = document.getElementById("btn-agregar-turno");
     if (btnAgregarTurno) {
-      btnAgregarTurno.addEventListener("click", () => this.agregarTurnoCompleto());
+      btnAgregarTurno.addEventListener("click", () => {
+        this.mostrarModalPorTurno();
+      });
+    }
+
+    // Botón agregar por manager (modal)
+    const btnAgregarManager = document.getElementById("btn-agregar-manager");
+    if (btnAgregarManager) {
+      btnAgregarManager.addEventListener("click", () => {
+        this.mostrarModalPorManager();
+      });
     }
 
     // Toggle colorear formaciones
@@ -606,16 +603,12 @@ class ImanesController {
       return;
     }
 
-    // Filtrar por turno si está seleccionado
-    const turnoSelect = document.getElementById("turno-select");
-    const turnoFiltro = turnoSelect?.value || "";
-
+    // NO filtrar por turno en la búsqueda - mostrar todos los resultados
     let filtrados = this.allLogins.filter(user => {
       const coincideBusqueda = user.login.toLowerCase().includes(textoLower) ||
                                 user.employee_name.toLowerCase().includes(textoLower);
-      const coincideTurno = !turnoFiltro || user.shift === turnoFiltro;
       const noSeleccionado = !this.selectedLogins.has(user.login);
-      return coincideBusqueda && coincideTurno && noSeleccionado;
+      return coincideBusqueda && noSeleccionado;
     });
 
     // Limitar a 10 resultados
@@ -760,29 +753,303 @@ class ImanesController {
   }
 
   /**
-   * Agrega todos los logins de un turno
+   * Muestra modal para seleccionar turno primero, luego usuarios
    */
-  agregarTurnoCompleto() {
-    const turnoSelect = document.getElementById("turno-select");
-    const turno = turnoSelect?.value;
+  mostrarModalPorTurno() {
+    // Crear modal para seleccionar turno
+    const turnosValidos = ["T1", "T2", "T3", "T4", "T5", "T6", "T7", "T8"];
+    
+    const modal = document.createElement("div");
+    modal.className = "modal-overlay";
+    modal.innerHTML = `
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Seleccionar Turno</h3>
+          <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="turno-grid">
+            ${turnosValidos.map(turno => {
+              const count = this.allLogins.filter(u => u.shift === turno).length;
+              return `
+                <div class="turno-card" data-turno="${turno}">
+                  <div class="turno-card-header">${turno}</div>
+                  <div class="turno-card-count">${count} empleados</div>
+                  <button class="btn btn-sm btn-primary">Seleccionar</button>
+                </div>
+              `;
+            }).join("")}
+          </div>
+        </div>
+      </div>
+    `;
 
-    if (!turno) {
-      this.mostrarToast("Selecciona un turno primero", "warning");
+    document.body.appendChild(modal);
+
+    // Event listeners
+    modal.querySelectorAll(".turno-card button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const turno = btn.closest(".turno-card").dataset.turno;
+        modal.remove();
+        const usuariosDelTurno = this.allLogins.filter(u => u.shift === turno);
+        this.crearModalSeleccion(usuariosDelTurno, `Turno ${turno}`, turno);
+      });
+    });
+
+    // Cerrar al hacer clic fuera
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.remove();
+      }
+    });
+  }
+
+  /**
+   * Muestra modal para seleccionar usuarios por manager
+   */
+  mostrarModalPorManager() {
+    // Obtener lista de managers que tienen empleados con turnos válidos (T1-T8)
+    const turnosValidos = ["T1", "T2", "T3", "T4", "T5", "T6", "T7", "T8"];
+    
+    // Agrupar por manager y filtrar solo los que tienen empleados con turnos válidos
+    const managersConEmpleados = {};
+    
+    this.allLogins.forEach(user => {
+      if (user.manager && user.manager.trim() !== "" && turnosValidos.includes(user.shift)) {
+        if (!managersConEmpleados[user.manager]) {
+          managersConEmpleados[user.manager] = [];
+        }
+        managersConEmpleados[user.manager].push(user);
+      }
+    });
+    
+    const managers = Object.keys(managersConEmpleados).sort();
+    
+    if (managers.length === 0) {
+      this.mostrarToast("No hay managers con empleados en turnos válidos", "warning");
       return;
     }
 
-    const loginsDelTurno = this.allLogins.filter(u => u.shift === turno);
-    let agregados = 0;
+    // Crear modal para seleccionar manager
+    const modal = document.createElement("div");
+    modal.className = "modal-overlay";
+    modal.innerHTML = `
+      <div class="modal-content modal-large">
+        <div class="modal-header">
+          <h3>Seleccionar Manager</h3>
+          <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="manager-list">
+            ${managers.map(manager => {
+              const count = managersConEmpleados[manager].length;
+              return `
+                <div class="manager-item" data-manager="${manager}">
+                  <div class="manager-info">
+                    <span class="manager-name">${manager}</span>
+                    <span class="manager-count">${count} empleados</span>
+                  </div>
+                  <button class="btn btn-sm btn-primary">Seleccionar</button>
+                </div>
+              `;
+            }).join("")}
+          </div>
+        </div>
+      </div>
+    `;
 
-    for (const user of loginsDelTurno) {
-      if (!this.selectedLogins.has(user.login)) {
-        this.selectedLogins.add(user.login);
-        agregados++;
+    document.body.appendChild(modal);
+
+    // Event listeners
+    modal.querySelectorAll(".manager-item button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const manager = btn.closest(".manager-item").dataset.manager;
+        modal.remove();
+        const usuariosDelManager = managersConEmpleados[manager];
+        this.crearModalSeleccion(usuariosDelManager, `Manager: ${manager}`, null);
+      });
+    });
+
+    // Cerrar al hacer clic fuera
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.remove();
       }
-    }
+    });
+  }
 
-    this.actualizarBarraSeleccion();
-    this.mostrarToast(`${agregados} logins del turno ${turno} agregados`, "success");
+  /**
+   * Crea modal para seleccionar usuarios con checkboxes y fotos
+   */
+  crearModalSeleccion(usuarios, titulo, turnoFiltro) {
+    const modal = document.createElement("div");
+    modal.className = "modal-overlay";
+    
+    // Separar usuarios con y sin turno
+    const usuariosConTurno = usuarios.filter(u => u.shift && u.shift.trim() !== "");
+    const usuariosSinTurno = usuarios.filter(u => !u.shift || u.shift.trim() === "");
+    
+    modal.innerHTML = `
+      <div class="modal-content modal-large">
+        <div class="modal-header">
+          <h3>${titulo} (${usuarios.length} usuarios)</h3>
+          <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="modal-actions-top">
+            <button class="btn btn-sm btn-secondary" id="select-all">Seleccionar todos</button>
+            <button class="btn btn-sm btn-secondary" id="deselect-all">Deseleccionar todos</button>
+            <span class="selected-count-modal">0 seleccionados</span>
+          </div>
+          
+          ${usuariosSinTurno.length > 0 ? `
+            <div class="users-section">
+              <h4>Usuarios sin turno (${usuariosSinTurno.length})</h4>
+              <div class="users-list-grid">
+                ${usuariosSinTurno.map(user => `
+                  <div class="user-item-card">
+                    <label>
+                      <input type="checkbox" class="user-checkbox" data-login="${user.login}" data-has-shift="false">
+                      <div class="user-card-content">
+                        <div class="user-photo-container">
+                          <img src="${this.getUserPhotoUrl(user.login)}" alt="${user.login}" class="user-photo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                          <div class="user-photo-placeholder" style="display: none;">
+                            <span>${user.login.charAt(0).toUpperCase()}</span>
+                          </div>
+                        </div>
+                        <div class="user-details">
+                          <strong class="user-login">${user.login}</strong>
+                          <span class="user-name">${user.employee_name}</span>
+                          <select class="temp-shift-select" data-login="${user.login}">
+                            <option value="">Asignar turno...</option>
+                            <option value="T1">T1</option>
+                            <option value="T2">T2</option>
+                            <option value="T3">T3</option>
+                            <option value="T4">T4</option>
+                            <option value="T5">T5</option>
+                            <option value="T6">T6</option>
+                            <option value="T7">T7</option>
+                            <option value="T8">T8</option>
+                          </select>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                `).join("")}
+              </div>
+            </div>
+          ` : ""}
+          
+          <div class="users-section">
+            <h4>Usuarios con turno (${usuariosConTurno.length})</h4>
+            <div class="users-list-grid">
+              ${usuariosConTurno.map(user => `
+                <div class="user-item-card">
+                  <label>
+                    <input type="checkbox" class="user-checkbox" data-login="${user.login}" data-has-shift="true" data-shift="${user.shift}">
+                    <div class="user-card-content">
+                      <div class="user-photo-container">
+                        <img src="${this.getUserPhotoUrl(user.login)}" alt="${user.login}" class="user-photo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="user-photo-placeholder" style="display: none;">
+                          <span>${user.login.charAt(0).toUpperCase()}</span>
+                        </div>
+                      </div>
+                      <div class="user-details">
+                        <strong class="user-login">${user.login}</strong>
+                        <span class="user-name">${user.employee_name}</span>
+                        <span class="user-shift">${user.shift}</span>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" onclick="this.closest('.modal-overlay').remove()">Cancelar</button>
+          <button class="btn btn-primary" id="add-selected-users">Agregar seleccionados</button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // Actualizar contador
+    const updateCount = () => {
+      const count = modal.querySelectorAll(".user-checkbox:checked").length;
+      modal.querySelector(".selected-count-modal").textContent = `${count} seleccionados`;
+    };
+
+    // Seleccionar todos
+    modal.querySelector("#select-all").addEventListener("click", () => {
+      modal.querySelectorAll(".user-checkbox").forEach(cb => cb.checked = true);
+      updateCount();
+    });
+
+    // Deseleccionar todos
+    modal.querySelector("#deselect-all").addEventListener("click", () => {
+      modal.querySelectorAll(".user-checkbox").forEach(cb => cb.checked = false);
+      updateCount();
+    });
+
+    // Actualizar contador al cambiar checkboxes
+    modal.querySelectorAll(".user-checkbox").forEach(cb => {
+      cb.addEventListener("change", updateCount);
+    });
+
+    // Guardar turno temporal al seleccionar
+    modal.querySelectorAll(".temp-shift-select").forEach(select => {
+      select.addEventListener("change", (e) => {
+        const login = e.target.dataset.login;
+        const turno = e.target.value;
+        if (turno) {
+          this.turnosTemporales.set(login, turno);
+          // Marcar checkbox automáticamente
+          const checkbox = modal.querySelector(`.user-checkbox[data-login="${login}"]`);
+          if (checkbox) checkbox.checked = true;
+          updateCount();
+        }
+      });
+    });
+
+    // Agregar seleccionados
+    modal.querySelector("#add-selected-users").addEventListener("click", () => {
+      const checkboxes = modal.querySelectorAll(".user-checkbox:checked");
+      let agregados = 0;
+
+      checkboxes.forEach(cb => {
+        const login = cb.dataset.login;
+        const hasShift = cb.dataset.hasShift === "true";
+        
+        if (!this.selectedLogins.has(login)) {
+          this.selectedLogins.add(login);
+          
+          // Si no tiene turno pero se asignó uno temporal, guardarlo
+          if (!hasShift) {
+            const tempSelect = modal.querySelector(`.temp-shift-select[data-login="${login}"]`);
+            if (tempSelect && tempSelect.value) {
+              this.turnosTemporales.set(login, tempSelect.value);
+            }
+          }
+          
+          agregados++;
+        }
+      });
+
+      this.actualizarBarraSeleccion();
+      modal.remove();
+      this.mostrarToast(`${agregados} usuarios agregados`, "success");
+    });
+
+    // Cerrar al hacer clic fuera
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.remove();
+      }
+    });
+
+    updateCount();
   }
 
   /**

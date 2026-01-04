@@ -11,19 +11,19 @@
         fill: #fff;
       }
 
-      .st0, .st3, .st4, .st2 {
+      .st0, .st3, .st2 {
         font-family: AmazonEmber-Regular, 'Amazon Ember';
       }
 
-      .st5 {
+      .st4 {
         fill: #29ade4;
       }
 
-      .st6 {
+      .st5 {
         fill: #c2c1c0;
       }
 
-      .st7 {
+      .st6 {
         fill: #47a2da;
       }
 
@@ -31,7 +31,7 @@
         font-size: 7.5px;
       }
 
-      .st3, .st4, .st8 {
+      .st3, .st7, .st8 {
         fill: #231f20;
       }
 
@@ -43,15 +43,17 @@
         fill: #606161;
       }
 
-      .st4 {
-        font-size: 25px;
-      }
-
       .st11 {
         fill: none;
         stroke: #231f20;
         stroke-miterlimit: 10;
         stroke-width: .75px;
+      }
+
+      .st7 {
+        font-family: AmazonEmber-Medium, 'Amazon Ember';
+        font-size: 25px;
+        font-weight: 500;
       }
 
       .st8 {
@@ -73,15 +75,15 @@
     <rect class="st1" width="360" height="93.54"/>
   </g>
   <g id="Layer_7">
-    <rect id="Type_x5F_aa" class="st5" y="-.02" width="6.89" height="93.56"/>
+    <rect id="Type_x5F_aa" class="st4" y="-.02" width="6.89" height="93.56"/>
     <rect id="Foto" class="st12" x="6.89" y="-.02" width="69.53" height="93.56"/>
     <rect id="Nombre_x5F_fondo" class="st1" x="76.42" y="-.02" width="85.31" height="20.07"/>
     <rect id="LoginColor" class="st10" x="76.42" y="20.05" width="85.31" height="17.04"/>
     <rect id="VariacionColor" class="st9" x="146.54" y="20.05" width="15.19" height="17.04"/>
-    <rect id="TurnoColor" class="st6" x="76.42" y="36.98" width="85.31" height="56.56"/>
+    <rect id="TurnoColor" class="st5" x="76.42" y="36.98" width="85.31" height="56.56"/>
     <rect id="Fondo" class="st1" x="78.8" y="45.68" width="39.94" height="39.94"/>
-    <rect id="QR" class="st7" x="82.82" y="49.7" width="31.9" height="31.9"/>
-    <text id="Turno" class="st4" transform="translate(125.16 72.44)"><tspan x="0" y="0">T4</tspan></text>
+    <rect id="QR" class="st6" x="82.82" y="49.7" width="31.9" height="31.9"/>
+    <text id="Turno" class="st7" transform="translate(125.04 72.44)"><tspan x="0" y="0">T4</tspan></text>
     <text id="VariacionShift" class="st2" transform="translate(150.45 32.53)"><tspan x="0" y="0">L</tspan></text>
     <text id="Login" class="st8" transform="translate(81.23 33.24)"><tspan x="0" y="0">chuecc</tspan></text>
     <text id="Apellidos" class="st3" transform="translate(79.73 7.77)"><tspan x="0" y="0">Vasquez Chuecos,</tspan></text>
