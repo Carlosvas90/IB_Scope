@@ -53,8 +53,120 @@ class ImanesController {
     this.init();
   }
 
+  /**
+   * Muestra el contenido cuando el CSS esté cargado
+   */
+  mostrarContenidoCuandoListo() {
+    const container = document.getElementById("imanes-container");
+    const loader = document.getElementById("imanes-loader");
+    
+    // Función para mostrar el contenido y ocultar el loader
+    const mostrarContenido = () => {
+      if (container) {
+        container.classList.add("css-loaded");
+      }
+      if (loader) {
+        // Ocultar el loader inmediatamente
+        loader.classList.add("hidden");
+        // También forzar ocultación con estilos inline
+        setTimeout(() => {
+          loader.style.display = "none";
+          loader.style.visibility = "hidden";
+          loader.style.opacity = "0";
+          loader.style.pointerEvents = "none";
+        }, 300);
+      }
+    };
+    
+    // Función para verificar si el CSS está cargado
+    const verificarCSS = () => {
+      // Verificar si hay un link de stylesheet para imanes
+      const cssLink = document.querySelector('link[href*="imanes.css"]');
+      
+      if (cssLink) {
+        // Verificar si el stylesheet está cargado
+        try {
+          if (cssLink.sheet) {
+            // CSS cargado
+            mostrarContenido();
+            return true;
+          }
+        } catch (e) {
+          // En algunos navegadores puede fallar, continuar
+        }
+      }
+      
+      // Verificar por estilos aplicados (más confiable)
+      if (container) {
+        try {
+          const styles = window.getComputedStyle(container);
+          // Verificar si tiene estilos aplicados (no solo los inline)
+          const display = styles.display;
+          const padding = styles.padding;
+          
+          // Si tiene padding o display diferente de none, probablemente el CSS está cargado
+          if (padding && padding !== '0px' && display && display !== 'none') {
+            mostrarContenido();
+            return true;
+          }
+        } catch (e) {
+          // Continuar intentando
+        }
+      }
+      
+      return false;
+    };
+    
+    // Escuchar cuando se carga un stylesheet
+    const links = document.querySelectorAll('link[rel="stylesheet"]');
+    links.forEach(link => {
+      if (link.href && link.href.includes('imanes.css')) {
+        link.addEventListener('load', () => {
+          setTimeout(mostrarContenido, 100);
+        });
+        link.addEventListener('error', () => {
+          // Si falla, mostrar de todas formas después de un tiempo
+          setTimeout(mostrarContenido, 500);
+        });
+      }
+    });
+    
+    // Verificar periódicamente
+    let intentos = 0;
+    const maxIntentos = 30; // 3 segundos máximo
+    
+    const intervalo = setInterval(() => {
+      intentos++;
+      if (verificarCSS() || intentos >= maxIntentos) {
+        clearInterval(intervalo);
+        // Asegurar que se muestre incluso si el CSS tarda
+        if (intentos >= maxIntentos) {
+          mostrarContenido();
+        }
+      }
+    }, 100);
+    
+    // También verificar cuando el DOM esté listo
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+          if (!verificarCSS()) {
+            // Si aún no está listo, seguir verificando
+          }
+        }, 150);
+      });
+    } else {
+      setTimeout(() => {
+        verificarCSS();
+      }, 150);
+    }
+  }
+
   async init() {
     console.log("🔧 ImanesController inicializando...");
+    
+    // Mostrar contenido cuando CSS esté cargado
+    this.mostrarContenidoCuandoListo();
     
     // Marcar preview como inicializando
     this.marcarPreviewInicializando();
@@ -95,6 +207,9 @@ class ImanesController {
       // Marcar preview como listo
       this.marcarPreviewListo();
       
+      // Asegurar que el loader se oculte cuando todo esté listo
+      this.ocultarLoader();
+      
       console.log("✅ ImanesController inicializado");
     } catch (error) {
       console.error("❌ Error inicializando:", error);
@@ -102,9 +217,26 @@ class ImanesController {
       // Mostrar preview incluso si hay error
       try {
         this.marcarPreviewListo();
+        this.ocultarLoader();
       } catch (e) {
         console.error("Error al marcar preview como listo:", e);
       }
+    }
+  }
+
+  /**
+   * Oculta el loader inicial
+   */
+  ocultarLoader() {
+    const loader = document.getElementById("imanes-loader");
+    if (loader) {
+      loader.classList.add("hidden");
+      // También forzar ocultación con estilos inline por si acaso
+      setTimeout(() => {
+        loader.style.display = "none";
+        loader.style.visibility = "hidden";
+        loader.style.opacity = "0";
+      }, 400);
     }
   }
 
@@ -124,10 +256,10 @@ class ImanesController {
     }
     
     if (previewContainer) {
+      // No mostrar spinner en el preview, solo mensaje simple
       previewContainer.innerHTML = `
-        <div class="initializing-preview">
-          <div class="spinner"></div>
-          <p>Inicializando Imanes...</p>
+        <div class="empty-preview">
+          <p>Busca y selecciona logins para generar imanes</p>
         </div>
       `;
       // Ocultar cualquier SVG que pueda estar presente
