@@ -1,0 +1,261 @@
+{
+  "globalTextStyles": {
+    "Login": {
+      "fontSize": "11px",
+      "fontFamily": "AmazonEmber-Regular, 'Amazon Ember'",
+      "fontWeight": "normal",
+      "x": 81.23,
+      "y": 33.24
+    },
+    "Turno": {
+      "fontSize": "30px",
+      "fontFamily": "AmazonEmber-Medium, 'Amazon Ember'",
+      "fontWeight": "500",
+      "x": 125.16,
+      "y": 72.44
+    },
+    "VariacionShift": {
+      "fontSize": "12px",
+      "fontFamily": "AmazonEmber-Regular, 'Amazon Ember'",
+      "fontWeight": "normal",
+      "x": 150.45,
+      "y": 32.53
+    },
+    "Apellidos": {
+      "fontSize": "7.5px",
+      "fontFamily": "AmazonEmber-Regular, 'Amazon Ember'",
+      "fontWeight": "normal",
+      "x": 79.73,
+      "y": 7.77
+    },
+    "Nombres": {
+      "fontSize": "7.5px",
+      "fontFamily": "AmazonEmber-Regular, 'Amazon Ember'",
+      "fontWeight": "normal",
+      "x": 79.73,
+      "y": 16.59
+    },
+    "FN_1": {
+      "fontSize": "6px",
+      "fontFamily": "AmazonEmber-Regular, 'Amazon Ember'",
+      "fontWeight": "normal",
+      "centered": true
+    },
+    "FN_2": {
+      "fontSize": "6px",
+      "fontFamily": "AmazonEmber-Regular, 'Amazon Ember'",
+      "fontWeight": "normal",
+      "centered": true
+    },
+    "FN_3": {
+      "fontSize": "6px",
+      "fontFamily": "AmazonEmber-Regular, 'Amazon Ember'",
+      "fontWeight": "normal",
+      "centered": true
+    },
+    "FN_4": {
+      "fontSize": "6px",
+      "fontFamily": "AmazonEmber-Regular, 'Amazon Ember'",
+      "fontWeight": "normal",
+      "centered": true
+    },
+    "FN_5": {
+      "fontSize": "6px",
+      "fontFamily": "AmazonEmber-Regular, 'Amazon Ember'",
+      "fontWeight": "normal",
+      "centered": true
+    },
+    "FN_6": {
+      "fontSize": "6px",
+      "fontFamily": "AmazonEmber-Regular, 'Amazon Ember'",
+      "fontWeight": "normal",
+      "centered": true
+    },
+    "FN_7": {
+      "fontSize": "6px",
+      "fontFamily": "AmazonEmber-Regular, 'Amazon Ember'",
+      "fontWeight": "normal",
+      "centered": true
+    },
+    "FN_8": {
+      "fontSize": "6px",
+      "fontFamily": "AmazonEmber-Regular, 'Amazon Ember'",
+      "fontWeight": "normal",
+      "centered": true
+    },
+    "FN_9": {
+      "fontSize": "6px",
+      "fontFamily": "AmazonEmber-Regular, 'Amazon Ember'",
+      "fontWeight": "normal",
+      "centered": true
+    },
+    "FN_10": {
+      "fontSize": "6px",
+      "fontFamily": "AmazonEmber-Regular, 'Amazon Ember'",
+      "fontWeight": "normal",
+      "centered": true
+    },
+    "FN_11": {
+      "fontSize": "6px",
+      "fontFamily": "AmazonEmber-Regular, 'Amazon Ember'",
+      "fontWeight": "normal",
+      "centered": true
+    },
+    "FN_12": {
+      "fontSize": "6px",
+      "fontFamily": "AmazonEmber-Regular, 'Amazon Ember'",
+      "fontWeight": "normal",
+      "centered": true
+    },
+    "FN_13": {
+      "fontSize": "6px",
+      "fontFamily": "AmazonEmber-Regular, 'Amazon Ember'",
+      "fontWeight": "normal",
+      "centered": true
+    },
+    "FN_14": {
+      "fontSize": "6px",
+      "fontFamily": "AmazonEmber-Regular, 'Amazon Ember'",
+      "fontWeight": "normal",
+      "centered": true
+    },
+    "FN_15": {
+      "fontSize": "6px",
+      "fontFamily": "AmazonEmber-Regular, 'Amazon Ember'",
+      "fontWeight": "normal",
+      "centered": true
+    },
+    "FN_16": {
+      "fontSize": "6px",
+      "fontFamily": "AmazonEmber-Regular, 'Amazon Ember'",
+      "fontWeight": "normal",
+      "centered": true
+    },
+    "FN_17": {
+      "fontSize": "6px",
+      "fontFamily": "AmazonEmber-Regular, 'Amazon Ember'",
+      "fontWeight": "normal",
+      "centered": true
+    },
+    "FN_18": {
+      "fontSize": "6px",
+      "fontFamily": "AmazonEmber-Regular, 'Amazon Ember'",
+      "fontWeight": "normal",
+      "centered": true
+    },
+    "FN_19": {
+      "fontSize": "6px",
+      "fontFamily": "AmazonEmber-Regular, 'Amazon Ember'",
+      "fontWeight": "normal",
+      "centered": true
+    },
+    "FN_20": {
+      "fontSize": "6px",
+      "fontFamily": "AmazonEmber-Regular, 'Amazon Ember'",
+      "fontWeight": "normal",
+      "centered": true
+    },
+    "FN_21": {
+      "fontSize": "6px",
+      "fontFamily": "AmazonEmber-Regular, 'Amazon Ember'",
+      "fontWeight": "normal",
+      "centered": true
+    },
+    "FN_22": {
+      "fontSize": "6px",
+      "fontFamily": "AmazonEmber-Regular, 'Amazon Ember'",
+      "fontWeight": "normal",
+      "centered": true
+    },
+    "FN_23": {
+      "fontSize": "6px",
+      "fontFamily": "AmazonEmber-Regular, 'Amazon Ember'",
+      "fontWeight": "normal",
+      "centered": true
+    },
+    "FN_24": {
+      "fontSize": "6px",
+      "fontFamily": "AmazonEmber-Regular, 'Amazon Ember'",
+      "fontWeight": "normal",
+      "centered": true
+    },
+    "FN_25": {
+      "fontSize": "6px",
+      "fontFamily": "AmazonEmber-Regular, 'Amazon Ember'",
+      "fontWeight": "normal",
+      "centered": true
+    }
+  },
+  "T1": {
+    "LoginColor": "#e4be21",
+    "VariacionColor": "#dfa126",
+    "TurnoColor": "#fee000",
+    "LoginText": "#FFFFFF",
+    "TurnoText": "#000000",
+    "Type_aa_FT": "#92D050",
+    "Type_aa_Other": "#29ade4"
+  },
+  "T2": {
+    "LoginColor": "#237139",
+    "VariacionColor": "#146131",
+    "TurnoColor": "#5dbc62",
+    "LoginText": "#FFFFFF",
+    "TurnoText": "#000000",
+    "Type_aa_FT": "#92D050",
+    "Type_aa_Other": "#29ade4"
+  },
+  "T3": {
+    "LoginColor": "#b5202b",
+    "VariacionColor": "#761113",
+    "TurnoColor": "#f04d4f",
+    "LoginText": "#FFFFFF",
+    "TurnoText": "#000000",
+    "Type_aa_FT": "#92D050",
+    "Type_aa_Other": "#29ade4"
+  },
+  "T4": {
+    "LoginColor": "#2477bc",
+    "VariacionColor": "#14487e",
+    "TurnoColor": "#4692ce",
+    "LoginText": "#FFFFFF",
+    "TurnoText": "#000000",
+    "Type_aa_FT": "#92D050",
+    "Type_aa_Other": "#29ade4"
+  },
+  "T5": {
+    "LoginColor": "#e81f64",
+    "VariacionColor": "#9f1c40",
+    "TurnoColor": "#f06ca2",
+    "LoginText": "#FFFFFF",
+    "TurnoText": "#000000",
+    "Type_aa_FT": "#92D050",
+    "Type_aa_Other": "#29ade4"
+  },
+  "T6": {
+    "LoginColor": "#f26b3b",
+    "VariacionColor": "#e83a25",
+    "TurnoColor": "#f7987c",
+    "LoginText": "#FFFFFF",
+    "TurnoText": "#000000",
+    "Type_aa_FT": "#92D050",
+    "Type_aa_Other": "#29ade4"
+  },
+  "T7": {
+    "LoginColor": "#73479c",
+    "VariacionColor": "#382160",
+    "TurnoColor": "#9c7bb7",
+    "LoginText": "#FFFFFF",
+    "TurnoText": "#000000",
+    "Type_aa_FT": "#92D050",
+    "Type_aa_Other": "#29ade4"
+  },
+  "T8": {
+    "LoginColor": "#00a693",
+    "VariacionColor": "#027564",
+    "TurnoColor": "#7bccc4",
+    "LoginText": "#FFFFFF",
+    "TurnoText": "#000000",
+    "Type_aa_FT": "#92D050",
+    "Type_aa_Other": "#29ade4"
+  }
+}
