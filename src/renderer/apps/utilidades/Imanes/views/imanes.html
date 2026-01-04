@@ -93,6 +93,27 @@
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
       }
+      
+      /* Estilos críticos para el header icon - evitar SVG gigante */
+      .header-icon {
+        width: 28px !important;
+        height: 28px !important;
+        max-width: 28px !important;
+        max-height: 28px !important;
+        overflow: hidden !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+      
+      .header-icon svg {
+        width: 28px !important;
+        height: 28px !important;
+        max-width: 28px !important;
+        max-height: 28px !important;
+        display: block !important;
+        overflow: hidden !important;
+      }
     </style>
   </head>
   <body>
@@ -105,7 +126,7 @@
       <!-- Header compacto con SVG dinámico -->
       <header class="app-header-card compact">
         <h1>
-          <div id="header-banner-icon" class="header-icon" style="opacity: 0; visibility: hidden;">
+          <div id="header-banner-icon" class="header-icon" style="opacity: 0; visibility: hidden; width: 28px; height: 28px; max-width: 28px; max-height: 28px; overflow: hidden;">
             <!-- SVG se carga dinámicamente -->
           </div>
           Imanes

@@ -327,22 +327,56 @@ class ImanesController {
   async cargarBannerSVG() {
     try {
       const iconContainer = document.getElementById("header-banner-icon");
-      if (!iconContainer) return;
+      if (!iconContainer) {
+        console.warn("[Banner Icon] Elemento header-banner-icon no encontrado");
+        return;
+      }
+      
+      // Verificar que el API esté disponible
+      if (!window.api || !window.api.readFile) {
+        console.warn("[Banner Icon] API readFile no disponible");
+        return;
+      }
       
       // Ocultar el contenedor hasta que esté listo
       iconContainer.style.opacity = "0";
       iconContainer.style.visibility = "hidden";
       
-      const result = await window.api.readFile("assets/svg/Flow/Iman_plantilla.svg");
-      if (result.success) {
-        // Crear un SVG simplificado para el icono con dimensiones fijas
-        iconContainer.innerHTML = `
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28" style="width: 28px; height: 28px; max-width: 28px; max-height: 28px;">
-            <rect x="3" y="8" width="18" height="8" rx="1"/>
-            <path d="M7 8V6a2 2 0 012-2h6a2 2 0 012 2v2"/>
-            <path d="M7 16v2a2 2 0 002 2h6a2 2 0 002-2v-2"/>
-          </svg>
-        `;
+      const result = await window.api.readFile("assets/svg/Flow/Imanes_banner.svg");
+      if (result.success && result.content) {
+        // Insertar el SVG en el elemento
+        iconContainer.innerHTML = result.content;
+        
+        // Asegurar que el contenedor tenga dimensiones fijas desde el inicio
+        iconContainer.style.width = '28px';
+        iconContainer.style.height = '28px';
+        iconContainer.style.maxWidth = '28px';
+        iconContainer.style.maxHeight = '28px';
+        iconContainer.style.overflow = 'hidden';
+        
+        // Hacer el SVG responsive pero con límites estrictos
+        const svgElement = iconContainer.querySelector('svg');
+        if (svgElement) {
+          // Mantener el viewBox original
+          if (!svgElement.getAttribute('viewBox') && svgElement.getAttribute('width') && svgElement.getAttribute('height')) {
+            const width = svgElement.getAttribute('width');
+            const height = svgElement.getAttribute('height');
+            svgElement.setAttribute('viewBox', `0 0 ${width} ${height}`);
+          }
+          
+          // Establecer dimensiones fijas con estilos inline
+          svgElement.setAttribute('width', '28');
+          svgElement.setAttribute('height', '28');
+          svgElement.style.width = '28px';
+          svgElement.style.height = '28px';
+          svgElement.style.maxWidth = '28px';
+          svgElement.style.maxHeight = '28px';
+          svgElement.style.display = 'block';
+          svgElement.style.overflow = 'hidden';
+          
+          // Asegurar que el fill sea blanco para que se vea bien en el header
+          svgElement.style.fill = 'white';
+        }
         
         // Mostrar con transición suave
         setTimeout(() => {
@@ -350,12 +384,15 @@ class ImanesController {
           iconContainer.style.visibility = "visible";
           iconContainer.classList.add("ready");
         }, 100);
+        
+        console.log("[Banner Icon] ✓ SVG cargado correctamente");
       } else {
+        console.warn("[Banner Icon] ✗ Error cargando Imanes_banner.svg:", result.error);
         // Si no se puede cargar, ocultar completamente
         iconContainer.style.display = "none";
       }
     } catch (error) {
-      console.warn("No se pudo cargar el banner SVG:", error);
+      console.error("[Banner Icon] Error cargando:", error);
       const iconContainer = document.getElementById("header-banner-icon");
       if (iconContainer) {
         iconContainer.style.display = "none";
@@ -903,7 +940,7 @@ class ImanesController {
       const searchInput = document.getElementById("search-login");
       if (searchInput && searchInput.value.length >= 2) {
         this.mostrarAutocompletado(searchInput.value);
-      } else {
+    } else {
         return;
       }
     }
@@ -1093,7 +1130,7 @@ class ImanesController {
           <div class="manager-list">
             ${managers.map(manager => {
               const count = managersConEmpleados[manager].length;
-              return `
+        return `
                 <div class="manager-item" data-manager="${manager}">
                   <div class="manager-info">
                     <span class="manager-name">${manager}</span>
@@ -1158,7 +1195,7 @@ class ImanesController {
               <div class="users-list-grid">
                 ${usuariosSinTurno.map(user => `
                   <div class="user-item-card">
-                    <label>
+            <label>
                       <input type="checkbox" class="user-checkbox" data-login="${user.login}" data-has-shift="false">
                       <div class="user-card-content">
                         <div class="user-photo-container">
@@ -1182,8 +1219,8 @@ class ImanesController {
                             <option value="T8">T8</option>
                           </select>
                         </div>
-                      </div>
-                    </label>
+              </div>
+            </label>
                   </div>
                 `).join("")}
               </div>
@@ -1220,8 +1257,8 @@ class ImanesController {
           <button class="btn btn-secondary" onclick="this.closest('.modal-overlay').remove()">Cancelar</button>
           <button class="btn btn-primary" id="add-selected-users">Agregar seleccionados</button>
         </div>
-      </div>
-    `;
+          </div>
+        `;
 
     document.body.appendChild(modal);
 
@@ -1539,8 +1576,25 @@ class ImanesController {
       this.actualizarElementoSVG(svg, "VariacionShift", variacionText);
       
       // Aplicar estilos a VariacionShift si están disponibles
+      // El color debe ser blanco cuando hay texto (E o LA)
+      const variacionColor = variacionText ? "#FFFFFF" : "#231f20";
       if (colores.textStyles?.VariacionShift) {
-        this.aplicarEstilosTexto(svg, "VariacionShift", "#231f20", colores.textStyles.VariacionShift);
+        // Si es "LA", ajustar el tamaño y posición
+        let variacionStyles = { ...colores.textStyles.VariacionShift };
+        if (employeeType === "LA") {
+          // Reducir fontSize en 2px
+          const currentSize = parseFloat(variacionStyles.fontSize) || 12;
+          variacionStyles.fontSize = `${currentSize - 2}px`;
+          
+          // Mover 1.5px a la izquierda (reducir x)
+          if (variacionStyles.x !== undefined) {
+            variacionStyles.x = variacionStyles.x - 1.5;
+          }
+        }
+        this.aplicarEstilosTexto(svg, "VariacionShift", variacionColor, variacionStyles);
+      } else {
+        // Si no hay estilos, aplicar solo el color
+        this.aplicarColorTexto(svg, "VariacionShift", variacionColor);
       }
 
       // Aplicar colores de fondo
@@ -1610,7 +1664,7 @@ class ImanesController {
         } else {
           // Si no hay coordenadas en JSON, calcular el centro del rect (fallback)
           const colorRect = svg.querySelector(`#FNC_x5F_${i}`);
-          if (colorRect) {
+        if (colorRect) {
             const rectX = parseFloat(colorRect.getAttribute("x")) || 0;
             const rectWidth = parseFloat(colorRect.getAttribute("width")) || 0;
             const rectY = parseFloat(colorRect.getAttribute("y")) || 0;
@@ -1623,7 +1677,7 @@ class ImanesController {
             // Actualizar el texto y centrarlo (solo si hay texto)
             if (nombreFormacion) {
               this.actualizarElementoSVGCentrado(svg, `FN_x5F_${i}`, nombreFormacion, centerX, centerY, fnStyles);
-            } else {
+          } else {
               // Si no hay nombre, limpiar el texto
               this.actualizarElementoSVG(svg, `FN_x5F_${i}`, "");
             }
