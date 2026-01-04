@@ -1336,32 +1336,43 @@ class ImanesController {
         // Verificar si el usuario tiene esta formación
         const tieneFormacion = formaciones.includes(nombreFormacion);
         
-        // Obtener el rect correspondiente para calcular el centro
-        const colorRect = svg.querySelector(`#FNC_x5F_${i}`);
-        if (colorRect) {
-          const rectX = parseFloat(colorRect.getAttribute("x")) || 0;
-          const rectWidth = parseFloat(colorRect.getAttribute("width")) || 0;
-          const rectY = parseFloat(colorRect.getAttribute("y")) || 0;
-          const rectHeight = parseFloat(colorRect.getAttribute("height")) || 0;
-          
-          // Calcular el centro de la celda
-          const centerX = rectX + (rectWidth / 2);
-          const centerY = rectY + (rectHeight / 2);
-          
-          // Obtener estilos específicos de FN_i desde JSON si están disponibles
-          // Primero busca FN_i específico, luego FN genérico como fallback
-          const fnStyles = colores.textStyles?.[`FN_${i}`] || colores.textStyles?.FN;
-          
-          // Actualizar el texto y centrarlo (solo si hay texto)
+        // Obtener estilos específicos de FN_i desde JSON si están disponibles
+        // Primero busca FN_i específico, luego FN genérico como fallback
+        const fnStyles = colores.textStyles?.[`FN_${i}`] || colores.textStyles?.FN;
+        
+        // Si hay coordenadas x e y en el JSON, usarlas directamente
+        if (fnStyles && fnStyles.x !== undefined && fnStyles.y !== undefined) {
+          // Usar coordenadas del JSON
           if (nombreFormacion) {
-            this.actualizarElementoSVGCentrado(svg, `FN_x5F_${i}`, nombreFormacion, centerX, centerY, fnStyles);
+            this.actualizarElementoSVGCentrado(svg, `FN_x5F_${i}`, nombreFormacion, fnStyles.x, fnStyles.y, fnStyles);
           } else {
             // Si no hay nombre, limpiar el texto
             this.actualizarElementoSVG(svg, `FN_x5F_${i}`, "");
           }
         } else {
-          // Fallback si no se encuentra el rect
-          this.actualizarElementoSVG(svg, `FN_x5F_${i}`, nombreFormacion);
+          // Si no hay coordenadas en JSON, calcular el centro del rect (fallback)
+          const colorRect = svg.querySelector(`#FNC_x5F_${i}`);
+          if (colorRect) {
+            const rectX = parseFloat(colorRect.getAttribute("x")) || 0;
+            const rectWidth = parseFloat(colorRect.getAttribute("width")) || 0;
+            const rectY = parseFloat(colorRect.getAttribute("y")) || 0;
+            const rectHeight = parseFloat(colorRect.getAttribute("height")) || 0;
+            
+            // Calcular el centro de la celda
+            const centerX = rectX + (rectWidth / 2);
+            const centerY = rectY + (rectHeight / 2);
+            
+            // Actualizar el texto y centrarlo (solo si hay texto)
+            if (nombreFormacion) {
+              this.actualizarElementoSVGCentrado(svg, `FN_x5F_${i}`, nombreFormacion, centerX, centerY, fnStyles);
+            } else {
+              // Si no hay nombre, limpiar el texto
+              this.actualizarElementoSVG(svg, `FN_x5F_${i}`, "");
+            }
+          } else {
+            // Fallback si no se encuentra el rect
+            this.actualizarElementoSVG(svg, `FN_x5F_${i}`, nombreFormacion);
+          }
         }
 
         // Solo colorear si la opción está activada
@@ -1744,15 +1755,20 @@ class ImanesController {
       return;
     }
 
-    this.mostrarToast("Generando PDF...", "info");
+    // Crear modal de carga
+    const loadingModal = this.crearModalCarga();
+    document.body.appendChild(loadingModal);
+    const progressBar = loadingModal.querySelector(".progress-bar-fill");
+    const progressText = loadingModal.querySelector(".progress-text");
 
     try {
       const previewContainer = document.getElementById("imanes-preview");
       const hasPreview = previewContainer.querySelector(".iman-preview-item");
       
       if (!hasPreview) {
+        progressText.textContent = "Generando preview...";
         await this.generarPreview();
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise((resolve) => setTimeout(resolve, 300));
       }
 
       // Dimensiones exactas del imán: 127mm x 33mm
@@ -1784,6 +1800,7 @@ class ImanesController {
       let imanIndex = 0;
       let paginaActual = 0;
 
+      // Procesar imanes con actualización de progreso
       while (imanIndex < totalImanes) {
         if (paginaActual > 0) pdf.addPage();
 
@@ -1793,12 +1810,23 @@ class ImanesController {
             const svgContainer = item.querySelector(".iman-svg-container");
 
             if (svgContainer) {
+              // Actualizar progreso
+              const progress = Math.round(((imanIndex + 1) / totalImanes) * 100);
+              progressBar.style.width = `${progress}%`;
+              progressText.textContent = `Procesando imán ${imanIndex + 1} de ${totalImanes} (${progress}%)...`;
+              
+              // Permitir que el navegador actualice la UI
+              await new Promise(resolve => setTimeout(resolve, 10));
+
+              // Convertir SVG a imagen con scale optimizado (2 en lugar de 3 para mejor rendimiento)
               const canvas = await html2canvas(svgContainer, {
                 backgroundColor: "#ffffff",
-                scale: 3,
+                scale: 2, // Reducido de 3 a 2 para mejor rendimiento (suficiente calidad)
+                useCORS: true,
+                logging: false,
               });
 
-              const imgData = canvas.toDataURL("image/png");
+              const imgData = canvas.toDataURL("image/png", 0.95);
               const x = MARGIN_LEFT + (col * (IMAN_WIDTH + SEPARACION));
               const y = MARGIN_TOP + (fila * (IMAN_HEIGHT + SEPARACION));
               
@@ -1811,14 +1839,46 @@ class ImanesController {
         paginaActual++;
       }
 
+      // Finalizar
+      progressBar.style.width = "100%";
+      progressText.textContent = "Guardando PDF...";
+      await new Promise(resolve => setTimeout(resolve, 100));
+
       const nombreArchivo = `imanes_${new Date().toISOString().split("T")[0]}.pdf`;
       pdf.save(nombreArchivo);
 
-      this.mostrarToast(`PDF: ${totalImanes} imanes en ${paginaActual} página(s)`, "success");
+      loadingModal.remove();
+      this.mostrarToast(`PDF generado: ${totalImanes} imanes en ${paginaActual} página(s)`, "success");
     } catch (error) {
       console.error("Error exportando PDF:", error);
+      loadingModal.remove();
       this.mostrarToast("Error al exportar PDF", "error");
     }
+  }
+
+  /**
+   * Crea modal de carga con barra de progreso
+   */
+  crearModalCarga() {
+    const modal = document.createElement("div");
+    modal.className = "modal-overlay loading-modal";
+    modal.innerHTML = `
+      <div class="modal-content modal-loading">
+        <div class="modal-header">
+          <h3>Generando PDF</h3>
+        </div>
+        <div class="modal-body">
+          <div class="loading-spinner"></div>
+          <div class="progress-container">
+            <div class="progress-bar">
+              <div class="progress-bar-fill" style="width: 0%"></div>
+            </div>
+            <div class="progress-text">Iniciando...</div>
+          </div>
+        </div>
+      </div>
+    `;
+    return modal;
   }
 
   mostrarToast(mensaje, tipo = "info") {
