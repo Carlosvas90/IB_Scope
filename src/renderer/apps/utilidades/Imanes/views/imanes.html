@@ -10,7 +10,7 @@
       <!-- Header compacto con SVG dinámico -->
       <header class="app-header-card compact">
         <h1>
-          <div id="header-banner-icon" class="header-icon">
+          <div id="header-banner-icon" class="header-icon" style="opacity: 0; visibility: hidden;">
             <!-- SVG se carga dinámicamente -->
           </div>
           Imanes
@@ -105,15 +105,16 @@
         </div>
 
         <!-- Sección de vista previa (área principal) -->
-        <div class="preview-section" id="preview-section">
+        <div class="preview-section initializing" id="preview-section">
           <div class="preview-card">
             <div class="preview-header">
               <h2>Vista Previa</h2>
             </div>
             <div class="preview-content">
               <div id="imanes-preview" class="imanes-preview">
-                <div class="empty-preview">
-                  <p>Busca y selecciona logins para generar imanes</p>
+                <div class="initializing-preview">
+                  <div class="spinner"></div>
+                  <p>Inicializando Imanes...</p>
                 </div>
               </div>
             </div>

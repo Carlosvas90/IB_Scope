@@ -55,6 +55,10 @@ class ImanesController {
 
   async init() {
     console.log("🔧 ImanesController inicializando...");
+    
+    // Marcar preview como inicializando
+    this.marcarPreviewInicializando();
+    
     try {
       // Cargar SVG del banner
       this.cargarBannerSVG();
@@ -81,12 +85,108 @@ class ImanesController {
 
       await this.cargarDatos();
       this.configurarEventos();
+      
+      // Marcar que los eventos están configurados
+      const searchInput = document.getElementById("search-login");
+      if (searchInput) {
+        searchInput.setAttribute('data-events-configured', 'true');
+      }
 
+      // Marcar preview como listo
+      this.marcarPreviewListo();
+      
       console.log("✅ ImanesController inicializado");
     } catch (error) {
       console.error("❌ Error inicializando:", error);
       this.mostrarToast("Error al inicializar", "error");
+      // Mostrar preview incluso si hay error
+      try {
+        this.marcarPreviewListo();
+      } catch (e) {
+        console.error("Error al marcar preview como listo:", e);
+      }
     }
+  }
+
+  /**
+   * Marca el preview como inicializando
+   */
+  marcarPreviewInicializando() {
+    const previewSection = document.getElementById("preview-section");
+    const previewContainer = document.getElementById("imanes-preview");
+    
+    if (previewSection) {
+      previewSection.classList.add("initializing");
+      previewSection.classList.remove("ready");
+      // Forzar ocultación con estilos inline
+      previewSection.style.opacity = "0";
+      previewSection.style.pointerEvents = "none";
+    }
+    
+    if (previewContainer) {
+      previewContainer.innerHTML = `
+        <div class="initializing-preview">
+          <div class="spinner"></div>
+          <p>Inicializando Imanes...</p>
+        </div>
+      `;
+      // Ocultar cualquier SVG que pueda estar presente
+      const svgs = previewContainer.querySelectorAll("svg");
+      svgs.forEach(svg => {
+        svg.style.display = "none";
+        svg.style.visibility = "hidden";
+        svg.style.opacity = "0";
+        svg.style.width = "0";
+        svg.style.height = "0";
+        svg.style.maxWidth = "0";
+        svg.style.maxHeight = "0";
+      });
+    }
+  }
+
+  /**
+   * Marca el preview como listo y muestra el estado vacío
+   */
+  marcarPreviewListo() {
+    const previewSection = document.getElementById("preview-section");
+    const previewContainer = document.getElementById("imanes-preview");
+    
+    if (previewSection) {
+      previewSection.classList.remove("initializing");
+      previewSection.classList.add("ready");
+      // Restaurar visibilidad
+      previewSection.style.opacity = "";
+      previewSection.style.pointerEvents = "";
+    }
+    
+    if (previewContainer) {
+      // Solo cambiar a estado vacío si no hay contenido
+      const currentContent = previewContainer.innerHTML.trim();
+      if (currentContent.includes("initializing-preview") || currentContent === "") {
+        previewContainer.innerHTML = `
+          <div class="empty-preview">
+            <p>Busca y selecciona logins para generar imanes</p>
+          </div>
+        `;
+      }
+    }
+  }
+
+  /**
+   * Limpia eventos y recursos al destruir la instancia
+   */
+  destroy() {
+    // Remover event listeners si es necesario
+    const searchInput = document.getElementById("search-login");
+    if (searchInput) {
+      const newInput = searchInput.cloneNode(true);
+      searchInput.parentNode.replaceChild(newInput, searchInput);
+    }
+    
+    // Limpiar otros event listeners si los hay
+    // Por ahora solo limpiamos el estado
+    this.selectedLogins.clear();
+    this.turnosTemporales.clear();
   }
 
   /**
@@ -94,22 +194,40 @@ class ImanesController {
    */
   async cargarBannerSVG() {
     try {
+      const iconContainer = document.getElementById("header-banner-icon");
+      if (!iconContainer) return;
+      
+      // Ocultar el contenedor hasta que esté listo
+      iconContainer.style.opacity = "0";
+      iconContainer.style.visibility = "hidden";
+      
       const result = await window.api.readFile("assets/svg/Flow/Iman_plantilla.svg");
       if (result.success) {
-        const iconContainer = document.getElementById("header-banner-icon");
-        if (iconContainer) {
-          // Crear un SVG simplificado para el icono
-          iconContainer.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="8" width="18" height="8" rx="1"/>
-              <path d="M7 8V6a2 2 0 012-2h6a2 2 0 012 2v2"/>
-              <path d="M7 16v2a2 2 0 002 2h6a2 2 0 002-2v-2"/>
-            </svg>
-          `;
-        }
+        // Crear un SVG simplificado para el icono con dimensiones fijas
+        iconContainer.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28" style="width: 28px; height: 28px; max-width: 28px; max-height: 28px;">
+            <rect x="3" y="8" width="18" height="8" rx="1"/>
+            <path d="M7 8V6a2 2 0 012-2h6a2 2 0 012 2v2"/>
+            <path d="M7 16v2a2 2 0 002 2h6a2 2 0 002-2v-2"/>
+          </svg>
+        `;
+        
+        // Mostrar con transición suave
+        setTimeout(() => {
+          iconContainer.style.opacity = "1";
+          iconContainer.style.visibility = "visible";
+          iconContainer.classList.add("ready");
+        }, 100);
+      } else {
+        // Si no se puede cargar, ocultar completamente
+        iconContainer.style.display = "none";
       }
     } catch (error) {
       console.warn("No se pudo cargar el banner SVG:", error);
+      const iconContainer = document.getElementById("header-banner-icon");
+      if (iconContainer) {
+        iconContainer.style.display = "none";
+      }
     }
   }
 
@@ -1220,6 +1338,14 @@ class ImanesController {
       // Establecer dimensiones exactas: 127mm x 33mm
       svg.setAttribute("width", "127mm");
       svg.setAttribute("height", "33mm");
+      
+      // Asegurar viewBox para escalado correcto (si no existe)
+      if (!svg.getAttribute("viewBox")) {
+        svg.setAttribute("viewBox", "0 0 127 33");
+      }
+      
+      // Asegurar que preserveAspectRatio esté configurado
+      svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
 
       const nombreCompleto = usuario.employee_name || "";
       const partes = nombreCompleto.split(",");
@@ -2093,13 +2219,215 @@ class ImanesController {
 
 // Inicializar
 let imanesController;
+let isInitializing = false;
+let lastInitTime = 0;
+const MIN_INIT_INTERVAL = 1000; // Evitar inicializaciones muy seguidas
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", () => {
+function inicializarImanes(force = false) {
+  // Evitar múltiples inicializaciones simultáneas
+  if (isInitializing) {
+    console.log("⏳ Inicialización ya en curso, esperando...");
+    return;
+  }
+  
+  // Evitar inicializaciones muy seguidas (a menos que sea forzada)
+  const now = Date.now();
+  if (!force && (now - lastInitTime) < MIN_INIT_INTERVAL) {
+    console.log("⏳ Esperando antes de reinicializar...");
+    return;
+  }
+  
+  // Verificar que el DOM esté presente
+  const previewSection = document.getElementById("preview-section");
+  const searchInput = document.getElementById("search-login");
+  
+  if (!previewSection || !searchInput) {
+    // Si no existe el preview, esperar un poco y reintentar
+    console.log("⏳ Esperando elementos del DOM...");
+    setTimeout(() => {
+      const retrySection = document.getElementById("preview-section");
+      const retryInput = document.getElementById("search-login");
+      if (retrySection && retryInput && !isInitializing) {
+        inicializarImanes(force);
+      }
+    }, 200);
+    return;
+  }
+  
+  // Si ya existe una instancia funcionando y no es forzada, no reinicializar
+  if (!force && imanesController && searchInput.hasAttribute('data-events-configured')) {
+    console.log("✅ ImanesController ya está inicializado y funcionando");
+    return;
+  }
+  
+  isInitializing = true;
+  lastInitTime = now;
+  console.log("🔄 Inicializando ImanesController...");
+  
+  // Si ya existe una instancia, limpiarla primero
+  if (imanesController && typeof imanesController.destroy === 'function') {
+    try {
+      console.log("🧹 Limpiando instancia anterior...");
+      imanesController.destroy();
+    } catch (e) {
+      console.warn("⚠️ Error al destruir instancia anterior:", e);
+    }
+  }
+  
+  // Limpiar el marcador de eventos para forzar reconfiguración
+  if (searchInput) {
+    searchInput.removeAttribute('data-events-configured');
+  }
+  
+  // Crear nueva instancia
+  try {
     imanesController = new ImanesController();
     window.imanesController = imanesController;
+    console.log("✅ ImanesController creado exitosamente");
+  } catch (error) {
+    console.error("❌ Error al inicializar ImanesController:", error);
+    isInitializing = false;
+  }
+}
+
+// Función para verificar y reinicializar si es necesario
+function verificarYReinicializar(force = false) {
+  if (isInitializing) return;
+  
+  const previewSection = document.getElementById("preview-section");
+  const searchInput = document.getElementById("search-login");
+  
+  // Si existe el DOM pero no hay controlador o no está funcionando
+  if (previewSection && searchInput) {
+    // Verificar si los eventos están configurados
+    const hasEvents = searchInput.hasAttribute('data-events-configured');
+    
+    if (!imanesController || !hasEvents || force) {
+      console.log("🔄 Verificación: reinicializando ImanesController...");
+      inicializarImanes(force);
+    }
+  }
+}
+
+// Inicializar cuando el DOM esté listo
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", () => {
+    inicializarImanes();
   });
 } else {
-  imanesController = new ImanesController();
-  window.imanesController = imanesController;
+  // Si el DOM ya está listo, inicializar inmediatamente
+  inicializarImanes();
+}
+
+// Escuchar eventos del router para detectar cuando se carga la app de imanes
+if (typeof window !== 'undefined') {
+  // Función para verificar y reinicializar con múltiples intentos
+  function intentarReinicializar(intentos = 0, maxIntentos = 15) {
+    // Limpiar el flag de inicialización si lleva mucho tiempo
+    if (isInitializing && (Date.now() - lastInitTime) > 5000) {
+      console.warn("⚠️ Limpiando flag de inicialización bloqueado");
+      isInitializing = false;
+    }
+    
+    const previewSection = document.getElementById("preview-section");
+    const searchInput = document.getElementById("search-login");
+    
+    if (previewSection && searchInput) {
+      // Verificar que los elementos estén realmente en el DOM actual (no de una carga anterior)
+      const isInCurrentDOM = document.body && document.body.contains(previewSection) && document.body.contains(searchInput);
+      
+      if (isInCurrentDOM) {
+        // Si el DOM está disponible, verificar y reinicializar
+        const hasEvents = searchInput.hasAttribute('data-events-configured');
+        if (!imanesController || !hasEvents) {
+          console.log("🔄 DOM disponible, reinicializando ImanesController...");
+          verificarYReinicializar(true);
+        } else {
+          console.log("✅ ImanesController ya está funcionando correctamente");
+        }
+      } else if (intentos < maxIntentos) {
+        // Si los elementos no están en el DOM actual, esperar más
+        console.log(`⏳ Esperando DOM actual... (intento ${intentos + 1}/${maxIntentos})`);
+        setTimeout(() => {
+          intentarReinicializar(intentos + 1, maxIntentos);
+        }, 200);
+      } else {
+        console.warn("⚠️ Los elementos no están en el DOM actual después de múltiples intentos");
+      }
+    } else if (intentos < maxIntentos) {
+      // Si el DOM no está disponible, intentar de nuevo
+      console.log(`⏳ Esperando DOM... (intento ${intentos + 1}/${maxIntentos})`);
+      setTimeout(() => {
+        intentarReinicializar(intentos + 1, maxIntentos);
+      }, 200);
+    } else {
+      console.warn("⚠️ No se pudo encontrar el DOM después de múltiples intentos");
+    }
+  }
+  
+  // Escuchar evento de app cargada
+  window.addEventListener('app:loaded', (e) => {
+    const { app } = e.detail || {};
+    if (app === 'imanes') {
+      console.log("📢 Evento app:loaded recibido para imanes");
+      // Esperar un poco más para que el router termine de cargar el HTML
+      setTimeout(() => {
+        intentarReinicializar();
+      }, 500);
+    }
+  });
+  
+  // Escuchar evento de app lista
+  window.addEventListener('app:ready', (e) => {
+    const { app } = e.detail || {};
+    if (app === 'imanes') {
+      console.log("📢 Evento app:ready recibido para imanes");
+      // En este punto el DOM debería estar listo
+      setTimeout(() => {
+        intentarReinicializar();
+      }, 300);
+    }
+  });
+  
+  // Verificar después de delays para navegación SPA
+  setTimeout(() => {
+    verificarYReinicializar();
+  }, 500);
+  
+  setTimeout(() => {
+    verificarYReinicializar();
+  }, 1500);
+  
+  // También verificar cuando se detecta que se carga contenido nuevo
+  if (document.body) {
+    let checkTimeout;
+    const observer = new MutationObserver((mutations) => {
+      // Solo verificar si se agregaron nodos que podrían ser la app de imanes
+      const hasRelevantChanges = mutations.some(mutation => {
+        return Array.from(mutation.addedNodes).some(node => {
+          if (node.nodeType === 1) { // Element node
+            return node.id === 'preview-section' || 
+                   node.querySelector?.('#preview-section') ||
+                   node.id === 'search-login' ||
+                   node.querySelector?.('#search-login');
+          }
+          return false;
+        });
+      });
+      
+      if (hasRelevantChanges) {
+        // Debounce: esperar a que termine el cambio antes de verificar
+        clearTimeout(checkTimeout);
+        checkTimeout = setTimeout(() => {
+          verificarYReinicializar();
+        }, 300);
+      }
+    });
+    
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: false
+    });
+  }
 }
