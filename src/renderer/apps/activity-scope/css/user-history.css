@@ -18,6 +18,36 @@
   display: block;
 }
 
+/* Preservar colores originales de los SVG - evitar que CSS global los sobrescriba */
+.icon-svg svg {
+  /* Aislar el SVG de estilos globales */
+  isolation: isolate;
+  /* Proteger contra filtros y transformaciones de color */
+  filter: none !important;
+  color-interpolation: sRGB !important;
+  color-interpolation-filters: sRGB !important;
+}
+
+/* NO sobrescribir fills que ya están definidos en el SVG */
+.icon-svg svg [fill]:not([fill="none"]):not([fill="currentColor"]):not([fill="inherit"]) {
+  /* Los colores se preservan desde el SVG original o desde estilos inline */
+}
+
+/* Proteger elementos con clases de estilo - no aplicar fills externos */
+.icon-svg svg [class*="st"] {
+  /* Los colores vienen de los estilos internos del SVG */
+}
+
+/* Evitar que estilos globales afecten los SVG */
+.icon-svg svg * {
+  color: unset !important;
+}
+
+/* Asegurar que los estilos dentro del SVG tengan prioridad máxima */
+.icon-svg svg style {
+  /* Los estilos internos del SVG tienen prioridad */
+}
+
 .icon-32 {
   width: 2rem;
   height: 2rem;

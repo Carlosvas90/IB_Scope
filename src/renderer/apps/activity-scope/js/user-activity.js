@@ -748,15 +748,60 @@ class UserActivityController {
       `🔄 Cambiando dirección de ordenamiento: ${this.sortDirection}`
     );
 
-    // Actualizar icono del botón
-    const sortDirectionBtn = document.getElementById("sort-direction-btn");
-    if (sortDirectionBtn) {
-      sortDirectionBtn.textContent =
-        this.sortDirection === "desc" ? "🔽" : "🔼";
+    // Actualizar icono del botón - cambiar entre ArrowDown y ArrowUp
+    const arrowIcon = document.getElementById("icon-arrow-down") || document.getElementById("icon-arrow-up");
+    if (arrowIcon) {
+      const newIconId = this.sortDirection === "desc" ? "icon-arrow-down" : "icon-arrow-up";
+      const newIconPath = this.sortDirection === "desc" 
+        ? "assets/svg/ActivityScope/ArrowDown.svg" 
+        : "assets/svg/ActivityScope/ArrowUp.svg";
+      
+      arrowIcon.id = newIconId;
+      
+      // Recargar el SVG del icono
+      this.loadSingleIcon(arrowIcon, newIconPath);
     }
 
     // Actualizar tabla
     this.updateTable();
+  }
+  
+  /**
+   * Carga un solo icono SVG
+   */
+  async loadSingleIcon(iconElement, svgPath) {
+    try {
+      const result = await window.api.readFile(svgPath);
+      if (result.success && result.content) {
+        iconElement.innerHTML = result.content;
+        
+        const svgElement = iconElement.querySelector('svg');
+        if (svgElement) {
+          if (!svgElement.getAttribute('viewBox') && svgElement.getAttribute('width') && svgElement.getAttribute('height')) {
+            const width = svgElement.getAttribute('width');
+            const height = svgElement.getAttribute('height');
+            svgElement.setAttribute('viewBox', `0 0 ${width} ${height}`);
+          }
+          svgElement.removeAttribute('width');
+          svgElement.removeAttribute('height');
+          
+          // Preservar colores
+          const allGraphicElements = svgElement.querySelectorAll('path, rect, circle, ellipse, polygon, polyline, line, g');
+          allGraphicElements.forEach(element => {
+            const fillAttr = element.getAttribute('fill');
+            if (fillAttr && 
+                fillAttr !== 'none' && 
+                fillAttr !== 'currentColor' && 
+                fillAttr !== 'inherit' && 
+                !fillAttr.startsWith('url')) {
+              element.style.setProperty('fill', fillAttr, 'important');
+            }
+          });
+        }
+      }
+    } catch (error) {
+      console.error(`Error cargando icono ${svgPath}:`, error);
+    }
   }
 
   /**
@@ -2470,20 +2515,21 @@ class UserActivityController {
       
       // Filter and sort icons
       'icon-sunrise-all': 'assets/svg/ActivityScope/Sunrise.svg',
-      'icon-sunrise-early': 'assets/svg/ActivityScope/Sunrise.svg',
+      'icon-sunrise-early': 'assets/svg/ActivityScope/Sun.svg',
       'icon-moon-late': 'assets/svg/ActivityScope/Moon.svg',
-      'icon-chart-uph': 'assets/svg/ActivityScope/Chart.svg',
-      'icon-clock-hours': 'assets/svg/ActivityScope/ClockSmall.svg',
-      'icon-box-units-combined': 'assets/svg/ActivityScope/BoxSmall.svg',
-      'icon-target-rate': 'assets/svg/ActivityScope/Target.svg',
+      'icon-chart-uph': 'assets/svg/ActivityScope/UPHCombined.svg',
+      'icon-clock-hours': 'assets/svg/ActivityScope/HorasCombined.svg',
+      'icon-box-units-combined': 'assets/svg/ActivityScope/UnitsCombined.svg',
+      'icon-target-rate': 'assets/svg/ActivityScope/RateAjustado.svg',
       'icon-arrow-down': 'assets/svg/ActivityScope/ArrowDown.svg',
-      'icon-box-each-stow': 'assets/svg/ActivityScope/BoxSmall.svg',
-      'icon-box-each-e': 'assets/svg/ActivityScope/BoxSmall.svg',
-      'icon-box-each-w': 'assets/svg/ActivityScope/BoxSmall.svg',
-      'icon-truck-pallet': 'assets/svg/ActivityScope/Truck.svg',
-      'icon-truck-pallet-e': 'assets/svg/ActivityScope/Truck.svg',
-      'icon-truck-pallet-w': 'assets/svg/ActivityScope/Truck.svg',
-      'icon-lightning-effort': 'assets/svg/ActivityScope/Lightning.svg',
+      'icon-arrow-up': 'assets/svg/ActivityScope/ArrowUp.svg',
+      'icon-box-each-stow': 'assets/svg/ActivityScope/EachStow.svg',
+      'icon-box-each-e': 'assets/svg/ActivityScope/EachE.svg',
+      'icon-box-each-w': 'assets/svg/ActivityScope/EachW.svg',
+      'icon-truck-pallet': 'assets/svg/ActivityScope/Pallet.svg',
+      'icon-truck-pallet-e': 'assets/svg/ActivityScope/PalletE.svg',
+      'icon-truck-pallet-w': 'assets/svg/ActivityScope/PalletW.svg',
+      'icon-lightning-effort': 'assets/svg/ActivityScope/Esfuerzo.svg',
       'icon-times-modal': 'assets/svg/ActivityScope/Times.svg'
     };
     
@@ -2519,6 +2565,21 @@ class UserActivityController {
             // Remover atributos fijos de width y height para que el CSS controle el tamaño
             svgElement.removeAttribute('width');
             svgElement.removeAttribute('height');
+            
+            // Preservar los colores originales del SVG (Presentation Attributes)
+            // Los SVG vienen con fill directamente en los elementos, solo asegurar que se preserve
+            const allGraphicElements = svgElement.querySelectorAll('path, rect, circle, ellipse, polygon, polyline, line, g');
+            allGraphicElements.forEach(element => {
+              const fillAttr = element.getAttribute('fill');
+              if (fillAttr && 
+                  fillAttr !== 'none' && 
+                  fillAttr !== 'currentColor' && 
+                  fillAttr !== 'inherit' && 
+                  !fillAttr.startsWith('url')) {
+                // Aplicar como estilo inline para proteger contra CSS externo
+                element.style.setProperty('fill', fillAttr, 'important');
+              }
+            });
           }
           
           console.log(`[ActivityScope Icons] ✓ Cargado: ${iconId}`);

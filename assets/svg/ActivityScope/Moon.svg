@@ -1,71 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" version="1.1" viewBox="0 0 32 32">
-  <!-- Generator: Adobe Illustrator 29.2.0, SVG Export Plug-In . SVG Version: 2.1.0 Build 108)  -->
-  <defs>
-    <style>
-      .st0 {
-        fill: #9d7945;
-      }
-
-      .st1 {
-        fill: none;
-      }
-
-      .st2 {
-        fill: #1b1c1c;
-      }
-
-      .st3 {
-        fill: #333;
-      }
-
-      .st4 {
-        fill: #a8a8a8;
-      }
-
-      .st5 {
-        fill: #7f5c32;
-      }
-
-      .st6 {
-        fill: #3d3d3d;
-      }
-
-      .st7 {
-        fill: #30302f;
-      }
-    </style>
-  </defs>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 32 32">
+  <!-- Generator: Adobe Illustrator 29.8.4, SVG Export Plug-In . SVG Version: 2.1.1 Build 6)  -->
+  <circle cx="16.05" cy="15.93" r="15.85" fill="#dcf9f6"/>
+  <path d="M16.05,31.78C7.33,31.78.2,24.65.2,15.93S7.33.08,16.05.08" fill="#95bfb9"/>
+  <path d="M16.05,31.78c-8.72,0-11.1-7.13-11.1-15.85S7.25.08,16.05.08" fill="#caede7"/>
   <g>
-    <path class="st1" d="M16,27.5"/>
-    <path class="st3" d="M27.9,27.9l-.5,3.4c0,.1,0,.2-.1.3-.1.2-.3.3-.5.4,0,0-.1,0-.2,0h-.7c-.3,0-.5-.2-.5-.5l-.3-1.4c0-.3-.3-.5-.7-.5h-5.7c-.3,0-.6.2-.7.5l-.2,1.4c0,.3-.3.4-.5.5h-2.3c-.3,0-.5-.2-.5-.5l-.2-1.4c0-.3-.3-.5-.7-.5h-5.7c-.3,0-.6.2-.7.5l-.3,1.4c0,.3-.3.5-.6.5h-.6c-.1,0-.2,0-.3,0-.3-.1-.4-.3-.5-.6h0l-.5-3.4h0c0,0,0-.2,0-.2,0-.1.2-.2.4-.2h22.9c.2,0,.3,0,.4.2,0,0,0,.1,0,.2,0,0,0,0,0,0Z"/>
-    <path class="st4" d="M27.9,27.9H4.1s0-.1,0-.2h23.6s0,.1,0,.2h0Z"/>
-    <path class="st6" d="M16.3,31.5v.5h-.5v-.5c0-.1.1-.3.3-.3s.1,0,.2,0c0,0,0,.1,0,.2h0Z"/>
-    <path class="st6" d="M15.4,31.5v.5h-.5v-.5c0-.1.1-.3.3-.3s.1,0,.2,0c0,0,0,.1,0,.2Z"/>
-    <path class="st6" d="M17.1,31.5v.5h-.5v-.5c0-.1.1-.3.3-.3s.1,0,.2,0c0,0,0,.1,0,.2h0Z"/>
-    <path class="st6" d="M5.2,31.5v.4c-.3-.1-.4-.3-.5-.6,0,0,.1-.1.2-.1s.1,0,.2,0c0,0,0,.1,0,.2h0Z"/>
-    <path class="st6" d="M6,31.5v.5h-.5v-.5c0-.1.1-.3.3-.3s.1,0,.2,0c0,0,0,.1,0,.2h0Z"/>
-    <path class="st6" d="M26.4,31.5v.5h-.5v-.5c0-.1.1-.3.3-.3s.1,0,.2,0,0,.1,0,.2h0Z"/>
-    <path class="st6" d="M27.2,31.5h0c-.1.3-.3.4-.5.5v-.5c0-.1.1-.3.3-.3s.1,0,.2,0,0,.1,0,.2h0Z"/>
-    <rect class="st2" x="4.1" y="9.9" width=".6" height="17.8"/>
-    <rect class="st6" x="4.6" y="9.9" width="22.6" height="17.8"/>
-    <path class="st7" d="M27.2,9.9S11.9,27.4,4.6,27.7h23.2l-.6-17.8s0,0,0,0Z"/>
-    <rect class="st2" x="27.2" y="9.9" width=".6" height="17.8"/>
+    <circle cx="5.03" cy="7.53" r=".95" fill="#78a8a0"/>
+    <circle cx="3.69" cy="11.1" r=".16" fill="#78a8a0"/>
   </g>
   <g>
-    <rect class="st0" x="18.4" y=".4" width="8.5" height="27.3"/>
-    <path class="st5" d="M26.9.4v27.3h-7.5C25.5,26.4,26.9.4,26.9.4Z"/>
+    <circle cx="10.11" cy="13.16" r="2.93" fill="#dcf9f6"/>
+    <circle cx="11.37" cy="6.74" r=".79" fill="#dcf9f6"/>
+  </g>
+  <circle cx="16.84" cy="6.34" r=".24" fill="#c3e5e0"/>
+  <circle cx="18.9" cy="3.65" r=".24" fill="#78a8a0"/>
+  <circle cx="11.29" cy="3.8" r=".4" fill="#dcf9f6"/>
+  <circle cx="14.46" cy="2.46" r=".16" fill="#95bfb9"/>
+  <g>
+    <circle cx="18.11" cy="11.57" r=".63" fill="#c3e5e0"/>
+    <circle cx="22.87" cy="11.17" r=".4" fill="#c3e5e0"/>
+    <circle cx="23.9" cy="6.66" r=".63" fill="#c3e5e0"/>
+    <circle cx="21.12" cy="19.42" r="1.74" fill="#c3e5e0"/>
   </g>
   <g>
-    <polygon class="st0" points="17.8 .9 15.1 27.7 13.9 27.6 16.5 .8 17.8 .9"/>
-    <path class="st5" d="M17.8.9l-2.7,26.8h-1.1c1-1.3,3.8-26.8,3.8-26.8Z"/>
+    <circle cx="6.78" cy="20.45" r=".55" fill="#dcf9f6"/>
+    <circle cx="12.48" cy="18.07" r=".24" fill="#dcf9f6"/>
+    <circle cx="15.26" cy="24.01" r=".95" fill="#dcf9f6"/>
   </g>
+  <circle cx="3.69" cy="16.41" r=".63" fill="#78a8a0"/>
+  <circle cx="17.79" cy="16.01" r=".16" fill="#c3e5e0"/>
+  <circle cx="25.4" cy="16.33" r=".4" fill="#95bfb9"/>
   <g>
-    <polygon class="st0" points="16.2 .7 13.5 27.5 12.2 27.4 14.9 .6 16.2 .7"/>
-    <path class="st5" d="M16.2.7l-2.7,26.8h-1.1c1-1.3,3.8-26.8,3.8-26.8Z"/>
+    <circle cx="8.6" cy="24.81" r=".95" fill="#dcf9f6"/>
+    <circle cx="10.5" cy="21.4" r=".32" fill="#dcf9f6"/>
   </g>
+  <circle cx="20.33" cy="25.12" r=".32" fill="#c3e5e0"/>
   <g>
-    <polygon class="st0" points="14.7 .7 12 27.5 10.8 27.4 13.5 .6 14.7 .7"/>
-    <path class="st5" d="M14.7.7l-2.7,26.8h-1.1c1-1.3,3.8-26.8,3.8-26.8Z"/>
+    <circle cx="15.26" cy="27.74" r=".24" fill="#95bfb9"/>
+    <circle cx="11.29" cy="27.34" r=".16" fill="#95bfb9"/>
+    <circle cx="24.29" cy="23.7" r=".63" fill="#95bfb9"/>
   </g>
+  <circle cx="19.46" cy="28.37" r=".4" fill="#c3e5e0"/>
+  <circle cx="15.65" cy="19.81" r=".32" fill="#dcf9f6"/>
+  <circle cx="26.35" cy="20.92" r=".63" fill="#95bfb9"/>
+  <circle cx="4.64" cy="23.22" r=".55" fill="#78a8a0"/>
+  <circle cx="21.99" cy="15.06" r=".71" fill="#c3e5e0"/>
 </svg>

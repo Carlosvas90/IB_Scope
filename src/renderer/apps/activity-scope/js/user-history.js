@@ -227,6 +227,21 @@ class UserHistoryController {
             // Remover atributos fijos de width y height para que el CSS controle el tamaño
             svgElement.removeAttribute('width');
             svgElement.removeAttribute('height');
+            
+            // Preservar los colores originales del SVG (Presentation Attributes)
+            // Los SVG vienen con fill directamente en los elementos, solo asegurar que se preserve
+            const allGraphicElements = svgElement.querySelectorAll('path, rect, circle, ellipse, polygon, polyline, line, g');
+            allGraphicElements.forEach(element => {
+              const fillAttr = element.getAttribute('fill');
+              if (fillAttr && 
+                  fillAttr !== 'none' && 
+                  fillAttr !== 'currentColor' && 
+                  fillAttr !== 'inherit' && 
+                  !fillAttr.startsWith('url')) {
+                // Aplicar como estilo inline para proteger contra CSS externo
+                element.style.setProperty('fill', fillAttr, 'important');
+              }
+            });
           }
           
           console.log(`[History Icons] ✓ Cargado: ${iconId}`);
