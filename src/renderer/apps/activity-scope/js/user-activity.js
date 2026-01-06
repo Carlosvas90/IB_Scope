@@ -2657,7 +2657,7 @@ class UserActivityController {
       'icon-user-activity-header': 'assets/svg/ActivityScope/UserActivity.svg',
       'icon-refresh-activity': 'assets/svg/ActivityScope/Refresh.svg',
       'icon-export-activity': 'assets/svg/ActivityScope/Export.svg',
-      'icon-close-user-detail': 'assets/svg/ActivityScope/Close.svg',
+      'icon-close-user-detail': 'assets/svg/ActivityScope/CerrarModal.svg',
       
       // KPI section icons - nombres descriptivos
       'icon-user-info': 'assets/svg/ActivityScope/InfoAA.svg',
@@ -2736,15 +2736,52 @@ class UserActivityController {
             // Preservar los colores originales del SVG (Presentation Attributes)
             // Los SVG vienen con fill directamente en los elementos, solo asegurar que se preserve
             const allGraphicElements = svgElement.querySelectorAll('path, rect, circle, ellipse, polygon, polyline, line, g');
+            
+            // Verificar si el icono está dentro de un botón con hover (como btn-close-detail)
+            const isInHoverButton = iconElement.closest('.btn-close-detail, .heatmap-modal-close');
+            
             allGraphicElements.forEach(element => {
+              // Preservar fill
               const fillAttr = element.getAttribute('fill');
               if (fillAttr && 
                   fillAttr !== 'none' && 
                   fillAttr !== 'currentColor' && 
                   fillAttr !== 'inherit' && 
                   !fillAttr.startsWith('url')) {
-                // Aplicar como estilo inline para proteger contra CSS externo
-                element.style.setProperty('fill', fillAttr, 'important');
+                // Si está en un botón con hover, usar currentColor para que herede el color del texto
+                if (isInHoverButton) {
+                  element.style.setProperty('fill', 'currentColor', 'important');
+                } else {
+                  // Aplicar como estilo inline para proteger contra CSS externo
+                  element.style.setProperty('fill', fillAttr, 'important');
+                }
+              }
+              
+              // Preservar stroke (para iconos como CerrarModal que usan stroke)
+              const strokeAttr = element.getAttribute('stroke');
+              if (strokeAttr && 
+                  strokeAttr !== 'none' && 
+                  strokeAttr !== 'currentColor' && 
+                  strokeAttr !== 'inherit' && 
+                  !strokeAttr.startsWith('url')) {
+                element.style.setProperty('stroke', strokeAttr, 'important');
+              }
+              
+              // Preservar stroke-width
+              const strokeWidthAttr = element.getAttribute('stroke-width');
+              if (strokeWidthAttr) {
+                element.style.setProperty('stroke-width', strokeWidthAttr, 'important');
+              }
+              
+              // Preservar stroke-linecap y stroke-linejoin
+              const strokeLinecapAttr = element.getAttribute('stroke-linecap');
+              if (strokeLinecapAttr) {
+                element.style.setProperty('stroke-linecap', strokeLinecapAttr, 'important');
+              }
+              
+              const strokeLinejoinAttr = element.getAttribute('stroke-linejoin');
+              if (strokeLinejoinAttr) {
+                element.style.setProperty('stroke-linejoin', strokeLinejoinAttr, 'important');
               }
             });
           }

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 24 24">
   <!-- Generator: Adobe Illustrator 29.8.4, SVG Export Plug-In . SVG Version: 2.1.1 Build 6)  -->
-  <rect x="-1.76" y="-1.76" width="27.51" height="27.51" fill="none"/>
-  <path d="M2.83,2.83h18.34v16.05c0,1.27-1.03,2.29-2.29,2.29H5.12c-1.27,0-2.29-1.03-2.29-2.29V2.83Z" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.87"/>
-  <path d="M14.29,9.71l-4.59,4.59" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.87"/>
-  <path d="M9.71,9.71l4.59,4.59" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.87"/>
+  <path d="M18.88,22.6H5.12c-2.05,0-3.73-1.67-3.73-3.72V2.83c0-.79.64-1.44,1.44-1.44h18.34c.79,0,1.43.64,1.43,1.44v16.05c0,2.05-1.67,3.72-3.72,3.72ZM4.27,4.27v14.62c0,.47.38.86.85.86h13.76c.47,0,.86-.38.86-.86V4.27H4.27Z" fill="#fff"/>
+  <path d="M9.7,15.73c-.37,0-.73-.14-1.01-.42-.56-.56-.56-1.47,0-2.03l4.59-4.59c.56-.56,1.47-.56,2.03,0s.56,1.47,0,2.03l-4.59,4.59c-.28.28-.65.42-1.01.42Z" fill="#fff"/>
+  <path d="M14.3,15.73c-.37,0-.73-.14-1.01-.42l-4.59-4.59c-.56-.56-.56-1.47,0-2.03s1.47-.56,2.03,0l4.59,4.59c.56.56.56,1.47,0,2.03-.28.28-.65.42-1.01.42Z" fill="#fff"/>
 </svg>
