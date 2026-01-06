@@ -691,15 +691,21 @@ class UserActivityController {
       const adjustedPaths = this.getAdjustedDataPaths(config.data_paths);
       console.log("📂 Paths ajustados:", adjustedPaths);
 
-      // Construir nombres de archivos con fecha dinámica
+      // Construir nombres de archivos con fecha dinámica (DEBE corresponder a la fecha seleccionada)
       const stowFileName = this.getFileNameWithDate("Stow_Data");
       const effortFileName = this.getFileNameWithDate("Categorias_Esfuerzo");
 
-      console.log("📂 Archivos a cargar:", { stowFileName, effortFileName });
+      console.log("📂 Archivos a cargar para fecha:", this.currentDate);
+      console.log("📂 Archivos:", { stowFileName, effortFileName });
+
+      // Guardar la fecha esperada para validación
+      const expectedDate = this.currentDate;
 
       // Intentar cargar desde data_paths
       let stowData = null;
       let effortData = null;
+      let stowFound = false;
+      let effortFound = false;
 
       for (const dataPath of adjustedPaths) {
         try {
@@ -707,9 +713,14 @@ class UserActivityController {
             const stowPath = `${dataPath}${stowFileName}`;
             console.log("📂 Intentando cargar Stow desde:", stowPath);
             const stowResult = await window.api.readJson(stowPath);
-            if (stowResult.success) {
+            if (stowResult.success && stowResult.data) {
+              // Verificar que el archivo corresponde a la fecha esperada
+              // El nombre del archivo ya incluye la fecha, así que si se carga correctamente, es la fecha correcta
               stowData = stowResult.data;
-              console.log("✅ Stow cargado desde:", stowPath);
+              stowFound = true;
+              console.log("✅ Stow cargado desde:", stowPath, "para fecha:", expectedDate);
+            } else {
+              console.log("⚠️ No se encontró Stow en:", stowPath);
             }
           }
 
@@ -717,9 +728,12 @@ class UserActivityController {
             const effortPath = `${dataPath}${effortFileName}`;
             console.log("📂 Intentando cargar Esfuerzo desde:", effortPath);
             const effortResult = await window.api.readJson(effortPath);
-            if (effortResult.success) {
+            if (effortResult.success && effortResult.data) {
               effortData = effortResult.data;
-              console.log("✅ Esfuerzo cargado desde:", effortPath);
+              effortFound = true;
+              console.log("✅ Esfuerzo cargado desde:", effortPath, "para fecha:", expectedDate);
+            } else {
+              console.log("⚠️ No se encontró Esfuerzo en:", effortPath);
             }
           }
 
@@ -731,28 +745,29 @@ class UserActivityController {
         }
       }
 
-      if (stowData) {
+      // SOLO asignar datos si se encontraron para la fecha seleccionada
+      if (stowFound && stowData) {
         this.stowData = stowData;
-        console.log("✅ Datos de Stow cargados:", {
+        console.log("✅ Datos de Stow cargados para fecha:", expectedDate, {
           total_usuarios: Object.keys(stowData).length,
         });
       } else {
-        console.warn("⚠️ No se encontraron datos de Stow para la fecha seleccionada");
-        // Limpiar datos anteriores si no hay nuevos datos
+        console.warn(`⚠️ No se encontraron datos de Stow para la fecha seleccionada: ${expectedDate}`);
+        // Limpiar datos anteriores - IMPORTANTE: no mostrar datos de otra fecha
         this.stowData = null;
       }
 
-      if (effortData) {
+      if (effortFound && effortData) {
         this.effortData = effortData;
         this.effortSummaryData = effortData.resumen_categorias || [];
-        console.log("✅ Datos de Esfuerzo cargados:", {
+        console.log("✅ Datos de Esfuerzo cargados para fecha:", expectedDate, {
           total_usuarios: Object.keys(effortData.analisis_por_empleado || {})
             .length,
           categorias: this.effortSummaryData.length,
         });
       } else {
-        console.warn("⚠️ No se encontraron datos de Esfuerzo para la fecha seleccionada");
-        // Limpiar datos anteriores si no hay nuevos datos
+        console.warn(`⚠️ No se encontraron datos de Esfuerzo para la fecha seleccionada: ${expectedDate}`);
+        // Limpiar datos anteriores - IMPORTANTE: no mostrar datos de otra fecha
         this.effortData = null;
         this.effortSummaryData = [];
       }
