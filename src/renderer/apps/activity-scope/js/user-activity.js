@@ -25,9 +25,57 @@ class UserActivityController {
     this.currentRotationFilter = "all"; // "all", "early", "late"
     this.currentSortColumn = "combined-uph"; // "combined-uph", "combined-hours", "combined-units"
     this.sortDirection = "desc"; // "asc", "desc"
+    this.currentDateFilter = "today"; // "today", "yesterday", "before-yesterday"
     this.currentDate = this.getCurrentDateString();
+    this.useDataTemp = false; // Si true, usa Data_temp en lugar de Data
+    this.dateInfo = this.calculateDates(); // Info de las 3 fechas
 
     this.init();
+  }
+  
+  /**
+   * Calcula las fechas para hoy, ayer y anteayer
+   * @returns {Object} Objeto con información de las 3 fechas
+   */
+  calculateDates() {
+    const diasSemana = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+    
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    const beforeYesterday = new Date(today);
+    beforeYesterday.setDate(beforeYesterday.getDate() - 2);
+    
+    const formatDate = (date) => {
+      const day = String(date.getDate()).padStart(2, "0");
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const year = date.getFullYear();
+      return `${day}${month}${year}`;
+    };
+    
+    const formatLabel = (date) => {
+      const dayName = diasSemana[date.getDay()];
+      const dayNum = String(date.getDate()).padStart(2, "0");
+      return `${dayName} ${dayNum}`;
+    };
+    
+    return {
+      today: {
+        label: "Hoy",
+        dateString: formatDate(today),
+        useDataTemp: false
+      },
+      yesterday: {
+        label: formatLabel(yesterday),
+        dateString: formatDate(yesterday),
+        useDataTemp: true
+      },
+      beforeYesterday: {
+        label: formatLabel(beforeYesterday),
+        dateString: formatDate(beforeYesterday),
+        useDataTemp: true
+      }
+    };
   }
 
   /**
@@ -132,6 +180,10 @@ class UserActivityController {
   async init() {
     console.log("🚀 Inicializando UserActivityController...");
     console.log("📅 Fecha actual detectada:", this.currentDate);
+    console.log("📅 Info de fechas:", this.dateInfo);
+
+    // Actualizar labels de botones de fecha
+    this.updateDateLabels();
 
     await this.loadData();
     await this.loadRosterData();
@@ -146,6 +198,26 @@ class UserActivityController {
     this.updateTable();
     this.setupUserImagePopups();
     this.setupUserDetailEvents();
+  }
+  
+  /**
+   * Actualiza los labels del select de fecha con las fechas dinámicas
+   */
+  updateDateLabels() {
+    const yesterdayOption = document.getElementById("date-option-yesterday");
+    const beforeOption = document.getElementById("date-option-before");
+    
+    if (yesterdayOption) {
+      yesterdayOption.textContent = this.dateInfo.yesterday.label;
+    }
+    if (beforeOption) {
+      beforeOption.textContent = this.dateInfo.beforeYesterday.label;
+    }
+    
+    console.log("📅 Labels de fecha actualizados:", {
+      yesterday: this.dateInfo.yesterday.label,
+      beforeYesterday: this.dateInfo.beforeYesterday.label
+    });
   }
 
   /**
@@ -205,6 +277,15 @@ class UserActivityController {
         this.changeCategory(category);
       });
     });
+
+    // Select de filtro de fecha
+    const dateFilterSelect = document.getElementById("date-filter-select");
+    if (dateFilterSelect) {
+      dateFilterSelect.addEventListener("change", (e) => {
+        const dateFilter = e.target.value;
+        this.changeDateFilter(dateFilter);
+      });
+    }
 
     // Botones de filtro de rotación
     const rotationFilterBtns = document.querySelectorAll(
@@ -338,12 +419,16 @@ class UserActivityController {
    */
   async loadEmployee30minData() {
     console.log("⏰ Cargando datos de últimos 30 minutos desde data_paths...");
+    console.log(`📅 Usando ${this.useDataTemp ? 'Data_temp' : 'Data'} para fecha: ${this.currentDate}`);
 
     try {
       const config = await window.api.getConfig();
       if (!config || !config.data_paths) {
         throw new Error("No se encontró configuración de data_paths");
       }
+
+      // Obtener paths ajustados según la fecha seleccionada
+      const adjustedPaths = this.getAdjustedDataPaths(config.data_paths);
 
       const employee30minFileName = this.getFileNameWithDate(
         "employee_last_30min"
@@ -352,7 +437,7 @@ class UserActivityController {
 
       let employee30minData = null;
 
-      for (const dataPath of config.data_paths) {
+      for (const dataPath of adjustedPaths) {
         try {
           const employee30minPath = `${dataPath}${employee30minFileName}`;
           console.log(
@@ -399,18 +484,22 @@ class UserActivityController {
       console.log(
         "⚡ Cargando datos de análisis de esfuerzo desde data_paths..."
       );
+      console.log(`📅 Usando ${this.useDataTemp ? 'Data_temp' : 'Data'} para fecha: ${this.currentDate}`);
 
       const config = await window.api.getConfig();
       if (!config || !config.data_paths) {
         throw new Error("No se encontró configuración de data_paths");
       }
 
+      // Obtener paths ajustados según la fecha seleccionada
+      const adjustedPaths = this.getAdjustedDataPaths(config.data_paths);
+
       const effortFileName = this.getFileNameWithDate("Categorias_Esfuerzo");
       console.log("📂 Archivo a cargar:", effortFileName);
 
       let effortData = null;
 
-      for (const dataPath of config.data_paths) {
+      for (const dataPath of adjustedPaths) {
         try {
           const filePath = `${dataPath}${effortFileName}`;
           console.log("📂 Intentando cargar esfuerzo desde:", filePath);
@@ -426,40 +515,22 @@ class UserActivityController {
         }
       }
 
-      if (effortData) {
-        // Si viene con estructura {success: true, data: {...}}, usar solo data
-        if (effortData.success && effortData.data) {
-          this.effortData = effortData.data;
-          this.effortSummaryData = effortData.data.resumen_categorias;
-          this.effortGeneralStats = effortData.data.estadisticas_generales;
-          this.effortStowTimes =
-            effortData.data.tiempo_promedio_entre_stow_por_empleado;
-          console.log(
-            "✅ Datos de esfuerzo extraídos de estructura success/data"
-          );
-          console.log("🔍 Debug extracción success/data:");
-          console.log(
-            "- effortData.data keys:",
-            Object.keys(effortData.data || {})
-          );
-          console.log(
-            "- tiempo_promedio_entre_stow_por_empleado:",
-            effortData.data.tiempo_promedio_entre_stow_por_empleado
-          );
-        } else {
-          this.effortData = effortData;
-          this.effortSummaryData = effortData.resumen_categorias;
-          this.effortGeneralStats = effortData.estadisticas_generales;
-          this.effortStowTimes =
-            effortData.tiempo_promedio_entre_stow_por_empleado;
-          console.log("✅ Datos de esfuerzo extraídos de estructura directa");
-          console.log("🔍 Debug extracción directa:");
-          console.log("- effortData keys:", Object.keys(effortData || {}));
-          console.log(
-            "- tiempo_promedio_entre_stow_por_empleado:",
-            effortData.tiempo_promedio_entre_stow_por_empleado
-          );
-        }
+      // Verificar que effortData existe Y que success es true (o que tiene datos válidos)
+      if (effortData && effortData.success && effortData.data) {
+        // Estructura {success: true, data: {...}}
+        this.effortData = effortData.data;
+        this.effortSummaryData = effortData.data.resumen_categorias;
+        this.effortGeneralStats = effortData.data.estadisticas_generales;
+        this.effortStowTimes =
+          effortData.data.tiempo_promedio_entre_stow_por_empleado;
+        console.log(
+          "✅ Datos de esfuerzo extraídos de estructura success/data"
+        );
+        console.log("🔍 Debug extracción success/data:");
+        console.log(
+          "- effortData.data keys:",
+          Object.keys(effortData.data || {})
+        );
 
         console.log(
           `✅ Datos de esfuerzo cargados: {total_empleados: ${
@@ -469,20 +540,13 @@ class UserActivityController {
         console.log("🔍 Resumen de categorías:", this.effortSummaryData);
         console.log("📊 Estadísticas generales:", this.effortGeneralStats);
         console.log("⏱️ Tiempos entre stow:", this.effortStowTimes);
-        console.log(
-          "🔍 Estructura de tiempos entre stow:",
-          JSON.stringify(this.effortStowTimes, null, 2)
-        );
-        console.log("🔍 Debug loadEffortData - estructura completa:");
-        console.log("- effortData keys:", Object.keys(this.effortData || {}));
-        console.log(
-          "- effortData.tiempo_promedio_entre_stow_por_empleado:",
-          this.effortData?.tiempo_promedio_entre_stow_por_empleado
-        );
-        console.log(
-          "- effortData.estadisticas_generales:",
-          this.effortData?.estadisticas_generales
-        );
+      } else if (effortData && !effortData.success) {
+        // La API devolvió un error
+        console.warn(`⚠️ Error cargando datos de esfuerzo: ${effortData.error || 'Archivo no encontrado'}`);
+        this.effortData = null;
+        this.effortSummaryData = null;
+        this.effortGeneralStats = null;
+        this.effortStowTimes = null;
       } else {
         console.warn("⚠️ No se pudieron cargar los datos de esfuerzo");
         this.effortData = null;
@@ -507,18 +571,22 @@ class UserActivityController {
       console.log(
         "🔄 Cargando datos de rotación de turnos desde data_paths..."
       );
+      console.log(`📅 Usando ${this.useDataTemp ? 'Data_temp' : 'Data'} para fecha: ${this.currentDate}`);
 
       const config = await window.api.getConfig();
       if (!config || !config.data_paths) {
         throw new Error("No se encontró configuración de data_paths");
       }
 
+      // Obtener paths ajustados según la fecha seleccionada
+      const adjustedPaths = this.getAdjustedDataPaths(config.data_paths);
+
       const rotationFileName = this.getFileNameWithDate("Login_Rotation_Shift");
       console.log("📂 Archivo a cargar:", rotationFileName);
 
       let rotationData = null;
 
-      for (const dataPath of config.data_paths) {
+      for (const dataPath of adjustedPaths) {
         try {
           const filePath = `${dataPath}${rotationFileName}`;
           console.log("📂 Intentando cargar rotación desde:", filePath);
@@ -564,8 +632,53 @@ class UserActivityController {
     }
   }
 
+  /**
+   * Obtiene los paths de datos ajustados según si se usa Data o Data_temp
+   * @param {Array} dataPaths - Array de paths de Data
+   * @returns {Array} Paths ajustados (Data o Data_temp)
+   */
+  getAdjustedDataPaths(dataPaths) {
+    if (!this.useDataTemp) {
+      console.log("📂 Usando paths de Data (sin ajustar)");
+      return dataPaths;
+    }
+    
+    console.log("📂 Ajustando paths para Data_temp...");
+    console.log("📂 Paths originales:", dataPaths);
+    
+    // Data_temp está DENTRO de Data, así que agregamos Data_temp al final del path de Data
+    // Ejemplo: \\ant\...\IB_Scope\Data\ -> \\ant\...\IB_Scope\Data\Data_temp\
+    const adjustedPaths = dataPaths.map(path => {
+      let newPath = path;
+      
+      // Asegurar que el path termina con separador
+      if (!path.endsWith('\\') && !path.endsWith('/')) {
+        // Determinar qué separador usar
+        if (path.includes('\\')) {
+          newPath = path + '\\';
+        } else {
+          newPath = path + '/';
+        }
+      }
+      
+      // Agregar Data_temp al final
+      if (newPath.endsWith('\\')) {
+        newPath = newPath + 'Data_temp\\';
+      } else {
+        newPath = newPath + 'Data_temp/';
+      }
+      
+      console.log(`📂 Path: ${path} -> ${newPath}`);
+      return newPath;
+    });
+    
+    console.log("📂 Paths ajustados:", adjustedPaths);
+    return adjustedPaths;
+  }
+
   async loadData() {
     console.log("📊 Cargando datos principales desde data_paths...");
+    console.log(`📅 Usando ${this.useDataTemp ? 'Data_temp' : 'Data'} para fecha: ${this.currentDate}`);
 
     try {
       // Obtener configuración
@@ -573,6 +686,10 @@ class UserActivityController {
       if (!config || !config.data_paths) {
         throw new Error("No se encontró configuración de data_paths");
       }
+
+      // Obtener paths ajustados según la fecha seleccionada
+      const adjustedPaths = this.getAdjustedDataPaths(config.data_paths);
+      console.log("📂 Paths ajustados:", adjustedPaths);
 
       // Construir nombres de archivos con fecha dinámica
       const stowFileName = this.getFileNameWithDate("Stow_Data");
@@ -584,7 +701,7 @@ class UserActivityController {
       let stowData = null;
       let effortData = null;
 
-      for (const dataPath of config.data_paths) {
+      for (const dataPath of adjustedPaths) {
         try {
           if (!stowData) {
             const stowPath = `${dataPath}${stowFileName}`;
@@ -704,6 +821,52 @@ class UserActivityController {
   /**
    * Cambia el filtro de rotación (Early/Late)
    */
+  /**
+   * Cambia el filtro de fecha y recarga los datos
+   * @param {string} dateFilter - "today", "yesterday", "before-yesterday"
+   */
+  async changeDateFilter(dateFilter) {
+    console.log(`📅 Cambiando filtro de fecha: ${dateFilter}`);
+    this.currentDateFilter = dateFilter;
+
+    // Actualizar el select (por si se llama programáticamente)
+    const dateSelect = document.getElementById("date-filter-select");
+    if (dateSelect && dateSelect.value !== dateFilter) {
+      dateSelect.value = dateFilter;
+    }
+
+    // Determinar qué fecha usar
+    let dateKey;
+    switch (dateFilter) {
+      case "today":
+        dateKey = "today";
+        break;
+      case "yesterday":
+        dateKey = "yesterday";
+        break;
+      case "before-yesterday":
+        dateKey = "beforeYesterday";
+        break;
+      default:
+        dateKey = "today";
+    }
+
+    // Actualizar la fecha actual para la carga de datos
+    this.currentDate = this.dateInfo[dateKey].dateString;
+    this.useDataTemp = this.dateInfo[dateKey].useDataTemp;
+
+    console.log(`📅 Cargando datos para fecha: ${this.currentDate}, useDataTemp: ${this.useDataTemp}`);
+
+    // Recargar todos los datos
+    await this.loadData();
+    await this.loadEmployee30minData();
+    await this.loadRotationData();
+    await this.loadEffortData();
+
+    // Actualizar tabla
+    this.updateTable();
+  }
+
   changeRotationFilter(filter) {
     console.log(`🔄 Cambiando filtro de rotación: ${filter}`);
     this.currentRotationFilter = filter;
@@ -2512,6 +2675,11 @@ class UserActivityController {
       'icon-bin-types': 'assets/svg/ActivityScope/BinTypes.svg',
       'icon-shelves': 'assets/svg/ActivityScope/Shelves.svg',
       'icon-table-detail': 'assets/svg/ActivityScope/Table.svg',
+      
+      // Date filter icons
+      'icon-calendar-today': 'assets/svg/ActivityScope/Calendar.svg',
+      'icon-calendar-yesterday': 'assets/svg/ActivityScope/Calendar.svg',
+      'icon-calendar-before': 'assets/svg/ActivityScope/Calendar.svg',
       
       // Filter and sort icons
       'icon-sunrise-all': 'assets/svg/ActivityScope/Sunrise.svg',
