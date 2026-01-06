@@ -416,17 +416,26 @@
           <!-- Filtros principales en una línea -->
           <div class="main-filters-row">
             <!-- Filtro de fecha -->
-            <div class="date-filter-container">
+            <div class="filter-group filter-group-compact">
               <span class="filter-label">Fecha:</span>
-              <select id="date-filter-select" class="date-filter-select">
+              <select id="date-filter-select" class="filter-select">
                 <option value="today" selected>Hoy</option>
                 <option value="yesterday" id="date-option-yesterday">Ayer</option>
                 <option value="before-yesterday" id="date-option-before">Anteayer</option>
               </select>
             </div>
 
+            <!-- Filtro de Rate (Stow/Receive) -->
+            <div class="filter-group filter-group-compact">
+              <span class="filter-label">Rate:</span>
+              <select id="rate-filter-select" class="filter-select">
+                <option value="stow" selected>Stow</option>
+                <option value="receive" disabled>Receive</option>
+              </select>
+            </div>
+
             <!-- Filtros de rotación -->
-            <div class="rotation-filters">
+            <div class="filter-group rotation-filters">
               <span class="filter-label">Turno:</span>
               <button class="rotation-filter-btn active" data-filter="all">
                 <span id="icon-sunrise-all" class="icon-svg icon-16"></span>
