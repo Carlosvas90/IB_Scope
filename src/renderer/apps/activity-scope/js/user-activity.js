@@ -2659,22 +2659,21 @@ class UserActivityController {
       'icon-export-activity': 'assets/svg/ActivityScope/Export.svg',
       'icon-close-user-detail': 'assets/svg/ActivityScope/Close.svg',
       
-      // KPI section icons
-      'icon-user-info': 'assets/svg/ActivityScope/UserInfo.svg',
-      'icon-activity-30min': 'assets/svg/ActivityScope/Activity.svg',
-      'icon-heatmap-stow': 'assets/svg/ActivityScope/Heatmap.svg',
-      'icon-analysis-general': 'assets/svg/ActivityScope/Analysis.svg',
-      'icon-clock-worked': 'assets/svg/ActivityScope/Clock.svg',
-      'icon-ruler-distance': 'assets/svg/ActivityScope/Ruler.svg',
-      'icon-box-units': 'assets/svg/ActivityScope/Box.svg',
-      'icon-cart-changes': 'assets/svg/ActivityScope/Cart.svg',
-      'icon-error-committed': 'assets/svg/ActivityScope/Error.svg',
-      'icon-distribution-categories': 'assets/svg/ActivityScope/Distribution.svg',
-      'icon-trophy-top-asins': 'assets/svg/ActivityScope/Trophy.svg',
-      'icon-timer-stow-time': 'assets/svg/ActivityScope/Timer.svg',
-      'icon-bin-types': 'assets/svg/ActivityScope/BinTypes.svg',
-      'icon-shelves': 'assets/svg/ActivityScope/Shelves.svg',
-      'icon-table-detail': 'assets/svg/ActivityScope/Table.svg',
+      // KPI section icons - nombres descriptivos
+      'icon-user-info': 'assets/svg/ActivityScope/InfoAA.svg',
+      'icon-activity-30min': 'assets/svg/ActivityScope/Actividad30Min.svg',
+      'icon-heatmap-stow': 'assets/svg/ActivityScope/HeatmapStow.svg',
+      'icon-analysis-general': 'assets/svg/ActivityScope/AnalisisGeneral.svg',
+      'icon-clock-worked': 'assets/svg/ActivityScope/HorasTrabajadas.svg',
+      'icon-ruler-distance': 'assets/svg/ActivityScope/DistanciaRecorrida.svg',
+      'icon-box-units': 'assets/svg/ActivityScope/PromedioUnitsBin.svg',
+      'icon-cart-changes': 'assets/svg/ActivityScope/CambiosJCart.svg',
+      'icon-error-committed': 'assets/svg/ActivityScope/ErroresCometidos.svg',
+      'icon-distribution-categories': 'assets/svg/ActivityScope/DistribucionCategorias.svg',
+      'icon-trophy-top-asins': 'assets/svg/ActivityScope/TopAsinsPorCategoria.svg',
+      'icon-timer-stow-time': 'assets/svg/ActivityScope/TiempoEntreStow.svg',
+      'icon-bin-types': 'assets/svg/ActivityScope/DistribucionBinTypes.svg',
+      'icon-shelves': 'assets/svg/ActivityScope/DistribucionShelves.svg',
       
       // Date filter icons
       'icon-calendar-today': 'assets/svg/ActivityScope/Calendar.svg',
@@ -2698,7 +2697,7 @@ class UserActivityController {
       'icon-truck-pallet-e': 'assets/svg/ActivityScope/PalletE.svg',
       'icon-truck-pallet-w': 'assets/svg/ActivityScope/PalletW.svg',
       'icon-lightning-effort': 'assets/svg/ActivityScope/Esfuerzo.svg',
-      'icon-times-modal': 'assets/svg/ActivityScope/Times.svg'
+      'icon-times-modal': 'assets/svg/ActivityScope/CerrarModal.svg'
     };
     
     // Verificar que el API esté disponible

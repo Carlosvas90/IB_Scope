@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 24 24">
+  <!-- Generator: Adobe Illustrator 29.8.4, SVG Export Plug-In . SVG Version: 2.1.1 Build 6)  -->
+  <rect id="Heatmap" x="-.63" y="-.63" width="25.27" height="25.27" fill="none"/>
+  <rect x=".86" y=".86" width="5.57" height="5.57" fill="#4dbe4b" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".75"/>
+  <rect x="6.43" y=".86" width="5.57" height="5.57" fill="#4dbe4b" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".75"/>
+  <rect x="12" y=".86" width="5.57" height="5.57" fill="#f4ae00" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".75"/>
+  <rect x="17.57" y=".86" width="5.57" height="5.57" fill="#a50000" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".75"/>
+  <rect x=".86" y="6.43" width="5.57" height="5.57" fill="#4dbe4b" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".75"/>
+  <rect x=".86" y="12" width="5.57" height="5.57" fill="#f4ae00" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".75"/>
+  <rect x=".86" y="17.57" width="5.57" height="5.57" fill="#f4ae00" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".75"/>
+  <rect x="6.43" y="6.43" width="5.57" height="5.57" fill="#f4ae00" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".75"/>
+  <rect x="6.43" y="12" width="5.57" height="5.57" fill="#f4ae00" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".75"/>
+  <rect x="6.43" y="17.57" width="5.57" height="5.57" fill="#f4ae00" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".75"/>
+  <rect x="12" y="6.43" width="5.57" height="5.57" fill="#f4ae00" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".75"/>
+  <rect x="12" y="12" width="5.57" height="5.57" fill="#f4ae00" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".75"/>
+  <rect x="12" y="17.57" width="5.57" height="5.57" fill="#a50000" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".75"/>
+  <rect x="17.57" y="6.43" width="5.57" height="5.57" fill="#a50000" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".75"/>
+  <rect x="17.57" y="12" width="5.57" height="5.57" fill="#a50000" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".75"/>
+  <rect x="17.57" y="17.57" width="5.57" height="5.57" fill="#a50000" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".75"/>
+</svg>
