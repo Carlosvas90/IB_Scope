@@ -737,7 +737,9 @@ class UserActivityController {
           total_usuarios: Object.keys(stowData).length,
         });
       } else {
-        console.error("❌ No se pudieron cargar datos de Stow");
+        console.warn("⚠️ No se encontraron datos de Stow para la fecha seleccionada");
+        // Limpiar datos anteriores si no hay nuevos datos
+        this.stowData = null;
       }
 
       if (effortData) {
@@ -749,7 +751,10 @@ class UserActivityController {
           categorias: this.effortSummaryData.length,
         });
       } else {
-        console.error("❌ No se pudieron cargar datos de Esfuerzo");
+        console.warn("⚠️ No se encontraron datos de Esfuerzo para la fecha seleccionada");
+        // Limpiar datos anteriores si no hay nuevos datos
+        this.effortData = null;
+        this.effortSummaryData = [];
       }
 
       // Actualizar métricas básicas
@@ -857,14 +862,67 @@ class UserActivityController {
 
     console.log(`📅 Cargando datos para fecha: ${this.currentDate}, useDataTemp: ${this.useDataTemp}`);
 
-    // Recargar todos los datos
-    await this.loadData();
-    await this.loadEmployee30minData();
-    await this.loadRotationData();
-    await this.loadEffortData();
+    // Mostrar loader
+    this.showTableLoader();
 
-    // Actualizar tabla
-    this.updateTable();
+    // Limpiar datos anteriores para evitar confusión
+    this.stowData = null;
+    this.effortData = null;
+    this.employee30minData = null;
+    this.rotationData = null;
+    this.effortSummaryData = [];
+
+    // Limpiar tabla mientras carga
+    const tbody = document.getElementById("table-body");
+    const thead = document.getElementById("table-header");
+    if (tbody) tbody.innerHTML = "";
+    if (thead) thead.innerHTML = "";
+
+    try {
+      // Recargar todos los datos
+      await this.loadData();
+      await this.loadEmployee30minData();
+      await this.loadRotationData();
+      await this.loadEffortData();
+
+      // Actualizar tabla
+      this.updateTable();
+    } catch (error) {
+      console.error("❌ Error cargando datos:", error);
+      // Mostrar mensaje de error en la tabla
+      if (tbody) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="10" style="text-align: center; padding: 2rem; color: #dc2626;">
+              Error al cargar los datos. Por favor, intenta nuevamente.
+            </td>
+          </tr>
+        `;
+      }
+    } finally {
+      // Ocultar loader
+      this.hideTableLoader();
+    }
+  }
+
+  /**
+   * Muestra el loader de la tabla
+   */
+  showTableLoader() {
+    const loader = document.getElementById("table-loading-overlay");
+    if (loader) {
+      loader.style.display = "flex";
+    }
+  }
+
+  /**
+   * Oculta el loader de la tabla
+   */
+  hideTableLoader() {
+    const loader = document.getElementById("table-loading-overlay");
+    if (loader) {
+      loader.style.display = "none";
+    }
   }
 
   changeRotationFilter(filter) {
@@ -1167,13 +1225,22 @@ class UserActivityController {
 
     if (!this.stowData || !this.stowData.stow_each_rates) {
       console.error("❌ No hay datos de stow_each_rates disponibles");
+      const dateLabel = this.dateInfo[this.currentDateFilter === "today" ? "today" : 
+                                      this.currentDateFilter === "yesterday" ? "yesterday" : "beforeYesterday"]?.label || this.currentDate;
       tbody.innerHTML = `
         <tr>
-          <td colspan="7" style="text-align: center; padding: 2rem; color: #666;">
-            No hay datos disponibles. Verificando carga de archivos...
+          <td colspan="10" style="text-align: center; padding: 2rem; color: #666;">
+            <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: #374151;">
+              No hay datos disponibles
+            </div>
+            <div style="font-size: 0.9rem; color: #6b7280;">
+              Fecha seleccionada: ${dateLabel}
+            </div>
           </td>
         </tr>
       `;
+      // Limpiar header también
+      if (thead) thead.innerHTML = "";
       return;
     }
 
@@ -1328,10 +1395,17 @@ class UserActivityController {
 
     // Añadir mensaje si no hay datos
     if (usersWithData.length === 0) {
+      const dateLabel = this.dateInfo[this.currentDateFilter === "today" ? "today" : 
+                                      this.currentDateFilter === "yesterday" ? "yesterday" : "beforeYesterday"]?.label || this.currentDate;
       tbody.innerHTML = `
         <tr>
-          <td colspan="7" style="text-align: center; padding: 2rem; color: #666;">
-            No hay datos disponibles para esta categoría
+          <td colspan="10" style="text-align: center; padding: 2rem; color: #666;">
+            <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: #374151;">
+              No hay datos disponibles para esta categoría
+            </div>
+            <div style="font-size: 0.9rem; color: #6b7280;">
+              Fecha seleccionada: ${dateLabel}
+            </div>
           </td>
         </tr>
       `;
@@ -1342,7 +1416,24 @@ class UserActivityController {
    * Renderiza tabla de Pallet Stow
    */
   renderPalletStowTable(thead, tbody, suffix) {
-    if (!this.stowData || !this.stowData.stow_pallet_rates) return;
+    if (!this.stowData || !this.stowData.stow_pallet_rates) {
+      const dateLabel = this.dateInfo[this.currentDateFilter === "today" ? "today" : 
+                                      this.currentDateFilter === "yesterday" ? "yesterday" : "beforeYesterday"]?.label || this.currentDate;
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="10" style="text-align: center; padding: 2rem; color: #666;">
+            <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: #374151;">
+              No hay datos disponibles
+            </div>
+            <div style="font-size: 0.9rem; color: #6b7280;">
+              Fecha seleccionada: ${dateLabel}
+            </div>
+          </td>
+        </tr>
+      `;
+      if (thead) thead.innerHTML = "";
+      return;
+    }
 
     // Crear header con columnas separadas
     thead.innerHTML = `
@@ -1486,10 +1577,17 @@ class UserActivityController {
 
     // Añadir mensaje si no hay datos
     if (usersWithData.length === 0) {
+      const dateLabel = this.dateInfo[this.currentDateFilter === "today" ? "today" : 
+                                      this.currentDateFilter === "yesterday" ? "yesterday" : "beforeYesterday"]?.label || this.currentDate;
       tbody.innerHTML = `
         <tr>
-          <td colspan="7" style="text-align: center; padding: 2rem; color: #666;">
-            No hay datos disponibles para esta categoría
+          <td colspan="10" style="text-align: center; padding: 2rem; color: #666;">
+            <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: #374151;">
+              No hay datos disponibles para esta categoría
+            </div>
+            <div style="font-size: 0.9rem; color: #6b7280;">
+              Fecha seleccionada: ${dateLabel}
+            </div>
           </td>
         </tr>
       `;
@@ -1518,11 +1616,21 @@ class UserActivityController {
     `;
 
     if (!this.effortData || !this.effortData.analisis_por_empleado) {
+      const dateLabel = this.dateInfo[this.currentDateFilter === "today" ? "today" : 
+                                      this.currentDateFilter === "yesterday" ? "yesterday" : "beforeYesterday"]?.label || this.currentDate;
       tbody.innerHTML = `
         <tr>
-          <td colspan="6" class="no-data">No hay datos de esfuerzo disponibles</td>
+          <td colspan="6" style="text-align: center; padding: 2rem; color: #666;">
+            <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: #374151;">
+              No hay datos de esfuerzo disponibles
+            </div>
+            <div style="font-size: 0.9rem; color: #6b7280;">
+              Fecha seleccionada: ${dateLabel}
+            </div>
+          </td>
         </tr>
       `;
+      if (thead) thead.innerHTML = "";
       return;
     }
 
