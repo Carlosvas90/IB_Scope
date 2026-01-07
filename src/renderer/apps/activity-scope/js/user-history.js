@@ -2546,9 +2546,13 @@ class UserHistoryController {
     
     // Cambios de carro y errores
     const cartChangesEl = document.getElementById("effort-cart-changes");
+    const unitsPerCartEl = document.getElementById("effort-units-per-cart");
     const errorsEl = document.getElementById("effort-errors");
     if (cartChangesEl && effortData.cart_changes !== undefined) {
       cartChangesEl.textContent = effortData.cart_changes;
+    }
+    if (unitsPerCartEl && effortData.promedio_units_por_cart !== undefined) {
+      unitsPerCartEl.textContent = effortData.promedio_units_por_cart.toFixed(2);
     }
     if (errorsEl && effortData.errores !== undefined) {
       errorsEl.textContent = effortData.errores;

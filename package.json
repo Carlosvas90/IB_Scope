@@ -1,6 +1,6 @@
 {
   "name": "inbound-scope",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "App that uses a csv to track errors",
   "main": "src/main/main.js",
   "scripts": {

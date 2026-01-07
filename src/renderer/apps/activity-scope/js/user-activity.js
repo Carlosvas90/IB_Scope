@@ -2230,6 +2230,7 @@ class UserActivityController {
       distance: userData.total_distance || 0,
       unitsPerBin: userData.promedio_units_por_bin || 0,
       cartChanges: userData.cart_changes || 0,
+      unitsPerCart: userData.promedio_units_por_cart || 0,
       errors: userData.errores || 0,
     };
 
@@ -2239,6 +2240,7 @@ class UserActivityController {
     const avgUnitsPerBin = generalStats.promedio_units_por_bin || 0;
     const avgCartChanges =
       generalStats.promedio_cambios_carro_por_empleado || 0;
+    const avgUnitsPerCart = generalStats.promedio_units_por_cart || 0;
     const avgErrors = generalStats.promedio_errores_por_empleado || 0;
 
     // Actualizar elementos del DOM con comparaciones
@@ -2255,6 +2257,9 @@ class UserActivityController {
     document.getElementById("effort-cart-changes").innerHTML =
       this.formatComparison(metrics.cartChanges, avgCartChanges, "cambios");
 
+    document.getElementById("effort-units-per-cart").innerHTML =
+      this.formatComparison(metrics.unitsPerCart, avgUnitsPerCart, "units");
+
     document.getElementById("effort-errors").innerHTML = this.formatComparison(
       metrics.errors,
       avgErrors,
@@ -2266,6 +2271,7 @@ class UserActivityController {
       distance: avgDistance,
       unitsPerBin: avgUnitsPerBin,
       cartChanges: avgCartChanges,
+      unitsPerCart: avgUnitsPerCart,
       errors: avgErrors,
     });
   }
@@ -2689,6 +2695,7 @@ class UserActivityController {
       "effort-distance",
       "effort-units-per-bin",
       "effort-cart-changes",
+      "effort-units-per-cart",
       "effort-errors",
     ];
     metricIds.forEach((id) => {
@@ -2791,6 +2798,7 @@ class UserActivityController {
       'icon-ruler-distance': 'assets/svg/ActivityScope/DistanciaRecorrida.svg',
       'icon-box-units': 'assets/svg/ActivityScope/PromedioUnitsBin.svg',
       'icon-cart-changes': 'assets/svg/ActivityScope/CambiosJCart.svg',
+      'icon-units-per-cart': 'assets/svg/ActivityScope/PromedioUnitsCart.svg',
       'icon-error-committed': 'assets/svg/ActivityScope/ErroresCometidos.svg',
       'icon-distribution-categories': 'assets/svg/ActivityScope/DistribucionCategorias.svg',
       'icon-trophy-top-asins': 'assets/svg/ActivityScope/TopAsinsPorCategoria.svg',
