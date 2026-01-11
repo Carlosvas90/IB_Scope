@@ -869,6 +869,107 @@ body {
   color: white;
 }
 
+/* Estilos para Receive - Decant TSI (verde) */
+.header-group.header-decant-tsi {
+  background: #10b981; /* Verde para Decant TSI */
+  color: white;
+}
+
+.sub-header.header-decant-tsi {
+  background: rgba(16, 185, 129, 0.9);
+  color: white;
+}
+
+.cell-decant-tsi {
+  background: rgba(16, 185, 129, 0.05);
+}
+
+/* Estilos para Receive - Decant PID (naranja) */
+.header-group.header-decant-pid {
+  background: #f59e0b; /* Naranja para Decant PID */
+  color: white;
+}
+
+.sub-header.header-decant-pid {
+  background: rgba(245, 158, 11, 0.9);
+  color: white;
+}
+
+.cell-decant-pid {
+  background: rgba(245, 158, 11, 0.05);
+}
+
+/* Estilos para Receive - Non-Con */
+.header-group.header-non-con {
+  background: #3b82f6; /* Azul para Non-Con */
+  color: white;
+}
+
+.sub-header.header-non-con {
+  background: rgba(59, 130, 246, 0.9);
+  color: white;
+}
+
+.cell-non-con {
+  background: rgba(59, 130, 246, 0.05);
+}
+
+/* Estilos para Receive - PrEditor */
+.header-group.header-preditor {
+  background: #6366f1; /* Índigo para PrEditor */
+  color: white;
+}
+
+.sub-header.header-preditor {
+  background: rgba(99, 102, 241, 0.9);
+  color: white;
+}
+
+.cell-preditor {
+  background: rgba(99, 102, 241, 0.05);
+}
+
+/* Estilos para Receive - Prep */
+.header-group.header-prep {
+  background: #ec4899; /* Rosa para Prep */
+  color: white;
+}
+
+.sub-header.header-prep {
+  background: rgba(236, 72, 153, 0.9);
+  color: white;
+}
+
+.cell-prep {
+  background: rgba(236, 72, 153, 0.05);
+}
+
+/* Estilos para Receive - Pallet */
+.header-group.header-pallet-receive {
+  background: #14b8a6; /* Turquesa para Pallet Receive */
+  color: white;
+}
+
+.sub-header.header-pallet-receive {
+  background: rgba(20, 184, 166, 0.9);
+  color: white;
+}
+
+.cell-pallet-receive {
+  background: rgba(20, 184, 166, 0.05);
+}
+
+/* Estilos para Receive - Rendimiento/Performance Index */
+.header-group.header-performance {
+  background: #6366f1; /* Índigo para Performance */
+  color: white;
+}
+
+.cell-performance {
+  background: rgba(99, 102, 241, 0.1);
+  font-weight: 600;
+}
+
 /* Celdas de datos - MÁS COMPACTAS */
 .stow-table-detailed tbody td {
   padding: 0.375rem 0.5rem;

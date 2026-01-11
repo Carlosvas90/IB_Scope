@@ -9,7 +9,9 @@ import { getUserPhotoUrl } from "../../../core/utils/linkUtils.js";
 class UserActivityController {
   constructor() {
     this.currentCategory = "each"; // Categoría por defecto
+    this.currentRate = "stow"; // "stow" o "receive"
     this.stowData = null;
+    this.receiveData = null; // Datos de Receive
     this.effortData = null;
     this.effortSummaryData = null;
     this.effortGeneralStats = null; // estadisticas_generales
@@ -193,6 +195,7 @@ class UserActivityController {
     await this.loadAssetsPaths();
     await this.loadEffortData();
     await this.loadActivityScopeIcons();
+    this.updateCategoryButtons(); // Actualizar botones de categoría según rate actual
     this.setupEventListeners();
     this.setupHeatmapModalEvents();
     this.updateTable();
@@ -284,6 +287,15 @@ class UserActivityController {
       dateFilterSelect.addEventListener("change", (e) => {
         const dateFilter = e.target.value;
         this.changeDateFilter(dateFilter);
+      });
+    }
+
+    // Select de filtro de Rate (Stow/Receive)
+    const rateFilterSelect = document.getElementById("rate-filter-select");
+    if (rateFilterSelect) {
+      rateFilterSelect.addEventListener("change", (e) => {
+        const rate = e.target.value;
+        this.changeRateFilter(rate);
       });
     }
 
@@ -819,9 +831,11 @@ class UserActivityController {
     });
 
     // Cambiar el botón de ordenamiento activo según la categoría
-    let defaultSortColumn = "combined-uph";
+    let defaultSortColumn = "combined-hours";
     if (category === "effort") {
       defaultSortColumn = "rate-ajustado";
+    } else if (category === "all-receive") {
+      defaultSortColumn = "combined-hours";
     }
 
     // Actualizar botones de ordenamiento
@@ -894,11 +908,15 @@ class UserActivityController {
     if (thead) thead.innerHTML = "";
 
     try {
-      // Recargar todos los datos
-      await this.loadData();
-      await this.loadEmployee30minData();
-      await this.loadRotationData();
-      await this.loadEffortData();
+      // Recargar datos según el rate actual
+      if (this.currentRate === "receive") {
+        await this.loadReceiveData();
+      } else {
+        await this.loadData();
+        await this.loadEmployee30minData();
+        await this.loadRotationData();
+        await this.loadEffortData();
+      }
 
       // Actualizar tabla
       this.updateTable();
@@ -917,6 +935,204 @@ class UserActivityController {
     } finally {
       // Ocultar loader
       this.hideTableLoader();
+    }
+  }
+
+  /**
+   * Cambia el filtro de Rate (Stow/Receive)
+   * @param {string} rate - "stow" o "receive"
+   */
+  async changeRateFilter(rate) {
+    console.log(`🔄 Cambiando filtro de Rate: ${rate}`);
+    this.currentRate = rate;
+
+    // Actualizar el select (por si se llama programáticamente)
+    const rateSelect = document.getElementById("rate-filter-select");
+    if (rateSelect && rateSelect.value !== rate) {
+      rateSelect.value = rate;
+    }
+
+    // Actualizar botones de categoría según el rate
+    this.updateCategoryButtons();
+
+    // Resetear categoría a la primera disponible según el rate
+    if (rate === "receive") {
+      this.currentCategory = "all-receive";
+    } else {
+      this.currentCategory = "each";
+    }
+
+    // Mostrar loader
+    this.showTableLoader();
+
+    // Limpiar tabla mientras carga
+    const tbody = document.getElementById("table-body");
+    const thead = document.getElementById("table-header");
+    if (tbody) tbody.innerHTML = "";
+    if (thead) thead.innerHTML = "";
+
+    try {
+      if (rate === "receive") {
+        // Cargar datos de Receive
+        await this.loadReceiveData();
+      } else {
+        // Cargar datos de Stow
+        await this.loadData();
+        await this.loadEmployee30minData();
+        await this.loadRotationData();
+        await this.loadEffortData();
+      }
+
+      // Actualizar tabla
+      this.updateTable();
+    } catch (error) {
+      console.error("❌ Error cargando datos:", error);
+      // Mostrar mensaje de error en la tabla
+      if (tbody) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="10" style="text-align: center; padding: 2rem; color: #dc2626;">
+              Error al cargar los datos. Por favor, intenta nuevamente.
+            </td>
+          </tr>
+        `;
+      }
+    } finally {
+      // Ocultar loader
+      this.hideTableLoader();
+    }
+  }
+
+  /**
+   * Actualiza los botones de categoría según el rate actual
+   */
+  updateCategoryButtons() {
+    const categorySelector = document.querySelector(".category-selector");
+    if (!categorySelector) return;
+
+    // Limpiar botones existentes
+    categorySelector.innerHTML = "";
+
+    if (this.currentRate === "receive") {
+      // Botones para Receive
+      const receiveCategories = [
+        { id: "all-receive", label: "All Receive", icon: "icon-box-units-combined" },
+        { id: "decant-tsi", label: "Decant (TSI)", icon: "icon-box-units" },
+        { id: "decant-pid", label: "Decant (PID)", icon: "icon-box-units" },
+        { id: "non-con", label: "Non-Con", icon: "icon-box-units" },
+        { id: "preditor", label: "PrEditor", icon: "icon-box-units" },
+        { id: "prep", label: "Prep", icon: "icon-box-units" },
+        { id: "pallet-receive", label: "Pallet Receive", icon: "icon-truck-pallet" },
+      ];
+
+      receiveCategories.forEach((cat, index) => {
+        const btn = document.createElement("button");
+        btn.className = `category-btn ${index === 0 ? "active" : ""}`;
+        btn.dataset.category = cat.id;
+        btn.innerHTML = `
+          <span id="${cat.icon}" class="icon-svg icon-16"></span>
+          ${cat.label}
+        `;
+        btn.addEventListener("click", (e) => {
+          this.changeCategory(cat.id);
+        });
+        categorySelector.appendChild(btn);
+      });
+    } else {
+      // Botones para Stow (restaurar originales)
+      const stowCategories = [
+        { id: "each", label: "Each Stow", icon: "icon-box-each-stow" },
+        { id: "each-e", label: "Each E", icon: "icon-box-each-e" },
+        { id: "each-w", label: "Each W", icon: "icon-box-each-w" },
+        { id: "pallet", label: "Pallet", icon: "icon-truck-pallet" },
+        { id: "pallet-e", label: "Pallet E", icon: "icon-truck-pallet-e" },
+        { id: "pallet-w", label: "Pallet W", icon: "icon-truck-pallet-w" },
+        { id: "effort", label: "Esfuerzo", icon: "icon-lightning-effort" },
+      ];
+
+      stowCategories.forEach((cat, index) => {
+        const btn = document.createElement("button");
+        btn.className = `category-btn ${index === 0 ? "active" : ""}`;
+        btn.dataset.category = cat.id;
+        btn.innerHTML = `
+          <span id="${cat.icon}" class="icon-svg icon-16"></span>
+          ${cat.label}
+        `;
+        btn.addEventListener("click", (e) => {
+          this.changeCategory(cat.id);
+        });
+        categorySelector.appendChild(btn);
+      });
+    }
+
+    // Cargar iconos SVG
+    this.loadActivityScopeIcons();
+  }
+
+  /**
+   * Carga datos de Receive desde el archivo JSON
+   */
+  async loadReceiveData() {
+    console.log("📊 Cargando datos de Receive desde data_paths...");
+    console.log(`📅 Usando ${this.useDataTemp ? 'Data_temp' : 'Data'} para fecha: ${this.currentDate}`);
+
+    try {
+      // Obtener configuración
+      const config = await window.api.getConfig();
+      if (!config || !config.data_paths) {
+        throw new Error("No se encontró configuración de data_paths");
+      }
+
+      // Obtener paths ajustados según la fecha seleccionada
+      const adjustedPaths = this.getAdjustedDataPaths(config.data_paths);
+      console.log("📂 Paths ajustados:", adjustedPaths);
+
+      // Construir nombre de archivo con fecha dinámica
+      const receiveFileName = this.getFileNameWithDate("Receive_Data");
+
+      console.log("📂 Archivo a cargar para fecha:", this.currentDate);
+      console.log("📂 Archivo:", receiveFileName);
+
+      // Intentar cargar desde data_paths
+      let receiveData = null;
+      let receiveFound = false;
+
+      for (const dataPath of adjustedPaths) {
+        try {
+          if (!receiveData) {
+            const receivePath = `${dataPath}${receiveFileName}`;
+            console.log("📂 Intentando cargar Receive desde:", receivePath);
+            const receiveResult = await window.api.readJson(receivePath);
+            if (receiveResult.success && receiveResult.data) {
+              receiveData = receiveResult.data;
+              receiveFound = true;
+              console.log("✅ Receive cargado desde:", receivePath, "para fecha:", this.currentDate);
+              break;
+            } else {
+              console.log("⚠️ No se encontró Receive en:", receivePath);
+            }
+          }
+        } catch (error) {
+          console.log(`❌ Error cargando desde ${dataPath}:`, error.message);
+          continue;
+        }
+      }
+
+      // SOLO asignar datos si se encontraron para la fecha seleccionada
+      if (receiveFound && receiveData) {
+        this.receiveData = receiveData;
+        console.log("✅ Datos de Receive cargados:", {
+          fecha: this.currentDate,
+          decant_tsi: receiveData.receive_decant_tsi?.length || 0,
+          decant_pid: receiveData.receive_decant_pid?.length || 0,
+        });
+      } else {
+        console.warn("⚠️ No se encontraron datos de Receive para la fecha:", this.currentDate);
+        this.receiveData = null;
+      }
+    } catch (error) {
+      console.error("❌ Error cargando datos de Receive:", error);
+      this.receiveData = null;
     }
   }
 
@@ -1141,6 +1357,10 @@ class UserActivityController {
           valueA = a.rate_ajustado || 0;
           valueB = b.rate_ajustado || 0;
           break;
+        case "performance-index":
+          valueA = a.performanceIndex || 0;
+          valueB = b.performanceIndex || 0;
+          break;
         default:
           // Para datos de esfuerzo, usar rate_ajustado por defecto
           if (a.rate_ajustado !== undefined) {
@@ -1221,6 +1441,27 @@ class UserActivityController {
         break;
       case "effort":
         this.renderEffortTable(thead, tbody);
+        break;
+      case "all-receive":
+        this.renderAllReceiveTable(thead, tbody);
+        break;
+      case "decant-tsi":
+        this.renderDecantTSITable(thead, tbody);
+        break;
+      case "decant-pid":
+        this.renderDecantPIDTable(thead, tbody);
+        break;
+      case "non-con":
+        this.renderNonConTable(thead, tbody);
+        break;
+      case "preditor":
+        this.renderPrEditorTable(thead, tbody);
+        break;
+      case "prep":
+        this.renderPrepTable(thead, tbody);
+        break;
+      case "pallet-receive":
+        this.renderPalletReceiveTable(thead, tbody);
         break;
       default:
         console.warn("⚠️ Categoría desconocida:", this.currentCategory);
@@ -2951,6 +3192,1106 @@ class UserActivityController {
         <span class="rate-old">${oldRate.toFixed(0)}</span>
       </span>
     `;
+  }
+
+  /**
+   * Rates estimados por proceso de Receive
+   */
+  getReceiveRates() {
+    return {
+      'decant-tsi': 140,
+      'decant-pid': 180,
+      'non-con': 60,
+      'preditor': 100
+    };
+  }
+
+  /**
+   * Calcula el Performance Index Diario
+   * 
+   * Fórmula:
+   * 1. Eficiencia_Proceso = UPH_real / UPH_óptimo
+   * 2. Factor_Esfuerzo = 1 / UPB (solo para PID, Non-Con, PrEditor; TSI no aplica)
+   * 3. Eficiencia_Ajustada = Eficiencia × Factor_Esfuerzo
+   * 4. Score_Proceso = Eficiencia_Ajustada × Horas_Proceso
+   * 5. Índice_Base = Σ(Score_Proceso) / Horas_Totales
+   * 6. Factor_Confiabilidad = min(1, sqrt(Horas_Totales / 2.5))
+   * 7. Performance_Index = Índice_Base × Factor_Confiabilidad
+   * 
+   * Lógica del UPB:
+   * - UPB = 1: 60 UPH = 60 cajas = máximo esfuerzo → Factor = 1.0
+   * - UPB = 5: 60 UPH = 12 cajas = 5x menos movimientos → Factor = 0.2
+   * - Decant TSI: NO aplica UPB (valores muy exagerados)
+   * - Decant PID, Non-Con, PrEditor: SÍ aplica UPB
+   * 
+   * @param {Object} user - Objeto con datos del usuario
+   * @returns {number} Performance Index Diario (0-1+, se multiplica por 100 para mostrar como %)
+   */
+  calculatePerformanceIndex(user) {
+    const rates = this.getReceiveRates();
+    const tsi = user.decantTSI || {};
+    const pid = user.decantPID || {};
+    const nonCon = user.nonCon || {};
+    const preditor = user.preditor || {};
+
+    let totalScore = 0;
+    let totalHours = 0;
+
+    // Decant TSI (rate óptimo: 140) - SIN factor UPB
+    if (tsi.hours > 0) {
+      const efficiency = (tsi.eachUph || 0) / rates['decant-tsi'];
+      // TSI no aplica factor de esfuerzo (UPB muy exagerado)
+      const processScore = efficiency * tsi.hours;
+      totalScore += processScore;
+      totalHours += tsi.hours;
+    }
+
+    // Decant PID (rate óptimo: 180) - CON factor UPB
+    if (pid.hours > 0) {
+      const efficiency = (pid.eachUph || 0) / rates['decant-pid'];
+      // Factor de esfuerzo: 1 / UPB (mínimo UPB = 1)
+      const upb = Math.max(1, pid.upb || 1);
+      const effortFactor = 1 / upb;
+      const adjustedEfficiency = efficiency * effortFactor;
+      const processScore = adjustedEfficiency * pid.hours;
+      totalScore += processScore;
+      totalHours += pid.hours;
+    }
+
+    // Non-Con (rate óptimo: 60) - CON factor UPB
+    if (nonCon.hours > 0) {
+      const efficiency = (nonCon.eachUph || 0) / rates['non-con'];
+      const upb = Math.max(1, nonCon.upb || 1);
+      const effortFactor = 1 / upb;
+      const adjustedEfficiency = efficiency * effortFactor;
+      const processScore = adjustedEfficiency * nonCon.hours;
+      totalScore += processScore;
+      totalHours += nonCon.hours;
+    }
+
+    // PrEditor (rate óptimo: 100) - CON factor UPB
+    if (preditor.hours > 0) {
+      const efficiency = (preditor.eachUph || 0) / rates['preditor'];
+      const upb = Math.max(1, preditor.upb || 1);
+      const effortFactor = 1 / upb;
+      const adjustedEfficiency = efficiency * effortFactor;
+      const processScore = adjustedEfficiency * preditor.hours;
+      totalScore += processScore;
+      totalHours += preditor.hours;
+    }
+
+    // Si no hay horas trabajadas, retornar 0
+    if (totalHours === 0) return 0;
+
+    // Calcular índice base (promedio ponderado de eficiencias ajustadas)
+    const baseIndex = totalScore / totalHours;
+
+    // Factor de confiabilidad: min(1, sqrt(Horas_Totales / 2.5))
+    // Una muestra se considera confiable a partir de 2.5 horas
+    const reliabilityFactor = Math.min(1, Math.sqrt(totalHours / 2.5));
+
+    // Performance Index final
+    const performanceIndex = baseIndex * reliabilityFactor;
+
+    // Retornar como decimal (0-1+), se multiplicará por 100 al mostrar
+    return performanceIndex;
+  }
+
+  /**
+   * Formatea un valor numérico: si es 0, muestra "-", sino muestra el valor formateado
+   * @param {number} value - Valor a formatear
+   * @param {number} decimals - Número de decimales (default: 2)
+   * @returns {string} Valor formateado o "-"
+   */
+  formatReceiveValue(value, decimals = 2) {
+    if (value === null || value === undefined || value === 0) {
+      return "-";
+    }
+    return value.toFixed(decimals);
+  }
+
+  /**
+   * Formatea un valor entero: si es 0, muestra "-", sino muestra el valor
+   * @param {number} value - Valor a formatear
+   * @returns {string} Valor formateado o "-"
+   */
+  formatReceiveInteger(value) {
+    if (value === null || value === undefined || value === 0) {
+      return "-";
+    }
+    return value.toString();
+  }
+
+  /**
+   * Renderiza tabla All Receive (combinada)
+   */
+  renderAllReceiveTable(thead, tbody) {
+    console.log("📦 Renderizando tabla All Receive");
+
+    if (!this.receiveData) {
+      console.error("❌ No hay datos de Receive disponibles");
+      const dateLabel = this.dateInfo[this.currentDateFilter === "today" ? "today" : 
+                                      this.currentDateFilter === "yesterday" ? "yesterday" : "beforeYesterday"]?.label || this.currentDate;
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="20" style="text-align: center; padding: 2rem; color: #666;">
+            <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: #374151;">
+              No hay datos disponibles
+            </div>
+            <div style="font-size: 0.9rem; color: #6b7280;">
+              Fecha seleccionada: ${dateLabel}
+            </div>
+          </td>
+        </tr>
+      `;
+      if (thead) thead.innerHTML = "";
+      return;
+    }
+
+    // Crear header con columnas para Decant TSI, Decant PID, Non-Con y PrEditor
+    thead.innerHTML = `
+      <tr>
+        <th rowspan="2" class="header-login">Login</th>
+        <th colspan="3" class="header-group header-decant-tsi">Decant (TSI)</th>
+        <th colspan="5" class="header-group header-decant-pid">Decant (PID)</th>
+        <th colspan="4" class="header-group header-non-con">Non-Con</th>
+        <th colspan="4" class="header-group header-preditor">PrEditor</th>
+        <th rowspan="2" class="header-group header-combined">Horas Combined</th>
+        <th rowspan="2" class="header-group header-combined">Units Combined</th>
+        <th rowspan="2" class="header-group header-performance" title="📊 PERFORMANCE INDEX (Diario)
+
+¿Qué es?
+Mide la eficiencia real del AA comparando su UPH con el rate esperado de cada proceso (TSI: 140, PID: 180, Non-Con: 60, PrEditor: 100).
+
+¿Por qué es importante?
+• Compara procesos diferentes de forma justa: Un AA que trabaja en 4 procesos distintos se puede comparar con uno que solo hace 1
+• Ajusta por esfuerzo real (UPB): En PID, Non-Con y PrEditor, un UPB alto significa menos movimientos por unidad. El índice ajusta el UPH para reflejar el esfuerzo físico real, no solo las unidades procesadas
+• Pondera por tiempo: Las horas dedicadas a cada proceso pesan en el resultado final
+
+⚠️ Índice diario
+Este valor puede variar por factores del día (tipo de producto, volumen, etc.). Para una evaluación más representativa, revisar el historial semanal o mensual en Activity History." style="cursor: help;">Performance Index ⓘ</th>
+      </tr>
+      <tr>
+        <th class="sub-header header-decant-tsi">Horas</th>
+        <th class="sub-header header-decant-tsi">Each Units</th>
+        <th class="sub-header header-decant-tsi">Each UPH</th>
+        <th class="sub-header header-decant-pid">Horas</th>
+        <th class="sub-header header-decant-pid">Case Units</th>
+        <th class="sub-header header-decant-pid">Each Units</th>
+        <th class="sub-header header-decant-pid">Each UPH</th>
+        <th class="sub-header header-decant-pid">UPB</th>
+        <th class="sub-header header-non-con">Horas</th>
+        <th class="sub-header header-non-con">Each Units</th>
+        <th class="sub-header header-non-con">Each UPH</th>
+        <th class="sub-header header-non-con">UPB</th>
+        <th class="sub-header header-preditor">Horas</th>
+        <th class="sub-header header-preditor">Each Units</th>
+        <th class="sub-header header-preditor">Each UPH</th>
+        <th class="sub-header header-preditor">UPB</th>
+      </tr>
+    `;
+
+    // Agrupar datos por usuario combinando todas las categorías
+    const userMap = new Map();
+
+    // Función helper para inicializar usuario con todas las categorías
+    const initUser = (login) => {
+      return {
+        login: login,
+        decantTSI: { hours: 0, caseUnits: 0, caseUph: 0, eachUnits: 0, eachUph: 0, upb: 0 },
+        decantPID: { hours: 0, caseUnits: 0, caseUph: 0, eachUnits: 0, eachUph: 0, upb: 0 },
+        nonCon: { hours: 0, caseUnits: 0, caseUph: 0, eachUnits: 0, eachUph: 0, upb: 0 },
+        preditor: { hours: 0, caseUnits: 0, caseUph: 0, eachUnits: 0, eachUph: 0, upb: 0 },
+      };
+    };
+
+    // Procesar Decant TSI
+    if (this.receiveData.receive_decant_tsi) {
+      this.receiveData.receive_decant_tsi.forEach((record) => {
+        if (!record.login) return;
+        if (!userMap.has(record.login)) {
+          const user = initUser(record.login);
+          user.decantTSI = {
+            hours: record.hrs_total || 0,
+            caseUnits: record.case_unit_total || 0,
+            caseUph: record.case_uph_total || 0,
+            eachUnits: record.each_unit_total || 0,
+            eachUph: record.each_uph_total || 0,
+            upb: record.unit_box || 0,
+          };
+          userMap.set(record.login, user);
+        } else {
+          const user = userMap.get(record.login);
+          user.decantTSI = {
+            hours: (user.decantTSI.hours || 0) + (record.hrs_total || 0),
+            caseUnits: (user.decantTSI.caseUnits || 0) + (record.case_unit_total || 0),
+            caseUph: record.case_uph_total || 0,
+            eachUnits: (user.decantTSI.eachUnits || 0) + (record.each_unit_total || 0),
+            eachUph: record.each_uph_total || 0,
+            upb: record.unit_box || 0,
+          };
+        }
+      });
+    }
+
+    // Procesar Decant PID
+    if (this.receiveData.receive_decant_pid) {
+      this.receiveData.receive_decant_pid.forEach((record) => {
+        if (!record.login) return;
+        if (!userMap.has(record.login)) {
+          const user = initUser(record.login);
+          user.decantPID = {
+            hours: record.hrs_total || 0,
+            caseUnits: record.case_unit_total || 0,
+            caseUph: record.case_uph_total || 0,
+            eachUnits: record.each_unit_total || 0,
+            eachUph: record.each_uph_total || 0,
+            upb: record.unit_box || 0,
+          };
+          userMap.set(record.login, user);
+        } else {
+          const user = userMap.get(record.login);
+          user.decantPID = {
+            hours: (user.decantPID.hours || 0) + (record.hrs_total || 0),
+            caseUnits: (user.decantPID.caseUnits || 0) + (record.case_unit_total || 0),
+            caseUph: record.case_uph_total || 0,
+            eachUnits: (user.decantPID.eachUnits || 0) + (record.each_unit_total || 0),
+            eachUph: record.each_uph_total || 0,
+            upb: record.unit_box || 0,
+          };
+        }
+      });
+    }
+
+    // Procesar Non-Con (receive_each)
+    if (this.receiveData.receive_each) {
+      this.receiveData.receive_each.forEach((record) => {
+        if (!record.login) return;
+        if (!userMap.has(record.login)) {
+          const user = initUser(record.login);
+          user.nonCon = {
+            hours: record.hrs_total || 0,
+            caseUnits: record.job_unit_total || 0, // Usar job_unit_total
+            caseUph: record.job_uph_total || 0, // Usar job_uph_total
+            eachUnits: record.each_unit_total || 0,
+            eachUph: record.each_uph_total || 0,
+            upb: record.unit_box || 0,
+          };
+          userMap.set(record.login, user);
+        } else {
+          const user = userMap.get(record.login);
+          user.nonCon = {
+            hours: (user.nonCon.hours || 0) + (record.hrs_total || 0),
+            caseUnits: (user.nonCon.caseUnits || 0) + (record.job_unit_total || 0),
+            caseUph: record.job_uph_total || 0,
+            eachUnits: (user.nonCon.eachUnits || 0) + (record.each_unit_total || 0),
+            eachUph: record.each_uph_total || 0,
+            upb: record.unit_box || 0,
+          };
+        }
+      });
+    }
+
+    // Procesar PrEditor (receive_321)
+    if (this.receiveData.receive_321) {
+      this.receiveData.receive_321.forEach((record) => {
+        if (!record.login) return;
+        if (!userMap.has(record.login)) {
+          const user = initUser(record.login);
+          user.preditor = {
+            hours: record.hrs_total || 0,
+            caseUnits: record.case_unit_total || 0,
+            caseUph: record.case_uph_total || 0,
+            eachUnits: record.each_unit_total || 0,
+            eachUph: record.each_uph_total || 0,
+            upb: record.unit_box || 0,
+          };
+          userMap.set(record.login, user);
+        } else {
+          const user = userMap.get(record.login);
+          user.preditor = {
+            hours: (user.preditor.hours || 0) + (record.hrs_total || 0),
+            caseUnits: (user.preditor.caseUnits || 0) + (record.case_unit_total || 0),
+            caseUph: record.case_uph_total || 0,
+            eachUnits: (user.preditor.eachUnits || 0) + (record.each_unit_total || 0),
+            eachUph: record.each_uph_total || 0,
+            upb: record.unit_box || 0,
+          };
+        }
+      });
+    }
+
+    // Convertir a array y filtrar usuarios con datos
+    const usersWithData = Array.from(userMap.values()).filter((user) => {
+      const totalHours = (user.decantTSI?.hours || 0) + (user.decantPID?.hours || 0) +
+                         (user.nonCon?.hours || 0) + (user.preditor?.hours || 0);
+      const totalUnits = (user.decantTSI?.caseUnits || 0) + (user.decantTSI?.eachUnits || 0) +
+                         (user.decantPID?.caseUnits || 0) + (user.decantPID?.eachUnits || 0) +
+                         (user.nonCon?.caseUnits || 0) + (user.nonCon?.eachUnits || 0) +
+                         (user.preditor?.caseUnits || 0) + (user.preditor?.eachUnits || 0);
+      return totalHours > 0 || totalUnits > 0;
+    });
+
+    // Agregar propiedades para ordenamiento (usar horas combined para ordenar)
+    usersWithData.forEach((user) => {
+      const totalHours = (user.decantTSI?.hours || 0) + (user.decantPID?.hours || 0) +
+                         (user.nonCon?.hours || 0) + (user.preditor?.hours || 0);
+      const totalCaseUnits = (user.decantTSI?.caseUnits || 0) + (user.decantPID?.caseUnits || 0) +
+                             (user.nonCon?.caseUnits || 0) + (user.preditor?.caseUnits || 0);
+      const totalEachUnits = (user.decantTSI?.eachUnits || 0) + (user.decantPID?.eachUnits || 0) +
+                             (user.nonCon?.eachUnits || 0) + (user.preditor?.eachUnits || 0);
+      
+      // Calcular índice de rendimiento
+      user.performanceIndex = this.calculatePerformanceIndex(user);
+      
+      // Para ordenamiento, usar horas combined por defecto
+      user.combinedUph = totalHours; // Usar horas combined para ordenar
+      user.combinedHours = totalHours;
+      user.combinedUnits = totalCaseUnits + totalEachUnits;
+    });
+
+    // Aplicar filtro de rotación
+    const filteredUsers = this.filterUsersByRotation(usersWithData);
+
+    // Aplicar ordenamiento
+    const sortedUsers = this.sortUsers(filteredUsers);
+
+    // Renderizar filas
+    sortedUsers.forEach((user) => {
+      const row = document.createElement("tr");
+      const tsi = user.decantTSI || {};
+      const pid = user.decantPID || {};
+      const nonCon = user.nonCon || {};
+      const preditor = user.preditor || {};
+      
+      // Calcular horas combined
+      const combinedHours = (tsi.hours || 0) + (pid.hours || 0) + (nonCon.hours || 0) + (preditor.hours || 0);
+      
+      row.innerHTML = `
+        <td class="cell-login"><strong>${user.login}</strong></td>
+        <td class="cell-decant-tsi">${this.formatReceiveValue(tsi.hours)}</td>
+        <td class="cell-decant-tsi">${this.formatReceiveInteger(tsi.eachUnits)}</td>
+        <td class="cell-decant-tsi"><strong>${this.formatReceiveValue(tsi.eachUph)}</strong></td>
+        <td class="cell-decant-pid">${this.formatReceiveValue(pid.hours)}</td>
+        <td class="cell-decant-pid">${this.formatReceiveInteger(pid.caseUnits)}</td>
+        <td class="cell-decant-pid">${this.formatReceiveInteger(pid.eachUnits)}</td>
+        <td class="cell-decant-pid"><strong>${this.formatReceiveValue(pid.eachUph)}</strong></td>
+        <td class="cell-decant-pid">${this.formatReceiveValue(pid.upb)}</td>
+        <td class="cell-non-con">${this.formatReceiveValue(nonCon.hours)}</td>
+        <td class="cell-non-con">${this.formatReceiveInteger(nonCon.eachUnits)}</td>
+        <td class="cell-non-con"><strong>${this.formatReceiveValue(nonCon.eachUph)}</strong></td>
+        <td class="cell-non-con">${this.formatReceiveValue(nonCon.upb)}</td>
+        <td class="cell-preditor">${this.formatReceiveValue(preditor.hours)}</td>
+        <td class="cell-preditor">${this.formatReceiveInteger(preditor.eachUnits)}</td>
+        <td class="cell-preditor"><strong>${this.formatReceiveValue(preditor.eachUph)}</strong></td>
+        <td class="cell-preditor">${this.formatReceiveValue(preditor.upb)}</td>
+        <td class="cell-combined"><strong>${this.formatReceiveValue(combinedHours)}</strong></td>
+        <td class="cell-combined"><strong>${this.formatReceiveInteger(user.combinedUnits)}</strong></td>
+        <td class="cell-performance"><strong>${user.performanceIndex !== undefined && user.performanceIndex !== null ? (user.performanceIndex * 100).toFixed(2) + '%' : '-'}</strong></td>
+      `;
+      tbody.appendChild(row);
+    });
+
+    if (usersWithData.length === 0) {
+      const dateLabel = this.dateInfo[this.currentDateFilter === "today" ? "today" : 
+                                      this.currentDateFilter === "yesterday" ? "yesterday" : "beforeYesterday"]?.label || this.currentDate;
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="20" style="text-align: center; padding: 2rem; color: #666;">
+            <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: #374151;">
+              No hay datos disponibles
+            </div>
+            <div style="font-size: 0.9rem; color: #6b7280;">
+              Fecha seleccionada: ${dateLabel}
+            </div>
+          </td>
+        </tr>
+      `;
+    }
+  }
+
+  /**
+   * Renderiza tabla Decant TSI (verde)
+   */
+  renderDecantTSITable(thead, tbody) {
+    console.log("📦 Renderizando tabla Decant TSI");
+
+    if (!this.receiveData || !this.receiveData.receive_decant_tsi) {
+      console.error("❌ No hay datos de receive_decant_tsi disponibles");
+      const dateLabel = this.dateInfo[this.currentDateFilter === "today" ? "today" : 
+                                      this.currentDateFilter === "yesterday" ? "yesterday" : "beforeYesterday"]?.label || this.currentDate;
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align: center; padding: 2rem; color: #666;">
+            <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: #374151;">
+              No hay datos disponibles
+            </div>
+            <div style="font-size: 0.9rem; color: #6b7280;">
+              Fecha seleccionada: ${dateLabel}
+            </div>
+          </td>
+        </tr>
+      `;
+      if (thead) thead.innerHTML = "";
+      return;
+    }
+
+    // Crear header
+    thead.innerHTML = `
+      <tr>
+        <th class="header-login">Login</th>
+        <th class="sub-header header-decant-tsi">Horas</th>
+        <th class="sub-header header-decant-tsi">Case Units</th>
+        <th class="sub-header header-decant-tsi">Case UPH</th>
+        <th class="sub-header header-decant-tsi">Each Units</th>
+        <th class="sub-header header-decant-tsi">Each UPH</th>
+        <th class="sub-header header-decant-tsi">UPB</th>
+      </tr>
+    `;
+
+    // Agrupar por usuario
+    const userMap = new Map();
+    this.receiveData.receive_decant_tsi.forEach((record) => {
+      if (!record.login) return;
+      if (!userMap.has(record.login)) {
+        userMap.set(record.login, {
+          login: record.login,
+          hours: record.hrs_total || 0,
+          caseUnits: record.case_unit_total || 0,
+          caseUph: record.case_uph_total || 0,
+          eachUnits: record.each_unit_total || 0,
+          eachUph: record.each_uph_total || 0,
+          upb: record.unit_box || 0,
+        });
+      } else {
+        const user = userMap.get(record.login);
+        user.hours += record.hrs_total || 0;
+        user.caseUnits += record.case_unit_total || 0;
+        user.caseUph = record.case_uph_total || 0; // Usar el último valor
+        user.eachUnits += record.each_unit_total || 0;
+        user.eachUph = record.each_uph_total || 0; // Usar el último valor
+        user.upb = record.unit_box || 0;
+      }
+    });
+
+    const usersWithData = Array.from(userMap.values()).filter((user) => {
+      return (user.hours || 0) > 0 || (user.caseUnits || 0) > 0 || (user.eachUnits || 0) > 0;
+    });
+
+    // Agregar propiedades para ordenamiento
+    usersWithData.forEach((user) => {
+      user.combinedUph = user.hours > 0 ? ((user.caseUnits + user.eachUnits) / user.hours) : 0;
+      user.combinedHours = user.hours;
+      user.combinedUnits = user.caseUnits + user.eachUnits;
+    });
+
+    // Aplicar filtro de rotación
+    const filteredUsers = this.filterUsersByRotation(usersWithData);
+
+    // Aplicar ordenamiento
+    const sortedUsers = this.sortUsers(filteredUsers);
+
+    // Renderizar filas
+    sortedUsers.forEach((user) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td class="cell-login"><strong>${user.login}</strong></td>
+        <td class="cell-decant-tsi">${this.formatReceiveValue(user.hours)}</td>
+        <td class="cell-decant-tsi">${this.formatReceiveInteger(user.caseUnits)}</td>
+        <td class="cell-decant-tsi"><strong>${this.formatReceiveValue(user.caseUph)}</strong></td>
+        <td class="cell-decant-tsi">${this.formatReceiveInteger(user.eachUnits)}</td>
+        <td class="cell-decant-tsi"><strong>${this.formatReceiveValue(user.eachUph)}</strong></td>
+        <td class="cell-decant-tsi">${this.formatReceiveValue(user.upb)}</td>
+      `;
+      tbody.appendChild(row);
+    });
+
+    if (usersWithData.length === 0) {
+      const dateLabel = this.dateInfo[this.currentDateFilter === "today" ? "today" : 
+                                      this.currentDateFilter === "yesterday" ? "yesterday" : "beforeYesterday"]?.label || this.currentDate;
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align: center; padding: 2rem; color: #666;">
+            <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: #374151;">
+              No hay datos disponibles
+            </div>
+            <div style="font-size: 0.9rem; color: #6b7280;">
+              Fecha seleccionada: ${dateLabel}
+            </div>
+          </td>
+        </tr>
+      `;
+    }
+  }
+
+  /**
+   * Renderiza tabla Decant PID (naranja)
+   */
+  renderDecantPIDTable(thead, tbody) {
+    console.log("📦 Renderizando tabla Decant PID");
+
+    if (!this.receiveData || !this.receiveData.receive_decant_pid) {
+      console.error("❌ No hay datos de receive_decant_pid disponibles");
+      const dateLabel = this.dateInfo[this.currentDateFilter === "today" ? "today" : 
+                                      this.currentDateFilter === "yesterday" ? "yesterday" : "beforeYesterday"]?.label || this.currentDate;
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align: center; padding: 2rem; color: #666;">
+            <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: #374151;">
+              No hay datos disponibles
+            </div>
+            <div style="font-size: 0.9rem; color: #6b7280;">
+              Fecha seleccionada: ${dateLabel}
+            </div>
+          </td>
+        </tr>
+      `;
+      if (thead) thead.innerHTML = "";
+      return;
+    }
+
+    // Crear header
+    thead.innerHTML = `
+      <tr>
+        <th class="header-login">Login</th>
+        <th class="sub-header header-decant-pid">Horas</th>
+        <th class="sub-header header-decant-pid">Case Units</th>
+        <th class="sub-header header-decant-pid">Case UPH</th>
+        <th class="sub-header header-decant-pid">Each Units</th>
+        <th class="sub-header header-decant-pid">Each UPH</th>
+        <th class="sub-header header-decant-pid">UPB</th>
+      </tr>
+    `;
+
+    // Agrupar por usuario
+    const userMap = new Map();
+    this.receiveData.receive_decant_pid.forEach((record) => {
+      if (!record.login) return;
+      if (!userMap.has(record.login)) {
+        userMap.set(record.login, {
+          login: record.login,
+          hours: record.hrs_total || 0,
+          caseUnits: record.case_unit_total || 0,
+          caseUph: record.case_uph_total || 0,
+          eachUnits: record.each_unit_total || 0,
+          eachUph: record.each_uph_total || 0,
+          upb: record.unit_box || 0,
+        });
+      } else {
+        const user = userMap.get(record.login);
+        user.hours += record.hrs_total || 0;
+        user.caseUnits += record.case_unit_total || 0;
+        user.caseUph = record.case_uph_total || 0; // Usar el último valor
+        user.eachUnits += record.each_unit_total || 0;
+        user.eachUph = record.each_uph_total || 0; // Usar el último valor
+        user.upb = record.unit_box || 0;
+      }
+    });
+
+    const usersWithData = Array.from(userMap.values()).filter((user) => {
+      return (user.hours || 0) > 0 || (user.caseUnits || 0) > 0 || (user.eachUnits || 0) > 0;
+    });
+
+    // Agregar propiedades para ordenamiento
+    usersWithData.forEach((user) => {
+      user.combinedUph = user.hours > 0 ? ((user.caseUnits + user.eachUnits) / user.hours) : 0;
+      user.combinedHours = user.hours;
+      user.combinedUnits = user.caseUnits + user.eachUnits;
+    });
+
+    // Aplicar filtro de rotación
+    const filteredUsers = this.filterUsersByRotation(usersWithData);
+
+    // Aplicar ordenamiento
+    const sortedUsers = this.sortUsers(filteredUsers);
+
+    // Renderizar filas
+    sortedUsers.forEach((user) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td class="cell-login"><strong>${user.login}</strong></td>
+        <td class="cell-decant-pid">${this.formatReceiveValue(user.hours)}</td>
+        <td class="cell-decant-pid">${this.formatReceiveInteger(user.caseUnits)}</td>
+        <td class="cell-decant-pid"><strong>${this.formatReceiveValue(user.caseUph)}</strong></td>
+        <td class="cell-decant-pid">${this.formatReceiveInteger(user.eachUnits)}</td>
+        <td class="cell-decant-pid"><strong>${this.formatReceiveValue(user.eachUph)}</strong></td>
+        <td class="cell-decant-pid">${this.formatReceiveValue(user.upb)}</td>
+      `;
+      tbody.appendChild(row);
+    });
+
+    if (usersWithData.length === 0) {
+      const dateLabel = this.dateInfo[this.currentDateFilter === "today" ? "today" : 
+                                      this.currentDateFilter === "yesterday" ? "yesterday" : "beforeYesterday"]?.label || this.currentDate;
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align: center; padding: 2rem; color: #666;">
+            <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: #374151;">
+              No hay datos disponibles
+            </div>
+            <div style="font-size: 0.9rem; color: #6b7280;">
+              Fecha seleccionada: ${dateLabel}
+            </div>
+          </td>
+        </tr>
+      `;
+    }
+  }
+
+  /**
+   * Renderiza tabla Non-Con (receive_each)
+   */
+  renderNonConTable(thead, tbody) {
+    console.log("📦 Renderizando tabla Non-Con");
+
+    if (!this.receiveData || !this.receiveData.receive_each) {
+      console.error("❌ No hay datos de receive_each disponibles");
+      const dateLabel = this.dateInfo[this.currentDateFilter === "today" ? "today" : 
+                                      this.currentDateFilter === "yesterday" ? "yesterday" : "beforeYesterday"]?.label || this.currentDate;
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align: center; padding: 2rem; color: #666;">
+            <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: #374151;">
+              No hay datos disponibles
+            </div>
+            <div style="font-size: 0.9rem; color: #6b7280;">
+              Fecha seleccionada: ${dateLabel}
+            </div>
+          </td>
+        </tr>
+      `;
+      if (thead) thead.innerHTML = "";
+      return;
+    }
+
+    // Crear header
+    thead.innerHTML = `
+      <tr>
+        <th class="header-login">Login</th>
+        <th class="sub-header header-non-con">Horas</th>
+        <th class="sub-header header-non-con">Case Units</th>
+        <th class="sub-header header-non-con">Case UPH</th>
+        <th class="sub-header header-non-con">Each Units</th>
+        <th class="sub-header header-non-con">Each UPH</th>
+        <th class="sub-header header-non-con">UPB</th>
+      </tr>
+    `;
+
+    // Agrupar por usuario
+    const userMap = new Map();
+    this.receiveData.receive_each.forEach((record) => {
+      if (!record.login) return;
+      if (!userMap.has(record.login)) {
+        userMap.set(record.login, {
+          login: record.login,
+          hours: record.hrs_total || 0,
+          caseUnits: record.job_unit_total || 0, // Usar job_unit_total
+          caseUph: record.job_uph_total || 0, // Usar job_uph_total
+          eachUnits: record.each_unit_total || 0,
+          eachUph: record.each_uph_total || 0,
+          upb: record.unit_box || 0,
+        });
+      } else {
+        const user = userMap.get(record.login);
+        user.hours += record.hrs_total || 0;
+        user.caseUnits += record.job_unit_total || 0;
+        user.caseUph = record.job_uph_total || 0; // Usar el último valor
+        user.eachUnits += record.each_unit_total || 0;
+        user.eachUph = record.each_uph_total || 0; // Usar el último valor
+        user.upb = record.unit_box || 0;
+      }
+    });
+
+    const usersWithData = Array.from(userMap.values()).filter((user) => {
+      return (user.hours || 0) > 0 || (user.caseUnits || 0) > 0 || (user.eachUnits || 0) > 0;
+    });
+
+    // Agregar propiedades para ordenamiento
+    usersWithData.forEach((user) => {
+      user.combinedUph = user.hours > 0 ? ((user.caseUnits + user.eachUnits) / user.hours) : 0;
+      user.combinedHours = user.hours;
+      user.combinedUnits = user.caseUnits + user.eachUnits;
+    });
+
+    // Aplicar filtro de rotación
+    const filteredUsers = this.filterUsersByRotation(usersWithData);
+
+    // Aplicar ordenamiento
+    const sortedUsers = this.sortUsers(filteredUsers);
+
+    // Renderizar filas
+    sortedUsers.forEach((user) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td class="cell-login"><strong>${user.login}</strong></td>
+        <td class="cell-non-con">${this.formatReceiveValue(user.hours)}</td>
+        <td class="cell-non-con">${this.formatReceiveInteger(user.caseUnits)}</td>
+        <td class="cell-non-con"><strong>${this.formatReceiveValue(user.caseUph)}</strong></td>
+        <td class="cell-non-con">${this.formatReceiveInteger(user.eachUnits)}</td>
+        <td class="cell-non-con"><strong>${this.formatReceiveValue(user.eachUph)}</strong></td>
+        <td class="cell-non-con">${this.formatReceiveValue(user.upb)}</td>
+      `;
+      tbody.appendChild(row);
+    });
+
+    if (usersWithData.length === 0) {
+      const dateLabel = this.dateInfo[this.currentDateFilter === "today" ? "today" : 
+                                      this.currentDateFilter === "yesterday" ? "yesterday" : "beforeYesterday"]?.label || this.currentDate;
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align: center; padding: 2rem; color: #666;">
+            <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: #374151;">
+              No hay datos disponibles
+            </div>
+            <div style="font-size: 0.9rem; color: #6b7280;">
+              Fecha seleccionada: ${dateLabel}
+            </div>
+          </td>
+        </tr>
+      `;
+    }
+  }
+
+  /**
+   * Renderiza tabla PrEditor (receive_321)
+   */
+  renderPrEditorTable(thead, tbody) {
+    console.log("📦 Renderizando tabla PrEditor");
+
+    if (!this.receiveData || !this.receiveData.receive_321) {
+      console.error("❌ No hay datos de receive_321 disponibles");
+      const dateLabel = this.dateInfo[this.currentDateFilter === "today" ? "today" : 
+                                      this.currentDateFilter === "yesterday" ? "yesterday" : "beforeYesterday"]?.label || this.currentDate;
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align: center; padding: 2rem; color: #666;">
+            <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: #374151;">
+              No hay datos disponibles
+            </div>
+            <div style="font-size: 0.9rem; color: #6b7280;">
+              Fecha seleccionada: ${dateLabel}
+            </div>
+          </td>
+        </tr>
+      `;
+      if (thead) thead.innerHTML = "";
+      return;
+    }
+
+    // Crear header
+    thead.innerHTML = `
+      <tr>
+        <th class="header-login">Login</th>
+        <th class="sub-header header-preditor">Horas</th>
+        <th class="sub-header header-preditor">Case Units</th>
+        <th class="sub-header header-preditor">Case UPH</th>
+        <th class="sub-header header-preditor">Each Units</th>
+        <th class="sub-header header-preditor">Each UPH</th>
+        <th class="sub-header header-preditor">UPB</th>
+      </tr>
+    `;
+
+    // Agrupar por usuario
+    const userMap = new Map();
+    this.receiveData.receive_321.forEach((record) => {
+      if (!record.login) return;
+      if (!userMap.has(record.login)) {
+        userMap.set(record.login, {
+          login: record.login,
+          hours: record.hrs_total || 0,
+          caseUnits: record.case_unit_total || 0,
+          caseUph: record.case_uph_total || 0,
+          eachUnits: record.each_unit_total || 0,
+          eachUph: record.each_uph_total || 0,
+          upb: record.unit_box || 0,
+        });
+      } else {
+        const user = userMap.get(record.login);
+        user.hours += record.hrs_total || 0;
+        user.caseUnits += record.case_unit_total || 0;
+        user.caseUph = record.case_uph_total || 0; // Usar el último valor
+        user.eachUnits += record.each_unit_total || 0;
+        user.eachUph = record.each_uph_total || 0; // Usar el último valor
+        user.upb = record.unit_box || 0;
+      }
+    });
+
+    const usersWithData = Array.from(userMap.values()).filter((user) => {
+      return (user.hours || 0) > 0 || (user.caseUnits || 0) > 0 || (user.eachUnits || 0) > 0;
+    });
+
+    // Agregar propiedades para ordenamiento
+    usersWithData.forEach((user) => {
+      user.combinedUph = user.hours > 0 ? ((user.caseUnits + user.eachUnits) / user.hours) : 0;
+      user.combinedHours = user.hours;
+      user.combinedUnits = user.caseUnits + user.eachUnits;
+    });
+
+    // Aplicar filtro de rotación
+    const filteredUsers = this.filterUsersByRotation(usersWithData);
+
+    // Aplicar ordenamiento
+    const sortedUsers = this.sortUsers(filteredUsers);
+
+    // Renderizar filas
+    sortedUsers.forEach((user) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td class="cell-login"><strong>${user.login}</strong></td>
+        <td class="cell-preditor">${this.formatReceiveValue(user.hours)}</td>
+        <td class="cell-preditor">${this.formatReceiveInteger(user.caseUnits)}</td>
+        <td class="cell-preditor"><strong>${this.formatReceiveValue(user.caseUph)}</strong></td>
+        <td class="cell-preditor">${this.formatReceiveInteger(user.eachUnits)}</td>
+        <td class="cell-preditor"><strong>${this.formatReceiveValue(user.eachUph)}</strong></td>
+        <td class="cell-preditor">${this.formatReceiveValue(user.upb)}</td>
+      `;
+      tbody.appendChild(row);
+    });
+
+    if (usersWithData.length === 0) {
+      const dateLabel = this.dateInfo[this.currentDateFilter === "today" ? "today" : 
+                                      this.currentDateFilter === "yesterday" ? "yesterday" : "beforeYesterday"]?.label || this.currentDate;
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align: center; padding: 2rem; color: #666;">
+            <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: #374151;">
+              No hay datos disponibles
+            </div>
+            <div style="font-size: 0.9rem; color: #6b7280;">
+              Fecha seleccionada: ${dateLabel}
+            </div>
+          </td>
+        </tr>
+      `;
+    }
+  }
+
+  /**
+   * Renderiza tabla Prep (receive_prep)
+   */
+  renderPrepTable(thead, tbody) {
+    console.log("📦 Renderizando tabla Prep");
+
+    if (!this.receiveData || !this.receiveData.receive_prep) {
+      console.error("❌ No hay datos de receive_prep disponibles");
+      const dateLabel = this.dateInfo[this.currentDateFilter === "today" ? "today" : 
+                                      this.currentDateFilter === "yesterday" ? "yesterday" : "beforeYesterday"]?.label || this.currentDate;
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align: center; padding: 2rem; color: #666;">
+            <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: #374151;">
+              No hay datos disponibles
+            </div>
+            <div style="font-size: 0.9rem; color: #6b7280;">
+              Fecha seleccionada: ${dateLabel}
+            </div>
+          </td>
+        </tr>
+      `;
+      if (thead) thead.innerHTML = "";
+      return;
+    }
+
+    // Crear header
+    thead.innerHTML = `
+      <tr>
+        <th class="header-login">Login</th>
+        <th class="sub-header header-prep">Horas</th>
+        <th class="sub-header header-prep">Case Units</th>
+        <th class="sub-header header-prep">Case UPH</th>
+        <th class="sub-header header-prep">Each Units</th>
+        <th class="sub-header header-prep">Each UPH</th>
+        <th class="sub-header header-prep">UPB</th>
+      </tr>
+    `;
+
+    // Agrupar por usuario
+    const userMap = new Map();
+    this.receiveData.receive_prep.forEach((record) => {
+      if (!record.login) return;
+      if (!userMap.has(record.login)) {
+        userMap.set(record.login, {
+          login: record.login,
+          hours: record.hrs_total || 0,
+          caseUnits: record.eachreceived_job_unit || 0, // job_unit pero se muestra como Case
+          caseUph: record.eachreceived_job_uph || 0, // job_uph pero se muestra como Case
+          eachUnits: record.eachreceived_each_total_unit || 0,
+          eachUph: record.eachreceived_each_total_uph || 0,
+          upb: record.unit_box || 0,
+        });
+      } else {
+        const user = userMap.get(record.login);
+        user.hours += record.hrs_total || 0;
+        user.caseUnits += record.eachreceived_job_unit || 0;
+        user.caseUph = record.eachreceived_job_uph || 0; // Usar el último valor
+        user.eachUnits += record.eachreceived_each_total_unit || 0;
+        user.eachUph = record.eachreceived_each_total_uph || 0; // Usar el último valor
+        user.upb = record.unit_box || 0;
+      }
+    });
+
+    const usersWithData = Array.from(userMap.values()).filter((user) => {
+      return (user.hours || 0) > 0 || (user.caseUnits || 0) > 0 || (user.eachUnits || 0) > 0;
+    });
+
+    // Agregar propiedades para ordenamiento
+    usersWithData.forEach((user) => {
+      user.combinedUph = user.hours > 0 ? ((user.caseUnits + user.eachUnits) / user.hours) : 0;
+      user.combinedHours = user.hours;
+      user.combinedUnits = user.caseUnits + user.eachUnits;
+    });
+
+    // Aplicar filtro de rotación
+    const filteredUsers = this.filterUsersByRotation(usersWithData);
+
+    // Aplicar ordenamiento
+    const sortedUsers = this.sortUsers(filteredUsers);
+
+    // Renderizar filas
+    sortedUsers.forEach((user) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td class="cell-login"><strong>${user.login}</strong></td>
+        <td class="cell-prep">${this.formatReceiveValue(user.hours)}</td>
+        <td class="cell-prep">${this.formatReceiveInteger(user.caseUnits)}</td>
+        <td class="cell-prep"><strong>${this.formatReceiveValue(user.caseUph)}</strong></td>
+        <td class="cell-prep">${this.formatReceiveInteger(user.eachUnits)}</td>
+        <td class="cell-prep"><strong>${this.formatReceiveValue(user.eachUph)}</strong></td>
+        <td class="cell-prep">${this.formatReceiveValue(user.upb)}</td>
+      `;
+      tbody.appendChild(row);
+    });
+
+    if (usersWithData.length === 0) {
+      const dateLabel = this.dateInfo[this.currentDateFilter === "today" ? "today" : 
+                                      this.currentDateFilter === "yesterday" ? "yesterday" : "beforeYesterday"]?.label || this.currentDate;
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align: center; padding: 2rem; color: #666;">
+            <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: #374151;">
+              No hay datos disponibles
+            </div>
+            <div style="font-size: 0.9rem; color: #6b7280;">
+              Fecha seleccionada: ${dateLabel}
+            </div>
+          </td>
+        </tr>
+      `;
+    }
+  }
+
+  /**
+   * Renderiza tabla Pallet Receive (receive_pallet)
+   */
+  renderPalletReceiveTable(thead, tbody) {
+    console.log("📦 Renderizando tabla Pallet Receive");
+
+    if (!this.receiveData || !this.receiveData.receive_pallet) {
+      console.error("❌ No hay datos de receive_pallet disponibles");
+      const dateLabel = this.dateInfo[this.currentDateFilter === "today" ? "today" : 
+                                      this.currentDateFilter === "yesterday" ? "yesterday" : "beforeYesterday"]?.label || this.currentDate;
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align: center; padding: 2rem; color: #666;">
+            <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: #374151;">
+              No hay datos disponibles
+            </div>
+            <div style="font-size: 0.9rem; color: #6b7280;">
+              Fecha seleccionada: ${dateLabel}
+            </div>
+          </td>
+        </tr>
+      `;
+      if (thead) thead.innerHTML = "";
+      return;
+    }
+
+    // Crear header
+    thead.innerHTML = `
+      <tr>
+        <th class="header-login">Login</th>
+        <th class="sub-header header-pallet-receive">Horas</th>
+        <th class="sub-header header-pallet-receive">Each Units</th>
+        <th class="sub-header header-pallet-receive">Each UPH</th>
+        <th class="sub-header header-pallet-receive">Qty Pallets</th>
+        <th class="sub-header header-pallet-receive">Pallets/Hour</th>
+        <th class="sub-header header-pallet-receive">Units/Pallet</th>
+      </tr>
+    `;
+
+    // Agrupar por usuario
+    const userMap = new Map();
+    this.receiveData.receive_pallet.forEach((record) => {
+      if (!record.login) return;
+      if (!userMap.has(record.login)) {
+        userMap.set(record.login, {
+          login: record.login,
+          hours: record.hrs_total || 0,
+          eachUnits: record.each_unit_total || 0,
+          eachUph: record.each_uph_total || 0,
+          palletUnits: record.pallet_unit_total || 0,
+          palletUph: record.pallet_uph_total || 0,
+          upp: record.unit_pallet || 0,
+        });
+      } else {
+        const user = userMap.get(record.login);
+        user.hours += record.hrs_total || 0;
+        user.eachUnits += record.each_unit_total || 0;
+        user.eachUph = record.each_uph_total || 0; // Usar el último valor
+        user.palletUnits += record.pallet_unit_total || 0;
+        user.palletUph = record.pallet_uph_total || 0; // Usar el último valor
+        user.upp = record.unit_pallet || 0;
+      }
+    });
+
+    const usersWithData = Array.from(userMap.values()).filter((user) => {
+      return (user.hours || 0) > 0 || (user.eachUnits || 0) > 0 || (user.palletUnits || 0) > 0;
+    });
+
+    // Agregar propiedades para ordenamiento
+    usersWithData.forEach((user) => {
+      user.combinedUph = user.hours > 0 ? ((user.eachUnits + user.palletUnits) / user.hours) : 0;
+      user.combinedHours = user.hours;
+      user.combinedUnits = user.eachUnits + user.palletUnits;
+    });
+
+    // Aplicar filtro de rotación
+    const filteredUsers = this.filterUsersByRotation(usersWithData);
+
+    // Aplicar ordenamiento
+    const sortedUsers = this.sortUsers(filteredUsers);
+
+    // Renderizar filas
+    sortedUsers.forEach((user) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td class="cell-login"><strong>${user.login}</strong></td>
+        <td class="cell-pallet-receive">${this.formatReceiveValue(user.hours)}</td>
+        <td class="cell-pallet-receive">${this.formatReceiveInteger(user.eachUnits)}</td>
+        <td class="cell-pallet-receive"><strong>${this.formatReceiveValue(user.eachUph)}</strong></td>
+        <td class="cell-pallet-receive">${this.formatReceiveInteger(user.palletUnits)}</td>
+        <td class="cell-pallet-receive"><strong>${this.formatReceiveValue(user.palletUph)}</strong></td>
+        <td class="cell-pallet-receive">${this.formatReceiveValue(user.upp)}</td>
+      `;
+      tbody.appendChild(row);
+    });
+
+    if (usersWithData.length === 0) {
+      const dateLabel = this.dateInfo[this.currentDateFilter === "today" ? "today" : 
+                                      this.currentDateFilter === "yesterday" ? "yesterday" : "beforeYesterday"]?.label || this.currentDate;
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align: center; padding: 2rem; color: #666;">
+            <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: #374151;">
+              No hay datos disponibles
+            </div>
+            <div style="font-size: 0.9rem; color: #6b7280;">
+              Fecha seleccionada: ${dateLabel}
+            </div>
+          </td>
+        </tr>
+      `;
+    }
   }
 }
 
