@@ -196,6 +196,7 @@ class UserActivityController {
     await this.loadEffortData();
     await this.loadActivityScopeIcons();
     this.updateCategoryButtons(); // Actualizar botones de categoría según rate actual
+    this.updateSortButtons(); // Actualizar botones de ordenamiento según rate actual
     this.setupEventListeners();
     this.setupHeatmapModalEvents();
     this.updateTable();
@@ -955,6 +956,9 @@ class UserActivityController {
     // Actualizar botones de categoría según el rate
     this.updateCategoryButtons();
 
+    // Actualizar botones de ordenamiento según el rate
+    this.updateSortButtons();
+
     // Resetear categoría a la primera disponible según el rate
     if (rate === "receive") {
       this.currentCategory = "all-receive";
@@ -1067,6 +1071,105 @@ class UserActivityController {
 
     // Cargar iconos SVG
     this.loadActivityScopeIcons();
+  }
+
+  /**
+   * Actualiza los botones de ordenamiento según el rate actual (Stow o Receive)
+   */
+  updateSortButtons() {
+    const sortControls = document.querySelector(".sort-controls");
+    if (!sortControls) return;
+
+    // Limpiar botones existentes excepto el label
+    sortControls.innerHTML = '<span class="sort-label">Ordenar por:</span>';
+
+    if (this.currentRate === "receive") {
+      // Botones para Receive
+      const receiveSortOptions = [
+        { id: "combined-hours", label: "Horas Combined", icon: "icon-clock-hours" },
+        { id: "combined-units", label: "Units Combined", icon: "icon-box-units-combined" },
+        { id: "performance-index", label: "Performance Index", icon: "icon-target-rate" },
+      ];
+
+      receiveSortOptions.forEach((opt, index) => {
+        const btn = document.createElement("button");
+        btn.className = `sort-btn ${index === 0 ? "active" : ""}`;
+        btn.dataset.sort = opt.id;
+        btn.innerHTML = `
+          <span id="${opt.icon}" class="icon-svg icon-16"></span>
+          ${opt.label}
+        `;
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".sort-btn").forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          this.currentSortColumn = opt.id;
+          this.updateTable();
+        });
+        sortControls.appendChild(btn);
+      });
+
+      // Establecer ordenamiento por defecto para Receive
+      if (!["combined-hours", "combined-units", "performance-index"].includes(this.currentSortColumn)) {
+        this.currentSortColumn = "combined-hours";
+      }
+    } else {
+      // Botones para Stow (restaurar originales)
+      const stowSortOptions = [
+        { id: "combined-hours", label: "Horas Combined", icon: "icon-clock-hours" },
+        { id: "combined-units", label: "Units Combined", icon: "icon-box-units-combined" },
+        { id: "combined-uph", label: "UPH Combined", icon: "icon-chart-uph" },
+        { id: "rate-ajustado", label: "Rate Ajustado", icon: "icon-target-rate" },
+      ];
+
+      stowSortOptions.forEach((opt, index) => {
+        const btn = document.createElement("button");
+        btn.className = `sort-btn ${index === 0 ? "active" : ""}`;
+        btn.dataset.sort = opt.id;
+        btn.innerHTML = `
+          <span id="${opt.icon}" class="icon-svg icon-16"></span>
+          ${opt.label}
+        `;
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".sort-btn").forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          this.currentSortColumn = opt.id;
+          this.updateTable();
+        });
+        sortControls.appendChild(btn);
+      });
+
+      // Establecer ordenamiento por defecto para Stow
+      if (!["combined-hours", "combined-units", "combined-uph", "rate-ajustado"].includes(this.currentSortColumn)) {
+        this.currentSortColumn = "combined-hours";
+      }
+    }
+
+    // Agregar botón de dirección
+    const newDirectionBtn = document.createElement("button");
+    newDirectionBtn.className = "sort-direction-btn";
+    newDirectionBtn.id = "sort-direction-btn";
+    newDirectionBtn.title = "Cambiar dirección";
+    newDirectionBtn.innerHTML = `<span id="${this.sortDirection === "desc" ? "icon-arrow-down" : "icon-arrow-up"}" class="icon-svg icon-16"></span>`;
+    newDirectionBtn.addEventListener("click", () => {
+      this.sortDirection = this.sortDirection === "desc" ? "asc" : "desc";
+      const icon = newDirectionBtn.querySelector(".icon-svg");
+      if (icon) {
+        icon.id = this.sortDirection === "desc" ? "icon-arrow-down" : "icon-arrow-up";
+      }
+      this.loadActivityScopeIcons();
+      this.updateTable();
+    });
+    sortControls.appendChild(newDirectionBtn);
+
+    // Cargar iconos SVG
+    this.loadActivityScopeIcons();
+
+    // Marcar el botón activo correcto
+    const activeBtn = sortControls.querySelector(`[data-sort="${this.currentSortColumn}"]`);
+    if (activeBtn) {
+      document.querySelectorAll(".sort-btn").forEach((b) => b.classList.remove("active"));
+      activeBtn.classList.add("active");
+    }
   }
 
   /**
