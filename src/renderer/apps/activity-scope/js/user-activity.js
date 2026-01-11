@@ -1273,6 +1273,48 @@ class UserActivityController {
 
     // Actualizar tabla
     this.updateTable();
+
+    // Si hay una vista de detalle abierta, actualizar los promedios
+    if (this.currentUserLogin && this.isShowingUserDetail) {
+      console.log(`🔄 Actualizando vista de detalle para ${this.currentUserLogin} con filtro ${filter}`);
+      this.refreshUserDetailAverages();
+    }
+  }
+
+  /**
+   * Actualiza los promedios en la vista de detalle del usuario actual
+   * Se llama cuando cambia el filtro de rotación
+   */
+  refreshUserDetailAverages() {
+    if (!this.currentUserLogin || !this.effortData) return;
+
+    // Buscar datos del usuario actual
+    const userEffortData = this.effortData.analisis_por_empleado
+      ? Object.values(this.effortData.analisis_por_empleado).find(
+          (emp) => emp.login === this.currentUserLogin
+        )
+      : null;
+
+    if (!userEffortData) {
+      console.log(`⚠️ No se encontraron datos de esfuerzo para ${this.currentUserLogin}`);
+      return;
+    }
+
+    console.log(`📊 Recalculando promedios con filtro: ${this.currentRotationFilter}`);
+
+    // Actualizar métricas principales con nuevos promedios
+    this.updateEffortMetrics(userEffortData);
+
+    // Actualizar categorías
+    this.updateEffortCategories(userEffortData);
+
+    // Actualizar tipos de bin
+    this.updateEffortBinTypes(userEffortData);
+
+    // Actualizar estantes
+    this.updateEffortShelves(userEffortData);
+
+    console.log(`✅ Vista de detalle actualizada con filtro ${this.currentRotationFilter}`);
   }
 
   /**
@@ -2209,8 +2251,8 @@ class UserActivityController {
     // Scroll to top
     window.scrollTo({ top: 0, behavior: "smooth" });
 
-    // Resetear bandera
-    this.isShowingUserDetail = false;
+    // Mantener bandera en true mientras la vista esté abierta
+    // (se resetea en closeUserDetailView)
   }
 
   /**
@@ -2565,6 +2607,168 @@ class UserActivityController {
   }
 
   /**
+   * Calcula los promedios de categorías según el filtro de turno actual
+   * @returns {Object} Promedios de categorías filtrados por turno
+   */
+  calculateFilteredCategoryAverages() {
+    // Si el filtro es "all" o no hay datos, usar los promedios del resumen general
+    if (this.currentRotationFilter === "all" || !this.effortData || !this.effortData.analisis_por_empleado) {
+      const summaryCategories = this.effortSummaryData || [];
+      const result = {};
+      summaryCategories.forEach(cat => {
+        const key = cat.categoria.toLowerCase();
+        result[key] = cat.porcentaje_units || 0;
+      });
+      return result;
+    }
+
+    // Filtrar empleados por turno (case-insensitive)
+    const allEmployees = Object.values(this.effortData.analisis_por_empleado);
+    const filteredEmployees = allEmployees.filter(emp => {
+      const rotation = this.getUserRotation(emp.login);
+      return rotation && rotation.toLowerCase() === this.currentRotationFilter.toLowerCase();
+    });
+
+    // Si no hay empleados en el turno, usar promedios generales
+    if (filteredEmployees.length === 0) {
+      console.log(`⚠️ No hay empleados en turno ${this.currentRotationFilter} para categorías, usando promedios generales`);
+      const summaryCategories = this.effortSummaryData || [];
+      const result = {};
+      summaryCategories.forEach(cat => {
+        const key = cat.categoria.toLowerCase();
+        result[key] = cat.porcentaje_units || 0;
+      });
+      return result;
+    }
+
+    // Calcular promedios de categorías para el turno
+    const categoryTotals = {
+      muy_facil: [],
+      facil: [],
+      medio: [],
+      dificil: [],
+      muy_dificil: []
+    };
+
+    filteredEmployees.forEach(emp => {
+      const empCategories = emp.porcentajes_categorias || {};
+      Object.keys(categoryTotals).forEach(key => {
+        if (empCategories[key] !== undefined) {
+          categoryTotals[key].push(empCategories[key]);
+        }
+      });
+    });
+
+    const result = {};
+    Object.entries(categoryTotals).forEach(([key, values]) => {
+      result[key] = values.length > 0 
+        ? values.reduce((sum, v) => sum + v, 0) / values.length 
+        : 0;
+    });
+
+    console.log(`📊 Promedios de categorías para turno ${this.currentRotationFilter}:`, result);
+    return result;
+  }
+
+  /**
+   * Calcula los promedios según el filtro de turno actual
+   * @returns {Object} Promedios filtrados por turno
+   */
+  calculateFilteredAverages() {
+    // Si no hay datos de esfuerzo, retornar promedios generales
+    if (!this.effortData || !this.effortData.analisis_por_empleado) {
+      return this.effortGeneralStats || {};
+    }
+
+    // Si el filtro es "all", usar los promedios generales del archivo
+    if (this.currentRotationFilter === "all") {
+      return this.effortGeneralStats || {};
+    }
+
+    // Filtrar empleados por turno (case-insensitive)
+    const allEmployees = Object.values(this.effortData.analisis_por_empleado);
+    const filteredEmployees = allEmployees.filter(emp => {
+      const rotation = this.getUserRotation(emp.login);
+      return rotation && rotation.toLowerCase() === this.currentRotationFilter.toLowerCase();
+    });
+
+    console.log(`🔍 Filtrando empleados para turno ${this.currentRotationFilter}: ${filteredEmployees.length} de ${allEmployees.length}`);
+
+    // Si no hay empleados en el turno, usar promedios generales
+    if (filteredEmployees.length === 0) {
+      console.log(`⚠️ No hay empleados en turno ${this.currentRotationFilter}, usando promedios generales`);
+      return this.effortGeneralStats || {};
+    }
+
+    // Calcular promedios filtrados
+    const count = filteredEmployees.length;
+    
+    const avgDistance = filteredEmployees.reduce((sum, emp) => sum + (emp.total_distance || 0), 0) / count;
+    const avgUnitsPerBin = filteredEmployees.reduce((sum, emp) => sum + (emp.promedio_units_por_bin || 0), 0) / count;
+    const avgCartChanges = filteredEmployees.reduce((sum, emp) => sum + (emp.cart_changes || 0), 0) / count;
+    const avgUnitsPerCart = filteredEmployees.reduce((sum, emp) => sum + (emp.promedio_units_por_cart || 0), 0) / count;
+    const avgErrors = filteredEmployees.reduce((sum, emp) => sum + (emp.errores || 0), 0) / count;
+
+    // Calcular promedios de bin types
+    const usoBinTypes = {};
+    filteredEmployees.forEach(emp => {
+      const empBinTypes = emp.uso_bin_types_por_empleado || {};
+      Object.entries(empBinTypes).forEach(([binType, percentage]) => {
+        if (!usoBinTypes[binType]) usoBinTypes[binType] = [];
+        usoBinTypes[binType].push(percentage);
+      });
+    });
+    const avgBinTypes = {};
+    Object.entries(usoBinTypes).forEach(([binType, values]) => {
+      avgBinTypes[binType] = values.reduce((sum, v) => sum + v, 0) / values.length;
+    });
+
+    // Calcular promedios de shelves
+    const usoShelves = {};
+    filteredEmployees.forEach(emp => {
+      const empShelves = emp.uso_shelves_por_empleado || {};
+      Object.entries(empShelves).forEach(([shelf, percentage]) => {
+        if (!usoShelves[shelf]) usoShelves[shelf] = [];
+        usoShelves[shelf].push(percentage);
+      });
+    });
+    const avgShelves = {};
+    Object.entries(usoShelves).forEach(([shelf, values]) => {
+      avgShelves[shelf] = values.reduce((sum, v) => sum + v, 0) / values.length;
+    });
+
+    // Calcular promedios de categorías
+    const categorias = {};
+    filteredEmployees.forEach(emp => {
+      const empCategorias = emp.categorias_procesadas || {};
+      Object.entries(empCategorias).forEach(([cat, data]) => {
+        if (!categorias[cat]) categorias[cat] = [];
+        categorias[cat].push(data.porcentaje_units || 0);
+      });
+    });
+    const avgCategorias = {};
+    Object.entries(categorias).forEach(([cat, values]) => {
+      avgCategorias[cat] = values.reduce((sum, v) => sum + v, 0) / values.length;
+    });
+
+    console.log(`📊 Promedios calculados para turno ${this.currentRotationFilter} (${count} empleados)`);
+
+    return {
+      promedio_distancia_recorrida: avgDistance,
+      promedio_units_por_bin: avgUnitsPerBin,
+      promedio_cambios_carro_por_empleado: avgCartChanges,
+      promedio_units_por_cart: avgUnitsPerCart,
+      promedio_errores_por_empleado: avgErrors,
+      uso_bin_types: avgBinTypes,
+      uso_shelves: avgShelves,
+      resumen_categorias: avgCategorias,
+      _filtered: true,
+      _rotation: this.currentRotationFilter,
+      _employeeCount: count
+    };
+  }
+
+  /**
    * Actualiza las métricas principales del esfuerzo
    * @param {Object} userData - Datos del usuario
    */
@@ -2578,14 +2782,13 @@ class UserActivityController {
       errors: userData.errores || 0,
     };
 
-    // Obtener promedios generales
-    const generalStats = this.effortGeneralStats || {};
-    const avgDistance = generalStats.promedio_distancia_recorrida || 0;
-    const avgUnitsPerBin = generalStats.promedio_units_por_bin || 0;
-    const avgCartChanges =
-      generalStats.promedio_cambios_carro_por_empleado || 0;
-    const avgUnitsPerCart = generalStats.promedio_units_por_cart || 0;
-    const avgErrors = generalStats.promedio_errores_por_empleado || 0;
+    // Obtener promedios filtrados según el turno seleccionado
+    const filteredStats = this.calculateFilteredAverages();
+    const avgDistance = filteredStats.promedio_distancia_recorrida || 0;
+    const avgUnitsPerBin = filteredStats.promedio_units_por_bin || 0;
+    const avgCartChanges = filteredStats.promedio_cambios_carro_por_empleado || 0;
+    const avgUnitsPerCart = filteredStats.promedio_units_por_cart || 0;
+    const avgErrors = filteredStats.promedio_errores_por_empleado || 0;
 
     // Actualizar elementos del DOM con comparaciones
     document.getElementById(
@@ -2710,7 +2913,9 @@ class UserActivityController {
   }
   updateEffortCategories(userData) {
     const userPercentages = userData.porcentajes_categorias || {};
-    const summaryCategories = this.effortSummaryData || [];
+    
+    // Calcular promedios filtrados por turno
+    const filteredAverages = this.calculateFilteredCategoryAverages();
 
     const categories = [
       {
@@ -2738,13 +2943,8 @@ class UserActivityController {
     categories.forEach((category) => {
       const userPercentage = userPercentages[category.key] || 0;
 
-      // Buscar el promedio en resumen_categorias
-      const summaryCategory = summaryCategories.find(
-        (cat) => cat.categoria === category.summaryKey
-      );
-      const averagePercentage = summaryCategory
-        ? summaryCategory.porcentaje_units
-        : 0;
+      // Usar promedios filtrados por turno
+      const averagePercentage = filteredAverages[category.key] || 0;
 
       // Actualizar barra de progreso
       const fillElement = document.getElementById(`category-${category.color}`);
@@ -2783,8 +2983,9 @@ class UserActivityController {
    */
   updateEffortBinTypes(userData) {
     const userBinTypes = userData.uso_bin_types_por_empleado || {};
-    const generalStats = this.effortGeneralStats || {};
-    const generalBinTypes = generalStats.uso_bin_types || {};
+    // Usar promedios filtrados según el turno seleccionado
+    const filteredStats = this.calculateFilteredAverages();
+    const generalBinTypes = filteredStats.uso_bin_types || {};
 
     console.log("🔍 Debug updateEffortBinTypes:");
     console.log("- userBinTypes:", userBinTypes);
@@ -2843,8 +3044,9 @@ class UserActivityController {
    */
   updateEffortShelves(userData) {
     const userShelves = userData.uso_shelves_por_empleado || {};
-    const generalStats = this.effortGeneralStats || {};
-    const generalShelves = generalStats.uso_shelves || {};
+    // Usar promedios filtrados según el turno seleccionado
+    const filteredStats = this.calculateFilteredAverages();
+    const generalShelves = filteredStats.uso_shelves || {};
 
     console.log("🔍 Debug updateEffortShelves:");
     console.log("- userShelves:", userShelves);
