@@ -219,6 +219,7 @@ class UserActivityController {
     await this.loadActivityScopeIcons();
     this.updateCategoryButtons(); // Actualizar botones de categoría según rate actual
     this.updateSortButtons(); // Actualizar botones de ordenamiento según rate actual
+    this.updatePidKpi(); // Actualizar KPI de PID (solo en Receive)
     this.setupEventListeners();
     this.setupHeatmapModalEvents();
     this.updateTable();
@@ -1001,12 +1002,16 @@ class UserActivityController {
       if (rate === "receive") {
         // Cargar datos de Receive
         await this.loadReceiveData();
+        // Actualizar KPI de PID después de cargar datos
+        this.updatePidKpi();
       } else {
         // Cargar datos de Stow
         await this.loadData();
         await this.loadEmployee30minData();
         await this.loadRotationData();
         await this.loadEffortData();
+        // Ocultar KPI de PID en Stow
+        this.updatePidKpi();
       }
 
       // Actualizar tabla
@@ -1026,6 +1031,64 @@ class UserActivityController {
     } finally {
       // Ocultar loader
       this.hideTableLoader();
+    }
+  }
+
+  /**
+   * Actualiza el KPI de la máquina PID (solo visible en Receive)
+   */
+  updatePidKpi() {
+    const pidKpiCard = document.getElementById("pid-kpi-card");
+    if (!pidKpiCard) return;
+
+    // Solo mostrar en Receive
+    if (this.currentRate !== "receive") {
+      pidKpiCard.style.display = "none";
+      return;
+    }
+
+    // Mostrar el KPI
+    pidKpiCard.style.display = "flex";
+
+    // Obtener datos de receive_321_pid según el filtro de turno
+    if (!this.receiveData || !this.receiveData.receive_321_pid) {
+      document.getElementById("pid-case-units").textContent = "--";
+      document.getElementById("pid-each-units").textContent = "--";
+      document.getElementById("pid-upb").textContent = "--";
+      return;
+    }
+
+    // Mapear filtro de rotación a turno del JSON
+    const turnoMap = {
+      "all": "Day",
+      "early": "Early",
+      "late": "Late"
+    };
+    const targetTurno = turnoMap[this.currentRotationFilter] || "Day";
+
+    // Buscar datos para el turno seleccionado
+    const pidData = this.receiveData.receive_321_pid.find(
+      (item) => item.turno === targetTurno
+    );
+
+    if (pidData) {
+      const caseUnits = pidData.job_unit_total || 0;
+      const eachUnits = pidData.each_unit_total || 0;
+      const upb = pidData.unit_box || 0;
+
+      document.getElementById("pid-case-units").textContent = 
+        caseUnits > 0 ? caseUnits.toLocaleString() : "--";
+      document.getElementById("pid-each-units").textContent = 
+        eachUnits > 0 ? eachUnits.toLocaleString() : "--";
+      document.getElementById("pid-upb").textContent = 
+        upb > 0 ? upb.toFixed(2) : "--";
+
+      console.log(`📊 KPI PID actualizado para turno ${targetTurno}:`, pidData);
+    } else {
+      document.getElementById("pid-case-units").textContent = "--";
+      document.getElementById("pid-each-units").textContent = "--";
+      document.getElementById("pid-upb").textContent = "--";
+      console.log(`⚠️ No hay datos de PID para turno ${targetTurno}`);
     }
   }
 
@@ -1295,6 +1358,9 @@ class UserActivityController {
 
     // Actualizar tabla
     this.updateTable();
+
+    // Actualizar KPI de PID (cambia según el turno)
+    this.updatePidKpi();
 
     // Si hay una vista de detalle abierta, actualizar los promedios
     if (this.currentUserLogin && this.isShowingUserDetail) {
