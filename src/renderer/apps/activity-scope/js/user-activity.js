@@ -37,12 +37,25 @@ class UserActivityController {
   
   /**
    * Calcula las fechas para hoy, ayer y anteayer
+   * NOTA: El día operativo cambia a las 04:00 AM, no a las 00:00
+   * Esto porque los scripts de procesamiento se ejecutan ~05:00 AM
    * @returns {Object} Objeto con información de las 3 fechas
    */
   calculateDates() {
     const diasSemana = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
     
-    const today = new Date();
+    // Obtener fecha/hora actual
+    const now = new Date();
+    const currentHour = now.getHours();
+    
+    // Si es antes de las 04:00 AM, considerar que estamos en el día anterior
+    // porque los scripts de procesamiento aún no han corrido
+    const today = new Date(now);
+    if (currentHour < 4) {
+      today.setDate(today.getDate() - 1);
+      console.log(`⏰ Hora actual: ${currentHour}:00 (antes de las 04:00) - Usando día anterior como "Hoy"`);
+    }
+    
     const yesterday = new Date(today);
     yesterday.setDate(yesterday.getDate() - 1);
     const beforeYesterday = new Date(today);
@@ -82,13 +95,22 @@ class UserActivityController {
 
   /**
    * Genera la fecha actual en formato DDMMYYYY
+   * NOTA: El día operativo cambia a las 04:00 AM, no a las 00:00
    * @returns {string} Fecha en formato DDMMYYYY
    */
   getCurrentDateString() {
     const now = new Date();
-    const day = String(now.getDate()).padStart(2, "0");
-    const month = String(now.getMonth() + 1).padStart(2, "0");
-    const year = now.getFullYear();
+    const currentHour = now.getHours();
+    
+    // Si es antes de las 04:00 AM, usar el día anterior
+    const effectiveDate = new Date(now);
+    if (currentHour < 4) {
+      effectiveDate.setDate(effectiveDate.getDate() - 1);
+    }
+    
+    const day = String(effectiveDate.getDate()).padStart(2, "0");
+    const month = String(effectiveDate.getMonth() + 1).padStart(2, "0");
+    const year = effectiveDate.getFullYear();
     return `${day}${month}${year}`;
   }
 
