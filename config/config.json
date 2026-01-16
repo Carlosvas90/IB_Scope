@@ -19,6 +19,8 @@
     "\\\\ant\\dept-eu\\VLC1\\Public\\Apps_Tools\\chuecc\\IB_Scope\\Data\\Assets\\User_maps\\",
     "C:\\Users\\carlo\\Downloads\\0-Proyecto_IB_Scope\\Analisis\\Data\\Assets\\User_maps\\"
   ],
+  "midway_cookie_path": "\\\\ant\\dept-eu\\VLC1\\Public\\Apps_Tools\\chuecc\\IB_Scope\\Data\\Config\\MDW\\cookie",
+  "midway_expiration_hours": 10,
   "preferred_theme": "light",
   "auto_refresh": 60,
   "app_name": "Inbound Scope",

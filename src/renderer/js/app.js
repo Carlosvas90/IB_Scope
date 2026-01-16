@@ -40,6 +40,9 @@ class InboundScope {
       // Configurar eventos globales
       this.setupGlobalEvents();
 
+      // Verificar cookie de Midway al inicio
+      this.checkMidwayCookie();
+
       // Marcar como inicializado
       this.isInitialized = true;
 
@@ -52,6 +55,62 @@ class InboundScope {
         error.message
       );
       return false;
+    }
+  }
+
+  /**
+   * Verifica la cookie de Midway y la renueva si es necesario
+   */
+  async checkMidwayCookie() {
+    try {
+      // Verificar que el servicio esté disponible
+      if (!window.MidwayService) {
+        console.warn("[App] MidwayService no disponible");
+        return;
+      }
+
+      console.log("[Midway] 🔐 Verificando cookie de Midway...");
+      
+      const result = await window.MidwayService.ensureValidCookie();
+      
+      if (result.success) {
+        const timeRemaining = window.MidwayService.formatTimeRemaining(result.hoursRemaining);
+        console.log(`[Midway] ✅ Cookie válida (${timeRemaining} restantes)`);
+        
+        if (result.action === "copied") {
+          window.showToast("Cookie de Midway actualizada en el servidor", "success");
+        }
+      } else if (result.needsAuth) {
+        console.log("[Midway] ⚠️ Se requiere autenticación con Midway");
+        
+        // Mostrar notificación al usuario
+        window.showToast("Se requiere autenticación con Midway. Se abrirá una ventana...", "info");
+        
+        // Ejecutar autenticación
+        const authResult = await window.MidwayService.authenticate();
+        
+        if (authResult.success) {
+          console.log("[Midway] ✅ Autenticación completada");
+          
+          // Copiar cookie al servidor
+          const copyResult = await window.MidwayService.copyToRemote();
+          
+          if (copyResult.success) {
+            window.showToast("Midway autenticado correctamente", "success");
+            console.log("[Midway] ✅ Cookie copiada al servidor");
+          } else {
+            console.error("[Midway] ❌ Error copiando cookie:", copyResult.error);
+            window.showToast("Error al sincronizar cookie de Midway", "error");
+          }
+        } else {
+          console.error("[Midway] ❌ Error en autenticación:", authResult.error);
+          window.showToast("Error en autenticación de Midway", "error");
+        }
+      } else {
+        console.error("[Midway] ❌ Error verificando cookie:", result.error);
+      }
+    } catch (error) {
+      console.error("[Midway] Error en checkMidwayCookie:", error);
     }
   }
 

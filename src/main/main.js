@@ -10,6 +10,7 @@ const configHandler = require("./handlers/config");
 const filesHandler = require("./handlers/files");
 const updateHandler = require("./handlers/update");
 const updateService = require("./services/updateService");
+const midwayHandler = require("./handlers/midway");
 
 // Cargar better-sqlite3 al inicio
 let Database;

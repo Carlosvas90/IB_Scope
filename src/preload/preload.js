@@ -325,6 +325,38 @@ contextBridge.exposeInMainWorld("api", {
         : "Error al guardar permisos en todas las rutas",
     };
   },
+
+  // --- Midway Cookie Management ---
+  /**
+   * Valida si la cookie de Midway en el servidor remoto es válida.
+   * @returns {Promise<object>} { valid, needsRefresh, hoursRemaining, message }
+   */
+  midwayValidateRemote: () => ipcRenderer.invoke("midway:validate-remote"),
+
+  /**
+   * Valida si la cookie local de Midway es válida.
+   * @returns {Promise<object>} { valid, needsRefresh, hoursRemaining, message }
+   */
+  midwayValidateLocal: () => ipcRenderer.invoke("midway:validate-local"),
+
+  /**
+   * Copia la cookie local de Midway al servidor remoto.
+   * @returns {Promise<object>} { success, error }
+   */
+  midwayCopyToRemote: () => ipcRenderer.invoke("midway:copy-to-remote"),
+
+  /**
+   * Inicia el proceso de autenticación con Midway (abre ventana CMD).
+   * @returns {Promise<object>} { success, message, hoursRemaining }
+   */
+  midwayAuthenticate: () => ipcRenderer.invoke("midway:authenticate"),
+
+  /**
+   * Flujo completo: valida cookie remota, si es inválida verifica local,
+   * si es válida la copia, si no requiere autenticación.
+   * @returns {Promise<object>} { success, action, message, needsAuth, hoursRemaining }
+   */
+  midwayEnsureValid: () => ipcRenderer.invoke("midway:ensure-valid"),
 });
 
 // -------------------------------------------------------------

@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const zlib = require("zlib");
+const os = require("os");
 const { dialog, app } = require("electron");
 
 class FileSystemService {
@@ -104,6 +105,205 @@ class FileSystemService {
       console.error("Error al leer el archivo absoluto:", error);
       return { success: false, error: error.message };
     }
+  }
+
+  // ============================================
+  // FUNCIONES PARA MANEJO DE COOKIES DE MIDWAY
+  // ============================================
+
+  /**
+   * Obtiene la ruta local de la cookie de Midway
+   * @returns {string} Ruta al archivo cookie de Midway
+   */
+  getLocalMidwayCookiePath() {
+    return path.join(os.homedir(), ".midway", "cookie");
+  }
+
+  /**
+   * Lee y parsea la cookie de Midway para obtener información de expiración
+   * @param {string} cookiePath - Ruta al archivo de cookie
+   * @returns {object} { success, exists, expired, expiresAt, hoursUntilExpiry, error }
+   */
+  parseMidwayCookie(cookiePath) {
+    try {
+      const normalizedPath = path.normalize(cookiePath);
+      
+      if (!fs.existsSync(normalizedPath)) {
+        return { 
+          success: true, 
+          exists: false, 
+          expired: true,
+          message: "Cookie no encontrada"
+        };
+      }
+
+      const cookieContent = fs.readFileSync(normalizedPath, "utf-8");
+      const lines = cookieContent.split("\n");
+      
+      // La cookie de Midway tiene el timestamp de expiración en la línea 4+ 
+      // Formato: domain\tflag\tpath\tsecure\texpiration\tname\tvalue
+      // 
+      // Tokens importantes:
+      // - tpm_metrics: Token principal de Midway (~20h)
+      // - session / __Host-session: Token de sesión (~20h)
+      // - amazon_enterprise_access: Token de corta duración (~2h) - NO USAR
+      // - user_name: Token de muy larga duración (~1 año) - NO USAR
+      //
+      // Usamos el token de sesión (session o tpm_metrics) para determinar validez
+      
+      const now = Math.floor(Date.now() / 1000); // Timestamp actual en segundos
+      let sessionExpiration = null;
+      let tpmExpiration = null;
+      let fallbackExpiration = null;
+
+      // Tokens a buscar por prioridad
+      const priorityTokens = ['session', '__host-session', 'tpm_metrics'];
+      const skipTokens = ['amazon_enterprise_access', 'user_name']; // Tokens a ignorar
+
+      for (let i = 4; i < lines.length; i++) {
+        const parts = lines[i].split("\t");
+        if (parts.length >= 6) {
+          const expiration = parseInt(parts[4], 10);
+          const tokenName = (parts[5] || '').toLowerCase();
+          
+          if (isNaN(expiration) || expiration <= 0) continue;
+          
+          // Buscar tokens prioritarios
+          if (tokenName === 'session' || tokenName === '__host-session') {
+            sessionExpiration = expiration;
+          } else if (tokenName === 'tpm_metrics') {
+            tpmExpiration = expiration;
+          } else if (!skipTokens.includes(tokenName)) {
+            // Guardar como fallback si no es un token a ignorar
+            if (!fallbackExpiration || expiration > fallbackExpiration) {
+              fallbackExpiration = expiration;
+            }
+          }
+        }
+      }
+
+      // Usar en orden de prioridad: session > tpm_metrics > fallback
+      const relevantExpiration = sessionExpiration || tpmExpiration || fallbackExpiration;
+
+      if (!relevantExpiration) {
+        return { 
+          success: true, 
+          exists: true, 
+          expired: true,
+          message: "No se encontró token de sesión válido en la cookie"
+        };
+      }
+
+      const expiresAt = new Date(relevantExpiration * 1000);
+      const hoursUntilExpiry = (relevantExpiration - now) / 3600;
+
+      console.log(`[FileSystem] Cookie parseada: sesión expira en ${hoursUntilExpiry.toFixed(2)}h (${expiresAt.toISOString()})`);
+
+      return {
+        success: true,
+        exists: true,
+        expired: hoursUntilExpiry <= 0,
+        expiresAt: expiresAt.toISOString(),
+        hoursUntilExpiry: Math.max(0, hoursUntilExpiry),
+        timestamp: relevantExpiration,
+        tokenUsed: sessionExpiration ? 'session' : (tpmExpiration ? 'tpm_metrics' : 'fallback')
+      };
+    } catch (error) {
+      console.error("[FileSystem] Error parseando cookie de Midway:", error);
+      return { success: false, error: error.message };
+    }
+  }
+
+  /**
+   * Valida si la cookie de Midway en una ruta específica es válida
+   * @param {string} cookiePath - Ruta al archivo de cookie
+   * @param {number} minHoursValid - Horas mínimas que debe quedar válida (default: 10)
+   * @returns {object} { valid, needsRefresh, hoursRemaining, message }
+   */
+  validateMidwayCookie(cookiePath, minHoursValid = 10) {
+    const parsed = this.parseMidwayCookie(cookiePath);
+    
+    if (!parsed.success) {
+      return { valid: false, needsRefresh: true, message: parsed.error };
+    }
+
+    if (!parsed.exists) {
+      return { valid: false, needsRefresh: true, message: "Cookie no existe" };
+    }
+
+    if (parsed.expired) {
+      return { valid: false, needsRefresh: true, message: "Cookie expirada" };
+    }
+
+    if (parsed.hoursUntilExpiry < minHoursValid) {
+      return { 
+        valid: false, 
+        needsRefresh: true, 
+        hoursRemaining: parsed.hoursUntilExpiry,
+        message: `Cookie expira en ${parsed.hoursUntilExpiry.toFixed(1)} horas (mínimo ${minHoursValid}h requeridas)`
+      };
+    }
+
+    return { 
+      valid: true, 
+      needsRefresh: false, 
+      hoursRemaining: parsed.hoursUntilExpiry,
+      expiresAt: parsed.expiresAt,
+      message: `Cookie válida por ${parsed.hoursUntilExpiry.toFixed(1)} horas más`
+    };
+  }
+
+  /**
+   * Copia un archivo de una ruta a otra
+   * @param {string} sourcePath - Ruta del archivo origen
+   * @param {string} destPath - Ruta del archivo destino
+   * @returns {object} { success, error }
+   */
+  copyFile(sourcePath, destPath) {
+    try {
+      const normalizedSource = path.normalize(sourcePath);
+      const normalizedDest = path.normalize(destPath);
+
+      if (!fs.existsSync(normalizedSource)) {
+        return { success: false, error: `Archivo origen no encontrado: ${normalizedSource}` };
+      }
+
+      // Crear directorio destino si no existe
+      const destDir = path.dirname(normalizedDest);
+      if (!fs.existsSync(destDir)) {
+        fs.mkdirSync(destDir, { recursive: true });
+      }
+
+      // Copiar el archivo
+      fs.copyFileSync(normalizedSource, normalizedDest);
+      console.log(`[FileSystem] Cookie copiada de ${normalizedSource} a ${normalizedDest}`);
+      
+      return { success: true, message: "Archivo copiado correctamente" };
+    } catch (error) {
+      console.error("[FileSystem] Error copiando archivo:", error);
+      return { success: false, error: error.message };
+    }
+  }
+
+  /**
+   * Copia la cookie local de Midway a una ubicación remota
+   * @param {string} destPath - Ruta destino para la cookie
+   * @returns {object} { success, error }
+   */
+  copyMidwayCookieToRemote(destPath) {
+    const localCookiePath = this.getLocalMidwayCookiePath();
+    
+    // Primero validar que la cookie local existe y es válida
+    const localValidation = this.validateMidwayCookie(localCookiePath, 0);
+    
+    if (!localValidation.valid && !localValidation.hoursRemaining) {
+      return { 
+        success: false, 
+        error: "No hay cookie local válida para copiar. Ejecuta mwinit primero." 
+      };
+    }
+
+    return this.copyFile(localCookiePath, destPath);
   }
 }
 
