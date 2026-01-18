@@ -77,11 +77,17 @@ class InboundScope {
         const timeRemaining = window.MidwayService.formatTimeRemaining(result.hoursRemaining);
         console.log(`[Midway] ✅ Cookie válida (${timeRemaining} restantes)`);
         
+        // Notificar al indicador del sidebar
+        this.dispatchMidwayEvent(result.hoursRemaining);
+        
         if (result.action === "copied") {
           window.showToast("Cookie de Midway actualizada en el servidor", "success");
         }
       } else if (result.needsAuth) {
         console.log("[Midway] ⚠️ Se requiere autenticación con Midway");
+        
+        // Notificar estado expirado
+        this.dispatchMidwayEvent(0);
         
         // Mostrar notificación al usuario
         window.showToast("Se requiere autenticación con Midway. Se abrirá una ventana...", "info");
@@ -98,6 +104,10 @@ class InboundScope {
           if (copyResult.success) {
             window.showToast("Midway autenticado correctamente", "success");
             console.log("[Midway] ✅ Cookie copiada al servidor");
+            
+            // Obtener tiempo restante actualizado
+            const validation = await window.MidwayService.validateRemoteCookie();
+            this.dispatchMidwayEvent(validation.hoursRemaining || authResult.hoursRemaining);
           } else {
             console.error("[Midway] ❌ Error copiando cookie:", copyResult.error);
             window.showToast("Error al sincronizar cookie de Midway", "error");
@@ -108,10 +118,20 @@ class InboundScope {
         }
       } else {
         console.error("[Midway] ❌ Error verificando cookie:", result.error);
+        this.dispatchMidwayEvent(0);
       }
     } catch (error) {
       console.error("[Midway] Error en checkMidwayCookie:", error);
     }
+  }
+
+  /**
+   * Dispara evento para actualizar el indicador de Midway en el sidebar
+   */
+  dispatchMidwayEvent(hoursRemaining) {
+    window.dispatchEvent(new CustomEvent('midwayValidated', {
+      detail: { hoursRemaining }
+    }));
   }
 
   /**

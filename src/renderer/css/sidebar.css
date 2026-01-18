@@ -124,6 +124,116 @@
   margin-top: auto;
 }
 
+/* ===== MIDWAY STATUS ===== */
+.midway-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: var(--spacing-sm);
+  padding: 6px 10px;
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-xs);
+  color: var(--text-color-one);
+}
+
+.midway-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background-color 0.3s ease;
+}
+
+.midway-indicator.status-ok {
+  background-color: #22c55e;
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.5);
+}
+
+.midway-indicator.status-warning {
+  background-color: #f59e0b;
+  box-shadow: 0 0 6px rgba(245, 158, 11, 0.5);
+  animation: pulse-warning 2s ease-in-out infinite;
+}
+
+.midway-indicator.status-critical {
+  background-color: #ef4444;
+  box-shadow: 0 0 6px rgba(239, 68, 68, 0.5);
+  animation: pulse-critical 1s ease-in-out infinite;
+}
+
+.midway-indicator.status-expired {
+  background-color: #6b7280;
+}
+
+@keyframes pulse-warning {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes pulse-critical {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.1); }
+}
+
+.midway-time {
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-weight: 500;
+  min-width: 45px;
+}
+
+.midway-time.expired {
+  color: #ef4444;
+}
+
+.midway-refresh-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: none;
+  background-color: var(--Cambio_Tema);
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  color: var(--text-color-one);
+}
+
+.midway-refresh-btn:hover {
+  background-color: var(--Cambio_Tema_hover);
+  transform: scale(1.1);
+}
+
+.midway-refresh-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.midway-refresh-btn.refreshing svg {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.midway-refresh-btn svg {
+  width: 12px;
+  height: 12px;
+}
+
+.midway-label {
+  font-size: 10px;
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 /* Navegación principal */
 .sidebar-nav {
   flex: 1;

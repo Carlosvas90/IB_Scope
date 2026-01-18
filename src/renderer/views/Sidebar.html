@@ -254,6 +254,18 @@
           </div>
 
           <div class="username" id="username">Usuario: Cargando...</div>
+          
+          <!-- Indicador de Midway -->
+          <div class="midway-status" id="midway-status" title="Tiempo restante de sesión Midway">
+            <span class="midway-label">MDW</span>
+            <div class="midway-indicator status-ok" id="midway-indicator"></div>
+            <span class="midway-time" id="midway-time">--:--</span>
+            <button class="midway-refresh-btn" id="midway-refresh" title="Generar nueva cookie (mwinit)">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -597,6 +609,225 @@
         const themeToggle = document.getElementById("theme-toggle");
         if (themeToggle) {
           themeToggle.addEventListener("click", toggleTheme);
+        }
+      });
+    </script>
+    
+    <!-- Script para gestión de Midway en Sidebar -->
+    <script>
+      // ===== MIDWAY STATUS MANAGER =====
+      class MidwayStatusManager {
+        constructor() {
+          this.hoursRemaining = null;
+          this.updateInterval = null;
+          this.elements = {
+            indicator: null,
+            time: null,
+            refreshBtn: null,
+            status: null
+          };
+        }
+
+        init() {
+          this.elements.indicator = document.getElementById('midway-indicator');
+          this.elements.time = document.getElementById('midway-time');
+          this.elements.refreshBtn = document.getElementById('midway-refresh');
+          this.elements.status = document.getElementById('midway-status');
+
+          if (!this.elements.indicator || !this.elements.time) {
+            console.warn('[MidwayStatus] Elementos no encontrados');
+            return;
+          }
+
+          // Configurar botón de renovación
+          if (this.elements.refreshBtn) {
+            this.elements.refreshBtn.addEventListener('click', () => this.handleRefresh());
+          }
+
+          // Inicializar con la última validación si existe
+          this.checkAndUpdate();
+
+          // Actualizar cada minuto
+          this.updateInterval = setInterval(() => {
+            this.decrementTime();
+          }, 60000); // 1 minuto
+
+          console.log('[MidwayStatus] Inicializado');
+        }
+
+        async checkAndUpdate() {
+          if (!window.MidwayService) {
+            console.warn('[MidwayStatus] MidwayService no disponible');
+            this.updateUI(null);
+            return;
+          }
+
+          try {
+            // Intentar obtener la última validación del servicio
+            const lastValidation = window.MidwayService.getLastValidation();
+            
+            if (lastValidation && lastValidation.hoursRemaining !== undefined) {
+              // Ajustar por tiempo transcurrido desde la validación
+              const elapsedMs = Date.now() - (lastValidation.timestamp || Date.now());
+              const elapsedHours = elapsedMs / (1000 * 60 * 60);
+              this.hoursRemaining = Math.max(0, lastValidation.hoursRemaining - elapsedHours);
+            } else {
+              // Hacer una validación fresca
+              const result = await window.MidwayService.validateRemoteCookie();
+              this.hoursRemaining = result.hoursRemaining || 0;
+            }
+
+            this.updateUI(this.hoursRemaining);
+          } catch (error) {
+            console.error('[MidwayStatus] Error verificando:', error);
+            this.updateUI(null);
+          }
+        }
+
+        decrementTime() {
+          if (this.hoursRemaining !== null && this.hoursRemaining > 0) {
+            this.hoursRemaining -= (1 / 60); // Restar 1 minuto
+            this.updateUI(this.hoursRemaining);
+          }
+        }
+
+        updateUI(hours) {
+          if (!this.elements.indicator || !this.elements.time) return;
+
+          const indicator = this.elements.indicator;
+          const timeEl = this.elements.time;
+
+          // Limpiar clases de estado
+          indicator.classList.remove('status-ok', 'status-warning', 'status-critical', 'status-expired');
+          timeEl.classList.remove('expired');
+
+          if (hours === null || hours === undefined) {
+            // Estado desconocido
+            indicator.classList.add('status-expired');
+            timeEl.textContent = '--:--';
+            return;
+          }
+
+          // Formatear tiempo
+          if (hours <= 0) {
+            indicator.classList.add('status-expired');
+            timeEl.classList.add('expired');
+            timeEl.textContent = 'Exp.';
+          } else {
+            timeEl.textContent = this.formatTime(hours);
+            
+            // Determinar estado por color
+            if (hours <= 2) {
+              indicator.classList.add('status-critical');
+            } else if (hours <= 5) {
+              indicator.classList.add('status-warning');
+            } else {
+              indicator.classList.add('status-ok');
+            }
+          }
+        }
+
+        formatTime(hours) {
+          if (hours <= 0) return 'Exp.';
+          
+          const h = Math.floor(hours);
+          const m = Math.round((hours - h) * 60);
+          
+          return `${h}h${m.toString().padStart(2, '0')}`;
+        }
+
+        async handleRefresh() {
+          if (!window.MidwayService) {
+            console.warn('[MidwayStatus] MidwayService no disponible');
+            return;
+          }
+
+          const btn = this.elements.refreshBtn;
+          if (btn.disabled) return;
+
+          btn.disabled = true;
+          btn.classList.add('refreshing');
+
+          try {
+            console.log('[MidwayStatus] 🔐 Generando nueva cookie con mwinit...');
+            
+            if (window.showToast) {
+              window.showToast('Abriendo mwinit para generar nueva cookie...', 'info');
+            }
+            
+            // SIEMPRE ejecutar mwinit para generar nueva cookie
+            const authResult = await window.MidwayService.authenticate();
+            
+            if (authResult.success) {
+              console.log('[MidwayStatus] ✅ Autenticación completada');
+              
+              // Copiar la nueva cookie al servidor
+              const copyResult = await window.MidwayService.copyToRemote();
+              
+              if (copyResult.success) {
+                console.log('[MidwayStatus] ✅ Cookie copiada al servidor');
+                
+                // Obtener tiempo restante actualizado
+                const validation = await window.MidwayService.validateRemoteCookie();
+                this.hoursRemaining = validation.hoursRemaining || authResult.hoursRemaining;
+                this.updateUI(this.hoursRemaining);
+                
+                console.log('[MidwayStatus] ✅ Nueva cookie:', this.hoursRemaining, 'horas');
+                
+                if (window.showToast) {
+                  window.showToast(`Nueva cookie generada: ${this.formatTime(this.hoursRemaining)} restantes`, 'success');
+                }
+              } else {
+                console.error('[MidwayStatus] Error copiando cookie:', copyResult.error);
+                if (window.showToast) {
+                  window.showToast('Error al copiar cookie al servidor', 'error');
+                }
+              }
+            } else {
+              console.error('[MidwayStatus] Error en autenticación:', authResult.error);
+              if (window.showToast) {
+                window.showToast('Error en autenticación con mwinit', 'error');
+              }
+            }
+          } catch (error) {
+            console.error('[MidwayStatus] Error:', error);
+            if (window.showToast) {
+              window.showToast('Error al renovar cookie', 'error');
+            }
+          } finally {
+            btn.disabled = false;
+            btn.classList.remove('refreshing');
+          }
+        }
+
+        // Método para actualizar desde afuera (ej: después de validación en app.js)
+        setHoursRemaining(hours) {
+          this.hoursRemaining = hours;
+          this.updateUI(hours);
+        }
+
+        destroy() {
+          if (this.updateInterval) {
+            clearInterval(this.updateInterval);
+          }
+        }
+      }
+
+      // Crear instancia global
+      window.midwayStatusManager = new MidwayStatusManager();
+
+      // Inicializar cuando el DOM esté listo
+      document.addEventListener('DOMContentLoaded', () => {
+        // Esperar un poco para que MidwayService se cargue
+        setTimeout(() => {
+          window.midwayStatusManager.init();
+        }, 500);
+      });
+
+      // Escuchar evento de validación completada para actualizar el indicador
+      window.addEventListener('midwayValidated', (event) => {
+        if (event.detail && event.detail.hoursRemaining !== undefined) {
+          window.midwayStatusManager.setHoursRemaining(event.detail.hoursRemaining);
         }
       });
     </script>
