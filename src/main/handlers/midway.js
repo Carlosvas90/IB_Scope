@@ -66,7 +66,21 @@ class MidwayHandler {
         console.log("[MidwayHandler] Ejecutando mwinit para autenticación...");
         
         const localCookiePath = fileSystemService.getLocalMidwayCookiePath();
-        const cookieDir = path.dirname(localCookiePath);
+        const fs = require("fs");
+        
+        // Obtener fecha de modificación ANTES de ejecutar mwinit
+        let originalMtime = null;
+        try {
+          if (fs.existsSync(localCookiePath)) {
+            const stats = fs.statSync(localCookiePath);
+            originalMtime = stats.mtime.getTime();
+            console.log("[MidwayHandler] Fecha original de cookie:", new Date(originalMtime).toISOString());
+          } else {
+            console.log("[MidwayHandler] No existe cookie previa, esperando nueva...");
+          }
+        } catch (err) {
+          console.log("[MidwayHandler] Error leyendo cookie previa:", err.message);
+        }
         
         // Comando mwinit con flags
         const mwinitCmd = "mwinit -o";
@@ -86,24 +100,47 @@ class MidwayHandler {
           
           child.unref();
           
-          // Monitorear la creación del archivo de cookie
+          // Monitorear cambios en el archivo de cookie
           let checkCount = 0;
           const maxChecks = 300; // 5 minutos máximo (300 * 1000ms)
           
           const checkCookie = setInterval(() => {
             checkCount++;
             
-            const validation = fileSystemService.validateMidwayCookie(localCookiePath, 0);
+            try {
+              // Verificar si el archivo existe y ha sido modificado
+              if (fs.existsSync(localCookiePath)) {
+                const stats = fs.statSync(localCookiePath);
+                const currentMtime = stats.mtime.getTime();
+                
+                // Solo considerar éxito si:
+                // 1. No había archivo antes y ahora sí, O
+                // 2. El archivo fue modificado después de iniciar mwinit
+                const isNewOrModified = originalMtime === null || currentMtime > originalMtime;
+                
+                if (isNewOrModified) {
+                  // Validar que la nueva cookie sea válida
+                  const validation = fileSystemService.validateMidwayCookie(localCookiePath, 0);
+                  
+                  if (validation.hoursRemaining > 10) { // Nueva cookie debería tener ~20h
+                    clearInterval(checkCookie);
+                    console.log("[MidwayHandler] ✓ Nueva cookie detectada");
+                    console.log("[MidwayHandler] Fecha nueva:", new Date(currentMtime).toISOString());
+                    console.log("[MidwayHandler] Horas restantes:", validation.hoursRemaining.toFixed(2));
+                    resolve({ 
+                      success: true, 
+                      message: "Autenticación completada",
+                      hoursRemaining: validation.hoursRemaining
+                    });
+                    return;
+                  }
+                }
+              }
+            } catch (err) {
+              // Ignorar errores de lectura, seguir intentando
+            }
             
-            if (validation.valid || validation.hoursRemaining > 0) {
-              clearInterval(checkCookie);
-              console.log("[MidwayHandler] ✓ Autenticación completada");
-              resolve({ 
-                success: true, 
-                message: "Autenticación completada",
-                hoursRemaining: validation.hoursRemaining
-              });
-            } else if (checkCount >= maxChecks) {
+            if (checkCount >= maxChecks) {
               clearInterval(checkCookie);
               console.log("[MidwayHandler] ✗ Timeout esperando autenticación");
               resolve({ 
