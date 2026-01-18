@@ -40,13 +40,18 @@ class InboundScope {
       // Configurar eventos globales
       this.setupGlobalEvents();
 
-      // Verificar cookie de Midway al inicio
-      this.checkMidwayCookie();
-
       // Marcar como inicializado
       this.isInitialized = true;
 
       console.log("Inbound Scope inicializado correctamente");
+      
+      // Verificar cookie de Midway DESPUÉS de que la app esté completamente cargada
+      // Esperamos 2 segundos para que la UI esté lista y el usuario vea la app
+      setTimeout(() => {
+        console.log("[Midway] Iniciando verificación diferida...");
+        this.checkMidwayCookie();
+      }, 2000);
+      
       return true;
     } catch (error) {
       console.error("Error al inicializar la aplicación:", error);

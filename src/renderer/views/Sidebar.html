@@ -772,6 +772,11 @@
                 this.hoursRemaining = validation.hoursRemaining || authResult.hoursRemaining;
                 this.updateUI(this.hoursRemaining);
                 
+                // Disparar evento para sincronizar con otras partes de la app
+                window.dispatchEvent(new CustomEvent('midwayValidated', {
+                  detail: { hoursRemaining: this.hoursRemaining }
+                }));
+                
                 console.log('[MidwayStatus] ✅ Nueva cookie:', this.hoursRemaining, 'horas');
                 
                 if (window.showToast) {
@@ -827,8 +832,20 @@
       // Escuchar evento de validación completada para actualizar el indicador
       window.addEventListener('midwayValidated', (event) => {
         if (event.detail && event.detail.hoursRemaining !== undefined) {
+          console.log('[MidwayStatus] 📡 Evento recibido, actualizando contador:', event.detail.hoursRemaining);
           window.midwayStatusManager.setHoursRemaining(event.detail.hoursRemaining);
         }
+      });
+      
+      // También escuchar cuando la app está completamente lista
+      window.addEventListener('load', () => {
+        // Dar tiempo para que todo esté inicializado
+        setTimeout(() => {
+          if (window.midwayStatusManager && !window.midwayStatusManager.hoursRemaining) {
+            console.log('[MidwayStatus] Verificación inicial diferida...');
+            window.midwayStatusManager.checkAndUpdate();
+          }
+        }, 2500);
       });
     </script>
   </body>
