@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rotation Tool - Gestión de Rotaciones</title>
+    <!-- CSS se carga dinámicamente por el router -->
+  </head>
+  <body>
+    <div class="rotation-tool-container">
+      <!-- Header -->
+      <header class="app-header-card">
+        <h1>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            style="
+              display: inline-flex;
+              align-items: center;
+              vertical-align: middle;
+              margin-right: 8px;
+            "
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          Rotation Tool
+        </h1>
+      </header>
+
+      <!-- Contenido principal -->
+      <div class="rotation-tool-content">
+        <div class="welcome-card">
+          <h2>Bienvenido a Rotation Tool</h2>
+          <p>Herramienta para gestionar rotaciones de personal.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="js/rotation-tool.js"></script>
+  </body>
+</html>

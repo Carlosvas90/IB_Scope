@@ -11,6 +11,7 @@ class PizarraController {
     this.userDataPath = null; // Solo para archivos temporales del usuario
     this.sharedDataPath = null; // Ruta compartida desde data_paths
     this.dataPaths = null; // Array de rutas compartidas
+    this.analyticsPaths = null; // Rutas de Analytics para obtener rates reales
     this.puestosData = null;
     this.skillmatrixData = null;
     this.pizarraActual = null;
@@ -25,6 +26,7 @@ class PizarraController {
     this.saveTimeout = null; // Para debounce del guardado
     this.pendingSave = false; // Flag para indicar si hay guardado pendiente
     this.procesoActualDetalle = null; // Proceso actual en modal de detalle
+    this.userRatesCache = {}; // Cache de rates de usuarios para evitar múltiples lecturas
 
     // Configurar listeners del EventBus
     this.configurarEventListeners();
@@ -37,8 +39,8 @@ class PizarraController {
    */
   configurarEventListeners() {
     // Escuchar eventos de actualización del dashboard
-    this.eventBus.subscribe(PIZARRA_EVENTS.PIZARRA_ACTUALIZADA, () => {
-      this.actualizarDashboard();
+    this.eventBus.subscribe(PIZARRA_EVENTS.PIZARRA_ACTUALIZADA, async () => {
+      await this.actualizarDashboard();
     });
 
     // Escuchar eventos de datos guardados
@@ -111,6 +113,15 @@ class PizarraController {
         console.log("📁 Shared Data Path (Data_Flow):", this.sharedDataPath);
       }
 
+      // Cargar analytics_paths para obtener rates reales
+      if (config && config.analytics_paths && Array.isArray(config.analytics_paths)) {
+        this.analyticsPaths = config.analytics_paths;
+        console.log("📁 Analytics Paths cargados:", this.analyticsPaths);
+      } else {
+        console.warn("⚠️ No se encontraron analytics_paths en config");
+        this.analyticsPaths = [];
+      }
+
       // Cargar datos
       await this.cargarDatos();
 
@@ -122,7 +133,7 @@ class PizarraController {
       this.configurarInputs();
 
       // Actualizar dashboard
-      this.actualizarDashboard();
+      await this.actualizarDashboard();
 
       // Actualizar estado del archivo
       await this.updateFileStatus();
@@ -175,8 +186,8 @@ class PizarraController {
 
       try {
         const result = await window.api.readJson(filePath);
-        if (result.success) {
-          console.log(`✅ Archivo encontrado en: ${filePath}`);
+        if (result.success && result.data) {
+          console.log(`✅ [Pizarra] Archivo encontrado en: ${filePath}`);
           return {
             path: filePath,
             data: result.data,
@@ -184,8 +195,8 @@ class PizarraController {
           };
         } else {
           console.log(
-            `⚠️ Archivo no encontrado o error en: ${filePath}`,
-            result.error
+            `⚠️ [Pizarra] Archivo sin datos en: ${filePath}`,
+            result.error || 'Sin datos'
           );
         }
       } catch (error) {
@@ -196,7 +207,8 @@ class PizarraController {
     }
 
     console.warn(
-      `❌ No se pudo encontrar ${archivo} en ninguna ruta compartida`
+      `❌ [Pizarra] No se pudo encontrar ${archivo} en ninguna ruta compartida. Rutas intentadas:`,
+      this.dataPaths
     );
     return null;
   }
@@ -414,6 +426,7 @@ class PizarraController {
 
   /**
    * Helper: Verifica si un usuario tiene skill para un puesto
+   * Ahora también verifica requisitos (módulos) si el puesto los requiere
    * Estructura optimizada: solo guarda true, false es implícito
    */
   tieneSkill(login, puestoId) {
@@ -424,9 +437,70 @@ class PizarraController {
     if (!usuario || !usuario.puestos) {
       return false;
     }
-    // Si el puesto está en la lista, tiene skill (true)
-    // Si no está, no tiene skill (false implícito)
+
+    // Obtener información del puesto
+    const puesto = this.obtenerPuestoPorId(puestoId);
+    if (!puesto) {
+      // Si no existe el puesto, verificar solo si tiene el skill directo
+      return usuario.puestos[puestoId] === true;
+    }
+
+    // Si el puesto tiene requisitos, verificar que el usuario tenga TODOS los módulos requeridos
+    if (puesto.requisitos && Array.isArray(puesto.requisitos) && puesto.requisitos.length > 0) {
+      // Verificar que el usuario tenga todos los requisitos
+      const tieneTodosRequisitos = puesto.requisitos.every((requisito) => {
+        // Primero, buscar el requisito como puesto (por id, nombre o función)
+        const requisitoPuesto = this.buscarPuestoPorNombre(requisito);
+        if (requisitoPuesto) {
+          return usuario.puestos[requisitoPuesto.id] === true;
+        }
+        
+        // Si no se encuentra como puesto, buscar directamente por nombre/id en los puestos del usuario
+        // Esto permite que los requisitos sean módulos que no necesariamente están en puestos.json
+        // Buscar por id normalizado
+        const idNormalizado = requisito.toLowerCase().replace(/\s+/g, "-");
+        if (usuario.puestos[idNormalizado] === true) {
+          return true;
+        }
+        
+        // Buscar por nombre exacto (case-insensitive)
+        const tienePorNombre = Object.keys(usuario.puestos).some((puestoId) => {
+          const puestoUsuario = this.obtenerPuestoPorId(puestoId);
+          if (puestoUsuario) {
+            return puestoUsuario.funcion?.toLowerCase() === requisito.toLowerCase();
+          }
+          return false;
+        });
+        
+        return tienePorNombre;
+      });
+      
+      return tieneTodosRequisitos;
+    }
+
+    // Si no tiene requisitos, verificar solo si tiene el skill directo del puesto
     return usuario.puestos[puestoId] === true;
+  }
+
+  /**
+   * Busca un puesto por nombre (útil para encontrar requisitos)
+   */
+  buscarPuestoPorNombre(nombre) {
+    if (!this.puestosData) return null;
+    
+    // Buscar en predefinidos
+    let puesto = this.puestosData.puestos_predefinidos.find(
+      (p) => p.funcion === nombre || p.id === nombre.toLowerCase().replace(/\s+/g, "-")
+    );
+    
+    if (!puesto) {
+      // Buscar en personalizados
+      puesto = this.puestosData.puestos_personalizados.find(
+        (p) => p.funcion === nombre || p.id === nombre.toLowerCase().replace(/\s+/g, "-")
+      );
+    }
+    
+    return puesto;
   }
 
   /**
@@ -563,6 +637,14 @@ class PizarraController {
       });
     }
 
+    // Botón Borrar
+    const btnBorrar = document.getElementById("btn-borrar-pizarra");
+    if (btnBorrar) {
+      btnBorrar.addEventListener("click", () => {
+        this.borrarPizarra();
+      });
+    }
+
     // Botón Subir (preparado para futuro)
     const btnSubir = document.getElementById("btn-subir-pizarra");
     if (btnSubir) {
@@ -675,7 +757,7 @@ class PizarraController {
   /**
    * Procesa el escaneo - detecta automáticamente si es puesto o usuario
    */
-  procesarEscaneo(valor) {
+  async procesarEscaneo(valor) {
     if (!valor) return;
 
     // Intentar primero como puesto
@@ -684,10 +766,10 @@ class PizarraController {
     if (puesto) {
       // Es un puesto
       this.puestoActual = puesto;
-      this.mostrarInfoEscaneo(`Puesto: ${puesto.nombre}`, "success");
+      this.mostrarInfoEscaneo(`Puesto: ${puesto.funcion}`, "success");
 
       // ACTUALIZAR DASHBOARD INMEDIATAMENTE para mostrar el puesto (aunque esté vacío)
-      this.actualizarDashboard();
+      await this.actualizarDashboard();
 
       // Emitir evento
       this.eventBus.emit(PIZARRA_EVENTS.PUESTO_SELECCIONADO, {
@@ -714,7 +796,7 @@ class PizarraController {
     let puesto = this.puestosData.puestos_predefinidos.find(
       (p) =>
         p.id === valor.toLowerCase().replace(/\s+/g, "-") ||
-        p.nombre.toLowerCase() === valor.toLowerCase()
+        p.funcion?.toLowerCase() === valor.toLowerCase()
     );
 
     // Si no se encuentra, buscar en personalizados
@@ -722,7 +804,7 @@ class PizarraController {
       puesto = this.puestosData.puestos_personalizados.find(
         (p) =>
           p.id === valor.toLowerCase().replace(/\s+/g, "-") ||
-          p.nombre.toLowerCase() === valor.toLowerCase()
+          p.funcion?.toLowerCase() === valor.toLowerCase()
       );
     }
 
@@ -763,7 +845,7 @@ class PizarraController {
       this.eventBus.emit(PIZARRA_EVENTS.USUARIO_DUPLICADO, {
         usuario_login: login,
         puesto_id: this.puestoActual.id,
-        puesto_nombre: this.puestoActual.nombre,
+        puesto_nombre: this.puestoActual.funcion,
       });
 
       return;
@@ -835,7 +917,7 @@ class PizarraController {
     this.pizarraActual.historial_cambios.push(historial);
 
     // ACTUALIZAR DASHBOARD INMEDIATAMENTE (sin esperar guardado)
-    this.actualizarDashboard();
+    await this.actualizarDashboard();
 
     // Emitir eventos inmediatamente
     this.eventBus.emit(PIZARRA_EVENTS.ASIGNACION_CREADA, {
@@ -851,7 +933,7 @@ class PizarraController {
 
     // Feedback inmediato
     this.mostrarToast(
-      `Usuario ${login} asignado a ${this.puestoActual.nombre}`,
+      `Usuario ${login} asignado a ${this.puestoActual.funcion}`,
       "success"
     );
     this.reproducirSonido("success");
@@ -895,50 +977,64 @@ class PizarraController {
     const modal = document.getElementById("modal-puesto-personalizado");
 
     if (valorPrellenado) {
-      document.getElementById("puesto-nombre-input").value = valorPrellenado;
       document.getElementById("puesto-funcion").value = valorPrellenado;
     } else {
-      document.getElementById("puesto-nombre-input").value = "";
       document.getElementById("puesto-funcion").value = "";
+      document.getElementById("puesto-requisitos").value = "";
     }
 
-    document.getElementById("puesto-depto-principal").value = "Inbound";
+    document.getElementById("puesto-depto-principal").value = "IB";
     document.getElementById("puesto-depto-secundario").value = "";
 
     this.mostrarModal("modal-puesto-personalizado");
-    document.getElementById("puesto-nombre-input").focus();
+    document.getElementById("puesto-funcion").focus();
   }
 
   async guardarPuestoPersonalizado() {
-    const nombre = document.getElementById("puesto-nombre-input").value.trim();
+    const funcion = document.getElementById("puesto-funcion").value.trim();
     const deptoPrincipal = document.getElementById(
       "puesto-depto-principal"
     ).value;
     const deptoSecundario = document
       .getElementById("puesto-depto-secundario")
       .value.trim();
-    const funcion = document.getElementById("puesto-funcion").value.trim();
+    const requisitosTexto = document.getElementById("puesto-requisitos").value.trim();
 
-    if (!nombre || !deptoSecundario || !funcion) {
-      this.mostrarToast("Todos los campos son requeridos", "error");
+    if (!funcion || !deptoSecundario) {
+      this.mostrarToast("Función y Departamento Secundario son requeridos", "error");
       return;
     }
 
+    // Procesar requisitos: separar por comas y limpiar espacios
+    const requisitos = requisitosTexto
+      ? requisitosTexto.split(",").map((r) => r.trim()).filter((r) => r.length > 0)
+      : [];
+
     const nuevoPuesto = {
-      id: nombre.toLowerCase().replace(/\s+/g, "-"),
-      nombre: nombre,
+      id: `${deptoSecundario.toLowerCase()}-${funcion.toLowerCase().replace(/\s+/g, "-")}`,
       departamento_principal: deptoPrincipal,
       departamento_secundario: deptoSecundario,
       funcion: funcion,
-      activo: true,
+      requisitos: requisitos,
       personalizado: true,
       fecha_creacion: new Date().toISOString(),
     };
+    
+    // Agregar la función al orden si no existe
+    if (!this.puestosData.orden_funciones) {
+      this.puestosData.orden_funciones = {};
+    }
+    if (!this.puestosData.orden_funciones[deptoSecundario]) {
+      this.puestosData.orden_funciones[deptoSecundario] = [];
+    }
+    if (!this.puestosData.orden_funciones[deptoSecundario].includes(funcion)) {
+      this.puestosData.orden_funciones[deptoSecundario].push(funcion);
+    }
 
     this.puestosData.puestos_personalizados.push(nuevoPuesto);
 
     // ACTUALIZAR DASHBOARD INMEDIATAMENTE (sin esperar guardado)
-    this.actualizarDashboard();
+    await this.actualizarDashboard();
 
     // Emitir evento de puesto creado
     this.eventBus.emit(PIZARRA_EVENTS.PUESTO_CREADO, {
@@ -951,13 +1047,13 @@ class PizarraController {
 
     // Asignar el puesto recién creado
     this.puestoActual = nuevoPuesto;
-    this.mostrarInfoEscaneo(`Puesto: ${nuevoPuesto.nombre}`, "success");
+    this.mostrarInfoEscaneo(`Puesto: ${nuevoPuesto.funcion}`, "success");
 
     // Guardar datos de forma asíncrona (no bloquea)
     this.guardarDatosDebounced();
   }
 
-  actualizarDashboard() {
+  async actualizarDashboard() {
     const dashboardContent = document.getElementById("dashboard-content");
     const totalAsignados = document.getElementById("total-asignados");
 
@@ -976,11 +1072,14 @@ class PizarraController {
 
     this.pizarraActual.asignaciones.forEach((asignacion) => {
       if (!porPuesto[asignacion.puesto_id]) {
+        // Obtener información completa del puesto
+        const puestoCompleto = this.obtenerPuestoPorId(asignacion.puesto_id);
         porPuesto[asignacion.puesto_id] = {
           puesto_id: asignacion.puesto_id,
           puesto_nombre: asignacion.puesto_nombre,
           departamento: asignacion.departamento_principal,
-          subdepartamento: asignacion.departamento_secundario,
+          proceso: asignacion.departamento_secundario,
+          funcion: puestoCompleto?.funcion || asignacion.puesto_nombre,
           asignaciones: [],
           alertas: 0
         };
@@ -995,9 +1094,10 @@ class PizarraController {
     if (this.puestoActual && !porPuesto[this.puestoActual.id]) {
       porPuesto[this.puestoActual.id] = {
         puesto_id: this.puestoActual.id,
-        puesto_nombre: this.puestoActual.nombre,
+        puesto_nombre: this.puestoActual.funcion,
         departamento: this.puestoActual.departamento_principal,
-        subdepartamento: this.puestoActual.departamento_secundario,
+        proceso: this.puestoActual.departamento_secundario,
+        funcion: this.puestoActual.funcion,
         asignaciones: [],
         alertas: 0
       };
@@ -1015,28 +1115,553 @@ class PizarraController {
       return;
     }
 
-    // Ordenar puestos por departamento y nombre
-    const puestosOrdenados = Object.values(porPuesto).sort((a, b) => {
-      if (a.departamento !== b.departamento) {
-        return a.departamento.localeCompare(b.departamento);
+    // Agrupar jerárquicamente: Departamento Principal → Proceso → Función
+    const jerarquia = {};
+
+    Object.values(porPuesto).forEach((puesto) => {
+      // Normalizar departamento principal (IB, OB, Support)
+      let deptoPrincipal = puesto.departamento || "Otro";
+      if (deptoPrincipal === "Inbound") deptoPrincipal = "IB";
+      if (deptoPrincipal === "Outbound") deptoPrincipal = "OB";
+      if (!deptoPrincipal || deptoPrincipal === "ICQA" || deptoPrincipal === "Otro") {
+        deptoPrincipal = "Support";
       }
-      return a.puesto_nombre.localeCompare(b.puesto_nombre);
+
+      const proceso = puesto.proceso || "Otro";
+      const funcion = puesto.funcion || puesto.puesto_nombre;
+
+      // Inicializar estructura si no existe
+      if (!jerarquia[deptoPrincipal]) {
+        jerarquia[deptoPrincipal] = {};
+      }
+      if (!jerarquia[deptoPrincipal][proceso]) {
+        jerarquia[deptoPrincipal][proceso] = {};
+      }
+      if (!jerarquia[deptoPrincipal][proceso][funcion]) {
+        jerarquia[deptoPrincipal][proceso][funcion] = {
+          puesto_id: puesto.puesto_id,
+          puesto_nombre: puesto.puesto_nombre,
+          asignaciones: [],
+          alertas: 0
+        };
+      }
+
+      // Agregar asignaciones
+      jerarquia[deptoPrincipal][proceso][funcion].asignaciones.push(...puesto.asignaciones);
+      jerarquia[deptoPrincipal][proceso][funcion].alertas += puesto.alertas;
     });
 
-    dashboardContent.innerHTML = puestosOrdenados.map((p) => {
-      const hasAlerts = p.alertas > 0;
-      return `
-        <div class="proceso-card ${hasAlerts ? 'has-alerts' : ''}" 
-             data-puesto-id="${p.puesto_id}"
-             onclick="pizarraController.mostrarDetalleProceso('${p.puesto_id}')">
-          <div class="proceso-nombre">${p.puesto_nombre}</div>
-          <div class="proceso-stats">
-            <span class="proceso-count">${p.asignaciones.length}</span>
-            <span class="proceso-depto">${p.subdepartamento || p.departamento}</span>
+    // Generar HTML jerárquico
+    const ordenDepartamentos = ["IB", "OB", "Support"];
+    let html = "";
+
+    for (const depto of ordenDepartamentos) {
+      if (!jerarquia[depto] || Object.keys(jerarquia[depto]).length === 0) continue;
+
+      // Contar totales del departamento
+      let totalDepto = 0;
+      let alertasDepto = 0;
+        Object.values(jerarquia[depto]).forEach((proceso) => {
+          if (typeof proceso === 'object' && !Array.isArray(proceso)) {
+            Object.values(proceso).forEach((funcion) => {
+              totalDepto += funcion.asignaciones.length;
+              alertasDepto += funcion.alertas;
+            });
+          }
+        });
+
+      // Calcular compensación para IB (Stow vs Receive) antes de generar HTML
+      let compensacionHtml = '';
+      if (depto === "IB") {
+        let stowObjetivoIdeal = 0;
+        let receiveObjetivoIdeal = 0;
+        let stowObjetivoReal = 0;
+        let receiveObjetivoReal = 0;
+        
+        // Calcular Stow (Ideal y Real)
+        if (jerarquia[depto]["Stow"]) {
+          // Ideal (aritmético)
+          Object.values(jerarquia[depto]["Stow"]).forEach((funcionData) => {
+            const puesto = this.obtenerPuestoPorId(funcionData.puesto_id);
+            if (puesto && puesto.rate) {
+              stowObjetivoIdeal += funcionData.asignaciones.length * puesto.rate;
+            }
+          });
+          
+          // Real (basado en historial + base cuando no hay datos)
+          const stowReal = await this.calcularObjetivoReal(jerarquia[depto]["Stow"], "stow");
+          stowObjetivoReal = stowReal.objetivoReal; // Ya incluye real + base
+        }
+        
+        // Calcular Receive (Ideal y Real)
+        if (jerarquia[depto]["Receive"]) {
+          // Ideal (aritmético)
+          Object.values(jerarquia[depto]["Receive"]).forEach((funcionData) => {
+            const puesto = this.obtenerPuestoPorId(funcionData.puesto_id);
+            if (puesto && puesto.rate) {
+              receiveObjetivoIdeal += funcionData.asignaciones.length * puesto.rate;
+            }
+          });
+          
+          // Real (basado en historial + base cuando no hay datos)
+          const receiveReal = await this.calcularObjetivoReal(jerarquia[depto]["Receive"], "receive");
+          receiveObjetivoReal = receiveReal.objetivoReal; // Ya incluye real + base
+        }
+        
+        // Calcular compensación usando el objetivo REAL
+        const objetivoStow = stowObjetivoReal > 0 ? stowObjetivoReal : stowObjetivoIdeal;
+        const objetivoReceive = receiveObjetivoReal > 0 ? receiveObjetivoReal : receiveObjetivoIdeal;
+        
+        if (objetivoStow > 0 || objetivoReceive > 0) {
+          const diferencia = Math.abs(objetivoStow - objetivoReceive);
+          const procesoMenor = objetivoStow < objetivoReceive ? "Stow" : "Receive";
+          
+          // Obtener rate promedio del proceso menor (usar real si está disponible)
+          let rateMenor = 100; // Default
+          if (procesoMenor === "Stow" && jerarquia[depto]["Stow"]) {
+            if (stowObjetivoReal > 0) {
+              // Calcular promedio real
+              const totalPersonas = Object.values(jerarquia[depto]["Stow"]).reduce((sum, f) => sum + f.asignaciones.length, 0);
+              rateMenor = totalPersonas > 0 ? stowObjetivoReal / totalPersonas : 100;
+            } else {
+              rateMenor = this.obtenerRatePromedioStow(jerarquia[depto]["Stow"]);
+            }
+          } else if (procesoMenor === "Receive" && jerarquia[depto]["Receive"]) {
+            if (receiveObjetivoReal > 0) {
+              // Calcular promedio real
+              const totalPersonas = Object.values(jerarquia[depto]["Receive"]).reduce((sum, f) => sum + f.asignaciones.length, 0);
+              rateMenor = totalPersonas > 0 ? receiveObjetivoReal / totalPersonas : 60;
+            } else {
+              rateMenor = this.obtenerRatePromedioReceive(jerarquia[depto]["Receive"]);
+            }
+          }
+          
+          const personasNecesarias = rateMenor > 0 ? Math.ceil(diferencia / rateMenor) : 0;
+          const estaCompensado = diferencia <= 50; // Tolerancia de 50 unidades
+          
+          // Calcular variaciones porcentuales
+          const variacionEstándar = stowObjetivoIdeal > 0 && receiveObjetivoIdeal > 0
+            ? ((Math.abs(stowObjetivoIdeal - receiveObjetivoIdeal) / Math.max(stowObjetivoIdeal, receiveObjetivoIdeal)) * 100).toFixed(1)
+            : null;
+          
+          const variacionHistorico = stowObjetivoReal > 0 && receiveObjetivoReal > 0
+            ? ((Math.abs(stowObjetivoReal - receiveObjetivoReal) / Math.max(stowObjetivoReal, receiveObjetivoReal)) * 100).toFixed(1)
+            : null;
+          
+          compensacionHtml = `
+            <div class="compensacion-info">
+              <span class="compensacion-badge ${estaCompensado ? 'compensado' : 'no-compensado'}" title="${estaCompensado ? 'Compensado' : `Faltan ${personasNecesarias} persona(s) en ${procesoMenor}`}">
+                ${estaCompensado ? '✓' : '⚠'} ${estaCompensado ? 'Compensado' : `${personasNecesarias} en ${procesoMenor}`}
+              </span>
+              ${(stowObjetivoIdeal > 0 || receiveObjetivoIdeal > 0) ? `
+                <div class="rate-comparison">
+                  <span class="rate-comparison-label">Estándar:</span>
+                  <span class="rate-value">Stow ${stowObjetivoIdeal.toLocaleString()}</span>
+                  <span class="rate-separator">vs</span>
+                  <span class="rate-value">Receive ${receiveObjetivoIdeal.toLocaleString()}</span>
+                  ${variacionEstándar ? `<span class="rate-variacion">${variacionEstándar}%</span>` : ''}
+                </div>
+              ` : ''}
+              ${(stowObjetivoReal > 0 || receiveObjetivoReal > 0) ? `
+                <div class="rate-comparison">
+                  <span class="rate-comparison-label">Histórico:</span>
+                  <span class="rate-value">Stow ${stowObjetivoReal.toLocaleString()}</span>
+                  <span class="rate-separator">vs</span>
+                  <span class="rate-value">Receive ${receiveObjetivoReal.toLocaleString()}</span>
+                  ${variacionHistorico ? `<span class="rate-variacion">${variacionHistorico}%</span>` : ''}
+                </div>
+              ` : ''}
+            </div>
+          `;
+        }
+      }
+
+      html += `
+        <div class="dashboard-section" data-depto="${depto}">
+          <div class="section-header" onclick="pizarraController.toggleSection('${depto}')">
+            <div class="section-title">
+              <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+              <span class="section-name">${depto}</span>
+            </div>
+            <div class="section-stats">
+              <span class="section-count">${totalDepto}</span>
+              ${alertasDepto > 0 ? `<span class="section-alerts">${alertasDepto}</span>` : ''}
+              ${compensacionHtml}
+            </div>
+          </div>
+          <div class="section-content" id="section-${depto}" style="display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: flex-start; flex-direction: row;">
+      `;
+
+      // Ordenar procesos dentro del departamento según orden definido
+      const ordenProcesos = this.puestosData?.orden_departamentos_secundarios?.[depto] || [];
+      const procesosOrdenados = Object.keys(jerarquia[depto]).sort((a, b) => {
+        const indexA = ordenProcesos.indexOf(a);
+        const indexB = ordenProcesos.indexOf(b);
+        // Si ambos están en el orden definido, usar ese orden
+        if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+        // Si solo uno está definido, ese va primero
+        if (indexA !== -1) return -1;
+        if (indexB !== -1) return 1;
+        // Si ninguno está definido, orden alfabético
+        return a.localeCompare(b);
+      });
+      
+      // Procesar procesos de forma secuencial para poder hacer async
+      for (const proceso of procesosOrdenados) {
+        const funciones = jerarquia[depto][proceso];
+        
+        // Contar totales del proceso y calcular objetivo por hora
+        let totalProceso = 0;
+        let alertasProceso = 0;
+        let objetivoHoraIdeal = 0;
+        
+        Object.values(funciones).forEach((funcion) => {
+          const puesto = this.obtenerPuestoPorId(funcion.puesto_id);
+          const personas = funcion.asignaciones.length;
+          totalProceso += personas;
+          alertasProceso += funcion.alertas;
+          
+          // Calcular objetivo ideal si tiene rate
+          if (puesto && puesto.rate) {
+            objetivoHoraIdeal += personas * puesto.rate;
+          }
+        });
+
+        // Calcular objetivo real basado en historial (solo si hay puestos con rate)
+        let tipoProceso = null;
+        if (proceso === "Stow") {
+          tipoProceso = "stow";
+        } else if (proceso === "Receive") {
+          tipoProceso = "receive";
+        }
+        
+        let objetivoReal = { objetivoReal: 0, objetivoRealPuro: 0, objetivoBase: 0, usuariosConRate: 0, usuariosSinRate: 0 };
+        if (tipoProceso) {
+          objetivoReal = await this.calcularObjetivoReal(funciones, tipoProceso);
+        }
+        
+        // Generar HTML de objetivos
+        let objetivoHtml = '';
+        if (objetivoHoraIdeal > 0 || objetivoReal.objetivoReal > 0) {
+          const estandarText = objetivoHoraIdeal > 0 ? 
+            `<span class="process-target process-target-estandar" title="Proyección Estándar (basada en rate estándar del puesto)">Estándar: ${objetivoHoraIdeal.toLocaleString()}</span>` : '';
+          
+          let historicoText = '';
+          let baseText = '';
+          if (objetivoReal.objetivoRealPuro > 0) {
+            historicoText = `<span class="process-target process-target-historico" title="Proyección Histórica: ${objetivoReal.usuariosConRate} usuarios con datos históricos">Histórico: ${objetivoReal.objetivoRealPuro.toLocaleString()}</span>`;
+          }
+          if (objetivoReal.objetivoBase > 0) {
+            baseText = `<span class="process-target process-target-base" title="Proyección Base: ${objetivoReal.usuariosSinRate} usuarios usando rate base">Base: ${objetivoReal.objetivoBase.toLocaleString()}</span>`;
+          }
+          
+          if (estandarText || historicoText || baseText) {
+            objetivoHtml = `<div class="process-targets">${estandarText}${historicoText}${baseText}</div>`;
+          }
+        }
+
+        html += `
+          <div class="process-group">
+            <div class="process-header">
+              <div class="process-name-wrapper">
+                <span class="process-name">${proceso}</span>
+                ${objetivoHtml}
+              </div>
+              <div class="process-stats">
+                <span class="process-count">${totalProceso}</span>
+                ${alertasProceso > 0 ? `<span class="process-alerts">${alertasProceso}</span>` : ''}
+              </div>
+            </div>
+            <div class="process-functions">
+        `;
+
+        // Ordenar funciones dentro del proceso según orden definido
+        const ordenFunciones = this.puestosData?.orden_funciones?.[proceso] || [];
+        const funcionesOrdenadas = Object.keys(funciones).sort((a, b) => {
+          const puestoA = this.obtenerPuestoPorId(funciones[a].puesto_id);
+          const puestoB = this.obtenerPuestoPorId(funciones[b].puesto_id);
+          const funcionA = puestoA?.funcion || a;
+          const funcionB = puestoB?.funcion || b;
+          
+          const indexA = ordenFunciones.indexOf(funcionA);
+          const indexB = ordenFunciones.indexOf(funcionB);
+          
+          // Si ambos están en el orden definido, usar ese orden
+          if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+          // Si solo uno está definido, ese va primero
+          if (indexA !== -1) return -1;
+          if (indexB !== -1) return 1;
+          // Si ninguno está definido, orden alfabético
+          return a.localeCompare(b);
+        });
+        
+        // Renderizar tarjetas básicas (sin rates)
+        for (const funcionNombre of funcionesOrdenadas) {
+          const funcion = funciones[funcionNombre];
+          const hasAlerts = funcion.alertas > 0;
+          
+          html += `
+            <div class="proceso-card ${hasAlerts ? 'has-alerts' : ''}" 
+                 data-puesto-id="${funcion.puesto_id}"
+                 onclick="pizarraController.mostrarDetalleProceso('${funcion.puesto_id}')">
+              <div class="proceso-nombre">${funcion.puesto_nombre}</div>
+              <div class="proceso-stats">
+                <span class="proceso-count">${funcion.asignaciones.length}</span>
+                ${hasAlerts ? `<span class="proceso-alert-badge">${funcion.alertas}</span>` : ''}
+              </div>
+            </div>
+          `;
+        }
+
+        html += `
+            </div>
+          </div>
+        `;
+      }
+
+      html += `
           </div>
         </div>
       `;
-    }).join("");
+    }
+
+    dashboardContent.innerHTML = html;
+    
+    // Aplicar estilos inline inmediatamente y también en el siguiente frame
+    const applyFlexLayout = () => {
+      const sectionContents = dashboardContent.querySelectorAll('.section-content');
+      sectionContents.forEach(section => {
+        section.style.display = 'flex';
+        section.style.flexWrap = 'wrap';
+        section.style.flexDirection = 'row';
+        section.style.gap = '0.5rem';
+        section.style.alignItems = 'flex-start';
+        section.style.width = '100%';
+        section.style.padding = '0.5rem 0';
+        section.style.boxSizing = 'border-box';
+      });
+      
+      const processGroups = dashboardContent.querySelectorAll('.process-group');
+      processGroups.forEach(group => {
+        group.style.flex = '0 1 auto';
+        group.style.display = 'flex';
+        group.style.flexDirection = 'column';
+        group.style.marginBottom = '0';
+        group.style.width = 'auto';
+      });
+    };
+    
+    // Aplicar inmediatamente
+    applyFlexLayout();
+    
+    // Aplicar también en el siguiente frame para asegurar
+    requestAnimationFrame(() => {
+      applyFlexLayout();
+    });
+  }
+
+  /**
+   * Obtiene el rate real de un usuario desde su archivo de historial
+   * Solo busca rates del tipo de proceso especificado (stow o receive)
+   * Prioridad: last_week > last_month > last_3_months
+   * Para Stow: usa each_stow.combined.rate
+   * Para Receive: usa each_receive.combined.rate (si existe) o similar
+   */
+  async obtenerRateRealUsuario(login, tipoProceso = "stow", puestoId = null) {
+    // Normalizar login
+    const loginNormalizado = login.trim().toUpperCase();
+    
+    // Obtener analytics_key del puesto si está disponible
+    let analyticsKey = null;
+    if (puestoId) {
+      const puesto = this.obtenerPuestoPorId(puestoId);
+      analyticsKey = puesto?.analytics_key || null;
+    }
+    
+    // Verificar cache (incluir analytics_key en la clave)
+    const cacheKey = `${loginNormalizado}_${tipoProceso}_${analyticsKey || 'combined'}`;
+    if (this.userRatesCache[cacheKey]) {
+      return this.userRatesCache[cacheKey];
+    }
+
+    if (!this.analyticsPaths || this.analyticsPaths.length === 0) {
+      return null;
+    }
+
+    try {
+      let userData = null;
+      
+      // Intentar cargar desde cada ruta de analytics
+      for (const analyticsPath of this.analyticsPaths) {
+        try {
+          const userPath = `${analyticsPath}Users/${loginNormalizado}.json`;
+          const result = await window.api.readJson(userPath);
+          
+          if (result.success && result.data) {
+            userData = result.data;
+            break;
+          }
+        } catch (error) {
+          continue;
+        }
+      }
+
+      if (!userData) {
+        return null;
+      }
+
+      // Buscar rate con prioridad: last_week > last_month > last_3_months
+      const periods = ["last_week", "last_month", "last_3_months"];
+      let rate = null;
+
+      for (const period of periods) {
+        if (userData[period]) {
+          if (tipoProceso.toLowerCase() === "stow") {
+            // Para Stow: usar each_stow.combined.rate
+            if (userData[period].each_stow && userData[period].each_stow.combined) {
+              rate = userData[period].each_stow.combined.rate;
+              break;
+            }
+          } else if (tipoProceso.toLowerCase() === "receive") {
+            // Para Receive: buscar en receive[analytics_key].rate
+            if (userData[period].receive && analyticsKey) {
+              // Buscar el analytics_key en receive (case-insensitive)
+              const receiveData = userData[period].receive;
+              const matchingKey = Object.keys(receiveData).find(
+                key => key.toLowerCase() === analyticsKey.toLowerCase()
+              );
+              
+              if (matchingKey && receiveData[matchingKey] && receiveData[matchingKey].rate) {
+                rate = receiveData[matchingKey].rate;
+                break;
+              }
+            }
+          }
+        }
+      }
+
+      // Guardar en cache
+      this.userRatesCache[cacheKey] = rate;
+      return rate;
+    } catch (error) {
+      console.warn(`⚠️ Error obteniendo rate real para ${loginNormalizado}:`, error);
+      return null;
+    }
+  }
+
+  /**
+   * Calcula el objetivo real basado en historial de usuarios
+   * Solo calcula para puestos que tienen rate definido
+   * Suma los rates reales de cada usuario asignado
+   * Si no hay rate real, usa el rate base del puesto
+   */
+  async calcularObjetivoReal(funciones, tipoProceso = "stow") {
+    let objetivoReal = 0;
+    let objetivoBase = 0; // Suma de rates base cuando no hay datos históricos
+    let usuariosConRate = 0;
+    let usuariosSinRate = 0;
+
+      for (const funcionData of Object.values(funciones)) {
+        const puesto = this.obtenerPuestoPorId(funcionData.puesto_id);
+        const rateBase = puesto?.rate || 0;
+        
+        // Solo procesar si el puesto tiene rate definido
+        if (rateBase === 0) continue;
+
+        for (const asignacion of funcionData.asignaciones) {
+          // Pasar el puesto_id para obtener el analytics_key correcto
+          const rateReal = await this.obtenerRateRealUsuario(
+            asignacion.usuario_login, 
+            tipoProceso, 
+            funcionData.puesto_id
+          );
+          if (rateReal && rateReal > 0) {
+            objetivoReal += rateReal;
+            usuariosConRate++;
+          } else {
+            // Usar rate base si no hay datos históricos
+            objetivoBase += rateBase;
+            usuariosSinRate++;
+          }
+        }
+      }
+
+    // El objetivo total incluye real + base
+    const objetivoTotal = objetivoReal + objetivoBase;
+
+    return {
+      objetivoReal: objetivoTotal,
+      objetivoRealPuro: objetivoReal, // Solo rates históricos
+      objetivoBase: objetivoBase, // Solo rates base usados
+      usuariosConRate,
+      usuariosSinRate
+    };
+  }
+
+  /**
+   * Obtiene el rate promedio de Stow para calcular compensación
+   */
+  obtenerRatePromedioStow(funcionesStow) {
+    let totalRate = 0;
+    let totalPersonas = 0;
+    
+    Object.values(funcionesStow).forEach((funcionData) => {
+      const puesto = this.obtenerPuestoPorId(funcionData.puesto_id);
+      if (puesto && puesto.rate && funcionData.asignaciones.length > 0) {
+        totalRate += puesto.rate * funcionData.asignaciones.length;
+        totalPersonas += funcionData.asignaciones.length;
+      }
+    });
+    
+    return totalPersonas > 0 ? totalRate / totalPersonas : 100; // Default 100 si no hay
+  }
+
+  /**
+   * Obtiene el rate promedio de Receive para calcular compensación
+   */
+  obtenerRatePromedioReceive(funcionesReceive) {
+    let totalRate = 0;
+    let totalPersonas = 0;
+    
+    Object.values(funcionesReceive).forEach((funcionData) => {
+      const puesto = this.obtenerPuestoPorId(funcionData.puesto_id);
+      if (puesto && puesto.rate && funcionData.asignaciones.length > 0) {
+        totalRate += puesto.rate * funcionData.asignaciones.length;
+        totalPersonas += funcionData.asignaciones.length;
+      }
+    });
+    
+    return totalPersonas > 0 ? totalRate / totalPersonas : 60; // Default 60 si no hay
+  }
+
+  toggleSection(depto) {
+    const sectionElement = document.querySelector(`[data-depto="${depto}"]`);
+    const sectionContent = document.getElementById(`section-${depto}`);
+    const sectionHeader = sectionElement?.querySelector('.section-header');
+    
+    if (sectionElement && sectionContent) {
+      const isCollapsed = sectionElement.classList.contains('collapsed');
+      
+      if (isCollapsed) {
+        // Expandir
+        sectionElement.classList.remove('collapsed');
+        sectionContent.style.display = 'block';
+        const icon = sectionHeader?.querySelector('.section-icon');
+        if (icon) {
+          icon.style.transform = 'rotate(90deg)';
+        }
+      } else {
+        // Colapsar
+        sectionElement.classList.add('collapsed');
+        sectionContent.style.display = 'none';
+        const icon = sectionHeader?.querySelector('.section-icon');
+        if (icon) {
+          icon.style.transform = 'rotate(0deg)';
+        }
+      }
+    }
   }
 
   toggleUsuarioMenu(menuId) {
@@ -1122,7 +1747,7 @@ class PizarraController {
     });
 
     // Actualizar dashboard
-    this.actualizarDashboard();
+    await this.actualizarDashboard();
     this.mostrarToast(
       `Formación verificada para ${loginNormalizado}`,
       "success"
@@ -1184,7 +1809,7 @@ class PizarraController {
     });
 
     // Actualizar dashboard
-    this.actualizarDashboard();
+    await this.actualizarDashboard();
     this.mostrarToast(`Verificación removida para ${login}`, "info");
   }
 
@@ -1221,7 +1846,7 @@ class PizarraController {
       timestamp: new Date().toISOString(),
     });
 
-    this.actualizarDashboard();
+    await this.actualizarDashboard();
     this.mostrarToast(`Usuario ${login} removido del puesto`, "info");
   }
 
@@ -1255,7 +1880,7 @@ class PizarraController {
               asignacionActual.puesto_id
             );
             puestoActualNombre = puestoObj
-              ? puestoObj.nombre
+              ? puestoObj.funcion
               : asignacionActual.puesto_id;
           }
 
@@ -1288,7 +1913,7 @@ class PizarraController {
         if (this.tieneSkill(login, puestoId)) {
           const puestoActual = this.obtenerPuestoPorId(asignacion.puesto_id);
           const nombrePuestoActual = puestoActual
-            ? puestoActual.nombre
+            ? puestoActual.funcion
             : asignacion.puesto_id;
 
           usuarios.push({
@@ -1334,7 +1959,7 @@ class PizarraController {
     const puesto = this.obtenerPuestoPorId(puestoId);
     if (!puesto) return;
 
-    document.getElementById("puesto-nombre-modal").textContent = puesto.nombre;
+    document.getElementById("puesto-nombre-modal").textContent = puesto.funcion;
     this.puestoActual = puesto;
     this.puestoSeleccionadoParaAgregar = puestoId;
 
@@ -1476,7 +2101,7 @@ class PizarraController {
     // Cerrar modal y actualizar lista
     this.cerrarModal("modal-agregar-usuario");
     this.mostrarToast(
-      `Usuario ${login} agregado a ${this.puestoActual.nombre}`,
+      `Usuario ${login} agregado a ${this.puestoActual.funcion}`,
       "success"
     );
   }
@@ -1539,7 +2164,7 @@ class PizarraController {
                    class="skill-checkbox">
             <span class="skill-checkbox-custom"></span>
             <div class="skill-puesto-info">
-              <strong>${puesto.nombre || puesto.id}</strong>
+              <strong>${puesto.funcion || puesto.id}</strong>
               <span class="skill-puesto-depto">${
                 puesto.departamento_principal || "N/A"
               } → ${puesto.departamento_secundario || "N/A"}</span>
@@ -1622,7 +2247,7 @@ class PizarraController {
     });
 
     // Actualizar dashboard
-    this.actualizarDashboard();
+    await this.actualizarDashboard();
     this.cerrarModal("modal-skill-matrix");
     this.mostrarToast(
       `Skill matrix actualizada para ${this.usuarioActualSkillMatrix}`,
@@ -1945,7 +2570,7 @@ class PizarraController {
   /**
    * Muestra el modal de detalle de un proceso
    */
-  mostrarDetalleProceso(puestoId) {
+  async mostrarDetalleProceso(puestoId) {
     const puesto = this.obtenerPuestoPorId(puestoId);
     if (!puesto) return;
 
@@ -1959,7 +2584,7 @@ class PizarraController {
     // Actualizar título del modal
     const titulo = document.getElementById("modal-proceso-titulo");
     if (titulo) {
-      titulo.textContent = `${puesto.nombre} (${asignaciones.length})`;
+      titulo.textContent = `${puesto.funcion} (${asignaciones.length})`;
     }
 
     // Generar alertas
@@ -1981,27 +2606,83 @@ class PizarraController {
       alertasContainer.innerHTML = "";
     }
 
-    // Generar lista de personal
+    // Generar lista de personal con rates (solo si el puesto tiene rate)
     const personalList = document.getElementById("proceso-personal-list");
     if (personalList) {
       if (asignaciones.length === 0) {
         personalList.innerHTML = '<div class="empty-state">No hay personal asignado</div>';
       } else {
+        const rateEsperado = puesto?.rate || 0;
+        const tieneRate = rateEsperado > 0;
+        const tipoProceso = (puesto?.departamento_secundario === "Stow") ? "stow" : 
+                           (puesto?.departamento_secundario === "Receive") ? "receive" : null;
+        
+        // Obtener rates reales de usuarios (solo si el puesto tiene rate)
+        const usuariosConRates = [];
+        if (tieneRate && tipoProceso) {
+          for (const asignacion of asignaciones) {
+            // Pasar puestoId para obtener el analytics_key correcto
+            const rateReal = await this.obtenerRateRealUsuario(
+              asignacion.usuario_login, 
+              tipoProceso, 
+              puestoId
+            );
+            usuariosConRates.push({
+              login: asignacion.usuario_login,
+              rateReal: rateReal,
+              rateEsperado: rateEsperado
+            });
+          }
+        }
+        
         personalList.innerHTML = asignaciones.map((a) => {
           const usuario = this.rosterData?.find((u) => u.login === a.usuario_login);
           const nombre = usuario?.employee_name || a.usuario_login;
           const skillClass = a.tiene_formacion ? "skill-ok" : "skill-warning";
           const skillIcon = a.tiene_formacion ? "✓" : "⚠";
 
+          const photoUrl = `https://internal-cdn.amazon.com/badgephotos.amazon.com/?uid=${a.usuario_login}`;
+          
+          // Obtener rate info para este usuario
+          const userRateInfo = usuariosConRates.find(u => u.login === a.usuario_login);
+          let rateHtml = '';
+          if (tieneRate && userRateInfo) {
+            const tieneDatos = userRateInfo.rateReal && userRateInfo.rateReal > 0;
+            const rateDisplay = tieneDatos ? userRateInfo.rateReal.toFixed(0) : rateEsperado.toFixed(0);
+            const rateClass = tieneDatos ? 'rate-historico' : 'rate-base';
+            const porcentaje = tieneDatos && rateEsperado > 0 
+              ? ((userRateInfo.rateReal / rateEsperado) * 100).toFixed(0)
+              : null;
+            
+            rateHtml = `
+              <div class="personal-rate-info">
+                <span class="rate-label">Estándar:</span>
+                <span class="rate-value rate-estandar">${rateEsperado.toFixed(0)} UPH</span>
+                <span class="rate-label">Histórico:</span>
+                <span class="rate-value ${rateClass}">${rateDisplay} UPH${tieneDatos ? '' : ' (base)'}</span>
+                ${porcentaje ? `<span class="rate-porcentaje" title="vs estándar">${porcentaje}%</span>` : ''}
+              </div>
+            `;
+          }
+          
           return `
             <div class="personal-item" data-login="${a.usuario_login}">
               <div class="personal-info">
-                <span class="skill-icon ${skillClass}" title="${a.tiene_formacion ? 'Formación verificada' : 'Sin formación'}">${skillIcon}</span>
-                <div>
-                  <span class="personal-login">${a.usuario_login}</span>
-                  <span class="personal-nombre">${nombre}</span>
+                <div class="user-photo-container">
+                  <img src="${photoUrl}" alt="${a.usuario_login}" class="user-photo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                  <div class="user-photo-placeholder" style="display: none;">
+                    ${a.usuario_login.charAt(0).toUpperCase()}
+                  </div>
+                </div>
+                <div class="personal-details">
+                  <span class="skill-icon ${skillClass}" title="${a.tiene_formacion ? 'Formación verificada' : 'Sin formación'}">${skillIcon}</span>
+                  <div>
+                    <span class="personal-login">${a.usuario_login}</span>
+                    <span class="personal-nombre">${nombre}</span>
+                  </div>
                 </div>
               </div>
+              ${rateHtml}
               <div class="personal-actions">
                 <button class="btn-icon-small" onclick="pizarraController.mostrarSkillMatrix('${a.usuario_login}')" title="Ver formaciones">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -2059,6 +2740,57 @@ class PizarraController {
       card.classList.add("usuario-added");
       setTimeout(() => card.classList.remove("usuario-added"), 500);
     });
+  }
+
+  /**
+   * Borra todas las asignaciones de la pizarra
+   */
+  async borrarPizarra() {
+    if (!this.pizarraActual || !this.pizarraActual.asignaciones || this.pizarraActual.asignaciones.length === 0) {
+      this.mostrarToast("La pizarra ya está vacía", "info");
+      return;
+    }
+
+    // Confirmar acción
+    const confirmar = confirm(
+      `¿Estás seguro de que quieres borrar todas las asignaciones?\n\nSe eliminarán ${this.pizarraActual.asignaciones.length} asignación(es).`
+    );
+
+    if (!confirmar) {
+      return;
+    }
+
+    try {
+      // Resetear pizarra
+      this.pizarraActual = {
+        asignaciones: [],
+        historial_cambios: [],
+        fecha_creacion: new Date().toISOString(),
+        ultima_actualizacion: new Date().toISOString(),
+      };
+
+      // Guardar pizarra vacía
+      await this.guardarDatos();
+
+      // Resetear puesto actual
+      this.puestoActual = null;
+
+      // Actualizar dashboard
+      await this.actualizarDashboard();
+
+      // Emitir evento
+      this.eventBus.emit(PIZARRA_EVENTS.PIZARRA_ACTUALIZADA, {
+        asignaciones: [],
+        total: 0,
+        timestamp: new Date().toISOString(),
+      });
+
+      this.mostrarToast("Pizarra borrada correctamente", "success");
+      this.reproducirSonido("success");
+    } catch (error) {
+      console.error("❌ Error borrando pizarra:", error);
+      this.mostrarToast("Error al borrar la pizarra: " + error.message, "error");
+    }
   }
 
   /**

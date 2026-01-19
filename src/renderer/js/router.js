@@ -85,6 +85,11 @@ class Router {
         path: "../apps/utilidades/Imanes/views/imanes.html",
         scripts: ["../apps/utilidades/Imanes/js/imanes.js"],
       },
+      "rotation-tool": {
+        path: "../apps/utilidades/Rotation Tool/views/rotation-tool.html",
+        scripts: ["../apps/utilidades/Rotation Tool/js/rotation-tool.js"],
+        styles: ["../apps/utilidades/Rotation Tool/css/rotation-tool.css"],
+      },
       "dock-control": {
         path: "../apps/dock-control/views/dock-control.html",
         scripts: ["../apps/dock-control/js/dock-control.js"],

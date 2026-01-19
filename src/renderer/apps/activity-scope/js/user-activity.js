@@ -554,19 +554,19 @@ class UserActivityController {
       // Verificar que effortData existe Y que success es true (o que tiene datos válidos)
       if (effortData && effortData.success && effortData.data) {
         // Estructura {success: true, data: {...}}
-        this.effortData = effortData.data;
-        this.effortSummaryData = effortData.data.resumen_categorias;
-        this.effortGeneralStats = effortData.data.estadisticas_generales;
-        this.effortStowTimes =
-          effortData.data.tiempo_promedio_entre_stow_por_empleado;
-        console.log(
-          "✅ Datos de esfuerzo extraídos de estructura success/data"
-        );
-        console.log("🔍 Debug extracción success/data:");
-        console.log(
-          "- effortData.data keys:",
-          Object.keys(effortData.data || {})
-        );
+          this.effortData = effortData.data;
+          this.effortSummaryData = effortData.data.resumen_categorias;
+          this.effortGeneralStats = effortData.data.estadisticas_generales;
+          this.effortStowTimes =
+            effortData.data.tiempo_promedio_entre_stow_por_empleado;
+          console.log(
+            "✅ Datos de esfuerzo extraídos de estructura success/data"
+          );
+          console.log("🔍 Debug extracción success/data:");
+          console.log(
+            "- effortData.data keys:",
+            Object.keys(effortData.data || {})
+          );
 
         console.log(
           `✅ Datos de esfuerzo cargados: {total_empleados: ${
@@ -1890,7 +1890,7 @@ class UserActivityController {
         <tr>
           <td colspan="10" style="text-align: center; padding: 2rem; color: #666;">
             <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: #374151;">
-              No hay datos disponibles para esta categoría
+            No hay datos disponibles para esta categoría
             </div>
             <div style="font-size: 0.9rem; color: #6b7280;">
               Fecha seleccionada: ${dateLabel}
@@ -2072,7 +2072,7 @@ class UserActivityController {
         <tr>
           <td colspan="10" style="text-align: center; padding: 2rem; color: #666;">
             <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: #374151;">
-              No hay datos disponibles para esta categoría
+            No hay datos disponibles para esta categoría
             </div>
             <div style="font-size: 0.9rem; color: #6b7280;">
               Fecha seleccionada: ${dateLabel}

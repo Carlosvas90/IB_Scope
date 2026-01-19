@@ -1,0 +1,65 @@
+/* ============================================
+   ROTATION TOOL - ESTILOS ESPECÍFICOS
+   ============================================ */
+
+/* Importar variables base */
+@import url("../../../../css/themes/variables.css");
+@import url("../../../../css/themes/variables2.css");
+
+/* Estilos para el contenedor principal */
+.rotation-tool-container {
+  padding: var(--spacing-lg, 2rem);
+  height: 100%;
+  overflow-y: auto;
+  background-color: var(--Fondo-paginas, #f8fafc);
+}
+
+/* Header Card */
+.rotation-tool-container .app-header-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+
+.rotation-tool-container .app-header-card h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  color: white;
+}
+
+/* Contenido principal */
+.rotation-tool-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Welcome Card */
+.welcome-card {
+  background: var(--card-background, #ffffff);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-card h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  color: var(--text-primary, #1a202c);
+}
+
+.welcome-card p {
+  font-size: 1rem;
+  color: var(--text-secondary, #718096);
+  margin: 0;
+}

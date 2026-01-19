@@ -34,6 +34,13 @@
             </svg>
             Exportar
           </button>
+          <button id="btn-borrar-pizarra" class="btn btn-header btn-danger" title="Borrar todas las asignaciones">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+            Borrar
+          </button>
           <button id="btn-subir-pizarra" class="btn btn-header btn-outline" disabled title="Próximamente">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -135,25 +142,31 @@
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label>Nombre del Puesto:</label>
-            <input type="text" id="puesto-nombre-input" placeholder="Ej: Ayudante MAD7" />
+            <label>Función:</label>
+            <input type="text" id="puesto-funcion" placeholder="Ej: Clerk, Ocean, Decant, etc." />
           </div>
           <div class="form-group">
             <label>Departamento Principal:</label>
             <select id="puesto-depto-principal">
-              <option value="Inbound">Inbound</option>
-              <option value="Outbound">Outbound</option>
-              <option value="ICQA">ICQA</option>
-              <option value="Otro">Otro</option>
+              <option value="IB">IB</option>
+              <option value="OB">OB</option>
+              <option value="Support">Support</option>
             </select>
           </div>
           <div class="form-group">
-            <label>Departamento Secundario:</label>
-            <input type="text" id="puesto-depto-secundario" placeholder="Ej: Stow, Pick, etc." />
+            <label>Departamento Secundario (Proceso):</label>
+            <input type="text" id="puesto-depto-secundario" placeholder="Ej: Dock, Stow, Receive, Pick, etc." />
           </div>
           <div class="form-group">
             <label>Función:</label>
-            <input type="text" id="puesto-funcion" placeholder="Ej: Ayudante MAD7" />
+            <input type="text" id="puesto-funcion" placeholder="Ej: Clerk, Ocean, Decant, etc." />
+          </div>
+          <div class="form-group">
+            <label>Requisitos (Módulos requeridos, separados por comas):</label>
+            <input type="text" id="puesto-requisitos" placeholder="Ej: Dock Safety, Slot, Pit-C (dejar vacío si no requiere)" />
+            <small style="color: #666; font-size: 0.85rem; display: block; margin-top: 0.25rem;">
+              Si la función requiere módulos específicos, ingrésalos separados por comas. Ej: "Dock Safety, Slot"
+            </small>
           </div>
         </div>
         <div class="modal-footer">

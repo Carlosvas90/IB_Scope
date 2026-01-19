@@ -56,8 +56,8 @@ class PermisosService {
       return false;
     }
 
-    // Casos especiales para pizarra, skillmatrix e imanes - usar permisos de utilidades
-    if (appName === "pizarra" || appName === "skillmatrix" || appName === "imanes") {
+    // Casos especiales para pizarra, skillmatrix, imanes y rotation-tool - usar permisos de utilidades
+    if (appName === "pizarra" || appName === "skillmatrix" || appName === "imanes" || appName === "rotation-tool") {
       const permisosUtilidades = this.permisos["utilidades"];
       if (
         permisosUtilidades &&
