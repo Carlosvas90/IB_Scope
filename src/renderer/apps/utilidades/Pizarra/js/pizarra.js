@@ -897,7 +897,7 @@ class PizarraController {
     const asignacion = {
       usuario_login: login,
       puesto_id: this.puestoActual.id,
-      puesto_nombre: this.puestoActual.nombre,
+      puesto_nombre: this.puestoActual.funcion,
       departamento_principal: this.puestoActual.departamento_principal,
       departamento_secundario: this.puestoActual.departamento_secundario,
       funcion: this.puestoActual.funcion,
@@ -1074,12 +1074,13 @@ class PizarraController {
       if (!porPuesto[asignacion.puesto_id]) {
         // Obtener información completa del puesto
         const puestoCompleto = this.obtenerPuestoPorId(asignacion.puesto_id);
+        const funcionNombre = puestoCompleto?.funcion || asignacion.funcion || asignacion.puesto_nombre || "Sin función";
         porPuesto[asignacion.puesto_id] = {
           puesto_id: asignacion.puesto_id,
-          puesto_nombre: asignacion.puesto_nombre,
+          puesto_nombre: funcionNombre,
           departamento: asignacion.departamento_principal,
           proceso: asignacion.departamento_secundario,
-          funcion: puestoCompleto?.funcion || asignacion.puesto_nombre,
+          funcion: funcionNombre,
           asignaciones: [],
           alertas: 0
         };
@@ -1128,7 +1129,7 @@ class PizarraController {
       }
 
       const proceso = puesto.proceso || "Otro";
-      const funcion = puesto.funcion || puesto.puesto_nombre;
+      const funcion = puesto.funcion || puesto.puesto_nombre || "Sin función";
 
       // Inicializar estructura si no existe
       if (!jerarquia[deptoPrincipal]) {
@@ -1406,7 +1407,7 @@ class PizarraController {
             <div class="proceso-card ${hasAlerts ? 'has-alerts' : ''}" 
                  data-puesto-id="${funcion.puesto_id}"
                  onclick="pizarraController.mostrarDetalleProceso('${funcion.puesto_id}')">
-              <div class="proceso-nombre">${funcion.puesto_nombre}</div>
+              <div class="proceso-nombre">${funcion.puesto_nombre || funcion.funcion || "Sin función"}</div>
               <div class="proceso-stats">
                 <span class="proceso-count">${funcion.asignaciones.length}</span>
                 ${hasAlerts ? `<span class="proceso-alert-badge">${funcion.alertas}</span>` : ''}
