@@ -18,64 +18,55 @@
       "id": "dock-clerk",
       "departamento_principal": "IB",
       "departamento_secundario": "Dock",
-      "funcion": "Clerk",
-      "requisitos": []
+      "funcion": "Clerk"
     },
     {
       "id": "dock-unloader",
       "departamento_principal": "IB",
       "departamento_secundario": "Dock",
-      "funcion": "Unloader",
-      "requisitos": ["PPPJ"]
+      "funcion": "Unloader"
     },
     {
       "id": "dock-ocean",
       "departamento_principal": "IB",
       "departamento_secundario": "Dock",
-      "funcion": "Ocean",
-      "requisitos": ["Dock Safety", "Slot"]
+      "funcion": "Ocean"
     },
     {
       "id": "dock-idm",
       "departamento_principal": "IB",
       "departamento_secundario": "Dock",
-      "funcion": "IDM",
-      "requisitos": []
+      "funcion": "IDM"
     },
     {
       "id": "dock-ocean-cartonmover",
       "departamento_principal": "IB",
       "departamento_secundario": "Dock",
-      "funcion": "Ocean CartonMover",
-      "requisitos": ["Dock Safety", "Slot", "Pit-Safety-High"]
+      "funcion": "Ocean CartonMover"
     },
     {
       "id": "dock-corral",
       "departamento_principal": "IB",
       "departamento_secundario": "Dock",
-      "funcion": "Corral",
-      "requisitos": []
+      "funcion": "Corral"
     },
     {
       "id": "dock-wrappingmachine",
       "departamento_principal": "IB",
       "departamento_secundario": "Dock",
-      "funcion": "WrappingMachine",
-      "requisitos": []
+      "funcion": "WrappingMachine"
     },
     {
       "id": "dock-ergopack",
       "departamento_principal": "IB",
       "departamento_secundario": "Dock",
-      "funcion": "Ergopack",
-      "requisitos": []
+      "funcion": "Ergopack"
     },
     {
       "id": "receive-decant-tsi",
       "departamento_principal": "IB",
       "departamento_secundario": "Receive",
       "funcion": "Decant TSI",
-      "requisitos": [],
       "rate": 140,
       "analytics_key": "Decant_TSI"
     },
@@ -84,7 +75,6 @@
       "departamento_principal": "IB",
       "departamento_secundario": "Receive",
       "funcion": "Decant PID",
-      "requisitos": [],
       "rate": 180,
       "analytics_key": "Decant_PID"
     },
@@ -93,7 +83,6 @@
       "departamento_principal": "IB",
       "departamento_secundario": "Receive",
       "funcion": "NonCon",
-      "requisitos": [],
       "rate": 60,
       "analytics_key": "Noncon"
     },
@@ -101,15 +90,13 @@
       "id": "receive-cubis",
       "departamento_principal": "IB",
       "departamento_secundario": "Receive",
-      "funcion": "Cubis",
-      "requisitos": []
+      "funcion": "Cubis"
     },
     {
       "id": "receive-prep",
       "departamento_principal": "IB",
       "departamento_secundario": "Receive",
       "funcion": "Prep",
-      "requisitos": [],
       "rate": 45,
       "analytics_key": "Prep"
     },
@@ -118,7 +105,6 @@
       "departamento_principal": "IB",
       "departamento_secundario": "Receive",
       "funcion": "PrEditor",
-      "requisitos": [],
       "rate": 100,
       "analytics_key": "PreEditor"
     },
@@ -126,93 +112,86 @@
       "id": "receive-water-spider",
       "departamento_principal": "IB",
       "departamento_secundario": "Receive",
-      "funcion": "Water Spider",
-      "requisitos": []
+      "funcion": "Water Spider"
     },
     {
       "id": "stow-pick-tower",
       "departamento_principal": "IB",
       "departamento_secundario": "Stow",
       "funcion": "Stow Pick Tower",
-      "requisitos": [],
       "rate": 100
     },
     {
       "id": "stow-highrack",
       "departamento_principal": "IB",
       "departamento_secundario": "Stow",
-      "funcion": "Stow HighRack",
-      "requisitos": ["Pit-C"]
+      "funcion": "Stow HighRack"
     },
     {
       "id": "stow-buildout",
       "departamento_principal": "IB",
       "departamento_secundario": "Stow",
-      "funcion": "Stow BuildOut",
-      "requisitos": ["Pit-A"]
+      "funcion": "Stow BuildOut"
     },
     {
       "id": "stow-pit-b",
       "departamento_principal": "IB",
       "departamento_secundario": "Stow",
-      "funcion": "Pit-B",
-      "requisitos": []
+      "funcion": "Pit-B"
     },
     {
       "id": "stow-cart-runner",
       "departamento_principal": "IB",
       "departamento_secundario": "Stow",
-      "funcion": "Cart Runner",
-      "requisitos": []
+      "funcion": "Cart Runner"
     },
     {
       "id": "stow-walkietugger",
       "departamento_principal": "IB",
       "departamento_secundario": "Stow",
-      "funcion": "WalkieTugger",
-      "requisitos": []
+      "funcion": "WalkieTugger"
+    },
+    {
+      "id": "stow-ambassador",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Stow",
+      "funcion": "Ambassador"
     },
     {
       "id": "grading-whd",
       "departamento_principal": "IB",
       "departamento_secundario": "Grading",
-      "funcion": "WHD Grading",
-      "requisitos": []
+      "funcion": "WHD Grading"
     },
     {
       "id": "grading-ps",
       "departamento_principal": "IB",
       "departamento_secundario": "Grading",
-      "funcion": "PS Grading",
-      "requisitos": []
+      "funcion": "PS Grading"
     },
     {
       "id": "pout-ps",
       "departamento_principal": "IB",
       "departamento_secundario": "POUT",
-      "funcion": "PS POUT",
-      "requisitos": []
+      "funcion": "PS POUT"
     },
     {
       "id": "waste-waste",
       "departamento_principal": "Support",
       "departamento_secundario": "Waste",
-      "funcion": "Waste",
-      "requisitos": []
+      "funcion": "Waste"
     },
     {
       "id": "space-hrk-consolidation",
       "departamento_principal": "Support",
       "departamento_secundario": "Space",
-      "funcion": "Space HRK consolidation",
-      "requisitos": ["Move Container", "Stow", "Pit-C"]
+      "funcion": "Space HRK consolidation"
     },
     {
       "id": "space-consolidation",
       "departamento_principal": "Support",
       "departamento_secundario": "Space",
-      "funcion": "Space Consolidation",
-      "requisitos": ["Move Container", "Stow"]
+      "funcion": "Space Consolidation"
     }
   ],
   "puestos_personalizados": []

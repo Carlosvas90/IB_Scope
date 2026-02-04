@@ -233,15 +233,17 @@ contextBridge.exposeInMainWorld("api", {
     const url = config.permisosUrl;
     const localPaths = config.permisosPath;
 
-    // 1. Intentar leer desde la URL
-    try {
-      const response = await fetch(url);
-      if (response.ok) {
-        const data = await response.json();
-        return data;
+    // 1. Intentar leer desde la URL solo si está configurada
+    if (url && typeof url === "string" && url.trim()) {
+      try {
+        const response = await fetch(url);
+        if (response.ok) {
+          const data = await response.json();
+          return data;
+        }
+      } catch (e) {
+        // Si falla, continúa al siguiente paso
       }
-    } catch (e) {
-      // Si falla, continúa al siguiente paso
     }
 
     // 2. Si falla, intentar leer desde archivos locales (main)

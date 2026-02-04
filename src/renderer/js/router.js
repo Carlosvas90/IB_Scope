@@ -842,10 +842,11 @@ class Router {
   async changeView(viewName) {
     console.log(`🔄 Cambiando a vista: ${viewName}`);
 
-    // Verificar si la aplicación actual tiene la vista solicitada
     const app = this.routes[this.currentApp];
-
-    if (!app || !app.views || !app.views[viewName]) {
+    if (!app) return false;
+    // Apps sin vistas (ej. space-heatmap, pizarra): no hacer nada
+    if (!app.views) return true;
+    if (!app.views[viewName]) {
       console.error(`Vista no encontrada: ${viewName} en ${this.currentApp}`);
       return false;
     }

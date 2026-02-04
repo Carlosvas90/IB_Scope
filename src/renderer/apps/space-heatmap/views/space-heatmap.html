@@ -24,56 +24,24 @@
           SpaceHeatMap
         </h1>
         <div class="app-header-controls">
-          <!-- Estado del archivo en el header -->
           <div id="file-status-header" class="file-status-header">
             <span id="status-icon">📊</span>
             <span id="status-text">Cargando...</span>
           </div>
-          <button id="download-stowmap-btn" class="btn btn-primary">
-            <svg
-              id="download-icon"
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-              <polyline points="7 10 12 15 17 10"></polyline>
-              <line x1="12" y1="15" x2="12" y2="3"></line>
+          <button id="refresh-space-btn" class="btn btn-primary" title="Recargar datos desde la red (Space_paths)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="23 4 23 10 17 10"></polyline>
+              <polyline points="1 20 1 14 7 14"></polyline>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
             </svg>
-            <span id="download-btn-text">Descargar StowMap</span>
+            <span>Actualizar</span>
           </button>
         </div>
       </header>
 
       <!-- Contenido principal -->
       <div class="space-heatmap-content">
-        <!-- Mensaje de estado (solo se muestra durante descarga o errores) -->
-        <div
-          id="status-message"
-          class="status-message-banner"
-          style="display: none"
-        ></div>
-
-        <!-- Barra de progreso (solo visible durante descarga) -->
-        <div
-          id="progress-container"
-          class="progress-container"
-          style="display: none"
-        >
-          <div class="progress-header">
-            <span id="progress-text">Iniciando descarga...</span>
-            <span id="progress-percentage">0%</span>
-          </div>
-          <div class="progress-bar-wrapper">
-            <div id="progress-bar" class="progress-bar" style="width: 0%"></div>
-          </div>
-        </div>
+        <div id="status-message" class="status-message-banner" style="display: none"></div>
 
         <!-- KPIs Generales -->
         <div id="kpis-section" class="kpis-section" style="display: none">
@@ -781,48 +749,6 @@
           </div>
         </div>
 
-        <!-- Modal de información (solo se muestra la primera vez al día) -->
-        <div id="info-modal" class="modal-overlay" style="display: none">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h3>ℹ️ Información del Proceso</h3>
-              <button id="close-modal-btn" class="modal-close-btn">
-                &times;
-              </button>
-            </div>
-            <div class="modal-body">
-              <p>
-                Este proceso descarga datos de <strong>StowMap de VLC1</strong>.
-              </p>
-              <div class="info-features">
-                <div class="feature-item">
-                  <span class="feature-icon">🔐</span>
-                  <div class="feature-text">
-                    <strong>Autenticación segura</strong>
-                    <p>
-                      Se abrirá una ventana CMD para ingresar tu PIN de Midway
-                    </p>
-                  </div>
-                </div>
-                <div class="feature-item">
-                  <span class="feature-icon">⏱️</span>
-                  <div class="feature-text">
-                    <strong>Actualización recomendada</strong>
-                    <p>
-                      Los datos deben actualizarse cada hora para mantener
-                      precisión
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button id="modal-understand-btn" class="btn btn-primary">
-                Entendido
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </body>

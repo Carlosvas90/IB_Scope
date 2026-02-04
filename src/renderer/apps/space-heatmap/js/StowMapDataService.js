@@ -1,37 +1,38 @@
 /**
  * StowMapDataService
- * 
- * Servicio para cargar y acceder a los datos procesados de StowMap.
- * Los datos se procesan en Python y se guardan como JSONs pequeños
- * para carga rápida en el frontend.
+ *
+ * Servicio para cargar y acceder a los datos de Space (fullness, KPIs).
+ * Los datos se leen directamente desde las rutas de red configuradas en
+ * config.json (Space_paths): JSON en la ruta base, sin descarga ni procesamiento local.
  */
 
 class StowMapDataService {
   constructor() {
     this.dataCache = {};
-    this.dataPath = null;
+    /** @type {string[]} Rutas base desde config (Space_paths); la primera es Data_Space (JSONs) */
+    this.spacePaths = [];
     this.isLoaded = false;
   }
 
   /**
-   * Inicializa el servicio obteniendo la ruta base de datos
+   * Inicializa el servicio obteniendo Space_paths del config
    */
   async initialize() {
     try {
-      if (!window.api) {
+      if (!window.api || !window.api.getConfig) {
         console.warn('[StowMapDataService] APIs no disponibles. Reinicia la aplicación.');
         return false;
       }
 
-      // Usar userData (roaming) como debe ser
-      if (!window.api.getUserDataPath) {
-        console.warn('[StowMapDataService] getUserDataPath no disponible.');
+      const config = await window.api.getConfig();
+      const paths = config?.Space_paths;
+      if (!paths || !Array.isArray(paths) || paths.length === 0) {
+        console.warn('[StowMapDataService] Space_paths no configurado en config.json');
         return false;
       }
 
-      const userDataPath = await window.api.getUserDataPath();
-      this.dataPath = `${userDataPath}/data/space-heatmap/processed`;
-      console.log('[StowMapDataService] MODO BUILD: Usando ruta userData:', this.dataPath);
+      this.spacePaths = paths.map((p) => p.replace(/[/\\]+$/, ''));
+      console.log('[StowMapDataService] Leyendo desde Space_paths:', this.spacePaths);
       return true;
     } catch (error) {
       console.error('[StowMapDataService] Error al inicializar:', error);
@@ -40,30 +41,33 @@ class StowMapDataService {
   }
 
   /**
-   * Lee un archivo JSON procesado
+   * Lee un archivo JSON desde la primera ruta de Space_paths (carpeta Data_Space)
    */
   async readJSON(filename) {
     try {
-      if (!this.dataPath) {
+      if (this.spacePaths.length === 0) {
         await this.initialize();
       }
+      if (this.spacePaths.length === 0) {
+        throw new Error('Space_paths no disponible');
+      }
 
-      const filePath = `${this.dataPath}/${filename}`;
-      
       if (!window.api || !window.api.readJson) {
         throw new Error('API readJson no disponible');
       }
 
-      const result = await window.api.readJson(filePath);
-      // readJson devuelve { success: true, data: {...} } o { success: false, error: "..." }
-      if (result && result.success && result.data) {
-        return result.data;
-      } else if (result && result.success) {
-        // Si no tiene .data pero success es true, puede que sea el objeto directamente
-        return result;
-      } else {
-        throw new Error(result?.error || 'Error desconocido al leer JSON');
+      for (const basePath of this.spacePaths) {
+        const filePath = `${basePath}/${filename}`;
+        const result = await window.api.readJson(filePath);
+        if (result && result.success && result.data) {
+          return result.data;
+        }
+        if (result && result.success && !result.data) {
+          return result;
+        }
       }
+
+      throw new Error(`No encontrado en Space_paths: ${filename}`);
     } catch (error) {
       console.error(`[StowMapDataService] Error leyendo ${filename}:`, error);
       throw error;

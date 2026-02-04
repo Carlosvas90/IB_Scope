@@ -1,0 +1,10 @@
+{
+  "fullness_total": 71.75,
+  "total_units": 797095,
+  "total_bins": 159343,
+  "total_occupied_bins": 132207,
+  "total_locked_bins": 40478,
+  "total_empty_bins": 27136,
+  "occupancy_rate": 82.97,
+  "processed_at": "2026-02-04T19:24:25.977437"
+}

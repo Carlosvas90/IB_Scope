@@ -54,6 +54,24 @@ class ConfigService {
     console.log("[ConfigService] getConfig:", this.config);
     return this.config;
   }
+
+  async save(newConfig) {
+    try {
+      if (!newConfig || typeof newConfig !== "object") {
+        return { success: false, error: "Configuración inválida" };
+      }
+      const dir = path.dirname(this.configPath);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+      fs.writeFileSync(this.configPath, JSON.stringify(newConfig, null, 2), "utf-8");
+      this.config = newConfig;
+      return { success: true };
+    } catch (error) {
+      console.error("[ConfigService] Error al guardar:", error);
+      return { success: false, error: error.message };
+    }
+  }
 }
 
 module.exports = new ConfigService();
