@@ -85,6 +85,12 @@ contextBridge.exposeInMainWorld("api", {
   getConfig: () => ipcRenderer.invoke("get-config"),
   saveConfig: (config) => ipcRenderer.invoke("save-config", config),
 
+  /** API dr-sku: atributos de ASIN (fc, asin) -> { success, raw? | error? } */
+  fetchDrSku: (fc, asin) => ipcRenderer.invoke("fetch-dr-sku", fc, asin),
+
+  /** API fcresearch: buscar ASIN por código (tsJCART, EAN, etc.) -> { success, html? | error? } */
+  fetchFcResearch: (fc, code) => ipcRenderer.invoke("fetch-fcresearch", fc, code),
+
   // --- Base de datos SQLite ---
   /**
    * Verifica si un archivo existe en el sistema de archivos.

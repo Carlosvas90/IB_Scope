@@ -1,9 +1,10 @@
 // src/main/main.js
 
-const { app, BrowserWindow, ipcMain, dialog, shell } = require("electron");
+const { app, BrowserWindow, ipcMain, dialog, shell, session, net } = require("electron");
 const path = require("path");
 const fs = require("fs");
 const os = require("os");
+const https = require("https");
 const { spawn } = require("child_process");
 const configService = require("./services/config");
 const configHandler = require("./handlers/config");
@@ -166,6 +167,163 @@ ipcMain.handle("get-file-info", async (event, filePath) => {
     console.error("[Main] Error obteniendo info del archivo:", error);
     return { exists: false, error: error.message };
   }
+});
+
+// API dr-sku (Stow Guide): obtener atributos de un ASIN usando Electron net (maneja auth automáticamente)
+ipcMain.handle("fetch-dr-sku", async (event, fc, asin) => {
+  return new Promise((resolve) => {
+    const url = `https://dr-sku-dub.amazon.com/api/attributes/${fc || "VLC1"}/${encodeURIComponent(asin)}`;
+    
+    console.log(`[Main] fetch-dr-sku: Consultando ${url}`);
+    
+    // Usar net.request de Electron que maneja autenticación Kerberos/NTLM automáticamente
+    const request = net.request({
+      method: "GET",
+      url: url,
+      useSessionCookies: true,  // Usar cookies de la sesión
+    });
+    
+    let responseData = "";
+    
+    request.on("response", (response) => {
+      console.log(`[Main] fetch-dr-sku: Status ${response.statusCode}`);
+      
+      response.on("data", (chunk) => {
+        responseData += chunk.toString();
+      });
+      
+      response.on("end", () => {
+        if (response.statusCode === 200) {
+          try {
+            JSON.parse(responseData);
+            console.log("[Main] fetch-dr-sku: Respuesta recibida correctamente");
+            resolve({ success: true, raw: responseData });
+          } catch (e) {
+            console.error("[Main] fetch-dr-sku: Respuesta no es JSON válido");
+            resolve({ success: false, error: "Respuesta inválida del servidor" });
+          }
+        } else if (response.statusCode === 401) {
+          console.error("[Main] fetch-dr-sku: Error 401 - Autenticación requerida");
+          resolve({ success: false, error: "HTTP 401 - Ejecuta 'mwinit' en terminal y reinicia la app" });
+        } else {
+          console.error(`[Main] fetch-dr-sku: HTTP ${response.statusCode}`);
+          resolve({ success: false, error: `HTTP ${response.statusCode}` });
+        }
+      });
+      
+      response.on("error", (err) => {
+        console.error("[Main] fetch-dr-sku: Response error:", err.message);
+        resolve({ success: false, error: err.message });
+      });
+    });
+    
+    request.on("error", (err) => {
+      console.error("[Main] fetch-dr-sku: Request error:", err.message);
+      resolve({ success: false, error: err.message });
+    });
+    
+    // Manejar autenticación automáticamente
+    request.on("login", (authInfo, callback) => {
+      console.log("[Main] fetch-dr-sku: Login event - usando credenciales del sistema");
+      // Pasar null para usar credenciales del sistema (Kerberos)
+      callback();
+    });
+    
+    request.end();
+  });
+});
+
+// API fcresearch (Stow Guide): buscar ASIN por código (tsJCART, EAN, etc.)
+// Usa la sesión de la ventana principal para heredar autenticación
+ipcMain.handle("fetch-fcresearch", async (event, fc, code) => {
+  return new Promise((resolve) => {
+    const url = `https://fcresearch-eu.aka.amazon.com/${fc || "VLC1"}/results?s=${encodeURIComponent(code)}`;
+    
+    console.log(`[Main] fetch-fcresearch: Consultando ${url}`);
+    
+    // Obtener la sesión de la ventana principal
+    const mainSession = mainWindow ? mainWindow.webContents.session : session.defaultSession;
+    
+    // Crear ventana oculta usando la MISMA sesión que mainWindow
+    const hiddenWindow = new BrowserWindow({
+      width: 1024,
+      height: 768,
+      show: false,
+      parent: mainWindow,  // Asociar con ventana principal
+      webPreferences: {
+        nodeIntegration: false,
+        contextIsolation: true,
+        session: mainSession,  // Usar la sesión de la ventana principal
+      }
+    });
+    
+    let resolved = false;
+    const timeout = setTimeout(() => {
+      if (!resolved) {
+        resolved = true;
+        console.error("[Main] fetch-fcresearch: Timeout");
+        hiddenWindow.destroy();
+        resolve({ success: false, error: "Timeout al cargar fcresearch" });
+      }
+    }, 30000); // 30 segundos timeout
+    
+    // Manejar autenticación (hereda de mainWindow)
+    hiddenWindow.webContents.on("login", (event, authenticationResponseDetails, authInfo, callback) => {
+      console.log("[Main] fetch-fcresearch: Login event - usando credenciales del sistema");
+      event.preventDefault();
+      callback(); // Usar credenciales del sistema (Kerberos)
+    });
+    
+    // Cuando la página termine de cargar
+    hiddenWindow.webContents.on("did-finish-load", async () => {
+      if (resolved) return;
+      
+      try {
+        // Esperar un poco para que el JavaScript de la página cargue el contenido
+        await new Promise(r => setTimeout(r, 2000));
+        
+        // Obtener el HTML de la página
+        const html = await hiddenWindow.webContents.executeJavaScript("document.documentElement.outerHTML");
+        
+        clearTimeout(timeout);
+        resolved = true;
+        hiddenWindow.destroy();
+        
+        // Verificar si es página de autenticación
+        if (html.includes("FIT Security Token") || html.includes("Security Token Server")) {
+          console.error("[Main] fetch-fcresearch: Recibida página de autenticación");
+          resolve({ success: false, error: "Autenticación requerida - Abre fcresearch manualmente en navegador primero" });
+          return;
+        }
+        
+        console.log("[Main] fetch-fcresearch: HTML obtenido, longitud:", html.length);
+        resolve({ success: true, html });
+        
+      } catch (err) {
+        if (!resolved) {
+          clearTimeout(timeout);
+          resolved = true;
+          hiddenWindow.destroy();
+          console.error("[Main] fetch-fcresearch: Error extrayendo HTML:", err.message);
+          resolve({ success: false, error: err.message });
+        }
+      }
+    });
+    
+    // Manejar errores de carga
+    hiddenWindow.webContents.on("did-fail-load", (event, errorCode, errorDescription) => {
+      if (!resolved) {
+        clearTimeout(timeout);
+        resolved = true;
+        hiddenWindow.destroy();
+        console.error("[Main] fetch-fcresearch: Error cargando:", errorDescription);
+        resolve({ success: false, error: errorDescription });
+      }
+    });
+    
+    // Cargar la URL
+    hiddenWindow.loadURL(url);
+  });
 });
 
 // Abrir enlaces externos

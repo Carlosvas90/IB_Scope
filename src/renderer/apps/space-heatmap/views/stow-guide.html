@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stow Guide - Space</title>
+  </head>
+  <body>
+    <div class="space-heatmap-container">
+      <header class="app-header-card">
+        <h1>
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-flex; align-items: center; vertical-align: middle; margin-right: 8px;">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          Stow Guide
+        </h1>
+      </header>
+
+      <div class="space-heatmap-content stow-guide-content">
+        <section class="info-card stow-guide-scan">
+          <div class="info-card-header">
+            <h3>Consultar ASIN</h3>
+          </div>
+          <div class="info-card-content">
+            <p>Escanea tu ubicación actual y el ASIN para encontrar la bin más cercana con espacio disponible.</p>
+            
+            <div class="stow-guide-field">
+              <label for="stow-guide-bin-input">1. Bin de referencia (tu ubicación)</label>
+              <input type="text" id="stow-guide-bin-input" class="stow-guide-input" placeholder="Ej: P-1-B293B212" autocomplete="off" />
+            </div>
+            
+            <div class="stow-guide-field">
+              <label for="stow-guide-asin-input">2. ASIN / EAN del artículo</label>
+              <div class="stow-guide-scan-row">
+                <input type="text" id="stow-guide-asin-input" class="stow-guide-input" placeholder="Ej: B0CCV93X49 o 6974062921532" autocomplete="off" />
+                <button type="button" id="stow-guide-analyze-btn" class="btn btn-primary stow-guide-analyze-btn">Buscar Bin</button>
+              </div>
+            </div>
+            <div id="stow-guide-loading" class="stow-guide-loading" style="display: none;">Consultando drSku...</div>
+            <div id="stow-guide-error" class="stow-guide-error" style="display: none;"></div>
+            <div id="stow-guide-result" class="stow-guide-result" style="display: none;">
+              <div class="stow-guide-result-grid">
+                <div class="stow-guide-result-section">
+                  <h4 class="stow-guide-result-title">Artículo</h4>
+                  <dl class="stow-guide-result-dl">
+                    <dt>ASIN/EAN</dt><dd id="result-asin">—</dd>
+                    <dt>Peso (kg)</dt><dd id="result-weight">—</dd>
+                    <dt>Dimensiones (cm)</dt><dd id="result-dimensions">—</dd>
+                    <dt>Volumen (cuft)</dt><dd id="result-volume">—</dd>
+                    <dt>Team Lift</dt><dd id="result-teamlift">—</dd>
+                    <dt>Bin Type</dt><dd id="result-bin-type">—</dd>
+                  </dl>
+                </div>
+                <div class="stow-guide-result-section stow-guide-recommendation">
+                  <h4 class="stow-guide-result-title">Bin Recomendada</h4>
+                  <div id="result-recommended-bin" class="result-recommended-bin">—</div>
+                  <dl class="stow-guide-result-dl">
+                    <dt>Distancia</dt><dd id="result-distance">—</dd>
+                    <dt>Utilización</dt><dd id="result-utilization">—</dd>
+                    <dt>ASINs únicos</dt><dd id="result-asin-count">—</dd>
+                    <dt>Espacio libre</dt><dd id="result-free-space">—</dd>
+                  </dl>
+                  <div id="result-alternatives" class="stow-guide-alternatives" style="display: none;">
+                    <small>Otras opciones cercanas:</small>
+                    <ul id="result-alternatives-list"></ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </body>
+</html>

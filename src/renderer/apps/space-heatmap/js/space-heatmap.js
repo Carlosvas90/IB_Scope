@@ -1865,10 +1865,15 @@ function initializeSpaceHeatmap() {
   const tablesSection = document.getElementById('tables-section');
   
   if (!kpisSection || !tablesSection) {
+    if (document.getElementById('stow-guide-asin-input')) {
+      return;
+    }
     console.warn('[Space Heatmap] Elementos DOM no encontrados, esperando 200ms...');
     setTimeout(() => {
       if (document.getElementById('kpis-section') && document.getElementById('tables-section')) {
         initializeSpaceHeatmap();
+      } else if (document.getElementById('stow-guide-asin-input')) {
+        return;
       } else {
         console.error('[Space Heatmap] No se pudieron encontrar los elementos DOM después de esperar');
         showErrorMessage('Error: No se encontraron los elementos necesarios. Por favor, recarga la página.');
@@ -1897,18 +1902,18 @@ if (document.readyState === "loading") {
 window.addEventListener("app:ready", (event) => {
   console.log("📢 Evento app:ready recibido:", event.detail);
   if (event.detail && event.detail.app === "space-heatmap") {
+    if (event.detail.view === "stow-guide") return;
     console.log("🔄 Space Heatmap cargada de nuevo, reinicializando...");
-    // Delay aumentado para asegurar que el DOM esté completamente listo
     setTimeout(() => {
-      // Verificar que los elementos DOM existan antes de inicializar
       const kpisSection = document.getElementById('kpis-section');
       const tablesSection = document.getElementById('tables-section');
-      
+      if (document.getElementById('stow-guide-asin-input')) return;
       if (kpisSection && tablesSection) {
         initializeSpaceHeatmap();
       } else {
         console.warn('[Space Heatmap] Elementos DOM no listos, reintentando en 200ms...');
         setTimeout(() => {
+          if (document.getElementById('stow-guide-asin-input')) return;
           if (document.getElementById('kpis-section') && document.getElementById('tables-section')) {
             initializeSpaceHeatmap();
           } else {
@@ -1916,7 +1921,7 @@ window.addEventListener("app:ready", (event) => {
           }
         }, 200);
       }
-    }, 500); // Aumentado de 300ms a 500ms
+    }, 500);
   }
 });
 
@@ -1924,20 +1929,19 @@ window.addEventListener("app:ready", (event) => {
 window.addEventListener("app:loaded", (event) => {
   console.log("📢 Evento app:loaded recibido:", event.detail);
   if (event.detail && event.detail.app === "space-heatmap") {
+    if (event.detail.view === "stow-guide") return;
     console.log("🔄 Space Heatmap cargada, reinicializando datos...");
-    // Delay aumentado para asegurar que el DOM esté completamente listo
     setTimeout(() => {
-      // Verificar que los elementos DOM existan antes de cargar datos
+      if (document.getElementById('stow-guide-asin-input')) return;
       const kpisSection = document.getElementById('kpis-section');
       const tablesSection = document.getElementById('tables-section');
-      
       if (kpisSection && tablesSection) {
-        // Solo recargar datos, no reinicializar todo (para evitar duplicar listeners)
         loadBannerIcon();
         loadAndDisplayData();
       } else {
         console.warn('[Space Heatmap] Elementos DOM no listos, reintentando en 200ms...');
         setTimeout(() => {
+          if (document.getElementById('stow-guide-asin-input')) return;
           if (document.getElementById('kpis-section') && document.getElementById('tables-section')) {
             loadBannerIcon();
             loadAndDisplayData();
@@ -1947,6 +1951,6 @@ window.addEventListener("app:loaded", (event) => {
           }
         }, 200);
       }
-    }, 500); // Aumentado de 300ms a 500ms
+    }, 500);
   }
 });

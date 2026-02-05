@@ -227,6 +227,214 @@
   line-height: 1.6;
 }
 
+/* Stow Guide: listas */
+.space-heatmap-container .stow-guide-list {
+  margin: 0 0 1rem 0;
+  padding-left: 1.5rem;
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.7;
+}
+
+.space-heatmap-container .stow-guide-list li {
+  margin-bottom: 0.5rem;
+}
+
+/* Stow Guide: consultar ASIN */
+.space-heatmap-container .stow-guide-scan-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.space-heatmap-container .stow-guide-asin-input {
+  flex: 1;
+  min-width: 12rem;
+  padding: 0.625rem 1rem;
+  font-size: 1rem;
+  border: 0.125rem solid #ddd;
+  border-radius: 0.5rem;
+  outline: none;
+}
+
+.space-heatmap-container .stow-guide-asin-input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.2);
+}
+
+.space-heatmap-container .stow-guide-analyze-btn {
+  white-space: nowrap;
+}
+
+.space-heatmap-container .stow-guide-loading {
+  margin-top: 1rem;
+  color: #667eea;
+  font-weight: 500;
+}
+
+.space-heatmap-container .stow-guide-error {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background: #fee2e2;
+  color: #991b1b;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.space-heatmap-container .stow-guide-result {
+  margin-top: 1.25rem;
+  padding: 1.25rem;
+  background: #f8fafc;
+  border-radius: 0.75rem;
+  border: 0.0625rem solid #e2e8f0;
+}
+
+.space-heatmap-container .stow-guide-result-title {
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  color: #334155;
+}
+
+.space-heatmap-container .stow-guide-result-dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem 1.5rem;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.space-heatmap-container .stow-guide-result-dl dt {
+  color: #64748b;
+  font-weight: 500;
+}
+
+.space-heatmap-container .stow-guide-result-dl dd {
+  margin: 0;
+}
+
+.space-heatmap-container .stow-guide-result-dl .result-bin-type {
+  font-weight: 700;
+  color: #667eea;
+  font-size: 1.05rem;
+}
+
+/* Stow Guide: campos de formulario */
+.space-heatmap-container .stow-guide-field {
+  margin-bottom: 1rem;
+}
+
+.space-heatmap-container .stow-guide-field label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+.space-heatmap-container .stow-guide-input {
+  width: 100%;
+  max-width: 20rem;
+  padding: 0.625rem 1rem;
+  font-size: 1rem;
+  border: 0.125rem solid #ddd;
+  border-radius: 0.5rem;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.space-heatmap-container .stow-guide-input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.2);
+}
+
+.space-heatmap-container .stow-guide-scan-row .stow-guide-input {
+  flex: 1;
+  min-width: 12rem;
+  max-width: none;
+}
+
+/* Stow Guide: grid de resultados */
+.space-heatmap-container .stow-guide-result-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 48rem) {
+  .space-heatmap-container .stow-guide-result-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.space-heatmap-container .stow-guide-result-section {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+.space-heatmap-container .stow-guide-recommendation {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border-color: #86efac;
+}
+
+.space-heatmap-container .result-recommended-bin {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #166534;
+  text-align: center;
+  padding: 1rem;
+  margin: 0.5rem 0 1rem 0;
+  background: #fff;
+  border-radius: 0.5rem;
+  border: 2px solid #22c55e;
+  font-family: monospace;
+  letter-spacing: 0.05em;
+  word-break: keep-all;
+  overflow-wrap: normal;
+  min-width: 0;
+}
+
+.space-heatmap-container .stow-guide-alternatives {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #d1d5db;
+}
+
+.space-heatmap-container .stow-guide-alternatives small {
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.space-heatmap-container .stow-guide-alternatives ul {
+  list-style: none;
+  margin: 0.5rem 0 0 0;
+  padding: 0;
+}
+
+.space-heatmap-container .stow-guide-alternatives li {
+  padding: 0.35rem 0.5rem;
+  margin: 0.25rem 0;
+  background: #fff;
+  border-radius: 0.25rem;
+  font-family: monospace;
+  font-size: 0.85rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  word-break: keep-all;
+}
+.space-heatmap-container .stow-guide-alternatives .stow-guide-bin-id {
+  flex-shrink: 0; /* Bin ID completo, sin truncar */
+}
+
+.space-heatmap-container .stow-guide-alternatives li span {
+  color: #6b7280;
+  font-size: 0.75rem;
+}
+
 /* Features list */
 .space-heatmap-container .info-features {
   display: flex;

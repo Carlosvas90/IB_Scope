@@ -42,7 +42,11 @@
       "files": {
         "errors": "error_tracker.json"
       },
-      "views": ["errors", "stats", "settings"]
+      "views": [
+        "errors",
+        "stats",
+        "settings"
+      ]
     }
   },
   "permisosPath": [

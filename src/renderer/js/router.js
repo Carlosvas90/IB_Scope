@@ -72,6 +72,15 @@ class Router {
           "../apps/space-heatmap/js/StowMapDataService.js",
           "../apps/space-heatmap/js/space-heatmap.js"
         ],
+        styles: ["../apps/space-heatmap/css/space-heatmap.css"],
+        hasSubmenu: true,
+        views: {
+          Dashboard: true,
+          "stow-guide": {
+            path: "../apps/space-heatmap/views/stow-guide.html",
+            scripts: ["../apps/space-heatmap/js/stow-guide.js"]
+          }
+        }
       },
       "pizarra": {
         path: "../apps/utilidades/Pizarra/views/pizarra.html",
@@ -265,8 +274,8 @@ class Router {
         const isSpecialView = typeof viewConfig === 'object' && viewConfig.path;
         
         if (isSpecialView) {
-          // Para vistas especiales (como Estadisticas), cargar la app completa
-          this.loadApp(appName, app.path, viewName, updateHistory);
+          // Para vistas con HTML propio, cargar directamente ese HTML
+          this.loadApp(appName, viewConfig.path, viewName, updateHistory);
           return true;
         } else {
           // Para vistas normales (como Incidencias), necesitamos verificar
@@ -297,8 +306,11 @@ class Router {
       return true;
     }
 
-    // Cargar la nueva aplicación
-    this.loadApp(appName, app.path, viewName || app.defaultView, updateHistory);
+    // Si la vista tiene HTML propio, cargar ese HTML primero (evita que el dashboard init corra y luego se reemplace el DOM)
+    const view = viewName || app.defaultView;
+    const viewConfig = view && app.views && app.views[view];
+    const initialPath = (typeof viewConfig === "object" && viewConfig.path) ? viewConfig.path : app.path;
+    this.loadApp(appName, initialPath, view, updateHistory);
     return true;
   }
 
@@ -580,8 +592,32 @@ class Router {
       // Insertar el contenido en el contenedor (aún oculto)
       this.appContainer.innerHTML = content;
 
+      const app = this.routes[appName];
+      const isViewPath = viewName && app.views && app.views[viewName] && typeof app.views[viewName] === "object" && app.views[viewName].path === appPath;
+
       // Cargar scripts definidos en la aplicación
       await this.loadAppScripts(appName);
+
+      // Si cargamos el HTML de una vista con path propio, cargar también sus scripts
+      if (isViewPath && app.views[viewName].scripts && app.views[viewName].scripts.length) {
+        for (const scriptPath of app.views[viewName].scripts) {
+          try {
+            const scriptId = `view-script-${appName}-${viewName}-${scriptPath.replace(/[^a-z0-9]/gi, "-")}`;
+            if (document.getElementById(scriptId)) continue;
+            const script = document.createElement("script");
+            script.id = scriptId;
+            script.type = "module";
+            script.src = scriptPath;
+            await new Promise((resolve, reject) => {
+              script.onload = () => resolve();
+              script.onerror = () => resolve();
+              document.body.appendChild(script);
+            });
+          } catch (e) {
+            console.warn("[Router] Error cargando script de vista:", scriptPath, e);
+          }
+        }
+      }
 
       // Si es activity-scope, cargar el CSS de la vista principal (user-activity)
       if (appName === "activity-scope") {
@@ -620,9 +656,14 @@ class Router {
       this.currentApp = appName;
       this.loadedApps[appName] = true;
 
-      // Cambiar a la vista solicitada
+      // Si ya cargamos el HTML de la vista, no llamar changeView; solo fijar currentView y emitir view:loaded
       if (viewName) {
-        await this.changeView(viewName);
+        if (isViewPath) {
+          this.currentView = viewName;
+          document.dispatchEvent(new CustomEvent("view:loaded", { detail: { app: appName, view: viewName } }));
+        } else {
+          await this.changeView(viewName);
+        }
       }
 
       // Actualizar enlace activo
@@ -857,8 +898,8 @@ class Router {
     const viewConfig = app.views[viewName];
     const isSpecialView = typeof viewConfig === 'object' && viewConfig.path;
 
-    // Para vistas especiales con path propio (activity-scope, Estadisticas en Inventory-Healt, etc.)
-    if (this.currentApp === "activity-scope" || (this.currentApp === "Inventory-Healt" && isSpecialView)) {
+    // Para vistas especiales con path propio (activity-scope, space-heatmap Stow Guide, etc.)
+    if (this.currentApp === "activity-scope" || (this.currentApp === "Inventory-Healt" && isSpecialView) || (this.currentApp === "space-heatmap" && isSpecialView)) {
       const viewPath = isSpecialView ? viewConfig.path : viewConfig;
       console.log(`🎯 Cargando vista desde archivo:`, viewPath);
 

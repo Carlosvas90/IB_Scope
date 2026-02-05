@@ -1,0 +1,119 @@
+{
+  "fc_code": "VLC1",
+  "pout": {
+    "height_max": 176,
+    "weight_max": 23,
+    "height_weight_combo": {
+      "height": 120,
+      "weight": 15
+    }
+  },
+  "team_lift_weight": 15,
+  "bins": [
+    {
+      "name": "Bat-Bin",
+      "priority": 1,
+      "conditions": {
+        "min_height": 90,
+        "max_height": 140,
+        "max_width": 15,
+        "max_weight": 14.999
+      },
+      "operator": "AND",
+      "description": "Items muy largos y delgados (bates, palos largos). Altura 90-140cm"
+    },
+    {
+      "name": "Bat-Bin TL",
+      "priority": 2,
+      "conditions": {
+        "min_height": 90,
+        "max_height": 140,
+        "max_width": 15,
+        "min_weight": 15,
+        "max_weight": 22.999
+      },
+      "operator": "AND",
+      "description": "Bat-Bin pesado (TL)"
+    },
+    {
+      "name": "Barrel",
+      "priority": 3,
+      "conditions": {
+        "min_length": 70,
+        "max_height": 15,
+        "max_width": 15,
+        "max_weight": 14.999
+      },
+      "operator": "AND",
+      "description": "Items largos y delgados (tubos, palos, etc). Barrel mide 70x15x15cm"
+    },
+    {
+      "name": "Barrel TL",
+      "priority": 4,
+      "conditions": {
+        "min_length": 70,
+        "max_height": 15,
+        "max_width": 15,
+        "min_weight": 15,
+        "max_weight": 22.999
+      },
+      "operator": "AND",
+      "description": "Barrel pesado (TL). Mismo tamaño que Barrel normal"
+    },
+    {
+      "name": "Library Deep",
+      "priority": 5,
+      "conditions": {
+        "max_weight": 14.999,
+        "max_length": 70,
+        "max_height": 48,
+        "max_width": 48
+      },
+      "operator": "AND"
+    },
+    {
+      "name": "Library Deep TL",
+      "priority": 6,
+      "conditions": {
+        "min_weight": 15,
+        "max_weight": 22.999,
+        "max_length": 70,
+        "max_height": 48,
+        "max_width": 48
+      },
+      "operator": "AND"
+    },
+    {
+      "name": "Half Vertical",
+      "priority": 7,
+      "conditions": {
+        "max_weight": 14.999,
+        "max_length": 137,
+        "max_width": 76,
+        "max_height": 75
+      },
+      "operator": "AND"
+    },
+    {
+      "name": "Half Vertical TL",
+      "priority": 8,
+      "conditions": {
+        "min_weight": 15,
+        "max_weight": 22.999,
+        "max_length": 137,
+        "max_width": 76,
+        "max_height": 75
+      },
+      "operator": "AND"
+    },
+    {
+      "name": "Floor-Pallet",
+      "priority": 9,
+      "conditions": {
+        "max_weight": 22.999
+      },
+      "operator": "AND",
+      "custom_check": "floor_pallet"
+    }
+  ]
+}
