@@ -28,7 +28,7 @@
   "preferred_theme": "light",
   "auto_refresh": 60,
   "app_name": "Inbound Scope",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "default_app": "dashboard",
   "apps": {
     "dashboard": {
