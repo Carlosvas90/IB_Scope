@@ -142,6 +142,34 @@ function getSpecialDropzone(data, binType) {
   return DROPZONE_MAP[binType] || null;
 }
 
+// ==================== DETECCIÓN DE COLCHONES ====================
+
+const MATTRESS_KEYWORDS = [
+  "colchon", "colchón", "mattress", "colchones",
+  "sobrecolchón", "sobrecolchon", "topper viscoelástico", "topper viscoelastico",
+  "memory colchones", "colchón de espuma", "colchon de espuma"
+];
+
+/**
+ * Detecta si un producto es colchón (o topper/sobrecolchón) por el nombre
+ */
+function isMattress(productName) {
+  if (!productName) return false;
+  const nameLower = productName.toLowerCase();
+  return MATTRESS_KEYWORDS.some(k => nameLower.includes(k));
+}
+
+/**
+ * Si es colchón, devuelve opciones de búsqueda: P2 y solo shelf B o C
+ * @returns {{ preferredFloor: number, requiredShelves: string[] } | null}
+ */
+function getMattressOptions(data) {
+  const productName = data?.item_name || data?.name || "";
+  if (!isMattress(productName)) return null;
+  console.log(`[Stow Guide] 🛏️ Detectado COLCHÓN: ${productName.substring(0, 50)}... → P2, shelf B o C`);
+  return { preferredFloor: 2, requiredShelves: ["B", "C"] };
+}
+
 // ==================== DETECCIÓN DE TIPO DE CÓDIGO ====================
 
 /**
@@ -534,9 +562,17 @@ async function loadBinsData() {
  * @param {number} options.maxResults - Máximo de resultados a retornar (default: 5)
  * @param {boolean} options.allowOtherFloors - Si buscar en otros pisos
  * @param {string|null} options.requiredDropzone - Dropzone específica requerida (ej: pet food)
+ * @param {number|null} options.preferredFloor - Piso preferido (ej: 2 para colchones)
+ * @param {string[]} options.requiredShelves - Shelves permitidos (ej: ['B','C'] para colchones)
  */
 function findNearestBins(referenceBin, targetBinType, itemVolumeCuft, binsData, options = {}) {
-  const { maxResults = 5, allowOtherFloors = false, requiredDropzone: customDropzone = null } = options;
+  const { 
+    maxResults = 5, 
+    allowOtherFloors = false, 
+    requiredDropzone: customDropzone = null,
+    preferredFloor = null,
+    requiredShelves = null
+  } = options;
   
   if (!binsData?.b || !binsData?.t || !binsData?.d) {
     return { found: false, error: "Datos de bins no disponibles" };
@@ -555,9 +591,7 @@ function findNearestBins(referenceBin, targetBinType, itemVolumeCuft, binsData, 
   // Usar dropzone custom (pet food, etc.) o la del tipo de bin (TL)
   const requiredDropzone = customDropzone || DROPZONE_MAP[targetBinType] || null;
   
-  console.log(`[Stow Guide] Buscando bins tipo: ${jsonBinType}, dropzone requerida: ${requiredDropzone || "ninguna"}`);
-  console.log(`[Stow Guide] Dropzones disponibles en JSON:`, dropzones);
-  console.log(`[Stow Guide] Piso de referencia: ${referenceBin.piso}, allowOtherFloors: ${allowOtherFloors}`);
+  console.log(`[Stow Guide] Buscando bins tipo: ${jsonBinType}, dropzone: ${requiredDropzone || "ninguna"}${preferredFloor != null ? `, piso preferido: P${preferredFloor}` : ""}${requiredShelves?.length ? `, shelves: ${requiredShelves.join("/")}` : ""}`);
   
   // Encontrar el índice del tipo en el JSON
   const typeIndex = types.findIndex(t => t.toUpperCase() === jsonBinType.toUpperCase());
@@ -602,8 +636,14 @@ function findNearestBins(referenceBin, targetBinType, itemVolumeCuft, binsData, 
     const parsed = parseBinId(binId);
     if (!parsed) continue;
     
-    // Filtrar por piso (a menos que permitamos otros pisos)
-    if (!allowOtherFloors && parsed.piso !== referenceBin.piso) continue;
+    // Filtrar por shelf requerido (ej: colchones solo B o C)
+    if (requiredShelves?.length && !requiredShelves.includes(parsed.shelf)) continue;
+    
+    // Filtrar por piso: preferido (ej. P2 colchones) o mismo que referencia
+    if (!allowOtherFloors) {
+      const floorOk = preferredFloor != null ? parsed.piso === preferredFloor : parsed.piso === referenceBin.piso;
+      if (!floorOk) continue;
+    }
     
     // Calcular espacio libre
     const space = calculateFreeSpace(jsonBinType, parsed.shelf, utilization);
@@ -614,9 +654,12 @@ function findNearestBins(referenceBin, targetBinType, itemVolumeCuft, binsData, 
     // Calcular distancia (agregar penalización por cambio de piso)
     let distance = calculateDistance(referenceBin, parsed);
     if (parsed.piso !== referenceBin.piso) {
-      // Penalización grande por cambiar de piso (subir/bajar escaleras)
       const pisosDiff = Math.abs(parsed.piso - referenceBin.piso);
-      distance += pisosDiff * 1000; // 1000 unidades por cada piso de diferencia
+      distance += pisosDiff * 1000;
+    }
+    // Si hay piso preferido (ej. colchones P2), penalizar bins que no estén en ese piso
+    if (preferredFloor != null && parsed.piso !== preferredFloor) {
+      distance += 500; // Penalización para que P2 salga primero
     }
     
     candidates.push({
@@ -634,11 +677,17 @@ function findNearestBins(referenceBin, targetBinType, itemVolumeCuft, binsData, 
   
   // Si no hay candidatos y requiere dropzone especial, buscar en otros pisos
   if (candidates.length === 0 && requiredDropzone && !allowOtherFloors) {
-    console.log(`[Stow Guide] No hay bins ${targetBinType} (${requiredDropzone}) en Piso ${referenceBin.piso}, buscando en otros pisos...`);
+    console.log(`[Stow Guide] No hay bins ${targetBinType} (${requiredDropzone}) en este piso, buscando en otros pisos...`);
     return findNearestBins(referenceBin, targetBinType, itemVolumeCuft, binsData, { 
-      maxResults, 
-      allowOtherFloors: true, 
-      requiredDropzone: requiredDropzone  // Pasar la dropzone calculada
+      maxResults, allowOtherFloors: true, requiredDropzone, preferredFloor, requiredShelves 
+    });
+  }
+  
+  // Si no hay candidatos y hay piso preferido (ej. colchones P2), buscar en otros pisos
+  if (candidates.length === 0 && preferredFloor != null && !allowOtherFloors) {
+    console.log(`[Stow Guide] No hay bins en P${preferredFloor} (shelf ${(requiredShelves || []).join("/")}), buscando en otros pisos...`);
+    return findNearestBins(referenceBin, targetBinType, itemVolumeCuft, binsData, { 
+      maxResults, allowOtherFloors: true, requiredDropzone: customDropzone, preferredFloor, requiredShelves 
     });
   }
   
@@ -719,17 +768,19 @@ function showResult(data, binInfo, teamLiftLabel, searchResult) {
   set("result-volume", volumeCuft > 0 ? volumeCuft.toFixed(2) : "—");
   
   set("result-teamlift", teamLiftLabel);
-  
-  // Mostrar tipo de bin con indicador de Pet Food si aplica
-  const binTypeEl = document.getElementById("result-bin-type");
-  if (binTypeEl) {
-    const baseBinType = binInfo?.binType ?? "—";
+  set("result-bin-type", binInfo?.binType ?? "—");
+
+  // Debajo de Bin Type: mostrar si se detectó Pet Food o Colchones
+  const detectedEl = document.getElementById("result-detected");
+  if (detectedEl) {
+    const detected = [];
     if (searchResult?.specialDropzone?.includes("PETFOOD")) {
-      const petLabel = searchResult.specialDropzone.includes("TeamLift") ? "🐕 Pet Food TL" : "🐕 Pet Food";
-      binTypeEl.innerHTML = `${baseBinType} <span style="background:#f59e0b;color:#fff;padding:2px 6px;border-radius:4px;font-size:0.75em;margin-left:4px;">${petLabel}</span>`;
-    } else {
-      binTypeEl.textContent = baseBinType;
+      detected.push("Pet Food");
     }
+    if (searchResult?.isMattress) {
+      detected.push("Colchones");
+    }
+    detectedEl.textContent = detected.length ? detected.join(", ") : "—";
   }
 
   // Bin recomendada
@@ -982,13 +1033,16 @@ async function analyzeAsin() {
     
     // Detectar dropzone especial (Pet Food, etc.)
     const specialDropzone = getSpecialDropzone(data, binInfo.binType);
+    // Detectar colchón → P2, shelf B o C
+    const mattressOptions = getMattressOptions(data);
     
     // Buscar bin más cercana
     let searchResult = { found: false, error: "Datos de bins no cargados" };
     if (binsData && binInfo.binType !== "POUT" && binInfo.binType !== "Sin clasificar") {
       searchResult = findNearestBins(referenceBin, binInfo.binType, volumeCuft, binsData, {
         maxResults: 5,
-        requiredDropzone: specialDropzone
+        requiredDropzone: specialDropzone,
+        ...(mattressOptions || {})
       });
     } else if (binInfo.binType === "POUT") {
       searchResult = { found: false, error: "Artículo va a POUT, no Pick Tower" };
@@ -997,6 +1051,9 @@ async function analyzeAsin() {
     // Agregar info de dropzone especial al resultado para mostrar en UI
     if (specialDropzone) {
       searchResult.specialDropzone = specialDropzone;
+    }
+    if (mattressOptions) {
+      searchResult.isMattress = true;
     }
 
     showResult(data, binInfo, teamLiftLabel, searchResult);
