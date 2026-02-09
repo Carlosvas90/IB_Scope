@@ -1,0 +1,12 @@
+---
+description: Política de Skills — revisar Skills aplicables antes de implementar; no inventar convenciones
+alwaysApply: true
+---
+
+# Política de Skills
+
+- **Antes de implementar algo nuevo, revisar si hay Skills aplicables y usarlas.** No asumir que Cursor las revisa automáticamente; comprobar explícitamente.
+- **Si hay duda**, que el agente pregunte o proponga qué Skill usar en lugar de inventar convenciones o flujos propios.
+- **No inventar convenciones.** Si existe una Skill para reglas, configuración, estándares de código, etc., usarla en lugar de definir algo ad hoc.
+
+Cuando la tarea toque creación de reglas, estándares, configuración del editor o habilidades del agente, considerar primero las Skills disponibles (p. ej. create-rule, create-skill, update-cursor-settings).

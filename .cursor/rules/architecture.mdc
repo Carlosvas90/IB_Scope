@@ -1,0 +1,29 @@
+---
+description: Convenciones de arquitectura y estructura del repo IB_Scope
+globs: src/**/*,config/**/*,assets/**/*
+alwaysApply: false
+---
+
+# Arquitectura y convenciones (IB_Scope)
+
+Estructura y nombres del proyecto. Aplicar cuando trabajes en `src/`, `config/` o `assets/`.
+
+## Estructura
+
+- **`src/main/`** — Proceso principal Electron: `handlers/`, `services/`, `main.js`.
+- **`src/renderer/`** — Proceso de renderizado:
+  - **`apps/`** — Una carpeta por app: `dashboard/`, `feedback-tracker/`, `activity-scope/`, `idle-time/`, `space-heatmap/`.
+  - **`core/`** — Compartido: `controllers/`, `services/`, `utils/`.
+  - **`css/`**, **`js/`**, **`views/`** — Estilos, scripts y vistas globales.
+- **`src/preload/`** — Scripts de precarga.
+- **`assets/`** — Recursos estáticos: `icons/`, `animations/`, `svg/`, etc.
+- **`config/`** — Configuración de la aplicación (JSON, etc.).
+
+## Convenciones
+
+- Código nuevo de una funcionalidad concreta va en la app correspondiente bajo `renderer/apps/<nombre-app>/`.
+- Lógica reutilizable entre apps va en `renderer/core/` (controllers, services, utils).
+- No mezclar responsabilidades del proceso principal (`main/`) con las del renderer.
+- Respetar la estructura existente; al añadir módulos o vistas, colocarlos según esta jerarquía.
+
+Si algo no encaja en esta estructura, proponer dónde colocarlo en lugar de crear carpetas o nombres ad hoc.

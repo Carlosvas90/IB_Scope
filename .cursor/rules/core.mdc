@@ -1,0 +1,13 @@
+---
+description: Reglas core — no romper funcionalidad, cambios incrementales, plan antes de ejecutar
+alwaysApply: true
+---
+
+# Reglas core
+
+- **No romper funcionalidades existentes.** Cualquier cambio debe preservar el comportamiento actual a menos que se pida explícitamente lo contrario.
+- **Cambios pequeños e incrementales.** Hacer una cosa a la vez; evitar refactors masivos o tocar muchos archivos en un solo paso.
+- **Siempre leer código relevante antes de editar.** Revisar archivos relacionados, llamadas y dependencias antes de modificar.
+- **Siempre proponer un plan corto antes de ejecutar.** Resumir en 2–5 pasos qué vas a hacer y en qué orden; luego ejecutar.
+
+Ejemplo de plan corto: "1) Leer X y Y. 2) Añadir validación en Z. 3) Probar que no se rompe W."

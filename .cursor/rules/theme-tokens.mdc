@@ -1,0 +1,13 @@
+---
+description: Theme-Tokens Guardian — variables.css es la única fuente de tokens (colores, espaciado, tipografía). Todo el CSS debe usar var(--...) desde ahí; light/dark completos.
+globs: src/renderer/css/**/*.css
+alwaysApply: false
+---
+
+# Theme-Tokens Guardian
+
+- **Fuente de verdad:** `src/renderer/css/themes/variables.css` (único `:root` y `.dark-theme`).
+- No definir colores/espaciados/tipografía en otros CSS; usar siempre `var(--token)`.
+- No hardcodear `#hex`, `rgb()`, `hsl()` salvo excepciones justificadas (imágenes, sombras muy específicas).
+- Mantener tokens mínimos; cada token semántico debe tener valor en light y dark.
+- Al tocar temas o CSS, aplicar la skill **theme-tokens-guardian** y entregar el autorreporte (hardcodeados, tokens creados/eliminados, archivos tocados).
