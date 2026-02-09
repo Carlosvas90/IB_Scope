@@ -1,13 +1,15 @@
 ---
-description: Theme-Tokens Guardian — variables.css es la única fuente de tokens (colores, espaciado, tipografía). Todo el CSS debe usar var(--...) desde ahí; light/dark completos.
+description: Theme-Tokens Guardian — variables.css es la única fuente de tokens. Todo el CSS debe usar var(--...); light/dark completos. Subagente en .cursor/agents/; delegar o usar skill y entregar autorreporte.
 globs: src/renderer/css/**/*.css
 alwaysApply: false
 ---
 
 # Theme-Tokens Guardian
 
+Theme-Tokens Guardian es un **subagente** definido en `.cursor/agents/theme-tokens-guardian.md`. El Agent puede delegarle la tarea al editar o auditar temas/CSS (contexto aislado). También existe la skill **theme-tokens-guardian** en `.cursor/skills/theme-tokens-guardian/` para cuando el agente principal hace los cambios sin delegar.
+
 - **Fuente de verdad:** `src/renderer/css/themes/variables.css` (único `:root` y `.dark-theme`).
 - No definir colores/espaciados/tipografía en otros CSS; usar siempre `var(--token)`.
 - No hardcodear `#hex`, `rgb()`, `hsl()` salvo excepciones justificadas (imágenes, sombras muy específicas).
 - Mantener tokens mínimos; cada token semántico debe tener valor en light y dark.
-- Al tocar temas o CSS, aplicar la skill **theme-tokens-guardian** y entregar el autorreporte (hardcodeados, tokens creados/eliminados, archivos tocados).
+- Al tocar temas o CSS: **delegar al subagente** o aplicar la skill **theme-tokens-guardian** y entregar siempre el **autorreporte** (hardcodeados, tokens creados/eliminados, archivos tocados).

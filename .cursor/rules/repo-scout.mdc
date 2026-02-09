@@ -1,0 +1,15 @@
+---
+description: Antes de refactor grande o nueva tool, usar Repo-Scout (subagente) y basar el plan en su mapa
+alwaysApply: true
+---
+
+# Repo-Scout (obligatorio antes de cambios grandes)
+
+Repo-Scout es un **subagente** definido en `.cursor/agents/repo-scout.md`. El Agent puede delegarle la tarea (contexto aislado, ideal para exploración pesada). También existe la skill `repo-scout` en `.cursor/skills/repo-scout/` para cuando el agente principal hace el mapa sin delegar.
+
+Antes de un **refactor grande** o de **agregar una nueva tool/mini-app**:
+
+1. Usar Repo-Scout: **delegar al subagente** o aplicar la skill; al menos un **/scan-repo** o las secciones del mapa que apliquen al cambio.
+2. Basar el plan de trabajo en ese mapa: entry points, flujo de datos, dependencias y hotspots.
+
+Así se evita romper módulos conectados y se mantiene coherencia con la arquitectura existente.
