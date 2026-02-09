@@ -28,19 +28,31 @@ const TIPO_LABELS = {
   critical_rol: "Critical rol",
 };
 
-/** Distribución automática por departamento (preset). Se escala al cupo disponible si es menor. */
-const DISTRIBUCION_AUTO = {
-  stow: {
-    "stow-pt": 15,
-    "stow-cart": 2,
-    "stow-walkie": 2,
-    "stow-hr-pitc": 3,
-    "stow-pitb": 3,
-    "stow-tl": 2,
-    "stow-tl-ast": 2,
-    "stow-hr-pita": 1,
-  },
+/** Distribución automática por área. Preset con todos los puestos; se escala al cupo completo. */
+const DISTRIBUCION_AUTO_IB = {
+  dock: { "dock-clerk": 1, "dock-idm": 2, "dock-unloader": 2, "dock-ocean": 1, "dock-ocean-cm": 1, "dock-corral": 1, "dock-wrapping": 1, "dock-ergopack": 1 },
+  receive: { "rcv-decant-tsi": 3, "rcv-decant-pid": 2, "rcv-noncon": 4, "rcv-cubis": 1, "rcv-prep": 2, "rcv-ws": 1, "rcv-pallet": 1, "rcv-tl": 1, "rcv-tl-ast": 1 },
+  stow: { "stow-pt": 12, "stow-cart": 2, "stow-walkie": 2, "stow-hr-pitc": 3, "stow-pitb": 2, "stow-tl": 2, "stow-tl-ast": 2, "stow-hr-pita": 1 },
+  pout: { "pout-ps": 1, "pout-pick": 1 },
+  grading: { "grading-whd": 2, "grading-pick-whd": 2, "grading-ps": 1 },
 };
+const DISTRIBUCION_AUTO_OB = {
+  pack: { "pack-l9": 4, "pack-ws": 2, "pack-noncon-l2": 1, "pack-siat-l2": 1, "pack-obps": 1 },
+  pick: { "pick-noncon-hr": 4, "pick-noncon-pt": 4, "pick-tospoo-hr": 3, "pick-tospoo-pt": 3, "pick-walkie": 2, "pick-cart": 2, "pick-tl-hr": 1, "pick-ast-tl": 1 },
+  "v-ret": { "vret-pick": 2, "vret-pack": 2, "vret-ps": 1, "vret-cart": 1 },
+  ship: { "ship-area-a": 2, "ship-area-b": 2, "ship-area-d": 2, "ship-clerk": 1, "ship-idm": 1 },
+  TOM: { "tom-garitas": 1, "tom-ODM": 1 },
+};
+function getPresetFlatForArea(areaKey, selectedDeptIds) {
+  const byDept = areaKey === "IB" ? DISTRIBUCION_AUTO_IB : areaKey === "OB" ? DISTRIBUCION_AUTO_OB : null;
+  if (!byDept) return {};
+  const flat = {};
+  for (const [deptId, puestos] of Object.entries(byDept)) {
+    if (selectedDeptIds && selectedDeptIds.length && !selectedDeptIds.includes(deptId)) continue;
+    for (const [id, v] of Object.entries(puestos)) flat[id] = v;
+  }
+  return flat;
+}
 
 class RotationToolController {
   constructor() {
@@ -232,10 +244,24 @@ class RotationToolController {
 
       const header = document.createElement("div");
       header.className = "rt-area-header";
-      header.innerHTML = `
-        <span class="rt-area-header-label">${label}</span>
-        <span class="rt-area-header-hc">${asignadoEnArea} de ${cupoArea}</span>
-      `;
+      const headerLeft = document.createElement("div");
+      headerLeft.className = "rt-area-header-left";
+      headerLeft.innerHTML = `<span class="rt-area-header-label">${label}</span>`;
+      if (areaKey === "IB" || areaKey === "OB") {
+        const autoAreaBtn = document.createElement("button");
+        autoAreaBtn.type = "button";
+        autoAreaBtn.className = "rt-btn rt-btn-sm rt-area-auto-btn";
+        autoAreaBtn.textContent = "Distribuir automáticamente";
+        autoAreaBtn.addEventListener("click", () => {
+          this.abrirModalDistribuirAuto(areaKey);
+        });
+        headerLeft.appendChild(autoAreaBtn);
+      }
+      const headerHc = document.createElement("span");
+      headerHc.className = "rt-area-header-hc";
+      headerHc.textContent = `${asignadoEnArea} de ${cupoArea}`;
+      header.appendChild(headerLeft);
+      header.appendChild(headerHc);
       section.appendChild(header);
       const body = document.createElement("div");
       body.className = "rt-area-body";
@@ -357,20 +383,51 @@ class RotationToolController {
   fillPanelPuestos(areaKey, dept, panel) {
     const maxDept = this.getMaxHCForDept(dept);
     panel.innerHTML = "";
-    const title = document.createElement("div");
-    title.className = "rt-panel-title";
-    title.textContent = `${dept.nombre} — máx. ${maxDept}`;
-    panel.appendChild(title);
-    const summary = document.createElement("p");
-    summary.className = "rt-panel-summary";
-    panel.appendChild(summary);
     const onUpdate = () => {
       const sum = this.getDepartmentHC(dept);
-      summary.textContent = `${sum} de ${maxDept} asignados`;
-      summary.classList.toggle("rt-modal-summary-over", sum > maxDept);
       this.actualizarCardHC(areaKey, dept.id, sum);
       this.actualizarResumenGlobal();
+      if (btnLabelEl) btnLabelEl.textContent = expanded ? `${dept.nombre} — máx. ${maxDept}` : `Resumen · ${sum} de ${maxDept} asignados`;
+      if (detailSummaryEl) {
+        detailSummaryEl.textContent = `${sum} de ${maxDept} asignados`;
+        detailSummaryEl.classList.toggle("rt-modal-summary-over", sum > maxDept);
+      }
     };
+    let expanded = false;
+    const resumenWrap = document.createElement("div");
+    resumenWrap.className = "rt-panel-resumen-wrap";
+    const toggleBtn = document.createElement("button");
+    toggleBtn.type = "button";
+    toggleBtn.className = "rt-panel-resumen-btn";
+    const btnLabelEl = document.createElement("span");
+    btnLabelEl.className = "rt-panel-resumen-btn-label";
+    btnLabelEl.textContent = `Resumen · 0 de ${maxDept} asignados`;
+    const chevron = document.createElement("span");
+    chevron.className = "rt-panel-resumen-chevron";
+    chevron.textContent = "▼";
+    chevron.setAttribute("aria-hidden", "true");
+    toggleBtn.appendChild(btnLabelEl);
+    toggleBtn.appendChild(chevron);
+    const collapseEl = document.createElement("div");
+    collapseEl.className = "rt-panel-resumen-collapse";
+    collapseEl.hidden = true;
+    const detailTitle = document.createElement("div");
+    detailTitle.className = "rt-panel-title";
+    detailTitle.textContent = `${dept.nombre} — máx. ${maxDept}`;
+    const detailSummaryEl = document.createElement("p");
+    detailSummaryEl.className = "rt-panel-summary";
+    detailSummaryEl.textContent = `0 de ${maxDept} asignados`;
+    collapseEl.appendChild(detailTitle);
+    collapseEl.appendChild(detailSummaryEl);
+    toggleBtn.addEventListener("click", () => {
+      expanded = !expanded;
+      collapseEl.hidden = !expanded;
+      chevron.textContent = expanded ? "▲" : "▼";
+      btnLabelEl.textContent = expanded ? `${dept.nombre} — máx. ${maxDept}` : `Resumen · ${this.getDepartmentHC(dept)} de ${maxDept} asignados`;
+    });
+    resumenWrap.appendChild(toggleBtn);
+    resumenWrap.appendChild(collapseEl);
+    panel.appendChild(resumenWrap);
     const puestos = dept.puestos || [];
     if (puestos.length === 0) {
       const wrap = document.createElement("div");
@@ -386,25 +443,17 @@ class RotationToolController {
         this.departmentHC[dept.id] = isNaN(v) ? 0 : Math.max(0, Math.min(maxDept, v));
         onUpdate();
       });
+      const deptAsig = this.pizarraGenerada && this.asignacionesPorPuesto[dept.id];
+      if (deptAsig && deptAsig.length > 0) {
+        const asigEl = document.createElement("div");
+        asigEl.className = "rt-puesto-asignados";
+        asigEl.textContent = deptAsig.join(", ");
+        wrap.appendChild(asigEl);
+      }
       panel.appendChild(wrap);
       onUpdate();
       return;
     }
-    const autoBtnWrap = document.createElement("div");
-    autoBtnWrap.className = "rt-modal-puestos-actions";
-    const preset = DISTRIBUCION_AUTO[dept.id];
-    if (preset) {
-      const autoBtn = document.createElement("button");
-      autoBtn.type = "button";
-      autoBtn.className = "rt-btn rt-btn-sm";
-      autoBtn.textContent = "Distribuir automáticamente";
-      autoBtn.addEventListener("click", () => {
-        this.aplicarDistribucionAuto(dept, puestosContainer, maxDept);
-        onUpdate();
-      });
-      autoBtnWrap.appendChild(autoBtn);
-    }
-    panel.appendChild(autoBtnWrap);
     const puestosContainer = document.createElement("div");
     puestosContainer.className = "rt-modal-puestos";
     panel.appendChild(puestosContainer);
@@ -427,9 +476,19 @@ class RotationToolController {
         const row = document.createElement("div");
         row.className = "rt-modal-puesto-row" + (readonly ? " rt-modal-puesto-row-readonly" : "");
         row.innerHTML = `
-          <label for="rt-puesto-${escapeHtml(puesto.id)}" class="rt-modal-puesto-label">${escapeHtml(puesto.nombre)}</label>
-          <input type="number" id="rt-puesto-${escapeHtml(puesto.id)}" class="rt-input-num rt-modal-puesto-input" data-puesto-id="${escapeHtml(puesto.id)}" data-espejo-de="${espejoDe || ""}" min="0" value="${val}" ${readonly ? "readonly" : ""} />
+          <div class="rt-modal-puesto-row-main">
+            <label for="rt-puesto-${escapeHtml(puesto.id)}" class="rt-modal-puesto-label">${escapeHtml(puesto.nombre)}</label>
+            <input type="number" id="rt-puesto-${escapeHtml(puesto.id)}" class="rt-input-num rt-modal-puesto-input" data-puesto-id="${escapeHtml(puesto.id)}" data-espejo-de="${espejoDe || ""}" min="0" value="${val}" ${readonly ? "readonly" : ""} />
+          </div>
         `;
+        const asignados = this.pizarraGenerada && (this.asignacionesPorPuesto[puesto.id] || this.asignacionesPorPuesto[espejoDe]);
+        const list = asignados ? (this.asignacionesPorPuesto[puesto.id] || this.asignacionesPorPuesto[espejoDe] || []) : [];
+        if (list.length > 0) {
+          const asigEl = document.createElement("div");
+          asigEl.className = "rt-puesto-asignados";
+          asigEl.textContent = list.join(", ");
+          row.appendChild(asigEl);
+        }
         const input = row.querySelector("input");
         if (!readonly) {
           input.addEventListener("input", () => {
@@ -475,35 +534,105 @@ class RotationToolController {
     return out;
   }
 
-  aplicarDistribucionAuto(dept, puestosContainer, maxDept) {
-    const preset = DISTRIBUCION_AUTO[dept.id];
-    if (!preset || !puestosContainer || maxDept <= 0) return;
-    const totalPreset = Object.values(preset).reduce((a, b) => a + b, 0);
-    if (totalPreset <= 0) return;
-    const scale = totalPreset > maxDept ? maxDept / totalPreset : 1;
-    const values = {};
-    let sum = 0;
+  /** Distribuye automáticamente por área; usa todo el cupo. selectedDeptIds = ids de departamentos a incluir (solo esos reciben HC). */
+  aplicarDistribucionAutoArea(areaKey, selectedDeptIds) {
+    const preset = getPresetFlatForArea(areaKey, selectedDeptIds);
+    if (Object.keys(preset).length === 0) return;
+    const cupoArea = this.areaHC[areaKey] || 0;
+    if (cupoArea <= 0) return;
+    const porArea = this.getDepartamentosPorArea();
+    const depts = porArea[areaKey] || [];
+    const selectedDeptIdSet = selectedDeptIds && selectedDeptIds.length ? new Set(selectedDeptIds) : null;
+    const areaPuestoIds = new Set();
+    const puestoToDept = {};
+    for (const d of depts) {
+      if (this.isNoCuentaHC(d)) continue;
+      const include = !selectedDeptIdSet || selectedDeptIdSet.has(d.id);
+      for (const p of d.puestos || []) {
+        areaPuestoIds.add(p.id);
+        puestoToDept[p.id] = d.id;
+        if (!include) this.puestoHC[p.id] = 0;
+      }
+    }
+    const presetFiltered = {};
     for (const [id, v] of Object.entries(preset)) {
       if (PUESTO_ESPEJO[id]) continue;
-      const scaled = scale < 1 ? Math.round(v * scale) : v;
+      if (areaPuestoIds.has(id) && (!selectedDeptIdSet || selectedDeptIdSet.has(puestoToDept[id])))
+        presetFiltered[id] = v;
+    }
+    const totalPreset = Object.values(presetFiltered).reduce((a, b) => a + b, 0);
+    if (totalPreset <= 0) return;
+    const scale = cupoArea / totalPreset;
+    const values = {};
+    let sum = 0;
+    for (const [id, v] of Object.entries(presetFiltered)) {
+      if (PUESTO_ESPEJO[id]) continue;
+      const scaled = Math.round(v * scale);
       values[id] = scaled;
       sum += scaled;
     }
     Object.entries(PUESTO_ESPEJO).forEach(([astId, tlId]) => {
-      values[astId] = values[tlId] ?? 0;
-      sum += values[astId];
+      if (areaPuestoIds.has(astId) && presetFiltered[tlId] != null) {
+        values[astId] = values[tlId] ?? 0;
+        sum += values[astId];
+      }
     });
-    let diff = maxDept - sum;
-    if (diff !== 0 && scale < 1) {
-      const mainId = Object.entries(preset).filter(([id]) => !PUESTO_ESPEJO[id]).sort((a, b) => b[1] - a[1])[0]?.[0];
-      if (mainId) values[mainId] = Math.max(0, (values[mainId] || 0) + diff);
+    let diff = cupoArea - sum;
+    if (diff !== 0) {
+      const mainEntry = Object.entries(presetFiltered).filter(([id]) => !PUESTO_ESPEJO[id]).sort((a, b) => (b[1] || 0) - (a[1] || 0))[0];
+      if (mainEntry) {
+        const [mainId] = mainEntry;
+        values[mainId] = Math.max(0, (values[mainId] || 0) + diff);
+      }
     }
-    puestosContainer.querySelectorAll(".rt-modal-puesto-input").forEach((input) => {
-      const id = input.getAttribute("data-puesto-id");
-      input.value = values[id] != null ? values[id] : 0;
+    for (const [id, val] of Object.entries(values)) {
+      this.puestoHC[id] = val;
+    }
+    Object.entries(PUESTO_ESPEJO).forEach(([astId, tlId]) => {
+      if (areaPuestoIds.has(astId)) this.puestoHC[astId] = this.puestoHC[tlId] ?? 0;
     });
-    this.syncStowTLAsistente(puestosContainer);
-    this.actualizarModalResumen(dept, maxDept);
+    this.renderizarDashboard();
+    this.actualizarResumenGlobal();
+  }
+
+  abrirModalDistribuirAuto(areaKey) {
+    const modal = document.getElementById("rt-auto-distrib-modal");
+    const titleEl = document.getElementById("rt-auto-distrib-title");
+    const container = document.getElementById("rt-auto-distrib-checkboxes");
+    if (!modal || !titleEl || !container) return;
+    const label = areaKey === "IB" ? "Inbound" : "Outbound";
+    titleEl.textContent = `Distribuir en ${label}`;
+    const porArea = this.getDepartamentosPorArea();
+    const depts = (porArea[areaKey] || []).filter((d) => !this.isNoCuentaHC(d));
+    container.innerHTML = "";
+    const presetByDept = areaKey === "IB" ? DISTRIBUCION_AUTO_IB : DISTRIBUCION_AUTO_OB;
+    for (const dept of depts) {
+      if (!presetByDept[dept.id]) continue;
+      const labelEl = document.createElement("label");
+      labelEl.className = "rt-auto-distrib-check";
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.checked = true;
+      cb.setAttribute("data-dept-id", dept.id);
+      labelEl.appendChild(cb);
+      labelEl.appendChild(document.createTextNode(" " + dept.nombre));
+      container.appendChild(labelEl);
+    }
+    this._autoDistribAreaKey = areaKey;
+    modal.hidden = false;
+  }
+
+  aplicarDistribucionAutoDesdeModal() {
+    const areaKey = this._autoDistribAreaKey;
+    if (!areaKey) return;
+    const container = document.getElementById("rt-auto-distrib-checkboxes");
+    const selectedDeptIds = container
+      ? Array.from(container.querySelectorAll("input[type=checkbox]:checked")).map((cb) => cb.getAttribute("data-dept-id"))
+      : [];
+    if (selectedDeptIds.length === 0) return;
+    document.getElementById("rt-auto-distrib-modal").hidden = true;
+    this.aplicarDistribucionAutoArea(areaKey, selectedDeptIds);
+    this._autoDistribAreaKey = null;
   }
 
   syncStowTLAsistente(puestosContainer) {
@@ -607,6 +736,16 @@ class RotationToolController {
       }
     });
 
+    // Al enfocar un input numérico, seleccionar todo para que al escribir se reemplace el 0 (no quede 01 o 10)
+    const container = document.querySelector(".rotation-tool-container");
+    if (container) {
+      container.addEventListener("focusin", (e) => {
+        if (e.target.matches("input[type=\"number\"]")) {
+          e.target.select();
+        }
+      });
+    }
+
     document.getElementById("btn-pegar-logins")?.addEventListener("click", () => {
       document.getElementById("rt-logins-overlay").hidden = false;
       document.getElementById("rt-logins-textarea").value = "";
@@ -619,6 +758,14 @@ class RotationToolController {
     });
     document.getElementById("rt-logins-cancel")?.addEventListener("click", () => {
       document.getElementById("rt-logins-overlay").hidden = true;
+    });
+    const autoDistribModal = document.getElementById("rt-auto-distrib-modal");
+    document.getElementById("rt-auto-distrib-cancel")?.addEventListener("click", () => {
+      if (autoDistribModal) autoDistribModal.hidden = true;
+    });
+    document.getElementById("rt-auto-distrib-apply")?.addEventListener("click", () => this.aplicarDistribucionAutoDesdeModal());
+    autoDistribModal?.querySelector(".rt-overlay-backdrop")?.addEventListener("click", () => {
+      autoDistribModal.hidden = true;
     });
     document.getElementById("rt-logins-apply")?.addEventListener("click", () => {
       const ta = document.getElementById("rt-logins-textarea");
@@ -690,9 +837,24 @@ class RotationToolController {
   }
 
   generarPizarra() {
-    const totalArea = this.areaHC.IB + this.areaHC.OB + this.areaHC.Support;
+    const totalArea = (this.areaHC.IB || 0) + (this.areaHC.OB || 0) + (this.areaHC.Support || 0);
     const asignado = AREA_ORDER.reduce((acc, a) => acc + this.getAreaAssignedHC(a), 0);
-    if (this.totalHC === 0 || totalArea !== this.totalHC || asignado !== this.totalHC) return;
+    const toast = (msg, type) => {
+      if (typeof window.showToast === "function") window.showToast(msg, type || "info");
+      else console.warn(msg);
+    };
+    if (this.totalHC === 0) {
+      toast("Carga logins primero (Attendance / Pegar logins) para generar la pizarra.", "warning");
+      return;
+    }
+    if (totalArea !== this.totalHC) {
+      toast(`El cupo por área (IB+OB+Support = ${totalArea}) debe coincidir con el HC total (${this.totalHC}). Ajusta los números en "Repartir por área".`, "warning");
+      return;
+    }
+    if (asignado !== this.totalHC) {
+      toast(`Aún hay ${this.totalHC - asignado} personas sin asignar a puestos. Reparte en cada departamento hasta completar ${this.totalHC}.`, "warning");
+      return;
+    }
     const logins = [...(this.loginsDisponibles || [])];
     if (logins.length < this.totalHC) {
       while (logins.length < this.totalHC) logins.push(`login-${logins.length + 1}`);
@@ -703,7 +865,13 @@ class RotationToolController {
       const depts = porArea[areaKey] || [];
       for (const dept of depts) {
         if (this.isNoCuentaHC(dept)) continue;
-        for (const puesto of dept.puestos || []) {
+        const puestos = dept.puestos || [];
+        if (puestos.length === 0) {
+          const n = this.departmentHC[dept.id] ?? 0;
+          if (n > 0) this.asignacionesPorPuesto[dept.id] = logins.splice(0, n);
+          continue;
+        }
+        for (const puesto of puestos) {
           const n = this.puestoHC[puesto.id] || 0;
           if (n <= 0) continue;
           this.asignacionesPorPuesto[puesto.id] = logins.splice(0, n);
@@ -712,8 +880,8 @@ class RotationToolController {
     }
     this.pizarraGenerada = true;
     this.actualizarBotonesPizarra();
-    if (typeof window.showToast === "function") window.showToast("Pizarra generada. Abre un departamento para ver quién está en cada puesto.", "success");
-    else console.log("Pizarra generada");
+    this.renderizarDashboard();
+    toast("Pizarra generada. Abre un departamento para ver quién está en cada puesto.", "success");
   }
 
   enviarPizarra() {

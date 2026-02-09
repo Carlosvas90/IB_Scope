@@ -112,6 +112,20 @@
       </div>
     </div>
 
+    <!-- Modal: elegir procesos para distribuir automáticamente (IB / OB) -->
+    <div id="rt-auto-distrib-modal" class="rt-overlay" hidden>
+      <div class="rt-overlay-backdrop"></div>
+      <div class="rt-overlay-box rt-auto-distrib-box">
+        <h3 id="rt-auto-distrib-title" class="rt-overlay-title">Distribuir en Inbound</h3>
+        <p class="rt-overlay-desc">Selecciona entre qué procesos repartir el cupo (a veces V-RET, Grading o POUT no abren). Se usará todo el cupo del área.</p>
+        <div id="rt-auto-distrib-checkboxes" class="rt-auto-distrib-checkboxes"></div>
+        <div class="rt-overlay-actions">
+          <button type="button" id="rt-auto-distrib-cancel" class="rt-btn">Cancelar</button>
+          <button type="button" id="rt-auto-distrib-apply" class="rt-btn rt-btn-primary">Aplicar</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Overlay para pegar logins -->
     <div id="rt-logins-overlay" class="rt-overlay" hidden>
       <div class="rt-overlay-backdrop"></div>
