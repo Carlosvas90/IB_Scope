@@ -4,47 +4,129 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rotation Tool - Gestión de Rotaciones</title>
-    <!-- CSS se carga dinámicamente por el router -->
   </head>
   <body>
     <div class="rotation-tool-container">
-      <!-- Header -->
-      <header class="app-header-card">
-        <h1>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="32"
-            height="32"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            style="
-              display: inline-flex;
-              align-items: center;
-              vertical-align: middle;
-              margin-right: 8px;
-            "
-          >
-            <circle cx="12" cy="12" r="10"></circle>
-            <polyline points="12 6 12 12 16 14"></polyline>
-          </svg>
-          Rotation Tool
-        </h1>
+      <!-- Header: título + botones de acción -->
+      <header class="rt-header">
+        <h1 class="rt-header-title">Rotation TOOL</h1>
+        <div class="rt-header-actions">
+          <button type="button" id="btn-attendance" class="rt-btn rt-btn-header" title="Subir / pegar Attendance">
+            Attendance
+          </button>
+          <button type="button" id="btn-freeze" class="rt-btn rt-btn-header" title="Freeze">
+            Freeze
+          </button>
+          <button type="button" id="btn-bloqueados" class="rt-btn rt-btn-header" title="Bloqueados">
+            Bloqueados
+          </button>
+          <button type="button" id="btn-generar-pizarra" class="rt-btn rt-btn-header" title="Generar pizarra (quién en qué puesto)" disabled>
+            Generar pizarra
+          </button>
+          <button type="button" id="btn-enviar-pizarra" class="rt-btn rt-btn-header rt-btn-primary" title="Enviar pizarra como referencia" disabled>
+            Enviar pizarra
+          </button>
+        </div>
       </header>
 
-      <!-- Contenido principal -->
-      <div class="rotation-tool-content">
-        <div class="welcome-card">
-          <h2>Bienvenido a Rotation Tool</h2>
-          <p>Herramienta para gestionar rotaciones de personal.</p>
+      <!-- Resumen HC disponible (tras cargar logins / attendance) -->
+      <section class="rt-hc-global card">
+        <div class="rt-hc-global-content">
+          <span class="rt-hc-global-label">Disponible para distribuir</span>
+          <span id="rt-hc-total" class="rt-hc-global-value">0</span>
+          <span class="rt-hc-global-sublabel">personas</span>
+          <span id="rt-hc-duplicados" class="rt-hc-duplicados" aria-live="polite"></span>
+          <span id="rt-hc-asignados" class="rt-hc-asignados"><span id="rt-hc-sum">0</span> asignados</span>
+        </div>
+        <div class="rt-hc-global-actions">
+          <button type="button" id="btn-pegar-logins" class="rt-btn rt-btn-sm">Pegar logins</button>
+        </div>
+      </section>
+
+      <!-- Distribución por área: IB, OB, Support (limita cuánto se puede asignar por área) -->
+      <section class="rt-area-hc card">
+        <span class="rt-area-hc-label">Repartir por área</span>
+        <div class="rt-area-hc-inputs">
+          <div class="rt-area-hc-item">
+            <label for="rt-input-ib">IB</label>
+            <input type="number" id="rt-input-ib" class="rt-input-num rt-area-hc-input" min="0" value="0" data-area="IB" />
+          </div>
+          <div class="rt-area-hc-item">
+            <label for="rt-input-ob">OB</label>
+            <input type="number" id="rt-input-ob" class="rt-input-num rt-area-hc-input" min="0" value="0" data-area="OB" />
+          </div>
+          <div class="rt-area-hc-item">
+            <label for="rt-input-support">Support</label>
+            <input type="number" id="rt-input-support" class="rt-input-num rt-area-hc-input" min="0" value="0" data-area="Support" />
+          </div>
+        </div>
+        <span id="rt-area-hc-sum-msg" class="rt-area-hc-sum-msg"></span>
+      </section>
+
+      <!-- Dashboard: una card blanca con áreas (Inbound, Outbound, Support) y departamentos -->
+      <main class="rt-dashboard card">
+        <div id="rt-dashboard-content" class="rt-dashboard-content">
+          <div id="rt-dashboard-loading" class="rt-dashboard-loading">Cargando…</div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Modal: puestos de un departamento -->
+    <div id="rt-modal" class="rt-modal" role="dialog" aria-labelledby="rt-modal-title" aria-modal="true" hidden>
+      <div class="rt-modal-backdrop"></div>
+      <div class="rt-modal-box">
+        <div class="rt-modal-header">
+          <h2 id="rt-modal-title" class="rt-modal-title"></h2>
+          <p id="rt-modal-area-limit" class="rt-modal-area-limit"></p>
+          <button type="button" id="rt-modal-close" class="rt-modal-close" aria-label="Cerrar">×</button>
+        </div>
+        <div class="rt-modal-body">
+          <p class="rt-modal-summary"><span id="rt-modal-summary">0</span> de <span id="rt-modal-dept-hc-label">0</span> asignados en puestos (máx. para este departamento)</p>
+          <div class="rt-modal-puestos-actions">
+            <button type="button" id="rt-modal-auto-btn" class="rt-btn rt-btn-sm">Distribuir automáticamente</button>
+          </div>
+          <div id="rt-modal-puestos" class="rt-modal-puestos"></div>
+          <div id="rt-modal-asignaciones" class="rt-modal-asignaciones" hidden></div>
+        </div>
+        <div class="rt-modal-footer">
+          <button type="button" id="rt-modal-guardar" class="rt-btn rt-btn-primary">Guardar</button>
         </div>
       </div>
     </div>
 
-    <!-- Scripts -->
+    <!-- Overlay CSV (Learning / Enfermería) -->
+    <div id="rt-csv-overlay" class="rt-overlay" hidden>
+      <div class="rt-overlay-backdrop"></div>
+      <div class="rt-overlay-box">
+        <div class="rt-csv-overlay-header">
+          <h3 id="rt-csv-overlay-title" class="rt-overlay-title">Subir CSV</h3>
+          <button type="button" id="rt-csv-overlay-close" class="rt-modal-close" aria-label="Cerrar">×</button>
+        </div>
+        <p id="rt-csv-overlay-desc" class="rt-overlay-desc">No cuenta como HC.</p>
+        <div class="rt-csv-upload">
+          <input type="file" id="rt-csv-file-input" accept=".csv,text/csv" />
+        </div>
+        <div class="rt-overlay-actions">
+          <button type="button" id="rt-csv-apply" class="rt-btn rt-btn-primary">Aplicar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Overlay para pegar logins -->
+    <div id="rt-logins-overlay" class="rt-overlay" hidden>
+      <div class="rt-overlay-backdrop"></div>
+      <div class="rt-overlay-box">
+        <h3 class="rt-overlay-title">Pegar logins</h3>
+        <p class="rt-overlay-desc">Pega uno por línea. Se usará el número de <strong>logins únicos</strong> como HC (los duplicados se detectan y se eliminan).</p>
+        <textarea id="rt-logins-textarea" class="rt-textarea-logins" placeholder="login1&#10;login2&#10;..."></textarea>
+        <div id="rt-logins-duplicados-aviso" class="rt-logins-duplicados-aviso" hidden></div>
+        <div class="rt-overlay-actions">
+          <button type="button" id="rt-logins-cancel" class="rt-btn">Cancelar</button>
+          <button type="button" id="rt-logins-apply" class="rt-btn rt-btn-primary">Aplicar</button>
+        </div>
+      </div>
+    </div>
+
     <script type="module" src="js/rotation-tool.js"></script>
   </body>
 </html>

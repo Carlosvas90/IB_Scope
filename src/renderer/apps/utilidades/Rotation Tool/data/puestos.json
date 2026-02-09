@@ -1,0 +1,209 @@
+{
+  "version": "1.0",
+  "descripcion": "Departamentos y puestos. id = identificador único corto (dept-slug) para usar en pizarra, demanda, freezed y reglas. skills_needed = skills de la skillmatrix. mesas = mesas de trabajo (si aplica). tipo_tarea = directa | indirecta | critical_rol | pesado (pesado máx 8h/semana).",
+  "departamentos": [
+    {
+      "id": "pack",
+      "nombre": "Pack",
+      "area": "OB",
+      "puestos": [
+        { "id": "pack-noncon-l2", "nombre": "Noncon L2", "skills_needed": [], "tipo_tarea": "directa" },
+        { "id": "pack-noncon-l3", "nombre": "Noncon L3", "skills_needed": [], "tipo_tarea": "directa" },
+        { "id": "pack-noncon-l7", "nombre": "Noncon L7", "skills_needed": [], "tipo_tarea": "directa" },
+        { "id": "pack-noncon-l8", "nombre": "Noncon L8", "skills_needed": [], "tipo_tarea": "directa" },
+        { "id": "pack-exsort-l5", "nombre": "Exception Sort L5", "skills_needed": [], "tipo_tarea": "directa" },
+        { "id": "pack-hov-l6", "nombre": "HOV L6", "skills_needed": [], "tipo_tarea": "directa" },
+        { "id": "pack-hov-sioc-l5", "nombre": "HOV SIOC L5", "skills_needed": [], "tipo_tarea": "directa" },
+        { "id": "pack-l9", "nombre": "L9", "skills_needed": [], "tipo_tarea": "directa" },
+        { "id": "pack-siat-l2", "nombre": "Siat L2", "skills_needed": [], "tipo_tarea": "Indirecta" },
+        { "id": "pack-siat-l3", "nombre": "Siat L3", "skills_needed": [], "tipo_tarea": "Indirecta" },
+        { "id": "pack-siat-l6", "nombre": "Siat L6", "skills_needed": [], "tipo_tarea": "Indirecta" },
+        { "id": "pack-siat-l7", "nombre": "Siat L7", "skills_needed": [], "tipo_tarea": "Indirecta" },
+        { "id": "pack-siat-l8", "nombre": "Siat L8", "skills_needed": [], "tipo_tarea": "Indirecta" },
+        { "id": "pack-ws", "nombre": "Pack Water Spider", "skills_needed": [], "tipo_tarea": "Indirecta" },
+        { "id": "pack-obps", "nombre": "OBPS", "skills_needed": [], "tipo_tarea": "Critical_rol" },
+        { "id": "pack-sioc", "nombre": "SIOC Ambassador", "skills_needed": [], "tipo_tarea": "Indirecta" }
+      ]
+    },
+    {
+      "id": "pick",
+      "nombre": "Pick",
+      "area": "OB",
+      "puestos": [
+        { "id": "pick-noncon-hr", "nombre": "Pick NonCon HR", "skills_needed": [], "tipo_tarea": "directa" },
+        { "id": "pick-noncon-pt", "nombre": "Pick Noncon PT", "skills_needed": [], "tipo_tarea": "directa" },
+        { "id": "pick-tospoo-hr", "nombre": "Pick to Spoo HR", "skills_needed": [], "tipo_tarea": "directa" },
+        { "id": "pick-tospoo-pt", "nombre": "Pick to Spoo PT", "skills_needed": [], "tipo_tarea": "directa" },
+        { "id": "pick-exsort-pt", "nombre": "Pick Exception Sort PT", "skills_needed": [], "tipo_tarea": "directa" },
+        { "id": "pick-exsort-hr", "nombre": "Pick Exception Sort HR", "skills_needed": [], "tipo_tarea": "directa" },
+        { "id": "pick-nonsort-hr", "nombre": "Pick Nonsort HR", "skills_needed": [], "tipo_tarea": "directa" },
+        { "id": "pick-nonsort-pt", "nombre": "Pick Nonsort PT", "skills_needed": [], "tipo_tarea": "directa" },
+        { "id": "pick-petfood-hr", "nombre": "Pick Petfood HR", "skills_needed": [], "tipo_tarea": "directa" },
+        { "id": "pick-tl-hr", "nombre": "Pick TL HR", "skills_needed": [], "tipo_tarea": "directa" },
+        { "id": "pick-tl-pt", "nombre": "Pick TL PT", "skills_needed": [], "tipo_tarea": "Pesado" },
+        { "id": "pick-ast-tl", "nombre": "Pick Asistente TL", "skills_needed": [], "tipo_tarea": "Pesado" },
+        { "id": "pick-walkie", "nombre": "PickWalkie Tugger", "skills_needed": [], "tipo_tarea": "Indirecta" },
+        { "id": "pick-cart", "nombre": "Pick Cart runner", "skills_needed": [], "tipo_tarea": "Indirecta" },
+        { "id": "pick-buffer", "nombre": "Buffer operator", "skills_needed": [], "tipo_tarea": "Indirecta" },
+        { "id": "pick-pg", "nombre": "PG", "skills_needed": [], "tipo_tarea": "Critical_rol" },
+        { "id": "pick-tugger", "nombre": "Tugger", "skills_needed": [], "tipo_tarea": "Indirecta" },
+        { "id": "pick-support-tugger", "nombre": "Support Tugger", "skills_needed": [], "tipo_tarea": "Indirecta" },
+        { "id": "pick-lanzador-l4", "nombre": "Lanzador Pick to Spoo L4", "skills_needed": [], "tipo_tarea": "Indirecta" },
+        { "id": "pick-lanzador-l8", "nombre": "Lanzador Pick to Spoo L8", "skills_needed": [], "tipo_tarea": "Indirecta" },
+        { "id": "pick-pitb-hov", "nombre": "HOV - PIT B", "skills_needed": [], "tipo_tarea": "Indirecta" },
+        { "id": "pick-hov-pitc", "nombre": "HOV - PIT C", "skills_needed": [], "tipo_tarea": "directa" }
+      ]
+    },
+    {
+      "id": "v-ret",
+      "nombre": "V-RET",
+      "area": "OB",
+      "puestos": [
+        { "id": "vret-pick", "nombre": "V-RET Pick", "skills_needed": [], "tipo_tarea": "directa" },
+        { "id": "vret-pack", "nombre": "V-RET Pack", "skills_needed": [], "tipo_tarea": "directa" },
+        { "id": "vret-ps", "nombre": "V-RET PS", "skills_needed": [], "tipo_tarea": "Critical_rol" },
+        { "id": "vret-cart", "nombre": "V-RET Cart runner", "skills_needed": [], "tipo_tarea": "Indirecta" }
+      ]
+    },
+    {
+      "id": "ship",
+      "nombre": "Shipping",
+      "area": "OB",
+      "puestos": [
+        { "id": "ship-area-a", "nombre": "Ship AREA A", "skills_needed": [], "tipo_tarea": "directa" },
+        { "id": "ship-area-b", "nombre": "Ship AREA B", "skills_needed": [], "tipo_tarea": "directa" },
+        { "id": "ship-area-d", "nombre": "Ship AREA D", "skills_needed": [], "tipo_tarea": "directa" },
+        { "id": "ship-caracolas", "nombre": "Ship Caracolas", "skills_needed": [], "tipo_tarea": "pesado" },
+        { "id": "ship-clerk", "nombre": "Ship Clerk", "skills_needed": [], "tipo_tarea": "Critical_rol" },
+        { "id": "ship-idm", "nombre": "Ship IDM", "skills_needed": [], "tipo_tarea": "Indirecta" },
+        { "id": "ship-auditor", "nombre": "Ship Auditor", "skills_needed": [], "tipo_tarea": "Critical_rol" },
+        { "id": "ship-supplies", "nombre": "Ship supplies", "skills_needed": [], "tipo_tarea": "Indirecta" },
+        { "id": "ship-slam-1", "nombre": "Slam Operator 1", "skills_needed": [], "tipo_tarea": "Indirecta" },
+        { "id": "ship-slam-2", "nombre": "Slam Operator 2", "skills_needed": [], "tipo_tarea": "Indirecta" }
+      ]
+    },
+    {
+      "id": "receive",
+      "nombre": "Receive",
+      "area": "IB",
+      "puestos": [
+        { "id": "rcv-decant-tsi", "nombre": "Decant TSI", "skills_needed": [], "mesas": ["TSI DECANT 1", "TSI DECANT 2", "TSI DECANT 3", "TSI DECANT 4", "TSI DECANT 5", "TSI DECANT 6"], "tipo_tarea": "directa" },
+        { "id": "rcv-decant-pid", "nombre": "Decant PID", "skills_needed": [], "mesas": ["PID DECANT 1", "PID DECANT 2", "PID DECANT 3", "PID DECANT 4", "PID DECANT 5", "PID DECANT 6"], "tipo_tarea": "directa" },
+        { "id": "rcv-noncon", "nombre": "NonCon", "skills_needed": [], "mesas": ["RCV L2-01", "RCV L2-02", "RCV L2-03", "RCV L2-04", "RCV L2-05", "RCV L2-06", "RCV L2-07", "RCV L2-08", "RCV L2-09", "RCV L2-10", "RCV L2-11", "RCV L2-12", "RCV L2-13", "RCV L2-14", "RCV L3-01", "RCV L3-03", "RCV L3-05", "RCV L3-07", "RCV L3-09", "RCV L3-10", "RCV L3-11"], "tipo_tarea": "directa" },
+        { "id": "rcv-cubis", "nombre": "Cubis", "skills_needed": [], "mesas": [], "tipo_tarea": "directa" },
+        { "id": "rcv-prep", "nombre": "Prep", "skills_needed": [], "mesas": ["PREP L1-08", "PREP L1-09", "PREP L1-10", "PREP L1-11", "PREP L1-12", "PREP L1-13"], "tipo_tarea": "directa" },
+        { "id": "rcv-ws", "nombre": "Receive Water Spider", "skills_needed": [], "mesas": [], "tipo_tarea": "Indirecta" },
+        { "id": "rcv-pallet", "nombre": "Pallet Receive", "skills_needed": [], "mesas": [], "tipo_tarea": "Critical_rol" },
+        { "id": "rcv-tl", "nombre": "Receive Team Lift", "skills_needed": [], "mesas": [], "tipo_tarea": "pesado" },
+        { "id": "rcv-tl-ast", "nombre": "Receive Team Lift Assistant", "skills_needed": [], "mesas": [], "tipo_tarea": "pesado" }
+      ]
+    },
+    {
+      "id": "stow",
+      "nombre": "Stow",
+      "area": "IB",
+      "puestos": [
+        { "id": "stow-pt", "nombre": "Stow Pick Tower", "skills_needed": [], "tipo_tarea": "directa" },
+        { "id": "stow-tl", "nombre": "Stow Team Lift", "skills_needed": [], "tipo_tarea": "pesado" },
+        { "id": "stow-tl-ast", "nombre": "Stow Team Lift Assistant", "skills_needed": [], "tipo_tarea": "pesado" },
+        { "id": "stow-hr-pitc", "nombre": "Stow PIT-C HighRack", "skills_needed": ["Pit-C"], "tipo_tarea": "directa" },
+        { "id": "stow-hr-pita", "nombre": "Stow PIT-A HighRack", "skills_needed": ["Pit-A"], "tipo_tarea": "directa" },
+        { "id": "stow-pitb", "nombre": "Pit-B", "skills_needed": [], "tipo_tarea": "Indirecta" },
+        { "id": "stow-cart", "nombre": "Stow Cart Runner", "skills_needed": [], "tipo_tarea": "Indirecta" },
+        { "id": "stow-walkie", "nombre": "Stow Walkie Tugger", "skills_needed": [], "tipo_tarea": "Indirecta" }
+      ]
+    },
+    {
+      "id": "grading",
+      "nombre": "Grading",
+      "area": "IB",
+      "puestos": [
+        { "id": "grading-whd", "nombre": "Grading WHD", "skills_needed": [], "tipo_tarea": "directa" },
+        { "id": "grading-pick-whd", "nombre": "Pick Grading WHD", "skills_needed": [], "tipo_tarea": "directa" },
+        { "id": "grading-ps", "nombre": "Grading PS", "skills_needed": [], "tipo_tarea": "Critical_rol" }
+      ]
+    },
+    {
+      "id": "pout",
+      "nombre": "Pout",
+      "area": "IB",
+      "puestos": [
+        { "id": "pout-ps", "nombre": "Pout PS", "skills_needed": [], "tipo_tarea": "Critical_rol" },
+        { "id": "pout-pick", "nombre": "Pick Problem Out", "skills_needed": [], "tipo_tarea": "directa" }
+      ]
+    },    
+    {
+      "id": "ISS",
+      "nombre": "ISS",
+      "area": "ICQA",
+      "puestos": [
+        { "id": "iss-ps-receive", "nombre": "PS Receive", "skills_needed": [], "tipo_tarea": "Critical_rol" },
+        { "id": "iss-sweeper", "nombre": "Sweeper", "skills_needed": [], "tipo_tarea": "Critical_rol" },
+        { "id": "iss-TT", "nombre": "ISS TT", "skills_needed": [], "tipo_tarea": "Critical_rol" }
+      ]
+    },
+    {
+      "id": "dock",
+      "nombre": "Dock",
+      "area": "IB",
+      "puestos": [
+        { "id": "dock-clerk", "nombre": "Dock Clerk", "skills_needed": [], "tipo_tarea": "Critical_rol" },
+        { "id": "dock-idm", "nombre": "Dock IDM", "skills_needed": [], "tipo_tarea": "Indirecta" },
+        { "id": "dock-unloader", "nombre": "Dock Unloader", "skills_needed": ["PPPJ"], "tipo_tarea": "Indirecta" },
+        { "id": "dock-ocean", "nombre": "Ocean", "skills_needed": ["Dock Safety", "Slot"], "tipo_tarea": "Pesado" },
+        { "id": "dock-ocean-cm", "nombre": "Ocean CartonMover", "skills_needed": ["Dock Safety", "Slot", "Pit-Safety-High"], "tipo_tarea": "Pesado" },
+        { "id": "dock-corral", "nombre": "Corral", "skills_needed": [], "tipo_tarea": "Pesado" },
+        { "id": "dock-wrapping", "nombre": "WrappingMachine", "skills_needed": [], "tipo_tarea": "Indirecta" },
+        { "id": "dock-ergopack", "nombre": "Ergopack", "skills_needed": [], "tipo_tarea": "Indirecta" }
+      ]
+    },
+    {
+      "id": "space",
+      "nombre": "Space",
+      "area": "Support",
+      "puestos": [
+        { "id": "space-hrk", "nombre": "Space HRK consolidation", "skills_needed": ["Move Container", "Stow", "Pit-C"], "tipo_tarea": "Critical_rol" },
+        { "id": "support-space", "nombre": "Space Consolidation", "skills_needed": ["Move Container", "Stow"], "tipo_tarea": "Critical_rol" }
+      ]
+    },
+    {
+      "id": "waste",
+      "nombre": "Waste",
+      "area": "Support",
+      "puestos": [
+        { "id": "waste", "nombre": "Waste & Donations", "skills_needed": [], "tipo_tarea": "Critical_rol" }
+      ]
+    },
+    {
+      "id": "TOM",
+      "nombre": "TOM",
+      "area": "OB",
+      "puestos": [
+        { "id": "tom-garitas", "nombre": "Garitas", "skills_needed": [], "tipo_tarea": "Critical_rol" },
+        { "id": "tom-ODM", "nombre": "ODM", "skills_needed": [], "tipo_tarea": "Indirecta" }
+      ]
+    },
+    {
+      "id": "learning",
+      "nombre": "Learning",
+      "area": "Support",
+      "no_cuenta_hc": true,
+      "descripcion": "Subir CSV con avisos (login, de hora a hora). No cuenta como HC.",
+      "puestos": []
+    },
+    {
+      "id": "5s",
+      "nombre": "5s",
+      "area": "Support",
+      "puestos": []
+    },
+    {
+      "id": "enfermeria",
+      "nombre": "Enfermería",
+      "area": "Support",
+      "no_cuenta_hc": true,
+      "descripcion": "Subir reconocimientos médicos (CSV). No cuenta como HC.",
+      "puestos": []
+    }
+  ]
+}
