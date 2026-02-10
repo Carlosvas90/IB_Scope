@@ -210,6 +210,18 @@
   color: var(--Color-gray-5);
 }
 
+.pm-row-red-task td {
+  background: rgba(180, 60, 60, 0.12);
+}
+.pm-row-red-task:hover td {
+  background: rgba(180, 60, 60, 0.18);
+}
+
+.pm-red-task-cell {
+  text-align: center;
+  vertical-align: middle;
+}
+
 /* Tabs */
 .pm-tabs {
   display: flex;

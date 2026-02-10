@@ -13,8 +13,14 @@ const AREAS = ["IB", "OB", "ICQA", "Support"];
 const TIPO_TAREA_OPTIONS = [
   { value: "directa", label: "Directo" },
   { value: "indirecta", label: "Indirecto" },
-  { value: "pesado", label: "Pesado" },
   { value: "critical_rol", label: "Critical rol" },
+];
+
+/** Storage Area: — (null), Pick Tower, High Rack. Para ordenar en Rotation Tool. */
+const STORAGE_AREA_OPTIONS = [
+  { value: "", label: "—" },
+  { value: "pick_tower", label: "Pick Tower" },
+  { value: "high_rack", label: "High Rack" },
 ];
 
 /** Genera id tipo slug desde nombre (ej. "Receive" → "receive", "Decant TSI" → "decant-tsi"). */
@@ -281,7 +287,17 @@ function scheduleSaveMapping() {
 async function savePuestosToDataFlow() {
   if (!state.dataFlowPath || !window.api || !window.api.saveJson || !state.puestosData) return;
   try {
-    const result = await window.api.saveJson(state.dataFlowPath + PUESTOS_FILENAME, state.puestosData);
+    const payload = JSON.parse(JSON.stringify(state.puestosData));
+    (payload.departamentos || []).forEach((d) => {
+      (d.puestos || []).forEach((p) => {
+        const t = String(p.tipo_tarea || "").toLowerCase().replace(/\s+/g, "_");
+        if (t === "pesado") {
+          p.tipo_tarea = "directa";
+          p.red_task = true;
+        }
+      });
+    });
+    const result = await window.api.saveJson(state.dataFlowPath + PUESTOS_FILENAME, payload);
     if (result && result.success) {
       state.lastSavedPuestos = Date.now();
       updateSyncStatus("puestos", true);
@@ -464,6 +480,8 @@ function renderTable() {
     notesInput.addEventListener("input", () => { row.notes = notesInput.value; scheduleSaveMapping(); });
     notesInput.addEventListener("change", () => { row.notes = notesInput.value; scheduleSaveMapping(); });
     tr.cells[5].appendChild(notesInput);
+    const puesto = getPuestoByMapping(row.area, row.dept_id, row.puesto_id);
+    if (puesto && isRedTask(puesto)) tr.classList.add("pm-row-red-task");
     el.tbody.appendChild(tr);
   });
 }
@@ -546,9 +564,26 @@ async function loadRotationsFromDataFlow() {
 function normalizeTipoTarea(t) {
   if (!t) return "directa";
   const lower = String(t).toLowerCase().replace(/\s+/g, "_");
-  if (["directa", "indirecta", "pesado", "critical_rol"].includes(lower)) return lower;
+  if (["directa", "indirecta", "critical_rol"].includes(lower)) return lower;
+  if (lower === "pesado") return "directa";
   if (lower === "critical" || lower === "critical_rol") return "critical_rol";
   return lower || "directa";
+}
+
+/** true si el puesto es Red Task (checkbox o legacy tipo pesado). */
+function isRedTask(puesto) {
+  if (!puesto || typeof puesto !== "object") return false;
+  if (puesto.red_task === true) return true;
+  const t = String(puesto.tipo_tarea || "").toLowerCase().replace(/\s+/g, "_");
+  return t === "pesado";
+}
+
+/** Obtiene el puesto desde puestosData por área, dept_id y puesto_id. */
+function getPuestoByMapping(area, deptId, puestoId) {
+  if (!state.puestosData || !area || !deptId || !puestoId) return null;
+  const dept = (state.puestosData.departamentos || []).find((d) => (d.area || "").toUpperCase() === (area || "").toUpperCase() && (d.id || "") === deptId);
+  if (!dept || !dept.puestos) return null;
+  return dept.puestos.find((p) => (p.id || "") === puestoId) || null;
 }
 
 function fillPuestosFilters() {
@@ -632,6 +667,37 @@ function renderPuestosTable() {
       state.puestosData.departamentos[deptIndex].puestos[puestoIndex].tipo_tarea = tipoSelect.value;
       scheduleSavePuestos();
     });
+    const redTaskCell = document.createElement("td");
+    redTaskCell.className = "pm-red-task-cell";
+    const redTaskCheck = document.createElement("input");
+    redTaskCheck.type = "checkbox";
+    redTaskCheck.checked = isRedTask(puesto);
+    redTaskCheck.title = "Red Task";
+    redTaskCheck.addEventListener("change", () => {
+      state.puestosData.departamentos[deptIndex].puestos[puestoIndex].red_task = redTaskCheck.checked;
+      if (redTaskCheck.checked && (puesto.tipo_tarea || "").toLowerCase().replace(/\s+/g, "_") === "pesado") {
+        state.puestosData.departamentos[deptIndex].puestos[puestoIndex].tipo_tarea = "directa";
+      }
+      tr.classList.toggle("pm-row-red-task", redTaskCheck.checked);
+      scheduleSavePuestos();
+    });
+    redTaskCell.appendChild(redTaskCheck);
+    if (isRedTask(puesto)) tr.classList.add("pm-row-red-task");
+    const storageAreaSelect = document.createElement("select");
+    storageAreaSelect.className = "pm-input-text";
+    const currentStorage = (puesto.storage_area || "").trim();
+    STORAGE_AREA_OPTIONS.forEach((o) => {
+      const opt = document.createElement("option");
+      opt.value = o.value;
+      opt.textContent = o.label;
+      if (currentStorage === o.value) opt.selected = true;
+      storageAreaSelect.appendChild(opt);
+    });
+    storageAreaSelect.addEventListener("change", () => {
+      const v = storageAreaSelect.value;
+      state.puestosData.departamentos[deptIndex].puestos[puestoIndex].storage_area = v || null;
+      scheduleSavePuestos();
+    });
     const lineasData = puesto.lineas && Array.isArray(puesto.lineas) ? puesto.lineas : [];
     const lineasCell = document.createElement("td");
     lineasCell.className = "pm-lineas-cell";
@@ -688,6 +754,8 @@ function renderPuestosTable() {
     puestoTd.appendChild(puestoNombreInput);
     tr.appendChild(puestoTd);
     tr.appendChild(document.createElement("td")).appendChild(tipoSelect);
+    tr.appendChild(redTaskCell);
+    tr.appendChild(document.createElement("td")).appendChild(storageAreaSelect);
     tr.appendChild(lineasCell);
     tr.appendChild(certCell);
     tr.appendChild(document.createElement("td")).appendChild(btnRemove);
@@ -815,6 +883,8 @@ function modalPuestoDone() {
     nombre,
     skills_needed: [],
     tipo_tarea: tipo,
+    red_task: false,
+    storage_area: null,
     lineas: [],
     mesas: [],
     certificados: [],

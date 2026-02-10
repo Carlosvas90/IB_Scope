@@ -42,6 +42,8 @@
                 <th>Departamento</th>
                 <th>Proceso (Puesto)</th>
                 <th>Tipo tarea</th>
+                <th>Red Task</th>
+                <th>Storage Area</th>
                 <th>Líneas / WS</th>
                 <th>Certificados</th>
                 <th></th>
@@ -142,10 +144,9 @@
           <select id="pm-modal-puesto-tipo" class="pm-modal-input">
             <option value="directa">Directo</option>
             <option value="indirecta">Indirecto</option>
-            <option value="pesado">Pesado</option>
             <option value="critical_rol">Critical rol</option>
           </select>
-          <p class="pm-modal-hint">Si este proceso tiene líneas (ej. Noncon: L1, L2, L3, L4) y WS por línea, lo agregas después en la tabla con «Agregar líneas».</p>
+          <p class="pm-modal-hint">Red Task se marca con el checkbox en la tabla. Líneas/WS se agregan después con «Agregar líneas».</p>
         </div>
         <div class="pm-modal-actions">
           <button type="button" id="pm-modal-puesto-done" class="pm-btn pm-btn-primary">Crear puesto</button>

@@ -713,6 +713,27 @@
   border-bottom: var(--border-width-thin) solid var(--Color-gray-2);
 }
 
+.rt-modal-storage-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--Color-gray-5);
+  margin-top: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+.rt-modal-storage-title:first-of-type {
+  margin-top: 0.25rem;
+}
+
+/* Red Task: puesto con tipo pesado va en Directos pero con fondo rojo sutil */
+.rt-modal-puesto-row-red-task {
+  background: rgba(180, 60, 60, 0.1);
+  border-radius: var(--border-md);
+  padding-left: 0.4rem;
+  margin-left: -0.2rem;
+  margin-right: -0.2rem;
+  padding-right: 0.4rem;
+}
+
 .rt-modal-puestos-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

@@ -20,13 +20,22 @@ const ORDER_IB = ["dock", "receive", "stow", "pout", "grading"];
 /** Stow Team Lift Assistant sigue automáticamente a Stow Team Lift (1:1) */
 const PUESTO_ESPEJO = { "stow-tl-ast": "stow-tl" };
 
-/** Orden y etiquetas para agrupar puestos por tipo_tarea */
+/** Orden y etiquetas para agrupar puestos por tipo_tarea. Pesado se muestra dentro de Directos con fondo rojo. */
 const TIPO_ORDER = ["directa", "indirecta", "pesado", "critical_rol"];
+const TIPO_ORDER_DISPLAY = ["directa", "indirecta", "critical_rol"];
 const TIPO_LABELS = {
   directa: "Directos",
   indirecta: "Indirectos",
-  pesado: "Pesados",
+  pesado: "Red Task",
   critical_rol: "Critical rol",
+};
+
+/** Orden y etiquetas para Storage Area (dentro de cada tipo en el modal). */
+const STORAGE_AREA_ORDER = ["", "pick_tower", "high_rack"];
+const STORAGE_AREA_LABELS = {
+  "": "—",
+  pick_tower: "Pick Tower",
+  high_rack: "High Rack",
 };
 
 /** Distribución automática por área. Preset con todos los puestos; se escala al cupo completo. */
@@ -174,14 +183,54 @@ class RotationToolController {
       } catch (_) {}
     }
 
+    if (!loaded && typeof window.api !== "undefined" && window.api.getConfig && window.api.readFileAbsolute) {
+      try {
+        const config = await window.api.getConfig();
+        const paths = config && config.pizarra_paths && Array.isArray(config.pizarra_paths) ? config.pizarra_paths : [];
+        if (paths.length > 0) {
+          let base = paths[0];
+          if (typeof base === "string") {
+            base = base.replace(/\//g, "\\").trim();
+            if (!base.endsWith("\\")) base += "\\";
+            const puestosPath = base + PUESTOS_FILENAME;
+            const result = await window.api.readFileAbsolute(puestosPath);
+            if (result && result.success && result.content) {
+              this.puestosData = JSON.parse(result.content);
+              loaded = true;
+            }
+          }
+        }
+      } catch (_) {}
+    }
+
     if (!loaded) {
-      document.getElementById("rt-dashboard-loading").textContent =
-        "No se pudo cargar puestos.json.";
+      const loadingEl = document.getElementById("rt-dashboard-loading");
+      if (loadingEl) loadingEl.textContent = "No se pudo cargar puestos.json.";
       return;
     }
 
-    document.getElementById("rt-dashboard-loading").remove();
-    this.renderizarDashboard();
+    if (!this.puestosData || typeof this.puestosData !== "object") {
+      this.puestosData = { version: "1.0", departamentos: [] };
+    }
+    if (!Array.isArray(this.puestosData.departamentos)) {
+      this.puestosData.departamentos = [];
+    }
+
+    const loadingEl = document.getElementById("rt-dashboard-loading");
+    if (loadingEl) loadingEl.remove();
+    try {
+      this.renderizarDashboard();
+    } catch (err) {
+      console.error("Rotation Tool renderizarDashboard:", err);
+      const container = document.getElementById("rt-dashboard-content");
+      if (container) {
+        container.innerHTML = "";
+        const errEl = document.createElement("div");
+        errEl.className = "rt-dashboard-error";
+        errEl.textContent = "Error al mostrar el dashboard: " + (err.message || String(err));
+        container.appendChild(errEl);
+      }
+    }
   }
 
   /** Área de visualización (ISS en Support) */
@@ -484,53 +533,67 @@ class RotationToolController {
     puestosContainer.className = "rt-modal-puestos";
     panel.appendChild(puestosContainer);
     const porTipo = this.agruparPuestosPorTipo(puestos);
-    for (const tipoKey of TIPO_ORDER) {
+    for (const tipoKey of TIPO_ORDER_DISPLAY) {
       const puestosList = porTipo[tipoKey] || [];
       if (puestosList.length === 0) continue;
       const section = document.createElement("div");
       section.className = "rt-modal-tipo-section";
+      section.dataset.tipo = tipoKey;
       const tipoTitle = document.createElement("div");
       tipoTitle.className = "rt-modal-tipo-title";
       tipoTitle.textContent = TIPO_LABELS[tipoKey] || tipoKey;
       section.appendChild(tipoTitle);
-      const grid = document.createElement("div");
-      grid.className = "rt-modal-puestos-grid";
-      for (const puesto of puestosList) {
-        const espejoDe = PUESTO_ESPEJO[puesto.id];
-        const val = espejoDe ? (this.puestoHC[espejoDe] ?? 0) : (this.puestoHC[puesto.id] ?? 0);
-        const readonly = !!espejoDe;
-        const row = document.createElement("div");
-        row.className = "rt-modal-puesto-row" + (readonly ? " rt-modal-puesto-row-readonly" : "");
-        row.innerHTML = `
+      for (const storageKey of STORAGE_AREA_ORDER) {
+        const puestosEnStorage = puestosList.filter((p) => p && typeof p === "object" && ((p.storage_area || "") + "").trim() === storageKey);
+        if (puestosEnStorage.length === 0) continue;
+        if (storageKey) {
+          const storageLabel = STORAGE_AREA_LABELS[storageKey] || storageKey;
+          const storageTitle = document.createElement("div");
+          storageTitle.className = "rt-modal-storage-title";
+          storageTitle.textContent = storageLabel;
+          section.appendChild(storageTitle);
+        }
+        const grid = document.createElement("div");
+        grid.className = "rt-modal-puestos-grid";
+        for (const puesto of puestosEnStorage) {
+          const espejoDe = PUESTO_ESPEJO[puesto.id];
+          const val = espejoDe ? (this.puestoHC[espejoDe] ?? 0) : (this.puestoHC[puesto.id] ?? 0);
+          const readonly = !!espejoDe;
+          const t = ((puesto.tipo_tarea || "") + "").toLowerCase().replace(/\s+/g, "_");
+          const isRedTask = puesto.red_task === true || t.includes("pesado");
+          const row = document.createElement("div");
+          row.className = "rt-modal-puesto-row" + (readonly ? " rt-modal-puesto-row-readonly" : "") + (isRedTask ? " rt-modal-puesto-row-red-task" : "");
+          row.innerHTML = `
           <div class="rt-modal-puesto-row-main">
             <label for="rt-puesto-${escapeHtml(puesto.id)}" class="rt-modal-puesto-label">${escapeHtml(puesto.nombre)}</label>
             <input type="number" id="rt-puesto-${escapeHtml(puesto.id)}" class="rt-input-num rt-modal-puesto-input" data-puesto-id="${escapeHtml(puesto.id)}" data-espejo-de="${espejoDe || ""}" min="0" value="${val}" ${readonly ? "readonly" : ""} />
           </div>
         `;
-        const asignados = this.pizarraGenerada && (this.asignacionesPorPuesto[puesto.id] || this.asignacionesPorPuesto[espejoDe]);
-        const list = asignados ? (this.asignacionesPorPuesto[puesto.id] || this.asignacionesPorPuesto[espejoDe] || []) : [];
-        if (list.length > 0) {
-          const asigEl = document.createElement("div");
-          asigEl.className = "rt-puesto-asignados";
-          asigEl.textContent = list.join(", ");
-          row.appendChild(asigEl);
+          const asignados = this.pizarraGenerada && (this.asignacionesPorPuesto[puesto.id] || this.asignacionesPorPuesto[espejoDe]);
+          const list = asignados ? (this.asignacionesPorPuesto[puesto.id] || this.asignacionesPorPuesto[espejoDe] || []) : [];
+          if (list.length > 0) {
+            const asigEl = document.createElement("div");
+            asigEl.className = "rt-puesto-asignados";
+            asigEl.textContent = list.join(", ");
+            row.appendChild(asigEl);
+          }
+          const input = row.querySelector("input");
+          if (!readonly) {
+            input.addEventListener("input", () => {
+              this.syncStowTLAsistente(puestosContainer);
+              this.guardarPuestosDesdePanel(puestosContainer);
+              onUpdate();
+            });
+            input.addEventListener("change", () => {
+              this.syncStowTLAsistente(puestosContainer);
+              this.guardarPuestosDesdePanel(puestosContainer);
+              onUpdate();
+            });
+          }
+          grid.appendChild(row);
         }
-        const input = row.querySelector("input");
-        if (!readonly) {
-          input.addEventListener("input", () => {
-            this.syncStowTLAsistente(puestosContainer);
-            this.guardarPuestosDesdePanel(puestosContainer);
-            onUpdate();
-          });
-          input.addEventListener("change", () => {
-            this.syncStowTLAsistente(puestosContainer);
-            this.guardarPuestosDesdePanel(puestosContainer);
-            onUpdate();
-          });
-        }
-        grid.appendChild(row);
+        section.appendChild(grid);
       }
-      section.appendChild(grid);
       puestosContainer.appendChild(section);
     }
     onUpdate();
@@ -551,11 +614,14 @@ class RotationToolController {
 
   agruparPuestosPorTipo(puestos) {
     const out = {};
-    for (const p of puestos) {
+    const list = Array.isArray(puestos) ? puestos : [];
+    for (const p of list) {
+      if (!p || typeof p !== "object") continue;
       const t = ((p.tipo_tarea || "directa") + "").toLowerCase().replace(/\s+/g, "_");
       const norm = t.includes("critical") ? "critical_rol" : t.includes("indirect") ? "indirecta" : t.includes("pesado") ? "pesado" : "directa";
-      if (!out[norm]) out[norm] = [];
-      out[norm].push(p);
+      const groupKey = norm === "pesado" ? "directa" : norm;
+      if (!out[groupKey]) out[groupKey] = [];
+      out[groupKey].push(p);
     }
     return out;
   }
