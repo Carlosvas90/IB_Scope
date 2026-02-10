@@ -70,7 +70,7 @@ export class HourlyChart extends BaseChart {
         axisPointer: {
           type: "cross",
           label: {
-            backgroundColor: "#6a7985",
+            backgroundColor: this.getThemeColor("tooltipLabelBg"),
           },
         },
         formatter: (params) => {
@@ -219,7 +219,7 @@ export class HourlyChart extends BaseChart {
         type: "line",
         data: new Array(24).fill(average),
         lineStyle: {
-          color: "#ff6b6b",
+          color: this.getCssColor("--stats-danger-color", "#ff6b6b"),
           type: "dashed",
           width: 2,
         },
@@ -237,19 +237,19 @@ export class HourlyChart extends BaseChart {
    * Obtiene color según la hora y valor
    */
   getColorForHour(hour, value, average) {
-    // Colores más intensos para horas pico (horario laboral)
     const isPeakHour = hour >= 9 && hour <= 17;
     const isHighValue = value > average * 1.2;
 
     if (isHighValue) {
-      return "#ff4757"; // Rojo para valores altos
-    } else if (isPeakHour) {
-      return "#3742fa"; // Azul para horas pico
-    } else if (hour >= 22 || hour <= 6) {
-      return "#2f3542"; // Gris oscuro para madrugada
-    } else {
-      return "#5352ed"; // Morado para horas normales
+      return this.getCssColor("--stats-danger-color", "#ff4757");
     }
+    if (isPeakHour) {
+      return this.getCssColor("--stats-info-color", "#3742fa");
+    }
+    if (hour >= 22 || hour <= 6) {
+      return this.getCssColor("--Color-gray-7", "#2f3542");
+    }
+    return this.getCssColor("--stats-primary-color", "#5352ed");
   }
 
   /**
@@ -303,7 +303,7 @@ export class HourlyChart extends BaseChart {
         style: {
           text: "No hay datos disponibles",
           fontSize: 14,
-          fill: "#999",
+          fill: this.getThemeColor("textMuted") || "#999",
         },
       },
     };

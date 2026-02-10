@@ -160,3 +160,5 @@ Al crear o modificar gráficos en IB_Scope:
 4. **Estructura:** Nuevos gráficos en la app correspondiente bajo `src/renderer/apps/<nombre-app>/`; lógica reutilizable en `src/renderer/core/`.
 
 Checklist: dispose antes de init; contenedor con tamaño definido; `chart.resize()` en resize; colores desde tokens.
+
+**Estado actual (aplicado):** ChartThemeService usa `backgroundColor: 'transparent'`, paleta desde `getResolvedPalette()` (tokens `--stats-*`, `--Palette-*`, `--Color-*`), y `getCssColor(varName)` para resolver variables. Los gráficos modulares (TrendChart, StatusDistributionChart, HourlyChart, TopChart, StatusChart) usan `getThemeColor()` / `getCssColor()` para texto vacío, tooltips y colores por estado; BaseChart expone `getCssColor()` delegado al tema.

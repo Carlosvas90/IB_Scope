@@ -46,6 +46,7 @@ export class StatusDistributionChart extends BaseChart {
       innerRadius: "40%",
       outerRadius: "70%",
       labelPosition: "outside", // inside, outside
+      // Fallbacks por si los tokens CSS no están cargados
       colors: {
         pending: "#ff9800",
         resolved: "#4caf50",
@@ -53,6 +54,15 @@ export class StatusDistributionChart extends BaseChart {
         in_progress: "#2196f3",
         cancelled: "#9e9e9e",
         reopened: "#ff5722",
+      },
+      // Tokens CSS (IB_Scope) para colores por estado
+      colorTokens: {
+        pending: "--stats-warning-color",
+        resolved: "--stats-success-color",
+        critical: "--stats-danger-color",
+        in_progress: "--stats-info-color",
+        cancelled: "--Color-gray-5",
+        reopened: "--stats-warning-color",
       },
       statusLabels: {
         pending: "Pendientes",
@@ -154,31 +164,42 @@ export class StatusDistributionChart extends BaseChart {
   }
 
   /**
-   * NUEVO: Obtiene color para un estado específico
+   * Color para una clave de estado (desde tokens CSS o config).
+   * @param {string} statusKey - pending, resolved, critical, etc.
+   * @param {string} alphaSuffix - ej. 'CC' para 80% opacidad en hex
+   */
+  getStatusColor(statusKey, alphaSuffix = "") {
+    const token =
+      this.config.colorTokens && this.config.colorTokens[statusKey];
+    const resolved = token
+      ? this.getCssColor(token, this.config.colors[statusKey])
+      : this.config.colors[statusKey];
+    const color = resolved || "#999999";
+    return color + (alphaSuffix || "");
+  }
+
+  /**
+   * Obtiene color para un nombre de etiqueta (Pendientes, Resueltos, etc.)
    */
   getColorForStatus(statusName) {
-    const statusColors = {
-      Pendientes: "#ffa726", // Ámbar en lugar de rojo
-      Resueltos: "#51cf66", // Verde se mantiene igual
-      "En Progreso": "#ffd43b",
-      Críticos: "#ff8787",
-      Cancelados: "#868e96",
-      Reabiertos: "#ff922b",
+    const labelToKey = {
+      Pendientes: "pending",
+      Resueltos: "resolved",
+      "En Progreso": "in_progress",
+      Críticos: "critical",
+      Cancelados: "cancelled",
+      Reabiertos: "reopened",
     };
-
-    // Buscar por coincidencia parcial (case insensitive)
     const normalizedStatus = statusName.toLowerCase();
-    for (const [key, color] of Object.entries(statusColors)) {
+    for (const [label, key] of Object.entries(labelToKey)) {
       if (
-        key.toLowerCase().includes(normalizedStatus) ||
-        normalizedStatus.includes(key.toLowerCase())
+        label.toLowerCase().includes(normalizedStatus) ||
+        normalizedStatus.includes(label.toLowerCase())
       ) {
-        return color;
+        return this.getStatusColor(key);
       }
     }
-
-    // Color por defecto
-    return "#868e96";
+    return this.getCssColor("--Color-gray-5", "#868e96");
   }
 
   /**
@@ -210,8 +231,8 @@ export class StatusDistributionChart extends BaseChart {
       (status) => this.config.statusLabels[status] || status
     );
     const values = Object.values(statusCounts);
-    const colors = Object.keys(statusCounts).map(
-      (status) => (this.config.colors[status] || "#999999") + "CC"
+    const colors = Object.keys(statusCounts).map((status) =>
+      this.getStatusColor(status, "CC")
     );
 
     return {
@@ -240,7 +261,7 @@ export class StatusDistributionChart extends BaseChart {
       if (typeof value === "number" && value > 0) {
         labels.push(this.config.statusLabels[key] || key);
         values.push(value);
-        colors.push((this.config.colors[key] || "#999999") + "CC");
+        colors.push(this.getStatusColor(key, "CC"));
       }
     });
 
@@ -263,17 +284,10 @@ export class StatusDistributionChart extends BaseChart {
    */
   generateColorsForLabels(labels) {
     return labels.map((label) => {
-      // Mapear etiquetas a estados conocidos
       const statusKey = Object.keys(this.config.statusLabels).find(
         (key) => this.config.statusLabels[key] === label
       );
-
-      if (statusKey && this.config.colors[statusKey]) {
-        return this.config.colors[statusKey] + "CC";
-      }
-
-      // Color por defecto si no se encuentra
-      return "#999999CC";
+      return statusKey ? this.getStatusColor(statusKey, "CC") : "#999999CC";
     });
   }
 
@@ -340,7 +354,7 @@ export class StatusDistributionChart extends BaseChart {
       if (normalizedValue > 0) {
         labels.push(this.config.statusLabels[status]);
         values.push(normalizedValue);
-        colors.push(this.config.colors[status] + "CC"); // Agregar transparencia
+        colors.push(this.getStatusColor(status, "CC"));
       }
     });
 
@@ -418,11 +432,11 @@ export class StatusDistributionChart extends BaseChart {
                   Cantidad: ${value}<br/>
                   Porcentaje: ${percentage}%`;
         },
-        backgroundColor: "rgba(0, 0, 0, 0.8)",
-        borderColor: "rgba(255, 255, 255, 0.1)",
+        backgroundColor: this.getThemeColor("tooltipBg"),
+        borderColor: this.getThemeColor("tooltipBorder"),
         borderWidth: 1,
         textStyle: {
-          color: "#ffffff",
+          color: this.getThemeColor("textColor"),
         },
       },
       legend: {

@@ -93,11 +93,21 @@ export class BaseChart {
   }
 
   /**
-   * Obtiene color de la paleta según índice
+   * Obtiene color de la paleta según índice (paleta desde tokens CSS cuando hay).
    */
   getColorFromPalette(index) {
     const themeConfig = this.getThemeConfig();
-    return themeConfig.palette[index % themeConfig.palette.length];
+    const palette = themeConfig.palette || [];
+    return palette[index % palette.length] || themeConfig.primaryColor;
+  }
+
+  /**
+   * Resuelve un color desde variable CSS (tokens IB_Scope). Delegado al ChartThemeService.
+   */
+  getCssColor(varName, fallback = "") {
+    return this.themeService.getCssColor
+      ? this.themeService.getCssColor(varName, fallback)
+      : fallback;
   }
 
   /**

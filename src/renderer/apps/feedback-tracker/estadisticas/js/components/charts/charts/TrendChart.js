@@ -79,7 +79,7 @@ export class TrendChart extends BaseChart {
         axisPointer: {
           type: "cross",
           label: {
-            backgroundColor: "#6a7985",
+            backgroundColor: this.getThemeColor("tooltipLabelBg"),
           },
         },
         formatter: (params) => {
@@ -255,7 +255,7 @@ export class TrendChart extends BaseChart {
         style: {
           text: "No hay datos disponibles",
           fontSize: 14,
-          fill: "#999",
+          fill: this.getThemeColor("textMuted") || "#999",
         },
       },
     };

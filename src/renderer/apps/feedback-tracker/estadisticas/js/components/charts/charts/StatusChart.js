@@ -263,7 +263,7 @@ export class StatusChart extends BaseChart {
         style: {
           text: "No hay datos disponibles",
           fontSize: 14,
-          fill: "#999",
+          fill: this.getThemeColor("textMuted") || "#999",
         },
       },
     };

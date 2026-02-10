@@ -10,11 +10,11 @@ export class ChartThemeService {
     this.currentTheme = "light";
     this.listeners = new Set();
 
-    // Configuración de temas
+    // Configuración de temas (colores base; paleta se resuelve desde CSS tokens)
     this.themes = {
       light: {
         name: "light",
-        backgroundColor: "#ffffff",
+        backgroundColor: "transparent",
         textColor: "#333333",
         primaryColor: "#5470c6",
         axisColor: "#cccccc",
@@ -23,24 +23,11 @@ export class ChartThemeService {
         tooltipBg: "#ffffff",
         tooltipBorder: "#cccccc",
         shadowColor: "rgba(0, 0, 0, 0.1)",
-        palette: [
-          "#5470c6",
-          "#91cc75",
-          "#fac858",
-          "#ee6666",
-          "#73c0de",
-          "#3ba272",
-          "#fc8452",
-          "#9a60b4",
-          "#ea7ccc",
-          "#2e7cf8",
-          "#45b7d1",
-          "#f39c12",
-        ],
+        palette: [], // Se rellena desde getResolvedPalette()
       },
       dark: {
         name: "dark",
-        backgroundColor: "#1a1a1a",
+        backgroundColor: "transparent",
         textColor: "#ffffff",
         primaryColor: "#4992ff",
         axisColor: "#404040",
@@ -49,22 +36,24 @@ export class ChartThemeService {
         tooltipBg: "#2d2d2d",
         tooltipBorder: "#404040",
         shadowColor: "rgba(255, 255, 255, 0.1)",
-        palette: [
-          "#4992ff",
-          "#7cfc00",
-          "#ffcc02",
-          "#ff6b6b",
-          "#4ecdc4",
-          "#45b7d1",
-          "#f39c12",
-          "#9b59b6",
-          "#e91e63",
-          "#00bcd4",
-          "#26de81",
-          "#fd79a8",
-        ],
+        palette: [],
       },
     };
+
+    // Tokens CSS para paleta (IB_Scope: variables.css / feedback-tracker --stats-*)
+    this.paletteTokenNames = [
+      "--stats-primary-color",
+      "--stats-success-color",
+      "--stats-warning-color",
+      "--stats-danger-color",
+      "--stats-info-color",
+      "--Palette-Blue-3",
+      "--Palette-Pink-2",
+      "--Color-Green-2",
+      "--Color-Orange-2",
+      "--Color-Purple-3",
+      "--Color-gray-5",
+    ];
 
     this.init();
     console.log("🎨 ChartThemeService inicializado");
@@ -303,10 +292,61 @@ export class ChartThemeService {
   }
 
   /**
-   * Obtiene la configuración del tema actual
+   * Resuelve un color desde una variable CSS (tokens IB_Scope).
+   * @param {string} varName - Nombre de la variable, ej. '--stats-text-muted'
+   * @param {string} fallback - Valor si la variable no existe o está vacía
+   * @returns {string}
+   */
+  getCssColor(varName, fallback = "") {
+    try {
+      const value = getComputedStyle(document.documentElement)
+        .getPropertyValue(varName)
+        .trim();
+      return value || fallback;
+    } catch {
+      return fallback;
+    }
+  }
+
+  /**
+   * Paleta de colores resuelta desde tokens CSS (--Palette-*, --Color-*, --stats-*).
+   * Si no hay tokens cargados, devuelve paleta por defecto del tema.
+   */
+  getResolvedPalette() {
+    const resolved = this.paletteTokenNames
+      .map((name) => this.getCssColor(name))
+      .filter(Boolean);
+    if (resolved.length > 0) return resolved;
+    return [
+      "#5470c6",
+      "#91cc75",
+      "#fac858",
+      "#ee6666",
+      "#73c0de",
+      "#3ba272",
+      "#fc8452",
+      "#9a60b4",
+    ];
+  }
+
+  /**
+   * Obtiene la configuración del tema actual (con paleta y colores desde tokens).
    */
   getCurrentThemeConfig() {
-    return this.themes[this.currentTheme];
+    const base = this.themes[this.currentTheme];
+    return {
+      ...base,
+      backgroundColor: "transparent",
+      palette: this.getResolvedPalette(),
+      textMuted:
+        this.getCssColor("--stats-text-muted") ||
+        this.getCssColor("--stats-text-secondary") ||
+        base.textColor,
+      tooltipLabelBg:
+        this.getCssColor("--stats-text-secondary") ||
+        base.axisColor ||
+        "#6a7985",
+    };
   }
 
   /**
