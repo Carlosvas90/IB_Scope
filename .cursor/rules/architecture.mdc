@@ -25,5 +25,6 @@ Estructura y nombres del proyecto. Aplicar cuando trabajes en `src/`, `config/` 
 - Lógica reutilizable entre apps va en `renderer/core/` (controllers, services, utils).
 - No mezclar responsabilidades del proceso principal (`main/`) con las del renderer.
 - Respetar la estructura existente; al añadir módulos o vistas, colocarlos según esta jerarquía.
+- **Navegación SPA:** ver regla `spa-navigation` para el ciclo de vida de apps, vistas con HTML propio y reinicialización al cambiar entre apps.
 
 Si algo no encaja en esta estructura, proponer dónde colocarlo en lugar de crear carpetas o nombres ad hoc.

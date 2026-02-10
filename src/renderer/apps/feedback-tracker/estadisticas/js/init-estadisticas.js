@@ -4,16 +4,57 @@
  * Maneja la carga del sistema modular y fallback al tradicional
  */
 
+const ECHARTS_CDN = "https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js";
+
+/**
+ * Carga ECharts desde CDN inyectando un script (el HTML de la vista solo inyecta body, no head).
+ */
+function loadEChartsScript() {
+  return new Promise((resolve, reject) => {
+    if (typeof window.echarts !== "undefined") {
+      resolve();
+      return;
+    }
+    const existing = document.querySelector('script[src*="echarts"]');
+    if (existing) {
+      existing.addEventListener("load", () => resolve());
+      existing.addEventListener("error", () => reject(new Error("ECharts script failed")));
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = ECHARTS_CDN;
+    script.async = false;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error("No se pudo cargar ECharts desde CDN"));
+    document.head.appendChild(script);
+  });
+}
+
 // Función de inicialización principal
 async function initEstadisticas(view) {
+  // Si ya existe un controlador, destruirlo antes de reinicializar
+  // (el DOM se reemplaza al volver a la vista, así que el viejo ya no sirve)
+  if (window.estadisticasController) {
+    try {
+      if (typeof window.estadisticasController.destroy === "function") {
+        window.estadisticasController.destroy();
+      }
+    } catch (_) {}
+    window.estadisticasController = null;
+  }
+  if (window._estadisticasInitPromise) {
+    return window._estadisticasInitPromise;
+  }
+
   console.log("🎯 Inicializando módulo de estadísticas...", view);
 
-  try {
-    // Verificar que ECharts esté disponible
-    if (typeof echarts === "undefined") {
-      console.warn("⚠️ ECharts no está disponible, esperando...");
-      await waitForECharts();
-    }
+  const promise = (async () => {
+    try {
+      if (typeof window.echarts === "undefined") {
+        console.log("📦 Cargando ECharts desde CDN...");
+        await loadEChartsScript();
+        console.log("✅ ECharts cargado");
+      }
 
     // Importar dinámicamente el controlador principal
     const { EstadisticasController } = await import(
@@ -43,7 +84,13 @@ async function initEstadisticas(view) {
       console.error("❌ Error en fallback:", fallbackError);
       return false;
     }
+  } finally {
+    window._estadisticasInitPromise = null;
   }
+  })();
+
+  window._estadisticasInitPromise = promise;
+  return promise;
 }
 
 /**

@@ -606,16 +606,25 @@ export class EstadisticasController {
         this.modularCharts.delete("trend");
       }
 
-      // Obtener datos reales del sistema
-      const trendData = this.analyticsProcessor.processTrendData(
-        this.errors,
-        this.currentDateRange
-      );
+      // Obtener datos del servicio (pre-procesados)
+      const trends = this.dataService.getTrends();
+      const trendData = {
+        dates: (trends.by_day || []).map(d => d.date),
+        series: [
+          { name: "Total", data: (trends.by_day || []).map(d => d.total || 0) },
+          { name: "Pendientes", data: (trends.by_day || []).map(d => d.pending || 0) },
+          { name: "Resueltos", data: (trends.by_day || []).map(d => d.resolved || 0) },
+        ],
+      };
       console.log("📊 Datos de tendencias obtenidos:", trendData);
 
       // Verificar que hay datos
       if (!trendData || !trendData.dates || trendData.dates.length === 0) {
         console.warn("⚠️ No hay datos de tendencias para mostrar");
+        // Fallback: intentar con sistema tradicional
+        try {
+          this.chartService.initTrendChart("errors-trend-chart", trendData, "line");
+        } catch (_) {}
         return;
       }
 
@@ -679,15 +688,16 @@ export class EstadisticasController {
       console.error("❌ Error creando gráfico de tendencias modular:", error);
       // Fallback al tradicional para este gráfico
       try {
-        const trendData = this.analyticsProcessor.processTrendData(
-          this.errors,
-          this.currentDateRange
-        );
-        this.chartService.initTrendChart(
-          "errors-trend-chart",
-          trendData,
-          "line"
-        );
+        const trends = this.dataService.getTrends();
+        const fallbackData = {
+          dates: (trends.by_day || []).map(d => d.date),
+          series: [
+            { name: "Total", data: (trends.by_day || []).map(d => d.total || 0) },
+            { name: "Pendientes", data: (trends.by_day || []).map(d => d.pending || 0) },
+            { name: "Resueltos", data: (trends.by_day || []).map(d => d.resolved || 0) },
+          ],
+        };
+        this.chartService.initTrendChart("errors-trend-chart", fallbackData, "line");
       } catch (fallbackError) {
         console.error("❌ Error en fallback de tendencias:", fallbackError);
       }
@@ -726,11 +736,12 @@ export class EstadisticasController {
         this.modularCharts.delete("status");
       }
 
-      // Obtener datos reales del sistema
-      const statusData = this.analyticsProcessor.processStatusDistribution(
-        this.errors,
-        this.currentDateRange
-      );
+      // Obtener datos del servicio (pre-procesados)
+      const distribution = this.dataService.getDistribution();
+      const statusData = (distribution.by_status || []).map(item => ({
+        name: item.status || item.name || "Desconocido",
+        value: item.count || item.value || 0,
+      }));
       console.log("📊 Datos de distribución obtenidos:", statusData);
 
       // Verificar que hay datos
@@ -788,14 +799,12 @@ export class EstadisticasController {
       console.error("❌ Error creando gráfico de distribución modular:", error);
       // Fallback al tradicional para este gráfico
       try {
-        const statusData = this.analyticsProcessor.processStatusDistribution(
-          this.errors,
-          this.currentDateRange
-        );
-        this.chartService.initStatusChart(
-          "status-distribution-chart",
-          statusData
-        );
+        const distribution = this.dataService.getDistribution();
+        const fallbackData = (distribution.by_status || []).map(item => ({
+          name: item.status || item.name || "Desconocido",
+          value: item.count || item.value || 0,
+        }));
+        this.chartService.initStatusChart("status-distribution-chart", fallbackData);
       } catch (fallbackError) {
         console.error("❌ Error en fallback de distribución:", fallbackError);
       }
@@ -855,8 +864,7 @@ export class EstadisticasController {
    * Actualiza las tablas
    */
   updateTables() {
-    this.updateUsersRankingTable();
-    this.updateProductsAnalysisTable();
+    // Tablas de Top Offenders eliminadas
   }
 
   /**
@@ -1065,12 +1073,13 @@ export class EstadisticasController {
       this.errors,
       this.currentDateRange
     );
-    const insightsContent = document.getElementById("insights-content");
-    if (insightsContent) {
-      insightsContent.innerHTML = insights
+    const insightsContent_old = document.getElementById("insights-content");
+    if (insightsContent_old) {
+      insightsContent_old.innerHTML = insights_old
         .map((insight) => `<p>${insight}</p>`)
         .join("");
     }
+    */
 
     console.log("📝 Resumen e insights actualizados");
   }
@@ -1156,8 +1165,21 @@ export class EstadisticasController {
 
     console.log(`📅 Cambiando rango de fechas a: ${newRange} días`);
     this.currentDateRange = newRange;
+    this.showLoading(true);
 
-    // Actualizar todos los componentes con el nuevo rango
+    try {
+      // Pedir datos nuevos al servicio para el nuevo rango
+      const success = await this.dataService.changeDateRange(newRange);
+      if (success) {
+        this.errors = this.dataService.errors || [];
+      }
+    } catch (err) {
+      console.error("❌ Error cargando datos para nuevo rango:", err);
+    } finally {
+      this.showLoading(false);
+    }
+
+    // Actualizar todos los componentes con los datos del nuevo rango
     this.updateAllComponents();
 
     // Verificar y corregir gráficos modulares después de un pequeño delay

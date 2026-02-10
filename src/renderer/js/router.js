@@ -34,7 +34,7 @@ class Router {
           Incidencias: "#errors-view",
           Estadisticas: {
             path: "../apps/feedback-tracker/estadisticas/views/Estadisticas.html",
-            scripts: ["../apps/feedback-tracker/estadisticas/js/estadisticas.js"]
+            scripts: ["../apps/feedback-tracker/estadisticas/js/init-estadisticas.js"]
           },
           settings: "#settings-view",
         },
@@ -600,28 +600,51 @@ class Router {
       const app = this.routes[appName];
       const isViewPath = viewName && app.views && app.views[viewName] && typeof app.views[viewName] === "object" && app.views[viewName].path === appPath;
 
-      // Cargar scripts definidos en la aplicación
-      await this.loadAppScripts(appName);
+      // Si la vista tiene HTML propio (ej. Estadísticas), no cargar el script principal de la app
+      // para no reemplazar el contenido inyectado (feedback-tracker.js haría showLoadingScreen etc.)
+      if (!isViewPath) {
+        await this.loadAppScripts(appName);
+      }
 
-      // Si cargamos el HTML de una vista con path propio, cargar también sus scripts
+      // Si cargamos el HTML de una vista con path propio, cargar solo sus scripts
       if (isViewPath && app.views[viewName].scripts && app.views[viewName].scripts.length) {
         for (const scriptPath of app.views[viewName].scripts) {
           try {
             const scriptId = `view-script-${appName}-${viewName}-${scriptPath.replace(/[^a-z0-9]/gi, "-")}`;
             if (document.getElementById(scriptId)) continue;
+            console.log("[Router] Cargando script de vista:", scriptPath);
             const script = document.createElement("script");
             script.id = scriptId;
             script.type = "module";
             script.src = scriptPath;
             await new Promise((resolve, reject) => {
               script.onload = () => resolve();
-              script.onerror = () => resolve();
+              script.onerror = () => {
+                console.warn("[Router] Error al cargar script de vista:", scriptPath);
+                resolve();
+              };
               document.body.appendChild(script);
             });
           } catch (e) {
             console.warn("[Router] Error cargando script de vista:", scriptPath, e);
           }
         }
+      }
+
+      // Inicializar Estadísticas si es esta vista (script ya cargado o recién cargado)
+      if (isViewPath && appName === "Inventory-Healt" && viewName === "Estadisticas") {
+        const estadisticasContainer = document.querySelector(".estadisticas-container");
+        await new Promise((r) => setTimeout(r, 80));
+        if (typeof window.initEstadisticas === "function") {
+          try {
+            await window.initEstadisticas();
+            await new Promise((r) => setTimeout(r, 150));
+            if (typeof window.resizeEstadisticasCharts === "function") window.resizeEstadisticasCharts();
+          } catch (err) {
+            console.error("[Router] Error al inicializar estadísticas:", err);
+          }
+        }
+        if (estadisticasContainer) estadisticasContainer.style.opacity = "1";
       }
 
       // Si es activity-scope, cargar el CSS de la vista principal (user-activity)

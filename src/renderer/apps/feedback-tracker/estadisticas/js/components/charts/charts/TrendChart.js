@@ -45,6 +45,17 @@ export class TrendChart extends BaseChart {
   }
 
   /**
+   * Implementa el método abstracto de BaseChart: opciones ECharts para render/update.
+   */
+  getChartOptions() {
+    const data = this.data;
+    if (!data || !data.dates || !data.series) {
+      return this.getEmptyChartOptions();
+    }
+    return this.generateChartOptions(data);
+  }
+
+  /**
    * Genera la configuración específica para gráficos de tendencia
    */
   generateChartOptions(data) {

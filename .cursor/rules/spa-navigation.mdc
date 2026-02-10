@@ -1,0 +1,114 @@
+---
+description: Reglas de navegación SPA — ciclo de vida de apps, vistas con HTML propio, reinicialización
+globs: src/renderer/**/*
+alwaysApply: false
+---
+
+# Navegación SPA (Single Page App) — IB_Scope
+
+El router (`src/renderer/js/router.js`) carga/descarga apps dinámicamente dentro de un solo `appContainer`. Estas reglas evitan bugs recurrentes al cambiar entre apps.
+
+## Cómo funciona el router
+
+1. **`navigateTo(appName, viewName)`** decide si la app ya está cargada o hay que cargar HTML nuevo.
+2. **`loadApp(appName, appPath, viewName)`** hace fetch del HTML de la vista, inyecta el **body** (NO el head), carga scripts y estilos.
+3. Cada vez que se navega a una app, el DOM del `appContainer` se **reemplaza por completo**.
+
+## Regla 1: El `<head>` del HTML de una vista NO se inyecta
+
+El router usa `DOMParser` y extrae solo `doc.querySelector("body").innerHTML`. Cualquier `<script>` o `<link>` del `<head>` del HTML de la vista **se ignora**.
+
+**Consecuencia:** Si una vista necesita una librería externa (ej. ECharts, Chart.js), debe cargarla **dinámicamente desde JS** (inyectando un `<script>` en el documento) y no depender del `<head>` de su HTML.
+
+```js
+// Patrón correcto: cargar librería desde el script de init
+function loadLibrary(src) {
+  return new Promise((resolve, reject) => {
+    if (window.echarts) { resolve(); return; }
+    const s = document.createElement("script");
+    s.src = src;
+    s.onload = resolve;
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+}
+```
+
+## Regla 2: Al volver a una vista, el DOM es nuevo pero los scripts ya están cargados
+
+Cuando el usuario sale de una app y vuelve:
+- El router hace fetch del HTML de nuevo y lo inyecta → **DOM completamente nuevo**.
+- El `<script>` de la vista ya tiene su `id` en el documento → el router lo salta con `continue` y **no lo vuelve a ejecutar**.
+- Cualquier controlador guardado en `window.*` sigue apuntando a **elementos DOM que ya no existen**.
+
+**Consecuencia:** La función de inicialización (`window.initXxx`) debe:
+1. **Destruir/limpiar** el controlador anterior si existe.
+2. **Crear una nueva instancia** que se bindee al DOM nuevo.
+3. Nunca hacer `if (window.controller) return;` — eso bloquea la reinicialización.
+
+```js
+// Patrón correcto
+async function initMiVista() {
+  // 1. Limpiar controlador anterior (DOM viejo)
+  if (window.miController) {
+    if (typeof window.miController.destroy === "function") {
+      window.miController.destroy();
+    }
+    window.miController = null;
+  }
+  // 2. Crear nueva instancia contra DOM nuevo
+  window.miController = new MiController();
+  await window.miController.init();
+}
+```
+
+## Regla 3: La lógica de init debe estar FUERA del loop de carga de scripts
+
+En `loadApp`, después de cargar los scripts de la vista, la llamada a `initXxx()` debe estar **fuera** del `for` que carga scripts. Si está dentro, el `continue` (cuando el script ya existe) salta también la init.
+
+```js
+// ❌ MAL: init dentro del for
+for (const scriptPath of scripts) {
+  if (document.getElementById(scriptId)) continue; // salta todo
+  // ... cargar script ...
+  await window.initXxx(); // nunca se ejecuta en segunda visita
+}
+
+// ✅ BIEN: init fuera del for
+for (const scriptPath of scripts) {
+  if (document.getElementById(scriptId)) continue;
+  // ... cargar script ...
+}
+// Siempre se ejecuta
+await window.initXxx();
+```
+
+## Regla 4: Vistas con HTML propio (isViewPath) no deben cargar el script principal de la app
+
+Si una app tiene sub-vistas con `path` propio (ej. Estadísticas dentro de Inventory-Healt), al cargar esa vista **no** se debe ejecutar `loadAppScripts(appName)` — eso cargaría el script principal (ej. `feedback-tracker.js`) que puede hacer `showLoadingScreen()` o sobrescribir el DOM recién inyectado.
+
+```js
+if (!isViewPath) {
+  await this.loadAppScripts(appName);
+}
+```
+
+## Regla 5: Evitar múltiples inicializaciones en paralelo
+
+Usar un patrón de promesa compartida para evitar que varias llamadas concurrentes a `initXxx` creen múltiples controladores:
+
+```js
+if (window._initPromise) return window._initPromise;
+const promise = (async () => { /* init */ })();
+window._initPromise = promise;
+try { return await promise; } finally { window._initPromise = null; }
+```
+
+## Checklist para nuevas apps/vistas con HTML propio
+
+- [ ] La vista carga sus librerías externas desde JS (no desde `<head>` del HTML).
+- [ ] La función `initXxx()` destruye el controlador anterior antes de crear uno nuevo.
+- [ ] La init se llama desde `loadApp` **fuera** del loop de scripts.
+- [ ] Si es una sub-vista con HTML propio, el script principal de la app **no** se carga.
+- [ ] Se usa guarda contra init paralelas (promesa compartida).
+- [ ] El controlador tiene un método `destroy()` que limpia listeners, timers, observers, etc.
