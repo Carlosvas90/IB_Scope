@@ -8,10 +8,65 @@
 
 /* Estilos para el contenedor principal */
 .skillmatrix-container {
-  padding: var(--spacing-lg, 2rem);
+  padding: var(--spacing-md, 1rem);
   height: 100%;
   overflow-y: auto;
   background-color: var(--Fondo-paginas, #f8fafc);
+}
+
+/* Búsqueda y filtros en una línea */
+.search-section-compact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+.search-input-compact {
+  flex: 1;
+  min-width: 160px;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 0.875rem;
+}
+.filter-select-compact {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  min-width: 120px;
+}
+
+/* Botón Actualizar Skill Matrix */
+.btn-actualizar-csv {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.btn-actualizar-csv:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.35);
+}
+.btn-actualizar-csv:disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+.sm-actualizar-status {
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+.sm-resumen-actualizacion {
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  padding: 0.35rem 0.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: white;
 }
 
 /* Header Card */
@@ -166,11 +221,99 @@
   max-height: 60vh;
   overflow-y: auto;
 }
+.usuarios-content-compact {
+  padding: 0.75rem;
+  max-height: 65vh;
+}
+.usuarios-header-compact {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: #555;
+}
+.usuarios-card-compact .usuarios-header-compact {
+  background: #f0f2f5;
+  border-bottom: 1px solid #e0e0e0;
+  border-radius: 10px 10px 0 0;
+}
 
 .usuarios-list {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+}
+
+/* Grid compacto de usuarios con foto */
+.usuarios-grid-compact {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.5rem;
+}
+.usuario-card-compact {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem;
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.usuario-card-compact:hover {
+  border-color: #667eea;
+  box-shadow: 0 1px 4px rgba(102, 126, 234, 0.2);
+}
+.usuario-card-photo {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #dee2e6;
+}
+.usuario-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.usuario-photo-placeholder {
+  display: none;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #495057;
+  background: #dee2e6;
+}
+.usuario-card-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+}
+.usuario-login {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #333;
+  width: 100%;
+}
+.usuario-turno {
+  font-size: 0.7rem;
+  color: #666;
+}
+.skill-count-badge {
+  font-size: 0.7rem;
+  background: #667eea;
+  color: white;
+  padding: 0.1rem 0.35rem;
+  border-radius: 10px;
+  font-weight: 600;
+  margin-left: auto;
 }
 
 /* Sección de turno */
@@ -488,6 +631,22 @@
 .skill-puesto-depto {
   font-size: 0.8rem;
   color: #666;
+}
+.skill-badge-verificado {
+  font-size: 0.65rem;
+  padding: 0.1rem 0.35rem;
+  background: #d4edda;
+  color: #155724;
+  border-radius: 4px;
+  margin-left: 0.25rem;
+}
+.skill-badge-sin-verificar {
+  font-size: 0.65rem;
+  padding: 0.1rem 0.35rem;
+  background: #fff3cd;
+  color: #856404;
+  border-radius: 4px;
+  margin-left: 0.25rem;
 }
 
 /* Empty state */

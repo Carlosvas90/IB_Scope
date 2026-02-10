@@ -42,27 +42,29 @@
         <span class="rt-hc-reparto-sep">·</span>
         <span class="rt-area-hc-label">Repartir por área</span>
         <div class="rt-area-hc-inputs">
-          <div class="rt-area-hc-item">
+          <div class="rt-area-hc-item rt-area-hc-ib">
             <label for="rt-input-ib">IB</label>
             <input type="number" id="rt-input-ib" class="rt-input-num rt-area-hc-input" min="0" value="0" data-area="IB" />
           </div>
-          <div class="rt-area-hc-item">
+          <div class="rt-area-hc-item rt-area-hc-iss">
+            <label for="rt-input-iss">ISS</label>
+            <input type="number" id="rt-input-iss" class="rt-input-num rt-area-hc-input" min="0" value="0" data-area="ISS" />
+          </div>
+          <div class="rt-area-hc-item rt-area-hc-ob">
             <label for="rt-input-ob">OB</label>
             <input type="number" id="rt-input-ob" class="rt-input-num rt-area-hc-input" min="0" value="0" data-area="OB" />
           </div>
-          <div class="rt-area-hc-item">
+          <div class="rt-area-hc-item rt-area-hc-tom">
+            <label for="rt-input-tom">TOM</label>
+            <input type="number" id="rt-input-tom" class="rt-input-num rt-area-hc-input" min="0" value="0" data-area="TOM" />
+          </div>
+          <div class="rt-area-hc-item rt-area-hc-support">
             <label for="rt-input-support">Support</label>
             <input type="number" id="rt-input-support" class="rt-input-num rt-area-hc-input" min="0" value="0" data-area="Support" />
           </div>
         </div>
         <span id="rt-area-hc-sum-msg" class="rt-area-hc-sum-msg"></span>
         <div id="rt-generar-aviso" class="rt-generar-aviso" role="alert" hidden></div>
-      </section>
-
-      <!-- Resumen de asignaciones (visible después de generar pizarra) -->
-      <section id="rt-resumen-asignaciones" class="rt-resumen-asignaciones card" hidden>
-        <h3 class="rt-resumen-title">Quién está en cada puesto</h3>
-        <div id="rt-resumen-asignaciones-content" class="rt-resumen-asignaciones-content"></div>
       </section>
 
       <!-- Dashboard: una card blanca con áreas (Inbound, Outbound, Support) y departamentos -->

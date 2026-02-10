@@ -12,7 +12,11 @@ const AREA_LABELS = {
   ICQA: "Support",
 };
 
-const AREA_ORDER = ["IB", "OB", "Support"];
+/** Orden para repartir cupos: IB, ISS, OB, TOM, Support */
+const AREA_ORDER = ["IB", "ISS", "OB", "TOM", "Support"];
+
+/** Support en dashboard solo incluye estos (no Waste, etc.) */
+const SUPPORT_DEPT_IDS = ["5s", "enfermeria", "learning", "space"];
 
 /** Orden fijo de departamentos en IB (ISS está en Support) */
 const ORDER_IB = ["dock", "receive", "stow", "pout", "grading"];
@@ -38,14 +42,16 @@ const STORAGE_AREA_LABELS = {
   high_rack: "High Rack",
 };
 
-/** Distribución automática por área. Preset con todos los puestos; se escala al cupo completo. */
+/** Distribución automática: Inbound = IB + ISS (cada uno con su cupo). */
 const DISTRIBUCION_AUTO_IB = {
   dock: { "dock-clerk": 1, "dock-idm": 2, "dock-unloader": 2, "dock-ocean": 1, "dock-ocean-cm": 1, "dock-corral": 1, "dock-wrapping": 1, "dock-ergopack": 1 },
   receive: { "rcv-decant-tsi": 3, "rcv-decant-pid": 2, "rcv-noncon": 4, "rcv-cubis": 1, "rcv-prep": 2, "rcv-ws": 1, "rcv-pallet": 1, "rcv-tl": 1, "rcv-tl-ast": 1 },
   stow: { "stow-pt": 12, "stow-cart": 2, "stow-walkie": 2, "stow-hr-pitc": 3, "stow-pitb": 2, "stow-tl": 2, "stow-tl-ast": 2, "stow-hr-pita": 1 },
   pout: { "pout-ps": 1, "pout-pick": 1 },
   grading: { "grading-whd": 2, "grading-pick-whd": 2, "grading-ps": 1 },
+  ISS: { "iss-ps-receive": 1, "iss-sweeper": 1, "iss-TT": 1 },
 };
+/** Distribución automática: Outbound = OB + TOM (cada uno con su cupo). */
 const DISTRIBUCION_AUTO_OB = {
   pack: { "pack-l9": 4, "pack-ws": 2, "pack-noncon-l2": 1, "pack-siat-l2": 1, "pack-obps": 1 },
   pick: { "pick-noncon-hr": 4, "pick-noncon-pt": 4, "pick-tospoo-hr": 3, "pick-tospoo-pt": 3, "pick-walkie": 2, "pick-cart": 2, "pick-tl-hr": 1, "pick-ast-tl": 1 },
@@ -63,12 +69,25 @@ function getPresetFlatForArea(areaKey, selectedDeptIds) {
   }
   return flat;
 }
+/** Preset solo para un cupo (ej. solo IB o solo ISS). */
+function getPresetFlatForCupo(areaKey, cupoKey, selectedDeptIds) {
+  const byDept = areaKey === "IB" ? DISTRIBUCION_AUTO_IB : DISTRIBUCION_AUTO_OB;
+  if (!byDept) return {};
+  const flat = {};
+  for (const [deptId, puestos] of Object.entries(byDept)) {
+    const deptCupo = deptId === "ISS" ? "ISS" : deptId === "TOM" ? "TOM" : areaKey;
+    if (deptCupo !== cupoKey) continue;
+    if (selectedDeptIds && selectedDeptIds.length && !selectedDeptIds.includes(deptId)) continue;
+    for (const [id, v] of Object.entries(puestos)) flat[id] = v;
+  }
+  return flat;
+}
 
 class RotationToolController {
   constructor() {
     this.puestosData = null;
     this.totalHC = 0;
-    this.areaHC = { IB: 0, OB: 0, Support: 0 };
+    this.areaHC = { IB: 0, ISS: 0, OB: 0, TOM: 0, Support: 0 };
     this.puestoHC = {}; // { puestoId: number }
     this.departmentHC = {}; // solo para departamentos sin puestos (ej. 5s)
     this.modalDeptId = null;
@@ -242,38 +261,50 @@ class RotationToolController {
     }
   }
 
-  /** Área de visualización (ISS en Support) */
-  getDisplayArea(dept) {
-    return dept.id === "ISS" ? "Support" : (dept.area === "ICQA" ? "Support" : dept.area);
+  /** Cupo del que sale el HC: ISS→ISS, TOM→TOM, resto por area (IB/OB). Support solo 5s, Enfermería, Learning, Space. */
+  getAreaForHC(dept) {
+    if (dept.id === "ISS") return "ISS";
+    if (dept.id === "TOM") return "TOM";
+    if (dept.area === "Support" || dept.area === "ICQA") return SUPPORT_DEPT_IDS.includes(dept.id) ? "Support" : null;
+    return dept.area === "IB" ? "IB" : dept.area === "OB" ? "OB" : null;
   }
 
-  /** Área de la que sale el cupo HC (ISS usa Support, no IB) */
-  getAreaForHC(dept) {
-    return dept.id === "ISS" ? "Support" : (dept.area === "ICQA" ? "Support" : dept.area);
+  /** Sección de visualización: Inbound (IB depts + ISS al final), Outbound (OB depts + TOM al final), Support (solo 5s, Enfermería, Learning, Space). */
+  getDisplayArea(dept) {
+    if (dept.id === "ISS") return "IB";
+    if (dept.id === "TOM") return "OB";
+    if (dept.area === "Support" || dept.area === "ICQA") return SUPPORT_DEPT_IDS.includes(dept.id) ? "Support" : null;
+    return dept.area === "IB" ? "IB" : dept.area === "OB" ? "OB" : null;
   }
 
   getDepartamentosPorArea() {
     if (!this.puestosData?.departamentos) return {};
-    const porArea = {};
+    const porArea = { IB: [], OB: [], Support: [] };
     for (const d of this.puestosData.departamentos) {
       const area = this.getDisplayArea(d);
-      if (!porArea[area]) porArea[area] = [];
+      if (!area) continue;
       porArea[area].push(d);
     }
-    for (const area of Object.keys(porArea)) {
-      if (area === "IB") {
-        porArea[area].sort((a, b) => {
-          const i = ORDER_IB.indexOf(a.id);
-          const j = ORDER_IB.indexOf(b.id);
-          if (i !== -1 && j !== -1) return i - j;
-          if (i !== -1) return -1;
-          if (j !== -1) return 1;
-          return a.nombre.localeCompare(b.nombre);
-        });
-      } else {
-        porArea[area].sort((a, b) => a.nombre.localeCompare(b.nombre));
-      }
+    if (porArea.IB.length) {
+      porArea.IB.sort((a, b) => {
+        if (a.id === "ISS") return 1;
+        if (b.id === "ISS") return -1;
+        const i = ORDER_IB.indexOf(a.id);
+        const j = ORDER_IB.indexOf(b.id);
+        if (i !== -1 && j !== -1) return i - j;
+        if (i !== -1) return -1;
+        if (j !== -1) return 1;
+        return a.nombre.localeCompare(b.nombre);
+      });
     }
+    if (porArea.OB.length) {
+      porArea.OB.sort((a, b) => {
+        if (a.id === "TOM") return 1;
+        if (b.id === "TOM") return -1;
+        return a.nombre.localeCompare(b.nombre);
+      });
+    }
+    porArea.Support.sort((a, b) => a.nombre.localeCompare(b.nombre));
     return porArea;
   }
 
@@ -290,7 +321,7 @@ class RotationToolController {
     return puestos.reduce((sum, p) => sum + (this.puestoHC[p.id] || 0), 0);
   }
 
-  /** Suma de HC asignados en un área por cupo (ISS cuenta en Support, no en IB) */
+  /** Suma de HC asignados en un área por cupo (IB, ISS, OB, TOM, Support) */
   getAreaAssignedHC(areaKey) {
     const depts = this.puestosData?.departamentos || [];
     return depts
@@ -298,7 +329,7 @@ class RotationToolController {
       .reduce((sum, d) => sum + this.getDepartmentHC(d), 0);
   }
 
-  /** Máximo asignable a un departamento según su área de cupo (ISS = Support) */
+  /** Máximo asignable a un departamento según su área de cupo */
   getMaxHCForDept(dept) {
     const areaKey = this.getAreaForHC(dept);
     const cupoArea = this.areaHC[areaKey] || 0;
@@ -313,19 +344,20 @@ class RotationToolController {
     container.innerHTML = "";
 
     const porArea = this.getDepartamentosPorArea();
-    const order = AREA_ORDER.filter((a) => porArea[a]?.length);
+    const displayOrder = ["IB", "OB", "Support"];
 
-    for (const areaKey of order) {
+    for (const areaKey of displayOrder) {
       const depts = porArea[areaKey] || [];
-      const label = AREA_LABELS[areaKey] || areaKey;
+      if (depts.length === 0) continue;
+      const label = areaKey === "IB" ? "Inbound" : areaKey === "OB" ? "Outbound" : "Support";
 
       const section = document.createElement("div");
       section.className = "rt-area";
       section.setAttribute("data-area", areaKey);
       if (areaKey === "Support") section.style.gridColumn = "1 / -1";
 
-      const cupoArea = this.areaHC[areaKey] || 0;
-      const asignadoEnArea = this.getAreaAssignedHC(areaKey);
+      const cupoArea = (areaKey === "IB" ? (this.areaHC.IB || 0) + (this.areaHC.ISS || 0) : areaKey === "OB" ? (this.areaHC.OB || 0) + (this.areaHC.TOM || 0) : this.areaHC.Support || 0);
+      const asignadoEnArea = (areaKey === "IB" ? this.getAreaAssignedHC("IB") + this.getAreaAssignedHC("ISS") : areaKey === "OB" ? this.getAreaAssignedHC("OB") + this.getAreaAssignedHC("TOM") : this.getAreaAssignedHC("Support"));
       const quedan = Math.max(0, cupoArea - asignadoEnArea);
 
       const header = document.createElement("div");
@@ -364,8 +396,10 @@ class RotationToolController {
         const noHC = this.isNoCuentaHC(dept);
         const hcDept = this.getDepartmentHC(dept);
         const selected = this.selectedDeptByArea[areaKey]?.id === dept.id;
+        const isISS = dept.id === "ISS";
+        const isTOM = dept.id === "TOM";
         const card = document.createElement("div");
-        card.className = "rt-dept-card" + (noHC ? " rt-dept-card-no-hc" : "") + (selected ? " rt-dept-card-selected" : "");
+        card.className = "rt-dept-card" + (noHC ? " rt-dept-card-no-hc" : "") + (selected ? " rt-dept-card-selected" : "") + (isISS ? " rt-dept-card-iss" : "") + (isTOM ? " rt-dept-card-tom" : "");
         card.setAttribute("data-dept-id", dept.id);
         card.setAttribute("data-area", areaKey);
         if (noHC) {
@@ -424,7 +458,7 @@ class RotationToolController {
   }
 
   actualizarAreaSumMsg() {
-    const totalArea = this.areaHC.IB + this.areaHC.OB + this.areaHC.Support;
+    const totalArea = AREA_ORDER.reduce((acc, a) => acc + (this.areaHC[a] || 0), 0);
     const msg = document.getElementById("rt-area-hc-sum-msg");
     if (!msg) return;
     if (totalArea > this.totalHC) {
@@ -437,7 +471,7 @@ class RotationToolController {
   }
 
   actualizarBotonesPizarra() {
-    const totalArea = (this.areaHC.IB || 0) + (this.areaHC.OB || 0) + (this.areaHC.Support || 0);
+    const totalArea = AREA_ORDER.reduce((acc, a) => acc + (this.areaHC[a] || 0), 0);
     const asignado = AREA_ORDER.reduce((acc, a) => acc + this.getAreaAssignedHC(a), 0);
     const generar = document.getElementById("btn-generar-pizarra");
     const enviar = document.getElementById("btn-enviar-pizarra");
@@ -446,8 +480,6 @@ class RotationToolController {
     if (generar) generar.disabled = !puedeGenerar;
     if (enviar) enviar.disabled = !this.pizarraGenerada;
     if (descargarJson) descargarJson.disabled = !this.pizarraGenerada;
-    const resumenSection = document.getElementById("rt-resumen-asignaciones");
-    if (resumenSection) resumenSection.hidden = !this.pizarraGenerada;
     const aviso = document.getElementById("rt-generar-aviso");
     if (aviso && puedeGenerar) {
       aviso.hidden = true;
@@ -642,14 +674,16 @@ class RotationToolController {
     return out;
   }
 
-  /** Distribuye automáticamente por área; usa todo el cupo. selectedDeptIds = ids de departamentos a incluir (solo esos reciben HC). */
-  aplicarDistribucionAutoArea(areaKey, selectedDeptIds) {
-    const preset = getPresetFlatForArea(areaKey, selectedDeptIds);
+  /**
+   * Distribuye un cupo concreto (IB, ISS, OB o TOM) entre los puestos del preset para ese cupo.
+   * selectedDeptIds = ids de departamentos seleccionados en el modal.
+   */
+  aplicarDistribucionUnCupo(areaKey, cupoKey, selectedDeptIds, porArea) {
+    const preset = getPresetFlatForCupo(areaKey, cupoKey, selectedDeptIds);
     if (Object.keys(preset).length === 0) return;
-    const cupoArea = this.areaHC[areaKey] || 0;
+    const cupoArea = this.areaHC[cupoKey] || 0;
     if (cupoArea <= 0) return;
-    const porArea = this.getDepartamentosPorArea();
-    const depts = porArea[areaKey] || [];
+    const depts = (porArea[areaKey] || []).filter((d) => this.getAreaForHC(d) === cupoKey);
     const selectedDeptIdSet = selectedDeptIds && selectedDeptIds.length ? new Set(selectedDeptIds) : null;
     const areaPuestoIds = new Set();
     const puestoToDept = {};
@@ -699,6 +733,18 @@ class RotationToolController {
     Object.entries(PUESTO_ESPEJO).forEach(([astId, tlId]) => {
       if (areaPuestoIds.has(astId)) this.puestoHC[astId] = this.puestoHC[tlId] ?? 0;
     });
+  }
+
+  /** Distribuye automáticamente: Inbound = cupo IB (depts IB seleccionados) + cupo ISS (ISS si está seleccionado). Outbound = cupo OB + cupo TOM. */
+  aplicarDistribucionAutoArea(areaKey, selectedDeptIds) {
+    const porArea = this.getDepartamentosPorArea();
+    if (areaKey === "IB") {
+      this.aplicarDistribucionUnCupo("IB", "IB", selectedDeptIds, porArea);
+      this.aplicarDistribucionUnCupo("IB", "ISS", selectedDeptIds, porArea);
+    } else if (areaKey === "OB") {
+      this.aplicarDistribucionUnCupo("OB", "OB", selectedDeptIds, porArea);
+      this.aplicarDistribucionUnCupo("OB", "TOM", selectedDeptIds, porArea);
+    }
     this.renderizarDashboard();
     this.actualizarResumenGlobal();
   }
@@ -711,11 +757,10 @@ class RotationToolController {
     const label = areaKey === "IB" ? "Inbound" : "Outbound";
     titleEl.textContent = `Distribuir en ${label}`;
     const porArea = this.getDepartamentosPorArea();
-    const depts = (porArea[areaKey] || []).filter((d) => !this.isNoCuentaHC(d));
-    container.innerHTML = "";
     const presetByDept = areaKey === "IB" ? DISTRIBUCION_AUTO_IB : DISTRIBUCION_AUTO_OB;
+    const depts = (porArea[areaKey] || []).filter((d) => !this.isNoCuentaHC(d) && presetByDept[d.id]);
+    container.innerHTML = "";
     for (const dept of depts) {
-      if (!presetByDept[dept.id]) continue;
       const labelEl = document.createElement("label");
       labelEl.className = "rt-auto-distrib-check";
       const cb = document.createElement("input");
@@ -830,7 +875,7 @@ class RotationToolController {
     document.getElementById("rt-modal-guardar")?.addEventListener("click", () => this.guardarModal());
     document.querySelector(".rt-modal-backdrop")?.addEventListener("click", () => this.cerrarModal());
 
-    ["rt-input-ib", "rt-input-ob", "rt-input-support"].forEach((id) => {
+    ["rt-input-ib", "rt-input-iss", "rt-input-ob", "rt-input-tom", "rt-input-support"].forEach((id) => {
       const input = document.getElementById(id);
       const area = input?.getAttribute("data-area");
       if (input && area) {
@@ -933,14 +978,14 @@ class RotationToolController {
       const aviso = document.getElementById("rt-generar-aviso");
       if (btn?.disabled && aviso) {
         this.sincronizarHCDesdeDOM();
-        const totalArea = (this.areaHC.IB || 0) + (this.areaHC.OB || 0) + (this.areaHC.Support || 0);
+        const totalArea = AREA_ORDER.reduce((acc, a) => acc + (this.areaHC[a] || 0), 0);
         const asignado = AREA_ORDER.reduce((acc, a) => acc + this.getAreaAssignedHC(a), 0);
         if (this.totalHC === 0) {
           aviso.textContent = "Primero carga logins (Attendance → Pegar logins y Aplicar).";
         } else if (totalArea !== this.totalHC) {
-          aviso.textContent = `Reparte por área: IB+OB+Support (${totalArea}) debe ser igual al HC (${this.totalHC}).`;
+          aviso.textContent = `Reparte por área: IB+ISS+OB+TOM+Support (${totalArea}) debe ser igual al HC (${this.totalHC}).`;
         } else if (asignado !== this.totalHC) {
-          aviso.textContent = `Faltan ${this.totalHC - asignado} por repartir: usa "Distribuir automáticamente" en IB y OB, y haz clic en cada departamento de Support.`;
+          aviso.textContent = `Faltan ${this.totalHC - asignado} por repartir: usa "Distribuir automáticamente" en Inbound y Outbound, y haz clic en cada departamento de Support.`;
         } else {
           aviso.textContent = "";
         }
@@ -967,7 +1012,7 @@ class RotationToolController {
 
   /** Lee desde el DOM los HC de área (por si no se disparó input) y los inputs de puestos en los paneles. */
   sincronizarHCDesdeDOM() {
-    ["rt-input-ib", "rt-input-ob", "rt-input-support"].forEach((id) => {
+    ["rt-input-ib", "rt-input-iss", "rt-input-ob", "rt-input-tom", "rt-input-support"].forEach((id) => {
       const input = document.getElementById(id);
       const area = input?.getAttribute("data-area");
       if (input && area) {
@@ -1003,10 +1048,10 @@ class RotationToolController {
       return;
     }
     this.sincronizarHCDesdeDOM();
-    const totalArea = (this.areaHC.IB || 0) + (this.areaHC.OB || 0) + (this.areaHC.Support || 0);
+    const totalArea = AREA_ORDER.reduce((acc, a) => acc + (this.areaHC[a] || 0), 0);
     const asignado = AREA_ORDER.reduce((acc, a) => acc + this.getAreaAssignedHC(a), 0);
     if (totalArea !== this.totalHC) {
-      toast(`El cupo por área (IB+OB+Support = ${totalArea}) debe coincidir con el HC total (${this.totalHC}). Ajusta los números en "Repartir por área".`, "warning");
+      toast(`El cupo por área (IB+ISS+OB+TOM+Support = ${totalArea}) debe coincidir con el HC total (${this.totalHC}). Ajusta los números en "Repartir por área".`, "warning");
       return;
     }
     if (asignado !== this.totalHC) {
@@ -1018,7 +1063,7 @@ class RotationToolController {
       return;
     }
     const porArea = this.getDepartamentosPorArea();
-    const tieneDepts = AREA_ORDER.some((a) => (porArea[a] || []).length > 0);
+    const tieneDepts = (porArea.IB?.length || 0) + (porArea.OB?.length || 0) + (porArea.Support?.length || 0) > 0;
     if (!tieneDepts) {
       toast("No hay departamentos cargados. Comprueba que puestos.json esté en la ruta de Data_Flow.", "warning");
       return;
@@ -1028,7 +1073,7 @@ class RotationToolController {
       while (logins.length < this.totalHC) logins.push(`login-${logins.length + 1}`);
     }
     this.asignacionesPorPuesto = {};
-    for (const areaKey of AREA_ORDER) {
+    for (const areaKey of ["IB", "OB", "Support"]) {
       const depts = porArea[areaKey] || [];
       for (const dept of depts) {
         if (this.isNoCuentaHC(dept)) continue;
@@ -1049,51 +1094,14 @@ class RotationToolController {
     this.ultimaPizarraPropuesta = this.buildPizarraPropuestaJSON();
     this.actualizarBotonesPizarra();
     this.renderizarDashboard();
-    this.mostrarResumenAsignaciones();
-    toast("Pizarra generada. Ver resumen debajo o haz clic en cada departamento.", "success");
-  }
-
-  /** Rellena y muestra la sección "Quién está en cada puesto" tras generar. */
-  mostrarResumenAsignaciones() {
-    const section = document.getElementById("rt-resumen-asignaciones");
-    const content = document.getElementById("rt-resumen-asignaciones-content");
-    if (!section || !content) return;
-    if (!this.pizarraGenerada || !this.asignacionesPorPuesto) {
-      section.hidden = true;
-      return;
-    }
-    const porArea = this.getDepartamentosPorArea();
-    let html = "";
-    for (const areaKey of AREA_ORDER) {
-      const depts = porArea[areaKey] || [];
-      const label = AREA_LABELS[areaKey] || areaKey;
-      for (const dept of depts) {
-        if (this.isNoCuentaHC(dept)) continue;
-        const puestos = dept.puestos || [];
-        if (puestos.length === 0) {
-          const list = this.asignacionesPorPuesto[dept.id];
-          if (list && list.length) {
-            html += `<div class="rt-resumen-dept"><strong>${escapeHtml(dept.nombre)}</strong> (${label}): ${escapeHtml(list.join(", "))}</div>`;
-          }
-        } else {
-          for (const puesto of puestos) {
-            const list = this.asignacionesPorPuesto[puesto.id] || this.asignacionesPorPuesto[PUESTO_ESPEJO[puesto.id]];
-            if (list && list.length) {
-              html += `<div class="rt-resumen-puesto"><strong>${escapeHtml(dept.nombre)} → ${escapeHtml(puesto.nombre)}</strong>: ${escapeHtml(list.join(", "))}</div>`;
-            }
-          }
-        }
-      }
-    }
-    content.innerHTML = html || "<p>No hay asignaciones.</p>";
-    section.hidden = false;
+    toast("Pizarra generada. Haz clic en cada departamento para ver asignaciones.", "success");
   }
 
   /** Construye el JSON de la pizarra propuesta (para descargar y para comparar con la final). Enfocado en HC por puesto/depto. */
   buildPizarraPropuestaJSON() {
     const distribucion = {};
     const porArea = this.getDepartamentosPorArea();
-    for (const areaKey of AREA_ORDER) {
+    for (const areaKey of ["IB", "OB", "Support"]) {
       const depts = porArea[areaKey] || [];
       for (const dept of depts) {
         if (this.isNoCuentaHC(dept)) continue;
@@ -1114,7 +1122,7 @@ class RotationToolController {
       version: "1.0",
       fecha: new Date().toISOString().slice(0, 10),
       fechaHora: new Date().toISOString(),
-      cupos: { IB: this.areaHC.IB || 0, OB: this.areaHC.OB || 0, Support: this.areaHC.Support || 0 },
+      cupos: { IB: this.areaHC.IB || 0, ISS: this.areaHC.ISS || 0, OB: this.areaHC.OB || 0, TOM: this.areaHC.TOM || 0, Support: this.areaHC.Support || 0 },
       totalHC: this.totalHC,
       distribucion,
       asignaciones: this.pizarraGenerada ? this.asignacionesPorPuesto : undefined,
@@ -1197,7 +1205,7 @@ class RotationToolController {
     const historial = this.getHistorialAprendizaje();
     const dataset = historial.map((h) => ({
       contexto: h.cupos,
-      totalHC: (h.cupos && (h.cupos.IB + h.cupos.OB + h.cupos.Support)) || null,
+      totalHC: (h.cupos && AREA_ORDER.reduce((acc, k) => acc + (h.cupos[k] || 0), 0)) || null,
       propuesta: h.propuesta || {},
       final: h.final || {},
       desbalance_total: h.resumen ? h.resumen.desbalance : null,

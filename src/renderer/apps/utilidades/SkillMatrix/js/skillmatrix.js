@@ -64,6 +64,8 @@ class SkillMatrixController {
       await this.cargarDatos();
       this.configurarEventos();
       this.actualizarListaUsuarios();
+      const statusText = document.getElementById("status-text");
+      if (statusText) statusText.textContent = "Listo";
 
       console.log("✅ SkillMatrixController inicializado correctamente");
     } catch (error) {
@@ -315,54 +317,135 @@ class SkillMatrixController {
   }
 
   /**
-   * Carga el CSV de certificados desde el path configurado y fusiona skills (Earned + Active) en skillmatrixData.
-   * Solo se consideran puestos con certificate_titles o coincidencia por nombre/id.
+   * Genera/actualiza la Skill Matrix desde el CSV (se sube ~1 vez al mes).
+   * La matrix = lo que dice el CSV (confirmar quién tiene formaciones y quién las perdió) + lo puesto a mano.
+   * - puestos_verificados = lo que sale del CSV (Earned + Active). Si alguien pierde el cert en el CSV, se quita.
+   * - puestos = asignaciones manuales (sin verificar). Se quitan solo las que antes estaban verificadas y ya no salen en el CSV.
    */
-  async mergeCertificateSkillsIntoSkillmatrix() {
-    if (!window.api?.readFileAbsolute) return;
-    let csvPath = await this.getCertificateCsvPath();
-    let result = await window.api.readFileAbsolute(csvPath);
-    if (!result?.success && csvPath.endsWith(SkillMatrixController.CERTIFICATE_CSV_FILENAME)) {
-      csvPath = csvPath.replace(
-        SkillMatrixController.CERTIFICATE_CSV_FILENAME,
-        SkillMatrixController.CERTIFICATE_CSV_FILENAME_ALT
-      );
-      result = await window.api.readFileAbsolute(csvPath);
+  async actualizarDesdeCSV() {
+    const btn = document.getElementById("sm-btn-actualizar-csv");
+    const statusEl = document.getElementById("sm-actualizar-status");
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = "Cargando CSV…";
     }
-    if (!result?.success) {
-      console.warn("[SkillMatrix] CSV de certificados no encontrado o no legible:", csvPath);
-      return;
+    if (statusEl) {
+      statusEl.style.display = "block";
+      statusEl.textContent = "Cargando CSV (puede tardar con archivos grandes)…";
     }
 
-    const loginToCerts = this.parseCertificateCsv(result.content);
-    const certToPuestoIds = this.buildCertificateTitleToPuestoIds();
-    if (certToPuestoIds.size === 0) {
-      console.log("[SkillMatrix] Sin mapeo Certificate Title → puesto (puestos.json debe tener departamentos[].puestos[].certificados o certificate_titles)");
-    }
-
-    let merged = 0;
-    if (!this.skillmatrixData.usuarios) this.skillmatrixData.usuarios = {};
-    for (const [login, certs] of loginToCerts) {
-      if (!this.skillmatrixData.usuarios[login]) {
-        this.skillmatrixData.usuarios[login] = { puestos: {} };
+    try {
+      if (!window.api?.readFileAbsolute) {
+        throw new Error("API de archivos no disponible");
       }
-      const puestos = this.skillmatrixData.usuarios[login].puestos;
-      for (const certTitle of certs) {
-        const key = this.normalizarCertTitle(certTitle);
-        const puestoIds = certToPuestoIds.get(key);
-        if (!puestoIds) continue;
-        for (const puestoId of puestoIds) {
-          if (puestos[puestoId] !== true) {
-            puestos[puestoId] = true;
-            merged++;
+      let csvPath = await this.getCertificateCsvPath();
+      let result = await window.api.readFileAbsolute(csvPath);
+      if (!result?.success && csvPath.endsWith(SkillMatrixController.CERTIFICATE_CSV_FILENAME)) {
+        csvPath = csvPath.replace(
+          SkillMatrixController.CERTIFICATE_CSV_FILENAME,
+          SkillMatrixController.CERTIFICATE_CSV_FILENAME_ALT
+        );
+        result = await window.api.readFileAbsolute(csvPath);
+      }
+      if (!result?.success) {
+        throw new Error(result?.error || "CSV no encontrado o no legible");
+      }
+
+      const loginToCerts = this.parseCertificateCsv(result.content);
+      const certToPuestoIds = this.buildCertificateTitleToPuestoIds();
+      if (certToPuestoIds.size === 0) {
+        throw new Error("Sin mapeo Certificate Title → puesto. Revisa puestos.json (certificados por puesto).");
+      }
+
+      if (!this.skillmatrixData.usuarios) this.skillmatrixData.usuarios = {};
+
+      let totalVerificadas = 0;
+      let totalRevocadas = 0;
+      let totalSinVerificar = 0;
+
+      // Construir nuevo puestos_verificados por login desde CSV
+      const newVerifiedByLogin = new Map();
+      for (const [login, certs] of loginToCerts) {
+        const puestosVerificados = {};
+        for (const certTitle of certs) {
+          const key = this.normalizarCertTitle(certTitle);
+          const puestoIds = certToPuestoIds.get(key) || [];
+          for (const puestoId of puestoIds) {
+            puestosVerificados[puestoId] = true;
+            totalVerificadas++;
           }
         }
+        newVerifiedByLogin.set(login, puestosVerificados);
+      }
+
+      // Aplicar: reemplazar puestos_verificados y quitar revocadas de puestos (manual)
+      for (const [login, newVerified] of newVerifiedByLogin) {
+        if (!this.skillmatrixData.usuarios[login]) {
+          this.skillmatrixData.usuarios[login] = { puestos: {}, puestos_verificados: {} };
+        }
+        const u = this.skillmatrixData.usuarios[login];
+        const oldVerified = u.puestos_verificados || {};
+        u.puestos_verificados = newVerified;
+
+        for (const puestoId of Object.keys(oldVerified)) {
+          if (oldVerified[puestoId] && !newVerified[puestoId]) totalRevocadas++;
+        }
+        for (const puestoId of Object.keys(u.puestos || {})) {
+          if (oldVerified[puestoId] && !newVerified[puestoId]) delete u.puestos[puestoId];
+        }
+      }
+
+      // Contar solo manual (sin verificar) para resumen
+      for (const login of Object.keys(this.skillmatrixData.usuarios)) {
+        const u = this.skillmatrixData.usuarios[login];
+        const manual = u.puestos || {};
+        const verified = u.puestos_verificados || {};
+        for (const id of Object.keys(manual)) {
+          if (manual[id] && !verified[id]) totalSinVerificar++;
+        }
+      }
+
+      this.skillmatrixData.ultima_actualizacion = new Date().toISOString();
+      this.skillmatrixData.ultima_actualizacion_csv = new Date().toISOString();
+      await this.guardarEnRutaCompartida("skillmatrix.json", this.skillmatrixData);
+
+      this.actualizarListaUsuarios();
+      this.mostrarResumenActualizacionCSV({
+        verificadas: totalVerificadas,
+        revocadas: totalRevocadas,
+        sinVerificar: totalSinVerificar,
+        loginsConCertificados: loginToCerts.size,
+      });
+    } catch (err) {
+      console.error("[SkillMatrix] Error actualizando desde CSV:", err);
+      this.mostrarToast(err.message || "Error al actualizar desde CSV", "error");
+    } finally {
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = "Actualizar Skill Matrix";
+      }
+      if (statusEl) {
+        statusEl.textContent = "";
+        statusEl.style.display = "none";
       }
     }
-    if (loginToCerts.size > 0) {
-      console.log(
-        `[SkillMatrix] Certificados CSV: ${loginToCerts.size} logins, ${merged} skills fusionadas desde ${csvPath}`
-      );
+  }
+
+  /**
+   * Muestra modal o panel con resumen tras actualizar desde CSV.
+   */
+  mostrarResumenActualizacionCSV(resumen) {
+    const msg =
+      `Formaciones verificadas (CSV): ${resumen.verificadas}\n` +
+      `Revocadas (quitadas): ${resumen.revocadas}\n` +
+      `Sin verificar (manual): ${resumen.sinVerificar}\n` +
+      `Empleados con certificados en CSV: ${resumen.loginsConCertificados}`;
+    this.mostrarToast("Skill Matrix actualizada desde CSV", "success");
+    const el = document.getElementById("sm-resumen-actualizacion");
+    if (el) {
+      el.innerHTML =
+        `<strong>Resumen</strong>: ${resumen.verificadas} verificadas, ${resumen.revocadas} revocadas (quitadas), ${resumen.sinVerificar} sin verificar (manual). ${resumen.loginsConCertificados} empleados en CSV.`;
+      el.style.display = "block";
     }
   }
 
@@ -493,9 +576,7 @@ class SkillMatrixController {
         console.warn("⚠️ Roster no encontrado en rutas compartidas (mismo origen que Pizarra)");
       }
 
-      // Fusionar skills desde CSV de certificados (Employee Status=Active, Certificate Status=Earned)
-      await this.mergeCertificateSkillsIntoSkillmatrix();
-
+      // CSV de certificados no se carga al iniciar (pesa ~40MB). Usar botón "Actualizar Skill Matrix".
       console.log("✅ Datos cargados correctamente");
     } catch (error) {
       console.error("❌ Error cargando datos:", error);
@@ -540,6 +621,27 @@ class SkillMatrixController {
     document.getElementById("save-skill-matrix").addEventListener("click", () => {
       this.guardarSkillMatrix();
     });
+
+    const btnActualizar = document.getElementById("sm-btn-actualizar-csv");
+    if (btnActualizar) {
+      btnActualizar.addEventListener("click", () => this.actualizarDesdeCSV());
+    }
+  }
+
+  /** URL de la foto del empleado (mismo origen que Imanes). */
+  getUserPhotoUrl(login) {
+    if (!login) return "";
+    return `https://internal-cdn.amazon.com/badgephotos.amazon.com/?uid=${login}`;
+  }
+
+  /**
+   * Skills efectivas de un usuario: manual (puestos) + verificadas por CSV (puestos_verificados).
+   */
+  getSkillsUsuario(login) {
+    const u = this.skillmatrixData?.usuarios?.[login];
+    const manual = u?.puestos || {};
+    const verified = u?.puestos_verificados || {};
+    return { ...verified, ...manual };
   }
 
   actualizarListaUsuarios() {
@@ -573,12 +675,10 @@ class SkillMatrixController {
       });
     }
 
-    // Convertir a array y crear objetos de usuario completos
+    // Convertir a array; cantidadSkills = manual + verificadas (sin duplicar)
     this.usuariosFiltrados = Array.from(usuariosMap.values()).map((usuario) => {
-      const skills = this.skillmatrixData?.usuarios?.[usuario.login]?.puestos || {};
-      const cantidadSkills = Object.keys(skills).filter(
-        (puestoId) => skills[puestoId] === true
-      ).length;
+      const skills = this.getSkillsUsuario(usuario.login);
+      const cantidadSkills = Object.keys(skills).filter((id) => skills[id] === true).length;
 
       return {
         login: usuario.login,
@@ -591,12 +691,15 @@ class SkillMatrixController {
 
     // Ordenar por turno y luego por login
     this.usuariosFiltrados.sort((a, b) => {
-      // Primero por turno
       const shiftCompare = a.shift.localeCompare(b.shift);
       if (shiftCompare !== 0) return shiftCompare;
-      // Luego por login
       return a.login.localeCompare(b.login);
     });
+
+    // No mostrar "Sin turno" (oficinas, etc.) para no ensuciar la skill matrix
+    this.usuariosFiltrados = this.usuariosFiltrados.filter(
+      (u) => u.shift && u.shift !== "Sin turno"
+    );
 
     // Cargar opciones de filtros después de tener los usuarios
     this.cargarOpcionesFiltros();
@@ -693,10 +796,10 @@ class SkillMatrixController {
       usuarios = usuarios.filter((u) => u.shift === filterTurno);
     }
 
-    // Aplicar filtro de puesto
+    // Aplicar filtro de formación (manual o verificada)
     if (filterPuesto) {
       usuarios = usuarios.filter((u) => {
-        const skills = this.skillmatrixData?.usuarios?.[u.login]?.puestos || {};
+        const skills = this.getSkillsUsuario(u.login);
         return skills[filterPuesto] === true;
       });
     }
@@ -720,60 +823,34 @@ class SkillMatrixController {
       return;
     }
 
-    // Agrupar usuarios por turno
-    const usuariosPorTurno = {};
+    // Grid compacto: foto + login + turno + nº formaciones (sin agrupar por turno)
+    const photoUrl = (login) => this.getUserPhotoUrl(login);
+    let html = '<div class="usuarios-grid-compact">';
     usuariosAMostrar.forEach((usuario) => {
       const turno = usuario.shift || "Sin turno";
-      if (!usuariosPorTurno[turno]) {
-        usuariosPorTurno[turno] = [];
-      }
-      usuariosPorTurno[turno].push(usuario);
-    });
-
-    // Ordenar turnos (Sin turno al final)
-    const turnosOrdenados = Object.keys(usuariosPorTurno).sort((a, b) => {
-      if (a === "Sin turno") return 1;
-      if (b === "Sin turno") return -1;
-      return a.localeCompare(b);
-    });
-
-    // Generar HTML agrupado por turno (colapsado por defecto)
-    let html = "";
-    turnosOrdenados.forEach((turno) => {
-      const usuariosDelTurno = usuariosPorTurno[turno];
-      const turnoId = `turno-${turno.replace(/\s+/g, "-").toLowerCase()}`;
-      const isExpanded = turno === "T4"; // Solo T4 expandido por defecto
-      
+      const esc = (s) => String(s || "").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/'/g, "&#39;");
       html += `
-        <div class="turno-section">
-          <div class="turno-header" onclick="window.skillMatrixController.toggleTurno('${turnoId}')">
-            <div class="turno-header-left">
-              <span class="turno-toggle-icon ${isExpanded ? "expanded" : ""}">▼</span>
-              <h3>Turno ${turno}</h3>
-            </div>
-            <span class="turno-count">${usuariosDelTurno.length} usuario${usuariosDelTurno.length !== 1 ? "s" : ""}</span>
+        <div class="usuario-card-compact" data-login="${esc(usuario.login)}" title="${esc(usuario.employee_name || usuario.login)}">
+          <div class="usuario-card-photo">
+            <img src="${photoUrl(usuario.login)}" alt="" class="usuario-photo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+            <span class="usuario-photo-placeholder">${(usuario.login || "?").slice(0, 2).toUpperCase()}</span>
           </div>
-          <div class="usuarios-grid ${isExpanded ? "" : "collapsed"}" id="${turnoId}">
-      `;
-
-      usuariosDelTurno.forEach((usuario) => {
-        html += `
-          <div class="usuario-card" onclick="window.skillMatrixController.mostrarModalSkillMatrix('${usuario.login}')">
-            <div class="usuario-card-header">
-              <strong>${usuario.login}</strong>
-              <span class="skill-count">${usuario.cantidadSkills}</span>
-            </div>
-          </div>
-        `;
-      });
-
-      html += `
+          <div class="usuario-card-body">
+            <span class="usuario-login">${esc(usuario.login)}</span>
+            <span class="usuario-turno">${esc(turno)}</span>
+            <span class="skill-count-badge">${usuario.cantidadSkills}</span>
           </div>
         </div>
       `;
     });
-
+    html += "</div>";
     container.innerHTML = html;
+    container.querySelectorAll(".usuario-card-compact").forEach((el) => {
+      el.addEventListener("click", () => {
+        const login = el.getAttribute("data-login");
+        if (login) this.mostrarModalSkillMatrix(login);
+      });
+    });
   }
 
   toggleTurno(turnoId) {
@@ -799,9 +876,9 @@ class SkillMatrixController {
     // Obtener todos los puestos (mapper: departamentos[].puestos o legacy)
     const todosLosPuestos = this.getTodosLosPuestos().filter((p) => p.activo !== false);
 
-    // Obtener skills del usuario (estructura optimizada: solo true)
-    const skillsUsuario =
-      this.skillmatrixData?.usuarios?.[login.toUpperCase()]?.puestos || {};
+    // Skills efectivas = manual + verificadas por CSV
+    const skillsUsuario = this.getSkillsUsuario(login.toUpperCase());
+    const verifiedUsuario = this.skillmatrixData?.usuarios?.[login.toUpperCase()]?.puestos_verificados || {};
 
     // Generar HTML
     let html = "";
@@ -811,12 +888,13 @@ class SkillMatrixController {
       html = '<div class="skill-matrix-grid">';
       todosLosPuestos.forEach((puesto) => {
         const tieneSkill = skillsUsuario[puesto.id] === true;
+        const esVerificado = verifiedUsuario[puesto.id] === true;
         const deptoText =
           puesto.departamento_principal && puesto.departamento_secundario
             ? `${puesto.departamento_principal} - ${puesto.departamento_secundario}`
             : (puesto._departamentoNombre || puesto.departamento_principal || "");
         html += `
-          <div class="skill-matrix-item">
+          <div class="skill-matrix-item ${esVerificado ? "skill-verificado" : ""}">
             <label class="skill-checkbox-label">
               <input
                 type="checkbox"
@@ -828,6 +906,7 @@ class SkillMatrixController {
               <div class="skill-puesto-info">
                 <strong>${puesto.nombre || puesto.id}</strong>
                 <span class="skill-puesto-depto">${deptoText}</span>
+                ${esVerificado ? '<span class="skill-badge-verificado">Verificado</span>' : '<span class="skill-badge-sin-verificar">Sin verificar</span>'}
               </div>
             </label>
           </div>
@@ -845,25 +924,21 @@ class SkillMatrixController {
 
     const login = this.usuarioActualEditando;
 
-    // Asegurar que existe la estructura
-    if (!this.skillmatrixData.usuarios) {
-      this.skillmatrixData.usuarios = {};
-    }
+    if (!this.skillmatrixData.usuarios) this.skillmatrixData.usuarios = {};
     if (!this.skillmatrixData.usuarios[login]) {
-      this.skillmatrixData.usuarios[login] = { puestos: {} };
+      this.skillmatrixData.usuarios[login] = { puestos: {}, puestos_verificados: {} };
     }
+    const verified = this.skillmatrixData.usuarios[login].puestos_verificados || {};
 
-    // Obtener checkboxes marcados
     const checkboxes = document.querySelectorAll(
       "#skill-matrix-content .skill-checkbox:checked"
     );
 
-    // Limpiar skills anteriores
+    // puestos = solo formaciones manuales (sin verificar); las verificadas vienen del CSV
     this.skillmatrixData.usuarios[login].puestos = {};
-
-    // Agregar solo los marcados (estructura optimizada: solo true)
     checkboxes.forEach((checkbox) => {
       const puestoId = checkbox.getAttribute("data-puesto-id");
+      if (verified[puestoId]) return; // no guardar en puestos las que ya están verificadas
       this.skillmatrixData.usuarios[login].puestos[puestoId] = true;
     });
 

@@ -168,8 +168,20 @@
 
 .rt-area-hc-item label {
   font-size: 0.85rem;
+  font-weight: 600;
   color: var(--text-color-one);
 }
+
+.rt-area-hc-ib { padding: 0.2rem 0.4rem; border-radius: 6px; background: rgba(59, 130, 246, 0.15); }
+.rt-area-hc-ib label { color: #1d4ed8; }
+.rt-area-hc-iss { padding: 0.2rem 0.4rem; border-radius: 6px; background: rgba(139, 92, 246, 0.15); }
+.rt-area-hc-iss label { color: #5b21b6; }
+.rt-area-hc-ob { padding: 0.2rem 0.4rem; border-radius: 6px; background: rgba(34, 197, 94, 0.15); }
+.rt-area-hc-ob label { color: #15803d; }
+.rt-area-hc-tom { padding: 0.2rem 0.4rem; border-radius: 6px; background: rgba(234, 179, 8, 0.2); }
+.rt-area-hc-tom label { color: #a16207; }
+.rt-area-hc-support { padding: 0.2rem 0.4rem; border-radius: 6px; background: rgba(107, 114, 128, 0.15); }
+.rt-area-hc-support label { color: #374151; }
 
 .rt-area-hc-input {
   width: 4rem;
@@ -541,6 +553,15 @@
   color: var(--rt-accent-light);
   font-style: normal;
   font-weight: 600;
+}
+
+.rt-dept-card-tom {
+  background: linear-gradient(135deg, rgba(234, 179, 8, 0.2) 0%, rgba(234, 179, 8, 0.08) 100%);
+  border-color: #ca8a04;
+}
+
+.rt-dept-card-tom .rt-dept-name {
+  color: #a16207;
 }
 
 .rt-dept-card-no-hc .rt-dept-hc-wrap {

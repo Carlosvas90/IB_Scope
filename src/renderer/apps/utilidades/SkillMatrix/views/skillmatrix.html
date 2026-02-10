@@ -41,54 +41,34 @@
             <span id="status-icon">📊</span>
             <span id="status-text">Cargando...</span>
           </div>
+          <button type="button" id="sm-btn-actualizar-csv" class="btn btn-actualizar-csv" title="Cargar CSV de certificados y actualizar formaciones verificadas (puede tardar con archivos grandes)">
+            Actualizar Skill Matrix
+          </button>
         </div>
       </header>
+      <div id="sm-actualizar-status" class="sm-actualizar-status" style="display: none;"></div>
+      <div id="sm-resumen-actualizacion" class="sm-resumen-actualizacion" style="display: none;"></div>
 
       <!-- Contenido principal -->
       <div class="skillmatrix-content">
-        <!-- Búsqueda y filtros -->
-        <div class="search-section">
-          <div class="search-card">
-            <div class="search-header">
-              <h2>Búsqueda de Usuarios</h2>
-            </div>
-            <div class="search-content">
-              <div class="search-box">
-                <input
-                  type="text"
-                  id="search-usuario"
-                  placeholder="Buscar por login o nombre..."
-                  autocomplete="off"
-                />
-              </div>
-              <div class="filter-options">
-                <div class="filter-group">
-                  <label for="filter-turno">Filtrar por Turno:</label>
-                  <select id="filter-turno">
-                    <option value="">Todos los turnos</option>
-                  </select>
-                </div>
-                <div class="filter-group">
-                  <label for="filter-puesto">Filtrar por Formación:</label>
-                  <select id="filter-puesto">
-                    <option value="">Todas las formaciones</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
+        <!-- Búsqueda y filtros en una línea -->
+        <div class="search-section search-section-compact">
+          <input type="text" id="search-usuario" placeholder="Buscar por login o nombre..." autocomplete="off" class="search-input-compact" />
+          <select id="filter-turno" class="filter-select-compact" title="Turno">
+            <option value="">Todos los turnos</option>
+          </select>
+          <select id="filter-puesto" class="filter-select-compact" title="Formación">
+            <option value="">Todas las formaciones</option>
+          </select>
         </div>
 
         <!-- Lista de usuarios -->
         <div class="usuarios-section">
-          <div class="usuarios-card">
-            <div class="usuarios-header">
-              <h2>Usuarios</h2>
-              <div class="usuarios-stats">
-                <span id="total-usuarios">0</span> usuarios
-              </div>
+          <div class="usuarios-card usuarios-card-compact">
+            <div class="usuarios-header-compact">
+              <span class="usuarios-stats"><span id="total-usuarios">0</span> usuarios</span>
             </div>
-            <div class="usuarios-content">
+            <div class="usuarios-content usuarios-content-compact">
               <div id="usuarios-list" class="usuarios-list">
                 <!-- Se llena dinámicamente -->
               </div>
