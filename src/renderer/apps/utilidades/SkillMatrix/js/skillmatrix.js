@@ -609,12 +609,16 @@ class SkillMatrixController {
   }
 }
 
-// Inicializar cuando el DOM esté listo
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", () => {
-    window.skillMatrixController = new SkillMatrixController();
-  });
-} else {
+// SPA: inicializar solo con app:ready (primera carga y al volver).
+function initSkillMatrix() {
+  if (window.skillMatrixController && typeof window.skillMatrixController.destroy === "function") {
+    window.skillMatrixController.destroy();
+  }
   window.skillMatrixController = new SkillMatrixController();
 }
+window.addEventListener("app:ready", (e) => {
+  if (e.detail && e.detail.app === "skillmatrix") {
+    initSkillMatrix();
+  }
+});
 

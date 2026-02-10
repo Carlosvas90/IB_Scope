@@ -2850,17 +2850,17 @@ class PizarraController {
   }
 }
 
-// Inicializar cuando el DOM esté listo
+// SPA: inicializar solo con app:ready (primera carga y al volver).
 let pizarraController;
-
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", () => {
-    pizarraController = new PizarraController();
-    // Exponer globalmente para que los onclick en HTML dinámico funcionen
-    window.pizarraController = pizarraController;
-  });
-} else {
+function initPizarra() {
+  if (window.pizarraController && typeof window.pizarraController.destroy === "function") {
+    window.pizarraController.destroy();
+  }
   pizarraController = new PizarraController();
-  // Exponer globalmente para que los onclick en HTML dinámico funcionen
   window.pizarraController = pizarraController;
 }
+window.addEventListener("app:ready", (e) => {
+  if (e.detail && e.detail.app === "pizarra") {
+    initPizarra();
+  }
+});

@@ -1141,4 +1141,11 @@ async function init() {
   renderPuestosTable();
   if (!state.rows.length) setStatus("Carga rotations.csv desde Data_Flow o un CSV/mapping. Edita puestos en la pestaña Puestos.");
 }
-init();
+
+// SPA: inicializar solo con app:ready (primera carga y al volver); así el DOM ya está inyectado.
+window.addEventListener("app:ready", (e) => {
+  if (e.detail && e.detail.app === "process-mapper") {
+    initElements();
+    init();
+  }
+});

@@ -125,6 +125,15 @@ class RotationToolController {
     }
   }
 
+  /** Limpieza al salir de la vista (SPA: DOM reemplazado al cambiar de app). */
+  destroy() {
+    this.puestosData = null;
+    this.modalDeptId = null;
+    this.selectedDeptByArea = { IB: null, OB: null, Support: null };
+    this.asignacionesPorPuesto = {};
+    this.loginsDisponibles = [];
+  }
+
   async cargarPuestos() {
     let loaded = false;
 
@@ -1158,11 +1167,18 @@ function escapeHtml(s) {
 }
 
 function initRotationTool() {
+  if (window.rotationToolController) {
+    if (typeof window.rotationToolController.destroy === "function") {
+      window.rotationToolController.destroy();
+    }
+    window.rotationToolController = null;
+  }
   window.rotationToolController = new RotationToolController();
 }
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initRotationTool);
-} else {
-  initRotationTool();
-}
+// SPA: inicializar solo con app:ready (primera carga y al volver); así el DOM ya está inyectado.
+window.addEventListener("app:ready", (e) => {
+  if (e.detail && e.detail.app === "rotation-tool") {
+    initRotationTool();
+  }
+});
