@@ -23,28 +23,23 @@
           <button type="button" id="btn-generar-pizarra" class="rt-btn rt-btn-header" title="Generar pizarra (quién en qué puesto)" disabled>
             Generar pizarra
           </button>
+          <button type="button" id="btn-descargar-json-propuesta" class="rt-btn rt-btn-header" title="Descargar JSON de la pizarra propuesta (para comparar luego con la final)" disabled>
+            Descargar JSON propuesta
+          </button>
           <button type="button" id="btn-enviar-pizarra" class="rt-btn rt-btn-header rt-btn-primary" title="Enviar pizarra como referencia" disabled>
             Enviar pizarra
           </button>
         </div>
       </header>
 
-      <!-- Resumen HC disponible (tras cargar logins / attendance) -->
-      <section class="rt-hc-global card">
-        <div class="rt-hc-global-content">
-          <span class="rt-hc-global-label">Disponible para distribuir</span>
-          <span id="rt-hc-total" class="rt-hc-global-value">0</span>
-          <span class="rt-hc-global-sublabel">personas</span>
-          <span id="rt-hc-duplicados" class="rt-hc-duplicados" aria-live="polite"></span>
-          <span id="rt-hc-asignados" class="rt-hc-asignados"><span id="rt-hc-sum">0</span> asignados</span>
-        </div>
-        <div class="rt-hc-global-actions">
-          <button type="button" id="btn-pegar-logins" class="rt-btn rt-btn-sm">Pegar logins</button>
-        </div>
-      </section>
-
-      <!-- Distribución por área: IB, OB, Support (limita cuánto se puede asignar por área) -->
-      <section class="rt-area-hc card">
+      <!-- HC disponible + Repartir por área en una sola línea -->
+      <section class="rt-hc-reparto-bar card">
+        <span class="rt-hc-global-label">Disponible para distribuir</span>
+        <span id="rt-hc-total" class="rt-hc-global-value">0</span>
+        <span class="rt-hc-global-sublabel">personas</span>
+        <span id="rt-hc-duplicados" class="rt-hc-duplicados" aria-live="polite"></span>
+        <span id="rt-hc-asignados" class="rt-hc-asignados"><span id="rt-hc-sum">0</span> asignados</span>
+        <span class="rt-hc-reparto-sep">·</span>
         <span class="rt-area-hc-label">Repartir por área</span>
         <div class="rt-area-hc-inputs">
           <div class="rt-area-hc-item">

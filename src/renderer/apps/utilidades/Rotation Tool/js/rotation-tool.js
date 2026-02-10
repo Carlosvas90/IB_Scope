@@ -68,7 +68,12 @@ class RotationToolController {
     this.asignacionesPorPuesto = {}; // { puestoId: [login1, login2, ...] } después de generar
     this.loginsDisponibles = []; // listado de logins cargados (para generar pizarra)
     this.duplicadosEliminados = 0; // cuántos duplicados se eliminaron en la última carga
+    this.ultimaPizarraPropuesta = null; // JSON para comparar con pizarra final y aprendizaje (HC)
     this.init();
+  }
+
+  static get STORAGE_APRENDIZAJE() {
+    return "rt_aprendizaje_comparaciones";
   }
 
   /**
@@ -351,17 +356,15 @@ class RotationToolController {
   }
 
   actualizarBotonesPizarra() {
-    const totalArea = this.areaHC.IB + this.areaHC.OB + this.areaHC.Support;
+    const totalArea = (this.areaHC.IB || 0) + (this.areaHC.OB || 0) + (this.areaHC.Support || 0);
     const asignado = AREA_ORDER.reduce((acc, a) => acc + this.getAreaAssignedHC(a), 0);
     const generar = document.getElementById("btn-generar-pizarra");
     const enviar = document.getElementById("btn-enviar-pizarra");
+    const descargarJson = document.getElementById("btn-descargar-json-propuesta");
     const puedeGenerar = this.totalHC > 0 && totalArea === this.totalHC && asignado === this.totalHC;
-    if (generar) {
-      generar.disabled = !puedeGenerar;
-    }
-    if (enviar) {
-      enviar.disabled = !this.pizarraGenerada;
-    }
+    if (generar) generar.disabled = !puedeGenerar;
+    if (enviar) enviar.disabled = !this.pizarraGenerada;
+    if (descargarJson) descargarJson.disabled = !this.pizarraGenerada;
   }
 
   seleccionarDepto(areaKey, dept) {
@@ -746,16 +749,6 @@ class RotationToolController {
       });
     }
 
-    document.getElementById("btn-pegar-logins")?.addEventListener("click", () => {
-      document.getElementById("rt-logins-overlay").hidden = false;
-      document.getElementById("rt-logins-textarea").value = "";
-      const aviso = document.getElementById("rt-logins-duplicados-aviso");
-      if (aviso) {
-        aviso.hidden = true;
-        aviso.innerHTML = "";
-      }
-      document.getElementById("rt-logins-textarea").focus();
-    });
     document.getElementById("rt-logins-cancel")?.addEventListener("click", () => {
       document.getElementById("rt-logins-overlay").hidden = true;
     });
@@ -804,6 +797,11 @@ class RotationToolController {
     document.getElementById("btn-attendance")?.addEventListener("click", () => {
       document.getElementById("rt-logins-overlay").hidden = false;
       document.getElementById("rt-logins-textarea").value = "";
+      const aviso = document.getElementById("rt-logins-duplicados-aviso");
+      if (aviso) {
+        aviso.hidden = true;
+        aviso.innerHTML = "";
+      }
       document.getElementById("rt-logins-textarea").focus();
     });
 
@@ -826,6 +824,7 @@ class RotationToolController {
     });
 
     document.getElementById("btn-generar-pizarra")?.addEventListener("click", () => this.generarPizarra());
+    document.getElementById("btn-descargar-json-propuesta")?.addEventListener("click", () => this.descargarPizarraPropuesta());
     document.getElementById("btn-enviar-pizarra")?.addEventListener("click", () => this.enviarPizarra());
 
     ["btn-freeze", "btn-bloqueados"].forEach((id) => {
@@ -879,9 +878,181 @@ class RotationToolController {
       }
     }
     this.pizarraGenerada = true;
+    this.ultimaPizarraPropuesta = this.buildPizarraPropuestaJSON();
     this.actualizarBotonesPizarra();
     this.renderizarDashboard();
     toast("Pizarra generada. Abre un departamento para ver quién está en cada puesto.", "success");
+  }
+
+  /** Construye el JSON de la pizarra propuesta (para descargar y para comparar con la final). Enfocado en HC por puesto/depto. */
+  buildPizarraPropuestaJSON() {
+    const distribucion = {};
+    const porArea = this.getDepartamentosPorArea();
+    for (const areaKey of AREA_ORDER) {
+      const depts = porArea[areaKey] || [];
+      for (const dept of depts) {
+        if (this.isNoCuentaHC(dept)) continue;
+        const puestos = dept.puestos || [];
+        if (puestos.length === 0) {
+          const n = this.departmentHC[dept.id] ?? 0;
+          if (n > 0) distribucion[dept.id] = n;
+        } else {
+          for (const puesto of puestos) {
+            const n = this.puestoHC[puesto.id] || 0;
+            if (n > 0) distribucion[puesto.id] = n;
+          }
+        }
+      }
+    }
+    return {
+      tipo: "pizarra_propuesta",
+      version: "1.0",
+      fecha: new Date().toISOString().slice(0, 10),
+      fechaHora: new Date().toISOString(),
+      cupos: { IB: this.areaHC.IB || 0, OB: this.areaHC.OB || 0, Support: this.areaHC.Support || 0 },
+      totalHC: this.totalHC,
+      distribucion,
+      asignaciones: this.pizarraGenerada ? this.asignacionesPorPuesto : undefined,
+    };
+  }
+
+  descargarPizarraPropuesta() {
+    if (!this.ultimaPizarraPropuesta) {
+      if (typeof window.showToast === "function") window.showToast("Genera primero la pizarra para descargar el JSON.", "warning");
+      return;
+    }
+    const blob = new Blob([JSON.stringify(this.ultimaPizarraPropuesta, null, 2)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `pizarra_propuesta_${this.ultimaPizarraPropuesta.fecha}.json`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    if (typeof window.showToast === "function") window.showToast("JSON descargado. Úsalo para comparar con la pizarra final.", "success");
+  }
+
+  /** Compara propuesta con pizarra final. Devuelve { diferencias, resumen } y opcionalmente guarda en historial. */
+  compararConPizarraFinal(jsonFinal, guardarEnHistorial = false) {
+    const prop = this.ultimaPizarraPropuesta;
+    if (!prop || !prop.distribucion) {
+      return { error: "No hay pizarra propuesta. Genera la pizarra primero." };
+    }
+    let final = jsonFinal;
+    if (typeof final === "string") {
+      try {
+        final = JSON.parse(final);
+      } catch (e) {
+        return { error: "JSON de pizarra final inválido." };
+      }
+    }
+    const distFinal = final.distribucion || final;
+    const todosIds = new Set([...Object.keys(prop.distribucion), ...Object.keys(distFinal)]);
+    const diferencias = {};
+    let totalProp = 0;
+    let totalFinal = 0;
+    for (const id of todosIds) {
+      const p = prop.distribucion[id] || 0;
+      const f = distFinal[id] || 0;
+      totalProp += p;
+      totalFinal += f;
+      const d = f - p;
+      if (d !== 0) diferencias[id] = { propuesta: p, final: f, diff: d };
+    }
+    const resultado = {
+      fechaPropuesta: prop.fecha,
+      fechaFinal: final.fecha || final.fechaHora || null,
+      cupos: prop.cupos,
+      propuesta: prop.distribucion,
+      final: distFinal,
+      diferencias,
+      resumen: { totalPropuesta: totalProp, totalFinal: totalFinal, desbalance: totalFinal - totalProp },
+    };
+    if (guardarEnHistorial) {
+      const historial = this.getHistorialAprendizaje();
+      historial.push({ fecha: new Date().toISOString(), ...resultado });
+      try {
+        localStorage.setItem(RotationToolController.STORAGE_APRENDIZAJE, JSON.stringify(historial));
+      } catch (e) {
+        console.warn("No se pudo guardar historial:", e);
+      }
+    }
+    return resultado;
+  }
+
+  getHistorialAprendizaje() {
+    try {
+      const raw = localStorage.getItem(RotationToolController.STORAGE_APRENDIZAJE);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  /** Dataset para ML/aprendizaje: contexto (cupos) + cómo se distribuyó en la propuesta vs cómo quedó al final. Enfocado en HC, no en personas. */
+  getDatasetAprendizajeJSON() {
+    const historial = this.getHistorialAprendizaje();
+    const dataset = historial.map((h) => ({
+      contexto: h.cupos,
+      totalHC: (h.cupos && (h.cupos.IB + h.cupos.OB + h.cupos.Support)) || null,
+      propuesta: h.propuesta || {},
+      final: h.final || {},
+      desbalance_total: h.resumen ? h.resumen.desbalance : null,
+    }));
+    return { tipo: "dataset_aprendizaje", version: "1.0", registros: dataset };
+  }
+
+  exportarDatasetAprendizaje() {
+    const json = this.getDatasetAprendizajeJSON();
+    if (json.registros.length === 0) {
+      if (typeof window.showToast === "function") window.showToast("No hay comparaciones guardadas. Compara una pizarra final y guarda para ir generando el dataset.", "warning");
+      return;
+    }
+    const blob = new Blob([JSON.stringify(json, null, 2)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `rt_dataset_aprendizaje_${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    if (typeof window.showToast === "function") window.showToast(`Dataset exportado (${json.registros.length} comparaciones).`, "success");
+  }
+
+  ejecutarComparacionPizarra(guardarEnHistorial) {
+    const textarea = document.getElementById("rt-pizarra-final-json");
+    const resultadoEl = document.getElementById("rt-aprendizaje-resultado");
+    const raw = (textarea?.value || "").trim();
+    if (!raw) {
+      if (typeof window.showToast === "function") window.showToast("Pega el JSON de la pizarra final en el cuadro de texto.", "warning");
+      return;
+    }
+    const r = this.compararConPizarraFinal(raw, guardarEnHistorial);
+    if (r.error) {
+      if (typeof window.showToast === "function") window.showToast(r.error, "warning");
+      if (resultadoEl) {
+        resultadoEl.hidden = false;
+        resultadoEl.innerHTML = `<p class="rt-aprendizaje-error">${escapeHtml(r.error)}</p>`;
+      }
+      return;
+    }
+    const diffs = Object.entries(r.diferencias || {}).filter(([, v]) => v.diff !== 0);
+    let html = `<p><strong>Resumen:</strong> Propuesta ${r.resumen.totalPropuesta} HC → Final ${r.resumen.totalFinal} HC. Desbalance: ${r.resumen.desbalance}</p>`;
+    if (diffs.length > 0) {
+      html += "<p><strong>Diferencias por puesto/depto:</strong></p><ul class=\"rt-aprendizaje-lista-diff\">";
+      diffs.slice(0, 30).forEach(([id, v]) => {
+        html += `<li><code>${escapeHtml(id)}</code>: propuesta ${v.propuesta} → final ${v.final} (${v.diff > 0 ? "+" : ""}${v.diff})</li>`;
+      });
+      if (diffs.length > 30) html += `<li>… y ${diffs.length - 30} más</li>`;
+      html += "</ul>";
+    } else {
+      html += "<p>No hay diferencias por puesto (misma distribución).</p>";
+    }
+    if (guardarEnHistorial) {
+      const n = this.getHistorialAprendizaje().length;
+      html += `<p class="rt-aprendizaje-guardado">Guardado para aprendizaje. Total comparaciones: ${n}. Exporta el dataset cuando quieras usarlo fuera.</p>`;
+      if (typeof window.showToast === "function") window.showToast("Comparación guardada para el dataset de aprendizaje.", "success");
+    }
+    if (resultadoEl) {
+      resultadoEl.hidden = false;
+      resultadoEl.innerHTML = html;
+    }
   }
 
   enviarPizarra() {

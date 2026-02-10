@@ -43,6 +43,13 @@
   --Color-Red-3: #ff3022;
   --Color-Red-4: #b31c11;
   --Color-Red-5: #660700;
+  /* Purple (Rotation Tool y acentos) */
+  --Color-Purple-1: #f5f3ff;
+  --Color-Purple-2: #ede9fe;
+  --Color-Purple-3: #a78bfa;
+  --Color-Purple-4: #6d28d9;
+  --Color-Purple-5: #4c1d95;
+  --Color-Purple-6: #2e1065;
   --Color-Resaltador: #ff00ff;
 
   /*=============================================
@@ -159,6 +166,15 @@
   --light-Texto-Botones: var(--Color-gray-8);
   --light-fondo-boton-activo: var(--Palette-Blue-4);
   --light-kpi-icon: var(--Color-gray-2);
+  /* Rotation Tool */
+  --light-rt-header-bg: var(--Color-Purple-5);
+  --light-rt-header-text: var(--Color-white);
+  --light-rt-card-bg: var(--Color-Purple-1);
+  --light-rt-accent: var(--Color-Purple-4);
+  --light-rt-accent-light: var(--Color-Purple-3);
+  --light-rt-page-bg: var(--Color-gray-2);
+  --light-rt-header-btn-bg: var(--Color-Purple-1);
+  --light-rt-header-btn-border: var(--Color-Purple-3);
 
   /* Variables para Scrollbar */
   --light-scrollbar-bg: var(--Color-gray-1);
@@ -203,6 +219,15 @@
   --dark-Texto-Botones: var(--Color-white);
   --dark-fondo-boton-activo: var(--Palette-Blue-4);
   --dark-kpi-icon: var(--Palette-Blue-4);
+  /* Rotation Tool */
+  --dark-rt-header-bg: var(--Color-Purple-6);
+  --dark-rt-header-text: var(--Color-white);
+  --dark-rt-card-bg: var(--Color-Purple-6);
+  --dark-rt-accent: var(--Color-Purple-3);
+  --dark-rt-accent-light: var(--Color-Purple-2);
+  --dark-rt-page-bg: var(--Palette-Blue-7);
+  --dark-rt-header-btn-bg: var(--Palette-Blue-5);
+  --dark-rt-header-btn-border: var(--Palette-Blue-4);
 
   /* Variables para Scrollbar */
   --dark-scrollbar-bg: var(--Palette-Blue-6);
@@ -250,6 +275,15 @@
   --Texto-Botones: var(--light-Texto-Botones);
   --fondo-boton-activo: var(--light-fondo-boton-activo);
   --kpi-icon: var(--light-kpi-icon);
+  /* Rotation Tool (activas) */
+  --rt-header-bg: var(--light-rt-header-bg);
+  --rt-header-text: var(--light-rt-header-text);
+  --rt-card-bg: var(--light-rt-card-bg);
+  --rt-accent: var(--light-rt-accent);
+  --rt-accent-light: var(--light-rt-accent-light);
+  --rt-page-bg: var(--light-rt-page-bg);
+  --rt-header-btn-bg: var(--light-rt-header-btn-bg);
+  --rt-header-btn-border: var(--light-rt-header-btn-border);
 
   /* Variables para Scrollbar */
   --scrollbar-bg: var(--light-scrollbar-bg);
@@ -295,6 +329,15 @@
   --Texto-Botones: var(--dark-Texto-Botones);
   --fondo-boton-activo: var(--dark-fondo-boton-activo);
   --kpi-icon: var(--dark-kpi-icon);
+  /* Rotation Tool */
+  --rt-header-bg: var(--dark-rt-header-bg);
+  --rt-header-text: var(--dark-rt-header-text);
+  --rt-card-bg: var(--dark-rt-card-bg);
+  --rt-accent: var(--dark-rt-accent);
+  --rt-accent-light: var(--dark-rt-accent-light);
+  --rt-page-bg: var(--dark-rt-page-bg);
+  --rt-header-btn-bg: var(--dark-rt-header-btn-bg);
+  --rt-header-btn-border: var(--dark-rt-header-btn-border);
 
   /* Variables para Scrollbar */
   --scrollbar-bg: var(--dark-scrollbar-bg);
