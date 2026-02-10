@@ -49,6 +49,7 @@
       ]
     }
   },
+  "certificate_csv_path": "\\\\ant\\dept-eu\\VLC1\\Support\\Operaciones\\Leads\\Rotation Tool\\Rotarion-Tool-App",
   "permisosPath": [
     "\\\\ant\\dept-eu\\VLC1\\Public\\Apps_Tools\\chuecc\\IB_Scope\\Data\\Config\\permisos.json",
     "C:\\Users\\carlo\\Downloads\\0-Proyecto_IB_Scope\\Analisis\\Data\\permisos.json"

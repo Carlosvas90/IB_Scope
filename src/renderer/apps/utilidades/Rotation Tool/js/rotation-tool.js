@@ -446,6 +446,13 @@ class RotationToolController {
     if (generar) generar.disabled = !puedeGenerar;
     if (enviar) enviar.disabled = !this.pizarraGenerada;
     if (descargarJson) descargarJson.disabled = !this.pizarraGenerada;
+    const resumenSection = document.getElementById("rt-resumen-asignaciones");
+    if (resumenSection) resumenSection.hidden = !this.pizarraGenerada;
+    const aviso = document.getElementById("rt-generar-aviso");
+    if (aviso && puedeGenerar) {
+      aviso.hidden = true;
+      aviso.textContent = "";
+    }
   }
 
   seleccionarDepto(areaKey, dept) {
@@ -921,7 +928,32 @@ class RotationToolController {
       this._csvOverlayDeptId = null;
     });
 
-    document.getElementById("btn-generar-pizarra")?.addEventListener("click", () => this.generarPizarra());
+    document.getElementById("btn-generar-pizarra")?.addEventListener("click", () => {
+      const btn = document.getElementById("btn-generar-pizarra");
+      const aviso = document.getElementById("rt-generar-aviso");
+      if (btn?.disabled && aviso) {
+        this.sincronizarHCDesdeDOM();
+        const totalArea = (this.areaHC.IB || 0) + (this.areaHC.OB || 0) + (this.areaHC.Support || 0);
+        const asignado = AREA_ORDER.reduce((acc, a) => acc + this.getAreaAssignedHC(a), 0);
+        if (this.totalHC === 0) {
+          aviso.textContent = "Primero carga logins (Attendance → Pegar logins y Aplicar).";
+        } else if (totalArea !== this.totalHC) {
+          aviso.textContent = `Reparte por área: IB+OB+Support (${totalArea}) debe ser igual al HC (${this.totalHC}).`;
+        } else if (asignado !== this.totalHC) {
+          aviso.textContent = `Faltan ${this.totalHC - asignado} por repartir: usa "Distribuir automáticamente" en IB y OB, y haz clic en cada departamento de Support.`;
+        } else {
+          aviso.textContent = "";
+        }
+        aviso.hidden = !aviso.textContent;
+        aviso.classList.add("rt-generar-aviso-visible");
+        return;
+      }
+      if (aviso) {
+        aviso.hidden = true;
+        aviso.textContent = "";
+      }
+      this.generarPizarra();
+    });
     document.getElementById("btn-descargar-json-propuesta")?.addEventListener("click", () => this.descargarPizarraPropuesta());
     document.getElementById("btn-enviar-pizarra")?.addEventListener("click", () => this.enviarPizarra());
 
@@ -933,9 +965,35 @@ class RotationToolController {
     });
   }
 
+  /** Lee desde el DOM los HC de área (por si no se disparó input) y los inputs de puestos en los paneles. */
+  sincronizarHCDesdeDOM() {
+    ["rt-input-ib", "rt-input-ob", "rt-input-support"].forEach((id) => {
+      const input = document.getElementById(id);
+      const area = input?.getAttribute("data-area");
+      if (input && area) {
+        const v = parseInt(input.value, 10);
+        this.areaHC[area] = isNaN(v) ? 0 : Math.max(0, v);
+      }
+    });
+    document.querySelectorAll(".rt-modal-puestos").forEach((container) => {
+      this.syncStowTLAsistente(container);
+      container.querySelectorAll(".rt-modal-puesto-input").forEach((input) => {
+        const id = input.getAttribute("data-puesto-id");
+        const v = parseInt(input.value, 10);
+        if (id) this.puestoHC[id] = isNaN(v) ? 0 : Math.max(0, v);
+      });
+    });
+    Object.entries(PUESTO_ESPEJO).forEach(([astId, tlId]) => {
+      this.puestoHC[astId] = this.puestoHC[tlId] ?? 0;
+    });
+    document.querySelectorAll("input[data-dept-id][id^='rt-dept-hc-']").forEach((input) => {
+      const deptId = input.getAttribute("data-dept-id");
+      const v = parseInt(input.value, 10);
+      if (deptId) this.departmentHC[deptId] = isNaN(v) ? 0 : Math.max(0, v);
+    });
+  }
+
   generarPizarra() {
-    const totalArea = (this.areaHC.IB || 0) + (this.areaHC.OB || 0) + (this.areaHC.Support || 0);
-    const asignado = AREA_ORDER.reduce((acc, a) => acc + this.getAreaAssignedHC(a), 0);
     const toast = (msg, type) => {
       if (typeof window.showToast === "function") window.showToast(msg, type || "info");
       else console.warn(msg);
@@ -944,12 +1002,25 @@ class RotationToolController {
       toast("Carga logins primero (Attendance / Pegar logins) para generar la pizarra.", "warning");
       return;
     }
+    this.sincronizarHCDesdeDOM();
+    const totalArea = (this.areaHC.IB || 0) + (this.areaHC.OB || 0) + (this.areaHC.Support || 0);
+    const asignado = AREA_ORDER.reduce((acc, a) => acc + this.getAreaAssignedHC(a), 0);
     if (totalArea !== this.totalHC) {
       toast(`El cupo por área (IB+OB+Support = ${totalArea}) debe coincidir con el HC total (${this.totalHC}). Ajusta los números en "Repartir por área".`, "warning");
       return;
     }
     if (asignado !== this.totalHC) {
-      toast(`Aún hay ${this.totalHC - asignado} personas sin asignar a puestos. Reparte en cada departamento hasta completar ${this.totalHC}.`, "warning");
+      const faltan = this.totalHC - asignado;
+      toast(
+        `Faltan ${faltan} personas por repartir en puestos. Usa "Distribuir automáticamente" en Inbound y Outbound, y haz clic en cada departamento de Support para asignar personas hasta completar ${this.totalHC}.`,
+        "warning"
+      );
+      return;
+    }
+    const porArea = this.getDepartamentosPorArea();
+    const tieneDepts = AREA_ORDER.some((a) => (porArea[a] || []).length > 0);
+    if (!tieneDepts) {
+      toast("No hay departamentos cargados. Comprueba que puestos.json esté en la ruta de Data_Flow.", "warning");
       return;
     }
     const logins = [...(this.loginsDisponibles || [])];
@@ -957,7 +1028,6 @@ class RotationToolController {
       while (logins.length < this.totalHC) logins.push(`login-${logins.length + 1}`);
     }
     this.asignacionesPorPuesto = {};
-    const porArea = this.getDepartamentosPorArea();
     for (const areaKey of AREA_ORDER) {
       const depts = porArea[areaKey] || [];
       for (const dept of depts) {
@@ -979,7 +1049,44 @@ class RotationToolController {
     this.ultimaPizarraPropuesta = this.buildPizarraPropuestaJSON();
     this.actualizarBotonesPizarra();
     this.renderizarDashboard();
-    toast("Pizarra generada. Abre un departamento para ver quién está en cada puesto.", "success");
+    this.mostrarResumenAsignaciones();
+    toast("Pizarra generada. Ver resumen debajo o haz clic en cada departamento.", "success");
+  }
+
+  /** Rellena y muestra la sección "Quién está en cada puesto" tras generar. */
+  mostrarResumenAsignaciones() {
+    const section = document.getElementById("rt-resumen-asignaciones");
+    const content = document.getElementById("rt-resumen-asignaciones-content");
+    if (!section || !content) return;
+    if (!this.pizarraGenerada || !this.asignacionesPorPuesto) {
+      section.hidden = true;
+      return;
+    }
+    const porArea = this.getDepartamentosPorArea();
+    let html = "";
+    for (const areaKey of AREA_ORDER) {
+      const depts = porArea[areaKey] || [];
+      const label = AREA_LABELS[areaKey] || areaKey;
+      for (const dept of depts) {
+        if (this.isNoCuentaHC(dept)) continue;
+        const puestos = dept.puestos || [];
+        if (puestos.length === 0) {
+          const list = this.asignacionesPorPuesto[dept.id];
+          if (list && list.length) {
+            html += `<div class="rt-resumen-dept"><strong>${escapeHtml(dept.nombre)}</strong> (${label}): ${escapeHtml(list.join(", "))}</div>`;
+          }
+        } else {
+          for (const puesto of puestos) {
+            const list = this.asignacionesPorPuesto[puesto.id] || this.asignacionesPorPuesto[PUESTO_ESPEJO[puesto.id]];
+            if (list && list.length) {
+              html += `<div class="rt-resumen-puesto"><strong>${escapeHtml(dept.nombre)} → ${escapeHtml(puesto.nombre)}</strong>: ${escapeHtml(list.join(", "))}</div>`;
+            }
+          }
+        }
+      }
+    }
+    content.innerHTML = html || "<p>No hay asignaciones.</p>";
+    section.hidden = false;
   }
 
   /** Construye el JSON de la pizarra propuesta (para descargar y para comparar con la final). Enfocado en HC por puesto/depto. */

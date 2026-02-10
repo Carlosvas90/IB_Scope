@@ -1,198 +1,1207 @@
 {
-  "orden_departamentos_secundarios": {
-    "IB": ["Dock", "Receive", "Stow", "Grading", "POUT"],
-    "OB": ["Pick", "Pack", "Shipping"],
-    "Support": ["Waste", "Space"]
-  },
-  "orden_funciones": {
-    "Dock": ["Clerk", "Unloader", "Ocean", "IDM", "Ocean CartonMover", "Corral", "WrappingMachine", "Ergopack"],
-    "Receive": ["Decant TSI", "Decant PID", "NonCon", "Cubis", "Prep", "PrEditor", "Water Spider"],
-    "Stow": ["Stow Pick Tower", "Stow HighRack", "Stow BuildOut", "Pit-B", "Cart Runner", "WalkieTugger"],
-    "Grading": ["WHD Grading", "PS Grading"],
-    "POUT": ["PS POUT"],
-    "Waste": ["Waste"],
-    "Space": ["Space HRK consolidation", "Space Consolidation"]
-  },
-  "puestos_predefinidos": [
+  "version": "1.0",
+  "descripcion": "Departamentos y puestos. id = identificador único corto (dept-slug) para usar en pizarra, demanda, freezed y reglas. skills_needed = skills de la skillmatrix. mesas = mesas de trabajo (si aplica). tipo_tarea = directa | indirecta | critical_rol | pesado (pesado máx 8h/semana).",
+  "departamentos": [
     {
-      "id": "dock-clerk",
-      "departamento_principal": "IB",
-      "departamento_secundario": "Dock",
-      "funcion": "Clerk"
+      "id": "pack",
+      "nombre": "Pack",
+      "area": "OB",
+      "puestos": [
+        {
+          "id": "pack-noncon-l2",
+          "nombre": "Noncon",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "tiene_lineas": false,
+          "lineas": [
+            {
+              "nombre": "L2",
+              "estaciones": []
+            },
+            {
+              "nombre": "L3",
+              "estaciones": []
+            },
+            {
+              "nombre": "L7",
+              "estaciones": []
+            },
+            {
+              "nombre": "L8",
+              "estaciones": []
+            }
+          ],
+          "mesas": [],
+          "certificados": [
+            [
+              "EUCF_IAT_TNS_Pack Singles"
+            ]
+          ]
+        },
+        {
+          "id": "pack-exsort-l5",
+          "nombre": "Exception Sort",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "lineas": [
+            {
+              "nombre": "L5",
+              "estaciones": []
+            }
+          ],
+          "mesas": [],
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Pack_No_Slam"
+            ]
+          ]
+        },
+        {
+          "id": "pack-hov-l6",
+          "nombre": "HOV",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "lineas": [
+            {
+              "nombre": "L6",
+              "estaciones": []
+            }
+          ],
+          "mesas": [],
+          "certificados": [
+            [
+              "EUCF_IAT_TNS_Pack Singles"
+            ]
+          ]
+        },
+        {
+          "id": "pack-hov-sioc-l5",
+          "nombre": "HOV SIOC",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "lineas": [
+            {
+              "nombre": "L5",
+              "estaciones": []
+            }
+          ],
+          "mesas": [],
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Pack_No_Slam"
+            ]
+          ]
+        },
+        {
+          "id": "pack-l9",
+          "nombre": "L9",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "lineas": [
+            {
+              "nombre": "L9",
+              "estaciones": []
+            }
+          ],
+          "mesas": [],
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Pack_No_Slam"
+            ],
+            [
+              "EUCF_ILT_ALL_Ship Sort"
+            ]
+          ],
+          "red_task": true
+        },
+        {
+          "id": "pack-siat-l2",
+          "nombre": "Siat",
+          "skills_needed": [],
+          "tipo_tarea": "Indirecta",
+          "lineas": [
+            {
+              "nombre": "L2",
+              "estaciones": []
+            },
+            {
+              "nombre": "L3",
+              "estaciones": []
+            },
+            {
+              "nombre": "L7",
+              "estaciones": []
+            },
+            {
+              "nombre": "L8",
+              "estaciones": []
+            }
+          ],
+          "mesas": [],
+          "certificados": [
+            [
+              "EUCF_IAT_TNS_Pack Singles"
+            ]
+          ]
+        },
+        {
+          "id": "pack-siat-l7",
+          "nombre": "Siat HOV",
+          "skills_needed": [],
+          "tipo_tarea": "Indirecta",
+          "lineas": [
+            {
+              "nombre": "L6",
+              "estaciones": []
+            }
+          ],
+          "mesas": [],
+          "certificados": [
+            [
+              "EUCF_IAT_TNS_Pack Singles"
+            ]
+          ]
+        },
+        {
+          "id": "pack-ws",
+          "nombre": "Pack Water Spider",
+          "skills_needed": [],
+          "tipo_tarea": "Indirecta",
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Outbound Pack Waterspider"
+            ]
+          ]
+        },
+        {
+          "id": "pack-obps",
+          "nombre": "OBPS",
+          "skills_needed": [],
+          "tipo_tarea": "Critical_rol",
+          "certificados": [
+            [
+              "EUCF_SDLP_ALL_Outbound problem solve"
+            ]
+          ]
+        },
+        {
+          "id": "pack-sioc",
+          "nombre": "SIOC Ambassador",
+          "skills_needed": [],
+          "tipo_tarea": "Indirecta",
+          "certificados": [
+            [
+              "EUCF_SDLP_TNS_SIPP Testing Training"
+            ]
+          ]
+        }
+      ]
     },
     {
-      "id": "dock-unloader",
-      "departamento_principal": "IB",
-      "departamento_secundario": "Dock",
-      "funcion": "Unloader"
+      "id": "pick",
+      "nombre": "Pick",
+      "area": "OB",
+      "puestos": [
+        {
+          "id": "pick-noncon-hr",
+          "nombre": "Pick NonCon HR",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Pick"
+            ],
+            [
+              "EUCF_NTU_ALL_PIT_VOP"
+            ]
+          ],
+          "storage_area": "high_rack"
+        },
+        {
+          "id": "pick-noncon-pt",
+          "nombre": "Pick Noncon PT",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Pick"
+            ]
+          ],
+          "storage_area": "pick_tower"
+        },
+        {
+          "id": "pick-tospoo-hr",
+          "nombre": "Pick to Spoo HR",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Pick"
+            ],
+            [
+              "EUCF_NTU_ALL_PIT_VOP"
+            ]
+          ],
+          "storage_area": "high_rack"
+        },
+        {
+          "id": "pick-tospoo-pt",
+          "nombre": "Pick to Spoo PT",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Pick"
+            ]
+          ],
+          "storage_area": "pick_tower"
+        },
+        {
+          "id": "pick-exsort-pt",
+          "nombre": "Pick Exception Sort PT",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Pick"
+            ]
+          ],
+          "storage_area": "pick_tower"
+        },
+        {
+          "id": "pick-exsort-hr",
+          "nombre": "Pick Exception Sort HR",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Pick"
+            ],
+            [
+              "EUCF_NTU_ALL_PIT_VOP"
+            ]
+          ],
+          "storage_area": "high_rack"
+        },
+        {
+          "id": "pick-nonsort-hr",
+          "nombre": "Pick Nonsort HR",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Pick"
+            ],
+            [
+              "EUCF_NTU_ALL_PIT_VOP"
+            ]
+          ],
+          "storage_area": "high_rack"
+        },
+        {
+          "id": "pick-nonsort-pt",
+          "nombre": "Pick Nonsort PT",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Pick"
+            ]
+          ],
+          "storage_area": "pick_tower"
+        },
+        {
+          "id": "pick-petfood-hr",
+          "nombre": "Pick Petfood HR",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Pick"
+            ],
+            [
+              "EUCF_NTU_ALL_PIT_VOP"
+            ]
+          ],
+          "storage_area": "high_rack"
+        },
+        {
+          "id": "pick-tl-hr",
+          "nombre": "Pick TL HR",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Pick"
+            ],
+            [
+              "EUCF_NTU_ALL_PIT_RETR"
+            ]
+          ],
+          "storage_area": "high_rack"
+        },
+        {
+          "id": "pick-tl-pt",
+          "nombre": "Pick TL PT",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Pick"
+            ]
+          ],
+          "storage_area": "pick_tower",
+          "red_task": true
+        },
+        {
+          "id": "pick-ast-tl",
+          "nombre": "Pick Asistente TL",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "storage_area": "pick_tower",
+          "red_task": true
+        },
+        {
+          "id": "pick-cart",
+          "nombre": "Pick Cart runner",
+          "skills_needed": [],
+          "tipo_tarea": "Indirecta",
+          "certificados": [
+            [
+              "EUCF_NTU_ALL_PIT_TUGW"
+            ],
+            [
+              "EUCF_NTU_ALL_Outbound Cart Handler"
+            ]
+          ],
+          "storage_area": "pick_tower"
+        },
+        {
+          "id": "pick-buffer",
+          "nombre": "Buffer operator",
+          "skills_needed": [],
+          "tipo_tarea": "Indirecta"
+        },
+        {
+          "id": "pick-pg",
+          "nombre": "PG",
+          "skills_needed": [],
+          "tipo_tarea": "Critical_rol",
+          "certificados": [
+            [
+              "EUCF_ ILT/SDLP_ALL_Pick Process Guide"
+            ]
+          ]
+        },
+        {
+          "id": "pick-tugger",
+          "nombre": "Tugger",
+          "skills_needed": [],
+          "tipo_tarea": "Indirecta",
+          "certificados": [
+            [
+              "EUCF_NTU_ALL_PIT_TUG"
+            ],
+            [
+              "EUCF_NTU_ALL_PIT_RPPT"
+            ]
+          ]
+        },
+        {
+          "id": "pick-support-tugger",
+          "nombre": "Support Tugger",
+          "skills_needed": [],
+          "tipo_tarea": "Indirecta"
+        },
+        {
+          "id": "pick-lanzador-l4",
+          "nombre": "Lanzador Pick to Spoo L4",
+          "skills_needed": [],
+          "tipo_tarea": "Indirecta"
+        },
+        {
+          "id": "pick-lanzador-l8",
+          "nombre": "Lanzador Pick to Spoo L8",
+          "skills_needed": [],
+          "tipo_tarea": "Indirecta"
+        },
+        {
+          "id": "pick-pitb-hov",
+          "nombre": "HOV - PIT B",
+          "skills_needed": [],
+          "tipo_tarea": "Indirecta",
+          "certificados": [
+            [
+              "EUCF_NTU_ALL_PIT_RPPT"
+            ]
+          ],
+          "storage_area": "high_rack"
+        },
+        {
+          "id": "pick-hov-pitc",
+          "nombre": "HOV - PIT C",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Pick"
+            ],
+            [
+              "EUCF_NTU_ALL_PIT_RETR"
+            ]
+          ],
+          "storage_area": "high_rack"
+        }
+      ]
     },
     {
-      "id": "dock-ocean",
-      "departamento_principal": "IB",
-      "departamento_secundario": "Dock",
-      "funcion": "Ocean"
+      "id": "v-ret",
+      "nombre": "V-RET",
+      "area": "OB",
+      "puestos": [
+        {
+          "id": "vret-pick",
+          "nombre": "V-RET Pick",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Pick"
+            ]
+          ]
+        },
+        {
+          "id": "vret-pack",
+          "nombre": "V-RET Pack",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_IAT_TNS_Pack Singles"
+            ]
+          ]
+        },
+        {
+          "id": "vret-ps",
+          "nombre": "V-RET PS",
+          "skills_needed": [],
+          "tipo_tarea": "Critical_rol",
+          "certificados": [
+            [
+              "EUCF_SDLP_ALL_Outbound problem solve"
+            ]
+          ]
+        },
+        {
+          "id": "vret-cart",
+          "nombre": "V-RET Cart runner",
+          "skills_needed": [],
+          "tipo_tarea": "Indirecta",
+          "certificados": [
+            [
+              "EUCF_NTU_ALL_Outbound Cart Handler"
+            ],
+            [
+              "EUCF_NTU_ALL_PIT_TUGW"
+            ]
+          ]
+        }
+      ]
     },
     {
-      "id": "dock-idm",
-      "departamento_principal": "IB",
-      "departamento_secundario": "Dock",
-      "funcion": "IDM"
+      "id": "ship",
+      "nombre": "Shipping",
+      "area": "OB",
+      "puestos": [
+        {
+          "id": "ship-area-a",
+          "nombre": "Ship AREA A",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Ship Sort"
+            ],
+            [
+              "EUCF_ ILT_ALL_SAM Tech"
+            ]
+          ]
+        },
+        {
+          "id": "ship-area-b",
+          "nombre": "Ship AREA B",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Ship Sort"
+            ],
+            [
+              "EUCF_ ILT_ALL_SAM Tech"
+            ]
+          ]
+        },
+        {
+          "id": "ship-area-d",
+          "nombre": "Ship AREA D",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Ship Sort"
+            ],
+            [
+              "EUCF_ ILT_ALL_SAM Tech"
+            ]
+          ]
+        },
+        {
+          "id": "ship-caracolas",
+          "nombre": "Ship Caracolas",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Ship Sort"
+            ],
+            [
+              "EUCF_ ILT_ALL_SAM Tech"
+            ]
+          ],
+          "red_task": true
+        },
+        {
+          "id": "ship-clerk",
+          "nombre": "Ship Clerk",
+          "skills_needed": [],
+          "tipo_tarea": "Critical_rol",
+          "certificados": [
+            [
+              "EUCF_SDLP_ALL_Ship Clerk"
+            ]
+          ]
+        },
+        {
+          "id": "ship-idm",
+          "nombre": "Ship IDM",
+          "skills_needed": [],
+          "tipo_tarea": "Indirecta",
+          "certificados": [
+            [
+              "EUCF_SDLP_ALL_Indoor Marshall"
+            ]
+          ]
+        },
+        {
+          "id": "ship-auditor",
+          "nombre": "Ship Auditor",
+          "skills_needed": [],
+          "tipo_tarea": "Critical_rol",
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Ship Auditor"
+            ]
+          ]
+        },
+        {
+          "id": "ship-supplies",
+          "nombre": "Ship supplies",
+          "skills_needed": [],
+          "tipo_tarea": "Indirecta",
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Ship Sort"
+            ],
+            [
+              "EUCF_ ILT_ALL_SAM Tech"
+            ]
+          ]
+        },
+        {
+          "id": "ship-slam-1",
+          "nombre": "Slam Operator 1",
+          "skills_needed": [],
+          "tipo_tarea": "Indirecta",
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Slam Operator"
+            ]
+          ]
+        },
+        {
+          "id": "ship-slam-2",
+          "nombre": "Slam Operator 2",
+          "skills_needed": [],
+          "tipo_tarea": "Indirecta",
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Slam Operator"
+            ]
+          ]
+        }
+      ]
     },
     {
-      "id": "dock-ocean-cartonmover",
-      "departamento_principal": "IB",
-      "departamento_secundario": "Dock",
-      "funcion": "Ocean CartonMover"
+      "id": "receive",
+      "nombre": "Receive",
+      "area": "IB",
+      "puestos": [
+        {
+          "id": "rcv-decant-tsi",
+          "nombre": "Decant TSI",
+          "skills_needed": [],
+          "mesas": [
+            "TSI DECANT 1",
+            "TSI DECANT 2",
+            "TSI DECANT 3",
+            "TSI DECANT 4",
+            "TSI DECANT 5",
+            "TSI DECANT 6"
+          ],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ IATL_ALL_Decant"
+            ]
+          ]
+        },
+        {
+          "id": "rcv-decant-pid",
+          "nombre": "Decant PID",
+          "skills_needed": [],
+          "mesas": [
+            "PID DECANT 1",
+            "PID DECANT 2",
+            "PID DECANT 3",
+            "PID DECANT 4",
+            "PID DECANT 5",
+            "PID DECANT 6"
+          ],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ IATL_ALL_Decant"
+            ]
+          ]
+        },
+        {
+          "id": "rcv-noncon",
+          "nombre": "NonCon",
+          "skills_needed": [],
+          "mesas": [
+            "RCV L2-01",
+            "RCV L2-02",
+            "RCV L2-03",
+            "RCV L2-04",
+            "RCV L2-05",
+            "RCV L2-06",
+            "RCV L2-07",
+            "RCV L2-08",
+            "RCV L2-09",
+            "RCV L2-10",
+            "RCV L2-11",
+            "RCV L2-12",
+            "RCV L2-13",
+            "RCV L2-14",
+            "RCV L3-01",
+            "RCV L3-03",
+            "RCV L3-05",
+            "RCV L3-07",
+            "RCV L3-09",
+            "RCV L3-10",
+            "RCV L3-11"
+          ],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ IATL_ALL_Each Receive"
+            ]
+          ]
+        },
+        {
+          "id": "rcv-cubis",
+          "nombre": "Cubis",
+          "skills_needed": [],
+          "mesas": [],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ ILT_ALL_Cubiscan Operator"
+            ]
+          ]
+        },
+        {
+          "id": "rcv-prep",
+          "nombre": "Prep",
+          "skills_needed": [],
+          "mesas": [
+            "PREP L1-08",
+            "PREP L1-09",
+            "PREP L1-10",
+            "PREP L1-11",
+            "PREP L1-12",
+            "PREP L1-13"
+          ],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ IATL_ALL_Receive Prep"
+            ]
+          ]
+        },
+        {
+          "id": "rcv-ws",
+          "nombre": "Receive Water Spider",
+          "skills_needed": [],
+          "mesas": [],
+          "tipo_tarea": "Indirecta"
+        },
+        {
+          "id": "rcv-pallet",
+          "nombre": "Pallet Receive",
+          "skills_needed": [],
+          "mesas": [],
+          "tipo_tarea": "Critical_rol"
+        },
+        {
+          "id": "rcv-tl",
+          "nombre": "Receive Team Lift",
+          "skills_needed": [],
+          "mesas": [],
+          "tipo_tarea": "directa",
+          "red_task": true
+        },
+        {
+          "id": "rcv-tl-ast",
+          "nombre": "Receive Team Lift Assistant",
+          "skills_needed": [],
+          "mesas": [],
+          "tipo_tarea": "directa",
+          "red_task": true
+        }
+      ]
     },
     {
-      "id": "dock-corral",
-      "departamento_principal": "IB",
-      "departamento_secundario": "Dock",
-      "funcion": "Corral"
+      "id": "stow",
+      "nombre": "Stow",
+      "area": "IB",
+      "puestos": [
+        {
+          "id": "stow-pt",
+          "nombre": "Stow Pick Tower",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ ILT_ALL_Stow_Sort_Non_Sort"
+            ]
+          ],
+          "storage_area": "pick_tower"
+        },
+        {
+          "id": "stow-tl",
+          "nombre": "Stow Team Lift",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ ILT_ALL_Stow_Sort_Non_Sort"
+            ]
+          ],
+          "storage_area": "pick_tower",
+          "red_task": true
+        },
+        {
+          "id": "stow-tl-ast",
+          "nombre": "Stow Team Lift Assistant",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "storage_area": "pick_tower",
+          "red_task": true
+        },
+        {
+          "id": "stow-hr-pitc",
+          "nombre": "Stow PIT-C HighRack",
+          "skills_needed": [
+            "Pit-C"
+          ],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ ILT_ALL_PIT_Stow_at_Height"
+            ],
+            [
+              "EUCF_NTU_ALL_PIT_RETR"
+            ]
+          ],
+          "storage_area": "high_rack"
+        },
+        {
+          "id": "stow-hr-pita",
+          "nombre": "Stow PIT-A HighRack",
+          "skills_needed": [
+            "Pit-A"
+          ],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ ILT_ALL_PIT_Stow_at_Height"
+            ],
+            [
+              "EUCF_NTU_ALL_PIT_VOP"
+            ]
+          ],
+          "storage_area": "high_rack"
+        },
+        {
+          "id": "stow-pitb",
+          "nombre": "Pit-B",
+          "skills_needed": [],
+          "tipo_tarea": "Indirecta",
+          "certificados": [
+            [
+              "EUCF_NTU_ALL_PIT_RPPT-LF"
+            ]
+          ],
+          "storage_area": null
+        },
+        {
+          "id": "stow-cart",
+          "nombre": "Stow Cart Runner",
+          "skills_needed": [],
+          "tipo_tarea": "Indirecta",
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Cart Handler Stow"
+            ],
+            [
+              "EUCF_NTU_ALL_PIT_TUGW"
+            ]
+          ],
+          "storage_area": null
+        }
+      ]
     },
     {
-      "id": "dock-wrappingmachine",
-      "departamento_principal": "IB",
-      "departamento_secundario": "Dock",
-      "funcion": "WrappingMachine"
+      "id": "grading",
+      "nombre": "Grading",
+      "area": "IB",
+      "puestos": [
+        {
+          "id": "grading-whd",
+          "nombre": "Grading WHD",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF-TNS_OB FCS WHD GRADING TREX TRAINING"
+            ]
+          ]
+        },
+        {
+          "id": "grading-pick-whd",
+          "nombre": "Pick Grading WHD",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Pick"
+            ]
+          ]
+        },
+        {
+          "id": "grading-ps",
+          "nombre": "Grading PS",
+          "skills_needed": [],
+          "tipo_tarea": "Critical_rol",
+          "certificados": [
+            [
+              "EUCF-TNS_OB FCS WHD GRADING TREX TRAINING"
+            ]
+          ]
+        }
+      ]
     },
     {
-      "id": "dock-ergopack",
-      "departamento_principal": "IB",
-      "departamento_secundario": "Dock",
-      "funcion": "Ergopack"
+      "id": "pout",
+      "nombre": "Pout",
+      "area": "IB",
+      "puestos": [
+        {
+          "id": "pout-ps",
+          "nombre": "Pout PS",
+          "skills_needed": [],
+          "tipo_tarea": "Critical_rol"
+        },
+        {
+          "id": "pout-pick",
+          "nombre": "Pick Problem Out",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Pick"
+            ]
+          ]
+        }
+      ]
     },
     {
-      "id": "receive-decant-tsi",
-      "departamento_principal": "IB",
-      "departamento_secundario": "Receive",
-      "funcion": "Decant TSI",
-      "rate": 140,
-      "analytics_key": "Decant_TSI"
+      "id": "ISS",
+      "nombre": "ISS",
+      "area": "ICQA",
+      "puestos": [
+        {
+          "id": "iss-ps-receive",
+          "nombre": "PS Receive",
+          "skills_needed": [],
+          "tipo_tarea": "Critical_rol"
+        },
+        {
+          "id": "iss-sweeper",
+          "nombre": "Sweeper",
+          "skills_needed": [],
+          "tipo_tarea": "Critical_rol"
+        },
+        {
+          "id": "iss-TT",
+          "nombre": "ISS TT",
+          "skills_needed": [],
+          "tipo_tarea": "Critical_rol"
+        }
+      ]
     },
     {
-      "id": "receive-decant-pid",
-      "departamento_principal": "IB",
-      "departamento_secundario": "Receive",
-      "funcion": "Decant PID",
-      "rate": 180,
-      "analytics_key": "Decant_PID"
+      "id": "dock",
+      "nombre": "Dock",
+      "area": "IB",
+      "puestos": [
+        {
+          "id": "dock-clerk",
+          "nombre": "Dock Clerk",
+          "skills_needed": [],
+          "tipo_tarea": "Critical_rol"
+        },
+        {
+          "id": "dock-idm",
+          "nombre": "Dock IDM",
+          "skills_needed": [],
+          "tipo_tarea": "Indirecta",
+          "certificados": [
+            [
+              "EUCF_ SDLP_ALL_Indoor Marshall"
+            ]
+          ]
+        },
+        {
+          "id": "dock-unloader",
+          "nombre": "Dock Unloader",
+          "skills_needed": [
+            "PPPJ"
+          ],
+          "tipo_tarea": "Indirecta",
+          "certificados": [
+            [
+              "EUTOM_SLOT Training"
+            ],
+            [
+              "EUCF_NTU_ALL_PIT_PPPJ"
+            ]
+          ]
+        },
+        {
+          "id": "dock-ocean",
+          "nombre": "Ocean",
+          "skills_needed": [
+            "Dock Safety",
+            "Slot"
+          ],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ ILT/SDLP_ALL_Dock Safety Training"
+            ],
+            [
+              "EUTOM_SLOT Training"
+            ]
+          ],
+          "red_task": true
+        },
+        {
+          "id": "dock-ocean-cm",
+          "nombre": "Ocean CartonMover",
+          "skills_needed": [
+            "Dock Safety",
+            "Slot",
+            "Pit-Safety-High"
+          ],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ ILT/SDLP_ALL_Dock Safety Training"
+            ],
+            [
+              "EUCF_ ILT_ALL_PIT Safety_High"
+            ],
+            [
+              "EUTOM_SLOT Training"
+            ]
+          ],
+          "red_task": true
+        },
+        {
+          "id": "dock-corral",
+          "nombre": "Corral",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "certificados": [
+            [
+              "EUCF_ ILT_ALL_Corral"
+            ]
+          ],
+          "red_task": true
+        },
+        {
+          "id": "dock-wrapping",
+          "nombre": "Dock Repaletizado",
+          "skills_needed": [],
+          "tipo_tarea": "Indirecta",
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Wrapping Unwrapping Pallets"
+            ]
+          ]
+        },
+        {
+          "id": "dock-ergopack",
+          "nombre": "Ergopack",
+          "skills_needed": [],
+          "tipo_tarea": "Indirecta",
+          "certificados": [
+            [
+              "EUCF_ ILT_ALL_Ergo_Pack"
+            ]
+          ]
+        }
+      ]
     },
     {
-      "id": "receive-noncon",
-      "departamento_principal": "IB",
-      "departamento_secundario": "Receive",
-      "funcion": "NonCon",
-      "rate": 60,
-      "analytics_key": "Noncon"
+      "id": "space",
+      "nombre": "Space",
+      "area": "Support",
+      "puestos": [
+        {
+          "id": "space-hrk",
+          "nombre": "Space HRK consolidation",
+          "skills_needed": [
+            "Move Container",
+            "Stow",
+            "Pit-C"
+          ],
+          "tipo_tarea": "Critical_rol",
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Move_Containers_tool"
+            ],
+            [
+              "EUCF_ ILT_ALL_Stow_Sort_Non_Sort"
+            ],
+            [
+              "EUCF_NTU_ALL_PIT_RETR"
+            ]
+          ],
+          "storage_area": null
+        },
+        {
+          "id": "support-space",
+          "nombre": "Space Consolidation",
+          "skills_needed": [
+            "Move Container",
+            "Stow"
+          ],
+          "tipo_tarea": "Critical_rol",
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Move_Containers_tool"
+            ],
+            [
+              "EUCF_ ILT_ALL_Stow_Sort_Non_Sort"
+            ]
+          ]
+        },
+        {
+          "id": "space-space-pick",
+          "nombre": "Space Pick",
+          "skills_needed": [],
+          "tipo_tarea": "directa",
+          "lineas": [],
+          "mesas": [],
+          "certificados": [
+            [
+              "EUCF_ILT_ALL_Pick"
+            ]
+          ]
+        }
+      ]
     },
     {
-      "id": "receive-cubis",
-      "departamento_principal": "IB",
-      "departamento_secundario": "Receive",
-      "funcion": "Cubis"
+      "id": "waste",
+      "nombre": "Waste",
+      "area": "Support",
+      "puestos": [
+        {
+          "id": "waste",
+          "nombre": "Waste & Donations",
+          "skills_needed": [],
+          "tipo_tarea": "Critical_rol",
+          "certificados": [
+            [
+              "EUCF_NTU_ALL_WADM Waste Container Training eligibility"
+            ]
+          ]
+        }
+      ]
     },
     {
-      "id": "receive-prep",
-      "departamento_principal": "IB",
-      "departamento_secundario": "Receive",
-      "funcion": "Prep",
-      "rate": 45,
-      "analytics_key": "Prep"
+      "id": "TOM",
+      "nombre": "TOM",
+      "area": "OB",
+      "puestos": [
+        {
+          "id": "tom-garitas",
+          "nombre": "Garitas",
+          "skills_needed": [],
+          "tipo_tarea": "Critical_rol"
+        },
+        {
+          "id": "tom-ODM",
+          "nombre": "ODM",
+          "skills_needed": [],
+          "tipo_tarea": "Indirecta"
+        }
+      ]
     },
     {
-      "id": "receive-preditor",
-      "departamento_principal": "IB",
-      "departamento_secundario": "Receive",
-      "funcion": "PrEditor",
-      "rate": 100,
-      "analytics_key": "PreEditor"
+      "id": "learning",
+      "nombre": "Learning",
+      "area": "Support",
+      "no_cuenta_hc": true,
+      "descripcion": "Subir CSV con avisos (login, de hora a hora). No cuenta como HC.",
+      "puestos": []
     },
     {
-      "id": "receive-water-spider",
-      "departamento_principal": "IB",
-      "departamento_secundario": "Receive",
-      "funcion": "Water Spider"
+      "id": "5s",
+      "nombre": "5s",
+      "area": "Support",
+      "puestos": []
     },
     {
-      "id": "stow-pick-tower",
-      "departamento_principal": "IB",
-      "departamento_secundario": "Stow",
-      "funcion": "Stow Pick Tower",
-      "rate": 100
-    },
-    {
-      "id": "stow-highrack",
-      "departamento_principal": "IB",
-      "departamento_secundario": "Stow",
-      "funcion": "Stow HighRack"
-    },
-    {
-      "id": "stow-buildout",
-      "departamento_principal": "IB",
-      "departamento_secundario": "Stow",
-      "funcion": "Stow BuildOut"
-    },
-    {
-      "id": "stow-pit-b",
-      "departamento_principal": "IB",
-      "departamento_secundario": "Stow",
-      "funcion": "Pit-B"
-    },
-    {
-      "id": "stow-cart-runner",
-      "departamento_principal": "IB",
-      "departamento_secundario": "Stow",
-      "funcion": "Cart Runner"
-    },
-    {
-      "id": "stow-walkietugger",
-      "departamento_principal": "IB",
-      "departamento_secundario": "Stow",
-      "funcion": "WalkieTugger"
-    },
-    {
-      "id": "stow-ambassador",
-      "departamento_principal": "IB",
-      "departamento_secundario": "Stow",
-      "funcion": "Ambassador"
-    },
-    {
-      "id": "grading-whd",
-      "departamento_principal": "IB",
-      "departamento_secundario": "Grading",
-      "funcion": "WHD Grading"
-    },
-    {
-      "id": "grading-ps",
-      "departamento_principal": "IB",
-      "departamento_secundario": "Grading",
-      "funcion": "PS Grading"
-    },
-    {
-      "id": "pout-ps",
-      "departamento_principal": "IB",
-      "departamento_secundario": "POUT",
-      "funcion": "PS POUT"
-    },
-    {
-      "id": "waste-waste",
-      "departamento_principal": "Support",
-      "departamento_secundario": "Waste",
-      "funcion": "Waste"
-    },
-    {
-      "id": "space-hrk-consolidation",
-      "departamento_principal": "Support",
-      "departamento_secundario": "Space",
-      "funcion": "Space HRK consolidation"
-    },
-    {
-      "id": "space-consolidation",
-      "departamento_principal": "Support",
-      "departamento_secundario": "Space",
-      "funcion": "Space Consolidation"
+      "id": "enfermeria",
+      "nombre": "Enfermería",
+      "area": "Support",
+      "no_cuenta_hc": true,
+      "descripcion": "Subir reconocimientos médicos (CSV). No cuenta como HC.",
+      "puestos": []
     }
-  ],
-  "puestos_personalizados": []
+  ]
 }

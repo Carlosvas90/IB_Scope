@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "generated_at": "2026-01-04 16:40:19",
-    "total_records": 1062,
+    "generated_at": "2026-02-10 05:05:43",
+    "total_records": 949,
     "source": "Roster_VLC1.txt"
   },
   "roster": [
@@ -67,23 +67,8 @@
       "employee_name": "Guebbas, Khadija",
       "shift": "T4",
       "login_manager": "rijbapti",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
-    },
-    {
-      "login": "yeduarpe",
-      "employee_name": "Perez, Eduardo",
-      "shift": "T4",
-      "login_manager": "rijbapti",
-      "employee_status": "A",
-      "employee_type": "L"
-    },
-    {
-      "login": "njorgeen",
-      "employee_name": "Sors, Jorge Enrique",
-      "shift": "T7",
-      "login_manager": "rijbapti",
-      "employee_status": "A"
     },
     {
       "login": "walrango",
@@ -102,7 +87,7 @@
     {
       "login": "antoshke",
       "employee_name": "Antoshkevych Vazhnyuk, Illya Antoshkevych",
-      "shift": "T4",
+      "shift": "T6",
       "login_manager": "rijbapti",
       "employee_status": "A"
     },
@@ -125,7 +110,7 @@
       "employee_name": "Resmerita, Larisa",
       "shift": "T5",
       "login_manager": "rijbapti",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -133,7 +118,7 @@
       "employee_name": "Essyouti Bakali, Nabil",
       "shift": "T4",
       "login_manager": "rijbapti",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -149,51 +134,38 @@
       "employee_name": "Ayala Colmenares, Yhonsmely Paola",
       "shift": "T4",
       "login_manager": "rijbapti",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
-      "login": "pilarnav",
-      "employee_name": "Ibañez Navarro, Pilar",
+      "login": "baezacri",
+      "employee_name": "Baeza Placeres, Cristobal Jose",
+      "shift": "T2",
+      "login_manager": "cealbvaz",
+      "employee_status": "A",
+      "employee_type": "LA"
+    },
+    {
+      "login": "prezjkb",
+      "employee_name": "Molina, Leo",
+      "shift": "T2",
+      "login_manager": "cealbvaz",
+      "employee_status": "A"
+    },
+    {
+      "login": "bmarioal",
+      "employee_name": "Bautista Alcantara, Mario Alberto",
       "shift": "T1",
       "login_manager": "cealbvaz",
-      "employee_status": "L",
+      "employee_status": "A"
+    },
+    {
+      "login": "merchfer",
+      "employee_name": "Munoz Ferrezuelo, Mercedes Munoz",
+      "shift": "T2",
+      "login_manager": "cealbvaz",
+      "employee_status": "A",
       "employee_type": "E"
-    },
-    {
-      "login": "mariaauf",
-      "employee_name": "Fernandes Reale, Maria Auxiliadora",
-      "shift": "T1",
-      "login_manager": "cealbvaz",
-      "employee_status": "A"
-    },
-    {
-      "login": "jijdavid",
-      "employee_name": "Jimenez Gomez, David",
-      "shift": "T1",
-      "login_manager": "cealbvaz",
-      "employee_status": "A"
-    },
-    {
-      "login": "cjuacost",
-      "employee_name": "Piña, Juan Carlos",
-      "shift": "T1",
-      "login_manager": "cealbvaz",
-      "employee_status": "A"
-    },
-    {
-      "login": "candresg",
-      "employee_name": "Borges, Andres Leonardo Chirinos",
-      "shift": "T1",
-      "login_manager": "cealbvaz",
-      "employee_status": "A"
-    },
-    {
-      "login": "algagote",
-      "employee_name": "Gago Tellez, Alba",
-      "shift": "T8",
-      "login_manager": "cealbvaz",
-      "employee_status": "A"
     },
     {
       "login": "ibellern",
@@ -203,130 +175,133 @@
       "employee_status": "T"
     },
     {
-      "login": "llclarav",
-      "employee_name": "Lloscos Sanchez, Clara",
-      "shift": "T1",
+      "login": "ndiacast",
+      "employee_name": "Castellet Benitez, Diana",
+      "shift": "T2",
       "login_manager": "cealbvaz",
-      "employee_status": "L"
+      "employee_status": "A"
     },
     {
-      "login": "eborrasr",
-      "employee_name": "Borras Ramos, Enric",
+      "login": "alconvje",
+      "employee_name": "Alcon Vega, Jenifer",
+      "shift": "T2",
+      "login_manager": "cealbvaz",
+      "employee_status": "L",
+      "employee_type": "E"
+    },
+    {
+      "login": "ysjimene",
+      "employee_name": "Jimenez Recuenco, Yolanda",
+      "shift": "T2",
+      "login_manager": "cealbvaz",
+      "employee_status": "A",
+      "employee_type": "E"
+    },
+    {
+      "login": "tgraaida",
+      "employee_name": "Granell Vilar, Aida",
+      "shift": "T2",
+      "login_manager": "cealbvaz",
+      "employee_status": "A"
+    },
+    {
+      "login": "marinosy",
+      "employee_name": "Marino Alonso, Sarai",
+      "shift": "T2",
+      "login_manager": "cealbvaz",
+      "employee_status": "A"
+    },
+    {
+      "login": "barjorgt",
+      "employee_name": "Barbera Manrique, Jorge Pascual",
+      "shift": "T2",
+      "login_manager": "cealbvaz",
+      "employee_status": "S"
+    },
+    {
+      "login": "fonterui",
+      "employee_name": "Fonte, Jorge",
       "shift": "T1",
+      "login_manager": "cealbvaz",
+      "employee_status": "A"
+    },
+    {
+      "login": "fpinamon",
+      "employee_name": "Pina Montanes, Aaron",
+      "shift": "T2",
       "login_manager": "cealbvaz",
       "employee_status": "A",
       "employee_type": "L"
     },
     {
-      "login": "danmasac",
-      "employee_name": "Masache Delgado, Daniela",
-      "shift": "T1",
+      "login": "gonbceci",
+      "employee_name": "González Rojas, Cecilia Andreina",
+      "shift": "T2",
+      "login_manager": "cealbvaz",
+      "employee_status": "L",
+      "employee_type": "L"
+    },
+    {
+      "login": "costbica",
+      "employee_name": "Bica, Costinel Ovidiu",
+      "shift": "T2",
       "login_manager": "cealbvaz",
       "employee_status": "A"
     },
     {
-      "login": "scaguile",
-      "employee_name": "Aguilella Olucha, Carmen",
-      "shift": "T1",
-      "login_manager": "cealbvaz",
-      "employee_status": "L"
-    },
-    {
-      "login": "penacans",
-      "employee_name": "Pena Canseco, Eugenio",
-      "shift": "T1",
+      "login": "aletolea",
+      "employee_name": "Tolea, Alexandru",
+      "shift": "T2",
       "login_manager": "cealbvaz",
       "employee_status": "A"
     },
     {
-      "login": "megeaser",
-      "employee_name": "Egea Serrano, Miguel",
-      "shift": "T1",
+      "login": "oivanovf",
+      "employee_name": "Ivanova, Olha",
+      "shift": "T2",
       "login_manager": "cealbvaz",
       "employee_status": "A"
     },
     {
-      "login": "josemiyh",
-      "employee_name": "Hernandez Severino, Jose Miguel",
-      "shift": "T6",
+      "login": "frannrod",
+      "employee_name": "Rodriguez Jimenez, Francisco",
+      "shift": "T2",
       "login_manager": "cealbvaz",
       "employee_status": "A"
     },
     {
-      "login": "kacostaf",
-      "employee_name": "Acosta Flores, Elvis Rodolfo",
-      "shift": "T1",
+      "login": "alejjsa",
+      "employee_name": "Sanchez, Alejandro",
+      "shift": "T2",
       "login_manager": "cealbvaz",
       "employee_status": "A"
     },
     {
-      "login": "jraramon",
-      "employee_name": "Ramona, Ramona",
-      "shift": "T1",
+      "login": "tmolinac",
+      "employee_name": "Molina Castro, Cristhian Camilo",
+      "shift": "T7",
       "login_manager": "cealbvaz",
-      "employee_status": "L"
+      "employee_status": "T"
     },
     {
-      "login": "androsma",
-      "employee_name": "Osma, Andres",
-      "shift": "T1",
-      "login_manager": "cealbvaz",
-      "employee_status": "A"
-    },
-    {
-      "login": "zreynarm",
-      "employee_name": "Reyna, Miguel Eduardo",
-      "shift": "T1",
+      "login": "crejuanw",
+      "employee_name": "Crespo, Juan Pedro",
+      "shift": "T2",
       "login_manager": "cealbvaz",
       "employee_status": "A"
     },
     {
-      "login": "osoriomr",
-      "employee_name": "Osorio Bailon, Marco",
-      "shift": "T1",
+      "login": "daabnade",
+      "employee_name": "Daabal Chmeit, Nader",
+      "shift": "T2",
       "login_manager": "cealbvaz",
       "employee_status": "A",
-      "employee_type": "DP"
+      "employee_type": "L"
     },
     {
-      "login": "hectcape",
-      "employee_name": "Capella Sebastia, Hector",
-      "shift": "T7",
-      "login_manager": "cealbvaz",
-      "employee_status": "L"
-    },
-    {
-      "login": "josimovs",
-      "employee_name": "Josimovski Falomir, Alexia Ratka",
-      "shift": "T1",
-      "login_manager": "cealbvaz",
-      "employee_status": "A"
-    },
-    {
-      "login": "larrajlh",
-      "employee_name": "Laaraj Laarej, Hafssa",
-      "shift": "T8",
-      "login_manager": "cealbvaz",
-      "employee_status": "A"
-    },
-    {
-      "login": "vnunezbe",
-      "employee_name": "Nunez Bellido, Raul",
-      "shift": "T1",
-      "login_manager": "cealbvaz",
-      "employee_status": "A"
-    },
-    {
-      "login": "rquesadp",
-      "employee_name": "Quesada Cerezo, Rafael",
-      "shift": "T7",
-      "login_manager": "cealbvaz",
-      "employee_status": "A"
-    },
-    {
-      "login": "cperezbe",
-      "employee_name": "Perez Belles, Cristian",
-      "shift": "T1",
+      "login": "javicrom",
+      "employee_name": "Romero Vicente, Javier Isaac",
+      "shift": "T2",
       "login_manager": "cealbvaz",
       "employee_status": "A"
     },
@@ -335,12 +310,12 @@
       "employee_name": "Romero, Irama Carolina",
       "shift": "T1",
       "login_manager": "cealbvaz",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
-      "login": "usuglili",
-      "employee_name": "Usuga, Lilian",
+      "login": "mparramo",
+      "employee_name": "Parra Monlleó, Andrea",
       "shift": "T7",
       "login_manager": "cealbvaz",
       "employee_status": "A"
@@ -350,49 +325,28 @@
       "employee_name": "Ochoa Sanchez, Eduard",
       "shift": "T1",
       "login_manager": "cealbvaz",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
-    },
-    {
-      "login": "pdanprie",
-      "employee_name": "Prieto, Daniel",
-      "shift": "T1",
-      "login_manager": "cealbvaz",
-      "employee_status": "A"
     },
     {
       "login": "chirmiri",
       "employee_name": "Chirita, Miriam Alexia",
       "shift": "T1",
       "login_manager": "cealbvaz",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
-      "login": "juanfgra",
-      "employee_name": "Granell Ferrer, Juan",
-      "shift": "T1",
+      "login": "gregopin",
+      "employee_name": "Pinto Leon, Gregoria Josefina",
+      "shift": "T2",
       "login_manager": "cealbvaz",
       "employee_status": "A"
     },
     {
-      "login": "eyolandf",
-      "employee_name": "Fernandez Martinez, Yolanda",
-      "shift": "T1",
-      "login_manager": "cealbvaz",
-      "employee_status": "A"
-    },
-    {
-      "login": "zalbarrg",
-      "employee_name": "Albarran Avendano, Gaby",
-      "shift": "T1",
-      "login_manager": "cealbvaz",
-      "employee_status": "L"
-    },
-    {
-      "login": "lnkhadoj",
-      "employee_name": "El Ghoufairi, Khadija",
-      "shift": "T6",
+      "login": "nmartpab",
+      "employee_name": "Martínez Tornador, Pablo",
+      "shift": "T2",
       "login_manager": "cealbvaz",
       "employee_status": "A"
     },
@@ -401,31 +355,44 @@
       "employee_name": "Urriola, Jorge Luis",
       "shift": "T5",
       "login_manager": "cealbvaz",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
+    },
+    {
+      "login": "vihgrana",
+      "employee_name": "Granada, Victor",
+      "shift": "T2",
+      "login_manager": "cealbvaz",
+      "employee_status": "A"
     },
     {
       "login": "ijhern",
       "employee_name": "Hernandez Marrero, Jose Luis",
       "shift": "T1",
       "login_manager": "cealbvaz",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "FT"
     },
     {
-      "login": "lvargasd",
-      "employee_name": "Vargas De Oliveira, Larissa Gabrielle",
-      "shift": "T1",
+      "login": "navarwgr",
+      "employee_name": "Navarrete Fernández, Greg",
+      "shift": "T2",
       "login_manager": "cealbvaz",
-      "employee_status": "A",
-      "employee_type": "L"
+      "employee_status": "A"
+    },
+    {
+      "login": "villgonn",
+      "employee_name": "Villarreal, Gonzalo Uriel",
+      "shift": "T2",
+      "login_manager": "cealbvaz",
+      "employee_status": "A"
     },
     {
       "login": "alineios",
       "employee_name": "Iosif, Alin Andrei",
       "shift": "T1",
       "login_manager": "cealbvaz",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -441,15 +408,15 @@
       "employee_name": "Mejia Pena, Stiven Arturo",
       "shift": "T1",
       "login_manager": "cealbvaz",
-      "employee_status": "A",
-      "employee_type": "FT"
+      "employee_status": "T",
+      "employee_type": "DP"
     },
     {
       "login": "laurpato",
       "employee_name": "Patiño Zuluaga, Laura",
       "shift": "T1",
       "login_manager": "cealbvaz",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -457,7 +424,7 @@
       "employee_name": "Robles, Alejandra",
       "shift": "T1",
       "login_manager": "cealbvaz",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -465,16 +432,8 @@
       "employee_name": "Ledezma, Leonard Jhonabrian",
       "shift": "T1",
       "login_manager": "cealbvaz",
-      "employee_status": "A",
-      "employee_type": "DP"
-    },
-    {
-      "login": "utmangha",
-      "employee_name": "Ghajghouj, Utman",
-      "shift": "T1",
-      "login_manager": "cealbvaz",
       "employee_status": "T",
-      "employee_type": "FT"
+      "employee_type": "DP"
     },
     {
       "login": "bicricar",
@@ -505,20 +464,12 @@
       "employee_name": "Duno, Mikele Ale",
       "shift": "T1",
       "login_manager": "cealbvaz",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "FT"
     },
     {
       "login": "xfergarc",
       "employee_name": "Garcia, Fernanda",
-      "shift": "T1",
-      "login_manager": "cealbvaz",
-      "employee_status": "A",
-      "employee_type": "FT"
-    },
-    {
-      "login": "hkobilal",
-      "employee_name": "Koujia Chafik, Bilal Koujia",
       "shift": "T1",
       "login_manager": "cealbvaz",
       "employee_status": "T",
@@ -529,7 +480,7 @@
       "employee_name": "Sandoval, Gary",
       "shift": "T1",
       "login_manager": "cealbvaz",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "FT"
     },
     {
@@ -537,16 +488,8 @@
       "employee_name": "Ivanov, Vladyslav",
       "shift": "T1",
       "login_manager": "cealbvaz",
-      "employee_status": "A",
-      "employee_type": "DP"
-    },
-    {
-      "login": "dragusma",
-      "employee_name": "Dragusin, Madalin Mihai",
-      "shift": "T1",
-      "login_manager": "cealbvaz",
       "employee_status": "T",
-      "employee_type": "FT"
+      "employee_type": "DP"
     },
     {
       "login": "monrodez",
@@ -754,13 +697,6 @@
       "employee_status": "A"
     },
     {
-      "login": "mafaldar",
-      "employee_name": "Ramos, Mafalda Isabel Tremoço",
-      "shift": "",
-      "login_manager": "",
-      "employee_status": "A"
-    },
-    {
       "login": "dpperale",
       "employee_name": "Alcala Perales, Diego",
       "shift": "",
@@ -775,30 +711,16 @@
       "employee_status": "A"
     },
     {
-      "login": "chuecc",
-      "employee_name": "Vasquez Chuecos, Carlos Alberto",
-      "shift": "T4",
-      "login_manager": "kfabmaio",
-      "employee_status": "A"
-    },
-    {
-      "login": "beldjorg",
-      "employee_name": "Plaza Belda, Jorge",
-      "shift": "",
-      "login_manager": "kfabmaio",
-      "employee_status": "A"
-    },
-    {
-      "login": "rijbapti",
-      "employee_name": "Baptista Silva, Rijkard Rainier Rainier",
-      "shift": "T2",
+      "login": "mebaudil",
+      "employee_name": "Mendoza Roman, Baudilio Jesus",
+      "shift": "T1",
       "login_manager": "kfabmaio",
       "employee_status": "A",
       "employee_type": "F"
     },
     {
-      "login": "adespe",
-      "employee_name": "Escriva Perello, Adrian",
+      "login": "pnavarrq",
+      "employee_name": "Navarro Forner, Paula Navarro",
       "shift": "",
       "login_manager": "kfabmaio",
       "employee_status": "A"
@@ -811,8 +733,36 @@
       "employee_status": "A"
     },
     {
-      "login": "paudofus",
-      "employee_name": "Domínguez Fuster, Pau Manel",
+      "login": "evamfa",
+      "employee_name": "Francés Aguilar, Eva Maria",
+      "shift": "",
+      "login_manager": "kfabmaio",
+      "employee_status": "A"
+    },
+    {
+      "login": "alarluis",
+      "employee_name": "Alarcón Lucas, Luis",
+      "shift": "",
+      "login_manager": "kfabmaio",
+      "employee_status": "A"
+    },
+    {
+      "login": "franfrq",
+      "employee_name": "Fresno Quintas, Francisco",
+      "shift": "",
+      "login_manager": "kfabmaio",
+      "employee_status": "A"
+    },
+    {
+      "login": "mgalinm",
+      "employee_name": "Galindo Martín, Miguel",
+      "shift": "",
+      "login_manager": "kfabmaio",
+      "employee_status": "A"
+    },
+    {
+      "login": "sesacar",
+      "employee_name": "Sesa Carcel, Pablo",
       "shift": "",
       "login_manager": "kfabmaio",
       "employee_status": "A"
@@ -873,6 +823,13 @@
       "employee_name": "Zaanane, Farid",
       "shift": "T2",
       "login_manager": "alarluis",
+      "employee_status": "L"
+    },
+    {
+      "login": "rclarapr",
+      "employee_name": "Prades Soler, Clara",
+      "shift": "T2",
+      "login_manager": "alarluis",
       "employee_status": "A"
     },
     {
@@ -897,6 +854,13 @@
       "employee_status": "A"
     },
     {
+      "login": "rquesadp",
+      "employee_name": "Quesada Cerezo, Rafael",
+      "shift": "T7",
+      "login_manager": "alarluis",
+      "employee_status": "A"
+    },
+    {
       "login": "fabperis",
       "employee_name": "Peris Gregorio, Fabian",
       "shift": "T2",
@@ -908,7 +872,7 @@
       "employee_name": "Ait, Laila",
       "shift": "T2",
       "login_manager": "alarluis",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -919,18 +883,11 @@
       "employee_status": "L"
     },
     {
-      "login": "ramicesr",
-      "employee_name": "Ramirez Gomez, Cesar Antonio",
-      "shift": "T1",
-      "login_manager": "alarluis",
-      "employee_status": "A"
-    },
-    {
       "login": "jaimdemb",
       "employee_name": "Dembilio Ocio, Jaime",
       "shift": "T2",
       "login_manager": "alarluis",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -952,7 +909,7 @@
       "employee_name": "Barbancho Perea, Eva María",
       "shift": "T2",
       "login_manager": "alarluis",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -991,6 +948,13 @@
       "employee_status": "A"
     },
     {
+      "login": "mendnfab",
+      "employee_name": "Méndez Brito, Fabiana Isabela",
+      "shift": "T2",
+      "login_manager": "alarluis",
+      "employee_status": "A"
+    },
+    {
       "login": "diazfkar",
       "employee_name": "Diaz Florido, Karlo Yoel",
       "shift": "T2",
@@ -1002,7 +966,7 @@
       "employee_name": "Sambora, Oksana",
       "shift": "T7",
       "login_manager": "alarluis",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -1024,8 +988,7 @@
       "employee_name": "Alayon, Gera Geraldine",
       "shift": "T2",
       "login_manager": "alarluis",
-      "employee_status": "A",
-      "employee_type": "DP"
+      "employee_status": "A"
     },
     {
       "login": "lsilvinq",
@@ -1053,47 +1016,42 @@
       "employee_name": "Morata Anreus, Jose Manuel",
       "shift": "T2",
       "login_manager": "alarluis",
-      "employee_status": "A",
-      "employee_type": "DP"
+      "employee_status": "A"
     },
     {
       "login": "taverruo",
       "employee_name": "Tavera Alcaide, Rut María",
       "shift": "T2",
       "login_manager": "alarluis",
-      "employee_status": "A",
-      "employee_type": "DP"
+      "employee_status": "A"
     },
     {
       "login": "anstagno",
       "employee_name": "Stagno, Andrea",
       "shift": "T2",
       "login_manager": "alarluis",
-      "employee_status": "A",
-      "employee_type": "DP"
+      "employee_status": "A"
     },
     {
       "login": "deabmigu",
       "employee_name": "De Abreu, Miguel Alejandro",
       "shift": "T8",
       "login_manager": "alarluis",
-      "employee_status": "A",
-      "employee_type": "DP"
+      "employee_status": "A"
     },
     {
       "login": "mijyonat",
       "employee_name": "Mijares Camacho, Yonathan Jesús",
       "shift": "T2",
       "login_manager": "alarluis",
-      "employee_status": "A",
-      "employee_type": "DP"
+      "employee_status": "A"
     },
     {
       "login": "xcoqcarm",
       "employee_name": "Coque, Carmen",
       "shift": "T2",
       "login_manager": "alarluis",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -1101,7 +1059,7 @@
       "employee_name": "Nieto, Smith Freynner",
       "shift": "T5",
       "login_manager": "alarluis",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "FT"
     },
     {
@@ -1109,7 +1067,7 @@
       "employee_name": "Sosa, Edwart Augusto",
       "shift": "T2",
       "login_manager": "alarluis",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -1125,7 +1083,7 @@
       "employee_name": "Mella, Juan",
       "shift": "T5",
       "login_manager": "alarluis",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -1133,7 +1091,7 @@
       "employee_name": "Perez Perez, Luck",
       "shift": "T2",
       "login_manager": "alarluis",
-      "employee_status": "L",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -1141,7 +1099,7 @@
       "employee_name": "Martinez Elekes, Miriam",
       "shift": "T2",
       "login_manager": "alarluis",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "FT"
     },
     {
@@ -1149,15 +1107,14 @@
       "employee_name": "Garcia, Tomas",
       "shift": "T2",
       "login_manager": "alarluis",
-      "employee_status": "A",
-      "employee_type": "DP"
+      "employee_status": "A"
     },
     {
       "login": "suajpaol",
       "employee_name": "Suárez, Paola Andrea",
       "shift": "T2",
       "login_manager": "alarluis",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -1173,8 +1130,8 @@
       "employee_name": "Lopez, Eva",
       "shift": "T2",
       "login_manager": "alarluis",
-      "employee_status": "A",
-      "employee_type": "FT"
+      "employee_status": "T",
+      "employee_type": "DP"
     },
     {
       "login": "diexsala",
@@ -1205,7 +1162,7 @@
       "employee_name": "Tellado Abad, Noelia",
       "shift": "T2",
       "login_manager": "alarluis",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -1213,7 +1170,7 @@
       "employee_name": "Perez, Victor",
       "shift": "T2",
       "login_manager": "alarluis",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -1322,19 +1279,11 @@
       "employee_status": "A"
     },
     {
-      "login": "gainhoa",
-      "employee_name": "Martin Gomez, Ainhoa",
-      "shift": "T1",
+      "login": "linaorte",
+      "employee_name": "Correa Ortega, Lina Viviana",
+      "shift": "T3",
       "login_manager": "mebaudil",
-      "employee_status": "L"
-    },
-    {
-      "login": "geordc",
-      "employee_name": "Fajardo Canar, Geordan Bryan",
-      "shift": "T1",
-      "login_manager": "mebaudil",
-      "employee_status": "A",
-      "employee_type": "L"
+      "employee_status": "A"
     },
     {
       "login": "poyatosm",
@@ -1344,117 +1293,60 @@
       "employee_status": "A"
     },
     {
-      "login": "navaranx",
-      "employee_name": "Navarro Montero, Angel",
-      "shift": "T1",
+      "login": "fearteag",
+      "employee_name": "Arteaga Rodriguez, Fernando Jose",
+      "shift": "T3",
       "login_manager": "mebaudil",
       "employee_status": "A"
     },
     {
-      "login": "jereyesg",
-      "employee_name": "Reyes, Jesús",
-      "shift": "T1",
-      "login_manager": "mebaudil",
-      "employee_status": "P"
-    },
-    {
-      "login": "vfarinag",
-      "employee_name": "Farina Gonzalez, Victor Hugo",
-      "shift": "T1",
-      "login_manager": "mebaudil",
-      "employee_status": "A",
-      "employee_type": "L"
-    },
-    {
-      "login": "salinyei",
-      "employee_name": "Salinas, Yeison",
-      "shift": "T1",
+      "login": "penaarel",
+      "employee_name": "Penadillo Ramos, Areli Rosario Rosario",
+      "shift": "T3",
       "login_manager": "mebaudil",
       "employee_status": "A"
     },
     {
-      "login": "minaiard",
-      "employee_name": "Ardy, Mina",
-      "shift": "T1",
-      "login_manager": "mebaudil",
-      "employee_status": "L"
-    },
-    {
-      "login": "bellmcar",
-      "employee_name": "Bello, M Carmen",
-      "shift": "T1",
+      "login": "plaurmar",
+      "employee_name": "Martin Campos, Laura",
+      "shift": "T3",
       "login_manager": "mebaudil",
       "employee_status": "A"
     },
     {
-      "login": "plobodia",
-      "employee_name": "Lobo Diaz, Maria Jose",
-      "shift": "T1",
-      "login_manager": "mebaudil",
-      "employee_status": "L"
-    },
-    {
-      "login": "roscarma",
-      "employee_name": "Rivera Canovas, Oscar Manuel",
-      "shift": "T1",
-      "login_manager": "mebaudil",
-      "employee_status": "L"
-    },
-    {
-      "login": "snjennet",
-      "employee_name": "Silva, Jenneth",
-      "shift": "T1",
+      "login": "hrojarog",
+      "employee_name": "Rojas, Rogelio",
+      "shift": "T3",
       "login_manager": "mebaudil",
       "employee_status": "A"
-    },
-    {
-      "login": "alcadang",
-      "employee_name": "Alcazar, Dani",
-      "shift": "T1",
-      "login_manager": "mebaudil",
-      "employee_status": "L",
-      "employee_type": "LA"
     },
     {
       "login": "bcgiusep",
       "employee_name": "Chirnoaga, Giuseppe Catalin",
       "shift": "T1",
       "login_manager": "mebaudil",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
-      "login": "emariali",
-      "employee_name": "González Budí, María Lidón",
-      "shift": "T1",
+      "login": "opemaria",
+      "employee_name": "Perez Diaz, Mary Alejandra",
+      "shift": "T3",
+      "login_manager": "mebaudil",
+      "employee_status": "A",
+      "employee_type": "F"
+    },
+    {
+      "login": "omaorias",
+      "employee_name": "Orias, Omar Alberto",
+      "shift": "T3",
       "login_manager": "mebaudil",
       "employee_status": "A"
     },
     {
-      "login": "divyasmi",
-      "employee_name": "Diaz, Yasmin",
-      "shift": "T1",
-      "login_manager": "mebaudil",
-      "employee_status": "A"
-    },
-    {
-      "login": "tlesmori",
-      "employee_name": "Morin, Lesley Suzanne",
-      "shift": "T1",
-      "login_manager": "mebaudil",
-      "employee_status": "A"
-    },
-    {
-      "login": "xmaldobr",
-      "employee_name": "Maldonado, Brenda",
-      "shift": "T1",
-      "login_manager": "mebaudil",
-      "employee_status": "A"
-    },
-    {
-      "login": "alasalob",
-      "employee_name": "Salo, Alan",
-      "shift": "T1",
+      "login": "belensal",
+      "employee_name": "Salvador Pena, Belen",
+      "shift": "T3",
       "login_manager": "mebaudil",
       "employee_status": "A"
     },
@@ -1463,20 +1355,13 @@
       "employee_name": "Rocha, Wagner",
       "shift": "T1",
       "login_manager": "mebaudil",
-      "employee_status": "L",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
-      "login": "tgramsgo",
-      "employee_name": "Gomez, Gramscys",
-      "shift": "T1",
-      "login_manager": "mebaudil",
-      "employee_status": "A"
-    },
-    {
-      "login": "asorinbe",
-      "employee_name": "Andrei, Sorin Beniamin",
-      "shift": "T7",
+      "login": "garomanu",
+      "employee_name": "Garcia, Manuel",
+      "shift": "T6",
       "login_manager": "mebaudil",
       "employee_status": "A"
     },
@@ -1493,20 +1378,27 @@
       "employee_name": "Prieto Mora, Adriana Alejandra",
       "shift": "T1",
       "login_manager": "mebaudil",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
-      "login": "mejiaamp",
-      "employee_name": "Mejias, Alefzaim Amilcar",
-      "shift": "T1",
+      "login": "laitabde",
+      "employee_name": "Lait Makboul, Abdelali",
+      "shift": "T6",
       "login_manager": "mebaudil",
       "employee_status": "A"
     },
     {
-      "login": "mariacsg",
-      "employee_name": "Garcia Gonzalez, Maria Concepcion",
-      "shift": "T1",
+      "login": "younkarg",
+      "employee_name": "Karzi, Younes",
+      "shift": "T3",
+      "login_manager": "mebaudil",
+      "employee_status": "A"
+    },
+    {
+      "login": "gabrijaf",
+      "employee_name": "Jaimes Perez, Gabriel Abrahan",
+      "shift": "T3",
       "login_manager": "mebaudil",
       "employee_status": "A"
     },
@@ -1515,13 +1407,21 @@
       "employee_name": "Feito Martín, Rubèn",
       "shift": "T1",
       "login_manager": "mebaudil",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
-      "login": "barbozne",
-      "employee_name": "Barboza, Neo Neo",
-      "shift": "T1",
+      "login": "mendeztb",
+      "employee_name": "Mendez Tolentino, Ana Lorena",
+      "shift": "T3",
+      "login_manager": "mebaudil",
+      "employee_status": "A",
+      "employee_type": "L"
+    },
+    {
+      "login": "qachachl",
+      "employee_name": "Qachach Lote, Salim Salim",
+      "shift": "T3",
       "login_manager": "mebaudil",
       "employee_status": "A"
     },
@@ -1534,17 +1434,16 @@
       "employee_type": "FT"
     },
     {
-      "login": "monroysj",
-      "employee_name": "Monroy Santanilla, Juan Camilo",
-      "shift": "T1",
+      "login": "segurasw",
+      "employee_name": "Segura, Selena",
+      "shift": "T3",
       "login_manager": "mebaudil",
-      "employee_status": "T",
-      "employee_type": "FT"
+      "employee_status": "A"
     },
     {
-      "login": "paulaafr",
-      "employee_name": "Franco Castellanos, Paula Andrea",
-      "shift": "T1",
+      "login": "olijudit",
+      "employee_name": "Olivera Vasquez, Judith Margot",
+      "shift": "T3",
       "login_manager": "mebaudil",
       "employee_status": "A"
     },
@@ -1553,7 +1452,7 @@
       "employee_name": "Montero, Osmar",
       "shift": "T1",
       "login_manager": "mebaudil",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -1561,56 +1460,27 @@
       "employee_name": "Santiago Do Patrocinio, Brenda",
       "shift": "T1",
       "login_manager": "mebaudil",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
-      "login": "enefreyt",
-      "employee_name": "Torres, Enefreyin Yurbano",
-      "shift": "T1",
+      "login": "jaimyosm",
+      "employee_name": "Jaimes, Yosman",
+      "shift": "T3",
       "login_manager": "mebaudil",
       "employee_status": "A"
     },
     {
-      "login": "neusalfo",
-      "employee_name": "Alfonso Burgos, Neus",
-      "shift": "T1",
+      "login": "karziisr",
+      "employee_name": "Karzi, Israe",
+      "shift": "T3",
       "login_manager": "mebaudil",
       "employee_status": "A"
     },
     {
-      "login": "yperezpl",
-      "employee_name": "Pérez Pérez, Luis Eduardo",
-      "shift": "T1",
-      "login_manager": "mebaudil",
-      "employee_status": "A"
-    },
-    {
-      "login": "keroropq",
-      "employee_name": "Oropeza Fernandez, Kerwin",
-      "shift": "T1",
-      "login_manager": "mebaudil",
-      "employee_status": "A"
-    },
-    {
-      "login": "roperosm",
-      "employee_name": "Ropero Quintero, Osmel Alberto",
-      "shift": "T1",
-      "login_manager": "mebaudil",
-      "employee_status": "A",
-      "employee_type": "DP"
-    },
-    {
-      "login": "gonellhy",
-      "employee_name": "Gonell Hernández, Pau",
-      "shift": "T1",
-      "login_manager": "mebaudil",
-      "employee_status": "A"
-    },
-    {
-      "login": "rigabrip",
-      "employee_name": "Rivera, Gabriela",
-      "shift": "T1",
+      "login": "jecatarj",
+      "employee_name": "Catari, Jesus",
+      "shift": "T3",
       "login_manager": "mebaudil",
       "employee_status": "A"
     },
@@ -1619,7 +1489,7 @@
       "employee_name": "Pintus, Giampaolo",
       "shift": "T1",
       "login_manager": "mebaudil",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -1627,7 +1497,7 @@
       "employee_name": "Puchades Ortega, Sara",
       "shift": "T1",
       "login_manager": "mebaudil",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -1635,15 +1505,22 @@
       "employee_name": "Anzelmo Barroeta, Maura Giachelin",
       "shift": "T1",
       "login_manager": "mebaudil",
-      "employee_status": "L",
+      "employee_status": "T",
       "employee_type": "DP"
+    },
+    {
+      "login": "rkatherg",
+      "employee_name": "Rincon, Katherine",
+      "shift": "T3",
+      "login_manager": "mebaudil",
+      "employee_status": "A"
     },
     {
       "login": "beneodie",
       "employee_name": "Benet, Diego Murillo",
       "shift": "T1",
       "login_manager": "mebaudil",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -1651,39 +1528,23 @@
       "employee_name": "Jimenez Campo, Juan Manuel",
       "shift": "T1",
       "login_manager": "mebaudil",
-      "employee_status": "A",
-      "employee_type": "DP"
-    },
-    {
-      "login": "gallavid",
-      "employee_name": "Gallardo Forès, Vicent",
-      "shift": "T1",
-      "login_manager": "mebaudil",
       "employee_status": "T",
-      "employee_type": "FT"
+      "employee_type": "DP"
     },
     {
       "login": "wewmarti",
       "employee_name": "Martinez, Wendy",
       "shift": "T1",
       "login_manager": "mebaudil",
-      "employee_status": "A",
-      "employee_type": "DP"
-    },
-    {
-      "login": "smelolon",
-      "employee_name": "Melo Londoño, Sandra Milena",
-      "shift": "T1",
-      "login_manager": "mebaudil",
       "employee_status": "T",
-      "employee_type": "FT"
+      "employee_type": "DP"
     },
     {
       "login": "jmillanz",
       "employee_name": "Millan, Julio",
       "shift": "T1",
       "login_manager": "mebaudil",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -1691,39 +1552,15 @@
       "employee_name": "Castro Panameno, Monica Nicole",
       "shift": "T1",
       "login_manager": "mebaudil",
-      "employee_status": "A",
-      "employee_type": "DP"
-    },
-    {
-      "login": "lopqleon",
-      "employee_name": "Lopez, Leonardo",
-      "shift": "T1",
-      "login_manager": "mebaudil",
       "employee_status": "T",
-      "employee_type": "FT"
-    },
-    {
-      "login": "mavelose",
-      "employee_name": "Velosa, Marcela",
-      "shift": "T1",
-      "login_manager": "mebaudil",
-      "employee_status": "A",
       "employee_type": "DP"
-    },
-    {
-      "login": "marupero",
-      "employee_name": "Perozo, Maria Eugelly",
-      "shift": "T1",
-      "login_manager": "mebaudil",
-      "employee_status": "T",
-      "employee_type": "FT"
     },
     {
       "login": "riosvaje",
       "employee_name": "Ríos Vargas, Jeiko Alejandro",
       "shift": "T1",
       "login_manager": "mebaudil",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "FT"
     },
     {
@@ -1731,7 +1568,7 @@
       "employee_name": "Ahmed Ben Bouarfa, Fahima",
       "shift": "T1",
       "login_manager": "mebaudil",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "FT"
     },
     {
@@ -1747,7 +1584,7 @@
       "employee_name": "Milanese, Marina",
       "shift": "T1",
       "login_manager": "mebaudil",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "FT"
     },
     {
@@ -1755,7 +1592,7 @@
       "employee_name": "Tajeddine, Maher",
       "shift": "T1",
       "login_manager": "mebaudil",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "FT"
     },
     {
@@ -1795,6 +1632,240 @@
       "employee_name": "Juhel, Adrien Claude Joseph",
       "shift": "",
       "login_manager": "",
+      "employee_status": "A"
+    },
+    {
+      "login": "gainhoa",
+      "employee_name": "Martin Gomez, Ainhoa",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "L"
+    },
+    {
+      "login": "geordc",
+      "employee_name": "Fajardo Canar, Geordan Bryan",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "A",
+      "employee_type": "L"
+    },
+    {
+      "login": "navaranx",
+      "employee_name": "Navarro Montero, Angel",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "A"
+    },
+    {
+      "login": "jereyesg",
+      "employee_name": "Reyes, Jesús",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "P"
+    },
+    {
+      "login": "barenalq",
+      "employee_name": "Arenales Estrano, Brian Alexis Alexis",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "A"
+    },
+    {
+      "login": "vfarinag",
+      "employee_name": "Farina Gonzalez, Victor Hugo",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "A",
+      "employee_type": "L"
+    },
+    {
+      "login": "salinyei",
+      "employee_name": "Salinas, Yeison",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "A"
+    },
+    {
+      "login": "minaiard",
+      "employee_name": "Ardy, Mina",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "L"
+    },
+    {
+      "login": "bellmcar",
+      "employee_name": "Bello, M Carmen",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "A"
+    },
+    {
+      "login": "plobodia",
+      "employee_name": "Lobo Diaz, Maria Jose",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "L"
+    },
+    {
+      "login": "roscarma",
+      "employee_name": "Rivera Canovas, Oscar Manuel",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "L"
+    },
+    {
+      "login": "alcadang",
+      "employee_name": "Alcazar, Dani",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "A",
+      "employee_type": "LA"
+    },
+    {
+      "login": "emariali",
+      "employee_name": "González Budí, María Lidón",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "A"
+    },
+    {
+      "login": "divyasmi",
+      "employee_name": "Diaz, Yasmin",
+      "shift": "T4",
+      "login_manager": "evamfa",
+      "employee_status": "A"
+    },
+    {
+      "login": "falainbe",
+      "employee_name": "Benitez Morillo, Alain",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "A"
+    },
+    {
+      "login": "tlesmori",
+      "employee_name": "Morin, Lesley Suzanne",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "A"
+    },
+    {
+      "login": "xmaldobr",
+      "employee_name": "Maldonado, Brenda",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "A"
+    },
+    {
+      "login": "alasalob",
+      "employee_name": "Salo, Alan",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "A"
+    },
+    {
+      "login": "tgramsgo",
+      "employee_name": "Gomez, Gramscys",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "A"
+    },
+    {
+      "login": "asorinbe",
+      "employee_name": "Andrei, Sorin Beniamin",
+      "shift": "T7",
+      "login_manager": "evamfa",
+      "employee_status": "A"
+    },
+    {
+      "login": "mejiaamp",
+      "employee_name": "Mejias, Alefzaim Amilcar",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "A"
+    },
+    {
+      "login": "mariacsg",
+      "employee_name": "Garcia Gonzalez, Maria Concepcion",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "A"
+    },
+    {
+      "login": "ramicesr",
+      "employee_name": "Ramirez Gomez, Cesar Antonio",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "A"
+    },
+    {
+      "login": "kathroai",
+      "employee_name": "Roa, Katherin",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "A"
+    },
+    {
+      "login": "barbozne",
+      "employee_name": "Barboza, Neo Neo",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "A"
+    },
+    {
+      "login": "paulaafr",
+      "employee_name": "Franco Castellanos, Paula Andrea",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "A"
+    },
+    {
+      "login": "enefreyt",
+      "employee_name": "Torres, Enefreyin Yurbano",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "A"
+    },
+    {
+      "login": "neusalfo",
+      "employee_name": "Alfonso Burgos, Neus",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "A"
+    },
+    {
+      "login": "halconro",
+      "employee_name": "Alcón Rozalén, Javier",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "A"
+    },
+    {
+      "login": "roperosm",
+      "employee_name": "Ropero Quintero, Osmel Alberto",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "A"
+    },
+    {
+      "login": "gonellhy",
+      "employee_name": "Gonell Hernández, Pau",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "A"
+    },
+    {
+      "login": "rigabrip",
+      "employee_name": "Rivera, Gabriela",
+      "shift": "T1",
+      "login_manager": "evamfa",
+      "employee_status": "A"
+    },
+    {
+      "login": "mavelose",
+      "employee_name": "Velosa, Marcela",
+      "shift": "T1",
+      "login_manager": "evamfa",
       "employee_status": "A"
     },
     {
@@ -1861,11 +1932,18 @@
       "employee_status": "A"
     },
     {
+      "login": "diantara",
+      "employee_name": "Tarazona Navas, Diana",
+      "shift": "T7",
+      "login_manager": "mgalinm",
+      "employee_status": "A"
+    },
+    {
       "login": "arroyann",
       "employee_name": "Arroyo Calle, Annersy Graziany",
       "shift": "T4",
       "login_manager": "mgalinm",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -1873,7 +1951,7 @@
       "employee_name": "Melendez, Maryori Virgleny Melendez",
       "shift": "T4",
       "login_manager": "mgalinm",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "FT"
     },
     {
@@ -1888,7 +1966,7 @@
       "employee_name": "Suarez Gutierrez, Erika Johanna",
       "shift": "T4",
       "login_manager": "mgalinm",
-      "employee_status": "A"
+      "employee_status": "L"
     },
     {
       "login": "esteclav",
@@ -1909,8 +1987,16 @@
       "employee_name": "Pacheco Medina, Lucia",
       "shift": "T4",
       "login_manager": "mgalinm",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
+    },
+    {
+      "login": "kenelmsa",
+      "employee_name": "Sanchez, Kenelma",
+      "shift": "T4",
+      "login_manager": "mgalinm",
+      "employee_status": "A",
+      "employee_type": "L"
     },
     {
       "login": "rojasgoh",
@@ -1931,7 +2017,7 @@
       "employee_name": "Tepedino, Giannfranco",
       "shift": "T4",
       "login_manager": "mgalinm",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "FT"
     },
     {
@@ -1946,16 +2032,15 @@
       "employee_name": "Gonzalez Hernandez, Felipe",
       "shift": "T4",
       "login_manager": "mgalinm",
-      "employee_status": "A",
-      "employee_type": "DP"
+      "employee_status": "A"
     },
     {
       "login": "bsrhirwi",
       "employee_name": "Srhir, Wissal",
       "shift": "T4",
       "login_manager": "mgalinm",
-      "employee_status": "A",
-      "employee_type": "FT"
+      "employee_status": "T",
+      "employee_type": "DP"
     },
     {
       "login": "ceboleva",
@@ -1988,13 +2073,6 @@
       "employee_status": "L"
     },
     {
-      "login": "barenalq",
-      "employee_name": "Arenales Estrano, Brian Alexis Alexis",
-      "shift": "T1",
-      "login_manager": "adespe",
-      "employee_status": "A"
-    },
-    {
       "login": "gpejordi",
       "employee_name": "Pérez Hermosa, Jordi",
       "shift": "T1",
@@ -2010,7 +2088,7 @@
     },
     {
       "login": "meibilin",
-      "employee_name": "Al, Mey",
+      "employee_name": "Alvarez, Mey",
       "shift": "T1",
       "login_manager": "adespe",
       "employee_status": "A"
@@ -2034,7 +2112,7 @@
       "employee_name": "Pujol, Maite",
       "shift": "T5",
       "login_manager": "adespe",
-      "employee_status": "S"
+      "employee_status": "T"
     },
     {
       "login": "juanfelv",
@@ -2069,7 +2147,7 @@
     {
       "login": "garwanto",
       "employee_name": "Garcia Nunez, Antonio",
-      "shift": "T1",
+      "shift": "T7",
       "login_manager": "adespe",
       "employee_status": "A"
     },
@@ -2077,13 +2155,6 @@
       "login": "albouzia",
       "employee_name": "Al Bouzia, Rachid",
       "shift": "T5",
-      "login_manager": "adespe",
-      "employee_status": "A"
-    },
-    {
-      "login": "kathroai",
-      "employee_name": "Roa, Katherin",
-      "shift": "T1",
       "login_manager": "adespe",
       "employee_status": "A"
     },
@@ -2096,7 +2167,7 @@
     },
     {
       "login": "pintdarc",
-      "employee_name": "Pinto, Darianny Nazaret",
+      "employee_name": "Pinto, Dari",
       "shift": "T1",
       "login_manager": "adespe",
       "employee_status": "A"
@@ -2113,8 +2184,7 @@
       "employee_name": "Ventura Gómez, Eduard",
       "shift": "T1",
       "login_manager": "adespe",
-      "employee_status": "A",
-      "employee_type": "DP"
+      "employee_status": "A"
     },
     {
       "login": "camaantn",
@@ -2124,8 +2194,15 @@
       "employee_status": "A"
     },
     {
-      "login": "halconro",
-      "employee_name": "Alcón Rozalén, Javier",
+      "login": "yperezpl",
+      "employee_name": "Pérez Pérez, Luis Eduardo",
+      "shift": "T1",
+      "login_manager": "adespe",
+      "employee_status": "A"
+    },
+    {
+      "login": "keroropq",
+      "employee_name": "Oropeza Fernandez, Kerwin",
       "shift": "T1",
       "login_manager": "adespe",
       "employee_status": "A"
@@ -2145,35 +2222,25 @@
       "employee_status": "A"
     },
     {
-      "login": "mayyamen",
-      "employee_name": "Menik, Mayya",
-      "shift": "T1",
-      "login_manager": "adespe",
-      "employee_status": "T",
-      "employee_type": "FT"
-    },
-    {
       "login": "rmelinai",
       "employee_name": "Rolón, Melina Inés",
       "shift": "T1",
       "login_manager": "adespe",
-      "employee_status": "A",
-      "employee_type": "DP"
+      "employee_status": "A"
     },
     {
       "login": "ahumadmj",
       "employee_name": "Ahumada, Jesus",
       "shift": "T1",
       "login_manager": "adespe",
-      "employee_status": "A",
-      "employee_type": "DP"
+      "employee_status": "A"
     },
     {
       "login": "aymaenna",
       "employee_name": "Ennasraoui Belouardi, Ayman",
       "shift": "T1",
       "login_manager": "adespe",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -2181,7 +2248,7 @@
       "employee_name": "Tasmani Chaouat, Yousra",
       "shift": "T1",
       "login_manager": "adespe",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -2189,16 +2256,8 @@
       "employee_name": "Candia, Giovanni",
       "shift": "T1",
       "login_manager": "adespe",
-      "employee_status": "A",
-      "employee_type": "DP"
-    },
-    {
-      "login": "urbinpab",
-      "employee_name": "Urbina Barragán, Pablo Eduardo",
-      "shift": "T1",
-      "login_manager": "adespe",
       "employee_status": "T",
-      "employee_type": "FT"
+      "employee_type": "DP"
     },
     {
       "login": "jesustvi",
@@ -2213,7 +2272,7 @@
       "employee_name": "Diaz, Jhon",
       "shift": "T1",
       "login_manager": "adespe",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -2221,7 +2280,7 @@
       "employee_name": "Puchoc, Belitza Kely",
       "shift": "T1",
       "login_manager": "adespe",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -2237,7 +2296,7 @@
       "employee_name": "Montilla Asuaje, Fernando Alejandro",
       "shift": "T1",
       "login_manager": "adespe",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -2247,13 +2306,6 @@
       "login_manager": "adespe",
       "employee_status": "T",
       "employee_type": "FT"
-    },
-    {
-      "login": "linaorte",
-      "employee_name": "Correa Ortega, Lina Viviana",
-      "shift": "T3",
-      "login_manager": "paudofus",
-      "employee_status": "A"
     },
     {
       "login": "aldanl",
@@ -2328,13 +2380,6 @@
       "employee_status": "A"
     },
     {
-      "login": "sanchfcl",
-      "employee_name": "Sanchez, Claudia",
-      "shift": "T3",
-      "login_manager": "paudofus",
-      "employee_status": "T"
-    },
-    {
       "login": "cmendezl",
       "employee_name": "Mendez, Carlos",
       "shift": "T3",
@@ -2349,13 +2394,6 @@
       "employee_status": "T"
     },
     {
-      "login": "younkarg",
-      "employee_name": "Karzi, Younes",
-      "shift": "T3",
-      "login_manager": "paudofus",
-      "employee_status": "A"
-    },
-    {
       "login": "alvveros",
       "employee_name": "Alvarado, Veronica Andrea",
       "shift": "T3",
@@ -2367,7 +2405,7 @@
       "employee_name": "Orias Pontiles, Michelle Alejandra",
       "shift": "T3",
       "login_manager": "paudofus",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -2403,23 +2441,21 @@
       "employee_name": "Herrador Marti, Iker",
       "shift": "T3",
       "login_manager": "paudofus",
-      "employee_status": "A"
+      "employee_status": "T"
     },
     {
       "login": "andrrrub",
       "employee_name": "Andreu Álvaro, Rubén José",
       "shift": "T3",
       "login_manager": "paudofus",
-      "employee_status": "A",
-      "employee_type": "DP"
+      "employee_status": "A"
     },
     {
       "login": "ginetspe",
       "employee_name": "Perez, Ginetsy",
       "shift": "T3",
       "login_manager": "paudofus",
-      "employee_status": "A",
-      "employee_type": "DP"
+      "employee_status": "A"
     },
     {
       "login": "nalfonsl",
@@ -2447,14 +2483,14 @@
       "employee_name": "Alvarado Rodríguez, Johana Lizeth",
       "shift": "T3",
       "login_manager": "paudofus",
-      "employee_status": "A"
+      "employee_status": "S"
     },
     {
       "login": "manplore",
       "employee_name": "Lorente Lopez, Manuel",
       "shift": "T3",
       "login_manager": "paudofus",
-      "employee_status": "L",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -2462,7 +2498,7 @@
       "employee_name": "Karzi, Khalid",
       "shift": "T3",
       "login_manager": "paudofus",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -2477,15 +2513,22 @@
       "employee_name": "Vergara, Aaron",
       "shift": "T3",
       "login_manager": "paudofus",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
+    },
+    {
+      "login": "winnsilv",
+      "employee_name": "Silva, Winnie",
+      "shift": "T3",
+      "login_manager": "paudofus",
+      "employee_status": "A"
     },
     {
       "login": "jeanotam",
       "employee_name": "Otamendi, Jean",
       "shift": "T3",
       "login_manager": "paudofus",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -2493,7 +2536,7 @@
       "employee_name": "Angel, Juan Carlos",
       "shift": "T3",
       "login_manager": "paudofus",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "FT"
     },
     {
@@ -2501,20 +2544,11 @@
       "employee_name": "Orozco Diaz, Karla",
       "shift": "T3",
       "login_manager": "paudofus",
-      "employee_status": "A",
-      "employee_type": "DP"
+      "employee_status": "A"
     },
     {
       "login": "gonzolgd",
       "employee_name": "González Castro, Olga",
-      "shift": "T3",
-      "login_manager": "paudofus",
-      "employee_status": "T",
-      "employee_type": "FT"
-    },
-    {
-      "login": "benhaha",
-      "employee_name": "Ben Hadj, Hassen",
       "shift": "T3",
       "login_manager": "paudofus",
       "employee_status": "T",
@@ -2591,65 +2625,17 @@
       "employee_status": "A"
     },
     {
-      "login": "urdannil",
-      "employee_name": "Urdaneta, Nilser Andreina",
-      "shift": "T2",
-      "login_manager": "rglcjudi",
-      "employee_status": "T",
-      "employee_type": "FT"
-    },
-    {
-      "login": "saavedk",
-      "employee_name": "Saavedra, Kiro",
-      "shift": "T2",
-      "login_manager": "rglcjudi",
-      "employee_status": "T",
-      "employee_type": "FT"
-    },
-    {
-      "login": "cortijnu",
-      "employee_name": "Cortijo, Nuria",
-      "shift": "T2",
-      "login_manager": "rglcjudi",
-      "employee_status": "T",
-      "employee_type": "FT"
-    },
-    {
-      "login": "erohncla",
-      "employee_name": "Rohnean, Claudia",
-      "shift": "T2",
-      "login_manager": "rglcjudi",
-      "employee_status": "T",
-      "employee_type": "FT"
-    },
-    {
-      "login": "vnictria",
-      "employee_name": "Triana, Nicolle",
-      "shift": "T2",
-      "login_manager": "rglcjudi",
-      "employee_status": "T",
-      "employee_type": "FT"
-    },
-    {
-      "login": "erkarima",
-      "employee_name": "Errachidi, Karima",
-      "shift": "T2",
-      "login_manager": "rglcjudi",
-      "employee_status": "T",
-      "employee_type": "FT"
-    },
-    {
       "login": "balfeste",
       "employee_name": "Balfagon Monserrate, Estela",
       "shift": "",
       "login_manager": "",
-      "employee_status": "L"
+      "employee_status": "A"
     },
     {
-      "login": "maraulan",
-      "employee_name": "Marquina Ghezzi, Raul Andres",
-      "shift": "",
-      "login_manager": "",
+      "login": "gergecs",
+      "employee_name": "Stefan Ciucurel, George Cosmin",
+      "shift": "T6",
+      "login_manager": "franfrq",
       "employee_status": "A"
     },
     {
@@ -2664,7 +2650,7 @@
       "employee_name": "Garcia, Andrea",
       "shift": "T3",
       "login_manager": "franfrq",
-      "employee_status": "A"
+      "employee_status": "L"
     },
     {
       "login": "rubemira",
@@ -2679,7 +2665,7 @@
       "employee_name": "Maita Rojas, Desiree Carolina",
       "shift": "T3",
       "login_manager": "franfrq",
-      "employee_status": "L"
+      "employee_status": "A"
     },
     {
       "login": "pmaestma",
@@ -2742,7 +2728,7 @@
       "employee_name": "Fernandes Zambrano, Genesis Del Valle",
       "shift": "T3",
       "login_manager": "franfrq",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -2755,6 +2741,13 @@
     {
       "login": "perepjoh",
       "employee_name": "Pérez Guerra, Johana Yormaly",
+      "shift": "T3",
+      "login_manager": "franfrq",
+      "employee_status": "A"
+    },
+    {
+      "login": "ocarolgi",
+      "employee_name": "Giraldo Montoya, Sindy Carolina",
       "shift": "T3",
       "login_manager": "franfrq",
       "employee_status": "A"
@@ -2782,39 +2775,38 @@
       "employee_status": "A"
     },
     {
-      "login": "gcamilaz",
-      "employee_name": "Gonzalez Tapias, Camila Andrea",
-      "shift": "T1",
-      "login_manager": "disabelg",
-      "employee_status": "T"
-    },
-    {
-      "login": "tenllped",
-      "employee_name": "Tenllado Matoses, Pedro Pablo",
-      "shift": "T1",
-      "login_manager": "disabelg",
-      "employee_status": "T"
+      "login": "zfaneite",
+      "employee_name": "Faneite, Zasha Tailing",
+      "shift": "T3",
+      "login_manager": "franfrq",
+      "employee_status": "A"
     },
     {
       "login": "fheangie",
       "employee_name": "Hernandez, Angie",
       "shift": "T3",
       "login_manager": "franfrq",
-      "employee_status": "A",
-      "employee_type": "DP"
+      "employee_status": "A"
     },
     {
-      "login": "tnicolbe",
-      "employee_name": "Bencosme Mendez, Nicole",
-      "shift": "T1",
-      "login_manager": "disabelg",
-      "employee_status": "T"
+      "login": "calderrs",
+      "employee_name": "Caldera, Roberto Carlos",
+      "shift": "T3",
+      "login_manager": "franfrq",
+      "employee_status": "A"
     },
     {
       "login": "lvalerol",
       "employee_name": "Valero Blanco, Laura",
       "shift": "",
       "login_manager": "disabelg",
+      "employee_status": "A"
+    },
+    {
+      "login": "karinrbo",
+      "employee_name": "Bohorquez Vasquez, Karina Solimar",
+      "shift": "T3",
+      "login_manager": "franfrq",
       "employee_status": "A"
     },
     {
@@ -2837,7 +2829,7 @@
       "employee_name": "Sanchez, Mario Edo",
       "shift": "T3",
       "login_manager": "franfrq",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "FT"
     },
     {
@@ -2855,16 +2847,23 @@
       "employee_status": "A"
     },
     {
-      "login": "mebaudil",
-      "employee_name": "Mendoza Roman, Baudilio Jesus",
-      "shift": "T1",
+      "login": "beldjorg",
+      "employee_name": "Plaza Belda, Jorge",
+      "shift": "",
+      "login_manager": "mayoraa",
+      "employee_status": "A"
+    },
+    {
+      "login": "rijbapti",
+      "employee_name": "Baptista Silva, Rijkard Rainier Rainier",
+      "shift": "T2",
       "login_manager": "mayoraa",
       "employee_status": "A",
       "employee_type": "F"
     },
     {
-      "login": "pnavarrq",
-      "employee_name": "Navarro Forner, Paula Navarro",
+      "login": "adespe",
+      "employee_name": "Escriva Perello, Adrian",
       "shift": "",
       "login_manager": "mayoraa",
       "employee_status": "A"
@@ -2874,7 +2873,7 @@
       "employee_name": "Roch Nieto, María",
       "shift": "",
       "login_manager": "mayoraa",
-      "employee_status": "L"
+      "employee_status": "A"
     },
     {
       "login": "rglcjudi",
@@ -2884,13 +2883,6 @@
       "employee_status": "T"
     },
     {
-      "login": "evamfa",
-      "employee_name": "Francés Aguilar, Eva Maria",
-      "shift": "",
-      "login_manager": "mayoraa",
-      "employee_status": "A"
-    },
-    {
       "login": "pabsua",
       "employee_name": "Suárez De Andrés, Pablo",
       "shift": "",
@@ -2898,73 +2890,17 @@
       "employee_status": "A"
     },
     {
-      "login": "alarluis",
-      "employee_name": "Alarcón Lucas, Luis",
+      "login": "paudofus",
+      "employee_name": "Domínguez Fuster, Pau Manel",
       "shift": "",
       "login_manager": "mayoraa",
-      "employee_status": "A"
-    },
-    {
-      "login": "franfrq",
-      "employee_name": "Fresno Quintas, Francisco",
-      "shift": "",
-      "login_manager": "mayoraa",
-      "employee_status": "A"
-    },
-    {
-      "login": "mgalinm",
-      "employee_name": "Galindo Martín, Miguel",
-      "shift": "",
-      "login_manager": "mayoraa",
-      "employee_status": "A"
-    },
-    {
-      "login": "helmosqu",
-      "employee_name": "Mosquera Doria, Helen Stefani",
-      "shift": "",
-      "login_manager": "richamol",
-      "employee_status": "A"
-    },
-    {
-      "login": "ierilugo",
-      "employee_name": "Lugo Godoy, Erika Katiusca Katiusca",
-      "shift": "",
-      "login_manager": "richamol",
-      "employee_status": "A"
-    },
-    {
-      "login": "rodlario",
-      "employee_name": "Larios Garrido, Rodrigo Fernando Fernando",
-      "shift": "",
-      "login_manager": "richamol",
-      "employee_status": "A"
-    },
-    {
-      "login": "corewvio",
-      "employee_name": "Corella Alonso, Maria Violeta Violeta",
-      "shift": "",
-      "login_manager": "richamol",
-      "employee_status": "A"
-    },
-    {
-      "login": "falainbe",
-      "employee_name": "Benitez Morillo, Alain",
-      "shift": "",
-      "login_manager": "richamol",
       "employee_status": "A"
     },
     {
       "login": "rdeivpal",
       "employee_name": "Palencia, Deivi",
-      "shift": "",
+      "shift": "T4",
       "login_manager": "richamol",
-      "employee_status": "A"
-    },
-    {
-      "login": "gergecs",
-      "employee_name": "Stefan Ciucurel, George Cosmin",
-      "shift": "T6",
-      "login_manager": "pabsua",
       "employee_status": "A"
     },
     {
@@ -2976,82 +2912,118 @@
       "employee_type": "F"
     },
     {
-      "login": "fearteag",
-      "employee_name": "Arteaga Rodriguez, Fernando Jose",
-      "shift": "T3",
-      "login_manager": "pabsua",
-      "employee_status": "L"
-    },
-    {
-      "login": "penaarel",
-      "employee_name": "Penadillo Ramos, Areli Rosario Rosario",
-      "shift": "T3",
-      "login_manager": "pabsua",
-      "employee_status": "A"
-    },
-    {
-      "login": "plaurmar",
-      "employee_name": "Martin Campos, Laura",
-      "shift": "T3",
-      "login_manager": "pabsua",
-      "employee_status": "A"
-    },
-    {
-      "login": "romapmar",
-      "employee_name": "Marco, Roman",
-      "shift": "T3",
-      "login_manager": "pabsua",
-      "employee_status": "T",
-      "employee_type": "LA"
-    },
-    {
-      "login": "hrojarog",
-      "employee_name": "Rojas, Rogelio",
-      "shift": "T3",
-      "login_manager": "pabsua",
-      "employee_status": "A"
-    },
-    {
-      "login": "rclarapr",
-      "employee_name": "Prades Soler, Clara",
-      "shift": "T3",
-      "login_manager": "pabsua",
-      "employee_status": "A"
-    },
-    {
-      "login": "opemaria",
-      "employee_name": "Perez Diaz, Mary Alejandra",
-      "shift": "T3",
+      "login": "alejacoe",
+      "employee_name": "Coego Gutierrez, Alejandro",
+      "shift": "T2",
       "login_manager": "pabsua",
       "employee_status": "A",
       "employee_type": "F"
     },
     {
-      "login": "omaorias",
-      "employee_name": "Orias, Omar Alberto",
-      "shift": "T3",
+      "login": "dalampug",
+      "employee_name": "Lampugnani, Davide",
+      "shift": "T2",
       "login_manager": "pabsua",
-      "employee_status": "A"
-    },
-    {
-      "login": "belensal",
-      "employee_name": "Salvador Pena, Belen",
-      "shift": "T3",
-      "login_manager": "pabsua",
-      "employee_status": "A"
-    },
-    {
-      "login": "marstagn",
-      "employee_name": "Stagno, Marianna",
-      "shift": "T1",
-      "login_manager": "pabsua",
-      "employee_status": "T",
+      "employee_status": "A",
       "employee_type": "L"
     },
     {
-      "login": "garomanu",
-      "employee_name": "Garcia, Manuel",
-      "shift": "T3",
+      "login": "jorgervi",
+      "employee_name": "Villanueva Esquivel, Jorge Ricardo Ricardo",
+      "shift": "T1",
+      "login_manager": "pabsua",
+      "employee_status": "A"
+    },
+    {
+      "login": "sorkdumi",
+      "employee_name": "Dumitroiu, Sorin",
+      "shift": "T2",
+      "login_manager": "pabsua",
+      "employee_status": "A"
+    },
+    {
+      "login": "psanmart",
+      "employee_name": "Martin Marin, Sandra",
+      "shift": "T2",
+      "login_manager": "pabsua",
+      "employee_status": "L"
+    },
+    {
+      "login": "juditrok",
+      "employee_name": "Rodriguez Morales, Judith",
+      "shift": "T2",
+      "login_manager": "pabsua",
+      "employee_status": "A"
+    },
+    {
+      "login": "kchirild",
+      "employee_name": "Chirila, Doru Cristian",
+      "shift": "T7",
+      "login_manager": "pabsua",
+      "employee_status": "L"
+    },
+    {
+      "login": "navafait",
+      "employee_name": "Navarro Bolinaga, Aitor",
+      "shift": "T2",
+      "login_manager": "pabsua",
+      "employee_status": "A"
+    },
+    {
+      "login": "haelabbo",
+      "employee_name": "El Abboudi, Hayat",
+      "shift": "T7",
+      "login_manager": "pabsua",
+      "employee_status": "A"
+    },
+    {
+      "login": "lobrianz",
+      "employee_name": "Lopez Sanchez, Brian",
+      "shift": "T2",
+      "login_manager": "pabsua",
+      "employee_status": "A"
+    },
+    {
+      "login": "llvicent",
+      "employee_name": "Llorens Gil, Vicente Vicente",
+      "shift": "T2",
+      "login_manager": "pabsua",
+      "employee_status": "A",
+      "employee_type": "LA"
+    },
+    {
+      "login": "ccjohann",
+      "employee_name": "Campo, Johanna",
+      "shift": "T2",
+      "login_manager": "pabsua",
+      "employee_status": "A"
+    },
+    {
+      "login": "nuralber",
+      "employee_name": "Albert Sancho, Nuria",
+      "shift": "T2",
+      "login_manager": "pabsua",
+      "employee_status": "A"
+    },
+    {
+      "login": "hivaniul",
+      "employee_name": "Ivan, Iulian Octavian",
+      "shift": "T2",
+      "login_manager": "pabsua",
+      "employee_status": "A",
+      "employee_type": "L"
+    },
+    {
+      "login": "garcibeg",
+      "employee_name": "Garcia Garcia, Begoña",
+      "shift": "T8",
+      "login_manager": "pabsua",
+      "employee_status": "A"
+    },
+    {
+      "login": "garcamax",
+      "employee_name": "Garcia Moreno, Maximo",
+      "shift": "T8",
       "login_manager": "pabsua",
       "employee_status": "A"
     },
@@ -3060,57 +3032,58 @@
       "employee_name": "Jgutashvili, Jaba",
       "shift": "T3",
       "login_manager": "pabsua",
-      "employee_status": "S"
-    },
-    {
-      "login": "laitabde",
-      "employee_name": "Lait Makboul, Abdelali",
-      "shift": "T6",
-      "login_manager": "pabsua",
-      "employee_status": "A"
-    },
-    {
-      "login": "gabrijaf",
-      "employee_name": "Jaimes Perez, Gabriel Abrahan",
-      "shift": "T3",
-      "login_manager": "pabsua",
-      "employee_status": "A"
-    },
-    {
-      "login": "mendeztb",
-      "employee_name": "Mendez Tolentino, Ana Lorena",
-      "shift": "T3",
-      "login_manager": "pabsua",
-      "employee_status": "A",
-      "employee_type": "L"
-    },
-    {
-      "login": "jooher",
-      "employee_name": "Hernandez, Jose",
-      "shift": "T3",
-      "login_manager": "pabsua",
       "employee_status": "T"
     },
     {
-      "login": "qachachl",
-      "employee_name": "Qachach Lote, Salim Salim",
-      "shift": "T3",
+      "login": "oanaemar",
+      "employee_name": "Marin, Oana Elena",
+      "shift": "T2",
       "login_manager": "pabsua",
       "employee_status": "A"
     },
     {
-      "login": "segurasw",
-      "employee_name": "Segura, Selena",
-      "shift": "T3",
+      "login": "loismaik",
+      "employee_name": "Martinez Gonzalez, Lois Maikel Maikel",
+      "shift": "T2",
+      "login_manager": "pabsua",
+      "employee_status": "A",
+      "employee_type": "E"
+    },
+    {
+      "login": "jurreava",
+      "employee_name": "Urrea Vallejo, Jesica",
+      "shift": "T2",
       "login_manager": "pabsua",
       "employee_status": "A"
+    },
+    {
+      "login": "romanior",
+      "employee_name": "Romani Ordoñez, Luis Alberto",
+      "shift": "T7",
+      "login_manager": "pabsua",
+      "employee_status": "A"
+    },
+    {
+      "login": "neanab",
+      "employee_name": "Negrette Rodríguez, Ana Sarahy",
+      "shift": "T2",
+      "login_manager": "pabsua",
+      "employee_status": "L"
+    },
+    {
+      "login": "comppedr",
+      "employee_name": "Compan Beltran, Pedro",
+      "shift": "T2",
+      "login_manager": "pabsua",
+      "employee_status": "L",
+      "employee_type": "LA"
     },
     {
       "login": "oalema",
       "employee_name": "Martinez, Alex",
       "shift": "T8",
       "login_manager": "pabsua",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -3118,27 +3091,20 @@
       "employee_name": "Naranjo, Mari",
       "shift": "T3",
       "login_manager": "pabsua",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
-      "login": "ocarolgi",
-      "employee_name": "Giraldo Montoya, Sindy Carolina",
-      "shift": "T3",
+      "login": "chaveznb",
+      "employee_name": "Chavez, Neuriz Sandra",
+      "shift": "T2",
       "login_manager": "pabsua",
       "employee_status": "A"
     },
     {
-      "login": "olijudit",
-      "employee_name": "Olivera Vasquez, Judith Margot",
-      "shift": "T3",
-      "login_manager": "pabsua",
-      "employee_status": "A"
-    },
-    {
-      "login": "jaimyosm",
-      "employee_name": "Jaimes, Yosman",
-      "shift": "T3",
+      "login": "mingapia",
+      "employee_name": "Mingarro Pujol, Ian",
+      "shift": "T8",
       "login_manager": "pabsua",
       "employee_status": "A"
     },
@@ -3147,83 +3113,86 @@
       "employee_name": "Benfettoum, Youcef",
       "shift": "T8",
       "login_manager": "pabsua",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
+    },
+    {
+      "login": "fthaydee",
+      "employee_name": "Fuenmayor, Thaydee Josefina",
+      "shift": "T2",
+      "login_manager": "pabsua",
+      "employee_status": "A"
     },
     {
       "login": "hjoshibj",
       "employee_name": "Hibjan Diaz, Jose",
       "shift": "T3",
       "login_manager": "pabsua",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
-      "login": "karziisr",
-      "employee_name": "Karzi, Israe",
-      "shift": "T3",
+      "login": "hjesmarl",
+      "employee_name": "Mejias Pérez, Jesmar Liliana",
+      "shift": "T2",
       "login_manager": "pabsua",
       "employee_status": "A"
     },
     {
-      "login": "jecatarj",
-      "employee_name": "Catari, Jesus",
-      "shift": "T3",
+      "login": "marwuill",
+      "employee_name": "Marcano, Wuillians",
+      "shift": "T2",
       "login_manager": "pabsua",
       "employee_status": "A"
     },
     {
-      "login": "cpindidi",
-      "employee_name": "Pinzon, Didier",
-      "shift": "T7",
+      "login": "josefelu",
+      "employee_name": "Felip, Jose",
+      "shift": "T2",
       "login_manager": "pabsua",
-      "employee_status": "A",
-      "employee_type": "DP"
+      "employee_status": "A"
     },
     {
       "login": "deilorod",
       "employee_name": "Rodriguez, Deilor Nelson",
       "shift": "T3",
       "login_manager": "pabsua",
-      "employee_status": "A",
-      "employee_type": "DP"
-    },
-    {
-      "login": "rkatherg",
-      "employee_name": "Rincon, Katherine",
-      "shift": "T3",
-      "login_manager": "pabsua",
-      "employee_status": "A",
-      "employee_type": "DP"
-    },
-    {
-      "login": "lamartiy",
-      "employee_name": "Lamarti, Yassin",
-      "shift": "T3",
-      "login_manager": "pabsua",
       "employee_status": "T",
       "employee_type": "DP"
+    },
+    {
+      "login": "rpajohan",
+      "employee_name": "Parra, Johana Lisbeth",
+      "shift": "T5",
+      "login_manager": "pabsua",
+      "employee_status": "A"
+    },
+    {
+      "login": "arayvane",
+      "employee_name": "Aray, Vanessa Michell",
+      "shift": "T2",
+      "login_manager": "pabsua",
+      "employee_status": "A"
+    },
+    {
+      "login": "gagustac",
+      "employee_name": "Gambino, Gustavo Gambino",
+      "shift": "T2",
+      "login_manager": "pabsua",
+      "employee_status": "A"
     },
     {
       "login": "qacharey",
       "employee_name": "Qachach Lote, Reyad",
       "shift": "T3",
       "login_manager": "pabsua",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
       "login": "elaphait",
       "employee_name": "El Aouni Naji, Haitam El Aouni",
       "shift": "T3",
-      "login_manager": "pabsua",
-      "employee_status": "A",
-      "employee_type": "FT"
-    },
-    {
-      "login": "benraben",
-      "employee_name": "Benrabeh, Sana Maroun",
-      "shift": "T7",
       "login_manager": "pabsua",
       "employee_status": "T",
       "employee_type": "FT"
@@ -3233,7 +3202,7 @@
       "employee_name": "Sánchez Blázquez, Alex",
       "shift": "T8",
       "login_manager": "pabsua",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -3241,23 +3210,22 @@
       "employee_name": "Mora Lozano, Diana Esmeralda",
       "shift": "T7",
       "login_manager": "pabsua",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
-      "login": "winnsilv",
-      "employee_name": "Silva, Winnie",
-      "shift": "T3",
+      "login": "veldenny",
+      "employee_name": "Velazco Jimenez, Dennys Gervacio",
+      "shift": "T5",
       "login_manager": "pabsua",
-      "employee_status": "A",
-      "employee_type": "DP"
+      "employee_status": "A"
     },
     {
       "login": "mtatianx",
       "employee_name": "Marin, Tatiana",
       "shift": "T3",
       "login_manager": "pabsua",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -3265,7 +3233,7 @@
       "employee_name": "Mora, Doris",
       "shift": "T3",
       "login_manager": "pabsua",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -3273,20 +3241,26 @@
       "employee_name": "Vega, Esther",
       "shift": "T3",
       "login_manager": "pabsua",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
+    },
+    {
+      "login": "ramwcarl",
+      "employee_name": "Ramos Garcia, Carlos",
+      "shift": "T2",
+      "login_manager": "pabsua",
+      "employee_status": "A"
+    },
+    {
+      "login": "salvsonn",
+      "employee_name": "Salazar, Sonny",
+      "shift": "T2",
+      "login_manager": "pabsua",
+      "employee_status": "A"
     },
     {
       "login": "monicene",
       "employee_name": "Enero, Monica",
-      "shift": "T3",
-      "login_manager": "pabsua",
-      "employee_status": "T",
-      "employee_type": "FT"
-    },
-    {
-      "login": "iastrica",
-      "employee_name": "Castro Machado, Astrid Josefina",
       "shift": "T3",
       "login_manager": "pabsua",
       "employee_status": "T",
@@ -3321,8 +3295,8 @@
       "employee_name": "Heredia, Eucly",
       "shift": "T3",
       "login_manager": "pabsua",
-      "employee_status": "A",
-      "employee_type": "FT"
+      "employee_status": "T",
+      "employee_type": "DP"
     },
     {
       "login": "bayaredu",
@@ -3337,7 +3311,7 @@
       "employee_name": "Oliveira, Marcia",
       "shift": "T3",
       "login_manager": "pabsua",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "FT"
     },
     {
@@ -3395,13 +3369,6 @@
       "employee_status": "A"
     },
     {
-      "login": "khelmamo",
-      "employee_name": "El Karimi, Khalid El Mamoun",
-      "shift": "",
-      "login_manager": "beldjorg",
-      "employee_status": "T"
-    },
-    {
       "login": "raimonmo",
       "employee_name": "Moise, Raimond Claudiu Florin",
       "shift": "T2",
@@ -3436,13 +3403,6 @@
       "shift": "",
       "login_manager": "beldjorg",
       "employee_status": "A"
-    },
-    {
-      "login": "gorgmiha",
-      "employee_name": "Gorgon, Mihail",
-      "shift": "",
-      "login_manager": "beldjorg",
-      "employee_status": "T"
     },
     {
       "login": "bortmoos",
@@ -3487,6 +3447,13 @@
       "employee_status": "A"
     },
     {
+      "login": "chuecc",
+      "employee_name": "Vasquez Chuecos, Carlos Alberto",
+      "shift": "T4",
+      "login_manager": "oufkirm",
+      "employee_status": "A"
+    },
+    {
       "login": "cealbvaz",
       "employee_name": "Albiach Vázquez, Clara Esperança",
       "shift": "",
@@ -3508,145 +3475,165 @@
       "employee_status": "A"
     },
     {
-      "login": "aylegil",
-      "employee_name": "Gil Yanez, Ayle Nathaly Nathaly",
-      "shift": "T3",
+      "login": "pilarnav",
+      "employee_name": "Ibañez Navarro, Pilar",
+      "shift": "T1",
       "login_manager": "chuecc",
-      "employee_status": "P"
+      "employee_status": "T",
+      "employee_type": "E"
     },
     {
-      "login": "mzprr",
-      "employee_name": "Villabona Parra, Alejandra",
-      "shift": "T3",
-      "login_manager": "chuecc",
-      "employee_status": "A"
-    },
-    {
-      "login": "omarcosa",
-      "employee_name": "Sanchez Sarmiento, Marcos Antonio Antonio",
-      "shift": "T3",
-      "login_manager": "chuecc",
-      "employee_status": "L"
-    },
-    {
-      "login": "perosofi",
-      "employee_name": "Perez Benitez, Sofia",
-      "shift": "T3",
+      "login": "mariaauf",
+      "employee_name": "Fernandes Reale, Maria Auxiliadora",
+      "shift": "T1",
       "login_manager": "chuecc",
       "employee_status": "A"
     },
     {
-      "login": "nestorhy",
-      "employee_name": "Hernandez Rodriguez, Nestor Enrique",
-      "shift": "T3",
+      "login": "jijdavid",
+      "employee_name": "Jimenez Gomez, David",
+      "shift": "T1",
+      "login_manager": "chuecc",
+      "employee_status": "A"
+    },
+    {
+      "login": "cjuacost",
+      "employee_name": "Piña, Juan Carlos",
+      "shift": "T1",
+      "login_manager": "chuecc",
+      "employee_status": "A"
+    },
+    {
+      "login": "candresg",
+      "employee_name": "Borges, Andres Leonardo Chirinos",
+      "shift": "T1",
+      "login_manager": "chuecc",
+      "employee_status": "A"
+    },
+    {
+      "login": "algagote",
+      "employee_name": "Gago Tellez, Alba",
+      "shift": "T8",
+      "login_manager": "chuecc",
+      "employee_status": "A"
+    },
+    {
+      "login": "llclarav",
+      "employee_name": "Lloscos Sanchez, Clara",
+      "shift": "T1",
       "login_manager": "chuecc",
       "employee_status": "L"
     },
     {
-      "login": "tdmilano",
-      "employee_name": "Milano Pimentel, Daniel Andres",
-      "shift": "T3",
+      "login": "eborrasr",
+      "employee_name": "Borras Ramos, Enric",
+      "shift": "T1",
       "login_manager": "chuecc",
       "employee_status": "A",
       "employee_type": "L"
     },
     {
-      "login": "gueleaza",
-      "employee_name": "Guerra Marino, Eleazar Rafael",
-      "shift": "T3",
+      "login": "danmasac",
+      "employee_name": "Masache Delgado, Daniela",
+      "shift": "T1",
       "login_manager": "chuecc",
       "employee_status": "A"
     },
     {
-      "login": "hernyera",
-      "employee_name": "Hernandez Rianos, Yeraldin",
-      "shift": "T3",
-      "login_manager": "chuecc",
-      "employee_status": "S"
-    },
-    {
-      "login": "navdoris",
-      "employee_name": "Navarrete Velis, Doris",
-      "shift": "T3",
+      "login": "scaguile",
+      "employee_name": "Aguilella Olucha, Carmen",
+      "shift": "T1",
       "login_manager": "chuecc",
       "employee_status": "A"
     },
     {
-      "login": "ybrfatim",
-      "employee_name": "Briones, Fátima",
-      "shift": "T3",
+      "login": "penacans",
+      "employee_name": "Pena Canseco, Eugenio",
+      "shift": "T1",
       "login_manager": "chuecc",
       "employee_status": "A"
     },
     {
-      "login": "lagcrisb",
-      "employee_name": "Laya, Crisbel",
-      "shift": "T3",
+      "login": "megeaser",
+      "employee_name": "Egea Serrano, Miguel",
+      "shift": "T1",
       "login_manager": "chuecc",
       "employee_status": "A"
     },
     {
-      "login": "exadrian",
-      "employee_name": "Exposito, Adrian",
-      "shift": "T3",
-      "login_manager": "chuecc",
-      "employee_status": "L",
-      "employee_type": "LA"
-    },
-    {
-      "login": "mfuenant",
-      "employee_name": "Fuentes, Antonio",
-      "shift": "T3",
+      "login": "josemiyh",
+      "employee_name": "Hernandez Severino, Jose Miguel",
+      "shift": "T7",
       "login_manager": "chuecc",
       "employee_status": "A"
     },
     {
-      "login": "gimenoma",
-      "employee_name": "Gimeno, Manuel",
-      "shift": "T3",
-      "login_manager": "chuecc",
-      "employee_status": "A",
-      "employee_type": "L"
-    },
-    {
-      "login": "uantonsa",
-      "employee_name": "Sanchez Toledo, Antonio",
-      "shift": "T3",
+      "login": "kacostaf",
+      "employee_name": "Acosta Flores, Elvis Rodolfo",
+      "shift": "T1",
       "login_manager": "chuecc",
       "employee_status": "A"
     },
     {
-      "login": "rosafead",
-      "employee_name": "Rosa Fernandez, Adrian",
-      "shift": "T3",
+      "login": "jraramon",
+      "employee_name": "Ramona, Ramona",
+      "shift": "T1",
+      "login_manager": "chuecc",
+      "employee_status": "L"
+    },
+    {
+      "login": "androsma",
+      "employee_name": "Osma, Andres",
+      "shift": "T1",
       "login_manager": "chuecc",
       "employee_status": "A"
     },
     {
-      "login": "teixekan",
-      "employee_name": "Teixeira, Kandicia",
-      "shift": "T3",
+      "login": "zreynarm",
+      "employee_name": "Reyna, Miguel Eduardo",
+      "shift": "T1",
       "login_manager": "chuecc",
       "employee_status": "A"
     },
     {
-      "login": "carginic",
-      "employee_name": "Cargini Guerrero, Claudio",
-      "shift": "T3",
+      "login": "snjennet",
+      "employee_name": "Silva, Jenneth",
+      "shift": "T1",
       "login_manager": "chuecc",
       "employee_status": "A"
     },
     {
-      "login": "toroscai",
-      "employee_name": "Torres Chavez, Oscar Jose",
-      "shift": "T3",
+      "login": "osoriomr",
+      "employee_name": "Osorio Bailon, Marco",
+      "shift": "T1",
       "login_manager": "chuecc",
       "employee_status": "A"
     },
     {
-      "login": "gomezqsa",
-      "employee_name": "Gomez Peidro, Salva",
-      "shift": "T3",
+      "login": "hectcape",
+      "employee_name": "Capella Sebastia, Hector",
+      "shift": "T7",
+      "login_manager": "chuecc",
+      "employee_status": "L"
+    },
+    {
+      "login": "josimovs",
+      "employee_name": "Josimovski Falomir, Alexia Ratka",
+      "shift": "T1",
+      "login_manager": "chuecc",
+      "employee_status": "A"
+    },
+    {
+      "login": "larrajlh",
+      "employee_name": "Laaraj Laarej, Hafssa",
+      "shift": "T8",
+      "login_manager": "chuecc",
+      "employee_status": "A"
+    },
+    {
+      "login": "vnunezbe",
+      "employee_name": "Nunez Bellido, Raul",
+      "shift": "T1",
       "login_manager": "chuecc",
       "employee_status": "A"
     },
@@ -3655,20 +3642,13 @@
       "employee_name": "Muñoz Heredia, Maria",
       "shift": "T3",
       "login_manager": "chuecc",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
-      "login": "crospinq",
-      "employee_name": "Ospina, Cristina",
-      "shift": "T3",
-      "login_manager": "chuecc",
-      "employee_status": "L"
-    },
-    {
-      "login": "anorodye",
-      "employee_name": "Añó Rodenas, Yeray",
-      "shift": "T3",
+      "login": "cperezbe",
+      "employee_name": "Perez Belles, Cristian",
+      "shift": "T1",
       "login_manager": "chuecc",
       "employee_status": "A"
     },
@@ -3677,7 +3657,7 @@
       "employee_name": "Cabeza, Juan Marin",
       "shift": "T3",
       "login_manager": "chuecc",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -3685,35 +3665,56 @@
       "employee_name": "Gallón Bejarano, Juan Jose",
       "shift": "T3",
       "login_manager": "chuecc",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
+    },
+    {
+      "login": "usuglili",
+      "employee_name": "Usuga, Lilian",
+      "shift": "T7",
+      "login_manager": "chuecc",
+      "employee_status": "A"
     },
     {
       "login": "amarialz",
       "employee_name": "Antonino Casalta, Luisa",
       "shift": "T3",
       "login_manager": "chuecc",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
-      "login": "elgadale",
-      "employee_name": "Gadale, Elian Nahuel",
-      "shift": "T3",
+      "login": "pdanprie",
+      "employee_name": "Prieto, Daniel",
+      "shift": "T1",
       "login_manager": "chuecc",
       "employee_status": "A"
     },
     {
-      "login": "belteoba",
-      "employee_name": "Belizario, Teobaldo Ramon",
-      "shift": "T3",
+      "login": "juanfgra",
+      "employee_name": "Granell Ferrer, Juan",
+      "shift": "T1",
       "login_manager": "chuecc",
       "employee_status": "A"
     },
     {
-      "login": "qmlopeza",
-      "employee_name": "López, Maria",
-      "shift": "T3",
+      "login": "eyolandf",
+      "employee_name": "Fernandez Martinez, Yolanda",
+      "shift": "T1",
+      "login_manager": "chuecc",
+      "employee_status": "A"
+    },
+    {
+      "login": "zalbarrg",
+      "employee_name": "Albarran Avendano, Gaby",
+      "shift": "T1",
+      "login_manager": "chuecc",
+      "employee_status": "L"
+    },
+    {
+      "login": "lnkhadoj",
+      "employee_name": "El Ghoufairi, Khadija",
+      "shift": "T6",
       "login_manager": "chuecc",
       "employee_status": "A"
     },
@@ -3722,15 +3723,23 @@
       "employee_name": "Quinones, Hanllensan Stwar",
       "shift": "T7",
       "login_manager": "chuecc",
-      "employee_status": "L",
+      "employee_status": "T",
       "employee_type": "DP"
+    },
+    {
+      "login": "lvargasd",
+      "employee_name": "Vargas De Oliveira, Larissa Gabrielle",
+      "shift": "T1",
+      "login_manager": "chuecc",
+      "employee_status": "A",
+      "employee_type": "L"
     },
     {
       "login": "irisbmil",
       "employee_name": "Orias, Milagros",
       "shift": "T3",
       "login_manager": "chuecc",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -3738,53 +3747,31 @@
       "employee_name": "Causada Armengol, José Severiano",
       "shift": "T3",
       "login_manager": "chuecc",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
-    },
-    {
-      "login": "eguinape",
-      "employee_name": "Guinan, Pedro Andree",
-      "shift": "T3",
-      "login_manager": "chuecc",
-      "employee_status": "A"
     },
     {
       "login": "cerezuee",
       "employee_name": "Cerezuela, Eva",
       "shift": "T3",
       "login_manager": "chuecc",
-      "employee_status": "A",
-      "employee_type": "FT"
+      "employee_status": "T",
+      "employee_type": "DP"
     },
     {
       "login": "alvaperd",
       "employee_name": "Perez, Alvaro",
       "shift": "T3",
       "login_manager": "chuecc",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
-    },
-    {
-      "login": "lopmicae",
-      "employee_name": "Lopez, Micaela Belen",
-      "shift": "T3",
-      "login_manager": "chuecc",
-      "employee_status": "A"
     },
     {
       "login": "jorrayar",
       "employee_name": "Raya Ruiz, Jorge",
       "shift": "T3",
       "login_manager": "chuecc",
-      "employee_status": "A",
-      "employee_type": "DP"
-    },
-    {
-      "login": "mulamrin",
-      "employee_name": "Lamrini, Mustapha",
-      "shift": "T3",
-      "login_manager": "chuecc",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -3792,7 +3779,7 @@
       "employee_name": "Boujnane, Hajjar",
       "shift": "T3",
       "login_manager": "chuecc",
-      "employee_status": "L",
+      "employee_status": "T",
       "employee_type": "FT"
     },
     {
@@ -3812,14 +3799,6 @@
       "employee_type": "FT"
     },
     {
-      "login": "laaranas",
-      "employee_name": "Laaraj Laarej, Anas",
-      "shift": "T3",
-      "login_manager": "chuecc",
-      "employee_status": "T",
-      "employee_type": "FT"
-    },
-    {
       "login": "gabimori",
       "employee_name": "Moragas, Gabi",
       "shift": "T3",
@@ -3832,7 +3811,7 @@
       "employee_name": "Belhamra, Loubna",
       "shift": "T3",
       "login_manager": "chuecc",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -3844,163 +3823,166 @@
       "employee_type": "FT"
     },
     {
-      "login": "baezacri",
-      "employee_name": "Baeza Placeres, Cristobal Jose",
-      "shift": "T2",
+      "login": "aylegil",
+      "employee_name": "Gil Yanez, Ayle Nathaly Nathaly",
+      "shift": "T3",
+      "login_manager": "pdelolmo",
+      "employee_status": "A"
+    },
+    {
+      "login": "mzprr",
+      "employee_name": "Villabona Parra, Alejandra",
+      "shift": "T3",
+      "login_manager": "pdelolmo",
+      "employee_status": "A"
+    },
+    {
+      "login": "omarcosa",
+      "employee_name": "Sanchez Sarmiento, Marcos Antonio Antonio",
+      "shift": "T3",
+      "login_manager": "pdelolmo",
+      "employee_status": "L"
+    },
+    {
+      "login": "perosofi",
+      "employee_name": "Perez Benitez, Sofia",
+      "shift": "T3",
+      "login_manager": "pdelolmo",
+      "employee_status": "A"
+    },
+    {
+      "login": "nestorhy",
+      "employee_name": "Hernandez Rodriguez, Nestor Enrique",
+      "shift": "T3",
+      "login_manager": "pdelolmo",
+      "employee_status": "L"
+    },
+    {
+      "login": "tdmilano",
+      "employee_name": "Milano Pimentel, Daniel Andres",
+      "shift": "T3",
+      "login_manager": "pdelolmo",
+      "employee_status": "A",
+      "employee_type": "L"
+    },
+    {
+      "login": "gueleaza",
+      "employee_name": "Guerra Marino, Eleazar Rafael",
+      "shift": "T3",
+      "login_manager": "pdelolmo",
+      "employee_status": "A"
+    },
+    {
+      "login": "hernyera",
+      "employee_name": "Hernandez Rianos, Yeraldin",
+      "shift": "T3",
+      "login_manager": "pdelolmo",
+      "employee_status": "S"
+    },
+    {
+      "login": "navdoris",
+      "employee_name": "Navarrete Velis, Doris",
+      "shift": "T3",
+      "login_manager": "pdelolmo",
+      "employee_status": "A"
+    },
+    {
+      "login": "ybrfatim",
+      "employee_name": "Briones, Fátima",
+      "shift": "T3",
+      "login_manager": "pdelolmo",
+      "employee_status": "A"
+    },
+    {
+      "login": "lagcrisb",
+      "employee_name": "Laya, Crisbel",
+      "shift": "T3",
+      "login_manager": "pdelolmo",
+      "employee_status": "A"
+    },
+    {
+      "login": "exadrian",
+      "employee_name": "Exposito, Adrian",
+      "shift": "T3",
       "login_manager": "pdelolmo",
       "employee_status": "A",
       "employee_type": "LA"
     },
     {
-      "login": "prezjkb",
-      "employee_name": "Molina, Leo",
-      "shift": "T2",
+      "login": "mfuenant",
+      "employee_name": "Fuentes, Antonio",
+      "shift": "T3",
       "login_manager": "pdelolmo",
       "employee_status": "A"
     },
     {
-      "login": "bmarioal",
-      "employee_name": "Bautista Alcantara, Mario Alberto",
-      "shift": "T1",
-      "login_manager": "pdelolmo",
-      "employee_status": "A"
-    },
-    {
-      "login": "merchfer",
-      "employee_name": "Munoz Ferrezuelo, Mercedes Munoz",
-      "shift": "T2",
+      "login": "gimenoma",
+      "employee_name": "Gimeno, Manuel",
+      "shift": "T3",
       "login_manager": "pdelolmo",
       "employee_status": "A",
-      "employee_type": "E"
+      "employee_type": "L"
     },
     {
-      "login": "ndiacast",
-      "employee_name": "Castellet Benitez, Diana",
-      "shift": "T2",
+      "login": "uantonsa",
+      "employee_name": "Sanchez Toledo, Antonio",
+      "shift": "T3",
       "login_manager": "pdelolmo",
       "employee_status": "A"
     },
     {
-      "login": "alconvje",
-      "employee_name": "Alcon Vega, Jenifer",
-      "shift": "T2",
-      "login_manager": "pdelolmo",
-      "employee_status": "L",
-      "employee_type": "E"
-    },
-    {
-      "login": "ysjimene",
-      "employee_name": "Jimenez Recuenco, Yolanda",
-      "shift": "T2",
-      "login_manager": "pdelolmo",
-      "employee_status": "A",
-      "employee_type": "E"
-    },
-    {
-      "login": "tgraaida",
-      "employee_name": "Granell Vilar, Aida",
-      "shift": "T2",
+      "login": "rosafead",
+      "employee_name": "Rosa Fernandez, Adrian",
+      "shift": "T3",
       "login_manager": "pdelolmo",
       "employee_status": "A"
     },
     {
-      "login": "marinosy",
-      "employee_name": "Marino Alonso, Sarai",
-      "shift": "T2",
+      "login": "teixekan",
+      "employee_name": "Teixeira, Kandicia",
+      "shift": "T3",
       "login_manager": "pdelolmo",
       "employee_status": "A"
     },
     {
-      "login": "barjorgt",
-      "employee_name": "Barbera Manrique, Jorge Pascual",
-      "shift": "T2",
+      "login": "carginic",
+      "employee_name": "Cargini Guerrero, Claudio",
+      "shift": "T3",
+      "login_manager": "pdelolmo",
+      "employee_status": "A"
+    },
+    {
+      "login": "toroscai",
+      "employee_name": "Torres Chavez, Oscar Jose",
+      "shift": "T3",
+      "login_manager": "pdelolmo",
+      "employee_status": "A"
+    },
+    {
+      "login": "gomezqsa",
+      "employee_name": "Gomez Peidro, Salva",
+      "shift": "T3",
+      "login_manager": "pdelolmo",
+      "employee_status": "A"
+    },
+    {
+      "login": "crospinq",
+      "employee_name": "Ospina, Cristina",
+      "shift": "T3",
       "login_manager": "pdelolmo",
       "employee_status": "L"
     },
     {
-      "login": "fonterui",
-      "employee_name": "Fonte, Jorge",
-      "shift": "T2",
+      "login": "delgcrub",
+      "employee_name": "Delgado Huguet, Ruben",
+      "shift": "T3",
       "login_manager": "pdelolmo",
       "employee_status": "A"
     },
     {
-      "login": "fpinamon",
-      "employee_name": "Pina Montanes, Aaron",
-      "shift": "T2",
-      "login_manager": "pdelolmo",
-      "employee_status": "A",
-      "employee_type": "L"
-    },
-    {
-      "login": "gonbceci",
-      "employee_name": "González Rojas, Cecilia Andreina",
-      "shift": "T2",
-      "login_manager": "pdelolmo",
-      "employee_status": "L",
-      "employee_type": "L"
-    },
-    {
-      "login": "costbica",
-      "employee_name": "Bica, Costinel Ovidiu",
-      "shift": "T2",
-      "login_manager": "pdelolmo",
-      "employee_status": "A"
-    },
-    {
-      "login": "aletolea",
-      "employee_name": "Tolea, Alexandru",
-      "shift": "T2",
-      "login_manager": "pdelolmo",
-      "employee_status": "A"
-    },
-    {
-      "login": "oivanovf",
-      "employee_name": "Ivanova, Olha",
-      "shift": "T2",
-      "login_manager": "pdelolmo",
-      "employee_status": "A"
-    },
-    {
-      "login": "frannrod",
-      "employee_name": "Rodriguez Jimenez, Francisco",
-      "shift": "T2",
-      "login_manager": "pdelolmo",
-      "employee_status": "A"
-    },
-    {
-      "login": "alejjsa",
-      "employee_name": "Sanchez, Alejandro",
-      "shift": "T2",
-      "login_manager": "pdelolmo",
-      "employee_status": "A"
-    },
-    {
-      "login": "tmolinac",
-      "employee_name": "Molina Castro, Cristhian Camilo",
-      "shift": "T7",
-      "login_manager": "pdelolmo",
-      "employee_status": "A"
-    },
-    {
-      "login": "crejuanw",
-      "employee_name": "Crespo, Juan Pedro",
-      "shift": "T2",
-      "login_manager": "pdelolmo",
-      "employee_status": "A"
-    },
-    {
-      "login": "daabnade",
-      "employee_name": "Daabal Chmeit, Nader",
-      "shift": "T2",
-      "login_manager": "pdelolmo",
-      "employee_status": "A",
-      "employee_type": "L"
-    },
-    {
-      "login": "javicrom",
-      "employee_name": "Romero Vicente, Javier Isaac",
-      "shift": "T2",
+      "login": "anorodye",
+      "employee_name": "Añó Rodenas, Yeray",
+      "shift": "T3",
       "login_manager": "pdelolmo",
       "employee_status": "A"
     },
@@ -4009,7 +3991,7 @@
       "employee_name": "Jimenez San Nicolas, Emma",
       "shift": "T2",
       "login_manager": "pdelolmo",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -4017,139 +3999,90 @@
       "employee_name": "Sabir Bouharrada, Btissam",
       "shift": "T2",
       "login_manager": "pdelolmo",
-      "employee_status": "A",
-      "employee_type": "DP"
-    },
-    {
-      "login": "mparramo",
-      "employee_name": "Parra Monlleó, Andrea",
-      "shift": "T7",
-      "login_manager": "pdelolmo",
-      "employee_status": "A"
-    },
-    {
-      "login": "ideanmar",
-      "employee_name": "De Andrade, Marcella",
-      "shift": "T7",
-      "login_manager": "pdelolmo",
       "employee_status": "T",
       "employee_type": "DP"
     },
     {
-      "login": "gregopin",
-      "employee_name": "Pinto Leon, Gregoria Josefina",
-      "shift": "T2",
+      "login": "elgadale",
+      "employee_name": "Gadale, Elian Nahuel",
+      "shift": "T3",
       "login_manager": "pdelolmo",
       "employee_status": "A"
     },
     {
-      "login": "nmartpab",
-      "employee_name": "Martínez Tornador, Pablo",
-      "shift": "T2",
+      "login": "belteoba",
+      "employee_name": "Belizario, Teobaldo Ramon",
+      "shift": "T3",
       "login_manager": "pdelolmo",
       "employee_status": "A"
     },
     {
-      "login": "vihgrana",
-      "employee_name": "Granada, Victor",
-      "shift": "T2",
+      "login": "qmlopeza",
+      "employee_name": "López, Maria",
+      "shift": "T3",
       "login_manager": "pdelolmo",
-      "employee_status": "A",
-      "employee_type": "DP"
+      "employee_status": "A"
     },
     {
       "login": "gsorelys",
       "employee_name": "Gonzalez, Sorelys Del Carmen",
       "shift": "T2",
       "login_manager": "pdelolmo",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
-    },
-    {
-      "login": "navarwgr",
-      "employee_name": "Navarrete Fernández, Greg",
-      "shift": "T2",
-      "login_manager": "pdelolmo",
-      "employee_status": "A"
-    },
-    {
-      "login": "villgonn",
-      "employee_name": "Villarreal, Gonzalo Uriel",
-      "shift": "T2",
-      "login_manager": "pdelolmo",
-      "employee_status": "A"
     },
     {
       "login": "lyndmouh",
       "employee_name": "Mouhoub, Lynda",
       "shift": "T2",
       "login_manager": "pdelolmo",
-      "employee_status": "A",
-      "employee_type": "FT"
+      "employee_status": "T",
+      "employee_type": "DP"
+    },
+    {
+      "login": "eguinape",
+      "employee_name": "Guinan, Pedro Andree",
+      "shift": "T3",
+      "login_manager": "pdelolmo",
+      "employee_status": "A"
     },
     {
       "login": "ginerpak",
       "employee_name": "Giner Pascual, Zaira",
       "shift": "T2",
       "login_manager": "pdelolmo",
-      "employee_status": "A",
-      "employee_type": "DP"
-    },
-    {
-      "login": "gsbelkys",
-      "employee_name": "Gomez, Belkys Yusgreivy",
-      "shift": "T4",
-      "login_manager": "pdelolmo",
       "employee_status": "T",
-      "employee_type": "FT"
+      "employee_type": "DP"
     },
     {
       "login": "januzmar",
       "employee_name": "Marquez Vasquez, Januzelki Javier",
       "shift": "T2",
       "login_manager": "pdelolmo",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
+    },
+    {
+      "login": "lopmicae",
+      "employee_name": "Lopez, Micaela Belen",
+      "shift": "T3",
+      "login_manager": "pdelolmo",
+      "employee_status": "A"
     },
     {
       "login": "vilojenn",
       "employee_name": "Viloria, Jenniree M Urdaneta",
       "shift": "T2",
       "login_manager": "pdelolmo",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
-      "login": "tangievz",
-      "employee_name": "Zamboni, Angie Viviana Viviana",
-      "shift": "T4",
+      "login": "mulamrin",
+      "employee_name": "Lamrini, Mustapha",
+      "shift": "T3",
       "login_manager": "pdelolmo",
-      "employee_status": "T",
-      "employee_type": "FT"
-    },
-    {
-      "login": "jerikaba",
-      "employee_name": "Barreto, Jerika",
-      "shift": "T4",
-      "login_manager": "pdelolmo",
-      "employee_status": "T",
-      "employee_type": "FT"
-    },
-    {
-      "login": "blancuje",
-      "employee_name": "Blanco, Jean Luis",
-      "shift": "T4",
-      "login_manager": "pdelolmo",
-      "employee_status": "T",
-      "employee_type": "FT"
-    },
-    {
-      "login": "benagraf",
-      "employee_name": "Benages, Rafa",
-      "shift": "T4",
-      "login_manager": "pdelolmo",
-      "employee_status": "T",
-      "employee_type": "FT"
+      "employee_status": "A"
     },
     {
       "login": "zmarloai",
@@ -4180,29 +4113,13 @@
       "employee_name": "Davila, Yvonly Josseline",
       "shift": "T2",
       "login_manager": "pdelolmo",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
       "login": "bregitte",
       "employee_name": "Trujillo Bermejo, Bregitte",
       "shift": "T2",
-      "login_manager": "pdelolmo",
-      "employee_status": "A",
-      "employee_type": "FT"
-    },
-    {
-      "login": "fpaolava",
-      "employee_name": "Valentina, Paola Valentina",
-      "shift": "T4",
-      "login_manager": "pdelolmo",
-      "employee_status": "T",
-      "employee_type": "FT"
-    },
-    {
-      "login": "miltopri",
-      "employee_name": "Prisco, Milton",
-      "shift": "T4",
       "login_manager": "pdelolmo",
       "employee_status": "T",
       "employee_type": "FT"
@@ -4223,239 +4140,36 @@
       "employee_status": "A"
     },
     {
-      "login": "possn",
-      "employee_name": "Nardone Posse, Noelia",
-      "shift": "T6",
-      "login_manager": "cargagog",
-      "employee_status": "A"
-    },
-    {
-      "login": "alejacoe",
-      "employee_name": "Coego Gutierrez, Alejandro",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "A",
-      "employee_type": "F"
-    },
-    {
-      "login": "dalampug",
-      "employee_name": "Lampugnani, Davide",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "A",
-      "employee_type": "L"
-    },
-    {
-      "login": "jorgervi",
-      "employee_name": "Villanueva Esquivel, Jorge Ricardo Ricardo",
-      "shift": "T1",
-      "login_manager": "cargagog",
-      "employee_status": "A"
-    },
-    {
-      "login": "diantara",
-      "employee_name": "Tarazona Navas, Diana",
-      "shift": "T7",
-      "login_manager": "cargagog",
-      "employee_status": "A"
-    },
-    {
-      "login": "sorkdumi",
-      "employee_name": "Dumitroiu, Sorin",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "A"
-    },
-    {
-      "login": "psanmart",
-      "employee_name": "Martin Marin, Sandra",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "L"
-    },
-    {
-      "login": "juditrok",
-      "employee_name": "Rodriguez Morales, Judith",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "A"
-    },
-    {
-      "login": "kchirild",
-      "employee_name": "Chirila, Doru Cristian",
-      "shift": "T7",
-      "login_manager": "cargagog",
-      "employee_status": "L"
-    },
-    {
-      "login": "navafait",
-      "employee_name": "Navarro Bolinaga, Aitor",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "A"
-    },
-    {
-      "login": "haelabbo",
-      "employee_name": "El Abboudi, Hayat",
-      "shift": "T7",
-      "login_manager": "cargagog",
-      "employee_status": "A"
-    },
-    {
-      "login": "lobrianz",
-      "employee_name": "Lopez Sanchez, Brian",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "A"
-    },
-    {
-      "login": "llvicent",
-      "employee_name": "Llorens Gil, Vicente Vicente",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "A",
-      "employee_type": "LA"
-    },
-    {
-      "login": "ccjohann",
-      "employee_name": "Campo, Johanna",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "A"
-    },
-    {
-      "login": "moralmaz",
-      "employee_name": "Osuna, Maria Morales",
-      "shift": "T5",
-      "login_manager": "cargagog",
-      "employee_status": "T"
-    },
-    {
-      "login": "nuralber",
-      "employee_name": "Albert Sancho, Nuria",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "A"
-    },
-    {
-      "login": "hivaniul",
-      "employee_name": "Ivan, Iulian Octavian",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "A",
-      "employee_type": "L"
-    },
-    {
-      "login": "garcibeg",
-      "employee_name": "Garcia Garcia, Begoña",
-      "shift": "T8",
-      "login_manager": "cargagog",
-      "employee_status": "A"
-    },
-    {
-      "login": "garcamax",
-      "employee_name": "Garcia Moreno, Maximo",
-      "shift": "T8",
-      "login_manager": "cargagog",
-      "employee_status": "A"
-    },
-    {
-      "login": "galermar",
-      "employee_name": "Galer, Mariana Daniela",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "T",
-      "employee_type": "FT"
-    },
-    {
-      "login": "oanaemar",
-      "employee_name": "Marin, Oana Elena",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "A"
-    },
-    {
-      "login": "loismaik",
-      "employee_name": "Martinez Gonzalez, Lois Maikel Maikel",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "A",
-      "employee_type": "E"
-    },
-    {
       "login": "jfranave",
       "employee_name": "Avellana, Paco",
       "shift": "T7",
       "login_manager": "cargagog",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
-      "login": "jurreava",
-      "employee_name": "Urrea Vallejo, Jesica",
-      "shift": "T2",
+      "login": "yeduarpe",
+      "employee_name": "Perez, Eduardo",
+      "shift": "T4",
       "login_manager": "cargagog",
-      "employee_status": "A"
+      "employee_status": "A",
+      "employee_type": "L"
     },
     {
       "login": "diazasua",
       "employee_name": "Diaz, Rossy",
       "shift": "T7",
       "login_manager": "cargagog",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
-    },
-    {
-      "login": "romanior",
-      "employee_name": "Romani Ordoñez, Luis Alberto",
-      "shift": "T7",
-      "login_manager": "cargagog",
-      "employee_status": "A"
-    },
-    {
-      "login": "neanab",
-      "employee_name": "Negrette Rodríguez, Ana Sarahy",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "A"
-    },
-    {
-      "login": "comppedr",
-      "employee_name": "Compan Beltran, Pedro",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "L",
-      "employee_type": "LA"
-    },
-    {
-      "login": "chaveznb",
-      "employee_name": "Chavez, Neuriz Sandra",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "A",
-      "employee_type": "DP"
-    },
-    {
-      "login": "mingapia",
-      "employee_name": "Mingarro Pujol, Ian",
-      "shift": "T8",
-      "login_manager": "cargagog",
-      "employee_status": "A"
     },
     {
       "login": "uyannils",
       "employee_name": "Yanes, Nilsa Nil",
       "shift": "T2",
       "login_manager": "cargagog",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "FT"
-    },
-    {
-      "login": "fthaydee",
-      "employee_name": "Fuenmayor, Thaydee Josefina",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "A"
     },
     {
       "login": "iosivale",
@@ -4466,71 +4180,11 @@
       "employee_type": "FT"
     },
     {
-      "login": "mendnfab",
-      "employee_name": "Méndez Brito, Fabiana Isabela",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "A"
-    },
-    {
-      "login": "hjesmarl",
-      "employee_name": "Mejias Pérez, Jesmar Liliana",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "L"
-    },
-    {
-      "login": "marwuill",
-      "employee_name": "Marcano, Wuillians",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "A"
-    },
-    {
-      "login": "josefelu",
-      "employee_name": "Felip, Jose",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "A"
-    },
-    {
-      "login": "rpajohan",
-      "employee_name": "Parra, Johana Lisbeth",
-      "shift": "T5",
-      "login_manager": "cargagog",
-      "employee_status": "A",
-      "employee_type": "DP"
-    },
-    {
-      "login": "morncarm",
-      "employee_name": "Moreno Valdez, Carmen Carolina",
-      "shift": "T5",
-      "login_manager": "cargagog",
-      "employee_status": "A",
-      "employee_type": "DP"
-    },
-    {
       "login": "fonseali",
       "employee_name": "Fonseca, Alianny",
       "shift": "T5",
       "login_manager": "cargagog",
-      "employee_status": "A",
-      "employee_type": "DP"
-    },
-    {
-      "login": "arayvane",
-      "employee_name": "Aray, Vanessa Michell",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "A",
-      "employee_type": "DP"
-    },
-    {
-      "login": "gagustac",
-      "employee_name": "Gambino, Gustavo Gambino",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -4538,7 +4192,7 @@
       "employee_name": "Esteve, Sergio",
       "shift": "T7",
       "login_manager": "cargagog",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -4546,15 +4200,7 @@
       "employee_name": "Vidal Revilla, Vicente Jose",
       "shift": "T5",
       "login_manager": "cargagog",
-      "employee_status": "A",
-      "employee_type": "DP"
-    },
-    {
-      "login": "veldenny",
-      "employee_name": "Velazco Jimenez, Dennys Gervacio",
-      "shift": "T5",
-      "login_manager": "cargagog",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -4566,48 +4212,16 @@
       "employee_type": "FT"
     },
     {
-      "login": "soufboui",
-      "employee_name": "Bouirik, Soufiane",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "T",
-      "employee_type": "FT"
-    },
-    {
       "login": "maryelva",
       "employee_name": "Vargas, Maryeli",
       "shift": "T2",
       "login_manager": "cargagog",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "FT"
     },
     {
       "login": "esxgutie",
       "employee_name": "Gutierrez, Estefany Carmen",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "T",
-      "employee_type": "FT"
-    },
-    {
-      "login": "dbennaja",
-      "employee_name": "Ben, Najat Ben Hammou",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "T",
-      "employee_type": "FT"
-    },
-    {
-      "login": "mendolef",
-      "employee_name": "Mendoza, Leomar",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "T",
-      "employee_type": "FT"
-    },
-    {
-      "login": "casasilv",
-      "employee_name": "Casanova, Silvia",
       "shift": "T2",
       "login_manager": "cargagog",
       "employee_status": "T",
@@ -4630,22 +4244,6 @@
       "employee_type": "FT"
     },
     {
-      "login": "ramwcarl",
-      "employee_name": "Ramos Garcia, Carlos",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "A",
-      "employee_type": "DP"
-    },
-    {
-      "login": "salvsonn",
-      "employee_name": "Salazar, Sonny",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "A",
-      "employee_type": "DP"
-    },
-    {
       "login": "trachghe",
       "employee_name": "Trache, Gheorghe",
       "shift": "T2",
@@ -4656,14 +4254,6 @@
     {
       "login": "gboterob",
       "employee_name": "Botero Burbano, Gabriel Felipe",
-      "shift": "T2",
-      "login_manager": "cargagog",
-      "employee_status": "T",
-      "employee_type": "FT"
-    },
-    {
-      "login": "jaivanyi",
-      "employee_name": "Jaramillo, Ivanys Del Carmen",
       "shift": "T2",
       "login_manager": "cargagog",
       "employee_status": "T",
@@ -4682,8 +4272,8 @@
       "employee_name": "Punzano, Linda",
       "shift": "T2",
       "login_manager": "cargagog",
-      "employee_status": "A",
-      "employee_type": "FT"
+      "employee_status": "T",
+      "employee_type": "DP"
     },
     {
       "login": "beaovand",
@@ -4726,6 +4316,13 @@
     {
       "login": "perezbmd",
       "employee_name": "Perez, Mercedes Bueno",
+      "shift": "",
+      "login_manager": "aleiva",
+      "employee_status": "A"
+    },
+    {
+      "login": "marwalba",
+      "employee_name": "Martinez, Alba Badenes",
       "shift": "",
       "login_manager": "aleiva",
       "employee_status": "A"
@@ -4955,11 +4552,18 @@
       "employee_status": "A"
     },
     {
+      "login": "possn",
+      "employee_name": "Nardone Posse, Noelia",
+      "shift": "T6",
+      "login_manager": "pnavarrq",
+      "employee_status": "A"
+    },
+    {
       "login": "yyolrome",
       "employee_name": "Romero Espinoza, Yoly Soiret",
       "shift": "T4",
       "login_manager": "pnavarrq",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -5048,7 +4652,7 @@
       "employee_name": "Bouhou, Samia",
       "shift": "T7",
       "login_manager": "pnavarrq",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -5056,7 +4660,7 @@
       "employee_name": "Villarroel Veizaga, Emily",
       "shift": "T7",
       "login_manager": "pnavarrq",
-      "employee_status": "L",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -5071,7 +4675,7 @@
       "employee_name": "Lamdaghri, Sara El Mahi",
       "shift": "T5",
       "login_manager": "pnavarrq",
-      "employee_status": "L",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -5094,31 +4698,30 @@
       "employee_name": "Bandes, Paola",
       "shift": "T4",
       "login_manager": "pnavarrq",
-      "employee_status": "L"
+      "employee_status": "A"
     },
     {
       "login": "korozcot",
       "employee_name": "Orozco Torres, Silvia",
       "shift": "T4",
       "login_manager": "pnavarrq",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
-    },
-    {
-      "login": "kenelmsa",
-      "employee_name": "Sanchez, Kenelma",
-      "shift": "T4",
-      "login_manager": "pnavarrq",
-      "employee_status": "A",
-      "employee_type": "L"
     },
     {
       "login": "avbolano",
       "employee_name": "Bolanos, Alejandra",
       "shift": "T4",
       "login_manager": "pnavarrq",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "LA"
+    },
+    {
+      "login": "jesumolf",
+      "employee_name": "Molina, Jesus",
+      "shift": "T4",
+      "login_manager": "pnavarrq",
+      "employee_status": "A"
     },
     {
       "login": "lopeabnt",
@@ -5129,26 +4732,11 @@
       "employee_type": "DP"
     },
     {
-      "login": "ramirime",
-      "employee_name": "Ramirez, Melisse",
-      "shift": "T4",
-      "login_manager": "pnavarrq",
-      "employee_status": "A"
-    },
-    {
-      "login": "saithaki",
-      "employee_name": "Ait Haki, Somia",
-      "shift": "T4",
-      "login_manager": "pnavarrq",
-      "employee_status": "T",
-      "employee_type": "FT"
-    },
-    {
       "login": "dancoagb",
       "employee_name": "Coa Garcia, Danis Alfredo",
       "shift": "T4",
       "login_manager": "pnavarrq",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -5171,13 +4759,13 @@
       "employee_name": "Vargas, Estefany",
       "shift": "T4",
       "login_manager": "pnavarrq",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "FT"
     },
     {
-      "login": "zfaneite",
-      "employee_name": "Faneite, Zasha Tailing",
-      "shift": "T3",
+      "login": "cpindidi",
+      "employee_name": "Pinzon, Didier",
+      "shift": "T7",
       "login_manager": "pnavarrq",
       "employee_status": "A"
     },
@@ -5186,7 +4774,7 @@
       "employee_name": "Avellana Radu, Alexandra",
       "shift": "T8",
       "login_manager": "pnavarrq",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -5194,7 +4782,7 @@
       "employee_name": "Iorcic, Angelica Annemarie",
       "shift": "T4",
       "login_manager": "pnavarrq",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -5202,23 +4790,30 @@
       "employee_name": "Briceno, Karina",
       "shift": "T4",
       "login_manager": "pnavarrq",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
+    },
+    {
+      "login": "morncarm",
+      "employee_name": "Moreno Valdez, Carmen Carolina",
+      "shift": "T5",
+      "login_manager": "pnavarrq",
+      "employee_status": "A"
     },
     {
       "login": "jaomonse",
       "employee_name": "Monserrat, Javier",
       "shift": "T4",
       "login_manager": "pnavarrq",
-      "employee_status": "A",
-      "employee_type": "FT"
+      "employee_status": "T",
+      "employee_type": "DP"
     },
     {
       "login": "alvaalbj",
       "employee_name": "Alvarez Gutierrez, Alba",
       "shift": "T4",
       "login_manager": "pnavarrq",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -5226,7 +4821,7 @@
       "employee_name": "Monsalve, Cristhian",
       "shift": "T4",
       "login_manager": "pnavarrq",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -5242,7 +4837,7 @@
       "employee_name": "Suarez, Maria Eugenia",
       "shift": "T4",
       "login_manager": "pnavarrq",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -5250,7 +4845,7 @@
       "employee_name": "Ridao, Daniel",
       "shift": "T4",
       "login_manager": "pnavarrq",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "FT"
     },
     {
@@ -5258,23 +4853,15 @@
       "employee_name": "Borja Cardenas, Berta",
       "shift": "T4",
       "login_manager": "pnavarrq",
-      "employee_status": "A",
-      "employee_type": "FT"
-    },
-    {
-      "login": "naranpda",
-      "employee_name": "Naranjo Morale, David Eduardo",
-      "shift": "T4",
-      "login_manager": "pnavarrq",
       "employee_status": "T",
-      "employee_type": "FT"
+      "employee_type": "DP"
     },
     {
       "login": "quesachr",
       "employee_name": "Quesada González, Christian",
       "shift": "T4",
       "login_manager": "pnavarrq",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "FT"
     },
     {
@@ -5282,8 +4869,8 @@
       "employee_name": "Leon, Samuel Enrique",
       "shift": "T4",
       "login_manager": "pnavarrq",
-      "employee_status": "A",
-      "employee_type": "FT"
+      "employee_status": "T",
+      "employee_type": "DP"
     },
     {
       "login": "tkaterip",
@@ -5298,8 +4885,8 @@
       "employee_name": "Pezzotti, Maria",
       "shift": "T4",
       "login_manager": "pnavarrq",
-      "employee_status": "A",
-      "employee_type": "FT"
+      "employee_status": "T",
+      "employee_type": "DP"
     },
     {
       "login": "carlfba",
@@ -5321,7 +4908,7 @@
       "employee_name": "Munoz, Jann",
       "shift": "T4",
       "login_manager": "pnavarrq",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "FT"
     },
     {
@@ -5345,7 +4932,7 @@
       "employee_name": "Ochoa, Kelly Joselyn",
       "shift": "T4",
       "login_manager": "pnavarrq",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "FT"
     },
     {
@@ -5353,7 +4940,7 @@
       "employee_name": "Nogués Monsalvo, Alejandro",
       "shift": "T4",
       "login_manager": "pnavarrq",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "FT"
     },
     {
@@ -5371,6 +4958,13 @@
       "login_manager": "pnavarrq",
       "employee_status": "T",
       "employee_type": "FT"
+    },
+    {
+      "login": "mafaldar",
+      "employee_name": "Ramos, Mafalda Isabel Tremoço",
+      "shift": "",
+      "login_manager": "",
+      "employee_status": "A"
     },
     {
       "login": "libertiq",
@@ -5464,13 +5058,6 @@
       "employee_status": "A"
     },
     {
-      "login": "diganais",
-      "employee_name": "Diaz Simon, Anais",
-      "shift": "",
-      "login_manager": "manacost",
-      "employee_status": "T"
-    },
-    {
       "login": "ruborill",
       "employee_name": "Borillo, Ruben Jose",
       "shift": "",
@@ -5487,13 +5074,6 @@
     {
       "login": "rijaviee",
       "employee_name": "Rios, Javier",
-      "shift": "",
-      "login_manager": "manacost",
-      "employee_status": "L"
-    },
-    {
-      "login": "delgcrub",
-      "employee_name": "Delgado Huguet, Ruben",
       "shift": "",
       "login_manager": "manacost",
       "employee_status": "A"
@@ -5538,35 +5118,21 @@
       "employee_name": "Rivera Ramos, Naomi Lizbeth",
       "shift": "",
       "login_manager": "manacost",
-      "employee_status": "A"
+      "employee_status": "T"
     },
     {
       "login": "mmillanj",
       "employee_name": "Millan, Julio",
       "shift": "",
       "login_manager": "manacost",
-      "employee_status": "A"
-    },
-    {
-      "login": "calderrs",
-      "employee_name": "Caldera, Roberto Carlos",
-      "shift": "",
-      "login_manager": "manacost",
-      "employee_status": "A"
-    },
-    {
-      "login": "karinrbo",
-      "employee_name": "Bohorquez Vasquez, Karina Solimar",
-      "shift": "",
-      "login_manager": "manacost",
-      "employee_status": "A"
+      "employee_status": "T"
     },
     {
       "login": "lrocarin",
       "employee_name": "Romero, Carine Luz",
       "shift": "",
       "login_manager": "manacost",
-      "employee_status": "A"
+      "employee_status": "T"
     },
     {
       "login": "letibona",
@@ -5625,34 +5191,6 @@
       "employee_status": "A"
     },
     {
-      "login": "imigumon",
-      "employee_name": "Montoliu Pitarch, Miguel Angel",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "nataocha",
-      "employee_name": "Ochando Llisterri, Natalia",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "pisonfer",
-      "employee_name": "Pison Mainiar, Fernando Jose",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "agustdom",
-      "employee_name": "Domenech Penalver, Agustin",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
       "login": "torvjona",
       "employee_name": "Torres Freire, Jonatan",
       "shift": "",
@@ -5660,67 +5198,11 @@
       "employee_status": "A"
     },
     {
-      "login": "tomasdgo",
-      "employee_name": "Gomez Peinado, Tomas",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "jariljua",
-      "employee_name": "Jarillo Navarro, Juan",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
       "login": "jagudoli",
       "employee_name": "Agudo Lizcano, Jose Maria",
       "shift": "",
       "login_manager": "mdferrer",
       "employee_status": "A"
-    },
-    {
-      "login": "franmsan",
-      "employee_name": "Santiago Carretero, Francisco",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "lgabrieh",
-      "employee_name": "Hernandez Villegas, Gabriel",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "futfranc",
-      "employee_name": "Fuentes Lopez, Francisco",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "edolucix",
-      "employee_name": "Edo Pla, Lucia",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "cpifranc",
-      "employee_name": "Pitarch Bosca, Francisco Mariano",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "rojuanfs",
-      "employee_name": "Rodriguez Varga, Juan Francisco",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
     },
     {
       "login": "joseralo",
@@ -5735,55 +5217,6 @@
       "shift": "",
       "login_manager": "mdferrer",
       "employee_status": "A"
-    },
-    {
-      "login": "corcjuan",
-      "employee_name": "Corcera Espinosa, Juan Carlos",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "gvicande",
-      "employee_name": "Vinagre, Candela",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "manukcas",
-      "employee_name": "Casas Montolla, Manuel",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "hmabarra",
-      "employee_name": "Barragan, Marcela",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "aibanezm",
-      "employee_name": "Ibanez Moreno, Antonio Luis",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "carlucab",
-      "employee_name": "Cabello Ramon, Carlos",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "ortirrae",
-      "employee_name": "Orti Rovira, Ramon",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
     },
     {
       "login": "cifuenla",
@@ -5835,13 +5268,6 @@
       "employee_status": "A"
     },
     {
-      "login": "jormirae",
-      "employee_name": "Mira Esteve, Jordi",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
       "login": "bodigari",
       "employee_name": "Bodi Garcia, Susana",
       "shift": "",
@@ -5861,20 +5287,6 @@
       "shift": "",
       "login_manager": "mdferrer",
       "employee_status": "A"
-    },
-    {
-      "login": "foresgic",
-      "employee_name": "Fores Gil, Carlos",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "serenena",
-      "employee_name": "Seren Enamorado, Blanca Julia",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
     },
     {
       "login": "yoselmar",
@@ -5940,13 +5352,6 @@
       "employee_status": "A"
     },
     {
-      "login": "sahiradi",
-      "employee_name": "Sanchez Perez, Iradi",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
       "login": "jullozaj",
       "employee_name": "Lozano Casas, Julieth",
       "shift": "",
@@ -5982,25 +5387,11 @@
       "employee_status": "A"
     },
     {
-      "login": "riveruby",
-      "employee_name": "Rivera Rios, Ruby Edith",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
       "login": "xrubmarc",
       "employee_name": "Ruben, Marc Lucian",
       "shift": "",
       "login_manager": "mdferrer",
       "employee_status": "A"
-    },
-    {
-      "login": "sergieix",
-      "employee_name": "Eixea Nebot, Sergi",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
     },
     {
       "login": "gvazquee",
@@ -6010,39 +5401,11 @@
       "employee_status": "A"
     },
     {
-      "login": "delgaini",
-      "employee_name": "Delgado Martinez, Inigo",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "fluciamu",
-      "employee_name": "Mut Vidal, Lucia",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "igarcedu",
-      "employee_name": "Garcia Duran, Eduardo",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
       "login": "ujulialv",
       "employee_name": "Alvarez Nager, Julian",
       "shift": "",
       "login_manager": "mdferrer",
       "employee_status": "A"
-    },
-    {
-      "login": "torrignw",
-      "employee_name": "Torres Herrera, Ignacio",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
     },
     {
       "login": "menrfern",
@@ -6057,13 +5420,6 @@
       "shift": "",
       "login_manager": "mdferrer",
       "employee_status": "A"
-    },
-    {
-      "login": "vichorte",
-      "employee_name": "Hortelano Garcia, Victor",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
     },
     {
       "login": "abcatali",
@@ -6108,27 +5464,6 @@
       "employee_status": "A"
     },
     {
-      "login": "qromanfe",
-      "employee_name": "Ferrer Bermudez, Roman",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "juangdav",
-      "employee_name": "Juan Garcia, David",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "gdaalvar",
-      "employee_name": "Alvaro Torres, David",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
       "login": "hecvargg",
       "employee_name": "Vargas Rambla, Hector",
       "shift": "",
@@ -6136,67 +5471,11 @@
       "employee_status": "A"
     },
     {
-      "login": "casensig",
-      "employee_name": "Asensi Grases, Claudia",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "loeliasd",
-      "employee_name": "Lopez Sancho, Elias",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "robexlop",
-      "employee_name": "Lopez Sancho, Roberto",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "fjosejua",
-      "employee_name": "Fernandez Broncano, Jose Juan",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "sancrauj",
-      "employee_name": "Sanchez Perinan, Raul",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "marbrube",
-      "employee_name": "Marc Lucian, Ruben",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "jmasacab",
-      "employee_name": "Masa Cabello, Juan Andres",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
       "login": "cozarcap",
       "employee_name": "Cozar Cazorla, Pedro",
       "shift": "",
       "login_manager": "mdferrer",
       "employee_status": "A"
-    },
-    {
-      "login": "nsaezbal",
-      "employee_name": "Saez Ballesteros, Tomas",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
     },
     {
       "login": "calvocad",
@@ -6220,32 +5499,11 @@
       "employee_status": "A"
     },
     {
-      "login": "casyxav",
-      "employee_name": "Cassa Garcia, Xavi",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "enrisrae",
-      "employee_name": "Enrique Roig, Israel",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
       "login": "sicorghe",
       "employee_name": "Gheorghe Marian, Sicorschi",
       "shift": "",
       "login_manager": "mdferrer",
       "employee_status": "A"
-    },
-    {
-      "login": "stnramon",
-      "employee_name": "Ramona Gratiela, Stan",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
     },
     {
       "login": "danvvida",
@@ -6304,20 +5562,6 @@
       "employee_status": "A"
     },
     {
-      "login": "jpedroan",
-      "employee_name": "Jimenez Rojano, Pedro Antonio",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "juanjtol",
-      "employee_name": "Torres Carrasco, Juan Jose",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
       "login": "tyelkamm",
       "employee_name": "El Kammass, Tarik",
       "shift": "",
@@ -6351,13 +5595,6 @@
       "shift": "",
       "login_manager": "mdferrer",
       "employee_status": "A"
-    },
-    {
-      "login": "wriosaam",
-      "employee_name": "Rios Almela, Amparo",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
     },
     {
       "login": "diagosan",
@@ -6458,13 +5695,6 @@
       "employee_status": "A"
     },
     {
-      "login": "pgdavid",
-      "employee_name": "Garcia Martinez, David",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
       "login": "izaspapa",
       "employee_name": "Papacios Folch, Izaskun",
       "shift": "",
@@ -6549,27 +5779,6 @@
       "employee_status": "A"
     },
     {
-      "login": "pajosedo",
-      "employee_name": "Palomar Garcia, Jose Domingo",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "rojohjos",
-      "employee_name": "Rojo Hernandez, Jose Rene",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "antodomw",
-      "employee_name": "Dominguez Martinez, Antonio",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
       "login": "mejosevi",
       "employee_name": "Espinosa Domenech, Jose Vicente",
       "shift": "",
@@ -6577,53 +5786,11 @@
       "employee_status": "A"
     },
     {
-      "login": "pkevines",
-      "employee_name": "Espinoza Jaramillo, Kevin",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "carpiner",
-      "employee_name": "Pinero Jodar, Carlos",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "crfherna",
-      "employee_name": "Hernandez Sanchis, Cristobal",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
       "login": "odiazvil",
       "employee_name": "Diaz Villareal, Miguel Angel",
       "shift": "",
       "login_manager": "mdferrer",
       "employee_status": "A"
-    },
-    {
-      "login": "baratoei",
-      "employee_name": "Barato Gutierrez, Ignacio",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "kradcarm",
-      "employee_name": "Radut, Carmelo",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
-      "login": "decastjz",
-      "employee_name": "De Castro Ballesteros, Jose",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
     },
     {
       "login": "rebejuli",
@@ -6645,13 +5812,6 @@
       "shift": "",
       "login_manager": "mdferrer",
       "employee_status": "A"
-    },
-    {
-      "login": "carkfern",
-      "employee_name": "Fernandez Poves, Carlos",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
     },
     {
       "login": "avegasel",
@@ -6682,13 +5842,6 @@
       "employee_status": "A"
     },
     {
-      "login": "lozanovy",
-      "employee_name": "Lozano Velarde, Yamilett Carmen",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
       "login": "jobonafo",
       "employee_name": "Bonafont Martin, Josep Francesc",
       "shift": "",
@@ -6717,13 +5870,6 @@
       "employee_status": "A"
     },
     {
-      "login": "qpalserg",
-      "employee_name": "Palanca Buenaventura, Sergio",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
-    },
-    {
       "login": "hectpecu",
       "employee_name": "Pecurto Lopez, Hector",
       "shift": "",
@@ -6743,13 +5889,6 @@
       "shift": "",
       "login_manager": "mdferrer",
       "employee_status": "A"
-    },
-    {
-      "login": "davmateo",
-      "employee_name": "Mateos Espana, David",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
     },
     {
       "login": "anderodc",
@@ -6792,13 +5931,6 @@
       "shift": "",
       "login_manager": "mdferrer",
       "employee_status": "A"
-    },
-    {
-      "login": "josegd",
-      "employee_name": "Garcia Dominguez, Jose",
-      "shift": "",
-      "login_manager": "mdferrer",
-      "employee_status": "T"
     },
     {
       "login": "rivarias",
@@ -7116,6 +6248,13 @@
       "employee_status": "A"
     },
     {
+      "login": "ricavalp",
+      "employee_name": "Valenciano Canto, Ricardo",
+      "shift": "",
+      "login_manager": "mdferrer",
+      "employee_status": "A"
+    },
+    {
       "login": "yerbesj",
       "employee_name": "Yerbes, Jessica",
       "shift": "",
@@ -7170,7 +6309,7 @@
       "employee_name": "Escalona, Eli",
       "shift": "T4",
       "login_manager": "mmilkova",
-      "employee_status": "A"
+      "employee_status": "L"
     },
     {
       "login": "mvmarica",
@@ -7214,7 +6353,7 @@
       "employee_name": "Choudna Ouadi, Meryame",
       "shift": "T4",
       "login_manager": "mmilkova",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -7229,7 +6368,7 @@
       "employee_name": "Vazquez, Ana Maria",
       "shift": "T3",
       "login_manager": "mmilkova",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -7244,7 +6383,7 @@
       "employee_name": "Garcia, Johnny",
       "shift": "T4",
       "login_manager": "mmilkova",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "FT"
     },
     {
@@ -7252,7 +6391,7 @@
       "employee_name": "Arribas Heras, Maria Visitacion",
       "shift": "T4",
       "login_manager": "mmilkova",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -7260,7 +6399,7 @@
       "employee_name": "Pallares, Rocio Marti",
       "shift": "T4",
       "login_manager": "mmilkova",
-      "employee_status": "L"
+      "employee_status": "S"
     },
     {
       "login": "villamfz",
@@ -7281,7 +6420,7 @@
       "employee_name": "Cosma, Catalin",
       "shift": "T4",
       "login_manager": "mmilkova",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -7292,16 +6431,16 @@
       "employee_status": "A"
     },
     {
-      "login": "aocenten",
-      "employee_name": "Centeno, Annibel Joheisy",
-      "shift": "T6",
-      "login_manager": "mmilkova",
-      "employee_status": "T"
-    },
-    {
       "login": "montejup",
       "employee_name": "Montes Ricardo, Enrique",
       "shift": "T4",
+      "login_manager": "mmilkova",
+      "employee_status": "A"
+    },
+    {
+      "login": "njorgeen",
+      "employee_name": "Sors, Jorge Enrique",
+      "shift": "T7",
       "login_manager": "mmilkova",
       "employee_status": "A"
     },
@@ -7313,15 +6452,15 @@
       "employee_status": "A"
     },
     {
-      "login": "jesumolf",
-      "employee_name": "Molina, Jesus",
+      "login": "mateorag",
+      "employee_name": "Ramirez Sanchez, Mateo",
       "shift": "T4",
       "login_manager": "mmilkova",
       "employee_status": "A"
     },
     {
-      "login": "mateorag",
-      "employee_name": "Ramirez Sanchez, Mateo",
+      "login": "ramirime",
+      "employee_name": "Ramirez, Melisse",
       "shift": "T4",
       "login_manager": "mmilkova",
       "employee_status": "A"
@@ -7359,7 +6498,7 @@
       "employee_name": "Samouh El Hariri, Nisrine",
       "shift": "T4",
       "login_manager": "mmilkova",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -7367,7 +6506,7 @@
       "employee_name": "Romero, Mariana",
       "shift": "T4",
       "login_manager": "mmilkova",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "FT"
     },
     {
@@ -7375,15 +6514,14 @@
       "employee_name": "Elouaziki, Hayat",
       "shift": "T4",
       "login_manager": "mmilkova",
-      "employee_status": "A",
-      "employee_type": "DP"
+      "employee_status": "A"
     },
     {
       "login": "tmariavs",
       "employee_name": "Hernandez, Victoria",
       "shift": "T4",
       "login_manager": "mmilkova",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -7391,15 +6529,14 @@
       "employee_name": "Seweryn, Małgorzata Aneta",
       "shift": "T4",
       "login_manager": "mmilkova",
-      "employee_status": "A",
-      "employee_type": "DP"
+      "employee_status": "A"
     },
     {
       "login": "velosaca",
       "employee_name": "Velosa, Camila",
       "shift": "T4",
       "login_manager": "mmilkova",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -7407,7 +6544,7 @@
       "employee_name": "Belaabass, Oussama",
       "shift": "T4",
       "login_manager": "mmilkova",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -7415,7 +6552,7 @@
       "employee_name": "Driouich Zarhouni, Youness",
       "shift": "T8",
       "login_manager": "mmilkova",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -7423,7 +6560,7 @@
       "employee_name": "Quintero, Natalia",
       "shift": "T4",
       "login_manager": "mmilkova",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -7431,7 +6568,7 @@
       "employee_name": "Asuaje, Hilmar",
       "shift": "T4",
       "login_manager": "mmilkova",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -7439,15 +6576,14 @@
       "employee_name": "Ramos, Ivana Chavez",
       "shift": "T4",
       "login_manager": "mmilkova",
-      "employee_status": "A",
-      "employee_type": "DP"
+      "employee_status": "A"
     },
     {
       "login": "arocyuly",
       "employee_name": "Arocha, Yuly",
       "shift": "T4",
       "login_manager": "mmilkova",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -7455,7 +6591,7 @@
       "employee_name": "Montanez, Daniela Andreina",
       "shift": "T4",
       "login_manager": "mmilkova",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -7471,15 +6607,15 @@
       "employee_name": "Mascioni, Daniel Eduardo",
       "shift": "T4",
       "login_manager": "mmilkova",
-      "employee_status": "A",
-      "employee_type": "FT"
+      "employee_status": "T",
+      "employee_type": "DP"
     },
     {
       "login": "cricelam",
       "employee_name": "Amaya, Cricelis",
       "shift": "T4",
       "login_manager": "mmilkova",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
     },
     {
@@ -7487,7 +6623,7 @@
       "employee_name": "Solorzano, Aaron",
       "shift": "T4",
       "login_manager": "mmilkova",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "FT"
     },
     {
@@ -7495,7 +6631,7 @@
       "employee_name": "Asuaje, Frank",
       "shift": "T4",
       "login_manager": "mmilkova",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "FT"
     },
     {
@@ -7511,8 +6647,50 @@
       "employee_name": "Aboulhaoul, Karima",
       "shift": "T4",
       "login_manager": "mmilkova",
-      "employee_status": "A",
+      "employee_status": "T",
       "employee_type": "DP"
+    },
+    {
+      "login": "richamol",
+      "employee_name": "Cuellar Molina, Richard",
+      "shift": "",
+      "login_manager": "benedetg",
+      "employee_status": "A"
+    },
+    {
+      "login": "helmosqu",
+      "employee_name": "Mosquera Doria, Helen Stefani",
+      "shift": "",
+      "login_manager": "benedetg",
+      "employee_status": "A"
+    },
+    {
+      "login": "ierilugo",
+      "employee_name": "Lugo Godoy, Erika Katiusca Katiusca",
+      "shift": "",
+      "login_manager": "benedetg",
+      "employee_status": "A"
+    },
+    {
+      "login": "rodlario",
+      "employee_name": "Larios Garrido, Rodrigo Fernando Fernando",
+      "shift": "",
+      "login_manager": "benedetg",
+      "employee_status": "A"
+    },
+    {
+      "login": "corewvio",
+      "employee_name": "Corella Alonso, Maria Violeta Violeta",
+      "shift": "",
+      "login_manager": "benedetg",
+      "employee_status": "A"
+    },
+    {
+      "login": "maraulan",
+      "employee_name": "Marquina Ghezzi, Raul Andres",
+      "shift": "",
+      "login_manager": "",
+      "employee_status": "A"
     },
     {
       "login": "poncecac",
@@ -7561,7 +6739,7 @@
       "employee_name": "Cebrián, Mar",
       "shift": "",
       "login_manager": "barfreva",
-      "employee_status": "A"
+      "employee_status": "L"
     },
     {
       "login": "paulagd",
@@ -7571,11 +6749,11 @@
       "employee_status": "A"
     },
     {
-      "login": "richamol",
-      "employee_name": "Cuellar Molina, Richard",
+      "login": "benedetg",
+      "employee_name": "Di Benedetto, Adriano",
       "shift": "",
       "login_manager": "",
-      "employee_status": "L"
+      "employee_status": "A"
     },
     {
       "login": "ajsrdr",
@@ -7669,46 +6847,11 @@
       "employee_status": "A"
     },
     {
-      "login": "garceloo",
-      "employee_name": "Garcia, Eloy",
-      "shift": "",
-      "login_manager": "bmatag",
-      "employee_status": "T"
-    },
-    {
       "login": "miqusmon",
       "employee_name": "Monzo, Miquel",
       "shift": "",
       "login_manager": "bmatag",
       "employee_status": "A"
-    },
-    {
-      "login": "guillarl",
-      "employee_name": "Guillart, Luis",
-      "shift": "",
-      "login_manager": "bmatag",
-      "employee_status": "T"
-    },
-    {
-      "login": "diekalbe",
-      "employee_name": "Diez, Alberto",
-      "shift": "",
-      "login_manager": "bmatag",
-      "employee_status": "T"
-    },
-    {
-      "login": "telfjose",
-      "employee_name": "Tello, Jose Vicente",
-      "shift": "",
-      "login_manager": "bmatag",
-      "employee_status": "T"
-    },
-    {
-      "login": "framcaba",
-      "employee_name": "Caballero, Francisco Javier",
-      "shift": "",
-      "login_manager": "bmatag",
-      "employee_status": "T"
     },
     {
       "login": "hajnihal",
@@ -7772,13 +6915,6 @@
       "shift": "",
       "login_manager": "bmatag",
       "employee_status": "A"
-    },
-    {
-      "login": "fvpandre",
-      "employee_name": "Andre Galle, François - Vicent",
-      "shift": "",
-      "login_manager": "bmatag",
-      "employee_status": "T"
     }
   ]
 }
