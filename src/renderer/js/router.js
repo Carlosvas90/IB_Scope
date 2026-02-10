@@ -647,9 +647,11 @@ class Router {
         if (estadisticasContainer) estadisticasContainer.style.opacity = "1";
       }
 
-      // Si es activity-scope, cargar el CSS de la vista principal (user-activity)
+      // Si es activity-scope, cargar el CSS de la vista actual (user-activity o user-history)
       if (appName === "activity-scope") {
-        const cssPath = `../apps/activity-scope/css/user-activity.css`;
+        const activityCssFile =
+          isViewPath && viewName ? `${viewName}.css` : "user-activity.css";
+        const cssPath = `../apps/activity-scope/css/${activityCssFile}`;
         const existingLink = document.querySelector(`link[href="${cssPath}"]`);
 
         if (!existingLink) {
@@ -657,7 +659,7 @@ class Router {
             const link = document.createElement("link");
             link.rel = "stylesheet";
             link.href = cssPath;
-            link.setAttribute("data-app", appName); // Agregar atributo data-app
+            link.setAttribute("data-app", appName);
 
             await new Promise((resolve) => {
               link.onload = () => {
@@ -674,7 +676,6 @@ class Router {
             console.warn(`⚠️ Error al cargar CSS: ${cssPath}`, cssError);
           }
         } else {
-          // Si ya existe, asegurar que tenga el atributo data-app y esté habilitado
           existingLink.setAttribute("data-app", appName);
           existingLink.media = "all";
         }
