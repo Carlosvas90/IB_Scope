@@ -99,6 +99,11 @@ class Router {
         scripts: ["../apps/utilidades/Rotation Tool/js/rotation-tool.js"],
         styles: ["../apps/utilidades/Rotation Tool/css/rotation-tool.css"],
       },
+      "process-mapper": {
+        path: "../apps/utilidades/Process Mapper/views/process-mapper.html",
+        scripts: ["../apps/utilidades/Process Mapper/js/process-mapper.js"],
+        styles: ["../apps/utilidades/Process Mapper/css/process-mapper.css"],
+      },
       "dock-control": {
         path: "../apps/dock-control/views/dock-control.html",
         scripts: ["../apps/dock-control/js/dock-control.js"],

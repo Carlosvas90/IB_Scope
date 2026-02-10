@@ -2,7 +2,8 @@
  * Rotation Tool - Dashboard por áreas, HC por departamento, modal de puestos
  */
 
-const PUESTOS_JSON_PATH = "src/renderer/apps/utilidades/Rotation Tool/data/puestos.json";
+const PUESTOS_JSON_PATH_FALLBACK = "src/renderer/apps/utilidades/Rotation Tool/data/puestos.json";
+const PUESTOS_FILENAME = "puestos.json";
 
 const AREA_LABELS = {
   IB: "Inbound",
@@ -116,20 +117,42 @@ class RotationToolController {
   }
 
   async cargarPuestos() {
-    const scriptBase =
-      typeof import.meta !== "undefined" && import.meta.url
-        ? import.meta.url
-        : (document.currentScript && document.currentScript.src) || window.location.href;
     let loaded = false;
 
-    try {
-      const dataUrl = new URL("../data/puestos.json", scriptBase).href;
-      const res = await fetch(dataUrl);
-      if (res.ok) {
-        this.puestosData = await res.json();
-        loaded = true;
-      }
-    } catch (_) {}
+    if (typeof window.api !== "undefined" && window.api.getConfig && window.api.readJson) {
+      try {
+        const config = await window.api.getConfig();
+        const paths = config && config.pizarra_paths && Array.isArray(config.pizarra_paths) ? config.pizarra_paths : [];
+        if (paths.length > 0) {
+          let base = paths[0];
+          if (typeof base === "string") {
+            base = base.replace(/\//g, "\\").trim();
+            if (!base.endsWith("\\")) base += "\\";
+            const puestosPath = base + PUESTOS_FILENAME;
+            const result = await window.api.readJson(puestosPath);
+            if (result && result.success && result.data) {
+              this.puestosData = result.data;
+              loaded = true;
+            }
+          }
+        }
+      } catch (_) {}
+    }
+
+    if (!loaded) {
+      const scriptBase =
+        typeof import.meta !== "undefined" && import.meta.url
+          ? import.meta.url
+          : (document.currentScript && document.currentScript.src) || window.location.href;
+      try {
+        const dataUrl = new URL("../data/puestos.json", scriptBase).href;
+        const res = await fetch(dataUrl);
+        if (res.ok) {
+          this.puestosData = await res.json();
+          loaded = true;
+        }
+      } catch (_) {}
+    }
 
     if (!loaded) {
       try {
@@ -143,7 +166,7 @@ class RotationToolController {
 
     if (!loaded && typeof window.api !== "undefined" && window.api.readFile) {
       try {
-        const result = await window.api.readFile(PUESTOS_JSON_PATH);
+        const result = await window.api.readFile(PUESTOS_JSON_PATH_FALLBACK);
         if (result?.success && result.content) {
           this.puestosData = JSON.parse(result.content);
           loaded = true;

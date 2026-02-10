@@ -56,15 +56,15 @@ class PermisosService {
       return false;
     }
 
-    // Casos especiales para pizarra, skillmatrix, imanes y rotation-tool - usar permisos de utilidades
-    if (appName === "pizarra" || appName === "skillmatrix" || appName === "imanes" || appName === "rotation-tool") {
+    // Casos especiales para pizarra, skillmatrix, imanes, rotation-tool y process-mapper - usar permisos de utilidades
+    if (appName === "pizarra" || appName === "skillmatrix" || appName === "imanes" || appName === "rotation-tool" || appName === "process-mapper") {
       const permisosUtilidades = this.permisos["utilidades"];
       if (
         permisosUtilidades &&
         typeof permisosUtilidades === "object" &&
         !Array.isArray(permisosUtilidades)
       ) {
-        // Verificar si existe la subcategoría específica (pizarra, skillmatrix o imanes)
+        // Verificar si existe la subcategoría específica (pizarra, skillmatrix, imanes, rotation-tool, process-mapper)
         if (permisosUtilidades[appName]) {
           const arr = permisosUtilidades[appName];
           if (Array.isArray(arr)) {

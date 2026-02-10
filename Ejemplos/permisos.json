@@ -98,6 +98,18 @@
     ],
     "imanes": [
       "carlo"
+    ],
+    "skillmatrix": [
+      "carlo",
+      "chuecc"
+    ],
+    "rotation-tool": [
+      "carlo",
+      "chuecc"
+    ],
+    "process-mapper": [
+      "carlo",
+      "chuecc"
     ]
   },
   "idle-time": {

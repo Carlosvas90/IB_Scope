@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Process Mapper – Puestos y mapeo</title>
+    <link rel="stylesheet" href="../css/process-mapper.css" />
+  </head>
+  <body>
+    <div class="process-mapper-container">
+      <header class="pm-header">
+        <h1 class="pm-title">Process Mapper</h1>
+        <p class="pm-desc">Edita <strong>puestos</strong> (área, departamento, proceso, tipo, líneas y estaciones). Mapea <strong>process_name + function_name</strong> a puestos. Todo se guarda automáticamente en Data_Flow.</p>
+      </header>
+
+      <nav class="pm-tabs">
+        <button type="button" class="pm-tab active" data-tab="puestos">Puestos</button>
+        <button type="button" class="pm-tab" data-tab="mapping">Mapping</button>
+      </nav>
+
+      <!-- Pestaña Puestos -->
+      <section id="pm-view-puestos" class="pm-view card pm-view-active">
+        <div class="pm-actions-row pm-puestos-actions">
+          <button type="button" id="pm-puestos-load" class="pm-btn pm-btn-secondary">Cargar puestos desde Data_Flow</button>
+          <button type="button" id="pm-puestos-add-dept" class="pm-btn pm-btn-secondary">+ Nuevo departamento</button>
+          <button type="button" id="pm-puestos-add-puesto" class="pm-btn pm-btn-secondary">+ Nuevo puesto</button>
+          <span class="pm-filter-label">Área:</span>
+          <select id="pm-filter-area" class="pm-filter pm-filter-select">
+            <option value="">Todas</option>
+          </select>
+          <span class="pm-filter-label">Departamento:</span>
+          <select id="pm-filter-dept" class="pm-filter pm-filter-select">
+            <option value="">Todos</option>
+          </select>
+          <span id="pm-puestos-sync" class="pm-sync-status">—</span>
+        </div>
+        <div class="pm-puestos-scroll">
+          <table class="pm-table pm-table-puestos">
+            <thead>
+              <tr>
+                <th>Área</th>
+                <th>Departamento</th>
+                <th>Proceso (Puesto)</th>
+                <th>Tipo tarea</th>
+                <th>Líneas / WS</th>
+                <th>Certificados</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="pm-puestos-tbody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Pestaña Mapping -->
+      <section id="pm-view-mapping" class="pm-view card">
+        <div class="pm-actions card">
+          <div class="pm-actions-row">
+            <button type="button" id="pm-csv-from-path" class="pm-btn pm-btn-secondary">Cargar rotations.csv desde Data_Flow</button>
+            <label class="pm-file-label">
+              <span class="pm-btn pm-btn-secondary">Cargar CSV (archivo)</span>
+              <input type="file" id="pm-csv-input" accept=".csv,text/csv" hidden />
+            </label>
+            <span id="pm-mapping-count" class="pm-mapping-count"></span>
+            <label class="pm-check-label">
+              <input type="checkbox" id="pm-solo-sin-mapear" />
+              Solo sin mapear
+            </label>
+            <span id="pm-mapping-sync" class="pm-sync-status">—</span>
+          </div>
+          <p id="pm-status" class="pm-status"></p>
+        </div>
+        <div class="pm-table-wrap card">
+          <div class="pm-toolbar">
+            <input type="text" id="pm-filter" class="pm-filter" placeholder="Filtrar por process o function…" />
+          </div>
+          <div class="pm-table-scroll">
+            <table class="pm-table">
+              <thead>
+                <tr>
+                  <th>process_name</th>
+                  <th>function_name</th>
+                  <th>Área</th>
+                  <th>Departamento</th>
+                  <th>Puesto</th>
+                  <th>Notas</th>
+                </tr>
+              </thead>
+              <tbody id="pm-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Modal: Nuevo departamento -->
+    <div id="pm-modal-dept" class="pm-modal" role="dialog" aria-label="Nuevo departamento" hidden>
+      <div class="pm-modal-backdrop"></div>
+      <div class="pm-modal-box">
+        <h2 class="pm-modal-title">Nuevo departamento</h2>
+        <div class="pm-modal-step" data-step="1">
+          <label>¿En qué <strong>área</strong> está?</label>
+          <select id="pm-modal-dept-area" class="pm-modal-input">
+            <option value="IB">IB</option>
+            <option value="OB">OB</option>
+            <option value="ICQA">ICQA</option>
+            <option value="Support">Support</option>
+          </select>
+        </div>
+        <div class="pm-modal-step" data-step="2">
+          <label><strong>Nombre</strong> del departamento (ej. Receive, Shipping)</label>
+          <input type="text" id="pm-modal-dept-nombre" class="pm-modal-input" placeholder="Receive" />
+        </div>
+        <div class="pm-modal-step" data-step="3">
+          <label>¿Tiene <strong>líneas</strong>? (opcional, ej. L1, L2, L3)</label>
+          <input type="text" id="pm-modal-dept-lineas" class="pm-modal-input" placeholder="L1, L2, L3" />
+        </div>
+        <div class="pm-modal-actions">
+          <button type="button" id="pm-modal-dept-prev" class="pm-btn pm-btn-secondary">Atrás</button>
+          <button type="button" id="pm-modal-dept-next" class="pm-btn pm-btn-primary">Siguiente</button>
+          <button type="button" id="pm-modal-dept-done" class="pm-btn pm-btn-primary" hidden>Crear departamento</button>
+        </div>
+        <button type="button" class="pm-modal-close" aria-label="Cerrar">&times;</button>
+      </div>
+    </div>
+
+    <!-- Modal: Nuevo puesto -->
+    <div id="pm-modal-puesto" class="pm-modal" role="dialog" aria-label="Nuevo puesto" hidden>
+      <div class="pm-modal-backdrop"></div>
+      <div class="pm-modal-box">
+        <h2 class="pm-modal-title">Nuevo puesto</h2>
+        <div class="pm-modal-step" data-step="1">
+          <label>¿En qué <strong>departamento</strong> va?</label>
+          <select id="pm-modal-puesto-dept" class="pm-modal-input"></select>
+        </div>
+        <div class="pm-modal-step" data-step="2">
+          <label><strong>Nombre</strong> del proceso/puesto (ej. Decant TSI, Ship IDM)</label>
+          <input type="text" id="pm-modal-puesto-nombre" class="pm-modal-input" placeholder="Decant TSI" />
+        </div>
+        <div class="pm-modal-step" data-step="3">
+          <label><strong>Tipo de tarea</strong></label>
+          <select id="pm-modal-puesto-tipo" class="pm-modal-input">
+            <option value="directa">Directo</option>
+            <option value="indirecta">Indirecto</option>
+            <option value="pesado">Pesado</option>
+            <option value="critical_rol">Critical rol</option>
+          </select>
+          <p class="pm-modal-hint">Si este proceso tiene líneas (ej. Noncon: L1, L2, L3, L4) y WS por línea, lo agregas después en la tabla con «Agregar líneas».</p>
+        </div>
+        <div class="pm-modal-actions">
+          <button type="button" id="pm-modal-puesto-done" class="pm-btn pm-btn-primary">Crear puesto</button>
+        </div>
+        <button type="button" class="pm-modal-close" aria-label="Cerrar">&times;</button>
+      </div>
+    </div>
+
+    <!-- Modal: Agregar / Editar certificados del puesto -->
+    <div id="pm-modal-certificados" class="pm-modal" role="dialog" aria-label="Certificados del puesto" hidden>
+      <div class="pm-modal-backdrop"></div>
+      <div class="pm-modal-box pm-modal-box-wide">
+        <h2 class="pm-modal-title" id="pm-modal-certificados-title">Certificados del puesto</h2>
+        <p class="pm-modal-hint">Cada <strong>grupo</strong> son nombres alternativos de la misma formación (OR: vale tener cualquiera). El puesto debe cumplir <strong>todos</strong> los grupos (AND: uno de cada grupo).</p>
+        <div id="pm-modal-certificados-grupos" class="pm-cert-grupos"></div>
+        <button type="button" id="pm-modal-certificados-add-grupo" class="pm-btn pm-btn-secondary">+ Añadir grupo (otra formación requerida)</button>
+        <div class="pm-modal-actions">
+          <button type="button" id="pm-modal-certificados-guardar" class="pm-btn pm-btn-primary">Guardar</button>
+        </div>
+        <button type="button" class="pm-modal-close" aria-label="Cerrar">&times;</button>
+      </div>
+    </div>
+
+    <!-- Modal: Agregar / Editar líneas y WS -->
+    <div id="pm-modal-lineas" class="pm-modal" role="dialog" aria-label="Líneas y estaciones (WS)" hidden>
+      <div class="pm-modal-backdrop"></div>
+      <div class="pm-modal-box">
+        <h2 class="pm-modal-title">Líneas y estaciones (WS)</h2>
+        <p class="pm-modal-hint">Solo para procesos que tienen líneas (ej. Noncon). Pick y otros no usan líneas.</p>
+        <div class="pm-modal-step">
+          <label><strong>Líneas</strong> (ej. L1, L2, L3, L4)</label>
+          <input type="text" id="pm-modal-lineas-nombres" class="pm-modal-input" placeholder="L1, L2, L3, L4" />
+        </div>
+        <div class="pm-modal-step">
+          <label><strong>Estaciones (WS) por línea</strong> (ej. L1: L1-2, L1-15, L1-6; L2: L2-1, L2-2)</label>
+          <input type="text" id="pm-modal-lineas-estaciones" class="pm-modal-input" placeholder="L1: L1-2, L1-15, L1-6; L2: L2-1" />
+        </div>
+        <div class="pm-modal-actions">
+          <button type="button" id="pm-modal-lineas-guardar" class="pm-btn pm-btn-primary">Guardar</button>
+          <button type="button" id="pm-modal-lineas-quitar" class="pm-btn pm-btn-secondary">Quitar líneas</button>
+        </div>
+        <button type="button" class="pm-modal-close" aria-label="Cerrar">&times;</button>
+      </div>
+    </div>
+
+    <script type="module" src="../js/process-mapper.js"></script>
+  </body>
+</html>
