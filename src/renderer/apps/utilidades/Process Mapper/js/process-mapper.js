@@ -6,6 +6,7 @@
 const PROCESS_NAME_COL = 10;
 const FUNCTION_NAME_COL = 11;
 const PUESTOS_FILENAME = "puestos.json";
+const CERTIFICADOS_FILENAME = "certificados.json";
 const MAPPING_FILENAME = "process_mapping.json";
 const ROTATIONS_CSV_FILENAME = "rotations.csv";
 
@@ -150,6 +151,7 @@ function buildPuestosOptions(departamentos) {
 let state = {
   dataFlowPath: null,
   puestosData: null,
+  certificadosData: null,
   options: null,
   rows: [],
   mapping: [],
@@ -215,6 +217,7 @@ function initElements() {
   el.mappingSync = document.getElementById("pm-mapping-sync");
   el.viewPuestos = document.getElementById("pm-view-puestos");
   el.viewMapping = document.getElementById("pm-view-mapping");
+  el.viewCertificados = document.getElementById("pm-view-certificados");
   el.tabs = document.querySelectorAll(".pm-tab");
   el.modalDept = document.getElementById("pm-modal-dept");
   el.modalPuesto = document.getElementById("pm-modal-puesto");
@@ -295,6 +298,7 @@ async function savePuestosToDataFlow() {
           p.tipo_tarea = "directa";
           p.red_task = true;
         }
+        delete p.certificados;
       });
     });
     const result = await window.api.saveJson(state.dataFlowPath + PUESTOS_FILENAME, payload);
@@ -341,6 +345,57 @@ async function loadConfigDataFlowPath() {
   }
 }
 
+/** Certificados: { version, certificados: [{ id, nombre }], procesos: { [puesto_id]: [ [names], [names] ] } }. Los puestos se alimentan de aquí. */
+async function loadCertificados() {
+  if (!state.dataFlowPath || !window.api?.readJson) return;
+  try {
+    const res = await window.api.readJson(state.dataFlowPath + CERTIFICADOS_FILENAME);
+    if (res?.success && res.data) {
+      state.certificadosData = res.data;
+      if (!state.certificadosData.procesos) state.certificadosData.procesos = {};
+      if (!Array.isArray(state.certificadosData.certificados)) state.certificadosData.certificados = [];
+      return;
+    }
+  } catch (_) {}
+  state.certificadosData = { version: "1.0", certificados: [], procesos: {} };
+}
+
+/** Migra puesto.certificados a certificadosData.procesos si existe y procesos está vacío para ese puesto. */
+function migrateCertificadosFromPuestos() {
+  if (!state.certificadosData || !state.puestosData?.departamentos) return;
+  (state.puestosData.departamentos || []).forEach((d) => {
+    (d.puestos || []).forEach((p) => {
+      const grupos = p.certificados && Array.isArray(p.certificados) ? p.certificados : [];
+      if (grupos.length > 0 && !(state.certificadosData.procesos[p.id]?.length)) {
+        state.certificadosData.procesos[p.id] = grupos;
+      }
+    });
+  });
+}
+
+function ensureCertificadosData() {
+  if (!state.certificadosData) state.certificadosData = { version: "1.0", certificados: [], procesos: {} };
+  if (!state.certificadosData.procesos) state.certificadosData.procesos = {};
+  if (!Array.isArray(state.certificadosData.certificados)) state.certificadosData.certificados = [];
+}
+
+/** Grupos de certificados para un puesto (desde certificados.json; fallback a puesto.certificados). */
+function getCertificadosForPuesto(puesto) {
+  ensureCertificadosData();
+  const fromProcesos = state.certificadosData.procesos[puesto.id];
+  if (fromProcesos && fromProcesos.length >= 0) return fromProcesos;
+  return (puesto.certificados && Array.isArray(puesto.certificados)) ? puesto.certificados : [];
+}
+
+async function saveCertificadosToDataFlow() {
+  if (!state.dataFlowPath || !window.api?.saveJson || !state.certificadosData) return;
+  try {
+    const result = await window.api.saveJson(state.dataFlowPath + CERTIFICADOS_FILENAME, state.certificadosData);
+    if (result?.success) return true;
+  } catch (_) {}
+  return false;
+}
+
 async function loadPuestos() {
   try {
     await loadConfigDataFlowPath();
@@ -352,6 +407,8 @@ async function loadPuestos() {
         state.options = buildPuestosOptions(state.puestosData.departamentos || []);
         state.lastSavedPuestos = Date.now();
         updateSyncStatus("puestos", true);
+        await loadCertificados();
+        migrateCertificadosFromPuestos();
         return state.options;
       }
     }
@@ -361,6 +418,8 @@ async function loadPuestos() {
     const data = await res.json();
     state.puestosData = data;
     state.options = buildPuestosOptions(data.departamentos || []);
+    await loadCertificados();
+    migrateCertificadosFromPuestos();
     return state.options;
   } catch (e) {
     setStatus("Error cargando puestos.json: " + e.message, true);
@@ -721,7 +780,7 @@ function renderPuestosTable() {
       lineasCell.appendChild(document.createTextNode(" "));
       lineasCell.appendChild(btnEdit);
     }
-    const certificadosData = puesto.certificados && Array.isArray(puesto.certificados) ? puesto.certificados : [];
+    const certificadosData = getCertificadosForPuesto(puesto);
     const certCell = document.createElement("td");
     certCell.className = "pm-cert-cell";
     const certSummary = document.createElement("span");
@@ -951,7 +1010,7 @@ function openModalCertificados(deptIndex, puestoIndex) {
   const puesto = state.puestosData.departamentos[deptIndex].puestos[puestoIndex];
   const nombrePuesto = puesto.nombre || puesto.id || "Puesto";
   document.getElementById("pm-modal-certificados-title").textContent = "Certificados: " + nombrePuesto;
-  renderCertificadosGruposInModal(puesto.certificados && Array.isArray(puesto.certificados) ? puesto.certificados : []);
+  renderCertificadosGruposInModal(getCertificadosForPuesto(puesto));
   if (el.modalCertificados) el.modalCertificados.hidden = false;
 }
 
@@ -1033,15 +1092,149 @@ function modalCertificadosGuardar() {
     if (names.length > 0) grupos.push(names);
   });
   const puesto = state.puestosData.departamentos[deptIndex].puestos[puestoIndex];
-  puesto.certificados = grupos;
+  ensureCertificadosData();
+  state.certificadosData.procesos[puesto.id] = grupos;
+  saveCertificadosToDataFlow();
   refreshPuestosOptions();
   renderPuestosTable();
-  scheduleSavePuestos();
+  renderCertificadosResumen();
   closeModalCertificados();
+  if (window.showToast) window.showToast("Certificados guardados.", "success");
 }
 
 function refreshPuestosOptions() {
   state.options = buildPuestosOptions(state.puestosData?.departamentos || []);
+}
+
+/** Lista plana de todos los puestos (con índices para abrir modal Editar). */
+function getAllPuestosList() {
+  const list = [];
+  (state.puestosData?.departamentos || []).forEach((d, deptIndex) => {
+    (d.puestos || []).forEach((p, puestoIndex) => {
+      list.push({
+        puestoId: p.id,
+        label: (d.nombre || d.id) + " → " + (p.nombre || p.id),
+        puesto: p,
+        deptIndex,
+        puestoIndex,
+      });
+    });
+  });
+  return list;
+}
+
+function openModalAgregarCertificado() {
+  const modal = document.getElementById("pm-modal-agregar-certificado");
+  const nombreInput = document.getElementById("pm-modal-cert-nombre");
+  const procesosContainer = document.getElementById("pm-modal-cert-procesos");
+  if (!modal || !nombreInput || !procesosContainer) return;
+  if (!state.puestosData?.departamentos?.length) {
+    if (window.showToast) window.showToast("Carga primero los puestos desde Data_Flow.", "warning");
+    return;
+  }
+  nombreInput.value = "";
+  const puestosList = getAllPuestosList();
+  procesosContainer.innerHTML = "";
+  puestosList.forEach(({ puestoId, label }) => {
+    const labelEl = document.createElement("label");
+    labelEl.className = "pm-cert-proceso-check";
+    const cb = document.createElement("input");
+    cb.type = "checkbox";
+    cb.dataset.puestoId = puestoId;
+    labelEl.appendChild(cb);
+    labelEl.appendChild(document.createTextNode(" " + label));
+    procesosContainer.appendChild(labelEl);
+  });
+  modal.hidden = false;
+}
+
+function closeModalAgregarCertificado() {
+  const modal = document.getElementById("pm-modal-agregar-certificado");
+  if (modal) modal.hidden = true;
+}
+
+async function modalAgregarCertificadoDone() {
+  const nombreInput = document.getElementById("pm-modal-cert-nombre");
+  const procesosContainer = document.getElementById("pm-modal-cert-procesos");
+  const certNombre = (nombreInput?.value || "").trim();
+  if (!certNombre) {
+    if (window.showToast) window.showToast("Escribe el nombre del certificado.", "warning");
+    return;
+  }
+  const selectedIds = Array.from(procesosContainer?.querySelectorAll("input[type=checkbox]:checked") || [])
+    .map((cb) => cb.dataset.puestoId)
+    .filter(Boolean);
+  if (selectedIds.length === 0) {
+    if (window.showToast) window.showToast("Selecciona al menos un proceso.", "warning");
+    return;
+  }
+  ensureCertificadosData();
+  const procesos = state.certificadosData.procesos;
+  const conFormaciones = selectedIds.filter((id) => (procesos[id] || []).length > 0);
+  let mismoGrupo = true;
+  if (conFormaciones.length > 0) {
+    const msg =
+      "Algunos procesos ya tienen formaciones. ¿Añadir este certificado al mismo grupo (OR: cualquiera vale) o como nuevo grupo (AND: debe tener ambas)?";
+    if (window.api?.showMessageBox) {
+      const result = await window.api.showMessageBox({
+        type: "question",
+        buttons: ["Mismo grupo (OR)", "Nuevo grupo (AND)", "Cancelar"],
+        title: "Agregar certificado",
+        message: msg,
+      });
+      if (result.response === 2) return;
+      mismoGrupo = result.response === 0;
+    } else {
+      mismoGrupo = confirm(msg + "\n\nAceptar = Mismo grupo (OR). Cancelar = Nuevo grupo (AND).");
+    }
+  }
+  selectedIds.forEach((puestoId) => {
+    const grupos = procesos[puestoId] || [];
+    if (grupos.length === 0) {
+      procesos[puestoId] = [[certNombre]];
+    } else if (mismoGrupo) {
+      if (!grupos[0].includes(certNombre)) grupos[0].push(certNombre);
+    } else {
+      grupos.push([certNombre]);
+    }
+  });
+  const certId = certNombre.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
+  if (!state.certificadosData.certificados.some((c) => (c.id || c.nombre) === certId || c.nombre === certNombre)) {
+    state.certificadosData.certificados.push({ id: certId || certNombre, nombre: certNombre });
+  }
+  await saveCertificadosToDataFlow();
+  refreshPuestosOptions();
+  renderPuestosTable();
+  closeModalAgregarCertificado();
+  if (window.showToast) window.showToast("Certificado añadido a " + selectedIds.length + " proceso(s).", "success");
+}
+
+/** Resumen en la pestaña Certificados: procesos, certificados y botón Editar. */
+function renderCertificadosResumen() {
+  const cont = document.getElementById("pm-certificados-resumen");
+  if (!cont) return;
+  ensureCertificadosData();
+  const puestosList = getAllPuestosList();
+  if (puestosList.length === 0) {
+    cont.innerHTML = "<p class=\"pm-cert-resumen-empty\">Carga primero los puestos (pestaña Puestos) desde Data_Flow.</p>";
+    return;
+  }
+  let html = "<table class=\"pm-table pm-table-cert-resumen\"><thead><tr><th>Proceso</th><th>Certificados</th><th></th></tr></thead><tbody>";
+  puestosList.forEach(({ label, puesto, deptIndex, puestoIndex }) => {
+    const grupos = getCertificadosForPuesto(puesto);
+    const total = (grupos || []).reduce((acc, g) => acc + (g?.length || 0), 0);
+    const text = total === 0 ? "—" : (grupos || []).map((g) => (g || []).join(" o ")).filter(Boolean).join(" + ");
+    html += `<tr><td>${escapeHtml(label)}</td><td>${total ? escapeHtml(text) : "—"}</td><td><button type="button" class="pm-btn pm-btn-small pm-btn-link pm-cert-editar-btn" data-dept-index="${deptIndex}" data-puesto-index="${puestoIndex}">Editar</button></td></tr>`;
+  });
+  html += "</tbody></table>";
+  cont.innerHTML = html;
+  cont.querySelectorAll(".pm-cert-editar-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const di = parseInt(btn.getAttribute("data-dept-index"), 10);
+      const pi = parseInt(btn.getAttribute("data-puesto-index"), 10);
+      if (!isNaN(di) && !isNaN(pi)) openModalCertificados(di, pi);
+    });
+  });
 }
 
 async function onPuestosLoad() {
@@ -1055,6 +1248,8 @@ async function onPuestosLoad() {
     if (res && res.success && res.data) {
       state.puestosData = res.data;
       state.options = buildPuestosOptions(state.puestosData.departamentos || []);
+      await loadCertificados();
+      migrateCertificadosFromPuestos();
       renderPuestosTable();
       state.lastSavedPuestos = Date.now();
       updateSyncStatus("puestos", true);
@@ -1094,6 +1289,8 @@ function switchTab(tabId) {
   });
   if (el.viewPuestos) el.viewPuestos.classList.toggle("pm-view-active", tabId === "puestos");
   if (el.viewMapping) el.viewMapping.classList.toggle("pm-view-active", tabId === "mapping");
+  if (el.viewCertificados) el.viewCertificados.classList.toggle("pm-view-active", tabId === "certificados");
+  if (tabId === "certificados") renderCertificadosResumen();
 }
 
 async function init() {
@@ -1135,6 +1332,13 @@ async function init() {
     document.getElementById("pm-modal-certificados-add-grupo").addEventListener("click", modalCertificadosAddGrupo);
     document.getElementById("pm-modal-certificados-guardar").addEventListener("click", modalCertificadosGuardar);
   }
+  const modalAgregarCert = document.getElementById("pm-modal-agregar-certificado");
+  if (modalAgregarCert) {
+    modalAgregarCert.querySelector(".pm-modal-backdrop")?.addEventListener("click", closeModalAgregarCertificado);
+    modalAgregarCert.querySelector(".pm-modal-close")?.addEventListener("click", closeModalAgregarCertificado);
+    document.getElementById("pm-modal-agregar-cert-done")?.addEventListener("click", modalAgregarCertificadoDone);
+  }
+  document.getElementById("pm-agregar-certificado")?.addEventListener("click", openModalAgregarCertificado);
   el.tabs.forEach((t) => {
     t.addEventListener("click", () => switchTab(t.dataset.tab));
   });

@@ -4,6 +4,9 @@
 
 const PUESTOS_JSON_PATH_FALLBACK = "src/renderer/apps/utilidades/Rotation Tool/data/puestos.json";
 const PUESTOS_FILENAME = "puestos.json";
+const SKILLMATRIX_FILENAME = "skillmatrix.json";
+const CERTIFICADOS_FILENAME = "certificados.json";
+const FC_INTERNAL_CERT = "FC_Internal";
 
 const AREA_LABELS = {
   IB: "Inbound",
@@ -86,6 +89,8 @@ function getPresetFlatForCupo(areaKey, cupoKey, selectedDeptIds) {
 class RotationToolController {
   constructor() {
     this.puestosData = null;
+    this.skillmatrixData = null;
+    this.dataFlowBasePath = null;
     this.totalHC = 0;
     this.areaHC = { IB: 0, ISS: 0, OB: 0, TOM: 0, Support: 0 };
     this.puestoHC = {}; // { puestoId: number }
@@ -220,6 +225,7 @@ class RotationToolController {
           if (typeof base === "string") {
             base = base.replace(/\//g, "\\").trim();
             if (!base.endsWith("\\")) base += "\\";
+            this.dataFlowBasePath = base;
             const puestosPath = base + PUESTOS_FILENAME;
             const result = await window.api.readFileAbsolute(puestosPath);
             if (result && result.success && result.content) {
@@ -244,6 +250,8 @@ class RotationToolController {
       this.puestosData.departamentos = [];
     }
 
+    await this.cargarSkillMatrix();
+
     const loadingEl = document.getElementById("rt-dashboard-loading");
     if (loadingEl) loadingEl.remove();
     try {
@@ -259,6 +267,143 @@ class RotationToolController {
         container.appendChild(errEl);
       }
     }
+  }
+
+  /** Carga skillmatrix.json desde Data_Flow (misma ruta que puestos) para restringir asignaciones por formación. */
+  async cargarSkillMatrix() {
+    this.skillmatrixData = null;
+    if (!this.dataFlowBasePath && typeof window.api !== "undefined" && window.api.getConfig && window.api.readFileAbsolute) {
+      try {
+        const config = await window.api.getConfig();
+        const paths = config?.pizarra_paths && Array.isArray(config.pizarra_paths) ? config.pizarra_paths : [];
+        if (paths.length > 0) {
+          let base = paths[0];
+          if (typeof base === "string") {
+            base = base.replace(/\//g, "\\").trim();
+            if (!base.endsWith("\\")) base += "\\";
+            this.dataFlowBasePath = base;
+          }
+        }
+      } catch (_) {}
+    }
+    if (!this.dataFlowBasePath || !window.api?.readFileAbsolute) return;
+    try {
+      const path = this.dataFlowBasePath + SKILLMATRIX_FILENAME;
+      const result = await window.api.readFileAbsolute(path);
+      if (result?.success && result.content) {
+        this.skillmatrixData = typeof result.content === "string" ? JSON.parse(result.content) : result.content;
+      }
+    } catch (_) {}
+    try {
+      const certPath = this.dataFlowBasePath + CERTIFICADOS_FILENAME;
+      const certResult = await window.api.readFileAbsolute(certPath);
+      if (certResult?.success && certResult.content) {
+        this.certificadosData = typeof certResult.content === "string" ? JSON.parse(certResult.content) : certResult.content;
+      } else {
+        this.certificadosData = { procesos: {} };
+      }
+    } catch (_) {
+      this.certificadosData = { procesos: {} };
+    }
+  }
+
+  /** true si el puesto tiene FC_Internal (asignación manual cuenta como verificada). */
+  puestoTieneFCInternal(puestoId) {
+    const grupos = this.certificadosData?.procesos?.[puestoId];
+    if (!Array.isArray(grupos)) return false;
+    const key = FC_INTERNAL_CERT.toLowerCase();
+    return grupos.some((g) => Array.isArray(g) && g.some((c) => String(c || "").trim().toLowerCase() === key));
+  }
+
+  /** Skills efectivas de un login (manual + verificadas). */
+  getSkillsUsuario(login) {
+    if (!this.skillmatrixData?.usuarios) return {};
+    const u = this.skillmatrixData.usuarios[login?.toUpperCase?.() ?? login];
+    const manual = u?.puestos || {};
+    const verified = u?.puestos_verificados || {};
+    return { ...verified, ...manual };
+  }
+
+  /** true si el login tiene el puesto solo como manual (sin verificar por CSV). */
+  isSkillSoloManual(login, puestoId) {
+    const u = this.skillmatrixData?.usuarios?.[login?.toUpperCase?.() ?? login];
+    if (!u) return false;
+    const verified = u.puestos_verificados || {};
+    const manual = u.puestos || {};
+    return !verified[puestoId] && !!manual[puestoId];
+  }
+
+  /** Set de logins que tienen (verified o manual) el puesto. */
+  getLoginsConSkillPuesto(puestoId) {
+    const set = new Set();
+    if (!this.skillmatrixData?.usuarios) return set;
+    for (const [login, u] of Object.entries(this.skillmatrixData.usuarios)) {
+      const skills = this.getSkillsUsuario(login);
+      if (skills[puestoId]) set.add(login);
+    }
+    return set;
+  }
+
+  /** URL de la foto del empleado (mismo origen que Skill Matrix / Imanes). */
+  getUserPhotoUrl(login) {
+    if (!login) return "";
+    return `https://internal-cdn.amazon.com/badgephotos.amazon.com/?uid=${login}`;
+  }
+
+  /** Cupo (HC) de un puesto o depto por id. */
+  getCupoPuesto(puestoId) {
+    if (!puestoId) return 0;
+    const depts = this.puestosData?.departamentos || [];
+    const dept = depts.find((d) => d.id === puestoId);
+    if (dept && (!dept.puestos || dept.puestos.length === 0)) return this.departmentHC[puestoId] ?? 0;
+    return this.puestoHC[puestoId] ?? 0;
+  }
+
+  /** Lista de puestos/deptos donde faltan personas: { id, label, cupo, asignados, faltan }. */
+  getPuestosConFalta() {
+    const options = this.getAllPuestoAndDeptOptions();
+    const out = [];
+    for (const { id, label } of options) {
+      const cupo = this.getCupoPuesto(id);
+      const asignados = (this.asignacionesPorPuesto[id] || []).length;
+      const faltan = Math.max(0, cupo - asignados);
+      if (faltan > 0) out.push({ id, label, cupo, asignados, faltan });
+    }
+    return out;
+  }
+
+  /** Puestos con más personas de las que caben: { id, label, cupo, asignados, sobra }. */
+  getPuestosConExceso() {
+    const options = this.getAllPuestoAndDeptOptions();
+    const out = [];
+    for (const { id, label } of options) {
+      const cupo = this.getCupoPuesto(id);
+      const asignados = (this.asignacionesPorPuesto[id] || []).length;
+      const sobra = Math.max(0, asignados - cupo);
+      if (sobra > 0) out.push({ id, label, cupo, asignados, sobra });
+    }
+    return out;
+  }
+
+  /** Opciones { id, label } para el selector de puesto (puestos + depts sin puestos). */
+  getAllPuestoAndDeptOptions() {
+    const out = [];
+    const porArea = this.getDepartamentosPorArea();
+    for (const areaKey of ["IB", "OB", "Support"]) {
+      const depts = porArea[areaKey] || [];
+      for (const dept of depts) {
+        if (this.isNoCuentaHC(dept)) continue;
+        const puestos = dept.puestos || [];
+        if (puestos.length === 0) {
+          out.push({ id: dept.id, label: `${dept.nombre || dept.id} (depto)` });
+        } else {
+          for (const puesto of puestos) {
+            out.push({ id: puesto.id, label: puesto.nombre || puesto.id });
+          }
+        }
+      }
+    }
+    return out;
   }
 
   /** Cupo del que sale el HC: ISS→ISS, TOM→TOM, resto por area (IB/OB). Support solo 5s, Enfermería, Learning, Space. */
@@ -570,7 +715,13 @@ class RotationToolController {
       if (deptAsig && deptAsig.length > 0) {
         const asigEl = document.createElement("div");
         asigEl.className = "rt-puesto-asignados";
-        asigEl.textContent = deptAsig.join(", ");
+        asigEl.innerHTML = deptAsig
+          .map((login) => {
+            const sinVerificar = this.isSkillSoloManual(login, dept.id);
+            if (sinVerificar) return `<span class="rt-asig-sin-verificar" title="Formación sin verificar (pendiente CSV)">${escapeHtml(login)}</span>`;
+            return escapeHtml(login);
+          })
+          .join(", ");
         wrap.appendChild(asigEl);
       }
       panel.appendChild(wrap);
@@ -619,10 +770,17 @@ class RotationToolController {
         `;
           const asignados = this.pizarraGenerada && (this.asignacionesPorPuesto[puesto.id] || this.asignacionesPorPuesto[espejoDe]);
           const list = asignados ? (this.asignacionesPorPuesto[puesto.id] || this.asignacionesPorPuesto[espejoDe] || []) : [];
+          const puestoIdForSkill = puesto.id;
           if (list.length > 0) {
             const asigEl = document.createElement("div");
             asigEl.className = "rt-puesto-asignados";
-            asigEl.textContent = list.join(", ");
+            asigEl.innerHTML = list
+              .map((login) => {
+                const sinVerificar = this.isSkillSoloManual(login, puestoIdForSkill);
+                if (sinVerificar) return `<span class="rt-asig-sin-verificar" title="Formación sin verificar (pendiente CSV)">${escapeHtml(login)}</span>`;
+                return escapeHtml(login);
+              })
+              .join(", ");
             row.appendChild(asigEl);
           }
           const input = row.querySelector("input");
@@ -788,6 +946,266 @@ class RotationToolController {
     this._autoDistribAreaKey = null;
   }
 
+  /** Logins que están en loginsDisponibles pero no asignados a ningún puesto. */
+  getUnassignedLogins() {
+    const assigned = new Set();
+    for (const arr of Object.values(this.asignacionesPorPuesto || {})) {
+      for (const l of arr) assigned.add(l);
+    }
+    return (this.loginsDisponibles || []).filter((l) => !assigned.has(l));
+  }
+
+  /** Rellena la columna "Puestos con falta de gente" en el modal. */
+  rellenarPuestosConFalta() {
+    const cont = document.getElementById("rt-logins-sin-puesto-puestos");
+    if (!cont) return;
+    const puestosConFalta = this.getPuestosConFalta();
+    cont.innerHTML = "";
+    const conExceso = this.getPuestosConExceso();
+    if (conExceso.length > 0) {
+      const sub = document.createElement("p");
+      sub.className = "rt-modal-col-subtitle";
+      sub.textContent = "Con gente de más (usa Rebalancear):";
+      cont.appendChild(sub);
+      for (const { label, asignados, cupo, sobra } of conExceso) {
+        const card = document.createElement("div");
+        card.className = "rt-puesto-falta-card rt-puesto-exceso-card";
+        card.innerHTML = `
+          <span class="rt-puesto-falta-label">${escapeHtml(label)}</span>
+          <span class="rt-puesto-falta-num">Sobran <strong>${sobra}</strong> (${asignados}/${cupo})</span>
+        `;
+        cont.appendChild(card);
+      }
+    }
+    if (puestosConFalta.length === 0 && conExceso.length === 0) {
+      const p = document.createElement("p");
+      p.className = "rt-sin-falta-msg";
+      p.textContent = "No hay puestos con falta de gente.";
+      cont.appendChild(p);
+      return;
+    }
+    if (puestosConFalta.length > 0) {
+      const sub = document.createElement("p");
+      sub.className = "rt-modal-col-subtitle";
+      sub.textContent = "Faltan personas:";
+      cont.appendChild(sub);
+      for (const { id, label, cupo, asignados, faltan } of puestosConFalta) {
+        const card = document.createElement("div");
+        card.className = "rt-puesto-falta-card";
+        card.innerHTML = `
+          <span class="rt-puesto-falta-label">${escapeHtml(label)}</span>
+          <span class="rt-puesto-falta-num">Faltan <strong>${faltan}</strong> (${asignados}/${cupo})</span>
+        `;
+        cont.appendChild(card);
+      }
+    }
+  }
+
+  /** Abre el modal: puestos con falta + personas sin asignar (con foto); dropdown solo donde falta. */
+  abrirModalLoginsSinPuesto(unassigned) {
+    const modal = document.getElementById("rt-logins-sin-puesto-modal");
+    const listEl = document.getElementById("rt-logins-sin-puesto-list");
+    if (!modal || !listEl) return;
+    this.rellenarPuestosConFalta();
+    const puestosConFalta = this.getPuestosConFalta();
+    listEl.innerHTML = "";
+    const photoUrl = (login) => this.getUserPhotoUrl(login);
+    for (const login of unassigned) {
+      const row = document.createElement("div");
+      row.className = "rt-logins-sin-puesto-row";
+      row.dataset.login = login;
+      const photoWrap = document.createElement("div");
+      photoWrap.className = "rt-login-photo-wrap";
+      photoWrap.innerHTML = `
+        <img src="${photoUrl(login)}" alt="" class="rt-login-photo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+        <span class="rt-login-photo-placeholder">${(login || "?").slice(0, 2).toUpperCase()}</span>
+      `;
+      const loginSpan = document.createElement("span");
+      loginSpan.className = "rt-login-label";
+      loginSpan.textContent = login;
+      const sel = document.createElement("select");
+      sel.className = "rt-select-puesto";
+      sel.dataset.login = login;
+      const optEmpty = document.createElement("option");
+      optEmpty.value = "";
+      optEmpty.textContent = "— Elegir puesto —";
+      sel.appendChild(optEmpty);
+      for (const { id, label } of puestosConFalta) {
+        const opt = document.createElement("option");
+        opt.value = id;
+        opt.textContent = `${label} (falta)`;
+        sel.appendChild(opt);
+      }
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "rt-btn rt-btn-sm";
+      btn.textContent = "Añadir aquí";
+      btn.addEventListener("click", () => {
+        const puestoId = sel.value;
+        if (!puestoId) return;
+        this.asignarLoginManualAPuesto(login, puestoId);
+        row.remove();
+        this.rellenarPuestosConFalta();
+        this.renderizarDashboard();
+        if (listEl.children.length === 0 && typeof window.showToast === "function") {
+          window.showToast("Todos asignados. Cierra el modal cuando termines.", "success");
+        }
+      });
+      row.appendChild(photoWrap);
+      row.appendChild(loginSpan);
+      row.appendChild(sel);
+      row.appendChild(btn);
+      listEl.appendChild(row);
+    }
+    modal.hidden = false;
+  }
+
+  /** Refresca el contenido del modal (puestos con falta + lista de sin asignar) sin reabrir. */
+  refrescarContenidoModalLoginsSinPuesto() {
+    this.rellenarPuestosConFalta();
+    const listEl = document.getElementById("rt-logins-sin-puesto-list");
+    if (!listEl) return;
+    const unassigned = this.getUnassignedLogins();
+    if (unassigned.length === 0) {
+      listEl.innerHTML = "<p class=\"rt-sin-falta-msg\">No quedan personas sin asignar.</p>";
+      return;
+    }
+    const puestosConFalta = this.getPuestosConFalta();
+    listEl.innerHTML = "";
+    const photoUrl = (login) => this.getUserPhotoUrl(login);
+    for (const login of unassigned) {
+      const row = document.createElement("div");
+      row.className = "rt-logins-sin-puesto-row";
+      row.dataset.login = login;
+      const photoWrap = document.createElement("div");
+      photoWrap.className = "rt-login-photo-wrap";
+      photoWrap.innerHTML = `
+        <img src="${photoUrl(login)}" alt="" class="rt-login-photo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+        <span class="rt-login-photo-placeholder">${(login || "?").slice(0, 2).toUpperCase()}</span>
+      `;
+      const loginSpan = document.createElement("span");
+      loginSpan.className = "rt-login-label";
+      loginSpan.textContent = login;
+      const sel = document.createElement("select");
+      sel.className = "rt-select-puesto";
+      const optEmpty = document.createElement("option");
+      optEmpty.value = "";
+      optEmpty.textContent = "— Elegir puesto —";
+      sel.appendChild(optEmpty);
+      for (const { id, label } of puestosConFalta) {
+        const opt = document.createElement("option");
+        opt.value = id;
+        opt.textContent = `${label} (falta)`;
+        sel.appendChild(opt);
+      }
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "rt-btn rt-btn-sm";
+      btn.textContent = "Añadir aquí";
+      btn.addEventListener("click", () => {
+        const puestoId = sel.value;
+        if (!puestoId) return;
+        this.asignarLoginManualAPuesto(login, puestoId);
+        this.refrescarContenidoModalLoginsSinPuesto();
+        this.renderizarDashboard();
+      });
+      row.appendChild(photoWrap);
+      row.appendChild(loginSpan);
+      row.appendChild(sel);
+      row.appendChild(btn);
+      listEl.appendChild(row);
+    }
+  }
+
+  /** Mueve gente de puestos con exceso a puestos con falta; prioriza quien tenga otra formación. */
+  async rebalancearAsignaciones() {
+    const overflow = [];
+    const porArea = this.getDepartamentosPorArea();
+    for (const areaKey of ["IB", "OB", "Support"]) {
+      for (const dept of porArea[areaKey] || []) {
+        if (this.isNoCuentaHC(dept)) continue;
+        const puestos = dept.puestos || [];
+        if (puestos.length === 0) {
+          const puestoId = dept.id;
+          const cupo = this.getCupoPuesto(puestoId);
+          const arr = this.asignacionesPorPuesto[puestoId] || [];
+          if (arr.length > cupo) {
+            for (let i = cupo; i < arr.length; i++) overflow.push({ login: arr[i], desdePuestoId: puestoId });
+          }
+          continue;
+        }
+        for (const puesto of puestos) {
+          const cupo = this.getCupoPuesto(puesto.id);
+          const arr = this.asignacionesPorPuesto[puesto.id] || [];
+          if (arr.length > cupo) {
+            for (let i = cupo; i < arr.length; i++) overflow.push({ login: arr[i], desdePuestoId: puesto.id });
+          }
+        }
+      }
+    }
+    if (overflow.length === 0) {
+      if (typeof window.showToast === "function") window.showToast("No hay puestos con gente de más para rebalancear.", "info");
+      return;
+    }
+    const skillsByLogin = (login) => this.getSkillsUsuario(login);
+    for (const { login, desdePuestoId } of overflow) {
+      const arrDesde = this.asignacionesPorPuesto[desdePuestoId] || [];
+      const idx = arrDesde.indexOf(login);
+      if (idx === -1) continue;
+      arrDesde.splice(idx, 1);
+      this.asignacionesPorPuesto[desdePuestoId] = arrDesde.length ? arrDesde : [];
+      const puestosConFalta = this.getPuestosConFalta();
+      if (puestosConFalta.length === 0) break;
+      const skills = skillsByLogin(login);
+      const conSkill = puestosConFalta.filter((p) => skills[p.id]);
+      const target = conSkill.length > 0 ? conSkill[0] : puestosConFalta[0];
+      if (!target) continue;
+      const arrTo = this.asignacionesPorPuesto[target.id] || [];
+      arrTo.push(login);
+      this.asignacionesPorPuesto[target.id] = arrTo;
+      if (!this.skillmatrixData) this.skillmatrixData = { usuarios: {} };
+      if (!this.skillmatrixData.usuarios[login]) this.skillmatrixData.usuarios[login] = { puestos: {}, puestos_verificados: {} };
+      if (this.puestoTieneFCInternal(target.id)) {
+        this.skillmatrixData.usuarios[login].puestos_verificados[target.id] = true;
+      } else {
+        this.skillmatrixData.usuarios[login].puestos[target.id] = true;
+      }
+    }
+    if (this.dataFlowBasePath && window.api?.saveJson) {
+      try {
+        await window.api.saveJson(this.dataFlowBasePath + SKILLMATRIX_FILENAME, this.skillmatrixData);
+      } catch (e) {
+        if (typeof window.showToast === "function") window.showToast("Error al guardar Skill Matrix: " + (e.message || String(e)), "error");
+      }
+    }
+    if (typeof window.showToast === "function") window.showToast("Rebalanceo aplicado. Revisa puestos con falta y personas sin asignar.", "success");
+  }
+
+  /** Asigna un login a un puesto manualmente y lo marca en skillmatrix como sin verificar; guarda skillmatrix. */
+  async asignarLoginManualAPuesto(login, puestoId) {
+    const arr = this.asignacionesPorPuesto[puestoId] || [];
+    if (!arr.includes(login)) {
+      arr.push(login);
+      this.asignacionesPorPuesto[puestoId] = arr;
+    }
+    if (!this.skillmatrixData) this.skillmatrixData = { usuarios: {} };
+    if (!this.skillmatrixData.usuarios[login]) {
+      this.skillmatrixData.usuarios[login] = { puestos: {}, puestos_verificados: {} };
+    }
+    if (this.puestoTieneFCInternal(puestoId)) {
+      this.skillmatrixData.usuarios[login].puestos_verificados[puestoId] = true;
+    } else {
+      this.skillmatrixData.usuarios[login].puestos[puestoId] = true;
+    }
+    if (!this.dataFlowBasePath || !window.api?.saveJson) return;
+    try {
+      const path = this.dataFlowBasePath + SKILLMATRIX_FILENAME;
+      await window.api.saveJson(path, this.skillmatrixData);
+    } catch (e) {
+      if (typeof window.showToast === "function") window.showToast("Error al guardar Skill Matrix: " + (e.message || String(e)), "error");
+    }
+  }
+
   syncStowTLAsistente(puestosContainer) {
     const tl = puestosContainer.querySelector('input[data-puesto-id="stow-tl"]');
     const ast = puestosContainer.querySelector('input[data-puesto-id="stow-tl-ast"]');
@@ -944,6 +1362,19 @@ class RotationToolController {
       document.getElementById("rt-logins-overlay").hidden = true;
     });
 
+    const loginsSinPuestoModal = document.getElementById("rt-logins-sin-puesto-modal");
+    document.getElementById("rt-logins-sin-puesto-cerrar")?.addEventListener("click", () => {
+      if (loginsSinPuestoModal) loginsSinPuestoModal.hidden = true;
+    });
+    loginsSinPuestoModal?.querySelector(".rt-overlay-backdrop")?.addEventListener("click", () => {
+      if (loginsSinPuestoModal) loginsSinPuestoModal.hidden = true;
+    });
+    document.getElementById("rt-logins-sin-puesto-rebalancear")?.addEventListener("click", async () => {
+      await this.rebalancearAsignaciones();
+      this.refrescarContenidoModalLoginsSinPuesto();
+      this.renderizarDashboard();
+    });
+
     document.getElementById("btn-attendance")?.addEventListener("click", () => {
       document.getElementById("rt-logins-overlay").hidden = false;
       document.getElementById("rt-logins-textarea").value = "";
@@ -1073,23 +1504,63 @@ class RotationToolController {
       while (logins.length < this.totalHC) logins.push(`login-${logins.length + 1}`);
     }
     this.asignacionesPorPuesto = {};
-    for (const areaKey of ["IB", "OB", "Support"]) {
-      const depts = porArea[areaKey] || [];
-      for (const dept of depts) {
-        if (this.isNoCuentaHC(dept)) continue;
-        const puestos = dept.puestos || [];
-        if (puestos.length === 0) {
-          const n = this.departmentHC[dept.id] ?? 0;
-          if (n > 0) this.asignacionesPorPuesto[dept.id] = logins.splice(0, n);
-          continue;
+    const useSkillFilter = !!this.skillmatrixData?.usuarios;
+
+    if (useSkillFilter) {
+      const pool = [...logins];
+      for (const areaKey of ["IB", "OB", "Support"]) {
+        const depts = porArea[areaKey] || [];
+        for (const dept of depts) {
+          if (this.isNoCuentaHC(dept)) continue;
+          const puestos = dept.puestos || [];
+          if (puestos.length === 0) {
+            const n = this.departmentHC[dept.id] ?? 0;
+            if (n <= 0) continue;
+            const puestoId = dept.id;
+            const conSkill = this.getLoginsConSkillPuesto(puestoId);
+            const candidates = pool.filter((l) => conSkill.has(l));
+            const take = Math.min(n, candidates.length);
+            const assigned = candidates.slice(0, take);
+            for (const l of assigned) pool.splice(pool.indexOf(l), 1);
+            if (take > 0) this.asignacionesPorPuesto[puestoId] = assigned;
+            continue;
+          }
+          for (const puesto of puestos) {
+            const n = this.puestoHC[puesto.id] || 0;
+            if (n <= 0) continue;
+            const conSkill = this.getLoginsConSkillPuesto(puesto.id);
+            const candidates = pool.filter((l) => conSkill.has(l));
+            const take = Math.min(n, candidates.length);
+            const assigned = candidates.slice(0, take);
+            for (const l of assigned) pool.splice(pool.indexOf(l), 1);
+            if (take > 0) this.asignacionesPorPuesto[puesto.id] = assigned;
+          }
         }
-        for (const puesto of puestos) {
-          const n = this.puestoHC[puesto.id] || 0;
-          if (n <= 0) continue;
-          this.asignacionesPorPuesto[puesto.id] = logins.splice(0, n);
+      }
+      const unassigned = pool;
+      if (unassigned.length > 0) {
+        this.abrirModalLoginsSinPuesto(unassigned);
+      }
+    } else {
+      for (const areaKey of ["IB", "OB", "Support"]) {
+        const depts = porArea[areaKey] || [];
+        for (const dept of depts) {
+          if (this.isNoCuentaHC(dept)) continue;
+          const puestos = dept.puestos || [];
+          if (puestos.length === 0) {
+            const n = this.departmentHC[dept.id] ?? 0;
+            if (n > 0) this.asignacionesPorPuesto[dept.id] = logins.splice(0, n);
+            continue;
+          }
+          for (const puesto of puestos) {
+            const n = this.puestoHC[puesto.id] || 0;
+            if (n <= 0) continue;
+            this.asignacionesPorPuesto[puesto.id] = logins.splice(0, n);
+          }
         }
       }
     }
+
     this.pizarraGenerada = true;
     this.ultimaPizarraPropuesta = this.buildPizarraPropuestaJSON();
     this.actualizarBotonesPizarra();

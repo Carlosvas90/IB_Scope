@@ -358,6 +358,104 @@
 .pm-cert-grupo-actions {
   margin-top: var(--spacing-xs);
 }
+
+.pm-cert-procesos-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  max-height: 320px;
+  overflow-y: auto;
+  padding: var(--spacing-sm);
+  border: var(--border-width-thin) solid var(--Color-gray-2);
+  border-radius: var(--border-md);
+}
+
+.pm-cert-proceso-check {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+.pm-cert-proceso-check input {
+  flex-shrink: 0;
+}
+
+.pm-certificados-intro {
+  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-sm);
+  background: var(--Color-gray-1);
+  border-radius: var(--border-md);
+  font-size: var(--font-size-sm);
+}
+
+.pm-cert-fc-internal {
+  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: #e8f4fd;
+  border: 1px solid #b6d4ed;
+  border-radius: var(--border-md);
+  font-size: var(--font-size-sm);
+  color: #0d3b66;
+}
+
+.pm-certificados-actions {
+  margin-bottom: var(--spacing-xs);
+}
+
+.pm-certificados-hint {
+  font-size: var(--font-size-sm);
+  color: var(--text-color-one);
+  margin: 0 0 var(--spacing-md) 0;
+}
+
+.pm-certificados-resumen {
+  margin-top: var(--spacing-md);
+  width: 100%;
+  overflow-x: auto;
+}
+
+.pm-table-cert-resumen {
+  width: 100%;
+  min-width: 600px;
+  table-layout: fixed;
+}
+
+/* Columna Proceso: ancho fijo razonable */
+.pm-table-cert-resumen th:first-child,
+.pm-table-cert-resumen td:first-child {
+  width: 22%;
+  min-width: 140px;
+}
+
+/* Columna Certificados: ocupa el resto, permite partir líneas largas */
+.pm-table-cert-resumen th:nth-child(2),
+.pm-table-cert-resumen td:nth-child(2) {
+  width: 68%;
+  word-break: break-word;
+}
+
+/* Columna Editar: ancho fijo para que el botón no se parta en vertical */
+.pm-table-cert-resumen th:nth-child(3),
+.pm-table-cert-resumen td:nth-child(3) {
+  width: 10%;
+  min-width: 90px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.pm-table-cert-resumen td:nth-child(3) .pm-cert-editar-btn {
+  white-space: nowrap;
+  min-width: 4.5em;
+}
+
+.pm-cert-resumen-empty {
+  color: var(--text-color-one);
+  font-style: italic;
+  margin: 0;
+}
+
 .pm-cert-summary {
   font-size: var(--font-size-xs);
   color: var(--text-color-one);

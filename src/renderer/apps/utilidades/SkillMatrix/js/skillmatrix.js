@@ -563,6 +563,14 @@ class SkillMatrixController {
         this.puestosData = { puestos_predefinidos: [], puestos_personalizados: [] };
       }
 
+      // Cargar certificados (para saber si un puesto es FC_Internal → guardar como verificado)
+      const certResult = await this.obtenerRutaCompartida("certificados.json");
+      if (certResult && certResult.data && certResult.data.procesos) {
+        this.certificadosData = certResult.data;
+      } else {
+        this.certificadosData = { procesos: {} };
+      }
+
       // Cargar roster desde el mismo origen que Pizarra (Data_Flow o data_paths); varios formatos; solo activos
       const rosterResult = await this.cargarRosterMismoOrigenPizarra();
       if (rosterResult && rosterResult.roster && rosterResult.roster.length > 0) {
@@ -632,6 +640,19 @@ class SkillMatrixController {
   getUserPhotoUrl(login) {
     if (!login) return "";
     return `https://internal-cdn.amazon.com/badgephotos.amazon.com/?uid=${login}`;
+  }
+
+  /** Certificado especial: puestos con FC_Internal se guardan como verificados al asignarlos manualmente. */
+  static get FC_INTERNAL_CERT() {
+    return "FC_Internal";
+  }
+
+  /** true si el puesto tiene FC_Internal en sus certificados (desde certificados.json). */
+  puestoTieneFCInternal(puestoId) {
+    const grupos = this.certificadosData?.procesos?.[puestoId];
+    if (!Array.isArray(grupos)) return false;
+    const key = SkillMatrixController.FC_INTERNAL_CERT.toLowerCase();
+    return grupos.some((g) => Array.isArray(g) && g.some((c) => String(c || "").trim().toLowerCase() === key));
   }
 
   /**
@@ -879,8 +900,9 @@ class SkillMatrixController {
     // Skills efectivas = manual + verificadas por CSV
     const skillsUsuario = this.getSkillsUsuario(login.toUpperCase());
     const verifiedUsuario = this.skillmatrixData?.usuarios?.[login.toUpperCase()]?.puestos_verificados || {};
+    const manualUsuario = this.skillmatrixData?.usuarios?.[login.toUpperCase()]?.puestos || {};
 
-    // Generar HTML
+    // Generar HTML. "Sin verificar" solo cuando el check es manual (está en puestos pero NO en puestos_verificados). Si no tiene el permiso, no se muestra badge.
     let html = "";
     if (todosLosPuestos.length === 0) {
       html = '<div class="empty-state"><p>No hay puestos disponibles</p></div>';
@@ -889,12 +911,18 @@ class SkillMatrixController {
       todosLosPuestos.forEach((puesto) => {
         const tieneSkill = skillsUsuario[puesto.id] === true;
         const esVerificado = verifiedUsuario[puesto.id] === true;
+        const esSoloManual = tieneSkill && !esVerificado && manualUsuario[puesto.id] === true;
         const deptoText =
           puesto.departamento_principal && puesto.departamento_secundario
             ? `${puesto.departamento_principal} - ${puesto.departamento_secundario}`
             : (puesto._departamentoNombre || puesto.departamento_principal || "");
+        const badgeHtml = esVerificado
+          ? '<span class="skill-badge-verificado">Verificado</span>'
+          : esSoloManual
+            ? '<span class="skill-badge-sin-verificar">Sin verificar</span>'
+            : '';
         html += `
-          <div class="skill-matrix-item ${esVerificado ? "skill-verificado" : ""}">
+          <div class="skill-matrix-item ${esVerificado ? "skill-verificado" : esSoloManual ? "skill-manual" : ""}">
             <label class="skill-checkbox-label">
               <input
                 type="checkbox"
@@ -906,7 +934,7 @@ class SkillMatrixController {
               <div class="skill-puesto-info">
                 <strong>${puesto.nombre || puesto.id}</strong>
                 <span class="skill-puesto-depto">${deptoText}</span>
-                ${esVerificado ? '<span class="skill-badge-verificado">Verificado</span>' : '<span class="skill-badge-sin-verificar">Sin verificar</span>'}
+                ${badgeHtml}
               </div>
             </label>
           </div>
@@ -934,12 +962,16 @@ class SkillMatrixController {
       "#skill-matrix-content .skill-checkbox:checked"
     );
 
-    // puestos = solo formaciones manuales (sin verificar); las verificadas vienen del CSV
+    // puestos = solo formaciones manuales (sin verificar); las verificadas vienen del CSV. FC_Internal → verificado directo
     this.skillmatrixData.usuarios[login].puestos = {};
     checkboxes.forEach((checkbox) => {
       const puestoId = checkbox.getAttribute("data-puesto-id");
-      if (verified[puestoId]) return; // no guardar en puestos las que ya están verificadas
-      this.skillmatrixData.usuarios[login].puestos[puestoId] = true;
+      if (verified[puestoId]) return;
+      if (this.puestoTieneFCInternal(puestoId)) {
+        this.skillmatrixData.usuarios[login].puestos_verificados[puestoId] = true;
+      } else {
+        this.skillmatrixData.usuarios[login].puestos[puestoId] = true;
+      }
     });
 
     this.skillmatrixData.ultima_actualizacion = new Date().toISOString();

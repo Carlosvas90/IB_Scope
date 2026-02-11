@@ -16,6 +16,7 @@
       <nav class="pm-tabs">
         <button type="button" class="pm-tab active" data-tab="puestos">Puestos</button>
         <button type="button" class="pm-tab" data-tab="mapping">Mapping</button>
+        <button type="button" class="pm-tab" data-tab="certificados">Certificados</button>
       </nav>
 
       <!-- Pestaña Puestos -->
@@ -52,6 +53,20 @@
             <tbody id="pm-puestos-tbody"></tbody>
           </table>
         </div>
+      </section>
+
+      <!-- Pestaña Certificados -->
+      <section id="pm-view-certificados" class="pm-view card">
+        <div class="pm-certificados-intro">
+          <p>Gestiona qué <strong>certificados</strong> (formaciones) dan permiso para cada proceso. Usa <strong>Agregar certificado</strong> para asignar uno a varios procesos, o <strong>Editar</strong> en cada fila para quitar o modificar.</p>
+        </div>
+        <div class="pm-cert-fc-internal">
+          <strong>Certificado especial FC_Internal</strong>: Los puestos que tengan este certificado se asignan manualmente desde Skill Matrix. Al añadirlos no quedarán como "sin verificar": quedarán directamente <strong>verificados</strong>, porque son puestos que el FC considera válidos sin un certificado externo.
+        </div>
+        <div class="pm-actions-row pm-certificados-actions">
+          <button type="button" id="pm-agregar-certificado" class="pm-btn pm-btn-primary">Agregar certificado</button>
+        </div>
+        <div id="pm-certificados-resumen" class="pm-certificados-resumen"></div>
       </section>
 
       <!-- Pestaña Mapping -->
@@ -150,6 +165,27 @@
         </div>
         <div class="pm-modal-actions">
           <button type="button" id="pm-modal-puesto-done" class="pm-btn pm-btn-primary">Crear puesto</button>
+        </div>
+        <button type="button" class="pm-modal-close" aria-label="Cerrar">&times;</button>
+      </div>
+    </div>
+
+    <!-- Modal: Agregar certificado a varios procesos -->
+    <div id="pm-modal-agregar-certificado" class="pm-modal" role="dialog" aria-label="Agregar certificado" hidden>
+      <div class="pm-modal-backdrop"></div>
+      <div class="pm-modal-box pm-modal-box-wide">
+        <h2 class="pm-modal-title">Agregar certificado</h2>
+        <p class="pm-modal-hint">Indica el nombre del certificado y selecciona a qué procesos da permiso. Si un proceso ya tiene formaciones, podrás elegir si este certificado se añade al mismo grupo (OR) o como nuevo grupo (AND).</p>
+        <div class="pm-modal-step">
+          <label><strong>Nombre del certificado</strong></label>
+          <input type="text" id="pm-modal-cert-nombre" class="pm-modal-input" placeholder="Ej. EUCF_NTU_ALL_Carton Mover" />
+        </div>
+        <div class="pm-modal-step">
+          <label><strong>Procesos a los que da permiso</strong> (marca los que apliquen)</label>
+          <div id="pm-modal-cert-procesos" class="pm-cert-procesos-list"></div>
+        </div>
+        <div class="pm-modal-actions">
+          <button type="button" id="pm-modal-agregar-cert-done" class="pm-btn pm-btn-primary">Añadir a procesos seleccionados</button>
         </div>
         <button type="button" class="pm-modal-close" aria-label="Cerrar">&times;</button>
       </div>

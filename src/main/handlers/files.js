@@ -21,6 +21,14 @@ class FilesHandler {
       return await fileSystemService.exportToCsv(data);
     });
 
+    ipcMain.handle("export-to-xlsx", async (event, opts) => {
+      return fileSystemService.exportToXlsx(opts);
+    });
+
+    ipcMain.handle("read-xlsx", async (event, filePath) => {
+      return fileSystemService.readXlsx(filePath);
+    });
+
     // Handler específico para leer archivos desde userData (rutas absolutas)
     ipcMain.handle("read-file-absolute", async (event, filePath) => {
       console.log("[FilesHandler] read-file-absolute llamado con:", filePath);

@@ -649,6 +649,11 @@
   margin-left: 0.25rem;
 }
 
+/* Formación solo manual (check puesto a mano, sin certificado CSV) */
+.skill-matrix-item.skill-manual {
+  background: rgba(255, 243, 205, 0.25);
+}
+
 /* Empty state */
 .empty-state {
   text-align: center;

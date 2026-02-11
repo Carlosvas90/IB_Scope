@@ -130,6 +130,37 @@
       </div>
     </div>
 
+    <!-- Modal: logins sin puesto + puestos con falta (asignar manualmente → skillmatrix sin verificar) -->
+    <div id="rt-logins-sin-puesto-modal" class="rt-overlay" hidden>
+      <div class="rt-overlay-backdrop"></div>
+      <div class="rt-overlay-box rt-logins-sin-puesto-box rt-logins-sin-puesto-box-wide">
+        <h3 class="rt-overlay-title">Asignar manualmente (sin formación verificada)</h3>
+        <div class="rt-modal-pasos">
+          <p class="rt-modal-pasos-titulo">Cómo asignar a un puesto:</p>
+          <ol class="rt-modal-pasos-lista">
+            <li>En la <strong>columna izquierda</strong> ves en qué puestos falta gente.</li>
+            <li>En la <strong>columna derecha</strong> están las personas sin asignar (con foto).</li>
+            <li>Elige un puesto en el desplegable de esa persona y pulsa <strong>«Añadir aquí»</strong>.</li>
+            <li>Si un puesto tiene gente de más, usa <strong>Rebalancear</strong> para mover a quien tenga otras formaciones donde falte.</li>
+          </ol>
+        </div>
+        <div class="rt-modal-dos-columnas">
+          <div class="rt-modal-col-puestos">
+            <h4 class="rt-modal-col-title">Puestos con falta de gente</h4>
+            <div id="rt-logins-sin-puesto-puestos" class="rt-logins-sin-puesto-puestos"></div>
+            <button type="button" id="rt-logins-sin-puesto-rebalancear" class="rt-btn rt-btn-rebalancear">Rebalancear (mover con otras formaciones)</button>
+          </div>
+          <div class="rt-modal-col-personas">
+            <h4 class="rt-modal-col-title">Personas sin asignar</h4>
+            <div id="rt-logins-sin-puesto-list" class="rt-logins-sin-puesto-list"></div>
+          </div>
+        </div>
+        <div class="rt-overlay-actions">
+          <button type="button" id="rt-logins-sin-puesto-cerrar" class="rt-btn rt-btn-primary">Cerrar</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Overlay para pegar logins -->
     <div id="rt-logins-overlay" class="rt-overlay" hidden>
       <div class="rt-overlay-backdrop"></div>

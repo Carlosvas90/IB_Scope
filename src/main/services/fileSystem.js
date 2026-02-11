@@ -3,6 +3,7 @@ const path = require("path");
 const zlib = require("zlib");
 const os = require("os");
 const { dialog, app } = require("electron");
+const XLSX = require("xlsx");
 
 class FileSystemService {
   readJson(filePath) {
@@ -79,6 +80,56 @@ class FileSystemService {
       return { success: true, filePath };
     } catch (error) {
       console.error("Error al exportar a CSV:", error);
+      return { success: false, error: error.message };
+    }
+  }
+
+  /**
+   * Lee un archivo xlsx y devuelve las hojas con sus datos (array de filas).
+   * @param {string} filePath - Ruta absoluta del archivo
+   * @returns { { success: boolean, sheets?: { name: string, data: string[][] }[], error?: string } }
+   */
+  readXlsx(filePath) {
+    try {
+      if (!filePath || !fs.existsSync(filePath)) {
+        return { success: false, error: "Archivo no encontrado." };
+      }
+      const wb = XLSX.readFile(filePath);
+      const sheets = [];
+      wb.SheetNames.forEach((name) => {
+        const ws = wb.Sheets[name];
+        const data = XLSX.utils.sheet_to_json(ws, { header: 1, defval: "" });
+        sheets.push({ name, data: data || [] });
+      });
+      return { success: true, sheets };
+    } catch (error) {
+      console.error("Error al leer XLSX:", error);
+      return { success: false, error: error.message };
+    }
+  }
+
+  /**
+   * Exporta un libro Excel con varias hojas.
+   * @param {Object} opts - { filePath: string, sheets: [ { name: string, data: string[][] } ] }
+   */
+  exportToXlsx(opts) {
+    try {
+      const { filePath, sheets } = opts || {};
+      if (!filePath || !Array.isArray(sheets) || sheets.length === 0) {
+        return { success: false, error: "filePath y sheets (array con name y data) son requeridos." };
+      }
+      const wb = XLSX.utils.book_new();
+      sheets.forEach((sh) => {
+        const name = (sh.name || "Hoja").toString().slice(0, 31);
+        const ws = XLSX.utils.aoa_to_sheet(sh.data || []);
+        XLSX.utils.book_append_sheet(wb, ws, name);
+      });
+      const dir = path.dirname(filePath);
+      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+      XLSX.writeFile(wb, filePath);
+      return { success: true, filePath };
+    } catch (error) {
+      console.error("Error al exportar a XLSX:", error);
       return { success: false, error: error.message };
     }
   }

@@ -826,6 +826,216 @@
   word-break: break-word;
 }
 
+.rt-asig-sin-verificar {
+  background: #fef3c7;
+  color: #92400e;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+/* Modal asignar manualmente: ancho, instrucciones claras, dos columnas */
+.rt-logins-sin-puesto-box-wide {
+  max-width: 96vw;
+  width: 1200px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 1.75rem 2rem;
+}
+
+.rt-logins-sin-puesto-box-wide .rt-overlay-title {
+  margin-bottom: 0.75rem;
+}
+
+.rt-modal-pasos {
+  background: #f0f4ff;
+  border: 1px solid #c7d2fe;
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.rt-modal-pasos-titulo {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1e3a5f;
+  margin: 0 0 0.5rem 0;
+}
+
+.rt-modal-pasos-lista {
+  margin: 0;
+  padding-left: 1.35rem;
+  font-size: 0.9rem;
+  color: #374151;
+  line-height: 1.6;
+}
+
+.rt-modal-pasos-lista li {
+  margin-bottom: 0.35rem;
+}
+
+.rt-modal-dos-columnas {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(480px, 1.2fr);
+  gap: 2rem;
+  margin-bottom: 1.25rem;
+  min-height: 200px;
+  flex: 1;
+  min-height: 0;
+}
+
+.rt-modal-col-puestos,
+.rt-modal-col-personas {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.rt-modal-col-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem 0;
+  color: var(--text-color-one, #333);
+}
+
+.rt-logins-sin-puesto-puestos {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.rt-puesto-falta-card {
+  padding: 0.65rem 1rem;
+  background: #f0f4ff;
+  border: 1px solid #c7d2fe;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.rt-puesto-falta-label {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.rt-puesto-falta-num {
+  font-size: 0.85rem;
+  color: #4b5563;
+}
+
+.rt-modal-col-subtitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #6b7280;
+  margin: 0.6rem 0 0.35rem 0;
+}
+
+.rt-modal-col-subtitle:first-child {
+  margin-top: 0;
+}
+
+.rt-puesto-exceso-card {
+  background: #fef3c7;
+  border-color: #f59e0b;
+}
+
+.rt-btn-rebalancear {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+
+.rt-sin-falta-msg {
+  font-size: 0.95rem;
+  color: #6b7280;
+  margin: 0.5rem 0 0 0;
+}
+
+.rt-logins-sin-puesto-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: auto;
+  margin-bottom: 0;
+}
+
+.rt-logins-sin-puesto-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: nowrap;
+  min-width: min-content;
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--Color-gray-2, #e5e7eb);
+  background: #fafafa;
+  border-radius: 8px;
+}
+
+.rt-logins-sin-puesto-row:last-child {
+  border-bottom: none;
+}
+
+.rt-login-photo-wrap {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #dee2e6;
+}
+
+.rt-login-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.rt-login-photo-placeholder {
+  display: none;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #495057;
+  background: #dee2e6;
+}
+
+.rt-logins-sin-puesto-row .rt-login-label {
+  min-width: 6.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.rt-logins-sin-puesto-row .rt-select-puesto {
+  min-width: 16rem;
+  max-width: 20rem;
+  padding: 0.5rem 0.6rem;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  border: var(--border-width-thin) solid var(--Color-gray-2);
+  flex-shrink: 0;
+}
+
+.rt-logins-sin-puesto-row .rt-btn {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
 .rt-modal-puesto-label {
   font-size: 0.85rem;
   color: var(--texto-tabla);
@@ -878,10 +1088,12 @@
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
+  z-index: 0;
 }
 
 .rt-overlay-box {
   position: relative;
+  z-index: 1;
   width: 100%;
   max-width: 400px;
   padding: 1.5rem;

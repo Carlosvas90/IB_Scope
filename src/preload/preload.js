@@ -75,6 +75,8 @@ contextBridge.exposeInMainWorld("api", {
    * @returns {Promise<object>}
    */
   exportToCsv: (data) => ipcRenderer.invoke("export-to-csv", data),
+  exportToXlsx: (opts) => ipcRenderer.invoke("export-to-xlsx", opts),
+  readXlsx: (filePath) => ipcRenderer.invoke("read-xlsx", filePath),
 
   // --- Diálogos del sistema ---
   showOpenDialog: (options) => ipcRenderer.invoke("show-open-dialog", options),

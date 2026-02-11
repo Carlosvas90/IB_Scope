@@ -1,6 +1,6 @@
 {
   "name": "inbound-scope",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "App that uses a csv to track errors",
   "main": "src/main/main.js",
   "scripts": {
@@ -19,7 +19,8 @@
     "ffmpeg-static": "^5.2.0",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.2",
-    "lottie-web": "^5.12.2"
+    "lottie-web": "^5.12.2",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@playwright/test": "^1.52.0",
