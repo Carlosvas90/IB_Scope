@@ -112,6 +112,13 @@ body {
   --user-history-success: #10b981;
   --user-history-warning: #f59e0b;
   --user-history-error: #ef4444;
+  /* Colores gráficos: usuario más vivo, promedio suave, esfuerzo naranja */
+  --user-history-chart-user: #6366f1;
+  --user-history-chart-user-bright: #4f46e5;
+  --user-history-chart-avg: #94a3b8;
+  --user-history-chart-avg-dark: #475569;
+  --user-history-esfuerzo: #f59e0b;
+  --user-history-esfuerzo-soft: #fbbf24;
   --user-history-bg: #f8fafc;
   --user-history-card-bg: #ffffff;
   --user-history-text-primary: #1f2937;
@@ -128,6 +135,12 @@ body {
   --user-history-text-secondary: #9ca3af;
   --user-history-border: #374151;
   --user-history-shadow: 0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.3);
+  --user-history-chart-user: #818cf8;
+  --user-history-chart-user-bright: #6366f1;
+  --user-history-chart-avg: #64748b;
+  --user-history-chart-avg-dark: #475569;
+  --user-history-esfuerzo: #f59e0b;
+  --user-history-esfuerzo-soft: #fbbf24;
 }
 
 /* Contenedor principal de User History */
@@ -329,6 +342,10 @@ body {
   margin-right: 0.25rem;
 }
 
+.stow-kpi.stow-kpi-esfuerzo strong {
+  color: var(--user-history-esfuerzo);
+}
+
 .stow-kpi-extra {
   margin-top: 0.5rem;
   padding-top: 0.5rem;
@@ -387,6 +404,92 @@ body {
   padding: 1rem;
   margin-bottom: 1.5rem;
   box-shadow: var(--user-history-shadow);
+}
+
+/* Selector de período para KPIs en bloques Stow (resaltar período activo) */
+.stow-kpi-period-label {
+  font-size: 0.75rem;
+  color: var(--user-history-text-secondary);
+  margin-bottom: 0.35rem;
+  display: block;
+}
+
+.stow-period-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+}
+
+.stow-period-btn {
+  padding: 0.35rem 0.6rem;
+  font-size: 0.8rem;
+  border-radius: 0.5rem;
+  border: 0.0625rem solid var(--user-history-border);
+  background: var(--user-history-bg);
+  color: var(--user-history-text-secondary);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.stow-period-btn:hover {
+  background: var(--user-history-border);
+  color: var(--user-history-text-primary);
+}
+
+.stow-period-btn.active {
+  background: var(--user-history-chart-user);
+  color: white;
+  border-color: var(--user-history-chart-user);
+}
+
+.stow-level1-block[data-block="esfuerzo"] .stow-period-btn.active {
+  background: var(--user-history-esfuerzo);
+  border-color: var(--user-history-esfuerzo);
+}
+
+/* Grilla de gráficos por categoría (Nivel 2): 3 columnas = 3 filas lógicas
+   Fila 1: Stow to Prime, Stow to Prime E, Stow to Prime W
+   Fila 2: Transfer In, Transfer In E, Transfer In W
+   Fila 3: Combined, Combined E, Combined W */
+.stow-level2-charts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.stow-level2-chart-cell {
+  background: var(--user-history-card-bg);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  border: 0.0625rem solid var(--user-history-border);
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+}
+
+.stow-level2-chart-cell .stow-category-chart-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--user-history-text-primary);
+  margin: 0 0 0.5rem 0;
+  flex-shrink: 0;
+}
+
+/* Contenedor del gráfico dentro de la celda: debe verse bien */
+.stow-level2-chart-cell .user-history-chart {
+  min-height: 240px;
+  height: 240px;
+  flex: 1;
+  display: block;
+  overflow: visible;
+}
+
+.stow-level2-chart-cell .user-history-chart svg {
+  display: block;
+  width: 100%;
+  height: 240px;
 }
 
 .user-history-chart-container h3 {

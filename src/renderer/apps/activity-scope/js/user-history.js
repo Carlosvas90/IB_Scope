@@ -47,6 +47,9 @@ class UserHistoryController {
       { key: "shipping", label: "Shipping" }
     ];
     this.currentDepartment = "each_stow";
+
+    // Período seleccionado para KPIs de cada bloque Stow (combined, pallet, esfuerzo)
+    this.stowKpiPeriod = { combined: "last_month", pallet: "last_month", esfuerzo: "last_month" };
     
     // Filtros
     this.selectedShift = "";
@@ -1511,7 +1514,7 @@ class UserHistoryController {
   }
 
   clearStowDetailSection() {
-    const ids = ["stow-combined-chart", "stow-combined-kpis", "stow-pallet-combined-chart", "stow-pallet-combined-kpis", "stow-esfuerzo-chart", "stow-esfuerzo-kpis", "stow-esfuerzo-extra", "each-stow-comparison-chart", "each-stow-comparison-table", "pallet-stow-comparison-chart", "pallet-stow-comparison-table", "esfuerzo-detail-table"];
+    const ids = ["stow-combined-chart", "stow-combined-kpis", "stow-combined-period-selector", "stow-pallet-combined-chart", "stow-pallet-combined-kpis", "stow-pallet-combined-period-selector", "stow-esfuerzo-chart", "stow-esfuerzo-kpis", "stow-esfuerzo-period-selector", "stow-esfuerzo-extra", "each-stow-charts-grid", "each-stow-comparison-table", "pallet-stow-charts-grid", "pallet-stow-comparison-table", "esfuerzo-detail-table"];
     ids.forEach(id => {
       const el = document.getElementById(id);
       if (el) el.innerHTML = "";
@@ -1546,8 +1549,10 @@ class UserHistoryController {
       const avg = this.metadataUsers?.periods?.[p]?.each_stow?.combined?.avg ?? 0;
       if (c?.rate != null) combinedData.push({ period: periodLabels[p], userRate: c.rate, avgRate: avg });
     });
-    this._renderStowLineChart("stow-combined-chart", combinedData);
-    const combined = periodData?.each_stow?.combined;
+    this._renderStowLineChart("stow-combined-chart", combinedData, { userColor: "var(--user-history-chart-user)", avgColor: "var(--user-history-chart-avg-dark)" });
+    this._renderStowPeriodSelector("stow-combined-period-selector", "combined", periods, periodLabels);
+    const combinedPeriod = this.stowKpiPeriod.combined;
+    const combined = this.currentUserData[combinedPeriod]?.each_stow?.combined;
     const combinedKpis = document.getElementById("stow-combined-kpis");
     if (combinedKpis) {
       combinedKpis.innerHTML = combined ? `
@@ -1567,8 +1572,10 @@ class UserHistoryController {
       const avg = this.metadataUsers?.periods?.[p]?.pallet_stow?.combined?.avg ?? 0;
       if (pc?.pallet_rate != null) palletData.push({ period: periodLabels[p], userRate: pc.pallet_rate, avgRate: avg });
     });
-    this._renderStowLineChart("stow-pallet-combined-chart", palletData);
-    const palletCombined = periodData?.pallet_stow?.combined;
+    this._renderStowLineChart("stow-pallet-combined-chart", palletData, { userColor: "var(--user-history-chart-user)", avgColor: "var(--user-history-chart-avg-dark)" });
+    this._renderStowPeriodSelector("stow-pallet-combined-period-selector", "pallet", periods, periodLabels);
+    const palletPeriod = this.stowKpiPeriod.pallet;
+    const palletCombined = this.currentUserData[palletPeriod]?.pallet_stow?.combined;
     const palletKpis = document.getElementById("stow-pallet-combined-kpis");
     if (palletKpis) {
       palletKpis.innerHTML = palletCombined ? `
@@ -1580,7 +1587,7 @@ class UserHistoryController {
       ` : "<span class=\"stow-kpi\">Sin datos</span>";
     }
 
-    // Esfuerzo
+    // Esfuerzo (naranja)
     const esfuerzoData = [];
     periods.forEach(p => {
       const pd = this.currentUserData[p];
@@ -1588,12 +1595,14 @@ class UserHistoryController {
       const avg = ef?.avg_rate_esfuerzo_general ?? 0;
       if (ef?.rate_por_esfuerzo != null) esfuerzoData.push({ period: periodLabels[p], userRate: ef.rate_por_esfuerzo, avgRate: avg });
     });
-    this._renderStowLineChart("stow-esfuerzo-chart", esfuerzoData);
-    const esfuerzo = periodData?.rate_por_esfuerzo;
+    this._renderStowLineChart("stow-esfuerzo-chart", esfuerzoData, { userColor: "var(--user-history-esfuerzo)", avgColor: "var(--user-history-chart-avg-dark)" });
+    this._renderStowPeriodSelector("stow-esfuerzo-period-selector", "esfuerzo", periods, periodLabels);
+    const esfuerzoPeriod = this.stowKpiPeriod.esfuerzo;
+    const esfuerzo = this.currentUserData[esfuerzoPeriod]?.rate_por_esfuerzo;
     const esfuerzoKpis = document.getElementById("stow-esfuerzo-kpis");
     if (esfuerzoKpis) {
       esfuerzoKpis.innerHTML = esfuerzo ? `
-        <span class="stow-kpi"><strong>Rate esfuerzo</strong> ${esfuerzo.rate_por_esfuerzo?.toFixed(2) ?? "-"}</span>
+        <span class="stow-kpi stow-kpi-esfuerzo"><strong>Rate esfuerzo</strong> ${esfuerzo.rate_por_esfuerzo?.toFixed(2) ?? "-"}</span>
         <span class="stow-kpi"><strong>UPH</strong> ${esfuerzo.uph?.toFixed(2) ?? "-"}</span>
         <span class="stow-kpi"><strong>Rank esfuerzo</strong> #${esfuerzo.rank_esfuerzo ?? "-"} / ${esfuerzo.total_users ?? "-"}</span>
         <span class="stow-kpi"><strong>Percentil</strong> ${esfuerzo.percentile_esfuerzo != null ? esfuerzo.percentile_esfuerzo.toFixed(1) + "%" : "-"}</span>
@@ -1610,49 +1619,93 @@ class UserHistoryController {
     }
   }
 
-  _renderStowLineChart(containerId, dataPoints) {
+  _renderStowPeriodSelector(containerId, blockKey, periods, periodLabels) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    const periodKeys = ["last_week", "last_month", "last_3_months", "last_6_months"];
+    const current = this.stowKpiPeriod[blockKey] || "last_month";
+    container.innerHTML = periodKeys.map(p => {
+      const label = periodLabels[p];
+      const active = p === current ? " active" : "";
+      return `<button type="button" class="stow-period-btn${active}" data-period="${p}" data-block="${blockKey}">${label}</button>`;
+    }).join("");
+    container.querySelectorAll(".stow-period-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        this.stowKpiPeriod[blockKey] = btn.getAttribute("data-period");
+        this.updateStowDetailViews();
+      });
+    });
+  }
+
+  _renderStowLineChart(containerId, dataPoints, options = {}) {
     const chartEl = document.getElementById(containerId);
     if (!chartEl) return;
     if (!dataPoints || dataPoints.length === 0) {
       chartEl.innerHTML = '<div style="padding: 20px; text-align: center; color: #666">No hay datos</div>';
       return;
     }
+    const userColor = options.userColor ?? "var(--user-history-chart-user)";
+    const avgColor = options.avgColor ?? "var(--user-history-chart-avg-dark)";
     const maxRate = Math.max(...dataPoints.map(d => Math.max(d.userRate, d.avgRate))) * 1.1 || 1;
-    const chartHeight = 220;
+    const chartHeight = 240;
     const chartWidth = Math.max(400, dataPoints.length * 100);
-    const padding = { top: 30, right: 40, bottom: 40, left: 50 };
+    const padding = { top: 44, right: 50, bottom: 44, left: 50 };
     const graphWidth = chartWidth - padding.left - padding.right;
     const graphHeight = chartHeight - padding.top - padding.bottom;
-    let svg = `<svg width="${chartWidth}" height="${chartHeight}" style="overflow:visible"><line x1="${padding.left}" y1="${padding.top}" x2="${padding.left}" y2="${padding.top + graphHeight}" stroke="var(--user-history-border)" stroke-width="2"/><line x1="${padding.left}" y1="${padding.top + graphHeight}" x2="${padding.left + graphWidth}" y2="${padding.top + graphHeight}" stroke="var(--user-history-border)" stroke-width="2"/>`;
+    const baselineY = padding.top + graphHeight;
+    const gradientId = "grad-" + containerId.replace(/[^a-zA-Z0-9_-]/g, "");
+
+    let svg = `<svg width="${chartWidth}" height="${chartHeight}" style="overflow:visible" viewBox="0 0 ${chartWidth} ${chartHeight}">
+      <defs>
+        <linearGradient id="${gradientId}" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:${userColor};stop-opacity:0.35" />
+          <stop offset="100%" style="stop-color:${userColor};stop-opacity:0" />
+        </linearGradient>
+      </defs>
+      <line x1="${padding.left}" y1="${padding.top}" x2="${padding.left}" y2="${baselineY}" stroke="var(--user-history-border)" stroke-width="2"/>
+      <line x1="${padding.left}" y1="${baselineY}" x2="${padding.left + graphWidth}" y2="${baselineY}" stroke="var(--user-history-border)" stroke-width="2"/>`;
     for (let i = 0; i <= 4; i++) {
       const y = padding.top + graphHeight * (1 - i / 4);
       const v = (maxRate * i / 4).toFixed(0);
       svg += `<line x1="${padding.left - 5}" y1="${y}" x2="${padding.left + graphWidth}" y2="${y}" stroke="var(--user-history-border)" stroke-dasharray="4,4" opacity="0.3"/><text x="${padding.left - 8}" y="${y + 4}" text-anchor="end" font-size="10" fill="var(--user-history-text-secondary)">${v}</text>`;
     }
-    let userPath = `M ${padding.left},${padding.top + graphHeight - (dataPoints[0].userRate / maxRate * graphHeight)}`;
+    const step = dataPoints.length > 1 ? graphWidth / (dataPoints.length - 1) : 0;
+    let userLinePath = "";
+    let userAreaPath = `M ${padding.left},${baselineY}`;
+    for (let i = 0; i < dataPoints.length; i++) {
+      const x = padding.left + (i * step);
+      const uy = padding.top + graphHeight - (dataPoints[i].userRate / maxRate * graphHeight);
+      userAreaPath += ` L ${x},${uy}`;
+      userLinePath += (i === 0 ? "M " : " L ") + `${x},${uy}`;
+    }
+    userAreaPath += ` L ${padding.left + graphWidth},${baselineY} Z`;
+    svg += `<path d="${userAreaPath}" fill="url(#${gradientId})"/>`;
+
     let avgPath = `M ${padding.left},${padding.top + graphHeight - (dataPoints[0].avgRate / maxRate * graphHeight)}`;
     for (let i = 1; i < dataPoints.length; i++) {
-      const x = padding.left + (i / (dataPoints.length - 1)) * graphWidth;
-      userPath += ` L ${x},${padding.top + graphHeight - (dataPoints[i].userRate / maxRate * graphHeight)}`;
+      const x = padding.left + (i * step);
       avgPath += ` L ${x},${padding.top + graphHeight - (dataPoints[i].avgRate / maxRate * graphHeight)}`;
     }
-    svg += `<path d="${userPath}" fill="none" stroke="var(--user-history-primary)" stroke-width="2.5" stroke-linecap="round"/>`;
-    svg += `<path d="${avgPath}" fill="none" stroke="#666" stroke-width="1.5" stroke-dasharray="5,5" opacity="0.8"/>`;
+    svg += `<path d="${avgPath}" fill="none" stroke="${avgColor}" stroke-width="2" stroke-dasharray="5,5" opacity="0.9"/>`;
+    svg += `<path d="${userLinePath}" fill="none" stroke="${userColor}" stroke-width="3" stroke-linecap="round"/>`;
+
     dataPoints.forEach((d, i) => {
-      const x = padding.left + (i / (dataPoints.length - 1)) * graphWidth;
+      const x = padding.left + (i * step);
       const uy = padding.top + graphHeight - (d.userRate / maxRate * graphHeight);
       const ay = padding.top + graphHeight - (d.avgRate / maxRate * graphHeight);
-      svg += `<circle cx="${x}" cy="${uy}" r="4" fill="var(--user-history-primary)" stroke="white" stroke-width="1"/>`;
-      svg += `<circle cx="${x}" cy="${ay}" r="3" fill="#666"/>`;
-      svg += `<text x="${x}" y="${padding.top + graphHeight + 14}" text-anchor="middle" font-size="10" fill="var(--user-history-text-secondary)">${d.period}</text>`;
+      svg += `<circle cx="${x}" cy="${uy}" r="5" fill="${userColor}" stroke="white" stroke-width="1.5"/>`;
+      svg += `<circle cx="${x}" cy="${ay}" r="3.5" fill="${avgColor}" stroke="white" stroke-width="1"/>`;
+      svg += `<text x="${x}" y="${uy - 8}" text-anchor="middle" font-size="10" font-weight="600" fill="${userColor}">${d.userRate.toFixed(1)}</text>`;
+      svg += `<text x="${x}" y="${ay + 14}" text-anchor="middle" font-size="9" fill="${avgColor}">${d.avgRate.toFixed(1)}</text>`;
+      svg += `<text x="${x}" y="${baselineY + 16}" text-anchor="middle" font-size="10" fill="var(--user-history-text-secondary)">${d.period}</text>`;
     });
-    svg += `<text x="${chartWidth - padding.right - 50}" y="${padding.top + 12}" font-size="10" fill="var(--user-history-primary)">Usuario</text><line x1="${chartWidth - padding.right - 60}" y1="${padding.top + 16}" x2="${chartWidth - padding.right - 20}" y2="${padding.top + 16}" stroke="var(--user-history-primary)" stroke-width="2"/><text x="${chartWidth - padding.right - 50}" y="${padding.top + 28}" font-size="10" fill="#666">Promedio</text><line x1="${chartWidth - padding.right - 60}" y1="${padding.top + 32}" x2="${chartWidth - padding.right - 20}" y2="${padding.top + 32}" stroke="#666" stroke-dasharray="5,5" stroke-width="1.5"/>`;
+    svg += `<text x="${chartWidth - padding.right - 55}" y="${padding.top + 12}" font-size="10" fill="${userColor}">Usuario</text><line x1="${chartWidth - padding.right - 65}" y1="${padding.top + 18}" x2="${chartWidth - padding.right - 20}" y2="${padding.top + 18}" stroke="${userColor}" stroke-width="2.5"/><text x="${chartWidth - padding.right - 55}" y="${padding.top + 32}" font-size="10" fill="${avgColor}">Promedio</text><line x1="${chartWidth - padding.right - 65}" y1="${padding.top + 38}" x2="${chartWidth - padding.right - 20}" y2="${padding.top + 38}" stroke="${avgColor}" stroke-dasharray="5,5" stroke-width="2"/>`;
     svg += "</svg>";
     chartEl.innerHTML = svg;
   }
 
   /**
-   * Nivel 2: Each Stow y Pallet Stow por tipo (gráfico barras + tabla)
+   * Nivel 2: Each Stow y Pallet Stow por tipo (evolución en el tiempo: usuario vs promedio)
    */
   renderStowLevel2(periods, periodLabels) {
     const period = this.currentPeriod;
@@ -1661,60 +1714,58 @@ class UserHistoryController {
     const palletStow = periodData?.pallet_stow || {};
     const catOrder = ["stow_to_prime", "stow_to_prime_e", "stow_to_prime_w", "transfer_in", "transfer_in_e", "transfer_in_w", "combined", "combined_e", "combined_w"];
     const catLabels = { stow_to_prime: "Stow to Prime", stow_to_prime_e: "Stow to Prime E", stow_to_prime_w: "Stow to Prime W", transfer_in: "Transfer In", transfer_in_e: "Transfer In E", transfer_in_w: "Transfer In W", combined: "Combined", combined_e: "Combined E", combined_w: "Combined W" };
-    const eachCats = catOrder.filter(k => eachStow[k] && (eachStow[k].rate != null || eachStow[k].total_units != null));
-    const palletCats = catOrder.filter(k => palletStow[k] && (palletStow[k].pallet_rate != null || palletStow[k].pallet_units != null));
 
-    // Each Stow: barras por categoría (rate)
-    const eachChartEl = document.getElementById("each-stow-comparison-chart");
-    if (eachChartEl) {
-      if (eachCats.length === 0) eachChartEl.innerHTML = '<div style="padding: 20px; text-align: center; color: #666">No hay datos</div>';
-      else {
-        const values = eachCats.map(k => eachStow[k].rate ?? 0);
-        const maxV = Math.max(...values, 1) * 1.1;
-        const w = Math.max(400, eachCats.length * 70);
-        const h = 220;
-        const pad = { left: 60, right: 30, top: 30, bottom: 50 };
-        let s = `<svg width="${w}" height="${h}"><line x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${h - pad.bottom}" stroke="var(--user-history-border)" stroke-width="2"/><line x1="${pad.left}" y1="${h - pad.bottom}" x2="${w - pad.right}" y2="${h - pad.bottom}" stroke="var(--user-history-border)" stroke-width="2"/>`;
-        eachCats.forEach((k, i) => {
-          const barH = ((eachStow[k].rate ?? 0) / maxV) * (h - pad.top - pad.bottom);
-          const x = pad.left + (i + 0.2) * ((w - pad.left - pad.right) / eachCats.length);
-          const bw = (w - pad.left - pad.right) / eachCats.length * 0.6;
-          s += `<rect x="${x}" y="${h - pad.bottom - barH}" width="${bw}" height="${barH}" fill="var(--user-history-primary)" opacity="0.85" rx="4"/>`;
-          s += `<text x="${x + bw/2}" y="${h - pad.bottom - barH - 5}" text-anchor="middle" font-size="10" font-weight="600">${(eachStow[k].rate ?? 0).toFixed(1)}</text>`;
-          s += `<text x="${x + bw/2}" y="${h - pad.bottom + 18}" text-anchor="middle" font-size="9" fill="var(--user-history-text-secondary)">${catLabels[k] || k}</text>`;
+    // Each Stow: un gráfico de línea (usuario vs promedio) por categoría con datos en el tiempo
+    const eachGrid = document.getElementById("each-stow-charts-grid");
+    if (eachGrid) {
+      eachGrid.innerHTML = "";
+      const meta = this.metadataUsers?.periods || {};
+      catOrder.forEach(catKey => {
+        const dataPoints = [];
+        periods.forEach(p => {
+          const pd = this.currentUserData[p];
+          const c = pd?.each_stow?.[catKey];
+          const avg = meta[p]?.each_stow?.[catKey]?.avg ?? 0;
+          if (c?.rate != null) dataPoints.push({ period: periodLabels[p], userRate: c.rate, avgRate: avg });
         });
-        s += "</svg>";
-        eachChartEl.innerHTML = s;
-      }
+        if (dataPoints.length === 0) return;
+        const cell = document.createElement("div");
+        cell.className = "stow-level2-chart-cell";
+        const chartId = `each-stow-chart-${catKey}`;
+        cell.innerHTML = `<h5 class="stow-category-chart-title">${catLabels[catKey] || catKey}</h5><div id="${chartId}" class="user-history-chart"></div>`;
+        eachGrid.appendChild(cell);
+        this._renderStowLineChart(chartId, dataPoints, { userColor: "var(--user-history-chart-user)", avgColor: "var(--user-history-chart-avg-dark)" });
+      });
     }
+    const eachCats = catOrder.filter(k => eachStow[k] && (eachStow[k].rate != null || eachStow[k].total_units != null));
     const eachTable = document.getElementById("each-stow-comparison-table");
     if (eachTable) {
       eachTable.innerHTML = eachCats.length ? `<thead><tr><th>Categoría</th><th>Unidades</th><th>Horas</th><th>Rate</th><th>Rank</th></tr></thead><tbody>${eachCats.map(k => { const c = eachStow[k]; return `<tr><td>${catLabels[k] || k}</td><td>${(c.total_units ?? 0).toLocaleString()}</td><td>${(c.total_hours ?? 0).toFixed(1)}h</td><td>${(c.rate ?? 0).toFixed(2)}</td><td>#${c.rank ?? "-"}</td></tr>`; }).join("")}</tbody>` : "";
     }
 
-    // Pallet Stow: barras + tabla
-    const palletChartEl = document.getElementById("pallet-stow-comparison-chart");
-    if (palletChartEl) {
-      if (palletCats.length === 0) palletChartEl.innerHTML = '<div style="padding: 20px; text-align: center; color: #666">No hay datos</div>';
-      else {
-        const values = palletCats.map(k => palletStow[k].pallet_rate ?? 0);
-        const maxV = Math.max(...values, 1) * 1.1;
-        const w = Math.max(400, palletCats.length * 70);
-        const h = 220;
-        const pad = { left: 60, right: 30, top: 30, bottom: 50 };
-        let s = `<svg width="${w}" height="${h}"><line x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${h - pad.bottom}" stroke="var(--user-history-border)" stroke-width="2"/><line x1="${pad.left}" y1="${h - pad.bottom}" x2="${w - pad.right}" y2="${h - pad.bottom}" stroke="var(--user-history-border)" stroke-width="2"/>`;
-        palletCats.forEach((k, i) => {
-          const barH = ((palletStow[k].pallet_rate ?? 0) / maxV) * (h - pad.top - pad.bottom);
-          const x = pad.left + (i + 0.2) * ((w - pad.left - pad.right) / palletCats.length);
-          const bw = (w - pad.left - pad.right) / palletCats.length * 0.6;
-          s += `<rect x="${x}" y="${h - pad.bottom - barH}" width="${bw}" height="${barH}" fill="#10b981" opacity="0.85" rx="4"/>`;
-          s += `<text x="${x + bw/2}" y="${h - pad.bottom - barH - 5}" text-anchor="middle" font-size="10" font-weight="600">${(palletStow[k].pallet_rate ?? 0).toFixed(1)}</text>`;
-          s += `<text x="${x + bw/2}" y="${h - pad.bottom + 18}" text-anchor="middle" font-size="9" fill="var(--user-history-text-secondary)">${catLabels[k] || k}</text>`;
+    // Pallet Stow: un gráfico de línea por categoría (usuario vs promedio)
+    const palletGrid = document.getElementById("pallet-stow-charts-grid");
+    if (palletGrid) {
+      palletGrid.innerHTML = "";
+      const meta = this.metadataUsers?.periods || {};
+      catOrder.forEach(catKey => {
+        const dataPoints = [];
+        periods.forEach(p => {
+          const pd = this.currentUserData[p];
+          const pc = pd?.pallet_stow?.[catKey];
+          const avg = meta[p]?.pallet_stow?.[catKey]?.avg ?? 0;
+          if (pc?.pallet_rate != null) dataPoints.push({ period: periodLabels[p], userRate: pc.pallet_rate, avgRate: avg });
         });
-        s += "</svg>";
-        palletChartEl.innerHTML = s;
-      }
+        if (dataPoints.length === 0) return;
+        const cell = document.createElement("div");
+        cell.className = "stow-level2-chart-cell";
+        const chartId = `pallet-stow-chart-${catKey}`;
+        cell.innerHTML = `<h5 class="stow-category-chart-title">${catLabels[catKey] || catKey}</h5><div id="${chartId}" class="user-history-chart"></div>`;
+        palletGrid.appendChild(cell);
+        this._renderStowLineChart(chartId, dataPoints, { userColor: "var(--user-history-success)", avgColor: "var(--user-history-chart-avg-dark)" });
+      });
     }
+    const palletCats = catOrder.filter(k => palletStow[k] && (palletStow[k].pallet_rate != null || palletStow[k].pallet_units != null));
     const palletTable = document.getElementById("pallet-stow-comparison-table");
     if (palletTable) {
       palletTable.innerHTML = palletCats.length ? `<thead><tr><th>Categoría</th><th>Pallets</th><th>Horas</th><th>Pallet rate</th><th>Rank</th></tr></thead><tbody>${palletCats.map(k => { const c = palletStow[k]; return `<tr><td>${catLabels[k] || k}</td><td>${(c.pallet_units ?? 0).toLocaleString()}</td><td>${(c.total_hours ?? 0).toFixed(1)}h</td><td>${(c.pallet_rate ?? 0).toFixed(2)}</td><td>#${c.rank_pallet ?? "-"}</td></tr>`; }).join("")}</tbody>` : "";
@@ -1784,16 +1835,18 @@ class UserHistoryController {
     const graphWidth = chartWidth - padding.left - padding.right;
     const graphHeight = chartHeight - padding.top - padding.bottom;
 
+    const userColor = "var(--user-history-chart-user)";
+    const avgColor = "var(--user-history-chart-avg)";
     let svg = `
       <svg width="${chartWidth}" height="${chartHeight}" style="overflow: visible;">
         <defs>
           <linearGradient id="userLineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" style="stop-color:var(--user-history-primary);stop-opacity:0.3" />
-            <stop offset="100%" style="stop-color:var(--user-history-primary);stop-opacity:0" />
+            <stop offset="0%" style="stop-color:${userColor};stop-opacity:0.35" />
+            <stop offset="100%" style="stop-color:${userColor};stop-opacity:0" />
           </linearGradient>
           <linearGradient id="avgLineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" style="stop-color:#666;stop-opacity:0.3" />
-            <stop offset="100%" style="stop-color:#666;stop-opacity:0" />
+            <stop offset="0%" style="stop-color:${avgColor};stop-opacity:0.25" />
+            <stop offset="100%" style="stop-color:${avgColor};stop-opacity:0" />
           </linearGradient>
         </defs>
         
@@ -1846,7 +1899,7 @@ class UserHistoryController {
         userLinePath += ` L ${x},${y}`;
       }
     });
-    svg += `<path d="${userLinePath}" fill="none" stroke="var(--user-history-primary)" stroke-width="3" stroke-linecap="round"/>`;
+    svg += `<path d="${userLinePath}" fill="none" stroke="${userColor}" stroke-width="3.5" stroke-linecap="round"/>`;
 
     // Línea del promedio
     let avgLinePath = `M ${padding.left},${padding.top + graphHeight - (dataPoints[0].avgRate / maxRate * graphHeight)}`;
@@ -1857,7 +1910,7 @@ class UserHistoryController {
         avgLinePath += ` L ${x},${y}`;
       }
     });
-    svg += `<path d="${avgLinePath}" fill="none" stroke="#666" stroke-width="2" stroke-dasharray="5,5" opacity="0.7"/>`;
+    svg += `<path d="${avgLinePath}" fill="none" stroke="${avgColor}" stroke-width="2" stroke-dasharray="5,5" opacity="0.85"/>`;
 
     // Puntos y etiquetas con interactividad
     dataPoints.forEach((point, index) => {
@@ -1874,17 +1927,17 @@ class UserHistoryController {
               data-period="${point.period}" data-type="avg" data-value="${point.avgRate.toFixed(2)}" 
               data-user="${point.userRate.toFixed(2)}" style="cursor: pointer;"/>`;
       
-      // Puntos visibles
-      svg += `<circle cx="${x}" cy="${userY}" r="5" fill="var(--user-history-primary)" stroke="white" stroke-width="2" 
+      // Puntos visibles (usuario más destacado)
+      svg += `<circle cx="${x}" cy="${userY}" r="5" fill="${userColor}" stroke="white" stroke-width="2" 
               class="chart-point-user" data-period="${point.period}" style="cursor: pointer;"/>`;
-      svg += `<circle cx="${x}" cy="${avgY}" r="4" fill="#666" stroke="white" stroke-width="2" 
+      svg += `<circle cx="${x}" cy="${avgY}" r="4" fill="${avgColor}" stroke="white" stroke-width="2" 
               class="chart-point-avg" data-period="${point.period}" style="cursor: pointer;"/>`;
       
       // Etiquetas de valor (ocultas por defecto, se muestran en tooltip)
       svg += `<text x="${x}" y="${userY - 10}" text-anchor="middle" font-size="11" font-weight="600" 
-              fill="var(--user-history-primary)" class="chart-value-label" style="pointer-events: none;">${point.userRate.toFixed(1)}</text>`;
+              fill="${userColor}" class="chart-value-label" style="pointer-events: none;">${point.userRate.toFixed(1)}</text>`;
       svg += `<text x="${x}" y="${avgY - 10}" text-anchor="middle" font-size="10" 
-              fill="#666" class="chart-value-label" style="pointer-events: none;">${point.avgRate.toFixed(1)}</text>`;
+              fill="${avgColor}" class="chart-value-label" style="pointer-events: none;">${point.avgRate.toFixed(1)}</text>`;
       
       // Etiquetas de período
       svg += `<text x="${x}" y="${padding.top + graphHeight + 20}" text-anchor="middle" font-size="11" 
@@ -1897,11 +1950,11 @@ class UserHistoryController {
     svg += `
       <g transform="translate(${legendX}, ${legendY})">
         <g class="chart-legend-item" data-series="user" style="cursor: pointer;">
-          <line x1="0" y1="10" x2="30" y2="10" stroke="var(--user-history-primary)" stroke-width="3" class="legend-line-user"/>
+          <line x1="0" y1="10" x2="30" y2="10" stroke="${userColor}" stroke-width="3" class="legend-line-user"/>
           <text x="35" y="14" font-size="12" fill="var(--user-history-text-primary)" class="legend-text-user">Usuario</text>
         </g>
         <g class="chart-legend-item" data-series="avg" style="cursor: pointer;" transform="translate(0, 20)">
-          <line x1="0" y1="10" x2="30" y2="10" stroke="#666" stroke-width="2" stroke-dasharray="5,5" opacity="0.7" class="legend-line-avg"/>
+          <line x1="0" y1="10" x2="30" y2="10" stroke="${avgColor}" stroke-width="2" stroke-dasharray="5,5" opacity="0.85" class="legend-line-avg"/>
           <text x="35" y="14" font-size="12" fill="var(--user-history-text-primary)" class="legend-text-avg">Promedio</text>
         </g>
       </g>
@@ -1912,7 +1965,7 @@ class UserHistoryController {
       <g id="rate-chart-tooltip" style="display: none; pointer-events: none;">
         <rect x="0" y="0" width="140" height="80" fill="rgba(0,0,0,0.85)" rx="6" ry="6"/>
         <text x="10" y="20" font-size="12" font-weight="600" fill="white" id="tooltip-period">Período</text>
-        <text x="10" y="40" font-size="11" fill="#a0d2ff" id="tooltip-user">Usuario: -</text>
+        <text x="10" y="40" font-size="11" id="tooltip-user">Usuario: -</text>
         <text x="10" y="55" font-size="11" fill="#cccccc" id="tooltip-avg">Promedio: -</text>
         <text x="10" y="70" font-size="11" font-weight="600" fill="white" id="tooltip-diff">Diferencia: -</text>
       </g>
@@ -1920,6 +1973,8 @@ class UserHistoryController {
 
     svg += '</svg>';
     chartEl.innerHTML = svg;
+    const tooltipUserEl = chartEl.querySelector('#tooltip-user');
+    if (tooltipUserEl) tooltipUserEl.setAttribute('fill', userColor);
     
     // Agregar interactividad después de insertar el SVG
     this.setupRateChartInteractivity(chartEl, dataPoints, periods);
@@ -2428,6 +2483,13 @@ class UserHistoryController {
       svg += `<text x="${padding.left - 10}" y="${y + 4}" text-anchor="end" font-size="11" fill="var(--user-history-text-secondary)">${percent}%</text>`;
     });
 
+    const userColor = "var(--user-history-chart-user)";
+    const avgColor = "var(--user-history-chart-avg)";
+    // Línea de referencia promedio (50%)
+    const ref50y = padding.top + graphHeight - (50 / 100 * graphHeight);
+    svg += `<line x1="${padding.left}" y1="${ref50y}" x2="${padding.left + graphWidth}" y2="${ref50y}" stroke="${avgColor}" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.8"/>`;
+    svg += `<text x="${padding.left + graphWidth + 6}" y="${ref50y + 4}" font-size="10" fill="${avgColor}">Promedio 50%</text>`;
+
     // Área bajo la curva
     let areaPath = `M ${padding.left},${padding.top + graphHeight}`;
     dataPoints.forEach((point, index) => {
@@ -2436,9 +2498,9 @@ class UserHistoryController {
       areaPath += ` L ${x},${y}`;
     });
     areaPath += ` L ${padding.left + graphWidth},${padding.top + graphHeight} Z`;
-    svg += `<path d="${areaPath}" fill="var(--user-history-primary)" opacity="0.2"/>`;
+    svg += `<path d="${areaPath}" fill="${userColor}" opacity="0.25"/>`;
 
-    // Línea
+    // Línea usuario
     let linePath = `M ${padding.left},${padding.top + graphHeight - (dataPoints[0].percentile / 100 * graphHeight)}`;
     dataPoints.forEach((point, index) => {
       if (index > 0) {
@@ -2447,7 +2509,7 @@ class UserHistoryController {
         linePath += ` L ${x},${y}`;
       }
     });
-    svg += `<path d="${linePath}" fill="none" stroke="var(--user-history-primary)" stroke-width="3" stroke-linecap="round"/>`;
+    svg += `<path d="${linePath}" fill="none" stroke="${userColor}" stroke-width="3.5" stroke-linecap="round"/>`;
 
     // Puntos con interactividad
     dataPoints.forEach((point, index) => {
@@ -2460,10 +2522,10 @@ class UserHistoryController {
               data-period="${point.period}" data-value="${point.percentile.toFixed(2)}" style="cursor: pointer;"/>`;
       
       // Punto visible
-      svg += `<circle cx="${x}" cy="${y}" r="5" fill="var(--user-history-primary)" stroke="white" stroke-width="2" 
+      svg += `<circle cx="${x}" cy="${y}" r="5" fill="${userColor}" stroke="white" stroke-width="2" 
               class="chart-point-percentile" data-period="${point.period}" style="cursor: pointer;"/>`;
       svg += `<text x="${x}" y="${y - 10}" text-anchor="middle" font-size="11" font-weight="600" 
-              fill="var(--user-history-primary)" class="chart-value-label" style="pointer-events: none;">${point.percentile.toFixed(1)}%</text>`;
+              fill="${userColor}" class="chart-value-label" style="pointer-events: none;">${point.percentile.toFixed(1)}%</text>`;
       svg += `<text x="${x}" y="${padding.top + graphHeight + 20}" text-anchor="middle" font-size="11" 
               fill="var(--user-history-text-secondary)" style="pointer-events: none;">${point.period}</text>`;
     });
@@ -2473,7 +2535,7 @@ class UserHistoryController {
       <g id="percentile-chart-tooltip" style="display: none; pointer-events: none;">
         <rect x="0" y="0" width="120" height="60" fill="rgba(0,0,0,0.85)" rx="6" ry="6"/>
         <text x="10" y="20" font-size="12" font-weight="600" fill="white" id="tooltip-period-pct">Período</text>
-        <text x="10" y="40" font-size="11" fill="#a0d2ff" id="tooltip-percentile">Percentil: -</text>
+        <text x="10" y="40" font-size="11" fill="var(--user-history-chart-user)" id="tooltip-percentile">Percentil: -</text>
       </g>
     `;
 
@@ -2579,16 +2641,18 @@ class UserHistoryController {
     const graphWidth = chartWidth - padding.left - padding.right;
     const graphHeight = chartHeight - padding.top - padding.bottom;
 
+    const effortUserColor = "var(--user-history-esfuerzo)";
+    const effortAvgColor = "var(--user-history-chart-avg)";
     let svg = `
       <svg width="${chartWidth}" height="${chartHeight}" style="overflow: visible;">
         <defs>
           <linearGradient id="effortLineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:0.3" />
-            <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:0" />
+            <stop offset="0%" style="stop-color:${effortUserColor};stop-opacity:0.35" />
+            <stop offset="100%" style="stop-color:${effortUserColor};stop-opacity:0" />
           </linearGradient>
           <linearGradient id="effortAvgLineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" style="stop-color:#666;stop-opacity:0.3" />
-            <stop offset="100%" style="stop-color:#666;stop-opacity:0" />
+            <stop offset="0%" style="stop-color:${effortAvgColor};stop-opacity:0.25" />
+            <stop offset="100%" style="stop-color:${effortAvgColor};stop-opacity:0" />
           </linearGradient>
         </defs>
         
@@ -2641,7 +2705,7 @@ class UserHistoryController {
         userLinePath += ` L ${x},${y}`;
       }
     });
-    svg += `<path d="${userLinePath}" fill="none" stroke="#f59e0b" stroke-width="3" stroke-linecap="round" class="effort-user-line"/>`;
+    svg += `<path d="${userLinePath}" fill="none" stroke="${effortUserColor}" stroke-width="3.5" stroke-linecap="round" class="effort-user-line"/>`;
 
     // Línea del promedio
     let avgLinePath = `M ${padding.left},${padding.top + graphHeight - (dataPoints[0].avgRate / maxRate * graphHeight)}`;
@@ -2652,7 +2716,7 @@ class UserHistoryController {
         avgLinePath += ` L ${x},${y}`;
       }
     });
-    svg += `<path d="${avgLinePath}" fill="none" stroke="#666" stroke-width="2" stroke-dasharray="5,5" opacity="0.7" class="effort-avg-line"/>`;
+    svg += `<path d="${avgLinePath}" fill="none" stroke="${effortAvgColor}" stroke-width="2" stroke-dasharray="5,5" opacity="0.85" class="effort-avg-line"/>`;
 
     // Puntos con interactividad
     dataPoints.forEach((point, index) => {
@@ -2669,17 +2733,17 @@ class UserHistoryController {
               data-period="${point.period}" data-type="avg" data-value="${point.avgRate.toFixed(2)}" 
               data-user="${point.effortRate.toFixed(2)}" style="cursor: pointer;"/>`;
       
-      // Puntos visibles
-      svg += `<circle cx="${x}" cy="${userY}" r="5" fill="#f59e0b" stroke="white" stroke-width="2" 
+      // Puntos visibles (naranja para esfuerzo)
+      svg += `<circle cx="${x}" cy="${userY}" r="5" fill="${effortUserColor}" stroke="white" stroke-width="2" 
               class="chart-point-effort-user" data-period="${point.period}" style="cursor: pointer;"/>`;
-      svg += `<circle cx="${x}" cy="${avgY}" r="4" fill="#666" stroke="white" stroke-width="2" 
+      svg += `<circle cx="${x}" cy="${avgY}" r="4" fill="${effortAvgColor}" stroke="white" stroke-width="2" 
               class="chart-point-effort-avg" data-period="${point.period}" style="cursor: pointer;"/>`;
       
       // Etiquetas de valor
       svg += `<text x="${x}" y="${userY - 10}" text-anchor="middle" font-size="11" font-weight="600" 
-              fill="#f59e0b" class="chart-value-label" style="pointer-events: none;">${point.effortRate.toFixed(1)}</text>`;
+              fill="${effortUserColor}" class="chart-value-label" style="pointer-events: none;">${point.effortRate.toFixed(1)}</text>`;
       svg += `<text x="${x}" y="${avgY - 10}" text-anchor="middle" font-size="10" 
-              fill="#666" class="chart-value-label" style="pointer-events: none;">${point.avgRate.toFixed(1)}</text>`;
+              fill="${effortAvgColor}" class="chart-value-label" style="pointer-events: none;">${point.avgRate.toFixed(1)}</text>`;
       
       // Etiquetas de período
       svg += `<text x="${x}" y="${padding.top + graphHeight + 20}" text-anchor="middle" font-size="11" 
@@ -2692,11 +2756,11 @@ class UserHistoryController {
     svg += `
       <g transform="translate(${legendX}, ${legendY})">
         <g class="chart-legend-item" data-series="user" style="cursor: pointer;">
-          <line x1="0" y1="10" x2="30" y2="10" stroke="#f59e0b" stroke-width="3" class="legend-line-user-effort"/>
+          <line x1="0" y1="10" x2="30" y2="10" stroke="${effortUserColor}" stroke-width="3" class="legend-line-user-effort"/>
           <text x="35" y="14" font-size="12" fill="var(--user-history-text-primary)" class="legend-text-user-effort">Usuario</text>
         </g>
         <g class="chart-legend-item" data-series="avg" style="cursor: pointer;" transform="translate(0, 20)">
-          <line x1="0" y1="10" x2="30" y2="10" stroke="#666" stroke-width="2" stroke-dasharray="5,5" opacity="0.7" class="legend-line-avg-effort"/>
+          <line x1="0" y1="10" x2="30" y2="10" stroke="${effortAvgColor}" stroke-width="2" stroke-dasharray="5,5" opacity="0.85" class="legend-line-avg-effort"/>
           <text x="35" y="14" font-size="12" fill="var(--user-history-text-primary)" class="legend-text-avg-effort">Promedio</text>
         </g>
       </g>
@@ -2707,7 +2771,7 @@ class UserHistoryController {
       <g id="effort-chart-tooltip" style="display: none; pointer-events: none;">
         <rect x="0" y="0" width="140" height="80" fill="rgba(0,0,0,0.85)" rx="6" ry="6"/>
         <text x="10" y="20" font-size="12" font-weight="600" fill="white" id="tooltip-period-effort">Período</text>
-        <text x="10" y="40" font-size="11" fill="#fbbf24" id="tooltip-effort-user">Usuario: -</text>
+        <text x="10" y="40" font-size="11" fill="${effortUserColor}" id="tooltip-effort-user">Usuario: -</text>
         <text x="10" y="55" font-size="11" fill="#cccccc" id="tooltip-effort-avg">Promedio: -</text>
         <text x="10" y="70" font-size="11" font-weight="600" fill="white" id="tooltip-effort-diff">Diferencia: -</text>
       </g>

@@ -173,36 +173,42 @@
         <!-- Nivel 1: Tres principales -->
         <h3 class="charts-section-title">📊 Stow – Nivel 1 (Principales)</h3>
         <div class="stow-level1-grid">
-          <div class="stow-level1-block">
+          <div class="stow-level1-block" data-block="combined">
             <h4 class="stow-block-title">Stow Combined</h4>
             <div id="stow-combined-chart" class="user-history-chart"></div>
+            <span class="stow-kpi-period-label">Datos del período:</span>
+            <div id="stow-combined-period-selector" class="stow-period-selector"></div>
             <div id="stow-combined-kpis" class="stow-kpi-row"></div>
           </div>
-          <div class="stow-level1-block">
+          <div class="stow-level1-block" data-block="pallet">
             <h4 class="stow-block-title">Pallet Stow Combined</h4>
             <div id="stow-pallet-combined-chart" class="user-history-chart"></div>
+            <span class="stow-kpi-period-label">Datos del período:</span>
+            <div id="stow-pallet-combined-period-selector" class="stow-period-selector"></div>
             <div id="stow-pallet-combined-kpis" class="stow-kpi-row"></div>
           </div>
-          <div class="stow-level1-block">
+          <div class="stow-level1-block" data-block="esfuerzo">
             <h4 class="stow-block-title">Esfuerzo</h4>
             <div id="stow-esfuerzo-chart" class="user-history-chart"></div>
+            <span class="stow-kpi-period-label">Datos del período:</span>
+            <div id="stow-esfuerzo-period-selector" class="stow-period-selector"></div>
             <div id="stow-esfuerzo-kpis" class="stow-kpi-row"></div>
             <div id="stow-esfuerzo-extra" class="stow-kpi-row stow-kpi-extra"></div>
           </div>
         </div>
 
-        <!-- Nivel 2: Each Stow por tipo -->
-        <h3 class="charts-section-title">📊 Stow – Nivel 2: Each Stow por tipo</h3>
+        <!-- Nivel 2: Each Stow por tipo (evolución en el tiempo vs promedio) -->
+        <h3 class="charts-section-title">📊 Stow – Nivel 2: Each Stow por tipo (Usuario vs Promedio)</h3>
         <div class="stow-level2-block">
-          <div id="each-stow-comparison-chart" class="user-history-chart"></div>
+          <div id="each-stow-charts-grid" class="stow-level2-charts-grid"></div>
           <div id="each-stow-comparison-table-wrap" class="stow-table-wrap">
             <table id="each-stow-comparison-table" class="stow-comparison-table"></table>
           </div>
         </div>
 
-        <h3 class="charts-section-title">📊 Stow – Nivel 2: Pallet Stow por tipo</h3>
+        <h3 class="charts-section-title">📊 Stow – Nivel 2: Pallet Stow por tipo (Usuario vs Promedio)</h3>
         <div class="stow-level2-block">
-          <div id="pallet-stow-comparison-chart" class="user-history-chart"></div>
+          <div id="pallet-stow-charts-grid" class="stow-level2-charts-grid"></div>
           <div id="pallet-stow-comparison-table-wrap" class="stow-table-wrap">
             <table id="pallet-stow-comparison-table" class="stow-comparison-table"></table>
           </div>
