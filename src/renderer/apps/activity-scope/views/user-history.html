@@ -22,19 +22,22 @@
         </div>
       </header>
 
-      <!-- Filtros compactos en una línea -->
+      <!-- Barra de filtros -->
       <div class="user-history-filters-compact">
         <div class="filters-row">
-          <!-- Búsqueda por login (PRIMERO, no afectada por filtros) -->
           <div class="filter-item filter-item-search">
             <label for="history-user-search">Buscar por Login:</label>
-            <input 
-              type="text" 
-              id="history-user-search" 
-              class="form-control compact search-input" 
+            <input
+              type="text"
+              id="history-user-search"
+              class="form-control compact search-input"
               placeholder="Escribe el login..."
               autocomplete="off"
             />
+            <label class="checkbox-inline">
+              <input type="checkbox" id="history-only-active" checked />
+              Solo Activos
+            </label>
             <div id="user-search-suggestions" class="search-suggestions" style="display: none;"></div>
           </div>
           <div class="filter-item">
@@ -54,14 +57,6 @@
             <select id="history-user-select" class="form-control compact">
               <option value="">-- Seleccionar --</option>
             </select>
-          </div>
-          <div class="filter-item filter-item-period">
-            <div class="period-buttons-compact">
-              <button class="period-btn-compact active" data-period="last_week">Semana</button>
-              <button class="period-btn-compact" data-period="last_month">Mes</button>
-              <button class="period-btn-compact" data-period="last_3_months">3 Meses</button>
-              <button class="period-btn-compact" data-period="last_6_months">6 Meses</button>
-            </div>
           </div>
         </div>
       </div>
@@ -179,104 +174,23 @@
           </div>
         </div>
 
-        <!-- Gráfico 3: Comparación por Tipo de Tarea en cada Período -->
-        <div class="user-history-chart-container full-width">
-          <h4 class="chart-title">Comparación por Tipo de Tarea (Combined, Stow to Prime, Transfer In)</h4>
-          <div id="task-comparison-evolution-chart" class="user-history-chart">
-            <div style="padding: 20px; text-align: center; color: #666">
-              <p>Comparación de tipos de tarea por período</p>
+        <!-- Gráficos Stow to Prime y Transfer In (mismo estilo que evolución temporal) -->
+        <div class="user-history-charts-primary">
+          <div class="user-history-chart-container">
+            <h4 class="chart-title">Evolución Stow to Prime: Usuario vs Promedio</h4>
+            <div id="stp-evolution-chart" class="user-history-chart">
+              <div style="padding: 20px; text-align: center; color: #666">
+                <p>Selecciona un usuario para ver la evolución</p>
+              </div>
             </div>
           </div>
-        </div>
-
-        <!-- Gráfico 4: Evolución del Rank -->
-        <div class="user-history-chart-container">
-          <h4 class="chart-title">Evolución del Rank</h4>
-          <div id="rank-evolution-chart" class="user-history-chart">
-            <div style="padding: 20px; text-align: center; color: #666">
-              <p>Evolución del ranking</p>
+          <div class="user-history-chart-container">
+            <h4 class="chart-title">Evolución Transfer In (TSI): Usuario vs Promedio</h4>
+            <div id="tsi-evolution-chart" class="user-history-chart">
+              <div style="padding: 20px; text-align: center; color: #666">
+                <p>Selecciona un usuario para ver la evolución</p>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tarjetas KPI compactas - Combined (al final) -->
-      <div class="user-history-kpi-section-compact">
-        <h3 class="kpi-section-title">Combined (Stow to Prime + Transfer In)</h3>
-        <div class="kpi-compact-grid">
-          <div class="kpi-compact-card">
-            <span class="kpi-compact-label">Rate Combined</span>
-            <span id="kpi-combined-rate" class="kpi-compact-value">-</span>
-            <span class="kpi-compact-sub">vs <span id="kpi-combined-avg">-</span></span>
-          </div>
-          <div class="kpi-compact-card">
-            <span class="kpi-compact-label">Percentil</span>
-            <span id="kpi-combined-percentile" class="kpi-compact-value">-</span>
-            <div id="kpi-combined-percentile-bar" class="percentile-bar-compact"></div>
-          </div>
-          <div class="kpi-compact-card">
-            <span class="kpi-compact-label">Rank</span>
-            <span id="kpi-combined-rank" class="kpi-compact-value">-</span>
-            <span class="kpi-compact-sub">de <span id="kpi-combined-total-users">-</span></span>
-          </div>
-          <div class="kpi-compact-card">
-            <span class="kpi-compact-label">Diferencia</span>
-            <span id="kpi-combined-difference" class="kpi-compact-value">-</span>
-            <span id="kpi-combined-diff-indicator" class="kpi-compact-indicator">-</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tarjetas KPI compactas - Stow to Prime (al final) -->
-      <div class="user-history-kpi-section-compact">
-        <h3 class="kpi-section-title">Stow to Prime</h3>
-        <div class="kpi-compact-grid">
-          <div class="kpi-compact-card">
-            <span class="kpi-compact-label">Rate Stow to Prime</span>
-            <span id="kpi-stp-rate" class="kpi-compact-value">-</span>
-            <span class="kpi-compact-sub">vs <span id="kpi-stp-avg">-</span></span>
-          </div>
-          <div class="kpi-compact-card">
-            <span class="kpi-compact-label">Percentil</span>
-            <span id="kpi-stp-percentile" class="kpi-compact-value">-</span>
-            <div id="kpi-stp-percentile-bar" class="percentile-bar-compact"></div>
-          </div>
-          <div class="kpi-compact-card">
-            <span class="kpi-compact-label">Rank</span>
-            <span id="kpi-stp-rank" class="kpi-compact-value">-</span>
-            <span class="kpi-compact-sub">de <span id="kpi-stp-total-users">-</span></span>
-          </div>
-          <div class="kpi-compact-card">
-            <span class="kpi-compact-label">Diferencia</span>
-            <span id="kpi-stp-difference" class="kpi-compact-value">-</span>
-            <span id="kpi-stp-diff-indicator" class="kpi-compact-indicator">-</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tarjetas KPI compactas - Transfer In (al final) -->
-      <div class="user-history-kpi-section-compact">
-        <h3 class="kpi-section-title">Transfer In (TSI)</h3>
-        <div class="kpi-compact-grid">
-          <div class="kpi-compact-card">
-            <span class="kpi-compact-label">Rate Transfer In</span>
-            <span id="kpi-ti-rate" class="kpi-compact-value">-</span>
-            <span class="kpi-compact-sub">vs <span id="kpi-ti-avg">-</span></span>
-          </div>
-          <div class="kpi-compact-card">
-            <span class="kpi-compact-label">Percentil</span>
-            <span id="kpi-ti-percentile" class="kpi-compact-value">-</span>
-            <div id="kpi-ti-percentile-bar" class="percentile-bar-compact"></div>
-          </div>
-          <div class="kpi-compact-card">
-            <span class="kpi-compact-label">Rank</span>
-            <span id="kpi-ti-rank" class="kpi-compact-value">-</span>
-            <span class="kpi-compact-sub">de <span id="kpi-ti-total-users">-</span></span>
-          </div>
-          <div class="kpi-compact-card">
-            <span class="kpi-compact-label">Diferencia</span>
-            <span id="kpi-ti-difference" class="kpi-compact-value">-</span>
-            <span id="kpi-ti-diff-indicator" class="kpi-compact-indicator">-</span>
           </div>
         </div>
       </div>

@@ -28,6 +28,9 @@ class UserHistoryController {
     // Datos del índice de usuarios
     this.usersIndex = null;
     this.analyticsPaths = null;
+
+    // Roster (data_paths): logins con employee_status "A" = activos
+    this.rosterActiveLogins = new Set();
     
     // Datos de metadata y usuario actual
     this.metadataUsers = null;
@@ -55,9 +58,9 @@ class UserHistoryController {
     this.setupEventListeners();
     await this.loadHistoryIcons();
     
-    // Cargar primero el índice de usuarios para tener los datos disponibles
-    await this.loadUsersIndex();
-    
+    // Cargar índice de usuarios y roster (activos desde roster.json) en paralelo
+    await Promise.all([this.loadUsersIndex(), this.loadRoster()]);
+
     // Cargar metadata para comparaciones
     await this.loadMetadataUsers();
     
@@ -285,7 +288,18 @@ class UserHistoryController {
       });
     }
 
-    // Búsqueda por login (PRIMERO, busca en TODOS los usuarios, no afectada por filtros)
+    // Checkbox "Solo Activos": al cambiar, reaplicar búsqueda si hay texto
+    const onlyActiveCheck = document.getElementById("history-only-active");
+    if (onlyActiveCheck) {
+      onlyActiveCheck.addEventListener("change", () => {
+        const userSearch = document.getElementById("history-user-search");
+        if (userSearch?.value?.trim().length >= 2) {
+          this.onUserSearch(userSearch.value.trim());
+        }
+      });
+    }
+
+    // Búsqueda por login (por defecto solo activos si el checkbox está marcado)
     const userSearch = document.getElementById("history-user-search");
     if (userSearch) {
       userSearch.addEventListener("input", (e) => {
@@ -390,6 +404,68 @@ class UserHistoryController {
       console.log("✅ Datos cargados correctamente");
     } catch (error) {
       console.error("❌ Error cargando datos:", error);
+    }
+  }
+
+  /**
+   * Indica si un empleado del roster está activo (employee_status "A" = activo).
+   * Misma lógica que Skill Matrix: A = activo; L/T/I/B/P u otros = inactivo.
+   */
+  isRosterEmployeeActive(empleado) {
+    const f = (v) => v === false || v === "false" || (typeof v === "string" && v.trim().toLowerCase() === "no");
+    if (f(empleado.activo) || f(empleado.Active) || f(empleado.is_active)) return false;
+    const status =
+      empleado.employee_status ??
+      empleado.status ??
+      empleado["Employee Status"] ??
+      empleado.Estado ??
+      empleado.estado;
+    if (status != null && typeof status === "string") {
+      const s = status.trim();
+      const sl = s.toLowerCase();
+      if (s.length <= 2) {
+        if (sl === "a") return true;
+        if (["l", "t", "i", "b", "p"].includes(sl)) return false;
+      }
+      if (["inactive", "inactivo", "leave", "baja", "offboarded", "terminated"].includes(sl)) return false;
+    }
+    return true;
+  }
+
+  /**
+   * Carga roster.json desde data_paths y construye el set de logins activos (employee_status "A").
+   */
+  async loadRoster() {
+    console.log("📂 Cargando roster.json desde data_paths (activos = employee_status A)...");
+    this.rosterActiveLogins = new Set();
+    try {
+      const config = await window.api.getConfig();
+      if (!config || !config.data_paths || !config.data_paths.length) {
+        console.warn("⚠️ No hay data_paths en config, no se puede cargar roster");
+        return;
+      }
+      for (const dataPath of config.data_paths) {
+        try {
+          const path = dataPath.endsWith("/") || dataPath.endsWith("\\") ? dataPath + "roster.json" : dataPath + (dataPath.includes("\\") ? "\\" : "/") + "roster.json";
+          const result = await window.api.readJson(path);
+          if (result.success && result.data) {
+            const arr = Array.isArray(result.data.roster) ? result.data.roster : (Array.isArray(result.data) ? result.data : []);
+            arr.forEach((emp) => {
+              if (emp && emp.login && this.isRosterEmployeeActive(emp)) {
+                this.rosterActiveLogins.add(emp.login);
+              }
+            });
+            console.log("✅ Roster cargado: " + this.rosterActiveLogins.size + " logins activos (employee_status A) desde " + path);
+            return;
+          }
+        } catch (e) {
+          console.log("❌ Roster no encontrado en " + dataPath + ":", e.message);
+          continue;
+        }
+      }
+      console.warn("⚠️ No se pudo cargar roster.json desde ninguna data_path");
+    } catch (error) {
+      console.error("❌ Error cargando roster:", error);
     }
   }
 
@@ -581,7 +657,7 @@ class UserHistoryController {
   }
 
   /**
-   * Maneja la búsqueda de usuario (busca en TODOS los usuarios, no solo en filteredUsers)
+   * Maneja la búsqueda de usuario (busca en TODOS los usuarios o solo activos según checkbox)
    */
   onUserSearch(query) {
     if (!query || query.length < 2) {
@@ -589,15 +665,19 @@ class UserHistoryController {
       this.suggestions = [];
       return;
     }
-    
-    // Buscar en TODOS los usuarios del índice (no afectado por filtros)
-    const allUsers = this.usersIndex?.users || [];
-    const filtered = allUsers.filter(user => {
+
+    const onlyActive = document.getElementById("history-only-active")?.checked !== false;
+    let pool = this.usersIndex?.users || [];
+    if (onlyActive && this.rosterActiveLogins && this.rosterActiveLogins.size > 0) {
+      pool = pool.filter(user => this.rosterActiveLogins.has(user.login));
+    }
+
+    const filtered = pool.filter(user => {
       const loginMatch = user.login.toLowerCase().includes(query.toLowerCase());
       const nameMatch = user.name?.toLowerCase().includes(query.toLowerCase());
       return loginMatch || nameMatch;
-    }).slice(0, 10); // Limitar a 10 sugerencias
-    
+    }).slice(0, 10);
+
     this.suggestions = filtered;
     this.showSuggestions(filtered, query);
   }
@@ -1073,9 +1153,6 @@ class UserHistoryController {
       console.warn(`⚠️ No hay metadata para el período ${period}, continuando sin comparaciones`);
     }
     
-    // Actualizar KPIs (funciona aunque no haya metadata)
-    this.updateKPIs(userPeriodData, metadataPeriodData);
-    
     // Actualizar gráficos de evolución temporal
     this.updateEvolutionCharts();
   }
@@ -1092,12 +1169,7 @@ class UserHistoryController {
     
     // Limpiar métricas por período
     this.clearPeriodMetrics();
-    
-    // Limpiar todos los KPIs usando el método auxiliar
-    this.updateKPIGroup(null, null, "combined");
-    this.updateKPIGroup(null, null, "stp");
-    this.updateKPIGroup(null, null, "ti");
-    
+
     // Limpiar gráficos de evolución
     this.clearEvolutionCharts();
   }
@@ -1270,10 +1342,10 @@ class UserHistoryController {
 
     // Actualizar cada gráfico
     this.updateRateEvolutionChart(periods, periodLabels);
-    this.updateTaskComparisonEvolutionChart(periods, periodLabels);
-    this.updateRankEvolutionChart(periods, periodLabels);
     this.updatePercentileEvolutionChart(periods, periodLabels);
     this.updateEffortRateEvolutionChart(periods, periodLabels);
+    this.updateStowToPrimeEvolutionChart(periods, periodLabels);
+    this.updateTransferInEvolutionChart(periods, periodLabels);
   }
 
   /**
@@ -1282,10 +1354,10 @@ class UserHistoryController {
   clearEvolutionCharts() {
     const chartIds = [
       "rate-evolution-chart",
-      "task-comparison-evolution-chart",
-      "rank-evolution-chart",
       "percentile-evolution-chart",
-      "effort-rate-evolution-chart"
+      "effort-rate-evolution-chart",
+      "stp-evolution-chart",
+      "tsi-evolution-chart"
     ];
     
     chartIds.forEach(id => {
@@ -1711,156 +1783,233 @@ class UserHistoryController {
   }
 
   /**
-   * Actualiza gráfico de comparación de tareas por período
+   * Actualiza gráfico de evolución Stow to Prime (usuario vs promedio)
    */
-  updateTaskComparisonEvolutionChart(periods, periodLabels) {
-    const chartEl = document.getElementById("task-comparison-evolution-chart");
-    if (!chartEl) return;
-
-    const tasks = [
-      { key: "combined", label: "Combined", color: "var(--user-history-primary)" },
-      { key: "stow_to_prime", label: "Stow to Prime", color: "#10b981" },
-      { key: "transfer_in", label: "Transfer In", color: "#3b82f6" }
-    ];
-
-    const dataByPeriod = [];
-    periods.forEach(period => {
-      const periodData = this.currentUserData[period];
-      if (periodData?.each_stow) {
-        const periodTasks = {};
-        tasks.forEach(task => {
-          const taskData = periodData.each_stow[task.key];
-          if (taskData?.rate !== undefined) {
-            periodTasks[task.key] = taskData.rate;
-          }
-        });
-        if (Object.keys(periodTasks).length > 0) {
-          dataByPeriod.push({
-            period: periodLabels[period],
-            tasks: periodTasks
-          });
-        }
-      }
-    });
-
-    if (dataByPeriod.length === 0) {
-      chartEl.innerHTML = '<div style="padding: 20px; text-align: center; color: #666">No hay datos suficientes</div>';
-      return;
-    }
-
-    // Crear gráfico de barras agrupadas
-    const maxRate = Math.max(...dataByPeriod.flatMap(p => Object.values(p.tasks))) * 1.2;
-    const chartHeight = 300;
-    const barWidth = 60;
-    const barSpacing = 20;
-    const groupSpacing = 40;
-    const chartWidth = dataByPeriod.length * (tasks.length * barWidth + (tasks.length - 1) * barSpacing + groupSpacing) + 100;
-    const padding = { top: 40, right: 40, bottom: 60, left: 80 };
-
-    let svg = `<svg width="${chartWidth}" height="${chartHeight}" style="overflow: visible;">`;
-    
-    // Ejes
-    svg += `<line x1="${padding.left}" y1="${padding.top}" x2="${padding.left}" y2="${chartHeight - padding.bottom}" stroke="var(--user-history-border)" stroke-width="2"/>`;
-    svg += `<line x1="${padding.left}" y1="${chartHeight - padding.bottom}" x2="${chartWidth - padding.right}" y2="${chartHeight - padding.bottom}" stroke="var(--user-history-border)" stroke-width="2"/>`;
-
-    // Líneas de referencia
-    for (let i = 0; i <= 5; i++) {
-      const y = padding.top + ((chartHeight - padding.top - padding.bottom) * (1 - i / 5));
-      const value = (maxRate * i / 5).toFixed(0);
-      svg += `<line x1="${padding.left - 5}" y1="${y}" x2="${chartWidth - padding.right}" y2="${y}" stroke="var(--user-history-border)" stroke-width="1" stroke-dasharray="4,4" opacity="0.3"/>`;
-      svg += `<text x="${padding.left - 10}" y="${y + 4}" text-anchor="end" font-size="12" fill="var(--user-history-text-secondary)">${value}</text>`;
-    }
-
-    // Barras
-    dataByPeriod.forEach((periodData, periodIndex) => {
-      const groupX = padding.left + periodIndex * (tasks.length * barWidth + (tasks.length - 1) * barSpacing + groupSpacing) + groupSpacing / 2;
-      
-      tasks.forEach((task, taskIndex) => {
-        const rate = periodData.tasks[task.key];
-        if (rate !== undefined) {
-          const barX = groupX + taskIndex * (barWidth + barSpacing);
-          const barHeight = (rate / maxRate) * (chartHeight - padding.top - padding.bottom);
-          const barY = chartHeight - padding.bottom - barHeight;
-          
-          svg += `<rect x="${barX}" y="${barY}" width="${barWidth}" height="${barHeight}" fill="${task.color}" opacity="0.8" rx="4"/>`;
-          svg += `<text x="${barX + barWidth / 2}" y="${barY - 5}" text-anchor="middle" font-size="11" font-weight="600" fill="${task.color}">${rate.toFixed(1)}</text>`;
-        }
-      });
-      
-      // Etiqueta de período
-      svg += `<text x="${groupX + (tasks.length * barWidth + (tasks.length - 1) * barSpacing) / 2}" y="${chartHeight - padding.bottom + 20}" text-anchor="middle" font-size="11" fill="var(--user-history-text-secondary)">${periodData.period}</text>`;
-    });
-
-    // Leyenda
-    const legendX = padding.left + 20;
-    const legendY = padding.top - 20;
-    tasks.forEach((task, index) => {
-      const x = legendX + index * 150;
-      svg += `<rect x="${x}" y="${legendY}" width="20" height="12" fill="${task.color}" rx="2"/>`;
-      svg += `<text x="${x + 25}" y="${legendY + 9}" font-size="12" fill="var(--user-history-text-primary)">${task.label}</text>`;
-    });
-
-    svg += '</svg>';
-    chartEl.innerHTML = svg;
+  updateStowToPrimeEvolutionChart(periods, periodLabels) {
+    this._renderTaskRateEvolutionChart(
+      "stp-evolution-chart",
+      "stow_to_prime",
+      periods,
+      periodLabels,
+      "stp"
+    );
   }
 
   /**
-   * Actualiza gráfico de evolución del rank
+   * Actualiza gráfico de evolución Transfer In / TSI (usuario vs promedio)
    */
-  updateRankEvolutionChart(periods, periodLabels) {
-    const chartEl = document.getElementById("rank-evolution-chart");
+  updateTransferInEvolutionChart(periods, periodLabels) {
+    this._renderTaskRateEvolutionChart(
+      "tsi-evolution-chart",
+      "transfer_in",
+      periods,
+      periodLabels,
+      "tsi"
+    );
+  }
+
+  /**
+   * Helper: renderiza gráfico de evolución usuario vs promedio para un tipo de tarea
+   */
+  _renderTaskRateEvolutionChart(chartId, taskKey, periods, periodLabels, gradientPrefix) {
+    const chartEl = document.getElementById(chartId);
     if (!chartEl) return;
 
     const dataPoints = [];
+    const periodsWithData = [];
+
     periods.forEach(period => {
       const periodData = this.currentUserData[period];
-      if (periodData?.each_stow?.combined?.rank !== undefined) {
+      const metadataPeriod = this.metadataUsers?.periods?.[period];
+      const taskData = periodData?.each_stow?.[taskKey];
+      const metaTask = metadataPeriod?.each_stow?.[taskKey];
+
+      if (taskData?.rate !== undefined) {
+        const userRate = taskData.rate;
+        const avgRate = metaTask?.avg ?? taskData.avg_general ?? 0;
+
         dataPoints.push({
           period: periodLabels[period],
-          rank: periodData.each_stow.combined.rank,
-          totalUsers: periodData.each_stow.combined.total_users || 0
+          userRate,
+          avgRate
         });
+        periodsWithData.push(periodLabels[period]);
       }
     });
 
     if (dataPoints.length === 0) {
-      chartEl.innerHTML = '<div style="padding: 20px; text-align: center; color: #666">No hay datos</div>';
+      chartEl.innerHTML = '<div style="padding: 20px; text-align: center; color: #666">No hay datos suficientes para mostrar la evolución</div>';
       return;
     }
 
-    // Crear gráfico de barras invertido (rank más bajo = mejor)
-    const maxRank = Math.max(...dataPoints.map(d => d.totalUsers || d.rank)) * 1.1;
-    const chartHeight = 250;
-    const chartWidth = Math.max(400, dataPoints.length * 120);
-    const padding = { top: 40, right: 40, bottom: 60, left: 60 };
+    const maxRate = Math.max(...dataPoints.map(d => Math.max(d.userRate, d.avgRate))) * 1.1;
+    const chartHeight = 300;
+    const chartWidth = Math.max(600, periodsWithData.length * 150);
+    const padding = { top: 40, right: 180, bottom: 60, left: 60 };
     const graphWidth = chartWidth - padding.left - padding.right;
     const graphHeight = chartHeight - padding.top - padding.bottom;
+    const idUser = gradientPrefix + "UserLineGradient";
+    const idAvg = gradientPrefix + "AvgLineGradient";
+    const tooltipId = gradientPrefix + "-chart-tooltip";
 
-    let svg = `<svg width="${chartWidth}" height="${chartHeight}">`;
-    
-    // Ejes
-    svg += `<line x1="${padding.left}" y1="${padding.top}" x2="${padding.left}" y2="${padding.top + graphHeight}" stroke="var(--user-history-border)" stroke-width="2"/>`;
-    svg += `<line x1="${padding.left}" y1="${padding.top + graphHeight}" x2="${padding.left + graphWidth}" y2="${padding.top + graphHeight}" stroke="var(--user-history-border)" stroke-width="2"/>`;
+    let svg = `
+      <svg width="${chartWidth}" height="${chartHeight}" style="overflow: visible;">
+        <defs>
+          <linearGradient id="${idUser}" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:var(--user-history-primary);stop-opacity:0.3" />
+            <stop offset="100%" style="stop-color:var(--user-history-primary);stop-opacity:0" />
+          </linearGradient>
+          <linearGradient id="${idAvg}" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#666;stop-opacity:0.3" />
+            <stop offset="100%" style="stop-color:#666;stop-opacity:0" />
+          </linearGradient>
+        </defs>
+        <line x1="${padding.left}" y1="${padding.top}" x2="${padding.left}" y2="${padding.top + graphHeight}" stroke="var(--user-history-border)" stroke-width="2"/>
+        <line x1="${padding.left}" y1="${padding.top + graphHeight}" x2="${padding.left + graphWidth}" y2="${padding.top + graphHeight}" stroke="var(--user-history-border)" stroke-width="2"/>
+    `;
 
-    // Barras
-    const barWidth = graphWidth / dataPoints.length * 0.6;
-    const barSpacing = graphWidth / dataPoints.length * 0.4;
-    
+    for (let i = 0; i <= 5; i++) {
+      const y = padding.top + (graphHeight * (1 - i / 5));
+      const value = (maxRate * i / 5).toFixed(0);
+      svg += `<line x1="${padding.left - 5}" y1="${y}" x2="${padding.left + graphWidth}" y2="${y}" stroke="var(--user-history-border)" stroke-width="1" stroke-dasharray="4,4" opacity="0.3"/>
+        <text x="${padding.left - 10}" y="${y + 4}" text-anchor="end" font-size="12" fill="var(--user-history-text-secondary)">${value}</text>`;
+    }
+
+    let userPath = `M ${padding.left},${padding.top + graphHeight}`;
     dataPoints.forEach((point, index) => {
-      const x = padding.left + index * (graphWidth / dataPoints.length) + barSpacing / 2;
-      const barHeight = (point.rank / maxRank) * graphHeight;
-      const barY = padding.top + graphHeight - barHeight;
-      const color = point.rank <= (point.totalUsers || maxRank) * 0.25 ? "#10b981" : 
-                    point.rank <= (point.totalUsers || maxRank) * 0.5 ? "#3b82f6" : 
-                    point.rank <= (point.totalUsers || maxRank) * 0.75 ? "#f59e0b" : "#ef4444";
-      
-      svg += `<rect x="${x}" y="${barY}" width="${barWidth}" height="${barHeight}" fill="${color}" opacity="0.8" rx="4"/>`;
-      svg += `<text x="${x + barWidth / 2}" y="${barY - 5}" text-anchor="middle" font-size="12" font-weight="600" fill="${color}">#${point.rank}</text>`;
-      svg += `<text x="${x + barWidth / 2}" y="${padding.top + graphHeight + 20}" text-anchor="middle" font-size="11" fill="var(--user-history-text-secondary)">${point.period}</text>`;
+      const x = padding.left + (index * (graphWidth / (dataPoints.length - 1)));
+      const y = padding.top + graphHeight - (point.userRate / maxRate * graphHeight);
+      userPath += ` L ${x},${y}`;
+    });
+    userPath += ` L ${padding.left + graphWidth},${padding.top + graphHeight} Z`;
+    svg += `<path d="${userPath}" fill="url(#${idUser})"/>`;
+
+    let avgPath = `M ${padding.left},${padding.top + graphHeight}`;
+    dataPoints.forEach((point, index) => {
+      const x = padding.left + (index * (graphWidth / (dataPoints.length - 1)));
+      const y = padding.top + graphHeight - (point.avgRate / maxRate * graphHeight);
+      avgPath += ` L ${x},${y}`;
+    });
+    avgPath += ` L ${padding.left + graphWidth},${padding.top + graphHeight} Z`;
+    svg += `<path d="${avgPath}" fill="url(#${idAvg})"/>`;
+
+    let userLinePath = `M ${padding.left},${padding.top + graphHeight - (dataPoints[0].userRate / maxRate * graphHeight)}`;
+    dataPoints.forEach((point, index) => {
+      if (index > 0) {
+        const x = padding.left + (index * (graphWidth / (dataPoints.length - 1)));
+        const y = padding.top + graphHeight - (point.userRate / maxRate * graphHeight);
+        userLinePath += ` L ${x},${y}`;
+      }
+    });
+    svg += `<path d="${userLinePath}" fill="none" stroke="var(--user-history-primary)" stroke-width="3" stroke-linecap="round"/>`;
+
+    let avgLinePath = `M ${padding.left},${padding.top + graphHeight - (dataPoints[0].avgRate / maxRate * graphHeight)}`;
+    dataPoints.forEach((point, index) => {
+      if (index > 0) {
+        const x = padding.left + (index * (graphWidth / (dataPoints.length - 1)));
+        const y = padding.top + graphHeight - (point.avgRate / maxRate * graphHeight);
+        avgLinePath += ` L ${x},${y}`;
+      }
+    });
+    svg += `<path d="${avgLinePath}" fill="none" stroke="#666" stroke-width="2" stroke-dasharray="5,5" opacity="0.7"/>`;
+
+    dataPoints.forEach((point, index) => {
+      const x = padding.left + (index * (graphWidth / (dataPoints.length - 1)));
+      const userY = padding.top + graphHeight - (point.userRate / maxRate * graphHeight);
+      const avgY = padding.top + graphHeight - (point.avgRate / maxRate * graphHeight);
+      const hoverRadius = 12;
+      svg += `<circle cx="${x}" cy="${userY}" r="${hoverRadius}" fill="transparent" class="chart-point-hover" data-period="${point.period}" data-type="user" data-value="${point.userRate.toFixed(2)}" data-avg="${point.avgRate.toFixed(2)}" style="cursor: pointer;"/>`;
+      svg += `<circle cx="${x}" cy="${avgY}" r="${hoverRadius}" fill="transparent" class="chart-point-hover" data-period="${point.period}" data-type="avg" data-value="${point.avgRate.toFixed(2)}" data-user="${point.userRate.toFixed(2)}" style="cursor: pointer;"/>`;
+      svg += `<circle cx="${x}" cy="${userY}" r="5" fill="var(--user-history-primary)" stroke="white" stroke-width="2" class="chart-point-user" data-period="${point.period}" style="cursor: pointer;"/>`;
+      svg += `<circle cx="${x}" cy="${avgY}" r="4" fill="#666" stroke="white" stroke-width="2" class="chart-point-avg" data-period="${point.period}" style="cursor: pointer;"/>`;
+      svg += `<text x="${x}" y="${userY - 10}" text-anchor="middle" font-size="11" font-weight="600" fill="var(--user-history-primary)" class="chart-value-label" style="pointer-events: none;">${point.userRate.toFixed(1)}</text>`;
+      svg += `<text x="${x}" y="${avgY - 10}" text-anchor="middle" font-size="10" fill="#666" class="chart-value-label" style="pointer-events: none;">${point.avgRate.toFixed(1)}</text>`;
+      svg += `<text x="${x}" y="${padding.top + graphHeight + 20}" text-anchor="middle" font-size="11" fill="var(--user-history-text-secondary)" style="pointer-events: none;">${point.period}</text>`;
     });
 
-    svg += '</svg>';
+    const legendX = chartWidth - padding.right + 20;
+    const legendY = padding.top + 20;
+    svg += `<g transform="translate(${legendX}, ${legendY})">
+        <g class="chart-legend-item" data-series="user" style="cursor: pointer;">
+          <line x1="0" y1="10" x2="30" y2="10" stroke="var(--user-history-primary)" stroke-width="3" class="legend-line-user"/>
+          <text x="35" y="14" font-size="12" fill="var(--user-history-text-primary)" class="legend-text-user">Usuario</text>
+        </g>
+        <g class="chart-legend-item" data-series="avg" style="cursor: pointer;" transform="translate(0, 20)">
+          <line x1="0" y1="10" x2="30" y2="10" stroke="#666" stroke-width="2" stroke-dasharray="5,5" opacity="0.7" class="legend-line-avg"/>
+          <text x="35" y="14" font-size="12" fill="var(--user-history-text-primary)" class="legend-text-avg">Promedio</text>
+        </g>
+      </g>`;
+
+    svg += `<g id="${tooltipId}" style="display: none; pointer-events: none;">
+        <rect x="0" y="0" width="140" height="80" fill="rgba(0,0,0,0.85)" rx="6" ry="6"/>
+        <text x="10" y="20" font-size="12" font-weight="600" fill="white" id="tooltip-period">Período</text>
+        <text x="10" y="40" font-size="11" fill="#a0d2ff" id="tooltip-user">Usuario: -</text>
+        <text x="10" y="55" font-size="11" fill="#cccccc" id="tooltip-avg">Promedio: -</text>
+        <text x="10" y="70" font-size="11" font-weight="600" fill="white" id="tooltip-diff">Diferencia: -</text>
+      </g>`;
+
+    svg += "</svg>";
     chartEl.innerHTML = svg;
+    this._setupTaskRateChartInteractivity(chartEl, dataPoints, periods, tooltipId);
+  }
+
+  _setupTaskRateChartInteractivity(chartEl, dataPoints, periods, tooltipId) {
+    const svg = chartEl.querySelector("svg");
+    if (!svg) return;
+
+    const tooltip = svg.querySelector(`#${tooltipId}`);
+    const tooltipPeriod = tooltip?.querySelector("#tooltip-period");
+    const tooltipUser = tooltip?.querySelector("#tooltip-user");
+    const tooltipAvg = tooltip?.querySelector("#tooltip-avg");
+    const tooltipDiff = tooltip?.querySelector("#tooltip-diff");
+
+    const hoverPoints = svg.querySelectorAll(".chart-point-hover");
+    hoverPoints.forEach(point => {
+      const period = point.getAttribute("data-period");
+      const type = point.getAttribute("data-type");
+      const value = parseFloat(point.getAttribute("data-value"));
+      const otherValue = parseFloat(point.getAttribute(type === "user" ? "data-avg" : "data-user"));
+
+      point.addEventListener("mouseenter", (e) => {
+        if (tooltip && tooltipPeriod && tooltipUser && tooltipAvg && tooltipDiff) {
+          const rect = svg.getBoundingClientRect();
+          const svgPoint = svg.createSVGPoint();
+          svgPoint.x = e.clientX - rect.left;
+          svgPoint.y = e.clientY - rect.top;
+          tooltipPeriod.textContent = period;
+          if (type === "user") {
+            tooltipUser.textContent = `Usuario: ${value.toFixed(2)}`;
+            tooltipAvg.textContent = `Promedio: ${otherValue.toFixed(2)}`;
+          } else {
+            tooltipUser.textContent = `Usuario: ${otherValue.toFixed(2)}`;
+            tooltipAvg.textContent = `Promedio: ${value.toFixed(2)}`;
+          }
+          const diff = (type === "user" ? value : otherValue) - (type === "user" ? otherValue : value);
+          tooltipDiff.textContent = `Diferencia: ${diff >= 0 ? "+" : ""}${diff.toFixed(2)}`;
+          tooltipDiff.setAttribute("fill", diff >= 0 ? "#10b981" : "#ef4444");
+          tooltip.setAttribute("transform", `translate(${svgPoint.x - 70}, ${svgPoint.y - 90})`);
+          tooltip.style.display = "block";
+        }
+      });
+
+      point.addEventListener("mouseleave", () => {
+        if (tooltip) tooltip.style.display = "none";
+      });
+
+      point.addEventListener("mousemove", (e) => {
+        if (tooltip && tooltip.style.display !== "none") {
+          const rect = svg.getBoundingClientRect();
+          const svgPoint = svg.createSVGPoint();
+          svgPoint.x = e.clientX - rect.left;
+          svgPoint.y = e.clientY - rect.top;
+          tooltip.setAttribute("transform", `translate(${svgPoint.x - 70}, ${svgPoint.y - 90})`);
+        }
+      });
+
+      point.addEventListener("click", () => {
+        this.showPeriodDetails(period, periods);
+      });
+    });
   }
 
   /**

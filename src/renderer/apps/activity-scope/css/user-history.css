@@ -140,8 +140,74 @@ body {
   gap: var(--spacing-lg);
 }
 
-/* Header compacto - usar el mismo estilo que user-activity */
-/* Ya está definido en app-header-card, no necesitamos duplicar */
+/* Header (User History + Actualizar) - la vista solo carga user-history.css, hay que definir aquí */
+.user-history-container .app-header-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-lg, 1.5rem) var(--spacing-xl, 2rem);
+  background: var(--Fondo-kapi, #ffffff);
+  border-radius: var(--border-lg, 1rem);
+  box-shadow: var(--shadow-md, 0 0.25rem 0.375rem rgba(0, 0, 0, 0.1));
+  border: 1px solid var(--dashboard-border, #e5e7eb);
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  min-height: 4.5rem;
+}
+
+.user-history-container .app-header-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--Palette-Blue-4, #667eea), var(--Palette-Blue-3, #764ba2));
+}
+
+.user-history-container .app-header-card h1 {
+  margin: 0;
+  color: var(--dashboard-title, #1f2937);
+  font-size: var(--font-size-xxl, 1.75rem);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.user-history-container .app-header-card h1 .icon-svg {
+  color: var(--Palette-Blue-4, #667eea);
+}
+
+.user-history-container .app-header-controls {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.user-history-container .app-header-card .btn {
+  padding: 0.625rem 1.25rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.user-history-container .app-header-card .btn-primary {
+  background: var(--Color-white);
+  color: var(--Color-gray-9);
+  border: 0.125rem solid var(--Color-gray-3);
+}
+
+.user-history-container .app-header-card .btn-primary:hover {
+  background: var(--Palette-Blue-4);
+  color: var(--Color-white);
+}
 
 /* Resumen del período específico para User History */
 .user-history-summary {
@@ -554,7 +620,7 @@ body {
   border-color: var(--user-history-primary);
 }
 
-/* Filtros compactos */
+/* Filtros compactos: barra en una línea */
 .user-history-filters-compact {
   background: var(--Fondo-kapi, var(--user-history-card-bg));
   border: 1px solid var(--user-history-border);
@@ -562,13 +628,16 @@ body {
   padding: 0.75rem 1rem;
   margin-bottom: 1rem;
   box-shadow: var(--shadow-md);
-}
-
-.filters-row {
   display: flex;
   align-items: center;
-  gap: 1rem;
+}
+
+.user-history-filters-compact .filters-row {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
   flex-wrap: wrap;
+  width: 100%;
 }
 
 .filter-item {
@@ -605,41 +674,38 @@ body {
 
 .filter-item-search {
   position: relative;
-  min-width: 9.375rem;
-}
-
-.filter-item-period {
-  margin-left: auto;
-}
-
-.period-buttons-compact {
   display: flex;
+  align-items: center;
   gap: 0.5rem;
+  flex-shrink: 0;
 }
 
-.period-btn-compact {
-  padding: 0.5rem 0.75rem;
-  border: 0.0625rem solid var(--user-history-border);
-  border-radius: 0.375rem;
-  background: var(--user-history-card-bg);
+.filter-item-search .search-input {
+  width: 10rem;
+  min-width: 8rem;
+}
+
+.filter-item-search .checkbox-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.875rem;
   color: var(--user-history-text-primary);
-  font-weight: 600;
-  font-size: 0.85rem;
   cursor: pointer;
-  transition: all 0.2s ease;
   white-space: nowrap;
 }
 
-.period-btn-compact:hover {
-  border-color: var(--user-history-primary);
-  background: var(--user-history-primary);
-  color: white;
+.filter-item-search .checkbox-inline input {
+  cursor: pointer;
+  margin: 0;
 }
 
-.period-btn-compact.active {
-  background: var(--user-history-primary);
-  color: white;
-  border-color: var(--user-history-primary);
+.filter-item-search .search-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 100%;
+  margin-top: 0.25rem;
 }
 
 .selected-user-info-compact {
