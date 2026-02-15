@@ -448,6 +448,51 @@ body {
   border-color: var(--user-history-esfuerzo);
 }
 
+/* Selector de métrica (UPH / Horas / Percentil) por gráfico */
+.stow-metric-selector-wrap {
+  margin-bottom: 0.75rem;
+}
+
+.stow-metric-selector-wrap.stow-metric-inline {
+  margin-bottom: 0.5rem;
+}
+
+.stow-metric-label {
+  font-size: 0.75rem;
+  color: var(--user-history-text-secondary);
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+.stow-metric-selector {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.stow-metric-btn {
+  padding: 0.35rem 0.6rem;
+  font-size: 0.8rem;
+  border-radius: 0.5rem;
+  border: 0.0625rem solid var(--user-history-border);
+  background: var(--user-history-bg);
+  color: var(--user-history-text-secondary);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.stow-metric-btn:hover {
+  background: var(--user-history-border);
+  color: var(--user-history-text-primary);
+}
+
+.stow-metric-btn.active {
+  background: var(--user-history-chart-user);
+  color: white;
+  border-color: var(--user-history-chart-user);
+}
+
 /* Grilla de gráficos por categoría (Nivel 2): 3 columnas = 3 filas lógicas
    Fila 1: Stow to Prime, Stow to Prime E, Stow to Prime W
    Fila 2: Transfer In, Transfer In E, Transfer In W

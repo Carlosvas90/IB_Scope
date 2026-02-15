@@ -50,6 +50,7 @@ class UserHistoryController {
 
     // Período seleccionado para KPIs de cada bloque Stow (combined, pallet, esfuerzo)
     this.stowKpiPeriod = { combined: "last_month", pallet: "last_month", esfuerzo: "last_month" };
+    this.stowChartMetric = { combined: "rate", pallet: "rate", each_stow: "rate", pallet_stow: "rate" };
     
     // Filtros
     this.selectedShift = "";
@@ -1514,7 +1515,7 @@ class UserHistoryController {
   }
 
   clearStowDetailSection() {
-    const ids = ["stow-combined-chart", "stow-combined-kpis", "stow-combined-period-selector", "stow-pallet-combined-chart", "stow-pallet-combined-kpis", "stow-pallet-combined-period-selector", "stow-esfuerzo-chart", "stow-esfuerzo-kpis", "stow-esfuerzo-period-selector", "stow-esfuerzo-extra", "each-stow-charts-grid", "each-stow-comparison-table", "pallet-stow-charts-grid", "pallet-stow-comparison-table", "esfuerzo-detail-table"];
+    const ids = ["stow-combined-chart", "stow-combined-kpis", "stow-combined-period-selector", "stow-combined-metric-selector", "stow-pallet-combined-chart", "stow-pallet-combined-kpis", "stow-pallet-combined-period-selector", "stow-pallet-combined-metric-selector", "stow-esfuerzo-chart", "stow-esfuerzo-kpis", "stow-esfuerzo-period-selector", "stow-esfuerzo-extra", "each-stow-metric-selector", "each-stow-charts-grid", "each-stow-comparison-table", "pallet-stow-metric-selector", "pallet-stow-charts-grid", "pallet-stow-comparison-table"];
     ids.forEach(id => {
       const el = document.getElementById(id);
       if (el) el.innerHTML = "";
@@ -1530,7 +1531,6 @@ class UserHistoryController {
     const periodLabels = { last_week: "Semana", last_month: "Mes", last_3_months: "3 Meses", last_6_months: "6 Meses" };
     this.renderStowLevel1(periods, periodLabels);
     this.renderStowLevel2(periods, periodLabels);
-    this.renderStowLevel3();
   }
 
   /**
@@ -1541,15 +1541,9 @@ class UserHistoryController {
     const periodData = this.currentUserData[period];
     const meta = this.metadataUsers?.periods?.[period] || {};
 
-    // Stow Combined
-    const combinedData = [];
-    periods.forEach(p => {
-      const pd = this.currentUserData[p];
-      const c = pd?.each_stow?.combined;
-      const avg = this.metadataUsers?.periods?.[p]?.each_stow?.combined?.avg ?? 0;
-      if (c?.rate != null) combinedData.push({ period: periodLabels[p], userRate: c.rate, avgRate: avg });
-    });
-    this._renderStowLineChart("stow-combined-chart", combinedData, { userColor: "var(--user-history-chart-user)", avgColor: "var(--user-history-chart-avg-dark)" });
+    this._renderStowMetricSelector("stow-combined-metric-selector", "combined", periods, periodLabels);
+    const combinedData = this._buildStowLevel1DataPoints(periods, periodLabels, "combined");
+    this._renderStowLineChart("stow-combined-chart", combinedData, { userColor: "var(--user-history-chart-user)", avgColor: "var(--user-history-chart-avg-dark)", metric: this.stowChartMetric.combined });
     this._renderStowPeriodSelector("stow-combined-period-selector", "combined", periods, periodLabels);
     const combinedPeriod = this.stowKpiPeriod.combined;
     const combined = this.currentUserData[combinedPeriod]?.each_stow?.combined;
@@ -1564,15 +1558,9 @@ class UserHistoryController {
       ` : "<span class=\"stow-kpi\">Sin datos</span>";
     }
 
-    // Pallet Stow Combined
-    const palletData = [];
-    periods.forEach(p => {
-      const pd = this.currentUserData[p];
-      const pc = pd?.pallet_stow?.combined;
-      const avg = this.metadataUsers?.periods?.[p]?.pallet_stow?.combined?.avg ?? 0;
-      if (pc?.pallet_rate != null) palletData.push({ period: periodLabels[p], userRate: pc.pallet_rate, avgRate: avg });
-    });
-    this._renderStowLineChart("stow-pallet-combined-chart", palletData, { userColor: "var(--user-history-chart-user)", avgColor: "var(--user-history-chart-avg-dark)" });
+    this._renderStowMetricSelector("stow-pallet-combined-metric-selector", "pallet", periods, periodLabels);
+    const palletData = this._buildStowLevel1DataPoints(periods, periodLabels, "pallet");
+    this._renderStowLineChart("stow-pallet-combined-chart", palletData, { userColor: "var(--user-history-chart-user)", avgColor: "var(--user-history-chart-avg-dark)", metric: this.stowChartMetric.pallet });
     this._renderStowPeriodSelector("stow-pallet-combined-period-selector", "pallet", periods, periodLabels);
     const palletPeriod = this.stowKpiPeriod.pallet;
     const palletCombined = this.currentUserData[palletPeriod]?.pallet_stow?.combined;
@@ -1619,6 +1607,77 @@ class UserHistoryController {
     }
   }
 
+  _buildStowDataPoints(periods, periodLabels, section, category) {
+    const metric = section === "each_stow" ? this.stowChartMetric.each_stow : this.stowChartMetric.pallet_stow;
+    const dataPoints = [];
+    const meta = this.metadataUsers?.periods || {};
+    periods.forEach(p => {
+      const pd = this.currentUserData[p];
+      const c = section === "each_stow" ? pd?.each_stow?.[category] : pd?.pallet_stow?.[category];
+      if (!c) return;
+      let userVal, avgVal;
+      if (metric === "rate") {
+        userVal = section === "each_stow" ? c.rate : c.pallet_rate;
+        avgVal = section === "each_stow" ? (meta[p]?.each_stow?.[category]?.avg ?? 0) : (meta[p]?.pallet_stow?.[category]?.avg ?? 0);
+      } else if (metric === "hours") {
+        userVal = c.total_hours != null ? c.total_hours : null;
+        avgVal = section === "each_stow" ? (meta[p]?.each_stow?.[category]?.avg_hours ?? null) : (meta[p]?.pallet_stow?.[category]?.avg_hours ?? null);
+      } else {
+        userVal = section === "each_stow" ? c.percentile : c.percentile_pallet;
+        avgVal = 50;
+      }
+      if (userVal != null) dataPoints.push({ period: periodLabels[p], userRate: userVal, avgRate: avgVal != null ? avgVal : 0 });
+    });
+    return dataPoints;
+  }
+
+  _buildStowLevel1DataPoints(periods, periodLabels, blockKey) {
+    const metric = this.stowChartMetric[blockKey];
+    const dataPoints = [];
+    const meta = this.metadataUsers?.periods || {};
+    const section = blockKey === "combined" ? "each_stow" : "pallet_stow";
+    const cat = "combined";
+    periods.forEach(p => {
+      const pd = this.currentUserData[p];
+      const c = section === "each_stow" ? pd?.each_stow?.combined : pd?.pallet_stow?.combined;
+      if (!c) return;
+      let userVal, avgVal;
+      if (metric === "rate") {
+        userVal = section === "each_stow" ? c.rate : c.pallet_rate;
+        avgVal = section === "each_stow" ? (meta[p]?.each_stow?.combined?.avg ?? 0) : (meta[p]?.pallet_stow?.combined?.avg ?? 0);
+      } else if (metric === "hours") {
+        userVal = c.total_hours != null ? c.total_hours : null;
+        avgVal = section === "each_stow" ? (meta[p]?.each_stow?.combined?.avg_hours ?? null) : (meta[p]?.pallet_stow?.combined?.avg_hours ?? null);
+      } else {
+        userVal = section === "each_stow" ? c.percentile : c.percentile_pallet;
+        avgVal = 50;
+      }
+      if (userVal != null) dataPoints.push({ period: periodLabels[p], userRate: userVal, avgRate: avgVal != null ? avgVal : 0 });
+    });
+    return dataPoints;
+  }
+
+  _renderStowMetricSelector(containerId, blockKey, periods, periodLabels) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    const current = this.stowChartMetric[blockKey] || "rate";
+    const options = [
+      { key: "rate", label: "UPH / Rate" },
+      { key: "hours", label: "Horas" },
+      { key: "percentile", label: "Percentil" }
+    ];
+    container.innerHTML = options.map(o => {
+      const active = o.key === current ? " active" : "";
+      return `<button type="button" class="stow-metric-btn${active}" data-metric="${o.key}" data-block="${blockKey}">${o.label}</button>`;
+    }).join("");
+    container.querySelectorAll(".stow-metric-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        this.stowChartMetric[blockKey] = btn.getAttribute("data-metric");
+        this.updateStowDetailViews();
+      });
+    });
+  }
+
   _renderStowPeriodSelector(containerId, blockKey, periods, periodLabels) {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -1640,13 +1699,16 @@ class UserHistoryController {
   _renderStowLineChart(containerId, dataPoints, options = {}) {
     const chartEl = document.getElementById(containerId);
     if (!chartEl) return;
+    const metric = options.metric || "rate";
+    const formatVal = (v) => metric === "percentile" ? (v.toFixed(1) + "%") : metric === "hours" ? v.toFixed(1) : v.toFixed(1);
     if (!dataPoints || dataPoints.length === 0) {
       chartEl.innerHTML = '<div style="padding: 20px; text-align: center; color: #666">No hay datos</div>';
       return;
     }
     const userColor = options.userColor ?? "var(--user-history-chart-user)";
     const avgColor = options.avgColor ?? "var(--user-history-chart-avg-dark)";
-    const maxRate = Math.max(...dataPoints.map(d => Math.max(d.userRate, d.avgRate))) * 1.1 || 1;
+    let maxRate = Math.max(...dataPoints.map(d => Math.max(d.userRate, d.avgRate))) * 1.1 || 1;
+    if (metric === "percentile") maxRate = Math.min(100, Math.max(maxRate, 50));
     const chartHeight = 240;
     const chartWidth = Math.max(400, dataPoints.length * 100);
     const padding = { top: 44, right: 50, bottom: 44, left: 50 };
@@ -1664,9 +1726,10 @@ class UserHistoryController {
       </defs>
       <line x1="${padding.left}" y1="${padding.top}" x2="${padding.left}" y2="${baselineY}" stroke="var(--user-history-border)" stroke-width="2"/>
       <line x1="${padding.left}" y1="${baselineY}" x2="${padding.left + graphWidth}" y2="${baselineY}" stroke="var(--user-history-border)" stroke-width="2"/>`;
+    const axisSuffix = metric === "percentile" ? "%" : metric === "hours" ? "h" : "";
     for (let i = 0; i <= 4; i++) {
       const y = padding.top + graphHeight * (1 - i / 4);
-      const v = (maxRate * i / 4).toFixed(0);
+      const v = (maxRate * i / 4).toFixed(metric === "hours" ? 1 : 0) + axisSuffix;
       svg += `<line x1="${padding.left - 5}" y1="${y}" x2="${padding.left + graphWidth}" y2="${y}" stroke="var(--user-history-border)" stroke-dasharray="4,4" opacity="0.3"/><text x="${padding.left - 8}" y="${y + 4}" text-anchor="end" font-size="10" fill="var(--user-history-text-secondary)">${v}</text>`;
     }
     const step = dataPoints.length > 1 ? graphWidth / (dataPoints.length - 1) : 0;
@@ -1695,8 +1758,8 @@ class UserHistoryController {
       const ay = padding.top + graphHeight - (d.avgRate / maxRate * graphHeight);
       svg += `<circle cx="${x}" cy="${uy}" r="5" fill="${userColor}" stroke="white" stroke-width="1.5"/>`;
       svg += `<circle cx="${x}" cy="${ay}" r="3.5" fill="${avgColor}" stroke="white" stroke-width="1"/>`;
-      svg += `<text x="${x}" y="${uy - 8}" text-anchor="middle" font-size="10" font-weight="600" fill="${userColor}">${d.userRate.toFixed(1)}</text>`;
-      svg += `<text x="${x}" y="${ay + 14}" text-anchor="middle" font-size="9" fill="${avgColor}">${d.avgRate.toFixed(1)}</text>`;
+      svg += `<text x="${x}" y="${uy - 8}" text-anchor="middle" font-size="10" font-weight="600" fill="${userColor}">${formatVal(d.userRate)}</text>`;
+      svg += `<text x="${x}" y="${ay + 14}" text-anchor="middle" font-size="9" fill="${avgColor}">${formatVal(d.avgRate)}</text>`;
       svg += `<text x="${x}" y="${baselineY + 16}" text-anchor="middle" font-size="10" fill="var(--user-history-text-secondary)">${d.period}</text>`;
     });
     svg += `<text x="${chartWidth - padding.right - 55}" y="${padding.top + 12}" font-size="10" fill="${userColor}">Usuario</text><line x1="${chartWidth - padding.right - 65}" y1="${padding.top + 18}" x2="${chartWidth - padding.right - 20}" y2="${padding.top + 18}" stroke="${userColor}" stroke-width="2.5"/><text x="${chartWidth - padding.right - 55}" y="${padding.top + 32}" font-size="10" fill="${avgColor}">Promedio</text><line x1="${chartWidth - padding.right - 65}" y1="${padding.top + 38}" x2="${chartWidth - padding.right - 20}" y2="${padding.top + 38}" stroke="${avgColor}" stroke-dasharray="5,5" stroke-width="2"/>`;
@@ -1715,26 +1778,19 @@ class UserHistoryController {
     const catOrder = ["stow_to_prime", "stow_to_prime_e", "stow_to_prime_w", "transfer_in", "transfer_in_e", "transfer_in_w", "combined", "combined_e", "combined_w"];
     const catLabels = { stow_to_prime: "Stow to Prime", stow_to_prime_e: "Stow to Prime E", stow_to_prime_w: "Stow to Prime W", transfer_in: "Transfer In", transfer_in_e: "Transfer In E", transfer_in_w: "Transfer In W", combined: "Combined", combined_e: "Combined E", combined_w: "Combined W" };
 
-    // Each Stow: un gráfico de línea (usuario vs promedio) por categoría con datos en el tiempo
+    this._renderStowMetricSelector("each-stow-metric-selector", "each_stow", periods, periodLabels);
     const eachGrid = document.getElementById("each-stow-charts-grid");
     if (eachGrid) {
       eachGrid.innerHTML = "";
-      const meta = this.metadataUsers?.periods || {};
+      const metric = this.stowChartMetric.each_stow;
       catOrder.forEach(catKey => {
-        const dataPoints = [];
-        periods.forEach(p => {
-          const pd = this.currentUserData[p];
-          const c = pd?.each_stow?.[catKey];
-          const avg = meta[p]?.each_stow?.[catKey]?.avg ?? 0;
-          if (c?.rate != null) dataPoints.push({ period: periodLabels[p], userRate: c.rate, avgRate: avg });
-        });
-        if (dataPoints.length === 0) return;
+        const dataPoints = this._buildStowDataPoints(periods, periodLabels, "each_stow", catKey);
         const cell = document.createElement("div");
         cell.className = "stow-level2-chart-cell";
         const chartId = `each-stow-chart-${catKey}`;
         cell.innerHTML = `<h5 class="stow-category-chart-title">${catLabels[catKey] || catKey}</h5><div id="${chartId}" class="user-history-chart"></div>`;
         eachGrid.appendChild(cell);
-        this._renderStowLineChart(chartId, dataPoints, { userColor: "var(--user-history-chart-user)", avgColor: "var(--user-history-chart-avg-dark)" });
+        this._renderStowLineChart(chartId, dataPoints, { userColor: "var(--user-history-chart-user)", avgColor: "var(--user-history-chart-avg-dark)", metric });
       });
     }
     const eachCats = catOrder.filter(k => eachStow[k] && (eachStow[k].rate != null || eachStow[k].total_units != null));
@@ -1743,26 +1799,19 @@ class UserHistoryController {
       eachTable.innerHTML = eachCats.length ? `<thead><tr><th>Categoría</th><th>Unidades</th><th>Horas</th><th>Rate</th><th>Rank</th></tr></thead><tbody>${eachCats.map(k => { const c = eachStow[k]; return `<tr><td>${catLabels[k] || k}</td><td>${(c.total_units ?? 0).toLocaleString()}</td><td>${(c.total_hours ?? 0).toFixed(1)}h</td><td>${(c.rate ?? 0).toFixed(2)}</td><td>#${c.rank ?? "-"}</td></tr>`; }).join("")}</tbody>` : "";
     }
 
-    // Pallet Stow: un gráfico de línea por categoría (usuario vs promedio)
+    this._renderStowMetricSelector("pallet-stow-metric-selector", "pallet_stow", periods, periodLabels);
     const palletGrid = document.getElementById("pallet-stow-charts-grid");
     if (palletGrid) {
       palletGrid.innerHTML = "";
-      const meta = this.metadataUsers?.periods || {};
+      const metric = this.stowChartMetric.pallet_stow;
       catOrder.forEach(catKey => {
-        const dataPoints = [];
-        periods.forEach(p => {
-          const pd = this.currentUserData[p];
-          const pc = pd?.pallet_stow?.[catKey];
-          const avg = meta[p]?.pallet_stow?.[catKey]?.avg ?? 0;
-          if (pc?.pallet_rate != null) dataPoints.push({ period: periodLabels[p], userRate: pc.pallet_rate, avgRate: avg });
-        });
-        if (dataPoints.length === 0) return;
+        const dataPoints = this._buildStowDataPoints(periods, periodLabels, "pallet_stow", catKey);
         const cell = document.createElement("div");
         cell.className = "stow-level2-chart-cell";
         const chartId = `pallet-stow-chart-${catKey}`;
         cell.innerHTML = `<h5 class="stow-category-chart-title">${catLabels[catKey] || catKey}</h5><div id="${chartId}" class="user-history-chart"></div>`;
         palletGrid.appendChild(cell);
-        this._renderStowLineChart(chartId, dataPoints, { userColor: "var(--user-history-success)", avgColor: "var(--user-history-chart-avg-dark)" });
+        this._renderStowLineChart(chartId, dataPoints, { userColor: "var(--user-history-success)", avgColor: "var(--user-history-chart-avg-dark)", metric });
       });
     }
     const palletCats = catOrder.filter(k => palletStow[k] && (palletStow[k].pallet_rate != null || palletStow[k].pallet_units != null));
@@ -1770,33 +1819,6 @@ class UserHistoryController {
     if (palletTable) {
       palletTable.innerHTML = palletCats.length ? `<thead><tr><th>Categoría</th><th>Pallets</th><th>Horas</th><th>Pallet rate</th><th>Rank</th></tr></thead><tbody>${palletCats.map(k => { const c = palletStow[k]; return `<tr><td>${catLabels[k] || k}</td><td>${(c.pallet_units ?? 0).toLocaleString()}</td><td>${(c.total_hours ?? 0).toFixed(1)}h</td><td>${(c.pallet_rate ?? 0).toFixed(2)}</td><td>#${c.rank_pallet ?? "-"}</td></tr>`; }).join("")}</tbody>` : "";
     }
-  }
-
-  /**
-   * Nivel 3: Tabla detalle esfuerzo (distancia, cart changes, errores, etc.)
-   */
-  renderStowLevel3() {
-    const period = this.currentPeriod;
-    const ef = this.currentUserData?.[period]?.rate_por_esfuerzo;
-    const tableEl = document.getElementById("esfuerzo-detail-table");
-    if (!tableEl) return;
-    if (!ef) {
-      tableEl.innerHTML = "";
-      return;
-    }
-    const rows = [
-      ["Unidades", (ef.total_units ?? 0).toLocaleString()],
-      ["Horas", (ef.total_hours ?? 0).toFixed(1) + " h"],
-      ["UPH", (ef.uph ?? 0).toFixed(2)],
-      ["Rate por esfuerzo", (ef.rate_por_esfuerzo ?? 0).toFixed(2)],
-      ["Distancia total (m)", (ef.total_distance ?? 0).toFixed(0)],
-      ["Distancia por hora", (ef.distance_per_hour ?? 0).toFixed(0)],
-      ["Cart changes", String(ef.cart_changes ?? "-")],
-      ["Errores", String(ef.errores ?? "-")],
-      ["ASINs únicos", String(ef.asins_unicos ?? "-")],
-      ["Bins únicos", String(ef.bins_unicos ?? "-")],
-    ];
-    tableEl.innerHTML = `<thead><tr><th>Métrica</th><th>Valor (${this.currentPeriod})</th></tr></thead><tbody>${rows.map(([label, value]) => `<tr><td>${label}</td><td>${value}</td></tr>`).join("")}</tbody>`;
   }
 
   /**
