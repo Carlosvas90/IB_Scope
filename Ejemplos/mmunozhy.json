@@ -1,0 +1,110 @@
+{
+  "metadata": {
+    "login": "mmunozhy",
+    "activo": false,
+    "employee_status": "T",
+    "last_updated": "2026-02-15 13:17:47",
+    "periods_available": [
+      "last_week",
+      "last_month",
+      "last_3_months",
+      "last_6_months"
+    ]
+  },
+  "last_week": {
+    "date_range": {
+      "start": "08022026",
+      "end": "14022026"
+    },
+    "each_stow": {},
+    "pallet_stow": {},
+    "rate_por_esfuerzo": {},
+    "receive": {}
+  },
+  "last_month": {
+    "date_range": {
+      "start": "16012026",
+      "end": "14022026"
+    },
+    "each_stow": {},
+    "pallet_stow": {},
+    "rate_por_esfuerzo": {},
+    "receive": {}
+  },
+  "last_3_months": {
+    "date_range": {
+      "start": "17112025",
+      "end": "14022026"
+    },
+    "each_stow": {},
+    "pallet_stow": {},
+    "rate_por_esfuerzo": {},
+    "receive": {
+      "Decant_PID": {
+        "total_units": 1710,
+        "total_hours": 9.55,
+        "rate": 179.06,
+        "avg_general": 132.8,
+        "rank": 19,
+        "total_users": 146,
+        "percentile": 87.0
+      },
+      "Decant_TSI": {
+        "total_units": 756,
+        "total_hours": 5.18,
+        "rate": 145.95,
+        "avg_general": 110.87,
+        "rank": 20,
+        "total_users": 147,
+        "percentile": 86.4
+      },
+      "Noncon": {
+        "total_units": 26,
+        "total_hours": 0.18,
+        "rate": 144.44,
+        "avg_general": 71.75,
+        "rank": 12,
+        "total_users": 141,
+        "percentile": 91.5
+      }
+    }
+  },
+  "last_6_months": {
+    "date_range": {
+      "start": "19082025",
+      "end": "14022026"
+    },
+    "each_stow": {},
+    "pallet_stow": {},
+    "rate_por_esfuerzo": {},
+    "receive": {
+      "Decant_PID": {
+        "total_units": 1710,
+        "total_hours": 9.55,
+        "rate": 179.06,
+        "avg_general": 132.8,
+        "rank": 19,
+        "total_users": 146,
+        "percentile": 87.0
+      },
+      "Decant_TSI": {
+        "total_units": 756,
+        "total_hours": 5.18,
+        "rate": 145.95,
+        "avg_general": 110.87,
+        "rank": 20,
+        "total_users": 147,
+        "percentile": 86.4
+      },
+      "Noncon": {
+        "total_units": 26,
+        "total_hours": 0.18,
+        "rate": 144.44,
+        "avg_general": 71.75,
+        "rank": 12,
+        "total_users": 141,
+        "percentile": 91.5
+      }
+    }
+  }
+}

@@ -275,6 +275,120 @@ body {
   grid-column: 1 / -1;
 }
 
+/* Stow vista detallada (3 niveles) */
+.stow-detail-section {
+  margin-top: 1rem;
+}
+
+.stow-detail-section .charts-section-title {
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.stow-level1-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.stow-level1-block {
+  background: var(--user-history-card-bg);
+  border: 0.0625rem solid var(--user-history-border);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  box-shadow: var(--user-history-shadow);
+}
+
+.stow-block-title {
+  margin: 0 0 0.75rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--user-history-text-primary);
+}
+
+.stow-level1-block .user-history-chart {
+  min-height: 200px;
+  margin-bottom: 0.75rem;
+}
+
+.stow-kpi-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  font-size: 0.8rem;
+  color: var(--user-history-text-secondary);
+}
+
+.stow-kpi {
+  white-space: nowrap;
+}
+
+.stow-kpi strong {
+  color: var(--user-history-text-primary);
+  margin-right: 0.25rem;
+}
+
+.stow-kpi-extra {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 0.0625rem solid var(--user-history-border);
+}
+
+.stow-level2-block {
+  background: var(--user-history-card-bg);
+  border: 0.0625rem solid var(--user-history-border);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--user-history-shadow);
+}
+
+.stow-level2-block .user-history-chart {
+  min-height: 200px;
+  margin-bottom: 1rem;
+}
+
+.stow-table-wrap {
+  overflow-x: auto;
+}
+
+.stow-comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.stow-comparison-table th,
+.stow-comparison-table td {
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  border-bottom: 0.0625rem solid var(--user-history-border);
+}
+
+.stow-comparison-table th {
+  font-weight: 600;
+  color: var(--user-history-text-secondary);
+  background: var(--user-history-bg);
+}
+
+.stow-comparison-table td {
+  color: var(--user-history-text-primary);
+}
+
+.esfuerzo-detail-table {
+  max-width: 32rem;
+}
+
+.stow-level3-block {
+  background: var(--user-history-card-bg);
+  border: 0.0625rem solid var(--user-history-border);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--user-history-shadow);
+}
+
 .user-history-chart-container h3 {
   margin: 0 0 1rem 0;
   color: var(--user-history-text-primary);
@@ -706,6 +820,56 @@ body {
   left: 0;
   min-width: 100%;
   margin-top: 0.25rem;
+}
+
+/* Botones de departamento (Receive, Stow, Pick, Pack, Shipping) */
+.department-buttons-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.department-buttons-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--user-history-text-secondary);
+}
+
+.department-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.department-btn {
+  padding: 0.5rem 1rem;
+  border: 0.0625rem solid var(--user-history-border);
+  border-radius: 0.375rem;
+  background: var(--user-history-card-bg);
+  color: var(--user-history-text-primary);
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.department-btn:hover:not(:disabled) {
+  border-color: var(--user-history-primary);
+  background: var(--user-history-primary);
+  color: white;
+}
+
+.department-btn.active {
+  background: var(--user-history-primary);
+  color: white;
+  border-color: var(--user-history-primary);
+}
+
+.department-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .selected-user-info-compact {

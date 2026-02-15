@@ -137,61 +137,81 @@
         </div>
       </div>
 
-      <!-- Gráficos de Evolución Temporal (arriba) -->
-      <div class="user-history-charts-section">
-        <h3 class="charts-section-title">📈 Evolución Temporal del Rendimiento</h3>
-        
-        <!-- Gráficos principales juntos: Rate, Percentil y Rate por Esfuerzo -->
-        <div class="user-history-charts-primary">
-          <!-- Gráfico 1: Evolución Rate vs Promedio (Línea Temporal) -->
-          <div class="user-history-chart-container">
-            <h4 class="chart-title">Evolución del Rate: Usuario vs Promedio General</h4>
-            <div id="rate-evolution-chart" class="user-history-chart">
-              <div style="padding: 20px; text-align: center; color: #666">
-                <p>Selecciona un usuario para ver la evolución</p>
-              </div>
-            </div>
-          </div>
+      <!-- Selector de departamento (Receive, Stow, Pick, Pack, Shipping) -->
+      <div id="department-buttons-wrap" class="department-buttons-wrap" style="display: none;">
+        <span class="department-buttons-label">Departamento:</span>
+        <div class="department-buttons">
+          <button type="button" class="department-btn" data-department="receive">Receive</button>
+          <button type="button" class="department-btn active" data-department="each_stow">Stow</button>
+          <button type="button" class="department-btn" data-department="pick">Pick</button>
+          <button type="button" class="department-btn" data-department="pack">Pack</button>
+          <button type="button" class="department-btn" data-department="shipping">Shipping</button>
+        </div>
+      </div>
 
-          <!-- Gráfico 2: Evolución del Percentil -->
+      <!-- Vista genérica (Receive, Pick, Pack, Shipping): evolución por departamento -->
+      <div id="generic-charts-section" class="user-history-charts-section">
+        <h3 class="charts-section-title">📈 Evolución Temporal del Rendimiento</h3>
+        <div class="user-history-charts-primary">
+          <div class="user-history-chart-container">
+            <h4 class="chart-title">Evolución del Rate: Usuario vs Promedio</h4>
+            <div id="rate-evolution-chart" class="user-history-chart"></div>
+          </div>
           <div class="user-history-chart-container">
             <h4 class="chart-title">Evolución del Percentil</h4>
-            <div id="percentile-evolution-chart" class="user-history-chart">
-              <div style="padding: 20px; text-align: center; color: #666">
-                <p>Evolución del percentil</p>
-              </div>
-            </div>
+            <div id="percentile-evolution-chart" class="user-history-chart"></div>
           </div>
-
-          <!-- Gráfico 3: Evolución del Rate por Esfuerzo -->
           <div class="user-history-chart-container">
             <h4 class="chart-title">Evolución del Rate por Esfuerzo</h4>
-            <div id="effort-rate-evolution-chart" class="user-history-chart">
-              <div style="padding: 20px; text-align: center; color: #666">
-                <p>Evolución del rate por esfuerzo</p>
-              </div>
-            </div>
+            <div id="effort-rate-evolution-chart" class="user-history-chart"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stow: vista detallada en 3 niveles (solo visible cuando departamento = Stow) -->
+      <div id="stow-detail-section" class="stow-detail-section" style="display: none;">
+        <!-- Nivel 1: Tres principales -->
+        <h3 class="charts-section-title">📊 Stow – Nivel 1 (Principales)</h3>
+        <div class="stow-level1-grid">
+          <div class="stow-level1-block">
+            <h4 class="stow-block-title">Stow Combined</h4>
+            <div id="stow-combined-chart" class="user-history-chart"></div>
+            <div id="stow-combined-kpis" class="stow-kpi-row"></div>
+          </div>
+          <div class="stow-level1-block">
+            <h4 class="stow-block-title">Pallet Stow Combined</h4>
+            <div id="stow-pallet-combined-chart" class="user-history-chart"></div>
+            <div id="stow-pallet-combined-kpis" class="stow-kpi-row"></div>
+          </div>
+          <div class="stow-level1-block">
+            <h4 class="stow-block-title">Esfuerzo</h4>
+            <div id="stow-esfuerzo-chart" class="user-history-chart"></div>
+            <div id="stow-esfuerzo-kpis" class="stow-kpi-row"></div>
+            <div id="stow-esfuerzo-extra" class="stow-kpi-row stow-kpi-extra"></div>
           </div>
         </div>
 
-        <!-- Gráficos Stow to Prime y Transfer In (mismo estilo que evolución temporal) -->
-        <div class="user-history-charts-primary">
-          <div class="user-history-chart-container">
-            <h4 class="chart-title">Evolución Stow to Prime: Usuario vs Promedio</h4>
-            <div id="stp-evolution-chart" class="user-history-chart">
-              <div style="padding: 20px; text-align: center; color: #666">
-                <p>Selecciona un usuario para ver la evolución</p>
-              </div>
-            </div>
+        <!-- Nivel 2: Each Stow por tipo -->
+        <h3 class="charts-section-title">📊 Stow – Nivel 2: Each Stow por tipo</h3>
+        <div class="stow-level2-block">
+          <div id="each-stow-comparison-chart" class="user-history-chart"></div>
+          <div id="each-stow-comparison-table-wrap" class="stow-table-wrap">
+            <table id="each-stow-comparison-table" class="stow-comparison-table"></table>
           </div>
-          <div class="user-history-chart-container">
-            <h4 class="chart-title">Evolución Transfer In (TSI): Usuario vs Promedio</h4>
-            <div id="tsi-evolution-chart" class="user-history-chart">
-              <div style="padding: 20px; text-align: center; color: #666">
-                <p>Selecciona un usuario para ver la evolución</p>
-              </div>
-            </div>
+        </div>
+
+        <h3 class="charts-section-title">📊 Stow – Nivel 2: Pallet Stow por tipo</h3>
+        <div class="stow-level2-block">
+          <div id="pallet-stow-comparison-chart" class="user-history-chart"></div>
+          <div id="pallet-stow-comparison-table-wrap" class="stow-table-wrap">
+            <table id="pallet-stow-comparison-table" class="stow-comparison-table"></table>
           </div>
+        </div>
+
+        <!-- Nivel 3: Detalle esfuerzo -->
+        <h3 class="charts-section-title">📊 Stow – Nivel 3: Detalle esfuerzo</h3>
+        <div class="stow-level3-block">
+          <table id="esfuerzo-detail-table" class="stow-comparison-table esfuerzo-detail-table"></table>
         </div>
       </div>
     </div>

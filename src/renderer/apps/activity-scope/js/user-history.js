@@ -37,10 +37,21 @@ class UserHistoryController {
     this.currentUserData = null;
     this.currentPeriod = "last_month"; // Por defecto último mes
     this.currentLogin = null;
+
+    // Departamentos: Receive, Stow, Pick, Pack, Shipping (solo se habilitan los que tengan datos)
+    this.DEPARTMENTS = [
+      { key: "receive", label: "Receive" },
+      { key: "each_stow", label: "Stow" },
+      { key: "pick", label: "Pick" },
+      { key: "pack", label: "Pack" },
+      { key: "shipping", label: "Shipping" }
+    ];
+    this.currentDepartment = "each_stow";
     
     // Filtros
     this.selectedShift = "";
     this.selectedManager = "";
+    this.validUsers = [];
     this.filteredUsers = [];
     
     // Navegación de sugerencias
@@ -151,7 +162,8 @@ class UserHistoryController {
       if (userData) {
         this.currentUserData = userData;
         console.log("✅ Datos del usuario cargados correctamente");
-        // Actualizar estado de botones de período según datos disponibles
+        // Departamentos disponibles y selección por defecto (primero con datos)
+        this.updateDepartmentUI();
         this.updatePeriodButtons();
         this.updateVisualization();
       } else {
@@ -292,6 +304,9 @@ class UserHistoryController {
     const onlyActiveCheck = document.getElementById("history-only-active");
     if (onlyActiveCheck) {
       onlyActiveCheck.addEventListener("change", () => {
+        this.updateFilteredUsers();
+        this.updateUserSelect();
+        this.updateManagerFilter();
         const userSearch = document.getElementById("history-user-search");
         if (userSearch?.value?.trim().length >= 2) {
           this.onUserSearch(userSearch.value.trim());
@@ -371,7 +386,6 @@ class UserHistoryController {
     const periodButtons = document.querySelectorAll(".period-btn, .period-btn-compact");
     periodButtons.forEach(btn => {
       btn.addEventListener("click", (e) => {
-        // Prevenir clic si el botón está deshabilitado
         if (btn.disabled || btn.classList.contains("disabled") || btn.classList.contains("no-data")) {
           e.preventDefault();
           e.stopPropagation();
@@ -379,6 +393,15 @@ class UserHistoryController {
         }
         const period = e.target.dataset.period;
         this.selectPeriod(period);
+      });
+    });
+
+    // Botones de departamento (Receive, Stow, Pick, Pack, Shipping)
+    document.querySelectorAll(".department-btn").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        if (btn.disabled) return;
+        const key = btn.dataset.department;
+        if (key) this.selectDepartment(key);
       });
     });
   }
@@ -467,6 +490,32 @@ class UserHistoryController {
     } catch (error) {
       console.error("❌ Error cargando roster:", error);
     }
+  }
+
+  /**
+   * Comprueba si un usuario del índice tiene información mínima para mostrarse
+   * (nombre, turno, manager y employee_status no vacíos)
+   */
+  isUserWithValidInfo(user) {
+    if (!user || !user.login) return false;
+    const name = user.name != null ? String(user.name).trim() : "";
+    const shift = user.shift != null ? String(user.shift).trim() : "";
+    const manager = user.manager != null ? String(user.manager).trim() : "";
+    const status = user.employee_status != null ? String(user.employee_status).trim() : "";
+    return name !== "" && shift !== "" && manager !== "" && status !== "";
+  }
+
+  /**
+   * Indica si el usuario se considera activo (para "Solo Activos").
+   * Prioridad: roster si está cargado; si no, employee_status "A" en users_index.
+   */
+  isUserActive(user) {
+    if (!user || !user.login) return false;
+    if (this.rosterActiveLogins && this.rosterActiveLogins.size > 0) {
+      return this.rosterActiveLogins.has(user.login);
+    }
+    const s = user.employee_status != null ? String(user.employee_status).trim().toUpperCase() : "";
+    return s === "A";
   }
 
   /**
@@ -564,8 +613,9 @@ class UserHistoryController {
       console.log(`✅ Filtro de managers poblado con ${this.usersIndex.available_managers.length} managers`);
     }
     
-    // Inicializar lista de usuarios filtrados
-    this.filteredUsers = this.usersIndex.users || [];
+    // Solo usuarios con información válida (nombre, turno, manager, employee_status no vacíos)
+    this.validUsers = (this.usersIndex.users || []).filter(u => this.isUserWithValidInfo(u));
+    this.updateFilteredUsers();
     
     // Poblar select de usuarios
     this.updateUserSelect();
@@ -615,32 +665,40 @@ class UserHistoryController {
   }
 
   /**
-   * Actualiza la lista de usuarios filtrados
+   * Actualiza la lista de usuarios filtrados (validUsers + Solo Activos + turno/manager)
    */
   updateFilteredUsers() {
-    if (!this.usersIndex || !this.usersIndex.users) return;
-    
-    this.filteredUsers = this.usersIndex.users.filter(user => {
+    let base = this.validUsers || (this.usersIndex?.users || []).filter(u => this.isUserWithValidInfo(u));
+    if (!base.length) {
+      this.filteredUsers = [];
+      return;
+    }
+    const onlyActive = document.getElementById("history-only-active")?.checked !== false;
+    if (onlyActive) {
+      base = base.filter(u => this.isUserActive(u));
+    }
+    this.filteredUsers = base.filter(user => {
       if (this.selectedShift && user.shift !== this.selectedShift) return false;
       if (this.selectedManager && user.manager !== this.selectedManager) return false;
       return true;
     });
-    
-    console.log(`🔍 Usuarios filtrados: ${this.filteredUsers.length}`);
+    console.log(`🔍 Usuarios filtrados: ${this.filteredUsers.length}${onlyActive ? " (solo activos)" : ""}`);
   }
 
   /**
-   * Actualiza el filtro de managers según el turno seleccionado
+   * Actualiza el filtro de managers según turno y Solo Activos
    */
   updateManagerFilter() {
-    if (!this.usersIndex || !this.usersIndex.users) return;
+    let base = this.validUsers || this.usersIndex?.users || [];
+    if (!base.length) return;
+    const onlyActive = document.getElementById("history-only-active")?.checked !== false;
+    if (onlyActive) base = base.filter(u => this.isUserActive(u));
     
     const managerFilter = document.getElementById("history-manager-filter");
     if (!managerFilter) return;
     
-    // Obtener managers únicos del turno seleccionado
     const managers = new Set();
-    this.usersIndex.users.forEach(user => {
+    base.forEach(user => {
       if (!this.selectedShift || user.shift === this.selectedShift) {
         if (user.manager) managers.add(user.manager);
       }
@@ -667,9 +725,9 @@ class UserHistoryController {
     }
 
     const onlyActive = document.getElementById("history-only-active")?.checked !== false;
-    let pool = this.usersIndex?.users || [];
-    if (onlyActive && this.rosterActiveLogins && this.rosterActiveLogins.size > 0) {
-      pool = pool.filter(user => this.rosterActiveLogins.has(user.login));
+    let pool = (this.usersIndex?.users || []).filter(u => this.isUserWithValidInfo(u));
+    if (onlyActive) {
+      pool = pool.filter(u => this.isUserActive(u));
     }
 
     const filtered = pool.filter(user => {
@@ -836,11 +894,10 @@ class UserHistoryController {
   }
 
   /**
-   * Actualiza las métricas por período (artículos, horas, ranking, rate)
+   * Actualiza las métricas por período (según departamento seleccionado)
    */
   updatePeriodMetrics() {
     if (!this.currentUserData) {
-      // Limpiar todas las métricas
       this.clearPeriodMetrics();
       return;
     }
@@ -854,48 +911,19 @@ class UserHistoryController {
 
     periods.forEach(period => {
       const periodData = this.currentUserData[period.key];
-      const combinedData = periodData?.each_stow?.combined;
+      const metrics = this.getDepartmentMetrics(periodData, this.currentDepartment);
 
-      // Artículos ubicados (total_units)
       const unitsEl = document.getElementById(`metric-units-${period.label}`);
-      if (unitsEl) {
-        if (combinedData?.total_units !== undefined) {
-          unitsEl.textContent = combinedData.total_units.toLocaleString();
-        } else {
-          unitsEl.textContent = "-";
-        }
-      }
+      if (unitsEl) unitsEl.textContent = metrics?.total_units != null ? metrics.total_units.toLocaleString() : "-";
 
-      // Horas trabajadas (total_hours)
       const hoursEl = document.getElementById(`metric-hours-${period.label}`);
-      if (hoursEl) {
-        if (combinedData?.total_hours !== undefined) {
-          hoursEl.textContent = combinedData.total_hours.toFixed(1) + "h";
-        } else {
-          hoursEl.textContent = "-";
-        }
-      }
+      if (hoursEl) hoursEl.textContent = metrics?.total_hours != null ? metrics.total_hours.toFixed(1) + "h" : "-";
 
-      // Ranking Combined
       const rankEl = document.getElementById(`metric-rank-${period.label}`);
-      if (rankEl) {
-        if (combinedData?.rank !== undefined) {
-          const totalUsers = combinedData.total_users || 0;
-          rankEl.textContent = `#${combinedData.rank} / ${totalUsers}`;
-        } else {
-          rankEl.textContent = "-";
-        }
-      }
+      if (rankEl) rankEl.textContent = metrics?.rank != null ? `#${metrics.rank}` : "-";
 
-      // Rate Combined
       const rateEl = document.getElementById(`metric-rate-${period.label}`);
-      if (rateEl) {
-        if (combinedData?.rate !== undefined) {
-          rateEl.textContent = combinedData.rate.toFixed(2);
-        } else {
-          rateEl.textContent = "-";
-        }
-      }
+      if (rateEl) rateEl.textContent = metrics?.rate != null ? metrics.rate.toFixed(2) : "-";
     });
   }
 
@@ -915,22 +943,142 @@ class UserHistoryController {
   }
 
   /**
-   * Verifica si un período tiene datos disponibles
+   * Verifica si un período tiene datos para un departamento
+   */
+  hasDepartmentData(period, departmentKey) {
+    if (!this.currentUserData) return false;
+    const periodData = this.currentUserData[period];
+    if (!periodData || !periodData[departmentKey]) return false;
+    const dept = periodData[departmentKey];
+    if (typeof dept !== "object" || Array.isArray(dept)) return false;
+    if (departmentKey === "each_stow") {
+      const combined = dept.combined;
+      return combined && (combined.rate !== undefined && combined.rate !== null);
+    }
+    // receive, pick, pack, shipping: objeto con categorías (cada una puede tener rate/total_units)
+    const keys = Object.keys(dept).filter(k => !["date_range"].includes(k));
+    for (const k of keys) {
+      const cat = dept[k];
+      if (cat && typeof cat === "object" && (cat.rate !== undefined || cat.total_units !== undefined)) return true;
+    }
+    return false;
+  }
+
+  /**
+   * Devuelve las métricas "principales" de un período para un departamento (rate, rank, units, hours, percentile)
+   */
+  getDepartmentMetrics(periodData, departmentKey) {
+    if (!periodData || !periodData[departmentKey]) return null;
+    const dept = periodData[departmentKey];
+    if (departmentKey === "each_stow" && dept.combined) {
+      const c = dept.combined;
+      return { rate: c.rate, rank: c.rank, total_units: c.total_units, total_hours: c.total_hours, percentile: c.percentile };
+    }
+    if (departmentKey === "each_stow") return null;
+    // receive/pick/pack/shipping: promediar o usar primera categoría con datos
+    const keys = Object.keys(dept).filter(k => typeof dept[k] === "object" && dept[k] && (dept[k].rate !== undefined || dept[k].total_units !== undefined));
+    if (keys.length === 0) return null;
+    let rateSum = 0, rankSum = 0, unitsSum = 0, hoursSum = 0, pctSum = 0, n = 0;
+    for (const k of keys) {
+      const cat = dept[k];
+      if (cat.rate != null) { rateSum += cat.rate; n++; }
+      if (cat.rank != null) rankSum += cat.rank;
+      if (cat.total_units != null) unitsSum += cat.total_units;
+      if (cat.total_hours != null) hoursSum += cat.total_hours;
+      if (cat.percentile != null) pctSum += cat.percentile;
+    }
+    const count = keys.length;
+    return {
+      rate: n ? rateSum / n : null,
+      rank: count ? Math.round(rankSum / count) : null,
+      total_units: unitsSum || null,
+      total_hours: hoursSum || null,
+      percentile: count ? pctSum / count : null
+    };
+  }
+
+  /**
+   * Obtiene el promedio general (avg) de metadata para un período y departamento
+   */
+  getMetadataAvgForDepartment(metadataPeriod, departmentKey) {
+    if (!metadataPeriod || !departmentKey) return 0;
+    if (departmentKey === "each_stow") {
+      return metadataPeriod.each_stow?.combined?.avg ?? 0;
+    }
+    const dept = metadataPeriod[departmentKey];
+    if (!dept || typeof dept !== "object") return 0;
+    let sum = 0, n = 0;
+    for (const k of Object.keys(dept)) {
+      const v = dept[k]?.avg;
+      if (v != null && typeof v === "number") { sum += v; n++; }
+    }
+    return n ? sum / n : 0;
+  }
+
+  /**
+   * Lista de departamentos que tienen datos en al menos un período
+   */
+  getAvailableDepartments() {
+    if (!this.currentUserData) return [];
+    const periods = ["last_week", "last_month", "last_3_months", "last_6_months"];
+    const available = new Set();
+    for (const key of this.DEPARTMENTS.map(d => d.key)) {
+      for (const p of periods) {
+        if (this.hasDepartmentData(p, key)) { available.add(key); break; }
+      }
+    }
+    return this.DEPARTMENTS.filter(d => available.has(d.key)).map(d => d.key);
+  }
+
+  /**
+   * Muestra el selector de departamento y actualiza estado (solo habilitados los que tienen datos)
+   */
+  updateDepartmentUI() {
+    const wrap = document.getElementById("department-buttons-wrap");
+    if (!wrap) return;
+    if (!this.currentUserData) {
+      wrap.style.display = "none";
+      return;
+    }
+    const available = this.getAvailableDepartments();
+    if (available.length === 0) {
+      wrap.style.display = "none";
+      return;
+    }
+    wrap.style.display = "flex";
+    if (!available.includes(this.currentDepartment)) {
+      this.currentDepartment = available[0];
+    }
+    this.DEPARTMENTS.forEach(d => {
+      const btn = document.querySelector(`.department-btn[data-department="${d.key}"]`);
+      if (!btn) return;
+      const hasData = available.includes(d.key);
+      btn.disabled = !hasData;
+      btn.classList.toggle("active", this.currentDepartment === d.key);
+      btn.title = hasData ? `Ver métricas de ${d.label}` : `Sin datos de ${d.label}`;
+    });
+  }
+
+  /**
+   * Cambia el departamento seleccionado y actualiza métricas y gráficos
+   */
+  selectDepartment(key) {
+    if (!this.currentUserData) return;
+    const available = this.getAvailableDepartments();
+    if (!available.includes(key)) return;
+    this.currentDepartment = key;
+    this.updateDepartmentUI();
+    this.updatePeriodButtons();
+    this.updatePeriodMetrics();
+    this.updateVisualization();
+  }
+
+  /**
+   * Verifica si un período tiene datos disponibles (para el departamento actual)
    */
   hasPeriodData(period) {
     if (!this.currentUserData) return false;
-    
-    const periodData = this.currentUserData[period];
-    if (!periodData) return false;
-    
-    // Verificar si tiene datos en each_stow (específicamente combined)
-    const hasEachStow = periodData.each_stow && 
-                        Object.keys(periodData.each_stow).length > 0 &&
-                        periodData.each_stow.combined &&
-                        periodData.each_stow.combined.rate !== undefined &&
-                        periodData.each_stow.combined.rate !== null;
-    
-    return hasEachStow;
+    return this.hasDepartmentData(period, this.currentDepartment);
   }
 
   /**
@@ -1153,24 +1301,28 @@ class UserHistoryController {
       console.warn(`⚠️ No hay metadata para el período ${period}, continuando sin comparaciones`);
     }
     
-    // Actualizar gráficos de evolución temporal
-    this.updateEvolutionCharts();
+    if (this.currentDepartment === "each_stow") {
+      document.getElementById("generic-charts-section").style.display = "none";
+      const stowSection = document.getElementById("stow-detail-section");
+      if (stowSection) stowSection.style.display = "block";
+      this.updateStowDetailViews();
+    } else {
+      document.getElementById("generic-charts-section").style.display = "block";
+      const stowSection = document.getElementById("stow-detail-section");
+      if (stowSection) stowSection.style.display = "none";
+      this.updateEvolutionCharts();
+    }
   }
 
   /**
    * Muestra mensaje de selección de usuario y limpia los elementos
    */
   showUserSelectionMessage() {
-    // Ocultar contenedor principal
     const userContainer = document.getElementById("selected-user-container");
-    if (userContainer) {
-      userContainer.style.display = "none";
-    }
-    
-    // Limpiar métricas por período
+    if (userContainer) userContainer.style.display = "none";
+    const deptWrap = document.getElementById("department-buttons-wrap");
+    if (deptWrap) deptWrap.style.display = "none";
     this.clearPeriodMetrics();
-
-    // Limpiar gráficos de evolución
     this.clearEvolutionCharts();
   }
 
@@ -1340,32 +1492,260 @@ class UserHistoryController {
       "last_6_months": "6 Meses"
     };
 
-    // Actualizar cada gráfico
     this.updateRateEvolutionChart(periods, periodLabels);
     this.updatePercentileEvolutionChart(periods, periodLabels);
     this.updateEffortRateEvolutionChart(periods, periodLabels);
-    this.updateStowToPrimeEvolutionChart(periods, periodLabels);
-    this.updateTransferInEvolutionChart(periods, periodLabels);
   }
 
   /**
    * Limpia todos los gráficos de evolución
    */
   clearEvolutionCharts() {
-    const chartIds = [
-      "rate-evolution-chart",
-      "percentile-evolution-chart",
-      "effort-rate-evolution-chart",
-      "stp-evolution-chart",
-      "tsi-evolution-chart"
-    ];
-    
+    const chartIds = ["rate-evolution-chart", "percentile-evolution-chart", "effort-rate-evolution-chart"];
+    const placeholder = '<div style="padding: 20px; text-align: center; color: #666"><p>Selecciona un usuario para ver la evolución</p></div>';
     chartIds.forEach(id => {
       const chartEl = document.getElementById(id);
-      if (chartEl) {
-        chartEl.innerHTML = '<div style="padding: 20px; text-align: center; color: #666"><p>Selecciona un usuario para ver la evolución</p></div>';
-      }
+      if (chartEl) chartEl.innerHTML = placeholder;
     });
+    this.clearStowDetailSection();
+  }
+
+  clearStowDetailSection() {
+    const ids = ["stow-combined-chart", "stow-combined-kpis", "stow-pallet-combined-chart", "stow-pallet-combined-kpis", "stow-esfuerzo-chart", "stow-esfuerzo-kpis", "stow-esfuerzo-extra", "each-stow-comparison-chart", "each-stow-comparison-table", "pallet-stow-comparison-chart", "pallet-stow-comparison-table", "esfuerzo-detail-table"];
+    ids.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.innerHTML = "";
+    });
+  }
+
+  /**
+   * Rellena la vista detallada de Stow (Nivel 1, 2, 3) cuando departamento = Stow
+   */
+  updateStowDetailViews() {
+    if (!this.currentUserData) return;
+    const periods = ["last_week", "last_month", "last_3_months", "last_6_months"];
+    const periodLabels = { last_week: "Semana", last_month: "Mes", last_3_months: "3 Meses", last_6_months: "6 Meses" };
+    this.renderStowLevel1(periods, periodLabels);
+    this.renderStowLevel2(periods, periodLabels);
+    this.renderStowLevel3();
+  }
+
+  /**
+   * Nivel 1: Stow Combined, Pallet Combined, Esfuerzo (gráfico línea + KPIs)
+   */
+  renderStowLevel1(periods, periodLabels) {
+    const period = this.currentPeriod;
+    const periodData = this.currentUserData[period];
+    const meta = this.metadataUsers?.periods?.[period] || {};
+
+    // Stow Combined
+    const combinedData = [];
+    periods.forEach(p => {
+      const pd = this.currentUserData[p];
+      const c = pd?.each_stow?.combined;
+      const avg = this.metadataUsers?.periods?.[p]?.each_stow?.combined?.avg ?? 0;
+      if (c?.rate != null) combinedData.push({ period: periodLabels[p], userRate: c.rate, avgRate: avg });
+    });
+    this._renderStowLineChart("stow-combined-chart", combinedData);
+    const combined = periodData?.each_stow?.combined;
+    const combinedKpis = document.getElementById("stow-combined-kpis");
+    if (combinedKpis) {
+      combinedKpis.innerHTML = combined ? `
+        <span class="stow-kpi"><strong>Rate</strong> ${combined.rate?.toFixed(2) ?? "-"}</span>
+        <span class="stow-kpi"><strong>Rank</strong> #${combined.rank ?? "-"} / ${combined.total_users ?? "-"}</span>
+        <span class="stow-kpi"><strong>Percentil</strong> ${combined.percentile != null ? combined.percentile.toFixed(1) + "%" : "-"}</span>
+        <span class="stow-kpi"><strong>Unidades</strong> ${(combined.total_units ?? 0).toLocaleString()}</span>
+        <span class="stow-kpi"><strong>Horas</strong> ${(combined.total_hours ?? 0).toFixed(1)}h</span>
+      ` : "<span class=\"stow-kpi\">Sin datos</span>";
+    }
+
+    // Pallet Stow Combined
+    const palletData = [];
+    periods.forEach(p => {
+      const pd = this.currentUserData[p];
+      const pc = pd?.pallet_stow?.combined;
+      const avg = this.metadataUsers?.periods?.[p]?.pallet_stow?.combined?.avg ?? 0;
+      if (pc?.pallet_rate != null) palletData.push({ period: periodLabels[p], userRate: pc.pallet_rate, avgRate: avg });
+    });
+    this._renderStowLineChart("stow-pallet-combined-chart", palletData);
+    const palletCombined = periodData?.pallet_stow?.combined;
+    const palletKpis = document.getElementById("stow-pallet-combined-kpis");
+    if (palletKpis) {
+      palletKpis.innerHTML = palletCombined ? `
+        <span class="stow-kpi"><strong>Pallet rate</strong> ${palletCombined.pallet_rate?.toFixed(2) ?? "-"}</span>
+        <span class="stow-kpi"><strong>Rank</strong> #${palletCombined.rank_pallet ?? "-"} / ${palletCombined.total_users ?? "-"}</span>
+        <span class="stow-kpi"><strong>Percentil</strong> ${palletCombined.percentile_pallet != null ? palletCombined.percentile_pallet.toFixed(1) + "%" : "-"}</span>
+        <span class="stow-kpi"><strong>Pallets</strong> ${(palletCombined.pallet_units ?? 0).toLocaleString()}</span>
+        <span class="stow-kpi"><strong>Horas</strong> ${(palletCombined.total_hours ?? 0).toFixed(1)}h</span>
+      ` : "<span class=\"stow-kpi\">Sin datos</span>";
+    }
+
+    // Esfuerzo
+    const esfuerzoData = [];
+    periods.forEach(p => {
+      const pd = this.currentUserData[p];
+      const ef = pd?.rate_por_esfuerzo;
+      const avg = ef?.avg_rate_esfuerzo_general ?? 0;
+      if (ef?.rate_por_esfuerzo != null) esfuerzoData.push({ period: periodLabels[p], userRate: ef.rate_por_esfuerzo, avgRate: avg });
+    });
+    this._renderStowLineChart("stow-esfuerzo-chart", esfuerzoData);
+    const esfuerzo = periodData?.rate_por_esfuerzo;
+    const esfuerzoKpis = document.getElementById("stow-esfuerzo-kpis");
+    if (esfuerzoKpis) {
+      esfuerzoKpis.innerHTML = esfuerzo ? `
+        <span class="stow-kpi"><strong>Rate esfuerzo</strong> ${esfuerzo.rate_por_esfuerzo?.toFixed(2) ?? "-"}</span>
+        <span class="stow-kpi"><strong>UPH</strong> ${esfuerzo.uph?.toFixed(2) ?? "-"}</span>
+        <span class="stow-kpi"><strong>Rank esfuerzo</strong> #${esfuerzo.rank_esfuerzo ?? "-"} / ${esfuerzo.total_users ?? "-"}</span>
+        <span class="stow-kpi"><strong>Percentil</strong> ${esfuerzo.percentile_esfuerzo != null ? esfuerzo.percentile_esfuerzo.toFixed(1) + "%" : "-"}</span>
+      ` : "<span class=\"stow-kpi\">Sin datos</span>";
+    }
+    const esfuerzoExtra = document.getElementById("stow-esfuerzo-extra");
+    if (esfuerzoExtra) {
+      esfuerzoExtra.innerHTML = esfuerzo ? `
+        <span class="stow-kpi"><strong>Distancia total</strong> ${(esfuerzo.total_distance ?? 0).toFixed(0)} m</span>
+        <span class="stow-kpi"><strong>Distancia/hora</strong> ${(esfuerzo.distance_per_hour ?? 0).toFixed(0)}</span>
+        <span class="stow-kpi"><strong>Cart changes</strong> ${esfuerzo.cart_changes ?? "-"}</span>
+        <span class="stow-kpi"><strong>Errores</strong> ${esfuerzo.errores ?? "-"}</span>
+      ` : "";
+    }
+  }
+
+  _renderStowLineChart(containerId, dataPoints) {
+    const chartEl = document.getElementById(containerId);
+    if (!chartEl) return;
+    if (!dataPoints || dataPoints.length === 0) {
+      chartEl.innerHTML = '<div style="padding: 20px; text-align: center; color: #666">No hay datos</div>';
+      return;
+    }
+    const maxRate = Math.max(...dataPoints.map(d => Math.max(d.userRate, d.avgRate))) * 1.1 || 1;
+    const chartHeight = 220;
+    const chartWidth = Math.max(400, dataPoints.length * 100);
+    const padding = { top: 30, right: 40, bottom: 40, left: 50 };
+    const graphWidth = chartWidth - padding.left - padding.right;
+    const graphHeight = chartHeight - padding.top - padding.bottom;
+    let svg = `<svg width="${chartWidth}" height="${chartHeight}" style="overflow:visible"><line x1="${padding.left}" y1="${padding.top}" x2="${padding.left}" y2="${padding.top + graphHeight}" stroke="var(--user-history-border)" stroke-width="2"/><line x1="${padding.left}" y1="${padding.top + graphHeight}" x2="${padding.left + graphWidth}" y2="${padding.top + graphHeight}" stroke="var(--user-history-border)" stroke-width="2"/>`;
+    for (let i = 0; i <= 4; i++) {
+      const y = padding.top + graphHeight * (1 - i / 4);
+      const v = (maxRate * i / 4).toFixed(0);
+      svg += `<line x1="${padding.left - 5}" y1="${y}" x2="${padding.left + graphWidth}" y2="${y}" stroke="var(--user-history-border)" stroke-dasharray="4,4" opacity="0.3"/><text x="${padding.left - 8}" y="${y + 4}" text-anchor="end" font-size="10" fill="var(--user-history-text-secondary)">${v}</text>`;
+    }
+    let userPath = `M ${padding.left},${padding.top + graphHeight - (dataPoints[0].userRate / maxRate * graphHeight)}`;
+    let avgPath = `M ${padding.left},${padding.top + graphHeight - (dataPoints[0].avgRate / maxRate * graphHeight)}`;
+    for (let i = 1; i < dataPoints.length; i++) {
+      const x = padding.left + (i / (dataPoints.length - 1)) * graphWidth;
+      userPath += ` L ${x},${padding.top + graphHeight - (dataPoints[i].userRate / maxRate * graphHeight)}`;
+      avgPath += ` L ${x},${padding.top + graphHeight - (dataPoints[i].avgRate / maxRate * graphHeight)}`;
+    }
+    svg += `<path d="${userPath}" fill="none" stroke="var(--user-history-primary)" stroke-width="2.5" stroke-linecap="round"/>`;
+    svg += `<path d="${avgPath}" fill="none" stroke="#666" stroke-width="1.5" stroke-dasharray="5,5" opacity="0.8"/>`;
+    dataPoints.forEach((d, i) => {
+      const x = padding.left + (i / (dataPoints.length - 1)) * graphWidth;
+      const uy = padding.top + graphHeight - (d.userRate / maxRate * graphHeight);
+      const ay = padding.top + graphHeight - (d.avgRate / maxRate * graphHeight);
+      svg += `<circle cx="${x}" cy="${uy}" r="4" fill="var(--user-history-primary)" stroke="white" stroke-width="1"/>`;
+      svg += `<circle cx="${x}" cy="${ay}" r="3" fill="#666"/>`;
+      svg += `<text x="${x}" y="${padding.top + graphHeight + 14}" text-anchor="middle" font-size="10" fill="var(--user-history-text-secondary)">${d.period}</text>`;
+    });
+    svg += `<text x="${chartWidth - padding.right - 50}" y="${padding.top + 12}" font-size="10" fill="var(--user-history-primary)">Usuario</text><line x1="${chartWidth - padding.right - 60}" y1="${padding.top + 16}" x2="${chartWidth - padding.right - 20}" y2="${padding.top + 16}" stroke="var(--user-history-primary)" stroke-width="2"/><text x="${chartWidth - padding.right - 50}" y="${padding.top + 28}" font-size="10" fill="#666">Promedio</text><line x1="${chartWidth - padding.right - 60}" y1="${padding.top + 32}" x2="${chartWidth - padding.right - 20}" y2="${padding.top + 32}" stroke="#666" stroke-dasharray="5,5" stroke-width="1.5"/>`;
+    svg += "</svg>";
+    chartEl.innerHTML = svg;
+  }
+
+  /**
+   * Nivel 2: Each Stow y Pallet Stow por tipo (gráfico barras + tabla)
+   */
+  renderStowLevel2(periods, periodLabels) {
+    const period = this.currentPeriod;
+    const periodData = this.currentUserData[period];
+    const eachStow = periodData?.each_stow || {};
+    const palletStow = periodData?.pallet_stow || {};
+    const catOrder = ["stow_to_prime", "stow_to_prime_e", "stow_to_prime_w", "transfer_in", "transfer_in_e", "transfer_in_w", "combined", "combined_e", "combined_w"];
+    const catLabels = { stow_to_prime: "Stow to Prime", stow_to_prime_e: "Stow to Prime E", stow_to_prime_w: "Stow to Prime W", transfer_in: "Transfer In", transfer_in_e: "Transfer In E", transfer_in_w: "Transfer In W", combined: "Combined", combined_e: "Combined E", combined_w: "Combined W" };
+    const eachCats = catOrder.filter(k => eachStow[k] && (eachStow[k].rate != null || eachStow[k].total_units != null));
+    const palletCats = catOrder.filter(k => palletStow[k] && (palletStow[k].pallet_rate != null || palletStow[k].pallet_units != null));
+
+    // Each Stow: barras por categoría (rate)
+    const eachChartEl = document.getElementById("each-stow-comparison-chart");
+    if (eachChartEl) {
+      if (eachCats.length === 0) eachChartEl.innerHTML = '<div style="padding: 20px; text-align: center; color: #666">No hay datos</div>';
+      else {
+        const values = eachCats.map(k => eachStow[k].rate ?? 0);
+        const maxV = Math.max(...values, 1) * 1.1;
+        const w = Math.max(400, eachCats.length * 70);
+        const h = 220;
+        const pad = { left: 60, right: 30, top: 30, bottom: 50 };
+        let s = `<svg width="${w}" height="${h}"><line x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${h - pad.bottom}" stroke="var(--user-history-border)" stroke-width="2"/><line x1="${pad.left}" y1="${h - pad.bottom}" x2="${w - pad.right}" y2="${h - pad.bottom}" stroke="var(--user-history-border)" stroke-width="2"/>`;
+        eachCats.forEach((k, i) => {
+          const barH = ((eachStow[k].rate ?? 0) / maxV) * (h - pad.top - pad.bottom);
+          const x = pad.left + (i + 0.2) * ((w - pad.left - pad.right) / eachCats.length);
+          const bw = (w - pad.left - pad.right) / eachCats.length * 0.6;
+          s += `<rect x="${x}" y="${h - pad.bottom - barH}" width="${bw}" height="${barH}" fill="var(--user-history-primary)" opacity="0.85" rx="4"/>`;
+          s += `<text x="${x + bw/2}" y="${h - pad.bottom - barH - 5}" text-anchor="middle" font-size="10" font-weight="600">${(eachStow[k].rate ?? 0).toFixed(1)}</text>`;
+          s += `<text x="${x + bw/2}" y="${h - pad.bottom + 18}" text-anchor="middle" font-size="9" fill="var(--user-history-text-secondary)">${catLabels[k] || k}</text>`;
+        });
+        s += "</svg>";
+        eachChartEl.innerHTML = s;
+      }
+    }
+    const eachTable = document.getElementById("each-stow-comparison-table");
+    if (eachTable) {
+      eachTable.innerHTML = eachCats.length ? `<thead><tr><th>Categoría</th><th>Unidades</th><th>Horas</th><th>Rate</th><th>Rank</th></tr></thead><tbody>${eachCats.map(k => { const c = eachStow[k]; return `<tr><td>${catLabels[k] || k}</td><td>${(c.total_units ?? 0).toLocaleString()}</td><td>${(c.total_hours ?? 0).toFixed(1)}h</td><td>${(c.rate ?? 0).toFixed(2)}</td><td>#${c.rank ?? "-"}</td></tr>`; }).join("")}</tbody>` : "";
+    }
+
+    // Pallet Stow: barras + tabla
+    const palletChartEl = document.getElementById("pallet-stow-comparison-chart");
+    if (palletChartEl) {
+      if (palletCats.length === 0) palletChartEl.innerHTML = '<div style="padding: 20px; text-align: center; color: #666">No hay datos</div>';
+      else {
+        const values = palletCats.map(k => palletStow[k].pallet_rate ?? 0);
+        const maxV = Math.max(...values, 1) * 1.1;
+        const w = Math.max(400, palletCats.length * 70);
+        const h = 220;
+        const pad = { left: 60, right: 30, top: 30, bottom: 50 };
+        let s = `<svg width="${w}" height="${h}"><line x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${h - pad.bottom}" stroke="var(--user-history-border)" stroke-width="2"/><line x1="${pad.left}" y1="${h - pad.bottom}" x2="${w - pad.right}" y2="${h - pad.bottom}" stroke="var(--user-history-border)" stroke-width="2"/>`;
+        palletCats.forEach((k, i) => {
+          const barH = ((palletStow[k].pallet_rate ?? 0) / maxV) * (h - pad.top - pad.bottom);
+          const x = pad.left + (i + 0.2) * ((w - pad.left - pad.right) / palletCats.length);
+          const bw = (w - pad.left - pad.right) / palletCats.length * 0.6;
+          s += `<rect x="${x}" y="${h - pad.bottom - barH}" width="${bw}" height="${barH}" fill="#10b981" opacity="0.85" rx="4"/>`;
+          s += `<text x="${x + bw/2}" y="${h - pad.bottom - barH - 5}" text-anchor="middle" font-size="10" font-weight="600">${(palletStow[k].pallet_rate ?? 0).toFixed(1)}</text>`;
+          s += `<text x="${x + bw/2}" y="${h - pad.bottom + 18}" text-anchor="middle" font-size="9" fill="var(--user-history-text-secondary)">${catLabels[k] || k}</text>`;
+        });
+        s += "</svg>";
+        palletChartEl.innerHTML = s;
+      }
+    }
+    const palletTable = document.getElementById("pallet-stow-comparison-table");
+    if (palletTable) {
+      palletTable.innerHTML = palletCats.length ? `<thead><tr><th>Categoría</th><th>Pallets</th><th>Horas</th><th>Pallet rate</th><th>Rank</th></tr></thead><tbody>${palletCats.map(k => { const c = palletStow[k]; return `<tr><td>${catLabels[k] || k}</td><td>${(c.pallet_units ?? 0).toLocaleString()}</td><td>${(c.total_hours ?? 0).toFixed(1)}h</td><td>${(c.pallet_rate ?? 0).toFixed(2)}</td><td>#${c.rank_pallet ?? "-"}</td></tr>`; }).join("")}</tbody>` : "";
+    }
+  }
+
+  /**
+   * Nivel 3: Tabla detalle esfuerzo (distancia, cart changes, errores, etc.)
+   */
+  renderStowLevel3() {
+    const period = this.currentPeriod;
+    const ef = this.currentUserData?.[period]?.rate_por_esfuerzo;
+    const tableEl = document.getElementById("esfuerzo-detail-table");
+    if (!tableEl) return;
+    if (!ef) {
+      tableEl.innerHTML = "";
+      return;
+    }
+    const rows = [
+      ["Unidades", (ef.total_units ?? 0).toLocaleString()],
+      ["Horas", (ef.total_hours ?? 0).toFixed(1) + " h"],
+      ["UPH", (ef.uph ?? 0).toFixed(2)],
+      ["Rate por esfuerzo", (ef.rate_por_esfuerzo ?? 0).toFixed(2)],
+      ["Distancia total (m)", (ef.total_distance ?? 0).toFixed(0)],
+      ["Distancia por hora", (ef.distance_per_hour ?? 0).toFixed(0)],
+      ["Cart changes", String(ef.cart_changes ?? "-")],
+      ["Errores", String(ef.errores ?? "-")],
+      ["ASINs únicos", String(ef.asins_unicos ?? "-")],
+      ["Bins únicos", String(ef.bins_unicos ?? "-")],
+    ];
+    tableEl.innerHTML = `<thead><tr><th>Métrica</th><th>Valor (${this.currentPeriod})</th></tr></thead><tbody>${rows.map(([label, value]) => `<tr><td>${label}</td><td>${value}</td></tr>`).join("")}</tbody>`;
   }
 
   /**
@@ -1378,19 +1758,15 @@ class UserHistoryController {
     const dataPoints = [];
     const periodsWithData = [];
 
+    const dept = this.currentDepartment;
     periods.forEach(period => {
       const periodData = this.currentUserData[period];
       const metadataPeriod = this.metadataUsers?.periods?.[period];
-      
-      if (periodData?.each_stow?.combined?.rate !== undefined) {
-        const userRate = periodData.each_stow.combined.rate;
-        const avgRate = metadataPeriod?.each_stow?.combined?.avg || periodData.each_stow.combined.avg_general || 0;
-        
-        dataPoints.push({
-          period: periodLabels[period],
-          userRate: userRate,
-          avgRate: avgRate
-        });
+      const metrics = this.getDepartmentMetrics(periodData, dept);
+      if (metrics?.rate != null) {
+        const userRate = metrics.rate;
+        const avgRate = this.getMetadataAvgForDepartment(metadataPeriod, dept) || 0;
+        dataPoints.push({ period: periodLabels[period], userRate, avgRate });
         periodsWithData.push(periodLabels[period]);
       }
     });
@@ -1783,29 +2159,27 @@ class UserHistoryController {
   }
 
   /**
-   * Actualiza gráfico de evolución Stow to Prime (usuario vs promedio)
+   * Actualiza gráfico de evolución Stow to Prime (solo departamento Stow)
    */
   updateStowToPrimeEvolutionChart(periods, periodLabels) {
-    this._renderTaskRateEvolutionChart(
-      "stp-evolution-chart",
-      "stow_to_prime",
-      periods,
-      periodLabels,
-      "stp"
-    );
+    const chartEl = document.getElementById("stp-evolution-chart");
+    if (chartEl && this.currentDepartment !== "each_stow") {
+      chartEl.innerHTML = '<div style="padding: 20px; text-align: center; color: #666">Selecciona Stow para ver este gráfico</div>';
+      return;
+    }
+    this._renderTaskRateEvolutionChart("stp-evolution-chart", "stow_to_prime", periods, periodLabels, "stp");
   }
 
   /**
-   * Actualiza gráfico de evolución Transfer In / TSI (usuario vs promedio)
+   * Actualiza gráfico de evolución Transfer In / TSI (solo departamento Stow)
    */
   updateTransferInEvolutionChart(periods, periodLabels) {
-    this._renderTaskRateEvolutionChart(
-      "tsi-evolution-chart",
-      "transfer_in",
-      periods,
-      periodLabels,
-      "tsi"
-    );
+    const chartEl = document.getElementById("tsi-evolution-chart");
+    if (chartEl && this.currentDepartment !== "each_stow") {
+      chartEl.innerHTML = '<div style="padding: 20px; text-align: center; color: #666">Selecciona Stow para ver este gráfico</div>';
+      return;
+    }
+    this._renderTaskRateEvolutionChart("tsi-evolution-chart", "transfer_in", periods, periodLabels, "tsi");
   }
 
   /**
@@ -2013,20 +2387,19 @@ class UserHistoryController {
   }
 
   /**
-   * Actualiza gráfico de evolución del percentil
+   * Actualiza gráfico de evolución del percentil (según departamento actual)
    */
   updatePercentileEvolutionChart(periods, periodLabels) {
     const chartEl = document.getElementById("percentile-evolution-chart");
     if (!chartEl) return;
 
+    const dept = this.currentDepartment;
     const dataPoints = [];
     periods.forEach(period => {
       const periodData = this.currentUserData[period];
-      if (periodData?.each_stow?.combined?.percentile !== undefined) {
-        dataPoints.push({
-          period: periodLabels[period],
-          percentile: periodData.each_stow.combined.percentile
-        });
+      const metrics = this.getDepartmentMetrics(periodData, dept);
+      if (metrics?.percentile != null) {
+        dataPoints.push({ period: periodLabels[period], percentile: metrics.percentile });
       }
     });
 
@@ -2168,11 +2541,15 @@ class UserHistoryController {
   }
 
   /**
-   * Actualiza gráfico de evolución del rate por esfuerzo
+   * Actualiza gráfico de evolución del rate por esfuerzo (solo Stow)
    */
   updateEffortRateEvolutionChart(periods, periodLabels) {
     const chartEl = document.getElementById("effort-rate-evolution-chart");
     if (!chartEl) return;
+    if (this.currentDepartment !== "each_stow") {
+      chartEl.innerHTML = '<div style="padding: 20px; text-align: center; color: #666">Solo disponible para Stow</div>';
+      return;
+    }
 
     const dataPoints = [];
     periods.forEach(period => {
