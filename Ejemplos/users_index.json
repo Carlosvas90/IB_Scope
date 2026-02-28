@@ -1,7 +1,7 @@
 {
-  "last_updated": "2026-02-15 13:17:57",
-  "total_users": 336,
-  "users_with_recent_activity": 147,
+  "last_updated": "2026-02-17 13:04:53",
+  "total_users": 392,
+  "users_with_recent_activity": 267,
   "available_managers": [
     "adespe",
     "alarluis",
@@ -40,10 +40,26 @@
       "has_recent_activity": true
     },
     {
+      "login": "ahumadmj",
+      "name": "Ahumada, Jesus",
+      "shift": "T1",
+      "manager": "adespe",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "alasalob",
       "name": "Salo, Alan",
       "shift": "T1",
       "manager": "evamfa",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "albouzia",
+      "name": "Al Bouzia, Rachid",
+      "shift": "T5",
+      "manager": "adespe",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -56,10 +72,34 @@
       "has_recent_activity": true
     },
     {
+      "login": "aletolea",
+      "name": "Tolea, Alexandru",
+      "shift": "T2",
+      "manager": "cealbvaz",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "alinaoat",
+      "name": "Toma, Alina Oana",
+      "shift": "T3",
+      "manager": "paudofus",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "alvveros",
       "name": "Alvarado, Veronica Andrea",
       "shift": "T3",
       "manager": "paudofus",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "amillped",
+      "name": "Millan Siles, Pedro Antonio",
+      "shift": "T5",
+      "manager": "pnavarrq",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -88,10 +128,42 @@
       "has_recent_activity": true
     },
     {
+      "login": "andrrrub",
+      "name": "Andreu Álvaro, Rubén José",
+      "shift": "T3",
+      "manager": "paudofus",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "anorodye",
       "name": "Añó Rodenas, Yeray",
       "shift": "T3",
       "manager": "pdelolmo",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "anstagno",
+      "name": "Stagno, Andrea",
+      "shift": "T2",
+      "manager": "alarluis",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "antoshke",
+      "name": "Antoshkevych Vazhnyuk, Illya Antoshkevych",
+      "shift": "T6",
+      "manager": "rijbapti",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "arayvane",
+      "name": "Aray, Vanessa Michell",
+      "shift": "T2",
+      "manager": "pabsua",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -104,10 +176,42 @@
       "has_recent_activity": true
     },
     {
+      "login": "baezacri",
+      "name": "Baeza Placeres, Cristobal Jose",
+      "shift": "T2",
+      "manager": "cealbvaz",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "barbozne",
+      "name": "Barboza, Neo Neo",
+      "shift": "T1",
+      "manager": "evamfa",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "bejjarab",
       "name": "Bejja, Rabi",
       "shift": "T1",
       "manager": "adespe",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "belensal",
+      "name": "Salvador Pena, Belen",
+      "shift": "T3",
+      "manager": "mebaudil",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "bellmcar",
+      "name": "Bello, M Carmen",
+      "shift": "T1",
+      "manager": "evamfa",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -136,6 +240,14 @@
       "has_recent_activity": true
     },
     {
+      "login": "bmorwalt",
+      "name": "Moreno, Walter Xavier",
+      "shift": "T2",
+      "manager": "alarluis",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "borjmorc",
       "name": "Morcillo Herrando, Borja",
       "shift": "T4",
@@ -144,10 +256,34 @@
       "has_recent_activity": true
     },
     {
+      "login": "bricenbg",
+      "name": "Briceno, Gabriel",
+      "shift": "T2",
+      "manager": "alarluis",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "cabaldpa",
       "name": "Caballero, Pablo",
       "shift": "T4",
       "manager": "mmilkova",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "cabranai",
+      "name": "Cabrera Fuentes, Ana Karina",
+      "shift": "T3",
+      "manager": "franfrq",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "calderrs",
+      "name": "Caldera, Roberto Carlos",
+      "shift": "T3",
+      "manager": "franfrq",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -176,10 +312,42 @@
       "has_recent_activity": true
     },
     {
+      "login": "cgongreg",
+      "name": "Gonzalez, Gregorio Jose",
+      "shift": "T4",
+      "manager": "pnavarrq",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "chaveznb",
+      "name": "Chavez, Neuriz Sandra",
+      "shift": "T2",
+      "manager": "pabsua",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "cipohcec",
+      "name": "Cipolletta, Cecilia Maria",
+      "shift": "T2",
+      "manager": "alarluis",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "cjuacost",
       "name": "Piña, Juan Carlos",
       "shift": "T1",
       "manager": "chuecc",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "cmendezl",
+      "name": "Mendez, Carlos",
+      "shift": "T3",
+      "manager": "paudofus",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -192,10 +360,26 @@
       "has_recent_activity": true
     },
     {
+      "login": "cpemanue",
+      "name": "Pedros, Manuel",
+      "shift": "T2",
+      "manager": "alarluis",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "cperezbe",
       "name": "Perez Belles, Cristian",
       "shift": "T1",
       "manager": "chuecc",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "cpindidi",
+      "name": "Pinzon, Didier",
+      "shift": "T7",
+      "manager": "pnavarrq",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -208,10 +392,10 @@
       "has_recent_activity": true
     },
     {
-      "login": "daabnade",
-      "name": "Daabal Chmeit, Nader",
+      "login": "crizaria",
+      "name": "Arias, Cristian",
       "shift": "T2",
-      "manager": "cealbvaz",
+      "manager": "alarluis",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -232,10 +416,34 @@
       "has_recent_activity": true
     },
     {
+      "login": "deabmigu",
+      "name": "De Abreu, Miguel Alejandro",
+      "shift": "T8",
+      "manager": "alarluis",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "delgcrub",
       "name": "Delgado Huguet, Ruben",
       "shift": "T3",
       "manager": "pdelolmo",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "diazfkar",
+      "name": "Diaz Florido, Karlo Yoel",
+      "shift": "T2",
+      "manager": "alarluis",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "diegourd",
+      "name": "Urdaneta, Diego",
+      "shift": "T2",
+      "manager": "alarluis",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -272,10 +480,58 @@
       "has_recent_activity": true
     },
     {
+      "login": "emacheam",
+      "name": "Acheampong Boakye, Emmanuel",
+      "shift": "T1",
+      "manager": "adespe",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "emariali",
+      "name": "González Budí, María Lidón",
+      "shift": "T1",
+      "manager": "evamfa",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "enefreyt",
+      "name": "Torres, Enefreyin Yurbano",
+      "shift": "T1",
+      "manager": "evamfa",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "enriqdie",
+      "name": "Diez Romero, Enrique Antonio Kike",
+      "shift": "T3",
+      "manager": "paudofus",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "etorreed",
       "name": "Torres, Eduardo Jose",
       "shift": "T4",
       "manager": "pnavarrq",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "evelilia",
+      "name": "Velosa, Liliana Marcela",
+      "shift": "T2",
+      "manager": "alarluis",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "exadrian",
+      "name": "Exposito, Adrian",
+      "shift": "T3",
+      "manager": "pdelolmo",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -296,6 +552,30 @@
       "has_recent_activity": true
     },
     {
+      "login": "falainbe",
+      "name": "Benitez Morillo, Alain",
+      "shift": "T1",
+      "manager": "evamfa",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "fheangie",
+      "name": "Hernandez, Angie",
+      "shift": "T3",
+      "manager": "franfrq",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "fonterui",
+      "name": "Fonte, Jorge",
+      "shift": "T1",
+      "manager": "chuecc",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "fpinamon",
       "name": "Pina Montanes, Aaron",
       "shift": "T2",
@@ -312,10 +592,50 @@
       "has_recent_activity": true
     },
     {
+      "login": "fthaydee",
+      "name": "Fuenmayor, Thaydee Josefina",
+      "shift": "T2",
+      "manager": "pabsua",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "gabrijaf",
+      "name": "Jaimes Perez, Gabriel Abrahan",
+      "shift": "T3",
+      "manager": "mebaudil",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "gagustac",
+      "name": "Gambino, Gustavo Gambino",
+      "shift": "T2",
+      "manager": "pabsua",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "garcibeg",
       "name": "Garcia Garcia, Begoña",
       "shift": "T8",
       "manager": "pabsua",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "garomanu",
+      "name": "Garcia, Manuel",
+      "shift": "T6",
+      "manager": "mebaudil",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "gartomax",
+      "name": "Garcia, Tomas",
+      "shift": "T2",
+      "manager": "alarluis",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -328,10 +648,26 @@
       "has_recent_activity": true
     },
     {
+      "login": "geordc",
+      "name": "Fajardo Canar, Geordan Bryan",
+      "shift": "T1",
+      "manager": "evamfa",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "gergecs",
       "name": "Stefan Ciucurel, George Cosmin",
       "shift": "T6",
       "manager": "franfrq",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "ggarcika",
+      "name": "Garcia, Kathy Kathy",
+      "shift": "T2",
+      "manager": "alarluis",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -352,6 +688,22 @@
       "has_recent_activity": true
     },
     {
+      "login": "givanara",
+      "name": "Ramos, Ivana Chavez",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "goluisc",
+      "name": "González Melo, Luis Manuel",
+      "shift": "T3",
+      "manager": "franfrq",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "gomezqsa",
       "name": "Gomez Peidro, Salva",
       "shift": "T3",
@@ -360,10 +712,26 @@
       "has_recent_activity": true
     },
     {
+      "login": "gonellhy",
+      "name": "Gonell Hernández, Pau",
+      "shift": "T1",
+      "manager": "evamfa",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "gonfeliq",
       "name": "Gonzalez Hernandez, Felipe",
       "shift": "T4",
       "manager": "mgalinm",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "gpejordi",
+      "name": "Pérez Hermosa, Jordi",
+      "shift": "T1",
+      "manager": "adespe",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -384,6 +752,14 @@
       "has_recent_activity": true
     },
     {
+      "login": "guevdaya",
+      "name": "Guevara Mejia, Dayana",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "guiltgar",
       "name": "Arias, Guillermo Garcia-riego",
       "shift": "T4",
@@ -396,6 +772,14 @@
       "name": "El Abboudi, Hayat",
       "shift": "T7",
       "manager": "pabsua",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "halconro",
+      "name": "Alcón Rozalén, Javier",
+      "shift": "T1",
+      "manager": "evamfa",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -440,6 +824,14 @@
       "has_recent_activity": true
     },
     {
+      "login": "jaimyosm",
+      "name": "Jaimes, Yosman",
+      "shift": "T3",
+      "manager": "mebaudil",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "javicrom",
       "name": "Romero Vicente, Javier Isaac",
       "shift": "T2",
@@ -452,6 +844,22 @@
       "name": "Patania, Carmela",
       "shift": "T4",
       "manager": "mmilkova",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "jecatarj",
+      "name": "Catari, Jesus",
+      "shift": "T3",
+      "manager": "mebaudil",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "jesumolf",
+      "name": "Molina, Jesus",
+      "shift": "T4",
+      "manager": "pnavarrq",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -472,6 +880,14 @@
       "has_recent_activity": true
     },
     {
+      "login": "jordialv",
+      "name": "Rodriguez Alvarez, Jordi Stalyn",
+      "shift": "T3",
+      "manager": "paudofus",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "jorgervi",
       "name": "Villanueva Esquivel, Jorge Ricardo Ricardo",
       "shift": "T1",
@@ -488,10 +904,10 @@
       "has_recent_activity": true
     },
     {
-      "login": "josemiyh",
-      "name": "Hernandez Severino, Jose Miguel",
-      "shift": "T7",
-      "manager": "chuecc",
+      "login": "josefelu",
+      "name": "Felip, Jose",
+      "shift": "T2",
+      "manager": "pabsua",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -512,10 +928,10 @@
       "has_recent_activity": true
     },
     {
-      "login": "juanfgra",
-      "name": "Granell Ferrer, Juan",
-      "shift": "T1",
-      "manager": "chuecc",
+      "login": "juditrok",
+      "name": "Rodriguez Morales, Judith",
+      "shift": "T2",
+      "manager": "pabsua",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -544,10 +960,58 @@
       "has_recent_activity": true
     },
     {
+      "login": "karinrbo",
+      "name": "Bohorquez Vasquez, Karina Solimar",
+      "shift": "T3",
+      "manager": "franfrq",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "karziisr",
+      "name": "Karzi, Israe",
+      "shift": "T3",
+      "manager": "mebaudil",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "kathroai",
+      "name": "Roa, Katherin",
+      "shift": "T1",
+      "manager": "evamfa",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "kchirild",
+      "name": "Chirila, Doru Cristian",
+      "shift": "T7",
+      "manager": "pabsua",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "keroropq",
+      "name": "Oropeza Fernandez, Kerwin",
+      "shift": "T1",
+      "manager": "adespe",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "lagcrisb",
       "name": "Laya, Crisbel",
       "shift": "T3",
       "manager": "pdelolmo",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "laitabde",
+      "name": "Lait Makboul, Abdelali",
+      "shift": "T6",
+      "manager": "mebaudil",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -560,10 +1024,26 @@
       "has_recent_activity": true
     },
     {
+      "login": "lauratmo",
+      "name": "Moreno San Eusebio, Laura",
+      "shift": "T2",
+      "manager": "alarluis",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "ldaniesh",
       "name": "Hernandez, Danieska",
       "shift": "T4",
       "manager": "mmilkova",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "leznadia",
+      "name": "Ledesma, Nadia",
+      "shift": "T3",
+      "manager": "paudofus",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -580,6 +1060,14 @@
       "name": "Poleo Bernardi, Lino Fernando Fernando",
       "shift": "T4",
       "manager": "mgalinm",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "llvicent",
+      "name": "Llorens Gil, Vicente Vicente",
+      "shift": "T2",
+      "manager": "pabsua",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -624,6 +1112,14 @@
       "has_recent_activity": true
     },
     {
+      "login": "lukeila",
+      "name": "Lugo, Keila",
+      "shift": "T3",
+      "manager": "paudofus",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "lvargasd",
       "name": "Vargas De Oliveira, Larissa Gabrielle",
       "shift": "T1",
@@ -632,10 +1128,26 @@
       "has_recent_activity": true
     },
     {
+      "login": "lvguzman",
+      "name": "Guzman, Lorena",
+      "shift": "T4",
+      "manager": "pnavarrq",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "macnunez",
       "name": "Vazquez Nunez, Macken Macnunez",
       "shift": "T4",
       "manager": "rijbapti",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "maitdesi",
+      "name": "Maita Rojas, Desiree Carolina",
+      "shift": "T3",
+      "manager": "franfrq",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -672,10 +1184,34 @@
       "has_recent_activity": true
     },
     {
+      "login": "mariacsg",
+      "name": "Garcia Gonzalez, Maria Concepcion",
+      "shift": "T1",
+      "manager": "evamfa",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "mariagw",
       "name": "Gonzalez Ospina, Maria Paula",
       "shift": "T4",
       "manager": "pnavarrq",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "marinosy",
+      "name": "Marino Alonso, Sarai",
+      "shift": "T2",
+      "manager": "cealbvaz",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "marwuill",
+      "name": "Marcano, Wuillians",
+      "shift": "T2",
+      "manager": "pabsua",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -688,6 +1224,22 @@
       "has_recent_activity": true
     },
     {
+      "login": "mateorag",
+      "name": "Ramirez Sanchez, Mateo",
+      "shift": "T4",
+      "manager": "mmilkova",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "mavelose",
+      "name": "Velosa, Marcela",
+      "shift": "T1",
+      "manager": "evamfa",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "mcastant",
       "name": "Castaño Velasquez, Maria Eugenia",
       "shift": "T2",
@@ -696,10 +1248,26 @@
       "has_recent_activity": true
     },
     {
-      "login": "meibilin",
-      "name": "Alvarez, Mey",
+      "login": "megeaser",
+      "name": "Egea Serrano, Miguel",
       "shift": "T1",
-      "manager": "adespe",
+      "manager": "chuecc",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "mendeztb",
+      "name": "Mendez Tolentino, Ana Lorena",
+      "shift": "T3",
+      "manager": "mebaudil",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "mendnfab",
+      "name": "Méndez Brito, Fabiana Isabela",
+      "shift": "T2",
+      "manager": "alarluis",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -724,6 +1292,14 @@
       "name": "Caballero, Miguel",
       "shift": "T4",
       "manager": "mmilkova",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "mijyonat",
+      "name": "Mijares Camacho, Yonathan Jesús",
+      "shift": "T2",
+      "manager": "alarluis",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -755,6 +1331,14 @@
       "login": "morilglo",
       "name": "Morillo Moros, Gloria",
       "shift": "T7",
+      "manager": "pnavarrq",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "morncarm",
+      "name": "Moreno Valdez, Carmen Carolina",
+      "shift": "T5",
       "manager": "pnavarrq",
       "employee_status": "A",
       "has_recent_activity": true
@@ -800,6 +1384,14 @@
       "has_recent_activity": true
     },
     {
+      "login": "nalfonsl",
+      "name": "López De Silva García, Alfonso",
+      "shift": "T3",
+      "manager": "paudofus",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "namohamj",
       "name": "Mohamed Belkhir, Nadia",
       "shift": "T3",
@@ -812,6 +1404,14 @@
       "name": "Navarro Bolinaga, Aitor",
       "shift": "T2",
       "manager": "pabsua",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "navaranx",
+      "name": "Navarro Montero, Angel",
+      "shift": "T1",
+      "manager": "evamfa",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -832,6 +1432,14 @@
       "has_recent_activity": true
     },
     {
+      "login": "navilusi",
+      "name": "Naveda, Ilusion",
+      "shift": "T3",
+      "manager": "paudofus",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "ndiacast",
       "name": "Castellet Benitez, Diana",
       "shift": "T2",
@@ -840,10 +1448,66 @@
       "has_recent_activity": true
     },
     {
+      "login": "neusalfo",
+      "name": "Alfonso Burgos, Neus",
+      "shift": "T1",
+      "manager": "evamfa",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "nirbexca",
+      "name": "Calle Navas, Nirbexy Yaceny",
+      "shift": "T4",
+      "manager": "mgalinm",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "nmartpab",
       "name": "Martínez Tornador, Pablo",
       "shift": "T2",
       "manager": "cealbvaz",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "noelisue",
+      "name": "Soto Sueiro, Noelia",
+      "shift": "T2",
+      "manager": "alarluis",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "nohev",
+      "name": "Bohorquez Vasquez, Nohemi Del Rosario",
+      "shift": "T2",
+      "manager": "alarluis",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "nuralber",
+      "name": "Albert Sancho, Nuria",
+      "shift": "T2",
+      "manager": "pabsua",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "oalayoge",
+      "name": "Alayon, Gera Geraldine",
+      "shift": "T2",
+      "manager": "alarluis",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "oanaemar",
+      "name": "Marin, Oana Elena",
+      "shift": "T2",
+      "manager": "pabsua",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -880,6 +1544,22 @@
       "has_recent_activity": true
     },
     {
+      "login": "opemaria",
+      "name": "Perez Diaz, Mary Alejandra",
+      "shift": "T3",
+      "manager": "mebaudil",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "orioalva",
+      "name": "Alvarez Albert, Oriol",
+      "shift": "T4",
+      "manager": "rijbapti",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "osoriomr",
       "name": "Osorio Bailon, Marco",
       "shift": "T1",
@@ -912,6 +1592,14 @@
       "has_recent_activity": true
     },
     {
+      "login": "penaarel",
+      "name": "Penadillo Ramos, Areli Rosario Rosario",
+      "shift": "T3",
+      "manager": "mebaudil",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "penacans",
       "name": "Pena Canseco, Eugenio",
       "shift": "T1",
@@ -932,6 +1620,14 @@
       "name": "Perez Benitez, Sofia",
       "shift": "T3",
       "manager": "pdelolmo",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "petretma",
+      "name": "Petre, Manuel",
+      "shift": "T5",
+      "manager": "adespe",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -968,10 +1664,50 @@
       "has_recent_activity": true
     },
     {
+      "login": "pmmezo",
+      "name": "López Mezo, Pablo",
+      "shift": "T2",
+      "manager": "alarluis",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "possn",
+      "name": "Nardone Posse, Noelia",
+      "shift": "T6",
+      "manager": "pnavarrq",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "prezjkb",
       "name": "Molina, Leo",
       "shift": "T2",
       "manager": "cealbvaz",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "psalvajo",
+      "name": "Salvador Arago, Jose Manuel",
+      "shift": "T4",
+      "manager": "pnavarrq",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "pyurbely",
+      "name": "Pena, Yurbely",
+      "shift": "T4",
+      "manager": "mgalinm",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "qachachl",
+      "name": "Qachach Lote, Salim Salim",
+      "shift": "T3",
+      "manager": "mebaudil",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -1008,10 +1744,74 @@
       "has_recent_activity": true
     },
     {
+      "login": "ramwcarl",
+      "name": "Ramos Garcia, Carlos",
+      "shift": "T2",
+      "manager": "pabsua",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "rclarapr",
       "name": "Prades Soler, Clara",
       "shift": "T2",
       "manager": "alarluis",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "rdeivpal",
+      "name": "Palencia, Deivi",
+      "shift": "T4",
+      "manager": "pnavarrq",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "rigabrip",
+      "name": "Rivera, Gabriela",
+      "shift": "T1",
+      "manager": "evamfa",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "rjmorata",
+      "name": "Morata Anreus, Jose Manuel",
+      "shift": "T2",
+      "manager": "alarluis",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "rkatherg",
+      "name": "Rincon, Katherine",
+      "shift": "T3",
+      "manager": "mebaudil",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "rmelinai",
+      "name": "Rolón, Melina Inés",
+      "shift": "T1",
+      "manager": "adespe",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "romanior",
+      "name": "Romani Ordoñez, Luis Alberto",
+      "shift": "T7",
+      "manager": "pabsua",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "roperosm",
+      "name": "Ropero Quintero, Osmel Alberto",
+      "shift": "T1",
+      "manager": "evamfa",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -1032,10 +1832,50 @@
       "has_recent_activity": true
     },
     {
+      "login": "rpajohan",
+      "name": "Parra, Johana Lisbeth",
+      "shift": "T5",
+      "manager": "pabsua",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "rquesadp",
+      "name": "Quesada Cerezo, Rafael",
+      "shift": "T7",
+      "manager": "alarluis",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "rubemira",
+      "name": "Garcia Miranda, Ruben",
+      "shift": "T3",
+      "manager": "franfrq",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "rufloris",
+      "name": "Rusei, Ina",
+      "shift": "T1",
+      "manager": "adespe",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "salinyei",
       "name": "Salinas, Yeison",
       "shift": "T1",
       "manager": "evamfa",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "salvsonn",
+      "name": "Salazar, Sonny",
+      "shift": "T2",
+      "manager": "pabsua",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -1052,6 +1892,14 @@
       "name": "Segura, Selena",
       "shift": "T3",
       "manager": "mebaudil",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "selbrodr",
+      "name": "Rodriguez Tejera, Selene",
+      "shift": "T2",
+      "manager": "alarluis",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -1080,6 +1928,22 @@
       "has_recent_activity": true
     },
     {
+      "login": "ssocarra",
+      "name": "Socarras, Yalixzi",
+      "shift": "T4",
+      "manager": "rijbapti",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "taverruo",
+      "name": "Tavera Alcaide, Rut María",
+      "shift": "T2",
+      "manager": "alarluis",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "tdmilano",
       "name": "Milano Pimentel, Daniel Andres",
       "shift": "T3",
@@ -1096,6 +1960,22 @@
       "has_recent_activity": true
     },
     {
+      "login": "tgramsgo",
+      "name": "Gomez, Gramscys",
+      "shift": "T1",
+      "manager": "evamfa",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "tlesmori",
+      "name": "Morin, Lesley Suzanne",
+      "shift": "T1",
+      "manager": "evamfa",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "toroscai",
       "name": "Torres Chavez, Oscar Jose",
       "shift": "T3",
@@ -1108,6 +1988,30 @@
       "name": "Sanchez Toledo, Antonio",
       "shift": "T3",
       "manager": "pdelolmo",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "usobarjo",
+      "name": "Uso, Jordi",
+      "shift": "T4",
+      "manager": "rijbapti",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "vedventu",
+      "name": "Ventura Gómez, Eduard",
+      "shift": "T1",
+      "manager": "adespe",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "veldenny",
+      "name": "Velazco Jimenez, Dennys Gervacio",
+      "shift": "T5",
+      "manager": "pabsua",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -1136,6 +2040,14 @@
       "has_recent_activity": true
     },
     {
+      "login": "vnunezbe",
+      "name": "Nunez Bellido, Raul",
+      "shift": "T1",
+      "manager": "chuecc",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "vzcrlo",
       "name": "Fernandez Vazquez, Carlos Javier",
       "shift": "T4",
@@ -1144,10 +2056,34 @@
       "has_recent_activity": true
     },
     {
+      "login": "walrango",
+      "name": "Rangosch Rengifo, Walter Jose",
+      "shift": "T4",
+      "manager": "rijbapti",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "winnsilv",
+      "name": "Silva, Winnie",
+      "shift": "T3",
+      "manager": "paudofus",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "wjalvara",
       "name": "Alvarado Rodríguez, Johana Lizeth",
       "shift": "T3",
       "manager": "paudofus",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "xmaldobr",
+      "name": "Maldonado, Brenda",
+      "shift": "T1",
+      "manager": "evamfa",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -1176,10 +2112,26 @@
       "has_recent_activity": true
     },
     {
+      "login": "yeduarpe",
+      "name": "Perez, Eduardo",
+      "shift": "T4",
+      "manager": "rijbapti",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "younkarg",
       "name": "Karzi, Younes",
       "shift": "T3",
       "manager": "mebaudil",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
+      "login": "yperezpl",
+      "name": "Pérez Pérez, Luis Eduardo",
+      "shift": "T1",
+      "manager": "adespe",
       "employee_status": "A",
       "has_recent_activity": true
     },
@@ -1200,6 +2152,14 @@
       "has_recent_activity": true
     },
     {
+      "login": "zidsalah",
+      "name": "Zidi, Salaheddine",
+      "shift": "T4",
+      "manager": "pnavarrq",
+      "employee_status": "A",
+      "has_recent_activity": true
+    },
+    {
       "login": "zreynarm",
       "name": "Reyna, Miguel Eduardo",
       "shift": "T1",
@@ -1216,34 +2176,10 @@
       "has_recent_activity": false
     },
     {
-      "login": "albouzia",
-      "name": "Al Bouzia, Rachid",
-      "shift": "T5",
-      "manager": "adespe",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
-      "login": "aletolea",
-      "name": "Tolea, Alexandru",
-      "shift": "T2",
-      "manager": "cealbvaz",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
       "login": "algagote",
       "name": "Gago Tellez, Alba",
       "shift": "T8",
       "manager": "chuecc",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
-      "login": "alinaoat",
-      "name": "Toma, Alina Oana",
-      "shift": "T3",
-      "manager": "paudofus",
       "employee_status": "A",
       "has_recent_activity": false
     },
@@ -1280,26 +2216,10 @@
       "has_recent_activity": false
     },
     {
-      "login": "amillped",
-      "name": "Millan Siles, Pedro Antonio",
-      "shift": "T5",
-      "manager": "pnavarrq",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
       "login": "anbaronj",
       "name": "Baron Ayala, Andres",
       "shift": "T4",
       "manager": "rijbapti",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
-      "login": "andrrrub",
-      "name": "Andreu Álvaro, Rubén José",
-      "shift": "T3",
-      "manager": "paudofus",
       "employee_status": "A",
       "has_recent_activity": false
     },
@@ -1320,27 +2240,11 @@
       "has_recent_activity": false
     },
     {
-      "login": "antoshke",
-      "name": "Antoshkevych Vazhnyuk, Illya Antoshkevych",
-      "shift": "T6",
-      "manager": "rijbapti",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
       "login": "aocenten",
       "name": "",
       "shift": "",
       "manager": "",
       "employee_status": "",
-      "has_recent_activity": false
-    },
-    {
-      "login": "arayvane",
-      "name": "Aray, Vanessa Michell",
-      "shift": "T2",
-      "manager": "pabsua",
-      "employee_status": "A",
       "has_recent_activity": false
     },
     {
@@ -1360,6 +2264,14 @@
       "has_recent_activity": false
     },
     {
+      "login": "asorinbe",
+      "name": "Andrei, Sorin Beniamin",
+      "shift": "T7",
+      "manager": "evamfa",
+      "employee_status": "A",
+      "has_recent_activity": false
+    },
+    {
       "login": "asuajfrb",
       "name": "Asuaje, Frank",
       "shift": "T4",
@@ -1373,22 +2285,6 @@
       "shift": "T4",
       "manager": "pnavarrq",
       "employee_status": "T",
-      "has_recent_activity": false
-    },
-    {
-      "login": "baezacri",
-      "name": "Baeza Placeres, Cristobal Jose",
-      "shift": "T2",
-      "manager": "cealbvaz",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
-      "login": "barbozne",
-      "name": "Barboza, Neo Neo",
-      "shift": "T1",
-      "manager": "evamfa",
-      "employee_status": "A",
       "has_recent_activity": false
     },
     {
@@ -1416,14 +2312,6 @@
       "has_recent_activity": false
     },
     {
-      "login": "bellmcar",
-      "name": "Bello, M Carmen",
-      "shift": "T1",
-      "manager": "evamfa",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
       "login": "bicricar",
       "name": "Bicet- Borboña, Ricardo",
       "shift": "T1",
@@ -1437,14 +2325,6 @@
       "shift": "",
       "manager": "",
       "employee_status": "",
-      "has_recent_activity": false
-    },
-    {
-      "login": "bmorwalt",
-      "name": "Moreno, Walter Xavier",
-      "shift": "T2",
-      "manager": "alarluis",
-      "employee_status": "A",
       "has_recent_activity": false
     },
     {
@@ -1488,14 +2368,6 @@
       "has_recent_activity": false
     },
     {
-      "login": "cgongreg",
-      "name": "Gonzalez, Gregorio Jose",
-      "shift": "T4",
-      "manager": "pnavarrq",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
       "login": "choumery",
       "name": "Choudna Ouadi, Meryame",
       "shift": "T4",
@@ -1512,22 +2384,6 @@
       "has_recent_activity": false
     },
     {
-      "login": "cipohcec",
-      "name": "Cipolletta, Cecilia Maria",
-      "shift": "T2",
-      "manager": "alarluis",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
-      "login": "cpemanue",
-      "name": "Pedros, Manuel",
-      "shift": "T2",
-      "manager": "alarluis",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
       "login": "cricelam",
       "name": "Amaya, Cricelis",
       "shift": "T4",
@@ -1536,10 +2392,10 @@
       "has_recent_activity": false
     },
     {
-      "login": "crizaria",
-      "name": "Arias, Cristian",
+      "login": "daabnade",
+      "name": "Daabal Chmeit, Nader",
       "shift": "T2",
-      "manager": "alarluis",
+      "manager": "cealbvaz",
       "employee_status": "A",
       "has_recent_activity": false
     },
@@ -1560,38 +2416,6 @@
       "has_recent_activity": false
     },
     {
-      "login": "diazfkar",
-      "name": "Diaz Florido, Karlo Yoel",
-      "shift": "T2",
-      "manager": "alarluis",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
-      "login": "emacheam",
-      "name": "Acheampong Boakye, Emmanuel",
-      "shift": "T1",
-      "manager": "adespe",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
-      "login": "emariali",
-      "name": "González Budí, María Lidón",
-      "shift": "T1",
-      "manager": "evamfa",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
-      "login": "enefreyt",
-      "name": "Torres, Enefreyin Yurbano",
-      "shift": "T1",
-      "manager": "evamfa",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
       "login": "essyouna",
       "name": "Essyouti Bakali, Nabil",
       "shift": "T4",
@@ -1604,30 +2428,6 @@
       "name": "Clavijo, Estefania",
       "shift": "T4",
       "manager": "mgalinm",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
-      "login": "evelilia",
-      "name": "Velosa, Liliana Marcela",
-      "shift": "T2",
-      "manager": "alarluis",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
-      "login": "exadrian",
-      "name": "Exposito, Adrian",
-      "shift": "T3",
-      "manager": "pdelolmo",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
-      "login": "falainbe",
-      "name": "Benitez Morillo, Alain",
-      "shift": "T1",
-      "manager": "evamfa",
       "employee_status": "A",
       "has_recent_activity": false
     },
@@ -1648,35 +2448,11 @@
       "has_recent_activity": false
     },
     {
-      "login": "fonterui",
-      "name": "Fonte, Jorge",
-      "shift": "T1",
-      "manager": "chuecc",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
-      "login": "fthaydee",
-      "name": "Fuenmayor, Thaydee Josefina",
-      "shift": "T2",
-      "manager": "pabsua",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
       "login": "gabimori",
       "name": "Moragas, Gabi",
       "shift": "T3",
       "manager": "chuecc",
       "employee_status": "T",
-      "has_recent_activity": false
-    },
-    {
-      "login": "gabrijaf",
-      "name": "Jaimes Perez, Gabriel Abrahan",
-      "shift": "T3",
-      "manager": "mebaudil",
-      "employee_status": "A",
       "has_recent_activity": false
     },
     {
@@ -1696,43 +2472,11 @@
       "has_recent_activity": false
     },
     {
-      "login": "garomanu",
-      "name": "Garcia, Manuel",
-      "shift": "T6",
-      "manager": "mebaudil",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
-      "login": "geordc",
-      "name": "Fajardo Canar, Geordan Bryan",
-      "shift": "T1",
-      "manager": "evamfa",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
-      "login": "ggarcika",
-      "name": "Garcia, Kathy Kathy",
-      "shift": "T2",
-      "manager": "alarluis",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
       "login": "ginerpak",
       "name": "Giner Pascual, Zaira",
       "shift": "T2",
       "manager": "pdelolmo",
       "employee_status": "T",
-      "has_recent_activity": false
-    },
-    {
-      "login": "givanara",
-      "name": "Ramos, Ivana Chavez",
-      "shift": "T4",
-      "manager": "mmilkova",
-      "employee_status": "A",
       "has_recent_activity": false
     },
     {
@@ -1744,27 +2488,11 @@
       "has_recent_activity": false
     },
     {
-      "login": "gpejordi",
-      "name": "Pérez Hermosa, Jordi",
-      "shift": "T1",
-      "manager": "adespe",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
       "login": "gsorelys",
       "name": "Gonzalez, Sorelys Del Carmen",
       "shift": "T2",
       "manager": "pdelolmo",
       "employee_status": "T",
-      "has_recent_activity": false
-    },
-    {
-      "login": "guevdaya",
-      "name": "Guevara Mejia, Dayana",
-      "shift": "T4",
-      "manager": "mmilkova",
-      "employee_status": "A",
       "has_recent_activity": false
     },
     {
@@ -1840,14 +2568,6 @@
       "has_recent_activity": false
     },
     {
-      "login": "jaimyosm",
-      "name": "Jaimes, Yosman",
-      "shift": "T3",
-      "manager": "mebaudil",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
       "login": "januzmar",
       "name": "Marquez Vasquez, Januzelki Javier",
       "shift": "T2",
@@ -1876,14 +2596,6 @@
       "name": "Reyes, Jesús",
       "shift": "T1",
       "manager": "evamfa",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
-      "login": "jesumolf",
-      "name": "Molina, Jesus",
-      "shift": "T4",
-      "manager": "pnavarrq",
       "employee_status": "A",
       "has_recent_activity": false
     },
@@ -1928,10 +2640,10 @@
       "has_recent_activity": false
     },
     {
-      "login": "josefelu",
-      "name": "Felip, Jose",
-      "shift": "T2",
-      "manager": "pabsua",
+      "login": "josemiyh",
+      "name": "Hernandez Severino, Jose Miguel",
+      "shift": "T7",
+      "manager": "chuecc",
       "employee_status": "A",
       "has_recent_activity": false
     },
@@ -1940,6 +2652,14 @@
       "name": "Vicente Hernandez, Juan Felipe",
       "shift": "T2",
       "manager": "adespe",
+      "employee_status": "A",
+      "has_recent_activity": false
+    },
+    {
+      "login": "juanfgra",
+      "name": "Granell Ferrer, Juan",
+      "shift": "T1",
+      "manager": "chuecc",
       "employee_status": "A",
       "has_recent_activity": false
     },
@@ -1960,10 +2680,10 @@
       "has_recent_activity": false
     },
     {
-      "login": "kathroai",
-      "name": "Roa, Katherin",
-      "shift": "T1",
-      "manager": "evamfa",
+      "login": "kenelmsa",
+      "name": "Sanchez, Kenelma",
+      "shift": "T4",
+      "manager": "mgalinm",
       "employee_status": "A",
       "has_recent_activity": false
     },
@@ -1976,22 +2696,6 @@
       "has_recent_activity": false
     },
     {
-      "login": "laitabde",
-      "name": "Lait Makboul, Abdelali",
-      "shift": "T6",
-      "manager": "mebaudil",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
-      "login": "lauratmo",
-      "name": "Moreno San Eusebio, Laura",
-      "shift": "T2",
-      "manager": "alarluis",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
       "login": "laurpato",
       "name": "Patiño Zuluaga, Laura",
       "shift": "T1",
@@ -2000,27 +2704,11 @@
       "has_recent_activity": false
     },
     {
-      "login": "leznadia",
-      "name": "Ledesma, Nadia",
-      "shift": "T3",
-      "manager": "paudofus",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
       "login": "lgledezm",
       "name": "Ledezma, Leonard Jhonabrian",
       "shift": "T1",
       "manager": "cealbvaz",
       "employee_status": "T",
-      "has_recent_activity": false
-    },
-    {
-      "login": "llvicent",
-      "name": "Llorens Gil, Vicente Vicente",
-      "shift": "T2",
-      "manager": "pabsua",
-      "employee_status": "A",
       "has_recent_activity": false
     },
     {
@@ -2064,30 +2752,6 @@
       "has_recent_activity": false
     },
     {
-      "login": "maitdesi",
-      "name": "Maita Rojas, Desiree Carolina",
-      "shift": "T3",
-      "manager": "franfrq",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
-      "login": "mariacsg",
-      "name": "Garcia Gonzalez, Maria Concepcion",
-      "shift": "T1",
-      "manager": "evamfa",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
-      "login": "marinosy",
-      "name": "Marino Alonso, Sarai",
-      "shift": "T2",
-      "manager": "cealbvaz",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
       "login": "marstagn",
       "name": "",
       "shift": "",
@@ -2096,18 +2760,10 @@
       "has_recent_activity": false
     },
     {
-      "login": "mateorag",
-      "name": "Ramirez Sanchez, Mateo",
-      "shift": "T4",
-      "manager": "mmilkova",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
-      "login": "megeaser",
-      "name": "Egea Serrano, Miguel",
+      "login": "meibilin",
+      "name": "Alvarez, Mey",
       "shift": "T1",
-      "manager": "chuecc",
+      "manager": "adespe",
       "employee_status": "A",
       "has_recent_activity": false
     },
@@ -2125,14 +2781,6 @@
       "shift": "T1",
       "manager": "cealbvaz",
       "employee_status": "T",
-      "has_recent_activity": false
-    },
-    {
-      "login": "mendnfab",
-      "name": "Méndez Brito, Fabiana Isabela",
-      "shift": "T2",
-      "manager": "alarluis",
-      "employee_status": "A",
       "has_recent_activity": false
     },
     {
@@ -2184,35 +2832,11 @@
       "has_recent_activity": false
     },
     {
-      "login": "navaranx",
-      "name": "Navarro Montero, Angel",
-      "shift": "T1",
-      "manager": "evamfa",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
-      "login": "navilusi",
-      "name": "Naveda, Ilusion",
-      "shift": "T3",
-      "manager": "paudofus",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
       "login": "neanab",
       "name": "Negrette Rodríguez, Ana Sarahy",
       "shift": "T2",
       "manager": "pabsua",
       "employee_status": "L",
-      "has_recent_activity": false
-    },
-    {
-      "login": "neusalfo",
-      "name": "Alfonso Burgos, Neus",
-      "shift": "T1",
-      "manager": "evamfa",
-      "employee_status": "A",
       "has_recent_activity": false
     },
     {
@@ -2224,14 +2848,6 @@
       "has_recent_activity": false
     },
     {
-      "login": "noelisue",
-      "name": "Soto Sueiro, Noelia",
-      "shift": "T2",
-      "manager": "alarluis",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
       "login": "nquintem",
       "name": "Quintero, Natalia",
       "shift": "T4",
@@ -2240,35 +2856,11 @@
       "has_recent_activity": false
     },
     {
-      "login": "nuralber",
-      "name": "Albert Sancho, Nuria",
-      "shift": "T2",
-      "manager": "pabsua",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
-      "login": "oanaemar",
-      "name": "Marin, Oana Elena",
-      "shift": "T2",
-      "manager": "pabsua",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
       "login": "oriamich",
       "name": "Orias Pontiles, Michelle Alejandra",
       "shift": "T3",
       "manager": "paudofus",
       "employee_status": "T",
-      "has_recent_activity": false
-    },
-    {
-      "login": "orioalva",
-      "name": "Alvarez Albert, Oriol",
-      "shift": "T4",
-      "manager": "rijbapti",
-      "employee_status": "A",
       "has_recent_activity": false
     },
     {
@@ -2292,38 +2884,6 @@
       "name": "Pinto, Dari",
       "shift": "T1",
       "manager": "adespe",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
-      "login": "pmmezo",
-      "name": "López Mezo, Pablo",
-      "shift": "T2",
-      "manager": "alarluis",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
-      "login": "psalvajo",
-      "name": "Salvador Arago, Jose Manuel",
-      "shift": "T4",
-      "manager": "pnavarrq",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
-      "login": "pyurbely",
-      "name": "Pena, Yurbely",
-      "shift": "T4",
-      "manager": "mgalinm",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
-      "login": "qachachl",
-      "name": "Qachach Lote, Salim Salim",
-      "shift": "T3",
-      "manager": "mebaudil",
       "employee_status": "A",
       "has_recent_activity": false
     },
@@ -2384,30 +2944,6 @@
       "has_recent_activity": false
     },
     {
-      "login": "roperosm",
-      "name": "Ropero Quintero, Osmel Alberto",
-      "shift": "T1",
-      "manager": "evamfa",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
-      "login": "rquesadp",
-      "name": "Quesada Cerezo, Rafael",
-      "shift": "T7",
-      "manager": "alarluis",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
-      "login": "rubemira",
-      "name": "Garcia Miranda, Ruben",
-      "shift": "T3",
-      "manager": "franfrq",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
       "login": "rubfeito",
       "name": "Feito Martín, Rubèn",
       "shift": "T1",
@@ -2421,14 +2957,6 @@
       "shift": "T3",
       "manager": "chuecc",
       "employee_status": "T",
-      "has_recent_activity": false
-    },
-    {
-      "login": "rufloris",
-      "name": "Rusei, Ina",
-      "shift": "T1",
-      "manager": "adespe",
-      "employee_status": "A",
       "has_recent_activity": false
     },
     {
@@ -2448,27 +2976,11 @@
       "has_recent_activity": false
     },
     {
-      "login": "selbrodr",
-      "name": "Rodriguez Tejera, Selene",
-      "shift": "T2",
-      "manager": "alarluis",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
       "login": "sogllopb",
       "name": "Llop Baeza, Sonia",
       "shift": "T1",
       "manager": "cealbvaz",
       "employee_status": "T",
-      "has_recent_activity": false
-    },
-    {
-      "login": "ssocarra",
-      "name": "Socarras, Yalixzi",
-      "shift": "T4",
-      "manager": "rijbapti",
-      "employee_status": "A",
       "has_recent_activity": false
     },
     {
@@ -2484,22 +2996,6 @@
       "name": "Granell Vilar, Aida",
       "shift": "T2",
       "manager": "cealbvaz",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
-      "login": "tgramsgo",
-      "name": "Gomez, Gramscys",
-      "shift": "T1",
-      "manager": "evamfa",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
-      "login": "tlesmori",
-      "name": "Morin, Lesley Suzanne",
-      "shift": "T1",
-      "manager": "evamfa",
       "employee_status": "A",
       "has_recent_activity": false
     },
@@ -2576,14 +3072,6 @@
       "has_recent_activity": false
     },
     {
-      "login": "vedventu",
-      "name": "Ventura Gómez, Eduard",
-      "shift": "T1",
-      "manager": "adespe",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
       "login": "velosaca",
       "name": "Velosa, Camila",
       "shift": "T4",
@@ -2600,27 +3088,11 @@
       "has_recent_activity": false
     },
     {
-      "login": "vnunezbe",
-      "name": "Nunez Bellido, Raul",
-      "shift": "T1",
-      "manager": "chuecc",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
       "login": "whilmara",
       "name": "Asuaje, Hilmar",
       "shift": "T4",
       "manager": "mmilkova",
       "employee_status": "T",
-      "has_recent_activity": false
-    },
-    {
-      "login": "winnsilv",
-      "name": "Silva, Winnie",
-      "shift": "T3",
-      "manager": "paudofus",
-      "employee_status": "A",
       "has_recent_activity": false
     },
     {
@@ -2648,14 +3120,6 @@
       "has_recent_activity": false
     },
     {
-      "login": "xmaldobr",
-      "name": "Maldonado, Brenda",
-      "shift": "T1",
-      "manager": "evamfa",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
       "login": "yhonsmay",
       "name": "Ayala Colmenares, Yhonsmely Paola",
       "shift": "T4",
@@ -2680,27 +3144,11 @@
       "has_recent_activity": false
     },
     {
-      "login": "yperezpl",
-      "name": "Pérez Pérez, Luis Eduardo",
-      "shift": "T1",
-      "manager": "adespe",
-      "employee_status": "A",
-      "has_recent_activity": false
-    },
-    {
       "login": "yvdavil",
       "name": "Davila, Yvonly Josseline",
       "shift": "T2",
       "manager": "pdelolmo",
       "employee_status": "T",
-      "has_recent_activity": false
-    },
-    {
-      "login": "zidsalah",
-      "name": "Zidi, Salaheddine",
-      "shift": "T4",
-      "manager": "pnavarrq",
-      "employee_status": "A",
       "has_recent_activity": false
     },
     {

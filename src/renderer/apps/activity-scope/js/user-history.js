@@ -51,7 +51,9 @@ class UserHistoryController {
     // Período seleccionado para KPIs de cada bloque Stow (combined, pallet, esfuerzo)
     this.stowKpiPeriod = { combined: "last_month", pallet: "last_month", esfuerzo: "last_month" };
     this.stowChartMetric = { combined: "rate", pallet: "rate", each_stow: "rate", pallet_stow: "rate" };
-    
+
+    this.rankingPeriod = "last_month";
+
     // Filtros
     this.selectedShift = "";
     this.selectedManager = "";
@@ -859,8 +861,7 @@ class UserHistoryController {
     // Cargar datos del usuario
     await this.loadUserData(login);
     
-    // Actualizar métricas por período después de cargar los datos
-    this.updatePeriodMetrics();
+    this.updateRankingPanel();
     
     // Actualizar el select también
     const userSelect = document.getElementById("history-user-select");
@@ -932,18 +933,143 @@ class UserHistoryController {
   }
 
   /**
-   * Limpia todas las métricas por período
+   * Obtiene logins y ranking para un período y departamento desde metadata
+   * ranking[i] = índice en logins del (i+1)-ésimo en el ranking (1º = ranking[0])
    */
-  clearPeriodMetrics() {
-    const periods = ["week", "month", "3months", "6months"];
-    const metrics = ["units", "hours", "rank", "rate"];
+  getRankingData(period, departmentKey) {
+    if (!this.metadataUsers?.periods?.[period]) return null;
+    const meta = this.metadataUsers.periods[period];
+    const logins = meta.logins;
+    if (!logins || !Array.isArray(logins)) return null;
+    let ranking = null;
+    if (departmentKey === "each_stow" && meta.each_stow?.combined?.ranking) {
+      ranking = meta.each_stow.combined.ranking;
+    } else if (meta[departmentKey] && typeof meta[departmentKey] === "object") {
+      const dept = meta[departmentKey];
+      const cat = Object.keys(dept).find(k => Array.isArray(dept[k]?.ranking) && dept[k].ranking.length > 0);
+      if (cat) ranking = dept[cat].ranking;
+    }
+    if (!ranking || !Array.isArray(ranking) || ranking.length === 0) return null;
+    return { logins, ranking };
+  }
 
-    periods.forEach(period => {
-      metrics.forEach(metric => {
-        const el = document.getElementById(`metric-${metric}-${period}`);
-        if (el) el.textContent = "-";
-      });
+  /**
+   * Actualiza el panel de ranking: 4 bloques (Semana, Mes, 3 Meses, 6 Meses),
+   * cada uno con Top 3 + posición del usuario y botón "Ver ranking completo".
+   */
+  updateRankingPanel() {
+    const container = document.getElementById("ranking-by-period-container");
+    const titleEl = document.getElementById("ranking-panel-title");
+    if (!container || !titleEl) return;
+
+    const periodLabels = { last_week: "Semana", last_month: "Mes", last_3_months: "3 Meses", last_6_months: "6 Meses" };
+    const periodKeys = ["last_week", "last_month", "last_3_months", "last_6_months"];
+
+    if (!this.currentUserData || !this.currentLogin) {
+      container.innerHTML = "<div class=\"ranking-empty-message\">Selecciona un usuario para ver el ranking</div>";
+      return;
+    }
+
+    const dept = this.currentDepartment;
+    const deptLabel = this.DEPARTMENTS.find(d => d.key === dept)?.label || dept;
+    titleEl.textContent = `Ranking (${deptLabel})`;
+
+    const TOP_COMPACT = 3;
+    let html = "";
+    for (const period of periodKeys) {
+      const label = periodLabels[period];
+      const rankingData = this.getRankingData(period, dept);
+      const metrics = this.getDepartmentMetrics(this.currentUserData[period], dept);
+
+      let rows = "";
+      let showVerMas = false;
+      let summaryText = "";
+
+      if (rankingData) {
+        const { logins, ranking } = rankingData;
+        const total = ranking.length;
+        const currentLoginIndex = logins.indexOf(this.currentLogin);
+        const userPosition = currentLoginIndex >= 0 ? ranking.indexOf(currentLoginIndex) + 1 : null;
+        const rankingLink = (p, pos) => `<span class="ranking-open-link" data-period="${p}" role="button" tabindex="0">Ranking ${pos}/${total}</span>`;
+
+        for (let i = 0; i < Math.min(TOP_COMPACT, ranking.length); i++) {
+          const idx = ranking[i];
+          const login = logins[idx] || "-";
+          const isYou = login === this.currentLogin;
+          const rowClass = isYou ? "ranking-row-you" : "";
+          const suffix = isYou ? ` ${rankingLink(period, i + 1)}` : "";
+          rows += `<tr class="${rowClass}"><td class="ranking-pos">${i + 1}</td><td class="ranking-login">${login}${suffix}</td></tr>`;
+        }
+        if (userPosition != null && userPosition > TOP_COMPACT) {
+          rows += `<tr class="ranking-row-you"><td class="ranking-pos">${userPosition}</td><td class="ranking-login">${this.currentLogin} ${rankingLink(period, userPosition)}</td></tr>`;
+        }
+      } else {
+        rows = "<tr><td colspan=\"2\" class=\"ranking-empty\">Sin datos</td></tr>";
+      }
+
+      html += `
+        <div class="ranking-period-block" data-period="${period}">
+          <h5 class="ranking-period-block-title">${label}</h5>
+          <div class="ranking-content ranking-content-compact">
+            <table class="ranking-table ranking-table-compact ranking-table-no-head">
+              <tbody>${rows}</tbody>
+            </table>
+          </div>
+        </div>`;
+    }
+    container.innerHTML = html;
+
+    container.querySelectorAll(".ranking-open-link").forEach(el => {
+      const openModal = () => this.openRankingModal(el.getAttribute("data-period"));
+      el.addEventListener("click", openModal);
+      el.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openModal(); } });
     });
+  }
+
+  /**
+   * Abre el modal con el ranking completo (Top 10 + tu posición) para el período indicado.
+   * @param {string} [period] - last_week | last_month | last_3_months | last_6_months (por defecto last_week)
+   */
+  openRankingModal(period) {
+    const modal = document.getElementById("ranking-modal");
+    const tbody = document.getElementById("ranking-modal-tbody");
+    const titleEl = document.getElementById("ranking-modal-title");
+    if (!modal || !tbody || !titleEl) return;
+
+    const p = period || "last_week";
+    const dept = this.currentDepartment;
+    const rankingData = this.getRankingData(p, dept);
+    const periodLabels = { last_week: "Semana", last_month: "Mes", last_3_months: "3 Meses", last_6_months: "6 Meses" };
+    const deptLabel = this.DEPARTMENTS.find(d => d.key === dept)?.label || dept;
+    titleEl.textContent = `Ranking completo (${deptLabel}) – ${periodLabels[p]}`;
+
+    if (!rankingData) {
+      tbody.innerHTML = "<tr><td colspan=\"2\">Sin datos</td></tr>";
+    } else {
+      const { logins, ranking } = rankingData;
+      let rows = "";
+      for (let i = 0; i < ranking.length; i++) {
+        const idx = ranking[i];
+        const login = logins[idx] || "-";
+        const isYou = login === this.currentLogin;
+        const rowClass = isYou ? "ranking-row-you" : "";
+        rows += `<tr class="${rowClass}"><td class="ranking-pos">${i + 1}</td><td class="ranking-login">${login}</td></tr>`;
+      }
+      tbody.innerHTML = rows;
+    }
+
+    modal.style.display = "block";
+    modal.setAttribute("aria-hidden", "false");
+    document.getElementById("ranking-modal-close").onclick = () => this.closeRankingModal();
+    modal.querySelector(".ranking-modal-backdrop").onclick = () => this.closeRankingModal();
+  }
+
+  closeRankingModal() {
+    const modal = document.getElementById("ranking-modal");
+    if (modal) {
+      modal.style.display = "none";
+      modal.setAttribute("aria-hidden", "true");
+    }
   }
 
   /**
@@ -1073,7 +1199,7 @@ class UserHistoryController {
     this.currentDepartment = key;
     this.updateDepartmentUI();
     this.updatePeriodButtons();
-    this.updatePeriodMetrics();
+    this.updateRankingPanel();
     this.updateVisualization();
   }
 

@@ -1,0 +1,52 @@
+{
+  "files": [
+    {
+      "period": "last_6_months",
+      "file": "summary_last_6_months.json",
+      "start_date": "2025-08-21",
+      "end_date": "2026-02-16",
+      "size_kb": 28.3,
+      "last_generated": "2026-02-17 13:04:55",
+      "records": 45688
+    },
+    {
+      "period": "last_3_months",
+      "file": "summary_last_3_months.json",
+      "start_date": "2025-11-19",
+      "end_date": "2026-02-16",
+      "size_kb": 21.1,
+      "last_generated": "2026-02-17 13:04:55",
+      "records": 19081
+    },
+    {
+      "period": "last_month",
+      "file": "summary_last_month.json",
+      "start_date": "2026-01-18",
+      "end_date": "2026-02-16",
+      "size_kb": 14.2,
+      "last_generated": "2026-02-17 13:04:55",
+      "records": 6643
+    },
+    {
+      "period": "last_week",
+      "file": "summary_last_week.json",
+      "start_date": "2026-02-10",
+      "end_date": "2026-02-16",
+      "size_kb": 11.1,
+      "last_generated": "2026-02-17 13:04:55",
+      "records": 1839
+    },
+    {
+      "period": "last_3_days",
+      "file": "summary_last_3_days.json",
+      "start_date": "2026-02-14",
+      "end_date": "2026-02-16",
+      "size_kb": 10.6,
+      "last_generated": "2026-02-17 13:04:55",
+      "records": 1131
+    }
+  ],
+  "last_update_check": "2026-02-17 13:04:55",
+  "today_file": "error_tracker_17022026.json",
+  "note": "Todos los archivos excluyen el día actual (hoy). Combinar con today_file para datos completos."
+}

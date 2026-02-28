@@ -1141,35 +1141,35 @@ body {
   color: var(--user-history-text-secondary);
 }
 
-/* Contenedor principal para ficha y métricas (layout de 2 columnas) */
+/* Ficha 40%, ranking 60% */
 .selected-user-container {
   display: grid;
-  grid-template-columns: 35% 1fr;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
-  align-items: stretch; /* Ambas columnas con la misma altura */
+  grid-template-columns: 40% 60%;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: start;
 }
 
-/* Tarjeta de información del usuario con foto (columna izquierda) */
+/* Ficha del usuario: tamaño legible, información importante visible */
 .selected-user-info-card {
   background: var(--user-history-card-bg);
   border: 0.0625rem solid var(--user-history-border);
   border-radius: 0.75rem;
-  padding: 1.25rem;
+  padding: 1rem 1.25rem;
   box-shadow: var(--user-history-shadow);
   display: flex;
-  gap: 1.25rem;
+  gap: 1rem;
   align-items: flex-start;
-  height: 100%;
+  min-width: 0;
 }
 
 .user-info-photo-section {
   flex-shrink: 0;
 }
 
-.user-photo-large {
-  width: 7.5rem;
-  height: 10rem;
+.selected-user-info-card .user-photo-large {
+  width: 7rem;
+  height: 9rem;
   border-radius: 0.5rem;
   overflow: hidden;
   box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.15);
@@ -1178,70 +1178,345 @@ body {
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   font-weight: bold;
-  flex-shrink: 0;
 }
 
-.user-photo-large img {
+.selected-user-info-card .user-photo-large img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.user-info-details-section {
+.selected-user-info-card .user-info-details-section {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  justify-content: flex-start;
   flex: 1;
   min-width: 0;
 }
 
-.user-info-row {
+.selected-user-info-card .user-info-row {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 0.5rem;
+  padding: 0.4rem 0.5rem;
+  background: rgba(99, 102, 241, 0.06);
+  border-radius: 0.375rem;
+  border-left: 0.1875rem solid var(--user-history-chart-user);
 }
 
-.user-info-label {
+.selected-user-info-card .user-info-label {
   font-weight: 600;
   color: var(--user-history-text-secondary);
-  font-size: 0.9rem;
-  min-width: 4.6875rem;
+  font-size: 0.8rem;
+  min-width: 4.5rem;
   flex-shrink: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
-.user-info-value {
+.selected-user-info-card .user-info-value {
   color: var(--user-history-text-primary);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 500;
-  word-break: break-word;
-  white-space: normal;
-  line-height: 1.5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
 }
 
-/* Panel de métricas (columna derecha) */
-.user-metrics-panel {
+/* Panel ranking: 60% del row, varios períodos visibles */
+.user-metrics-panel.user-ranking-panel {
   background: var(--user-history-card-bg);
   border: 0.0625rem solid var(--user-history-border);
-  border-radius: 0.75rem;
-  padding: 0.75rem;
+  border-radius: 0.5rem;
+  padding: 0.6rem 0.75rem;
   box-shadow: var(--user-history-shadow);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   min-width: 0;
-  height: 100%;
+  overflow: visible;
 }
 
-.metrics-panel-title {
+.user-ranking-panel .metrics-panel-title {
   margin: 0;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: var(--user-history-text-primary);
-  padding-bottom: 0.5rem;
+  padding-bottom: 0.35rem;
   border-bottom: 0.0625rem solid var(--user-history-border);
+}
+
+/* Ranking: contenido compacto (Top 3 + tu posición) */
+.user-ranking-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Grid de 4 períodos (Semana, Mes, 3 Meses, 6 Meses) */
+/* 4 columnas en una fila: Semana | Mes | 3 Meses | 6 Meses */
+.ranking-by-period {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.ranking-period-block {
+  background: var(--user-history-bg);
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+  border: 0.0625rem solid var(--user-history-border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.ranking-period-block-title {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--user-history-text-secondary);
+  padding-bottom: 0.2rem;
+  border-bottom: 0.0625rem solid var(--user-history-border);
+}
+
+.ranking-period-block .ranking-content-compact {
+  max-height: none;
+}
+
+/* Botón "Ranking pos/total" para abrir el ranking completo (con relleno, bien visible) */
+.ranking-open-link {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  margin-left: 0.35rem;
+  background: var(--user-history-chart-user);
+  color: white;
+  font-weight: 600;
+  font-size: 0.7rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  border: none;
+  white-space: nowrap;
+}
+.ranking-open-link:hover {
+  filter: brightness(1.1);
+  text-decoration: none;
+}
+.ranking-table-no-head thead {
+  display: none;
+}
+
+.ranking-empty-message {
+  grid-column: 1 / -1;
+  padding: 0.75rem;
+  text-align: center;
+  color: var(--user-history-text-secondary);
+  font-size: 0.9rem;
+}
+
+.ranking-content {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.ranking-content-compact {
+  max-height: 8rem;
+  overflow: hidden;
+}
+
+.ranking-table-compact {
+  font-size: 0.8rem;
+}
+
+.ranking-table-compact thead th {
+  padding: 0.2rem 0.4rem;
+  font-size: 0.75rem;
+}
+
+.ranking-table-compact .ranking-pos,
+.ranking-table-compact .ranking-login {
+  padding: 0.2rem 0.4rem;
+}
+
+.ranking-ver-mas-btn {
+  padding: 0.3rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: 0.375rem;
+  border: 0.0625rem solid var(--user-history-border);
+  background: var(--user-history-bg);
+  color: var(--user-history-chart-user);
+  cursor: pointer;
+  margin-top: 0.25rem;
+  align-self: flex-start;
+}
+
+.ranking-ver-mas-btn:hover {
+  background: var(--user-history-chart-user);
+  color: white;
+  border-color: var(--user-history-chart-user);
+}
+
+.ranking-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.ranking-table thead {
+  border-bottom: 0.0625rem solid var(--user-history-border);
+}
+
+.ranking-table th {
+  padding: 0.35rem 0.5rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--user-history-text-secondary);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.ranking-th-pos {
+  width: 2.5rem;
+  text-align: center;
+}
+
+.ranking-table tbody tr {
+  border-bottom: 0.0625rem solid var(--user-history-border);
+}
+
+.ranking-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.ranking-pos {
+  padding: 0.3rem 0.5rem;
+  text-align: center;
+  font-weight: 600;
+  color: var(--user-history-text-primary);
+}
+
+.ranking-login {
+  padding: 0.3rem 0.5rem;
+  color: var(--user-history-text-primary);
+}
+
+.ranking-row-you {
+  background: rgba(99, 102, 241, 0.12);
+  font-weight: 600;
+}
+
+.ranking-row-you .ranking-login {
+  color: var(--user-history-chart-user);
+}
+
+.ranking-you-label {
+  font-weight: 500;
+  color: var(--user-history-text-secondary);
+  font-size: 0.75rem;
+}
+
+.ranking-dots {
+  text-align: center;
+  padding: 0.2rem;
+  color: var(--user-history-text-secondary);
+  font-size: 0.75rem;
+}
+
+.ranking-empty {
+  padding: 0.75rem;
+  text-align: center;
+  color: var(--user-history-text-secondary);
+  font-size: 0.8rem;
+}
+
+.ranking-your-summary {
+  font-size: 0.7rem;
+  color: var(--user-history-text-secondary);
+  padding-top: 0.3rem;
+  border-top: 0.0625rem solid var(--user-history-border);
+  margin-top: 0.15rem;
+  flex-shrink: 0;
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Modal ranking completo */
+.ranking-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.ranking-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+.ranking-modal-box {
+  position: relative;
+  background: var(--user-history-card-bg);
+  border-radius: 0.75rem;
+  box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.2);
+  max-width: 22rem;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  border: 0.0625rem solid var(--user-history-border);
+}
+
+.ranking-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 0.0625rem solid var(--user-history-border);
+  background: var(--user-history-bg);
+  border-radius: 0.75rem 0.75rem 0 0;
+}
+
+.ranking-modal-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--user-history-text-primary);
+}
+
+.ranking-modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--user-history-text-secondary);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+}
+
+.ranking-modal-close:hover {
+  color: var(--user-history-text-primary);
+  background: var(--user-history-border);
+}
+
+.ranking-modal-body {
+  padding: 0.75rem 1rem;
+  overflow-y: auto;
+  max-height: 60vh;
 }
 
 /* Tabla de métricas compacta */

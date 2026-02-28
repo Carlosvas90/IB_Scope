@@ -90,50 +90,34 @@
           </div>
         </div>
 
-        <!-- Panel de métricas (columna derecha) -->
-        <div class="user-metrics-panel">
-          <h4 class="metrics-panel-title">Métricas por Período</h4>
-          <table class="user-metrics-table">
-            <thead>
-              <tr>
-                <th class="metric-period-header">Período</th>
-                <th class="metric-type-header">Artículos</th>
-                <th class="metric-type-header">Horas</th>
-                <th class="metric-type-header">Rank</th>
-                <th class="metric-type-header">Rate</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="metric-period-label">Semana</td>
-                <td class="metric-value-cell" id="metric-units-week">-</td>
-                <td class="metric-value-cell" id="metric-hours-week">-</td>
-                <td class="metric-value-cell" id="metric-rank-week">-</td>
-                <td class="metric-value-cell" id="metric-rate-week">-</td>
-              </tr>
-              <tr>
-                <td class="metric-period-label">Mes</td>
-                <td class="metric-value-cell" id="metric-units-month">-</td>
-                <td class="metric-value-cell" id="metric-hours-month">-</td>
-                <td class="metric-value-cell" id="metric-rank-month">-</td>
-                <td class="metric-value-cell" id="metric-rate-month">-</td>
-              </tr>
-              <tr>
-                <td class="metric-period-label">3 Meses</td>
-                <td class="metric-value-cell" id="metric-units-3months">-</td>
-                <td class="metric-value-cell" id="metric-hours-3months">-</td>
-                <td class="metric-value-cell" id="metric-rank-3months">-</td>
-                <td class="metric-value-cell" id="metric-rate-3months">-</td>
-              </tr>
-              <tr>
-                <td class="metric-period-label">6 Meses</td>
-                <td class="metric-value-cell" id="metric-units-6months">-</td>
-                <td class="metric-value-cell" id="metric-hours-6months">-</td>
-                <td class="metric-value-cell" id="metric-rank-6months">-</td>
-                <td class="metric-value-cell" id="metric-rate-6months">-</td>
-              </tr>
-            </tbody>
-          </table>
+        <!-- Panel ranking por período (60%): Semana, Mes, 3 Meses, 6 Meses -->
+        <div class="user-metrics-panel user-ranking-panel">
+          <h4 class="metrics-panel-title" id="ranking-panel-title">Ranking</h4>
+          <div id="ranking-by-period-container" class="ranking-by-period">
+            <!-- 4 bloques (uno por período) se rellenan por JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal ranking completo -->
+      <div id="ranking-modal" class="ranking-modal" style="display: none;" aria-hidden="true">
+        <div class="ranking-modal-backdrop"></div>
+        <div class="ranking-modal-box">
+          <div class="ranking-modal-header">
+            <h3 id="ranking-modal-title">Ranking completo</h3>
+            <button type="button" class="ranking-modal-close" id="ranking-modal-close" aria-label="Cerrar">&times;</button>
+          </div>
+          <div class="ranking-modal-body">
+            <table class="ranking-table">
+              <thead>
+                <tr>
+                  <th class="ranking-th-pos">#</th>
+                  <th class="ranking-th-login">Login</th>
+                </tr>
+              </thead>
+              <tbody id="ranking-modal-tbody"></tbody>
+            </table>
+          </div>
         </div>
       </div>
 
