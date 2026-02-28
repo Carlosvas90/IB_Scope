@@ -305,6 +305,70 @@ body {
   margin-bottom: 1.5rem;
 }
 
+.receive-detail-section .receive-detail-intro {
+  margin: 0 0 1rem 0;
+  font-size: 0.9rem;
+  color: var(--user-history-text-secondary);
+}
+/* Máximo 3 bloques por línea, igual que Stow, para que la data no se vea pequeña */
+.receive-detail-section .receive-level1-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+@media (max-width: 900px) {
+  .receive-detail-section .receive-level1-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 560px) {
+  .receive-detail-section .receive-level1-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Pick: mismo layout que Receive (máx. 3 por línea) */
+.pick-detail-section .pick-detail-intro {
+  margin: 0 0 1rem 0;
+  font-size: 0.9rem;
+  color: var(--user-history-text-secondary);
+}
+.pick-detail-section .pick-level1-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+@media (max-width: 900px) {
+  .pick-detail-section .pick-level1-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 560px) {
+  .pick-detail-section .pick-level1-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Pack: mismo layout (máx. 3 por línea) */
+.pack-detail-section .pack-detail-intro,
+.shipping-detail-section .shipping-detail-intro {
+  margin: 0 0 1rem 0;
+  font-size: 0.9rem;
+  color: var(--user-history-text-secondary);
+}
+.pack-detail-section .pack-level1-grid,
+.shipping-detail-section .shipping-level1-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+@media (max-width: 900px) {
+  .pack-detail-section .pack-level1-grid,
+  .shipping-detail-section .shipping-level1-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 560px) {
+  .pack-detail-section .pack-level1-grid,
+  .shipping-detail-section .shipping-level1-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .stow-level1-block {
   background: var(--user-history-card-bg);
   border: 0.0625rem solid var(--user-history-border);

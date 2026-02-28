@@ -52,6 +52,50 @@ class UserHistoryController {
     this.stowKpiPeriod = { combined: "last_month", pallet: "last_month", esfuerzo: "last_month" };
     this.stowChartMetric = { combined: "rate", pallet: "rate", each_stow: "rate", pallet_stow: "rate" };
 
+    // Receive: orden de importancia (datos desde JSON)
+    this.RECEIVE_CATEGORIES = [
+      { key: "Decant_PID", label: "Decant PID" },
+      { key: "Decant_TSI", label: "Decant TSI" },
+      { key: "Noncon", label: "Receive Each" },
+      { key: "PreEditor", label: "Receive prEditor" },
+      { key: "Prep", label: "Prep" },
+      { key: "Cubiscan", label: "Cubiscan" },
+      { key: "Rcv_Pallet", label: "Receive pallet" }
+    ];
+    this.receiveKpiPeriod = {}; // período por categoría para KPIs
+
+    // Pick: categorías desde JSON (nombres tipo Pick_Rates.db: Giftwrap, Hotpick, Noncon, Orderpicker, Pallet, SIOC, RF, Teamlift, etc.)
+    this.PICK_CATEGORIES = [
+      { key: "pick_orderpicker_4300006870_sm", label: "Orderpicker" },
+      { key: "pick_sioc_4300024905_smallmedi", label: "SIOC" },
+      { key: "pick_pallet_4300008685_smallme", label: "Pallet" },
+      { key: "pick_noncon_picking_4300002489_smal", label: "Noncon Picking" },
+      { key: "pick_highvelocity_picking_430001272", label: "High Velocity Picking" },
+      { key: "pick_rf_4300000184_smallmedium", label: "RF" },
+      { key: "pick_rf_singles_4300002523_sma", label: "RF Singles" },
+      { key: "pick_teamlift_4300006830_small", label: "Teamlift" },
+      { key: "pick_orderpicklowdensityp_430001681", label: "Order Pick Low Density" },
+      { key: "pick_giftwrap_picking_4300000707_sm", label: "Giftwrap Picking" },
+      { key: "pick_hotpick_4300035090_smallmedium", label: "Hotpick" }
+    ];
+    this.pickKpiPeriod = {};
+
+    // Pack: categorías desde JSON
+    this.PACK_CATEGORIES = [
+      { key: "ScanVerify_NonCon", label: "ScanVerify NonCon" },
+      { key: "HandTape_Small", label: "HandTape Small" }
+    ];
+    this.packKpiPeriod = {};
+
+    // Shipping: categorías desde JSON
+    this.SHIPPING_CATEGORIES = [
+      { key: "shipping_manual_cont_builder_430003505", label: "Manual Cont Builder" },
+      { key: "shipping_ship_waterspider_1628282534694", label: "Ship Waterspider" },
+      { key: "shipping_container_loader_4300035070_sm", label: "Container Loader" },
+      { key: "shipping_fluid_loader_4300016778_smallm", label: "Fluid Loader" }
+    ];
+    this.shippingKpiPeriod = {};
+
     this.rankingPeriod = "last_month";
 
     // Filtros
@@ -1431,15 +1475,42 @@ class UserHistoryController {
       console.warn(`⚠️ No hay metadata para el período ${period}, continuando sin comparaciones`);
     }
     
+    const genericSection = document.getElementById("generic-charts-section");
+    const stowSection = document.getElementById("stow-detail-section");
+    const receiveSection = document.getElementById("receive-detail-section");
+    const pickSection = document.getElementById("pick-detail-section");
+    const packSection = document.getElementById("pack-detail-section");
+    const shippingSection = document.getElementById("shipping-detail-section");
+    const detailSections = [stowSection, receiveSection, pickSection, packSection, shippingSection];
+    const hideAllDetails = () => detailSections.forEach(el => { if (el) el.style.display = "none"; });
     if (this.currentDepartment === "each_stow") {
-      document.getElementById("generic-charts-section").style.display = "none";
-      const stowSection = document.getElementById("stow-detail-section");
+      if (genericSection) genericSection.style.display = "none";
+      hideAllDetails();
       if (stowSection) stowSection.style.display = "block";
       this.updateStowDetailViews();
+    } else if (this.currentDepartment === "receive") {
+      if (genericSection) genericSection.style.display = "none";
+      hideAllDetails();
+      if (receiveSection) receiveSection.style.display = "block";
+      this.updateReceiveDetailViews();
+    } else if (this.currentDepartment === "pick") {
+      if (genericSection) genericSection.style.display = "none";
+      hideAllDetails();
+      if (pickSection) pickSection.style.display = "block";
+      this.updatePickDetailViews();
+    } else if (this.currentDepartment === "pack") {
+      if (genericSection) genericSection.style.display = "none";
+      hideAllDetails();
+      if (packSection) packSection.style.display = "block";
+      this.updatePackDetailViews();
+    } else if (this.currentDepartment === "shipping") {
+      if (genericSection) genericSection.style.display = "none";
+      hideAllDetails();
+      if (shippingSection) shippingSection.style.display = "block";
+      this.updateShippingDetailViews();
     } else {
-      document.getElementById("generic-charts-section").style.display = "block";
-      const stowSection = document.getElementById("stow-detail-section");
-      if (stowSection) stowSection.style.display = "none";
+      hideAllDetails();
+      if (genericSection) genericSection.style.display = "block";
       this.updateEvolutionCharts();
     }
   }
@@ -1641,7 +1712,7 @@ class UserHistoryController {
   }
 
   clearStowDetailSection() {
-    const ids = ["stow-combined-chart", "stow-combined-kpis", "stow-combined-period-selector", "stow-combined-metric-selector", "stow-pallet-combined-chart", "stow-pallet-combined-kpis", "stow-pallet-combined-period-selector", "stow-pallet-combined-metric-selector", "stow-esfuerzo-chart", "stow-esfuerzo-kpis", "stow-esfuerzo-period-selector", "stow-esfuerzo-extra", "each-stow-metric-selector", "each-stow-charts-grid", "each-stow-comparison-table", "pallet-stow-metric-selector", "pallet-stow-charts-grid", "pallet-stow-comparison-table"];
+    const ids = ["stow-combined-chart", "stow-combined-kpis", "stow-combined-period-selector", "stow-combined-metric-selector", "stow-pallet-combined-chart", "stow-pallet-combined-kpis", "stow-pallet-combined-period-selector", "stow-pallet-combined-metric-selector", "stow-esfuerzo-chart", "stow-esfuerzo-kpis", "stow-esfuerzo-period-selector", "stow-esfuerzo-extra", "each-stow-metric-selector", "each-stow-charts-grid", "each-stow-comparison-table", "pallet-stow-metric-selector", "pallet-stow-charts-grid", "pallet-stow-comparison-table", "receive-level1-grid", "pick-level1-grid", "pack-level1-grid", "shipping-level1-grid"];
     ids.forEach(id => {
       const el = document.getElementById(id);
       if (el) el.innerHTML = "";
@@ -1657,6 +1728,276 @@ class UserHistoryController {
     const periodLabels = { last_week: "Semana", last_month: "Mes", last_3_months: "3 Meses", last_6_months: "6 Meses" };
     this.renderStowLevel1(periods, periodLabels);
     this.renderStowLevel2(periods, periodLabels);
+  }
+
+  /**
+   * Receive: detalle por categoría (Decant PID, Decant TSI, Receive Each, PreEditor, Prep, Cubiscan, Rcv_Pallet). Datos desde JSON.
+   */
+  updateReceiveDetailViews() {
+    if (!this.currentUserData) return;
+    const periods = ["last_week", "last_month", "last_3_months", "last_6_months"];
+    const periodLabels = { last_week: "Semana", last_month: "Mes", last_3_months: "3 Meses", last_6_months: "6 Meses" };
+    const grid = document.getElementById("receive-level1-grid");
+    if (!grid) return;
+    grid.innerHTML = "";
+    const meta = this.metadataUsers?.periods || {};
+    this.RECEIVE_CATEGORIES.forEach(({ key: catKey, label }) => {
+      const dataPoints = this._buildReceiveDataPoints(periods, periodLabels, catKey);
+      const blockId = `receive-block-${catKey}`;
+      const chartId = `receive-chart-${catKey}`;
+      const periodSelectorId = `receive-period-${catKey}`;
+      const kpisId = `receive-kpis-${catKey}`;
+      if (!this.receiveKpiPeriod[catKey]) this.receiveKpiPeriod[catKey] = "last_month";
+      const kpiPeriod = this.receiveKpiPeriod[catKey];
+      const rec = this.currentUserData[kpiPeriod]?.receive?.[catKey];
+      const metaCat = meta[kpiPeriod]?.receive?.[catKey];
+      const kpiHtml = rec ? `
+        <span class="stow-kpi"><strong>Rate</strong> ${rec.rate?.toFixed(2) ?? "-"}</span>
+        <span class="stow-kpi"><strong>Promedio</strong> ${(metaCat?.avg ?? rec.avg_general ?? 0).toFixed(2)}</span>
+        <span class="stow-kpi"><strong>Rank</strong> #${rec.rank ?? "-"} / ${rec.total_users ?? "-"}</span>
+        <span class="stow-kpi"><strong>Percentil</strong> ${rec.percentile != null ? rec.percentile.toFixed(1) + "%" : "-"}</span>
+        <span class="stow-kpi"><strong>Unidades</strong> ${(rec.total_units ?? 0).toLocaleString()}</span>
+        <span class="stow-kpi"><strong>Horas</strong> ${(rec.total_hours ?? 0).toFixed(1)}h</span>
+      ` : "<span class=\"stow-kpi\">Sin datos</span>";
+      const block = document.createElement("div");
+      block.className = "stow-level1-block receive-detail-block";
+      block.id = blockId;
+      block.setAttribute("data-receive-cat", catKey);
+      block.innerHTML = `
+        <h4 class="stow-block-title">${label}</h4>
+        <div id="${chartId}" class="user-history-chart"></div>
+        <span class="stow-kpi-period-label">Datos del período:</span>
+        <div id="${periodSelectorId}" class="stow-period-selector"></div>
+        <div id="${kpisId}" class="stow-kpi-row">${kpiHtml}</div>
+      `;
+      grid.appendChild(block);
+      this._renderStowLineChart(chartId, dataPoints, { userColor: "var(--user-history-chart-user)", avgColor: "var(--user-history-chart-avg-dark)", metric: "rate" });
+      this._renderReceivePeriodSelector(periodSelectorId, catKey, periods, periodLabels);
+    });
+  }
+
+  _buildReceiveDataPoints(periods, periodLabels, catKey) {
+    const dataPoints = [];
+    const meta = this.metadataUsers?.periods || {};
+    periods.forEach(p => {
+      const rec = this.currentUserData[p]?.receive?.[catKey];
+      if (!rec || rec.rate == null) return;
+      const avg = meta[p]?.receive?.[catKey]?.avg ?? rec.avg_general ?? 0;
+      dataPoints.push({ period: periodLabels[p], userRate: rec.rate, avgRate: avg });
+    });
+    return dataPoints;
+  }
+
+  _renderReceivePeriodSelector(containerId, catKey, periods, periodLabels) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    const periodKeys = ["last_week", "last_month", "last_3_months", "last_6_months"];
+    const current = this.receiveKpiPeriod[catKey] || "last_month";
+    container.innerHTML = periodKeys.map(p => {
+      const label = periodLabels[p];
+      const active = p === current ? " active" : "";
+      return `<button type="button" class="stow-period-btn${active}" data-period="${p}" data-receive-cat="${catKey}">${label}</button>`;
+    }).join("");
+    container.querySelectorAll(".stow-period-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        this.receiveKpiPeriod[btn.getAttribute("data-receive-cat")] = btn.getAttribute("data-period");
+        this.updateReceiveDetailViews();
+      });
+    });
+  }
+
+  /**
+   * Pick: detalle por categoría (Orderpicker, SIOC, Pallet, Noncon, etc.). Datos desde JSON.
+   */
+  updatePickDetailViews() {
+    if (!this.currentUserData) return;
+    const periods = ["last_week", "last_month", "last_3_months", "last_6_months"];
+    const periodLabels = { last_week: "Semana", last_month: "Mes", last_3_months: "3 Meses", last_6_months: "6 Meses" };
+    const grid = document.getElementById("pick-level1-grid");
+    if (!grid) return;
+    grid.innerHTML = "";
+    const meta = this.metadataUsers?.periods || {};
+    this.PICK_CATEGORIES.forEach(({ key: catKey, label }) => {
+      const dataPoints = this._buildPickDataPoints(periods, periodLabels, catKey);
+      if (!this.pickKpiPeriod[catKey]) this.pickKpiPeriod[catKey] = "last_month";
+      const kpiPeriod = this.pickKpiPeriod[catKey];
+      const rec = this.currentUserData[kpiPeriod]?.pick?.[catKey];
+      const metaCat = meta[kpiPeriod]?.pick?.[catKey];
+      const kpiHtml = rec ? `
+        <span class="stow-kpi"><strong>Rate</strong> ${rec.rate?.toFixed(2) ?? "-"}</span>
+        <span class="stow-kpi"><strong>Promedio</strong> ${(metaCat?.avg ?? rec.avg_general ?? 0).toFixed(2)}</span>
+        <span class="stow-kpi"><strong>Rank</strong> #${rec.rank ?? "-"} / ${rec.total_users ?? "-"}</span>
+        <span class="stow-kpi"><strong>Percentil</strong> ${rec.percentile != null ? rec.percentile.toFixed(1) + "%" : "-"}</span>
+        <span class="stow-kpi"><strong>Unidades</strong> ${(rec.total_units ?? 0).toLocaleString()}</span>
+        <span class="stow-kpi"><strong>Horas</strong> ${(rec.total_hours ?? 0).toFixed(1)}h</span>
+      ` : "<span class=\"stow-kpi\">Sin datos</span>";
+      const chartId = `pick-chart-${catKey.replace(/[^a-zA-Z0-9_-]/g, "_")}`;
+      const periodSelectorId = `pick-period-${catKey.replace(/[^a-zA-Z0-9_-]/g, "_")}`;
+      const kpisId = `pick-kpis-${catKey.replace(/[^a-zA-Z0-9_-]/g, "_")}`;
+      const block = document.createElement("div");
+      block.className = "stow-level1-block pick-detail-block";
+      block.setAttribute("data-pick-cat", catKey);
+      block.innerHTML = `
+        <h4 class="stow-block-title">${label}</h4>
+        <div id="${chartId}" class="user-history-chart"></div>
+        <span class="stow-kpi-period-label">Datos del período:</span>
+        <div id="${periodSelectorId}" class="stow-period-selector"></div>
+        <div id="${kpisId}" class="stow-kpi-row">${kpiHtml}</div>
+      `;
+      grid.appendChild(block);
+      this._renderStowLineChart(chartId, dataPoints, { userColor: "var(--user-history-chart-user)", avgColor: "var(--user-history-chart-avg-dark)", metric: "rate" });
+      this._renderPickPeriodSelector(periodSelectorId, catKey, periods, periodLabels);
+    });
+  }
+
+  _buildPickDataPoints(periods, periodLabels, catKey) {
+    const dataPoints = [];
+    const meta = this.metadataUsers?.periods || {};
+    periods.forEach(p => {
+      const rec = this.currentUserData[p]?.pick?.[catKey];
+      if (!rec || rec.rate == null) return;
+      const avg = meta[p]?.pick?.[catKey]?.avg ?? rec.avg_general ?? 0;
+      dataPoints.push({ period: periodLabels[p], userRate: rec.rate, avgRate: avg });
+    });
+    return dataPoints;
+  }
+
+  _renderPickPeriodSelector(containerId, catKey, periods, periodLabels) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    const periodKeys = ["last_week", "last_month", "last_3_months", "last_6_months"];
+    const current = this.pickKpiPeriod[catKey] || "last_month";
+    const safeCat = catKey.replace(/\./g, "_");
+    container.innerHTML = periodKeys.map(p => {
+      const label = periodLabels[p];
+      const active = p === current ? " active" : "";
+      return `<button type="button" class="stow-period-btn${active}" data-period="${p}" data-pick-cat="${safeCat}">${label}</button>`;
+    }).join("");
+    container.querySelectorAll(".stow-period-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const key = this.PICK_CATEGORIES.find(c => c.key.replace(/\./g, "_") === btn.getAttribute("data-pick-cat"))?.key || catKey;
+        this.pickKpiPeriod[key] = btn.getAttribute("data-period");
+        this.updatePickDetailViews();
+      });
+    });
+  }
+
+  /**
+   * Pack: detalle por categoría (ScanVerify NonCon, HandTape Small). Datos desde JSON.
+   */
+  updatePackDetailViews() {
+    if (!this.currentUserData) return;
+    const periods = ["last_week", "last_month", "last_3_months", "last_6_months"];
+    const periodLabels = { last_week: "Semana", last_month: "Mes", last_3_months: "3 Meses", last_6_months: "6 Meses" };
+    const grid = document.getElementById("pack-level1-grid");
+    if (!grid) return;
+    grid.innerHTML = "";
+    const meta = this.metadataUsers?.periods || {};
+    this.PACK_CATEGORIES.forEach(({ key: catKey, label }) => {
+      const dataPoints = this._buildDeptCategoryDataPoints(periods, periodLabels, "pack", catKey);
+      if (!this.packKpiPeriod[catKey]) this.packKpiPeriod[catKey] = "last_month";
+      const kpiPeriod = this.packKpiPeriod[catKey];
+      const rec = this.currentUserData[kpiPeriod]?.pack?.[catKey];
+      const metaCat = meta[kpiPeriod]?.pack?.[catKey];
+      const kpiHtml = rec ? `
+        <span class="stow-kpi"><strong>Rate</strong> ${rec.rate?.toFixed(2) ?? "-"}</span>
+        <span class="stow-kpi"><strong>Promedio</strong> ${(metaCat?.avg ?? rec.avg_general ?? 0).toFixed(2)}</span>
+        <span class="stow-kpi"><strong>Rank</strong> #${rec.rank ?? "-"} / ${rec.total_users ?? "-"}</span>
+        <span class="stow-kpi"><strong>Percentil</strong> ${rec.percentile != null ? rec.percentile.toFixed(1) + "%" : "-"}</span>
+        <span class="stow-kpi"><strong>Unidades</strong> ${(rec.total_units ?? 0).toLocaleString()}</span>
+        <span class="stow-kpi"><strong>Horas</strong> ${(rec.total_hours ?? 0).toFixed(1)}h</span>
+      ` : "<span class=\"stow-kpi\">Sin datos</span>";
+      const chartId = `pack-chart-${catKey.replace(/[^a-zA-Z0-9_-]/g, "_")}`;
+      const periodSelectorId = `pack-period-${catKey.replace(/[^a-zA-Z0-9_-]/g, "_")}`;
+      const kpisId = `pack-kpis-${catKey.replace(/[^a-zA-Z0-9_-]/g, "_")}`;
+      const block = document.createElement("div");
+      block.className = "stow-level1-block pack-detail-block";
+      block.innerHTML = `
+        <h4 class="stow-block-title">${label}</h4>
+        <div id="${chartId}" class="user-history-chart"></div>
+        <span class="stow-kpi-period-label">Datos del período:</span>
+        <div id="${periodSelectorId}" class="stow-period-selector"></div>
+        <div id="${kpisId}" class="stow-kpi-row">${kpiHtml}</div>
+      `;
+      grid.appendChild(block);
+      this._renderStowLineChart(chartId, dataPoints, { userColor: "var(--user-history-chart-user)", avgColor: "var(--user-history-chart-avg-dark)", metric: "rate" });
+      this._renderDeptPeriodSelector(periodSelectorId, catKey, "pack", periods, periodLabels, "packKpiPeriod", "updatePackDetailViews");
+    });
+  }
+
+  /**
+   * Shipping: detalle por categoría. Datos desde JSON.
+   */
+  updateShippingDetailViews() {
+    if (!this.currentUserData) return;
+    const periods = ["last_week", "last_month", "last_3_months", "last_6_months"];
+    const periodLabels = { last_week: "Semana", last_month: "Mes", last_3_months: "3 Meses", last_6_months: "6 Meses" };
+    const grid = document.getElementById("shipping-level1-grid");
+    if (!grid) return;
+    grid.innerHTML = "";
+    const meta = this.metadataUsers?.periods || {};
+    this.SHIPPING_CATEGORIES.forEach(({ key: catKey, label }) => {
+      const dataPoints = this._buildDeptCategoryDataPoints(periods, periodLabels, "shipping", catKey);
+      if (!this.shippingKpiPeriod[catKey]) this.shippingKpiPeriod[catKey] = "last_month";
+      const kpiPeriod = this.shippingKpiPeriod[catKey];
+      const rec = this.currentUserData[kpiPeriod]?.shipping?.[catKey];
+      const metaCat = meta[kpiPeriod]?.shipping?.[catKey];
+      const kpiHtml = rec ? `
+        <span class="stow-kpi"><strong>Rate</strong> ${rec.rate?.toFixed(2) ?? "-"}</span>
+        <span class="stow-kpi"><strong>Promedio</strong> ${(metaCat?.avg ?? rec.avg_general ?? 0).toFixed(2)}</span>
+        <span class="stow-kpi"><strong>Rank</strong> #${rec.rank ?? "-"} / ${rec.total_users ?? "-"}</span>
+        <span class="stow-kpi"><strong>Percentil</strong> ${rec.percentile != null ? rec.percentile.toFixed(1) + "%" : "-"}</span>
+        <span class="stow-kpi"><strong>Unidades</strong> ${(rec.total_units ?? 0).toLocaleString()}</span>
+        <span class="stow-kpi"><strong>Horas</strong> ${(rec.total_hours ?? 0).toFixed(1)}h</span>
+      ` : "<span class=\"stow-kpi\">Sin datos</span>";
+      const chartId = `shipping-chart-${catKey.replace(/[^a-zA-Z0-9_-]/g, "_")}`;
+      const periodSelectorId = `shipping-period-${catKey.replace(/[^a-zA-Z0-9_-]/g, "_")}`;
+      const kpisId = `shipping-kpis-${catKey.replace(/[^a-zA-Z0-9_-]/g, "_")}`;
+      const block = document.createElement("div");
+      block.className = "stow-level1-block shipping-detail-block";
+      block.innerHTML = `
+        <h4 class="stow-block-title">${label}</h4>
+        <div id="${chartId}" class="user-history-chart"></div>
+        <span class="stow-kpi-period-label">Datos del período:</span>
+        <div id="${periodSelectorId}" class="stow-period-selector"></div>
+        <div id="${kpisId}" class="stow-kpi-row">${kpiHtml}</div>
+      `;
+      grid.appendChild(block);
+      this._renderStowLineChart(chartId, dataPoints, { userColor: "var(--user-history-chart-user)", avgColor: "var(--user-history-chart-avg-dark)", metric: "rate" });
+      this._renderDeptPeriodSelector(periodSelectorId, catKey, "shipping", periods, periodLabels, "shippingKpiPeriod", "updateShippingDetailViews");
+    });
+  }
+
+  _buildDeptCategoryDataPoints(periods, periodLabels, deptKey, catKey) {
+    const dataPoints = [];
+    const meta = this.metadataUsers?.periods || {};
+    periods.forEach(p => {
+      const rec = this.currentUserData[p]?.[deptKey]?.[catKey];
+      if (!rec || rec.rate == null) return;
+      const avg = meta[p]?.[deptKey]?.[catKey]?.avg ?? rec.avg_general ?? 0;
+      dataPoints.push({ period: periodLabels[p], userRate: rec.rate, avgRate: avg });
+    });
+    return dataPoints;
+  }
+
+  _renderDeptPeriodSelector(containerId, catKey, deptKey, periods, periodLabels, periodStateKey, updateMethod) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    const periodKeys = ["last_week", "last_month", "last_3_months", "last_6_months"];
+    const current = this[periodStateKey][catKey] || "last_month";
+    const safeCat = catKey.replace(/\./g, "_");
+    container.innerHTML = periodKeys.map(p => {
+      const label = periodLabels[p];
+      const active = p === current ? " active" : "";
+      return `<button type="button" class="stow-period-btn${active}" data-period="${p}" data-cat="${safeCat}">${label}</button>`;
+    }).join("");
+    container.querySelectorAll(".stow-period-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const key = catKey;
+        this[periodStateKey][key] = btn.getAttribute("data-period");
+        this[updateMethod]();
+      });
+    });
   }
 
   /**

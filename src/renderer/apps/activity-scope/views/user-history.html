@@ -133,7 +133,43 @@
         </div>
       </div>
 
-      <!-- Vista genérica (Receive, Pick, Pack, Shipping): evolución por departamento -->
+      <!-- Receive: vista detallada por tipo (solo visible cuando departamento = Receive) -->
+      <div id="receive-detail-section" class="receive-detail-section stow-detail-section" style="display: none;">
+        <h3 class="charts-section-title">📊 Receive – Detalle por tipo</h3>
+        <p class="receive-detail-intro">Rate y evolución por categoría (datos desde JSON).</p>
+        <div id="receive-level1-grid" class="stow-level1-grid receive-level1-grid">
+          <!-- Bloques por categoría: Decant PID, Decant TSI, Receive Each (Noncon), PreEditor, Prep, Cubiscan, Rcv_Pallet → se rellenan por JS -->
+        </div>
+      </div>
+
+      <!-- Pick: vista detallada por tipo (solo visible cuando departamento = Pick) -->
+      <div id="pick-detail-section" class="pick-detail-section stow-detail-section" style="display: none;">
+        <h3 class="charts-section-title">📊 Pick – Detalle por tipo</h3>
+        <p class="pick-detail-intro">Rate y evolución por categoría (datos desde JSON).</p>
+        <div id="pick-level1-grid" class="stow-level1-grid pick-level1-grid">
+          <!-- Bloques por categoría → se rellenan por JS -->
+        </div>
+      </div>
+
+      <!-- Pack: vista detallada por tipo (solo visible cuando departamento = Pack) -->
+      <div id="pack-detail-section" class="pack-detail-section stow-detail-section" style="display: none;">
+        <h3 class="charts-section-title">📊 Pack – Detalle por tipo</h3>
+        <p class="pack-detail-intro">Rate y evolución por categoría (datos desde JSON).</p>
+        <div id="pack-level1-grid" class="stow-level1-grid pack-level1-grid">
+          <!-- Bloques por categoría → se rellenan por JS -->
+        </div>
+      </div>
+
+      <!-- Shipping: vista detallada por tipo (solo visible cuando departamento = Shipping) -->
+      <div id="shipping-detail-section" class="shipping-detail-section stow-detail-section" style="display: none;">
+        <h3 class="charts-section-title">📊 Shipping – Detalle por tipo</h3>
+        <p class="shipping-detail-intro">Rate y evolución por categoría (datos desde JSON).</p>
+        <div id="shipping-level1-grid" class="stow-level1-grid shipping-level1-grid">
+          <!-- Bloques por categoría → se rellenan por JS -->
+        </div>
+      </div>
+
+      <!-- Vista genérica (solo cuando no hay detalle por departamento) -->
       <div id="generic-charts-section" class="user-history-charts-section">
         <h3 class="charts-section-title">📈 Evolución Temporal del Rendimiento</h3>
         <div class="user-history-charts-primary">
