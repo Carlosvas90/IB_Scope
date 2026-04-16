@@ -518,6 +518,41 @@
               </button>
             </div>
 
+            <!-- Stow KPIs resumen - visible en Stow -->
+            <div class="stow-kpi-wrapper" id="stow-kpi-summary" style="display: none;">
+              <div class="stow-kpi-card">
+                <span id="icon-summary-units-bin" class="icon-svg icon-16"></span>
+                <span class="stow-kpi-label">U/Bin</span>
+                <span class="stow-kpi-value" id="summary-units-per-bin">--</span>
+                <div class="stow-kpi-separator"></div>
+                <span id="icon-summary-units-cart" class="icon-svg icon-16"></span>
+                <span class="stow-kpi-label">U/Cart</span>
+                <span class="stow-kpi-value" id="summary-units-per-cart">--</span>
+                <div class="stow-kpi-separator"></div>
+                <span id="icon-summary-stow-time" class="icon-svg icon-16"></span>
+                <span class="stow-kpi-label">T.Stow</span>
+                <span class="stow-kpi-value" id="summary-stow-time">--</span>
+                <div class="stow-kpi-separator"></div>
+                <span id="icon-summary-fullness" class="icon-svg icon-16"></span>
+                <span class="stow-kpi-label">Fullness</span>
+                <span class="stow-kpi-value" id="summary-fullness">--</span>
+              </div>
+            </div>
+
+            <!-- Heatmap Global - botones Early/Late -->
+            <div class="heatmap-global-wrapper" id="heatmap-global-bar">
+              <span id="icon-heatmap-bar" class="icon-svg icon-16"></span>
+              <span class="heatmap-global-title">Heatmap</span>
+              <button class="heatmap-global-btn" data-shift="Early">
+                <span id="icon-heatmap-early" class="icon-svg icon-16"></span>
+                Early
+              </button>
+              <button class="heatmap-global-btn" data-shift="Late">
+                <span id="icon-heatmap-late" class="icon-svg icon-16"></span>
+                Late
+              </button>
+            </div>
+
             <!-- KPI PID - Contenedor gris con card blanca interior -->
             <div class="pid-kpi-wrapper" id="pid-kpi-card" style="display: none;">
               <div class="pid-kpi-card">
@@ -555,6 +590,26 @@
           </table>
         </div>
       </div>
+    </div>
+
+    <!-- Modal de miniaturas de Heatmap Global -->
+    <div id="heatmap-global-modal" class="heatmap-global-modal">
+      <div class="heatmap-global-modal-content">
+        <div class="heatmap-global-modal-header">
+          <h3 id="heatmap-global-modal-title">Heatmap Global</h3>
+          <button class="heatmap-modal-close" id="heatmap-global-modal-close">
+            <span id="icon-times-global-heatmap" class="icon-svg icon-20"></span>
+          </button>
+        </div>
+        <div class="heatmap-global-modal-body">
+          <div class="heatmap-thumbs-grid" id="heatmap-thumbs-grid"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal fullscreen para una imagen de heatmap -->
+    <div id="heatmap-fullscreen-modal" class="heatmap-fullscreen-modal">
+      <img id="heatmap-fullscreen-img" src="" alt="Heatmap" />
     </div>
 
     <script src="../js/user-activity.js"></script>

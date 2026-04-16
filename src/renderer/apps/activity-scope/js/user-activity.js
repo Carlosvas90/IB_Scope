@@ -16,6 +16,8 @@ class UserActivityController {
     this.effortSummaryData = null;
     this.effortGeneralStats = null; // estadisticas_generales
     this.effortStowTimes = null; // tiempo_promedio_entre_stow_por_empleado
+    this.currentUserEffortData = null;
+    this.yellowCartsData = null;
     this.rosterData = null;
     this.employee30minData = null;
     this.rotationData = null;
@@ -216,12 +218,15 @@ class UserActivityController {
     await this.loadRotationData();
     await this.loadAssetsPaths();
     await this.loadEffortData();
+    await this.loadYellowCartsData();
     await this.loadActivityScopeIcons();
-    this.updateCategoryButtons(); // Actualizar botones de categoría según rate actual
-    this.updateSortButtons(); // Actualizar botones de ordenamiento según rate actual
-    this.updatePidKpi(); // Actualizar KPI de PID (solo en Receive)
+    this.updateCategoryButtons();
+    this.updateSortButtons();
+    this.updatePidKpi();
+    this.updateStowKpiSummary();
     this.setupEventListeners();
     this.setupHeatmapModalEvents();
+    this.setupGlobalHeatmapEvents();
     this.updateTable();
     this.setupUserImagePopups();
     this.setupUserDetailEvents();
@@ -599,6 +604,43 @@ class UserActivityController {
     }
   }
 
+  async loadYellowCartsData() {
+    try {
+      console.log("🛒 Cargando datos de Yellow Carts...");
+      const config = await window.api.getConfig();
+      if (!config || !config.data_paths) {
+        console.warn("⚠️ No se encontró configuración de data_paths");
+        return;
+      }
+
+      const adjustedPaths = this.getAdjustedDataPaths(config.data_paths);
+      const fileName = this.getFileNameWithDate("Yellow_Carts_Analysis");
+      console.log("📂 Archivo a cargar:", fileName);
+
+      for (const dataPath of adjustedPaths) {
+        try {
+          const filePath = `${dataPath}${fileName}`;
+          const exists = await window.api.fileExists(filePath);
+          if (!exists) continue;
+
+          const result = await window.api.readJson(filePath);
+          if (result.success && result.data) {
+            this.yellowCartsData = result.data;
+            console.log(`✅ Yellow Carts cargado desde ${filePath}`);
+            return;
+          }
+        } catch (e) {
+          continue;
+        }
+      }
+      console.warn("⚠️ No se encontró Yellow_Carts_Analysis para:", this.currentDate);
+      this.yellowCartsData = null;
+    } catch (error) {
+      console.error("❌ Error cargando Yellow Carts:", error);
+      this.yellowCartsData = null;
+    }
+  }
+
   /**
    * Carga datos de rotación de turnos
    */
@@ -924,6 +966,7 @@ class UserActivityController {
     this.employee30minData = null;
     this.rotationData = null;
     this.effortSummaryData = [];
+    this.yellowCartsData = null;
 
     // Limpiar tabla mientras carga
     const tbody = document.getElementById("table-body");
@@ -940,7 +983,11 @@ class UserActivityController {
         await this.loadEmployee30minData();
         await this.loadRotationData();
         await this.loadEffortData();
+        await this.loadYellowCartsData();
       }
+
+      this.updatePidKpi();
+      this.updateStowKpiSummary();
 
       // Actualizar tabla
       this.updateTable();
@@ -1002,16 +1049,17 @@ class UserActivityController {
       if (rate === "receive") {
         // Cargar datos de Receive
         await this.loadReceiveData();
-        // Actualizar KPI de PID después de cargar datos
         this.updatePidKpi();
+        this.updateStowKpiSummary();
       } else {
         // Cargar datos de Stow
         await this.loadData();
         await this.loadEmployee30minData();
         await this.loadRotationData();
         await this.loadEffortData();
-        // Ocultar KPI de PID en Stow
+        await this.loadYellowCartsData();
         this.updatePidKpi();
+        this.updateStowKpiSummary();
       }
 
       // Actualizar tabla
@@ -1089,6 +1137,57 @@ class UserActivityController {
       document.getElementById("pid-each-units").textContent = "--";
       document.getElementById("pid-upb").textContent = "--";
       console.log(`⚠️ No hay datos de PID para turno ${targetTurno}`);
+    }
+  }
+
+  /**
+   * Actualiza el resumen de KPIs de Stow (visible en la barra de filtros)
+   */
+  updateStowKpiSummary() {
+    const wrapper = document.getElementById("stow-kpi-summary");
+    if (!wrapper) return;
+
+    if (this.currentRate !== "stow") {
+      wrapper.style.display = "none";
+      return;
+    }
+
+    wrapper.style.display = "flex";
+
+    const el = (id) => document.getElementById(id);
+    const stats = this.calculateFilteredAverages();
+
+    if (!stats || Object.keys(stats).length === 0) {
+      el("summary-units-per-bin").textContent = "--";
+      el("summary-units-per-cart").textContent = "--";
+      el("summary-stow-time").textContent = "--";
+      el("summary-fullness").textContent = "--";
+      return;
+    }
+
+    const upb = stats.promedio_units_por_bin || 0;
+    const upc = stats.promedio_units_por_cart || 0;
+
+    el("summary-units-per-bin").textContent = upb > 0 ? upb.toFixed(2) : "--";
+    el("summary-units-per-cart").textContent = upc > 0 ? upc.toFixed(2) : "--";
+
+    const generalStats = this.effortGeneralStats || {};
+    const stowTimes = generalStats.tiempo_promedio_entre_stow || {};
+    const timeValues = Object.values(stowTimes).map((m) => m.promedio_general || 0).filter((v) => v > 0);
+    if (timeValues.length > 0) {
+      const avg = timeValues.reduce((a, b) => a + b, 0) / timeValues.length;
+      el("summary-stow-time").textContent = this.formatTime(avg);
+    } else {
+      el("summary-stow-time").textContent = "--";
+    }
+
+    const fullnessMap = { "all": "Day", "early": "Early", "late": "Late" };
+    const fullnessKey = fullnessMap[this.currentRotationFilter] || "Day";
+    const fullnessAvg = this.yellowCartsData?.metadata?.fullness_avg?.[fullnessKey];
+    if (fullnessAvg != null && fullnessAvg > 0) {
+      el("summary-fullness").textContent = `${(fullnessAvg * 100).toFixed(1)}%`;
+    } else {
+      el("summary-fullness").textContent = "--";
     }
   }
 
@@ -1359,8 +1458,9 @@ class UserActivityController {
     // Actualizar tabla
     this.updateTable();
 
-    // Actualizar KPI de PID (cambia según el turno)
+    // Actualizar KPIs de barra (cambia según el turno)
     this.updatePidKpi();
+    this.updateStowKpiSummary();
 
     // Si hay una vista de detalle abierta, actualizar los promedios
     if (this.currentUserLogin && this.isShowingUserDetail) {
@@ -1401,6 +1501,9 @@ class UserActivityController {
 
     // Actualizar estantes
     this.updateEffortShelves(userEffortData);
+
+    this.currentUserEffortData = userEffortData;
+    this.updateStowKpiSummary();
 
     console.log(`✅ Vista de detalle actualizada con filtro ${this.currentRotationFilter}`);
   }
@@ -2366,6 +2469,8 @@ class UserActivityController {
     // Limpiar datos
     this.currentUserLogin = null;
     this.isShowingUserDetail = false; // Resetear bandera
+    this.currentUserEffortData = null;
+    this.updateStowKpiSummary();
 
     // Scroll to top
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -2675,6 +2780,8 @@ class UserActivityController {
       userEffortData
     );
 
+    this.currentUserEffortData = userEffortData;
+
     // Actualizar métricas principales
     this.updateEffortMetrics(userEffortData);
 
@@ -2692,6 +2799,8 @@ class UserActivityController {
 
     // Actualizar distribución por estantes
     this.updateEffortShelves(userEffortData);
+
+    this.updateStowKpiSummary();
   }
 
   /**
@@ -3323,6 +3432,8 @@ class UserActivityController {
    * Limpia los datos de esfuerzo cuando no hay datos disponibles
    */
   clearEffortData() {
+    this.currentUserEffortData = null;
+    this.updateStowKpiSummary();
     // Limpiar métricas
     const metricIds = [
       "effort-hours",
@@ -3410,6 +3521,140 @@ class UserActivityController {
   }
 
   /**
+   * Formats currentDate (DDMMYYYY) to DD-MM-YYYY for heatmap filenames
+   */
+  formatDateForHeatmap(dateStr) {
+    if (!dateStr || dateStr.length !== 8) return dateStr;
+    return `${dateStr.slice(0, 2)}-${dateStr.slice(2, 4)}-${dateStr.slice(4)}`;
+  }
+
+  /**
+   * Sets up events for the global heatmap bar and modals
+   */
+  setupGlobalHeatmapEvents() {
+    document.querySelectorAll(".heatmap-global-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const shift = btn.dataset.shift;
+        this.openGlobalHeatmapModal(shift);
+      });
+    });
+
+    const thumbsModal = document.getElementById("heatmap-global-modal");
+    const thumbsClose = document.getElementById("heatmap-global-modal-close");
+
+    if (thumbsClose) {
+      thumbsClose.addEventListener("click", () => {
+        thumbsModal?.classList.remove("show");
+        document.body.style.overflow = "";
+      });
+    }
+    if (thumbsModal) {
+      thumbsModal.addEventListener("click", (e) => {
+        if (e.target === thumbsModal) {
+          thumbsModal.classList.remove("show");
+          document.body.style.overflow = "";
+        }
+      });
+    }
+
+    const fullModal = document.getElementById("heatmap-fullscreen-modal");
+    if (fullModal) {
+      fullModal.addEventListener("click", () => {
+        fullModal.classList.remove("show");
+      });
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        if (fullModal?.classList.contains("show")) {
+          fullModal.classList.remove("show");
+        } else if (thumbsModal?.classList.contains("show")) {
+          thumbsModal.classList.remove("show");
+          document.body.style.overflow = "";
+        }
+      }
+    });
+  }
+
+  async openGlobalHeatmapModal(shift) {
+    const modal = document.getElementById("heatmap-global-modal");
+    const title = document.getElementById("heatmap-global-modal-title");
+    const grid = document.getElementById("heatmap-thumbs-grid");
+    if (!modal || !grid) return;
+
+    title.textContent = `Heatmap Global – ${shift}`;
+    grid.innerHTML = '<p style="text-align:center;color:#64748b;">Cargando...</p>';
+    modal.classList.add("show");
+    document.body.style.overflow = "hidden";
+
+    const zones = ["HRK", "P1", "P2", "P3", "P4", "P5"];
+    const dateFormatted = this.formatDateForHeatmap(this.currentDate);
+    const config = await window.api.getConfig();
+    const dataPaths = config?.data_paths || [];
+
+    const dataTempPaths = dataPaths.map((p) => {
+      let base = p;
+      if (!base.endsWith("\\") && !base.endsWith("/")) {
+        base += p.includes("\\") ? "\\" : "/";
+      }
+      return base + (base.endsWith("\\") ? "Data_temp\\" : "Data_temp/");
+    });
+
+    let html = "";
+
+    for (const zone of zones) {
+      const fileName = `${shift}_${zone}_All_${dateFormatted}.png`;
+      let found = false;
+      let imgUrl = "";
+
+      for (const basePath of dataTempPaths) {
+        const fullPath = `${basePath}${fileName}`;
+        try {
+          const exists = await window.api.fileExists(fullPath);
+          if (exists) {
+            imgUrl = this.convertPathToUrl(fullPath);
+            found = true;
+            break;
+          }
+        } catch (e) {
+          continue;
+        }
+      }
+
+      if (found) {
+        html += `
+          <div class="heatmap-thumb-card" data-img="${imgUrl}" data-zone="${zone}">
+            <img src="${imgUrl}" alt="${shift} ${zone}" loading="lazy" />
+            <div class="heatmap-thumb-label">${zone}</div>
+          </div>`;
+      } else {
+        html += `
+          <div class="heatmap-thumb-card not-found">
+            <div class="heatmap-thumb-placeholder">No disponible</div>
+            <div class="heatmap-thumb-label">${zone}</div>
+          </div>`;
+      }
+    }
+
+    grid.innerHTML = html;
+
+    grid.querySelectorAll(".heatmap-thumb-card:not(.not-found)").forEach((card) => {
+      card.addEventListener("click", () => {
+        const imgSrc = card.dataset.img;
+        this.openHeatmapFullscreen(imgSrc);
+      });
+    });
+  }
+
+  openHeatmapFullscreen(imgSrc) {
+    const modal = document.getElementById("heatmap-fullscreen-modal");
+    const img = document.getElementById("heatmap-fullscreen-img");
+    if (!modal || !img) return;
+    img.src = imgSrc;
+    modal.classList.add("show");
+  }
+
+  /**
    * Carga los SVG de ActivityScope
    */
   async loadActivityScopeIcons() {
@@ -3462,7 +3707,16 @@ class UserActivityController {
       'icon-truck-pallet-e': 'assets/svg/ActivityScope/PalletE.svg',
       'icon-truck-pallet-w': 'assets/svg/ActivityScope/PalletW.svg',
       'icon-lightning-effort': 'assets/svg/ActivityScope/Esfuerzo.svg',
-      'icon-times-modal': 'assets/svg/ActivityScope/CerrarModal.svg'
+      'icon-times-modal': 'assets/svg/ActivityScope/CerrarModal.svg',
+
+      'icon-summary-units-bin': 'assets/svg/ActivityScope/PromedioUnitsBin.svg',
+      'icon-summary-units-cart': 'assets/svg/ActivityScope/PromedioUnitsCart.svg',
+      'icon-summary-stow-time': 'assets/svg/ActivityScope/TiempoEntreStow.svg',
+      'icon-summary-fullness': 'assets/svg/ActivityScope/PromedioUnitsCart.svg',
+      'icon-heatmap-bar': 'assets/svg/ActivityScope/HeatmapStow.svg',
+      'icon-heatmap-early': 'assets/svg/ActivityScope/Sun.svg',
+      'icon-heatmap-late': 'assets/svg/ActivityScope/Moon.svg',
+      'icon-times-global-heatmap': 'assets/svg/ActivityScope/CerrarModal.svg'
     };
     
     // Verificar que el API esté disponible

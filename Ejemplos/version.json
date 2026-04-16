@@ -1,0 +1,6 @@
+{
+  "version": "1.2.6",
+  "filename": "Inbound Scope.exe",
+  "mandatory": true,
+  "changelog": "actualizacion 1.2.6:\n- Activity Scope: nueva barra de KPIs generales en Stow (Promedio U/Bin, U/Cart, Tiempo entre Stow y Fullness de Carts)\n- Activity Scope: visor de Heatmaps globales por turno (Early/Late) con miniaturas de todas las zonas y vista ampliada\n- Se mantienen todas las funcionalidades existentes\n"
+}
