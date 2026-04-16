@@ -1,0 +1,664 @@
+{
+  "asignaciones": [
+    {
+      "usuario_login": "CPEREZBE",
+      "puesto_id": "dock-clerk",
+      "puesto_nombre": "Clerk",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Dock",
+      "funcion": "Clerk",
+      "fecha_asignacion": "2026-01-19T21:25:30.623Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "UNLOADERS",
+      "puesto_id": "dock-clerk",
+      "puesto_nombre": "Clerk",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Dock",
+      "funcion": "Clerk",
+      "fecha_asignacion": "2026-01-19T21:25:38.827Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "YSJIMENE",
+      "puesto_id": "stow-highrack",
+      "puesto_nombre": "Stow HighRack",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Stow",
+      "funcion": "Stow HighRack",
+      "fecha_asignacion": "2026-01-19T21:26:38.014Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "ALINAOAT",
+      "puesto_id": "receive-decant-pid",
+      "puesto_nombre": "Decant PID",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Receive",
+      "funcion": "Decant PID",
+      "fecha_asignacion": "2026-01-19T21:27:44.736Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "PMAESTMA",
+      "puesto_id": "receive-decant-pid",
+      "puesto_nombre": "Decant PID",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Receive",
+      "funcion": "Decant PID",
+      "fecha_asignacion": "2026-01-19T21:27:50.143Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "BELTEOBA",
+      "puesto_id": "receive-decant-pid",
+      "puesto_nombre": "Decant PID",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Receive",
+      "funcion": "Decant PID",
+      "fecha_asignacion": "2026-01-19T21:27:55.362Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "MEJIAAMP",
+      "puesto_id": "receive-decant-pid",
+      "puesto_nombre": "Decant PID",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Receive",
+      "funcion": "Decant PID",
+      "fecha_asignacion": "2026-01-19T21:28:10.506Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "PEROSOFI",
+      "puesto_id": "pout-ps",
+      "puesto_nombre": "PS POUT",
+      "departamento_principal": "IB",
+      "departamento_secundario": "POUT",
+      "funcion": "PS POUT",
+      "fecha_asignacion": "2026-01-19T21:30:00.626Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "ALETOLEA",
+      "puesto_id": "stow-cart-runner",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Stow",
+      "funcion": "Cart Runner",
+      "fecha_asignacion": "2026-01-19T22:02:13.387Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "SEBASANK",
+      "puesto_id": "stow-cart-runner",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Stow",
+      "funcion": "Cart Runner",
+      "fecha_asignacion": "2026-01-19T22:02:17.849Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "ALVVEROS",
+      "puesto_id": "stow-pick-tower",
+      "puesto_nombre": "Stow Pick Tower",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Stow",
+      "funcion": "Stow Pick Tower",
+      "fecha_asignacion": "2026-01-19T22:05:12.410Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "ANAHLEMU",
+      "puesto_id": "stow-pick-tower",
+      "puesto_nombre": "Stow Pick Tower",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Stow",
+      "funcion": "Stow Pick Tower",
+      "fecha_asignacion": "2026-01-19T22:05:16.707Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "BEJJARAB",
+      "puesto_id": "stow-pick-tower",
+      "puesto_nombre": "Stow Pick Tower",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Stow",
+      "funcion": "Stow Pick Tower",
+      "fecha_asignacion": "2026-01-19T22:05:20.809Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "GUELEAZA",
+      "puesto_id": "stow-pick-tower",
+      "puesto_nombre": "Stow Pick Tower",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Stow",
+      "funcion": "Stow Pick Tower",
+      "fecha_asignacion": "2026-01-19T22:05:25.031Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "KACOSTAF",
+      "puesto_id": "stow-pick-tower",
+      "puesto_nombre": "Stow Pick Tower",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Stow",
+      "funcion": "Stow Pick Tower",
+      "fecha_asignacion": "2026-01-19T22:05:29.825Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "LOISMAIK",
+      "puesto_id": "stow-pick-tower",
+      "puesto_nombre": "Stow Pick Tower",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Stow",
+      "funcion": "Stow Pick Tower",
+      "fecha_asignacion": "2026-01-19T22:05:33.829Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "LOPMICAE",
+      "puesto_id": "stow-pick-tower",
+      "puesto_nombre": "Stow Pick Tower",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Stow",
+      "funcion": "Stow Pick Tower",
+      "fecha_asignacion": "2026-01-19T22:05:37.902Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "MAITDESI",
+      "puesto_id": "stow-pick-tower",
+      "puesto_nombre": "Stow Pick Tower",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Stow",
+      "funcion": "Stow Pick Tower",
+      "fecha_asignacion": "2026-01-19T22:05:42.110Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "MERCHFER",
+      "puesto_id": "stow-pick-tower",
+      "puesto_nombre": "Stow Pick Tower",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Stow",
+      "funcion": "Stow Pick Tower",
+      "fecha_asignacion": "2026-01-19T22:05:46.760Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "MFUENANT",
+      "puesto_id": "stow-pick-tower",
+      "puesto_nombre": "Stow Pick Tower",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Stow",
+      "funcion": "Stow Pick Tower",
+      "fecha_asignacion": "2026-01-19T22:05:51.171Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "QLTORCAT",
+      "puesto_id": "stow-pick-tower",
+      "puesto_nombre": "Stow Pick Tower",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Stow",
+      "funcion": "Stow Pick Tower",
+      "fecha_asignacion": "2026-01-19T22:05:56.040Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "ROSAFEAD",
+      "puesto_id": "stow-pick-tower",
+      "puesto_nombre": "Stow Pick Tower",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Stow",
+      "funcion": "Stow Pick Tower",
+      "fecha_asignacion": "2026-01-19T22:06:00.793Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "YBRFATIM",
+      "puesto_id": "stow-pick-tower",
+      "puesto_nombre": "Stow Pick Tower",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Stow",
+      "funcion": "Stow Pick Tower",
+      "fecha_asignacion": "2026-01-19T22:06:06.300Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "EYOLANDF",
+      "puesto_id": "receive-decant-pid",
+      "puesto_nombre": "Decant PID",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Receive",
+      "funcion": "Decant PID",
+      "fecha_asignacion": "2026-01-19T22:06:21.997Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "MVMARICA",
+      "puesto_id": "receive-decant-pid",
+      "puesto_nombre": "Decant PID",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Receive",
+      "funcion": "Decant PID",
+      "fecha_asignacion": "2026-01-19T22:06:26.731Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "MOUFIDMO",
+      "puesto_id": "receive-decant-pid",
+      "puesto_nombre": "Decant PID",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Receive",
+      "funcion": "Decant PID",
+      "fecha_asignacion": "2026-01-19T22:06:34.575Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "HEDALEX",
+      "puesto_id": "receive-decant-pid",
+      "puesto_nombre": "Decant PID",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Receive",
+      "funcion": "Decant PID",
+      "fecha_asignacion": "2026-01-19T22:06:38.670Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "GOMEZQSA",
+      "puesto_id": "receive-decant-pid",
+      "puesto_nombre": "Decant PID",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Receive",
+      "funcion": "Decant PID",
+      "fecha_asignacion": "2026-01-19T22:06:43.057Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "JUANFGRA",
+      "puesto_id": "receive-noncon",
+      "puesto_nombre": "NonCon",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Receive",
+      "funcion": "NonCon",
+      "fecha_asignacion": "2026-01-19T22:06:58.628Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "MZPRR",
+      "puesto_id": "receive-noncon",
+      "puesto_nombre": "NonCon",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Receive",
+      "funcion": "NonCon",
+      "fecha_asignacion": "2026-01-19T22:07:03.136Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "VEDVENTU",
+      "puesto_id": "receive-noncon",
+      "puesto_nombre": "NonCon",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Receive",
+      "funcion": "NonCon",
+      "fecha_asignacion": "2026-01-19T22:07:08.282Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "CARGINIC",
+      "puesto_id": "dock-ocean",
+      "puesto_nombre": "Ocean",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Dock",
+      "funcion": "Ocean",
+      "fecha_asignacion": "2026-01-19T22:07:23.349Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "EMACHEAM",
+      "puesto_id": "dock-ocean",
+      "puesto_nombre": "Ocean",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Dock",
+      "funcion": "Ocean",
+      "fecha_asignacion": "2026-01-19T22:07:29.604Z",
+      "tiene_formacion": false
+    },
+    {
+      "usuario_login": "JUANFELV",
+      "puesto_id": "pout-ps",
+      "puesto_nombre": "PS POUT",
+      "departamento_principal": "IB",
+      "departamento_secundario": "POUT",
+      "funcion": "PS POUT",
+      "fecha_asignacion": "2026-01-20T10:22:46.144Z",
+      "tiene_formacion": false
+    }
+  ],
+  "historial_cambios": [
+    {
+      "fecha": "2026-01-19T21:25:30.623Z",
+      "usuario": "CPEREZBE",
+      "accion": "asignacion",
+      "puesto": "dock-clerk"
+    },
+    {
+      "fecha": "2026-01-19T21:25:38.827Z",
+      "usuario": "UNLOADERS",
+      "accion": "asignacion",
+      "puesto": "dock-clerk"
+    },
+    {
+      "fecha": "2026-01-19T21:26:06.204Z",
+      "usuario": "JUANFGRA",
+      "accion": "asignacion",
+      "puesto": "dock-unloader"
+    },
+    {
+      "fecha": "2026-01-19T21:26:12.947Z",
+      "usuario": "MZPRR",
+      "accion": "asignacion",
+      "puesto": "dock-unloader"
+    },
+    {
+      "fecha": "2026-01-19T21:26:33.873Z",
+      "usuario": "GOMEZQSA",
+      "accion": "asignacion",
+      "puesto": "stow-highrack"
+    },
+    {
+      "fecha": "2026-01-19T21:26:38.014Z",
+      "usuario": "YSJIMENE",
+      "accion": "asignacion",
+      "puesto": "stow-highrack"
+    },
+    {
+      "fecha": "2026-01-19T21:26:44.922Z",
+      "usuario": "POUT",
+      "accion": "asignacion",
+      "puesto": "stow-highrack"
+    },
+    {
+      "fecha": "2026-01-19T21:26:47.711Z",
+      "usuario": "PEROSOFI",
+      "accion": "asignacion",
+      "puesto": "stow-highrack"
+    },
+    {
+      "fecha": "2026-01-19T21:27:29.705Z",
+      "usuario": "VEDVENTU",
+      "accion": "asignacion",
+      "puesto": "dock-ocean"
+    },
+    {
+      "fecha": "2026-01-19T21:27:44.736Z",
+      "usuario": "ALINAOAT",
+      "accion": "asignacion",
+      "puesto": "receive-decant-pid"
+    },
+    {
+      "fecha": "2026-01-19T21:27:50.143Z",
+      "usuario": "PMAESTMA",
+      "accion": "asignacion",
+      "puesto": "receive-decant-pid"
+    },
+    {
+      "fecha": "2026-01-19T21:27:55.362Z",
+      "usuario": "BELTEOBA",
+      "accion": "asignacion",
+      "puesto": "receive-decant-pid"
+    },
+    {
+      "fecha": "2026-01-19T21:28:00.359Z",
+      "usuario": "MERCHFER",
+      "accion": "asignacion",
+      "puesto": "receive-decant-pid"
+    },
+    {
+      "fecha": "2026-01-19T21:28:05.527Z",
+      "usuario": "YBRFATIM",
+      "accion": "asignacion",
+      "puesto": "receive-decant-pid"
+    },
+    {
+      "fecha": "2026-01-19T21:28:10.506Z",
+      "usuario": "MEJIAAMP",
+      "accion": "asignacion",
+      "puesto": "receive-decant-pid"
+    },
+    {
+      "fecha": "2026-01-19T21:29:12.443Z",
+      "usuario": "PIT B",
+      "accion": "asignacion",
+      "puesto": "receive-decant-pid"
+    },
+    {
+      "fecha": "2026-01-19T21:29:19.279Z",
+      "usuario": "PIT B",
+      "accion": "remocion",
+      "puesto": "receive-decant-pid"
+    },
+    {
+      "fecha": "2026-01-19T21:29:31.504Z",
+      "usuario": "POUT",
+      "accion": "remocion",
+      "puesto": "stow-highrack"
+    },
+    {
+      "fecha": "2026-01-19T21:29:35.120Z",
+      "usuario": "PEROSOFI",
+      "accion": "remocion",
+      "puesto": "stow-highrack"
+    },
+    {
+      "fecha": "2026-01-19T21:30:00.626Z",
+      "usuario": "PEROSOFI",
+      "accion": "asignacion",
+      "puesto": "pout-ps"
+    },
+    {
+      "fecha": "2026-01-19T22:02:13.387Z",
+      "usuario": "ALETOLEA",
+      "accion": "asignacion",
+      "puesto": "stow-cart-runner"
+    },
+    {
+      "fecha": "2026-01-19T22:02:17.849Z",
+      "usuario": "SEBASANK",
+      "accion": "asignacion",
+      "puesto": "stow-cart-runner"
+    },
+    {
+      "fecha": "2026-01-19T22:05:12.410Z",
+      "usuario": "ALVVEROS",
+      "accion": "asignacion",
+      "puesto": "stow-pick-tower"
+    },
+    {
+      "fecha": "2026-01-19T22:05:16.707Z",
+      "usuario": "ANAHLEMU",
+      "accion": "asignacion",
+      "puesto": "stow-pick-tower"
+    },
+    {
+      "fecha": "2026-01-19T22:05:20.809Z",
+      "usuario": "BEJJARAB",
+      "accion": "asignacion",
+      "puesto": "stow-pick-tower"
+    },
+    {
+      "fecha": "2026-01-19T22:05:25.031Z",
+      "usuario": "GUELEAZA",
+      "accion": "asignacion",
+      "puesto": "stow-pick-tower"
+    },
+    {
+      "fecha": "2026-01-19T22:05:29.825Z",
+      "usuario": "KACOSTAF",
+      "accion": "asignacion",
+      "puesto": "stow-pick-tower"
+    },
+    {
+      "fecha": "2026-01-19T22:05:33.829Z",
+      "usuario": "LOISMAIK",
+      "accion": "asignacion",
+      "puesto": "stow-pick-tower"
+    },
+    {
+      "fecha": "2026-01-19T22:05:37.902Z",
+      "usuario": "LOPMICAE",
+      "accion": "asignacion",
+      "puesto": "stow-pick-tower"
+    },
+    {
+      "fecha": "2026-01-19T22:05:42.110Z",
+      "usuario": "MAITDESI",
+      "accion": "asignacion",
+      "puesto": "stow-pick-tower"
+    },
+    {
+      "fecha": "2026-01-19T22:05:46.760Z",
+      "usuario": "MERCHFER",
+      "accion": "cambio_puesto",
+      "desde": "receive-decant-pid",
+      "hacia": "stow-pick-tower"
+    },
+    {
+      "fecha": "2026-01-19T22:05:46.760Z",
+      "usuario": "MERCHFER",
+      "accion": "asignacion",
+      "puesto": "stow-pick-tower"
+    },
+    {
+      "fecha": "2026-01-19T22:05:51.171Z",
+      "usuario": "MFUENANT",
+      "accion": "asignacion",
+      "puesto": "stow-pick-tower"
+    },
+    {
+      "fecha": "2026-01-19T22:05:56.040Z",
+      "usuario": "QLTORCAT",
+      "accion": "asignacion",
+      "puesto": "stow-pick-tower"
+    },
+    {
+      "fecha": "2026-01-19T22:06:00.793Z",
+      "usuario": "ROSAFEAD",
+      "accion": "asignacion",
+      "puesto": "stow-pick-tower"
+    },
+    {
+      "fecha": "2026-01-19T22:06:06.300Z",
+      "usuario": "YBRFATIM",
+      "accion": "cambio_puesto",
+      "desde": "receive-decant-pid",
+      "hacia": "stow-pick-tower"
+    },
+    {
+      "fecha": "2026-01-19T22:06:06.300Z",
+      "usuario": "YBRFATIM",
+      "accion": "asignacion",
+      "puesto": "stow-pick-tower"
+    },
+    {
+      "fecha": "2026-01-19T22:06:21.997Z",
+      "usuario": "EYOLANDF",
+      "accion": "asignacion",
+      "puesto": "receive-decant-pid"
+    },
+    {
+      "fecha": "2026-01-19T22:06:26.731Z",
+      "usuario": "MVMARICA",
+      "accion": "asignacion",
+      "puesto": "receive-decant-pid"
+    },
+    {
+      "fecha": "2026-01-19T22:06:34.575Z",
+      "usuario": "MOUFIDMO",
+      "accion": "asignacion",
+      "puesto": "receive-decant-pid"
+    },
+    {
+      "fecha": "2026-01-19T22:06:38.671Z",
+      "usuario": "HEDALEX",
+      "accion": "asignacion",
+      "puesto": "receive-decant-pid"
+    },
+    {
+      "fecha": "2026-01-19T22:06:43.057Z",
+      "usuario": "GOMEZQSA",
+      "accion": "cambio_puesto",
+      "desde": "stow-highrack",
+      "hacia": "receive-decant-pid"
+    },
+    {
+      "fecha": "2026-01-19T22:06:43.057Z",
+      "usuario": "GOMEZQSA",
+      "accion": "asignacion",
+      "puesto": "receive-decant-pid"
+    },
+    {
+      "fecha": "2026-01-19T22:06:58.628Z",
+      "usuario": "JUANFGRA",
+      "accion": "cambio_puesto",
+      "desde": "dock-unloader",
+      "hacia": "receive-noncon"
+    },
+    {
+      "fecha": "2026-01-19T22:06:58.628Z",
+      "usuario": "JUANFGRA",
+      "accion": "asignacion",
+      "puesto": "receive-noncon"
+    },
+    {
+      "fecha": "2026-01-19T22:07:03.136Z",
+      "usuario": "MZPRR",
+      "accion": "cambio_puesto",
+      "desde": "dock-unloader",
+      "hacia": "receive-noncon"
+    },
+    {
+      "fecha": "2026-01-19T22:07:03.136Z",
+      "usuario": "MZPRR",
+      "accion": "asignacion",
+      "puesto": "receive-noncon"
+    },
+    {
+      "fecha": "2026-01-19T22:07:08.282Z",
+      "usuario": "VEDVENTU",
+      "accion": "cambio_puesto",
+      "desde": "dock-ocean",
+      "hacia": "receive-noncon"
+    },
+    {
+      "fecha": "2026-01-19T22:07:08.282Z",
+      "usuario": "VEDVENTU",
+      "accion": "asignacion",
+      "puesto": "receive-noncon"
+    },
+    {
+      "fecha": "2026-01-19T22:07:23.349Z",
+      "usuario": "CARGINIC",
+      "accion": "asignacion",
+      "puesto": "dock-ocean"
+    },
+    {
+      "fecha": "2026-01-19T22:07:29.604Z",
+      "usuario": "EMACHEAM",
+      "accion": "asignacion",
+      "puesto": "dock-ocean"
+    },
+    {
+      "fecha": "2026-01-20T10:22:46.144Z",
+      "usuario": "JUANFELV",
+      "accion": "asignacion",
+      "puesto": "pout-ps"
+    }
+  ],
+  "fecha_creacion": "2026-01-19T21:25:03.663Z",
+  "ultima_actualizacion": "2026-01-19T21:25:03.663Z"
+}

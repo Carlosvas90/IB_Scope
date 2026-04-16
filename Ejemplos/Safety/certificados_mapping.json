@@ -1,0 +1,5536 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-02-10T15:31:34.721Z",
+  "certificate_mapping": [
+    {
+      "certificate_title": "AMET ECCF ALL CHK Pack Day 1/Day 2 Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ALL CHK Pick Day 1/Day 2 Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ALL ILT Cart Runner Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ALL ILT Case Receive Day 1 Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ALL ILT Customer Returns Stow Day 1 Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ALL ILT First Aid Training Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ALL ILT ICQA Cycle Count Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ALL ILT ICQA Day 1 Certificate",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ALL ILT ICQA Simple Record Count Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ALL ILT Manual Slam Day 1 Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ALL ILT Outbound Problem Solve Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ALL ILT Pack Multis Day 1 Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ALL ILT Pack Quality School Day 2 Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ALL ILT Pallet Receive Day 1 Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ALL ILT Peer Trainer - FUD Hunter Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ALL ILT Peer Trainer - ISS Problem Solver Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ALL ILT Peer Trainer - Outbound Problem Solver Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ALL ILT Peer Trainer - Pick PG Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ALL ILT Peer Trainer - Receive Problem Solver Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ALL ILT Peer Trainer - SLAM Operator Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ALL ILT Peer Trainer - Ship auditor Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ALL ILT Peer Trainer - Sweeper Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ALL ILT Prep Receive Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ALL ILT PwD Inclusion Leadership Training Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ALL ILT Receive Each Day 1 Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ALL ILT Ship Clerk Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ALL ILT Slam at Pack Day 1 Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ALL ILT Stow to Prime Quality School Day 2 Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ALL ILT/SDLP Ready Steady Go Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ALL Pick Day 1 Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ILT ALL  Ready, Steady, Go Practical",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF ILT ALL Jambuster Practical Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF Mixed Powered Industrial Truck (PIT) Safety Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET ECCF Mixed SIOC Quality School Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMET_ECCF_TCA_TS_PICK_Tenure Coaching Cert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMXL FC: Dock Safety",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "AMXL FC: Safety Tour",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "BD1_EUCF_IAT_ALL_Decant_LP",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "Basic Spill Response Europe Certificate of Completion",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "DELETED",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "Dock Clerk",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUATS_IHS_ATA_Briefing_2025_Yard_Safety",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF Global BtS Compliance Modules",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF Medium HazMat Refresher Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ALL_SDLP_Outbound Problem Solve Collector Guided Test",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ APU_ALL_Pack Unscannable Handling",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ APU_ALL_Pack_Paperbags_Requirements",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ APU_ALL_WAT Machine Tape Replacement",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ BRF_ALL_PIT Red Tag Digitization",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ Dangerous Goods (DG) Hazmat Awareness",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ IAT_ARS_Pick to Tote",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ IAT_TS_Pick",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ILT_ALL_Carton Mover",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ILT_ALL_Day 0",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ILT_ALL_Directed Palletization Operator",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ILT_ALL_Expert Outbound Problem Solve",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ILT_ALL_Hazmat_Medium_Test",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ILT_ALL_Inbound Problem Solver",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ILT_ALL_Inbound Problem Solver Guide",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ILT_ALL_Indoor Marshall/Classroom/Guide",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ILT_ALL_KAR_Pick at height",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ILT_ALL_Outbound Problem Solve",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ILT_ALL_Outbound Problem Solve Collector Test",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ILT_ALL_Outbound Problem Solve Expert Test",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ILT_ALL_Outdoor Marshall",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ILT_ALL_Prep Labelling",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ILT_ALL_SAM Tech",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ILT_ALL_Ship Flatsort Super User",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ILT_ALL_Sort Tray Kickout",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ILT_ALL_Spotter",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ILT_ALL_TAWI_Container_Unloader_(TCU)",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ILT_ALL_Vacuum Lift TAWI",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ILT_ALL_Voyager",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ILT_ARS_POD Release Optimization",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ILT_ARS_Pick to Rebin POD Release Optimisation",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ILT_KAR_Pick",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ILT_KAR_Stow",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ILT_TNS_Juno Cart",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ILT_TNS_Pack multis",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ILT_TNS_Pack_Quality_Guide",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ ILT_TNS_Pick to Spoo",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ KIT_KAR_QAPS",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ NTU_ALL_5S awareness - SAT team",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ NTU_ALL_Dock Safety",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ NTU_ALL_Yard Access",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ SDLP_ALL_CoP Onboarding",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ SDLP_ALL_Hybrid HazMat Day1 Test",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ SDLP_ALL_Jambuster-Test",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ SDLP_ALL_OBPS PET 2.0",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ SDLP_ALL_POPS Directed Workflow 2.0",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ SDLP_ALL_Pallet Tracker Procedure",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ SDLP_ALL_Ready Steady Go_Quiz",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ SDLP_ALL_SIOC_Kickout_Processing",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ SDLP_ALL_Sexual Harassment Protocol",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ SDLP_ALL_Ship Clerk_LWV overload prevention",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ALL_AFE Induct",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ALL_Decant",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ALL_Dock Clerk",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ALL_FUD Locator",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ALL_ICQA Auditor",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ALL_ICQA Problem Solver",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ALL_ILT_NCNS_Update",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ALL_ISS Problem Solver",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ALL_Inbound Problem Solver",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ALL_Inventory- Add tool A",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ALL_Kick out operator",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ALL_MAASK login process for new FCs Associates",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ALL_Outbound Problem Solve",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ALL_Outbound cart",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ALL_Pack Process Guide",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ALL_Pick Process Guide",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ALL_Receive Process Guide",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ALL_Ship Clerk",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ALL_Ship Problem Solve",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ALL_Slam operator",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ALL_Sort Problem Solver",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ALL_Sweeper",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_APU_ALL_PACK_Hot Key",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_APU_Food Safety",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_APU_Pack_LongSkinny_SIOC",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_APU_Pet food as SIOC",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_APU_PrepCaps",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ASL_RELO_Amazon Resale Packaging",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ASL_RELO_Customer Returns Clean Decant",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ASL_RELO_Customer Returns Customer Comment",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ASL_RELO_Customer Returns Customer Data Protection",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ASL_RELO_Customer Returns Customer Data Protection Softlines INACTIVE",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ASL_RELO_Customer Returns Escalation",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ASL_RELO_Customer Returns Item Damage",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ASL_RELO_Customer Returns Package Damage",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ASL_RELO_Customer Returns Packaging",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ASL_RELO_Customer Returns Repacking",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ASL_RELO_Customer Returns Seals",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ASL_RELO_Customer Returns Sharp Items",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ASL_RELO_Unified Grading Introduction Non Tech",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_All_Stow Process Guide",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_BRF_ALL_Coaching Optimisation",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_BRF_ALL_Dock & Yard Safety",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_BRF_ALL_EU_Safety_Briefing_SLOT",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_BRF_ALL_FC Safety",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_BRF_ALL_Instructor new content",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_BTS_ CAREER_CHOICE",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_BTS_AtoZ",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_BTS_BTS1",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_BTS_BTS2",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_BTS_FLOOR_READY",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_BTS_FOOD_SAFETY",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_BTS_GRADUATION",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_BTS_PROCESS_AREA_TOUR",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_BTS_SAFETY Theory",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_BTS_SAFETY_BASICS",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_BTS_SAFETY_WALK",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_BTS_Safety test",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_BTS_WELCOME_TO_AMAZON",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_CHK_ALL_Instructor/Peer_Audit",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_CHK_ALL_Pack-Multi",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_CHK_ALL_Pack-Single",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_CHK_ALL_Pick",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_CHK_ALL_Ship",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_CHK_ARS_Pack-SmartPack",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_CHK_ARS_Receive",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_CHK_ARS_Stow",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_CHK_TNS_Receive",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_CHK_TNS_Stow",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_IATL_ALL_Decant",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_IATL_ALL_Each Receive",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_IATL_ALL_Predicant",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_IATL_ALL_Receive Prep",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_IATL_ARS_Cycle Count",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_IATL_ARS_Pick to Rebin",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_IATL_ARS_Simple Bin Count",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_IATL_ARS_Simple Record Count",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_IATL_ARS_Stow Lite",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_IATL_ARS_Stow NES",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_IATL_IXD_RC Sort",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_IATL_IXD_URS Prep",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_IATL_IXD_URS Sort",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_IAT_ALL_Customer Returns - Clean Decant - differences between C-ret Sort process and Clean Decant",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_IAT_ALL_Pack AFE",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_IAT_ALL_Pack Multis",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_IAT_ARS_Pack Singles",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_IAT_ARS_Stow IDS",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_IAT_RELO_Amazon Resale",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_IAT_RELO_Customer Returns",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_IAT_SFTL_Stow",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_IAT_TNS_Pack Singles",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_IAT_TS_Pack Singles",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_IAT_TS_Stow",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT/SDLP_ALL_AFM DART Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT/SDLP_ALL_Dock Safety Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT/SDLP_ALL_Outdoor Marshall",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT/SDLP_ALL_ShipAuditor",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT/SDLP_IXD_Receive Problem Solve",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT/SDLP_Vendor Returns Problem Solver",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ Labor Tracking Kiosk tool",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_2021_ VD0 - Module 4 - RSG_Associates_Day0",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_AROS",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Admin Support TOM",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_AutoSlam",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_BTS_Code Of Conduct",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_BTS_RSG",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_BTS_Trainer_Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_BTS_Workplace Harassment",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Bags Matrix Containerization Sorter",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Banned Tractor ID Update",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Bind Hierarchy",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_CC ICQA Legacy",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_CI Ideas Tool",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Cage Handling",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Caljan Boom Conveyor",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Cart Runner Stow",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Cart handler stow",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Case Receive",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Collector_Outbound Problem Solve",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Corral",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Cubiscan Operator",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Customer Returns Waterspider",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Damage Gatekeeping",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Damage_Gatekeeper_Removals_Waste_Update",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Damageland Stow",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Data protection_Update",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Day 0",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Day 0 Schedule",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Decant-Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Dock Clerk",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Dock Clerk E-learning Trainer Guide",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Elevator",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Empty Mixed Load_Update",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Ergo_Pack",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Ergo_School (keops)",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_FBA Dock",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_FC Andon tool",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_FSRI",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_FUD Hunter",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Fullness Training Stow",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Gatehouse Supervisor",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Gawronski Conveyor",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_General Dock Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Giftwrap",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_High Risk Operations Hot Work and Fire Impairment",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_ICQA Analyst",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_ICQA Auditor",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_ICQA IRDR Counters",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_ICQA Problem Solve Andons",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_ICQA Problem Solver",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_ICQA Quality and Pace Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_ICQA_Amnesty",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_ID Premium tool",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_ISS Problem Solver",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_ISS Problem Solver Guide",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Indoor Marshall E-Learning Trainer Guide",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Indoor_Marshall",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Inventory- Delete I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Inventory- Edit E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Inventory- Edit I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Jambuster",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Jambuster D",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Jambuster Practical",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Jambuster_Plus",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Kick out operator",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Kick out operator guide",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Label printing",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Loose/Fluid Flow Inbound",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Loose/Fluid Flow Outbound",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_MCF Pack Waterspider",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Manual Pallet Truck",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Master Data Analyzer",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Module 1: Role and Instructing Skills",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Module 2: Instructor Umbrella Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Module 3_Coaching Instructor",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Module 4_Peer Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Move_Container 104_tool",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Move_Containers_tool",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_New Pallet preditor tool",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_OB Cart Straps",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_OB FCs WHD Grading TREX Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_OB Problem Solve Guide",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_OB_Cart_Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Outbound Pack Waterspider",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_PID_Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_PIT Safety basic",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_PIT Safety high",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_PIT Safety_Medium",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_PIT Safety_Walkie",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_PIT_Picking_at_Height",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_PIT_Stow_at_Height",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_PIT_Walkie",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_POPS",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_PRISM tool",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Pack F-BOX Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Pack Manual SLAM - B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Pack Manual SLAM - E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Pack Process Guide",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Pack Singles Day 2 Quality Guide",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Pack Singles Quality Guide",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Pack_No_Slam",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Pallet Check In",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Pallet Crush tool",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Pallet Decant tool",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Pallet Stow",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Pallet Unload",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Pallet_Receive",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Pick",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Pick BWS",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Pick Fullness Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Pick Process Guide",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Pick console tool",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_PrEditor",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Pre-Decant",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Presort tool",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Pump Truck",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Quantity Stow",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_REVERSE DIRECTED PACK",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Ready Steady Go Practical",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Ready Steady Go_Associates",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Rebin Quality Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Receive Overage and Misship",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Receive Process Guide Test",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Robotic Arm Palletizer Operational Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Robotic palletize operator",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Robotic tote depalletizer",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Routing tool",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_SA_SIOC_SIOB_MANAGER_BRIEF",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_SBC ICQA Legacy",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_SHUTTLE BUILDING",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_SLAM Operator Guide",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_SRC ICQA Legacy",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Safety Knife Rules & Blade exchange",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Shake_tables",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Ship Auditor",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Ship Auditor Test",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Ship Clerk",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Ship In Own Packaging",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Ship Problem Solve",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Ship Quality and Pace Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Ship Sort",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Ship_Clerk_Guide",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Ship_Clerk_Test",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Show Container app",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Sideline App",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Slam Operator",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Sort Rebin",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Sort Station Bulls Eye",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Sort Wrangling",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Sort support A",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Sort_Wrangling Merge Tool",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Stow_Sort_Non_Sort",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Sweeper",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Tape Machine (3M, SIAT)",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Tapegun rules",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Tote replenisher Pick",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Transfer Out Dock",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Transfer out",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Transfer_In_Dock",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Transshipment Sort Tool",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Unbind Hierarchy",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Universal Receive Quality Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Unreceive tool",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_V-Returns List Tote tool",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Vacuum Lift Schmalz",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Vendor Returns Pack Fracs LTL",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Vendor Returns Pack Remove Recover",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Vendor Returns Problem Solver",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Vendor Returns Wrangling",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Volta_Induct",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Volta_Stage",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Volta_Stow",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Warehouse Deals Grading - Instructor",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Waterspider Receiver",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Weights Measurement Mettler Toledo",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ALL_Wrapping Unwrapping Pallets",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ARS_AFE Rebin",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ARS_Amnesty Prevention in Fullness Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_ARS_FIDO Station Reset",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_AR_Day 0",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_AR_FIDO",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_All_Delete_item_Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_All_Inbound Dock AA_IMTP_CSX",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_All_Inbound Dock AA_IMTP_FRX",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_All_Pick Support E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_DockFlow",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_EXCEPTIONS_BTS_SAFETY",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_EXCEPTIONS_BTS_SAFETY_TEST_ATA",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_EXCEPTIONS_BTS_SAFETY_TEST_PAPER",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_Flexible Conveyor",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_INST_Pick",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_INST_Receive",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_IXD_Fluid Flow",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_IXD_Inbound Dock AA",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_IXD_NON SORT Palletize",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_IXD_Non AR Stow POD Transfer Associate",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_IXD_Palletize",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_IXD_PrEditor",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_Inventory - Move B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_Inventory - Move E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_Inventory - Move I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_Inventory- Add B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_Inventory- Add E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_Inventory- Delete A",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_Inventory- Delete E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_Inventory- Edit A",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_Inventory- Edit B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_KAR_Transshipment and Cage Building",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_Late Truck Update",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_MOD_PoD Jambuster",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_MOD_ToD Pack",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_Outbound Problem Solve AR Collector Guided POPS 2.0",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_RELO WHD Packaging Standards Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_RELO_Amazon Resale Grading Indirect Role: Auditor",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_RELO_Amazon Resale Grading TREX Audio",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_RELO_Amazon Resale Grading TREX Cameras",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_RELO_Amazon Resale Grading TREX NonTech",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_RELO_Amazon Resale Grading TREX Softlines",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_RELO_Amazon Resale Grading TREX Tech",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_RELO_Clean Decant/Reprint Quality School",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_RELO_Customer Returns BAU Beyond Acceptable Use",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_RELO_Customer Returns Customer Comment",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_RELO_Customer Returns NHJ Food",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_RELO_Customer Returns NHJ Introduction",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_RELO_Customer Returns NHJ NS Packaging",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_RELO_Customer Returns NHJ NS Seals",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_RELO_Customer Returns Problem Solver Introduction",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_RELO_Customer Returns Refurbish",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_RELO_Customer Returns Problem Solver",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_RELO_Refurbish Auditor",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_RELO_V-Ret Pack Quality Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_RELO_Vendor Returns Problem Solve",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_Reprint Label",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_Smart Paper Operator",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_TNS_PACK_Switch_to_Mix",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ILT_TNS_Pack singles",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_ITL_ALL_Customer Returns - Customer Data Protection -  ReLo",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_IXD_PID operator",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_KIT_TS_Legacy Pick",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_ Admin HR IT I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_ Label Printing E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_Admin HR IT B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_Container Management I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_Cubiscan B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_Cubiscan I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_Giftwrap B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_Inventory- Add I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+  V-Returns Support B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ AFE B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Amnesty B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ BETA TEST B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ BINCONF B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ C-Returns Stow B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ C-Returns Stow E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ C-Returns Stow I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ C-Returns Support B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ C-Returns Support E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ C-Returns Support I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ C-ret sub B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ C-ret sub E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ C-ret sub I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ CS B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Container Builder E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Container Mgmt B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Container Mgmt E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Cubiscan E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Decanter B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Escalation Tool I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Exception Mgmt B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Exception Mgmt E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Exception Mgmt I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ FIDO E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ FIDO I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Facilities (Sub) B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Giftwrap Support B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Grading B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ IC QA B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ IC QA E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ IC QA I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Inbound-Sideline App B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Inbound-Sideline App E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Inbound-Sideline App I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Inventory Power Tool I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Label Printing I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Outbound Dock B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Pack Automation B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Pack Manual SLAM B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Pack Manual SLAM E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Pack Manual SLAM I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Pack SLAM I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ PackApp B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Pick Nike B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Pick RF B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Pick RF E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Pick RF I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Pick Support E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Prep B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Prep I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Process Control Manager",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Process Control Specialist",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Psolve General B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Psolve General E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Psolve General I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Psolve ISS B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Psolve ISS E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Psolve ISS I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Psolve Inbound B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Psolve Inbound E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Psolve Inbound I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Psolve Outbound B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Psolve Outbound E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Psolve Outbound I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Psolve Returns E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Psolve Returns I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ RC Presort I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ RC Sort (Sub) B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ RC Sort Support A",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Rebin B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Rebin I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Receive Case B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Receive Case E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Receive Dock B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Receive Dock E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Receive Dock I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Receive Each B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Receive Each E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Receive LP B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Receive Pallet B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ SC Audit B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ SC Audit E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ SRBRS B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Scan Bin First B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Ship Support B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Slam At Pack E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Sort Center Support I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Sort Waterspider E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Sort support A",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Sort support B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Stow Nike Active B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Stow Nike B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Stow to Prime (Sub) B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Stow to Prime (Sub) E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Stow to Prime (Sub) I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Tote Wrangler B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Transfer In Dock B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Transfer In Dock I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Transfer Out (Sub) B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Transfer Out (Sub) E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Transfer Out Dock B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Transfer Out Dock E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Transfer Out Dock I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Transfer Out Support B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ Transfer Out Support E",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ V-Returns Pack B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ V-Returns Pack I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ V-Returns Sort I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ WD Sort B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_L3+ WD Sort I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_Open Internet Access B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_LOC_SC Audit I",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ Ready, Steady, Go Exemption",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL General Safety Course Exemption",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_ General Safety Course Exemption",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_ Specific Safety Course Delisted",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_AFE Rebin Productivity Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_AFEDirectedPack",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_Accelerated Ship Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_Amnesty Responder Exemption",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_C-Ret Productivity Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_C-Ret Stow Productivity Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_Day2 V-Returns Pack",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_Decant Tenure Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_Dock Safety Training Delisted",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_Fire Marshall Exemption",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_First Aid Exemption",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_IB Cart Handler Exemption",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_IXD Universal Receive Sort tool/RC Sort",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_Jambuster Delisted",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_Load Security for Exception Loads",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_ONE MAN SCISSOR LIFT",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_Outbound Cart Exemption",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_Outbound Cart Handler Exemption",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_Outbound Dock Refresher Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_Outbound Ship Auditor Delisted",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_Outbound Ship Clerk Delisted",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_PIT RPPT-LF Delisted",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_PIT Safety Basic Exemption",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_PIT Safety High Exemption",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_PIT Safety Medium Exemption",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_PIT Safety Walkie Exemption",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_PIT TUG Delisted",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_PIT VOP Delisted",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_PIT_Driver",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_PIT_SafetyRules Basic Delist",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_PIT_SafetyRules High Delist",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_Pack Multis BWS",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_Pack Quality Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_Pack Refresher Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_Pack Singles BWS",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_Pick Process Guide Delisted",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_Pick Quality Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_Pick Refresher Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_Pilot_Ship Clerk",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_RC Sort Productivity Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_RELO WHD Warehouse Deals TWI",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_Receive BWS",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_Receive ProblemSolver Delisted",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_Receive Quality Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_Receive Refresher Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_SLOT Exemption",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_Speedman Dunnage Dispenser Refill",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_Stow Quality Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_Stow Refresher Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_TDR Dock Exemption",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_TDR Indoor Marshall Exemption",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_TDR Yard Access Delisted",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_V-Ret Pack Productivity Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_V-Ret Pick Productivity Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ALL_WHD Productivity Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_ARS_FAST Navigation Test Fail",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_AR_Amnesty 30day Audit",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_AR_Amnesty Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_All_OB Pack Associate Exemption",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_All_Pack Waterspider Exemption",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_All_Receive Problem Solver Exemption",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_Hazmat Exemption",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_IB Cart Handler",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_IB Receive Associate",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_IB Stow Associate",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_INST_AFE Instructor Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_INST_AFE Rebin SSFC Coach",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_INST_Decant Instructor Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_INST_Giftwrap Delisted",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_INST_IB Prep Instructor Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_INST_ICQA Applied",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_INST_ICQA Instructor Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_INST_IXD Universal Receive Delisted",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_INST_Induct Instructor Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_INST_MOD Delisted",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_INST_MODApplied",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_INST_Pack Instructor Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_INST_Palletize Applied",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_INST_Pick Delisted",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_INST_Pick Instructor Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_INST_RC Sort Delisted",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_INST_Rebin Instructor Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_INST_SSFC AFE Induct Coach",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_INST_SSFC Pack Coach",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_INST_SSFC Pack Coach Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_INST_SSFC Pick Coach",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_INST_SSFC Pick Coach Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_INST_SSFC Receive Coach",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_INST_SSFC Ship Coach",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_INST_SSFC Stow Coach",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_INST_SSFC V-Ret Pack Coach",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_INST_SSFC V-Ret Pick Coach",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_INST_Vendor Return Pack Instructor Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_Jambuster_Exemption_Confirmation",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_OB Pick Associate",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_OB Rebin Associate",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_PIT SafetyRules Delisted",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_PIT_Driver Master Exemption",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_PT_ Delisted",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_PT_ Warehouse Deals Auditor",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_PT_CR New Material Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_PT_PIT_Walkie PeerTrainer",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_PT_SLOT Delisted",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_PT_Ship Clerk Delisted",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_Pack Waterspider",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_Pick Waterspider",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_Prep Labeling Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_Prep Labeling Refresher Exemption",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_Ready, Steady, Go Exemption",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_Receive Problem Solver",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_MTC_Receive Waterspider",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NRU_ALL_Code of Conduct",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_ASIN Flip",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_ASIN Replication",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_ATS Cart Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Action in case of spillage of HAZMAT",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Adjust Receive",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Armed Aggressor Awareness",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Automated External Defibrillator",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Bags Containerization Matrix Sorter",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Bin Etiquette Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Bintool",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Caljan Telescopic Conveyor",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Cancel Shipment",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Carton Mover",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Carton Mover Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Carton Mover Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Change CS Condition",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Combilock Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Conveyor,Megasorter,Flexconveyor",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Corrosive Allowed",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Crosstraining Preference DECANT",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Damage School",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Damage Standard Refresh",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Day_0_Knowledge Check",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Defribillator retraining",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Directed Palletization",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Electric Pump Truck",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Exception Management (Beginner)",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Fire Evacuation Chair Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Fire Evacuation Drill",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Fire Marshall",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Fire Safety Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_First Aid Certification",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_First Aid Retraining",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Floor Access Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Floor Scraper",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Food Safety",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Food Safety L2",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Food Safety L3",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Food Safety exemption",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_GTDR Auditors Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_GTDR Classroom Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_GTDR Device Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_GTDR Update Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_General Safety Course",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Golden Rule FAST/UP Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Golden Rules for Load Securing",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Hazmat Waste Cage",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_High Risk Operations Electrical Works",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_High Risk Operations Grinders, Equipment and Hand Tools",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_High Risk Operations Machine Guarding - E-Stops",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_IB Dock Applied",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_IB Outdoor Marshall",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_ISS PS Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Incident Management Training and Workplace Incident Management",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Instructor Meeting 30",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Instructor Meeting 60",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Introduction to ICQA Problem Solver",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Kickout-weight override",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Knife Safety",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_LOTO General Awareness",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Legal Safety presentation Day 0 valid 2years",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Loose Loading Safety Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Loose Unloading Safety Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_MOD Applied",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Master Yard Access",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Menu Admin",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Mobile Platform",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_OB Cart Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_OB Outdoor Marshall",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_OB Problem Solver Expert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_OB Ship Applied",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Operational Safety Rules Refresh",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Outbound Cart Handler",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Outdoor Marshal Refresh",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT B_LLOP Triple Length",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT Ineligible",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_BAT",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_CBFK",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_CBW",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_Counterbalance (4 Wheel)",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_Driver Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_Harness Safety Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_ICQA at Height",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_LDLT",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_LLOP",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_Manual Scissors Pump Truck",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_PPPJ",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_PPPJ-LF",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_PPPS",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_PPSS",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_Pallet Stacker",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_Pedestrian Stacker",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_RETR",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_RPPS",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_RPPT",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_RPPT-LF",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_Safety Expected To Attend",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_Scissor Lift/Electric",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_Sliding Brief",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_TTT Internal",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_TUG",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_TUGW",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_TUGW (walkie) Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_UDT_Preparation",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_VNATR",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_VOP",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_VOP Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PIT_VOP_Picker Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PRL 50H Online",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Pack Applied",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Pack Hyperscan",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Pack Quality University",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Pallet PrEditor",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Palletize Applied",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Pick Applied",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Pick Expert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Pick Intermediate",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Pick Quality School 2",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Pick Quality University",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_PrEditor Cage Nettings Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Prep Applied",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Process Partial Shipment",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_RSG Quiz",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Receive Applied",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Refship",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Reprint tool",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_SBF Expert",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_SC Audit",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_SIAT",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_SIOB Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_SIOC Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_SIPP Training eligibility",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_SITMA",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_SLAM Access B",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_SLAM Access B Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_SPOO Dispenser Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_STAR Workplace Incident Management Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Safe Handling Training for Associates",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_SafeHandling Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Safety Angels training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Safety Circles",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Safety Goods Lift Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Ship In Own Packaging Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Ship University",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_SmartPack Associate",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Specific Safety Course",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Spill Kit Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Step Ladders and Ladders",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Stow Applied",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Stow Sips Over and Stow Mini Lessons",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Stow Tote Hints",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_TDR_Yard Walk",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_TTT Yard Access for Vendors",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_ToteDePalletizerOperator",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Training DEI",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_UPT Optimisation",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Vacuum Lift",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Vendor Return Pack Applied",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_WADM Donation Container Training eligibility",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_WADM Waste Container Training eligibility",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Week 2 Safety Audit",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_Working At Height",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_XT Override ALL PROCESSES",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_XT Override PACK",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_XT Override PICK",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_XT Override RECEIVE",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_XT Override STOW",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ALL_high risk fire fighting",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ARS_FIDO",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ARS_Guided Stow App",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ARS_SBF Pick Nag Off",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ARS_SBF Pick Nag On",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_AR_Amnesty Responder",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_All_ad hoc training 1",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_All_ad hoc training 10",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_All_ad hoc training 11",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_All_ad hoc training 12",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_All_ad hoc training 13",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_All_ad hoc training 14",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_All_ad hoc training 15",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_All_ad hoc training 16",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_All_ad hoc training 17",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_All_ad hoc training 18",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_All_ad hoc training 19",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_All_ad hoc training 2",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_All_ad hoc training 20",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_All_ad hoc training 21",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_All_ad hoc training 3",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_All_ad hoc training 4",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_All_ad hoc training 5",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_All_ad hoc training 6",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_All_ad hoc training 7",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_All_ad hoc training 8",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_All_ad hoc training 9",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_AFE Rebin",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_Carton Mover",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_Decant",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_Gift Wrap",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_IB Dock",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_IB Prep",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_ICQA",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_Induct IAT",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_Language ES",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_Language IT",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_M1/M2 Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_MOD",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_OB Ship",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_PIT Pick at Height",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_PIT Stow at Height",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_Pack",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_Pack AFE",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_Pack IAT",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_Pack Single",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_Pack Single IAT",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_Pack Single No Slam",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_Palletize",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_Pick",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_Pick IAT",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_Pick at Height",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_Pick to Rebin",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_Prep",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_RC Sort",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_RSG",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_Rebin",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_Receive",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_Stow",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_Stow IAT",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_Stow at Height",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_Test",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_Universal Receive",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_Universal Receive Applied",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_V-Ret_Pack",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_V-Ret_Pick",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_Vendor Return",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_WHD",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_INST_Wrangle",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_IST_ Corral",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_IST_AR Pick ARSAW",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_PT_ARS Cart Handler Stow",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_PT_Cubiscan",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_PT_Dock Clerk",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_PT_FUD Locator",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_PT_GHS",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_PT_Gate House Supervisor",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_PT_IB PS Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_PT_ICQA Auditor",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_PT_ICQA Problem Solve",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_PT_ISS",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_PT_Indoor Marshall",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_PT_Legacy Cart Handler Stow",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_PT_OB Kick-Out",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_PT_OB Problem Solve",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_PT_OB Slam Operator",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_PT_OB Water Spider",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_PT_Outdoor Marshall",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_PT_PIT",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_PT_Pack PG",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_PT_Pick Process Guide",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_PT_Receive PS",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_PT_SLOT",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_PT_Ship Auditor",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_PT_Ship Clerk",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_PT_Ship PS",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_PT_Sweeper",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_RELO_CR Processing NonSort",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_RELO_CR Quality School ReTraining",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_RELO_Damage Disposition Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_RELO_RELO CR Repacking Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_RELO_Vret Liquidation sort",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_NTU_ReLo_Customer Returns Stow",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_OB CARTS_2.5",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_PMCA_ALL_Pack_pack-cycle-time",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QGCA_ALL_Pack_No-Pslip-Risk-Signature",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QGCA_ALL_Pack_Overage-Defect",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QGCA_ALL_Pack_damage-defect",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QGCA_ALL_Pack_dunnage-defect",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QGCA_ALL_Pack_masterpack_defect",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QGCA_ALL_Pick_scanned-wrong-asin-risk-signature",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QGCA_ALL_Pick_shortage-error-indicator",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QGCA_ALL_RECEIVE_overage-shortage-error-indicator",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QGCA_ALL_Stow_damage-risk-signatures",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QGCA_ALL_Stow_machine-gun-risk-signatures",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QGCA_ALL_Stow_scan-out-of-sequence-risk-signature",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QGCA_ALL_Stow_shortage-risk-signature",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QMCA_ALL_PACK_Damage Risk Signature",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QMCA_ALL_PACK_Weight Out Of Tolerance Error Indicator",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QMCA_ALL_PICK_Damage Error Indicator",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QMCA_ALL_PICK_Damage Risk Signature",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QMCA_ALL_PICK_Reject",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QMCA_ALL_PICK_Shortage Risk Signature",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QMCA_ALL_PROBLEM SOLVE_POPS Marked Missing Shipment",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QMCA_ALL_Pack_Not Damaged Out",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QMCA_ALL_Pack_Process_Incorrect_Qty",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QMCA_ALL_Pack_Pyramid _Stacking",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QMCA_ALL_Pack_SLAM_kickout",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QMCA_ALL_Pack_Wrong_Boxes",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QMCA_ALL_Receive_Pallet Receive Error",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QMCA_ALL_Receive_Receive Wrong ASIN",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QMCA_ALL_STOW_Bin Collision Risk Signature",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QMCA_ALL_STOW_Overage",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QMCA_ALL_STOW_PC99 To Dropzone",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QMCA_ALL_STOW_Stow_Wrong_Quantity",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QMCA_ALL_Stow_Scan Not Stow",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_QMCA_TS_Pick_False Pick Short",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_ALL_Andromeda",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_ALL_Annual Safety Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_ALL_Bin Inspect tool",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_ALL_Day0Safety",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_ALL_Dock Safety Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_ALL_FAST and UP training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_ALL_Force move",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_ALL_High HazMat Day1 Test",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_ALL_High HazMat Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_ALL_Hybrid HazMat Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_ALL_ISA Inbound Defect Management",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_ALL_Inbound Problem solve",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_ALL_Indoor Marshal",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_ALL_Medium HazMat Day1 Test",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_ALL_Outbound problem solve",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_ALL_PIT Safety Basic Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_ALL_PIT Safety High Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_ALL_PIT Safety Medium Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_ALL_PIT Safety Walkie Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_ALL_Problem Solve Expert Test",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_ALL_Ready Steady Go",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_ALL_Ready Steady Go_Managers+Leads",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_ALL_SLOT Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_ALL_Ship Clerk",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_ALL_ShipAuditor-Test",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_ALL_Unplanned Prep Tool",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_ARS_FAST Navigation Test",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_AR_Tunneled Drives AFM Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_RELO_TS CR W2 Graduation Test Quality",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_SLOT Refresher Ergo school",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_SORT_SIPP_Testing_Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_SDLP_TNS_SIPP Testing Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_TCA_ALL_Pack_Multis_Tenure_Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_TCA_ALL_Pack_Singles_Tenure_Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_TCA_ALL_RECEIVE_Tenure-Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_TCA_ARS_Pack_AFE_Tenure_Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_TCA_ARS_Pick_Tenure_Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_TCA_ARS_REBIN_Tenure-Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_TCA_ARS_Stow_Nike_Tenure_Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_TCA_IXD_RECEIVE_Tenure-Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_TCA_TNS_Pick_Tenure_Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_TCA_TNS_STOW NS_Tenure_Based_Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_TCA_TS_Pick_Tenure_Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_TCA_TS_STOW_Tenure_Based_Coaching",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUCF_TNS_SLAM_AT_PICK_SLICK",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUEF_ IATL_ALL_Each Receive",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUEF_ IATL_All_Decant",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUEF_ IATL_All_Receive Prep",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUEF_ IAT_ALL_Pack Multis",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUEF_ IAT_ReLo_Amazon Warehouse",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUEF_ IAT_TNS_Pack Singles",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUEF_ILT_ALL_Cubiscan Operator Process",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUEF_ILT_ALL_Dock Clerk",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUEF_ILT_ALL_Kickout Operator",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUEF_ILT_ALL_Move Containers Tool",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUEF_ILT_ALL_Receive Problem Solve",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUEF_ILT_ALL_Ship Clerk",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUEF_ILT_ALL_Sweeper",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUEF_ILT_ALL_Transfer_Out_Dock",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUEF_ILT_SDC_Sweeper",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUEF_SDLP_ALL_Dock Clerk",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUEF_SDLP_ALL_Outbound Problem Solve",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUEF_SDLP_ALL_Ship Clerk",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUEF_SDLP_ALL_Ship Problem Solve",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUFC_ ILT_ALL_Food Safety update",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUSC_ATA_Carts_OB_Cart",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUSC_ATA_Non Conveyable",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUSC_ATA_Sort Slide Diverter",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUSC_ATA_Splitter/Facer/Pick-Off",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUSC_BRIEFING_2025_LWV Overload Prevention",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUSC_EU ATS Load",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUSC_EU ATS Water Spider",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUSC_Feed and Inject",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUSC_Hazmat Awareness",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUSC_Onboarding Safety Tour and Safety School",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUSC_SDLP_Dangerous Goods (DG): General Awareness [TD-ORC]",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUSC_SDLP_RSG Refresh",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_ SDLP_ALL_Yard Access",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_24x7 TOM Team Lead_SFT_ERP Emergency Response basic site awareness",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_24x7 TOM Team Lead_SFT_ERP IM team members Counting leads",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_24x7 TOM Team Lead_SFT_ERP IM team members Evacuation leads",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_24x7 TOM Team Lead_SFT_ERP Incident Commanders",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_3P Shunter Driver Yard Access and Onboarding",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_ATA_BRIEFING 2025_ DRA_and_Escalation_Process",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_ATA_BRIEFING 2025_Damaged trailer management",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_ATA_BRIEFING 2025_Jackstand_Standarization_Process",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_Avetta Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_BRIEFING 2025_Banned Tractor Identification program (BTIP)",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_BRIEFING_2025_Driver_Escalation",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_BRIEFING_2026_Driver Removing Seal",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_Communication in the Yard for AAs",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_Communication in the Yard for TAMs and Ops Leads",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_Dangerous Goods (DG)",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_Gatehouse Associate",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_Gatehouse Associate (GHA) Process",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_Gatehouse Associate Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_Gatehouse training for TOM Leads",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_ILT 3P Shunter Driver Onboarding",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_ILT TDR Team Theory YZM",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_Jackstand training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_Lightweight Vehicles (LWV) overload prevention_GHAs",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_MTC_ALL_Gatehouse Associate Exemption",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_MTC_ALL_TDR Outdoor Marshall Exemption",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_Outdoor Marshall",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_Outdoor Marshall Process Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_Outdoor Marshall TDR Classroom",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_Outdoor_Marshal_Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_Pre-assignment training for Dock/Ship clerks",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_RRG_TOM",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_Relay Garage",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_SLOT Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_TDR Team Process training YZM",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_TDR Team Theory YZM",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_TDR team Refresher",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_Top Hatch Vehicles",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EUTOM_Yard Access Training",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EU_AMXL_ATA_Vacuum Lift",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EU_BRF_ALL_Dock and Yard Safety",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EU_BRF_ALL_General Safety and Awareness",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EU_BRF_ALL_Manual Handling",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EU_BRF_ALL_PIT Safety",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "EU_BRF_ALL_Safety Alert PIT Driver Behaviours",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "Kick-out Operator",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "MENA ECCF Mixed RSR Certificate",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "OB SLAM Operator",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "OBC & PPPJ _Ship CoP Testing",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "WADM Donation Container Training Certificate of Completion",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "WADM Waste Container Training Certificate of Completion",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "WADM Waste Shipment Training Certificate of Completion",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "delete",
+      "puesto_ids": [],
+      "skills": []
+    },
+    {
+      "certificate_title": "test",
+      "puesto_ids": [],
+      "skills": []
+    }
+  ]
+}

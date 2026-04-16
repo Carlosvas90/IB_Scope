@@ -1,0 +1,464 @@
+{
+  "version": "1.0",
+  "certificados": [
+    {
+      "id": "fcinternal",
+      "nombre": "FC_Internal"
+    },
+    {
+      "id": "eucfiltallpick",
+      "nombre": "EUCF_ILT_ALL_Pick"
+    }
+  ],
+  "procesos": {
+    "pack-noncon-l2": [
+      [
+        "EUCF_IAT_TNS_Pack Singles"
+      ]
+    ],
+    "pack-exsort-l5": [
+      [
+        "EUCF_ILT_ALL_Pack_No_Slam"
+      ]
+    ],
+    "pack-hov-l6": [
+      [
+        "EUCF_IAT_TNS_Pack Singles"
+      ]
+    ],
+    "pack-hov-sioc-l5": [
+      [
+        "EUCF_ILT_ALL_Pack_No_Slam"
+      ]
+    ],
+    "pack-l9": [
+      [
+        "EUCF_ILT_ALL_Pack_No_Slam"
+      ],
+      [
+        "EUCF_ILT_ALL_Ship Sort"
+      ]
+    ],
+    "pack-siat-l2": [
+      [
+        "EUCF_IAT_TNS_Pack Singles"
+      ]
+    ],
+    "pack-siat-l7": [
+      [
+        "EUCF_IAT_TNS_Pack Singles"
+      ]
+    ],
+    "pack-ws": [
+      [
+        "EUCF_ILT_ALL_Outbound Pack Waterspider"
+      ]
+    ],
+    "pack-obps": [
+      [
+        "EUCF_SDLP_ALL_Outbound problem solve"
+      ]
+    ],
+    "pack-sioc": [
+      [
+        "EUCF_SDLP_TNS_SIPP Testing Training"
+      ]
+    ],
+    "pick-noncon-hr": [
+      [
+        "EUCF_ILT_ALL_Pick"
+      ],
+      [
+        "EUCF_NTU_ALL_PIT_VOP"
+      ]
+    ],
+    "pick-noncon-pt": [
+      [
+        "EUCF_ILT_ALL_Pick"
+      ]
+    ],
+    "pick-tospoo-hr": [
+      [
+        "EUCF_ILT_ALL_Pick"
+      ],
+      [
+        "EUCF_NTU_ALL_PIT_VOP"
+      ]
+    ],
+    "pick-tospoo-pt": [
+      [
+        "EUCF_ILT_ALL_Pick"
+      ]
+    ],
+    "pick-exsort-pt": [
+      [
+        "EUCF_ILT_ALL_Pick"
+      ]
+    ],
+    "pick-exsort-hr": [
+      [
+        "EUCF_ILT_ALL_Pick"
+      ],
+      [
+        "EUCF_NTU_ALL_PIT_VOP"
+      ]
+    ],
+    "pick-nonsort-hr": [
+      [
+        "EUCF_ILT_ALL_Pick"
+      ],
+      [
+        "EUCF_NTU_ALL_PIT_VOP"
+      ]
+    ],
+    "pick-nonsort-pt": [
+      [
+        "EUCF_ILT_ALL_Pick"
+      ]
+    ],
+    "pick-petfood-hr": [
+      [
+        "EUCF_ILT_ALL_Pick"
+      ],
+      [
+        "EUCF_NTU_ALL_PIT_VOP"
+      ]
+    ],
+    "pick-tl-hr": [
+      [
+        "EUCF_ILT_ALL_Pick"
+      ],
+      [
+        "EUCF_NTU_ALL_PIT_RETR"
+      ]
+    ],
+    "pick-tl-pt": [
+      [
+        "EUCF_ILT_ALL_Pick"
+      ]
+    ],
+    "pick-cart": [
+      [
+        "EUCF_NTU_ALL_PIT_TUGW"
+      ],
+      [
+        "EUCF_NTU_ALL_Outbound Cart Handler"
+      ]
+    ],
+    "pick-pg": [
+      [
+        "EUCF_ ILT/SDLP_ALL_Pick Process Guide"
+      ]
+    ],
+    "pick-tugger": [
+      [
+        "EUCF_NTU_ALL_PIT_TUG"
+      ],
+      [
+        "EUCF_NTU_ALL_PIT_RPPT"
+      ]
+    ],
+    "pick-pitb-hov": [
+      [
+        "EUCF_NTU_ALL_PIT_RPPT"
+      ]
+    ],
+    "pick-hov-pitc": [
+      [
+        "EUCF_ILT_ALL_Pick"
+      ],
+      [
+        "EUCF_NTU_ALL_PIT_RETR"
+      ]
+    ],
+    "vret-pick": [
+      [
+        "EUCF_ILT_ALL_Pick"
+      ]
+    ],
+    "vret-pack": [
+      [
+        "EUCF_IAT_TNS_Pack Singles"
+      ]
+    ],
+    "vret-ps": [
+      [
+        "EUCF_SDLP_ALL_Outbound problem solve"
+      ]
+    ],
+    "vret-cart": [
+      [
+        "EUCF_NTU_ALL_Outbound Cart Handler"
+      ],
+      [
+        "EUCF_NTU_ALL_PIT_TUGW"
+      ]
+    ],
+    "ship-area-a": [
+      [
+        "EUCF_ILT_ALL_Ship Sort"
+      ],
+      [
+        "EUCF_ ILT_ALL_SAM Tech"
+      ]
+    ],
+    "ship-area-b": [
+      [
+        "EUCF_ILT_ALL_Ship Sort"
+      ],
+      [
+        "EUCF_ ILT_ALL_SAM Tech"
+      ]
+    ],
+    "ship-area-d": [
+      [
+        "EUCF_ILT_ALL_Ship Sort"
+      ],
+      [
+        "EUCF_ ILT_ALL_SAM Tech"
+      ]
+    ],
+    "ship-caracolas": [
+      [
+        "EUCF_ILT_ALL_Ship Sort"
+      ],
+      [
+        "EUCF_ ILT_ALL_SAM Tech"
+      ]
+    ],
+    "ship-clerk": [
+      [
+        "EUCF_SDLP_ALL_Ship Clerk"
+      ]
+    ],
+    "ship-idm": [
+      [
+        "EUCF_SDLP_ALL_Indoor Marshall"
+      ]
+    ],
+    "ship-auditor": [
+      [
+        "EUCF_ILT_ALL_Ship Auditor"
+      ]
+    ],
+    "ship-supplies": [
+      [
+        "EUCF_ILT_ALL_Ship Sort"
+      ],
+      [
+        "EUCF_ ILT_ALL_SAM Tech"
+      ]
+    ],
+    "ship-slam-1": [
+      [
+        "EUCF_ILT_ALL_Slam Operator"
+      ]
+    ],
+    "ship-slam-2": [
+      [
+        "EUCF_ILT_ALL_Slam Operator"
+      ]
+    ],
+    "rcv-decant-tsi": [
+      [
+        "EUCF_IATL_ALL_Decant"
+      ]
+    ],
+    "rcv-decant-pid": [
+      [
+        "EUCF_IATL_ALL_Decant"
+      ]
+    ],
+    "rcv-noncon": [
+      [
+        "EUCF_IATL_ALL_Each Receive",
+        "EUEF_ IATL_ALL_Each Receive"
+      ]
+    ],
+    "rcv-cubis": [
+      [
+        "EUCF_ILT_ALL_Cubiscan Operator",
+        "EUEF_ILT_ALL_Cubiscan Operator Process"
+      ]
+    ],
+    "rcv-prep": [
+      [
+        "EUCF_ IATL_ALL_Receive Prep"
+      ]
+    ],
+    "stow-pt": [
+      [
+        "EUCF_ ILT_ALL_Stow_Sort_Non_Sort"
+      ]
+    ],
+    "stow-tl": [
+      [
+        "EUCF_ ILT_ALL_Stow_Sort_Non_Sort"
+      ]
+    ],
+    "stow-hr-pitc": [
+      [
+        "EUCF_ ILT_ALL_PIT_Stow_at_Height"
+      ],
+      [
+        "EUCF_NTU_ALL_PIT_RETR"
+      ]
+    ],
+    "stow-hr-pita": [
+      [
+        "EUCF_ ILT_ALL_PIT_Stow_at_Height"
+      ],
+      [
+        "EUCF_NTU_ALL_PIT_VOP"
+      ]
+    ],
+    "stow-pitb": [
+      [
+        "EUCF_NTU_ALL_PIT_RPPT-LF"
+      ]
+    ],
+    "stow-cart": [
+      [
+        "EUCF_ILT_ALL_Cart Handler Stow"
+      ],
+      [
+        "EUCF_NTU_ALL_PIT_TUGW"
+      ]
+    ],
+    "grading-whd": [
+      [
+        "EUCF_ILT_RELO WHD Packaging Standards Training",
+        "EUCF_MTC_ALL_RELO WHD Warehouse Deals TWI",
+        "EUCF_NTU_INST_WHD",
+        "EUCF_ILT_ALL_OB FCs WHD Grading TREX Training"
+      ]
+    ],
+    "grading-pick-whd": [
+      [
+        "EUCF_ILT_ALL_Pick"
+      ]
+    ],
+    "grading-ps": [
+      [
+        "EUCF_ILT_RELO WHD Packaging Standards Training",
+        "EUCF_MTC_ALL_RELO WHD Warehouse Deals TWI",
+        "EUCF_NTU_INST_WHD",
+        "EUCF_ILT_ALL_OB FCs WHD Grading TREX Training"
+      ]
+    ],
+    "pout-pick": [
+      [
+        "EUCF_ILT_ALL_Pick"
+      ]
+    ],
+    "dock-clerk": [
+      [
+        "EUCF_ALL_Dock Clerk"
+      ]
+    ],
+    "dock-idm": [
+      [
+        "EUCF_ILT_ALL_Indoor Marshall E-Learning Trainer Guide",
+        "EUCF_ ILT_ALL_Indoor Marshall/Classroom/Guide"
+      ]
+    ],
+    "dock-unloader": [
+      [
+        "EUTOM_SLOT Training"
+      ],
+      [
+        "EUCF_NTU_ALL_PIT_PPPJ"
+      ]
+    ],
+    "dock-ocean": [
+      [
+        "EUCF_ ILT/SDLP_ALL_Dock Safety Training"
+      ],
+      [
+        "EUTOM_SLOT Training"
+      ]
+    ],
+    "dock-ocean-cm": [
+      [
+        "EUCF_ ILT/SDLP_ALL_Dock Safety Training"
+      ],
+      [
+        "EUCF_ ILT_ALL_PIT Safety_High"
+      ],
+      [
+        "EUTOM_SLOT Training"
+      ]
+    ],
+    "dock-corral": [
+      [
+        "EUCF_NTU_IST_ Corral",
+        "EUCF_ILT_ALL_Corral"
+      ]
+    ],
+    "dock-wrapping": [
+      [
+        "EUCF_ILT_ALL_Wrapping Unwrapping Pallets"
+      ]
+    ],
+    "dock-ergopack": [
+      [
+        "EUCF_ILT_ALL_Ergo_Pack"
+      ]
+    ],
+    "space-hrk": [
+      [
+        "EUCF_ILT_ALL_Move_Containers_tool"
+      ],
+      [
+        "EUCF_ ILT_ALL_Stow_Sort_Non_Sort"
+      ],
+      [
+        "EUCF_NTU_ALL_PIT_RETR"
+      ]
+    ],
+    "support-space": [
+      [
+        "EUCF_ILT_ALL_Move_Containers_tool"
+      ],
+      [
+        "EUCF_ ILT_ALL_Stow_Sort_Non_Sort"
+      ]
+    ],
+    "space-space-pick": [
+      [
+        "EUCF_ILT_ALL_Pick"
+      ]
+    ],
+    "waste": [
+      [
+        "EUCF_NTU_ALL_WADM Waste Container Training eligibility"
+      ]
+    ],
+    "tom-garitas": [
+      [
+        "EUTOM_Gatehouse training for TOM Leads",
+        "EUCF_ILT_ALL_Gatehouse Supervisor",
+        "Certificate for EUTOM_SDLP Gatehouse Associate (GHA) Process",
+        "EUTOM_Gatehouse Associate (GHA) Process",
+        "EUTOM_Gatehouse Associate"
+      ]
+    ],
+    "tom-ODM": [
+      [
+        "EUTOM_Outdoor_Marshal_Refresher",
+        "EUCF_NTU_PT_Outdoor Marshall",
+        "EUCF_NTU_ALL_Outdoor Marshal Refresh",
+        "EUCF_NTU_ALL_OB Outdoor Marshall",
+        "EUCF_NTU_ALL_IB Outdoor Marshall",
+        "EUCF_MTC_ALL_TDR Outdoor Marshall Exemption",
+        "EUCF_ILT/SDLP_ALL_Outdoor Marshall",
+        "EUCF_ ILT_ALL_Outdoor Marshall"
+      ]
+    ],
+    "pout-ps": [
+      [
+        "FC_Internal"
+      ]
+    ]
+  }
+}
