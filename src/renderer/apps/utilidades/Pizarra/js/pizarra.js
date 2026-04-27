@@ -27,6 +27,8 @@ class PizarraController {
     this.pendingSave = false; // Flag para indicar si hay guardado pendiente
     this.procesoActualDetalle = null; // Proceso actual en modal de detalle
     this.userRatesCache = {}; // Cache de rates de usuarios para evitar múltiples lecturas
+    this._puestosMap = null; // Cache Map de puestos por id
+    this._puestosMapVersion = 0; // Versión para invalidar cache
 
     // Configurar listeners del EventBus
     this.configurarEventListeners();
@@ -68,6 +70,7 @@ class PizarraController {
 
       // Obtener rutas compartidas desde config
       const config = await window.api.getConfig();
+      this._config = config; // Guardar referencia para uso posterior
 
       // Intentar usar pizarra_paths primero (específico para Pizarra)
       if (
@@ -122,21 +125,21 @@ class PizarraController {
         this.analyticsPaths = [];
       }
 
-      // Cargar datos
-      await this.cargarDatos();
+      // Cargar datos y roster EN PARALELO (ambos son independientes)
+      await Promise.all([
+        this.cargarDatos(),
+        this.cargarRoster()
+      ]);
 
-      // Cargar roster de empleados
-      await this.cargarRoster();
-
-      // Configurar UI
+      // Configurar UI (no depende de datos de red)
       this.configurarEventos();
       this.configurarInputs();
 
       // Actualizar dashboard
       await this.actualizarDashboard();
 
-      // Actualizar estado del archivo
-      await this.updateFileStatus();
+      // Actualizar estado del archivo (no bloquear init)
+      this.updateFileStatus().catch(e => console.warn("Error actualizando file status:", e));
 
       // Emitir evento de inicialización completa
       this.eventBus.emit(PIZARRA_EVENTS.PIZARRA_CARGADA, {
@@ -148,6 +151,20 @@ class PizarraController {
     } catch (error) {
       console.error("❌ Error inicializando PizarraController:", error);
       this.mostrarToast("Error al inicializar la aplicación", "error");
+
+      // Asegurar datos mínimos
+      if (!this.puestosData) this.puestosData = { puestos_predefinidos: [], puestos_personalizados: [] };
+      if (!this.skillmatrixData) this.skillmatrixData = { usuarios: {}, ultima_actualizacion: null };
+      if (!this.pizarraActual) this.pizarraActual = { fecha: new Date().toISOString().split("T")[0], asignaciones: [], historial_cambios: [] };
+
+      // SIEMPRE configurar UI aunque fallen los datos
+      try {
+        this.configurarEventos();
+        this.configurarInputs();
+        await this.actualizarDashboard();
+      } catch (uiError) {
+        console.error("❌ Error configurando UI:", uiError);
+      }
     }
   }
 
@@ -173,43 +190,36 @@ class PizarraController {
       return null;
     }
 
-    // Intentar leer desde todas las rutas (prioridad: primera = red)
-    for (const basePath of this.dataPaths) {
-      // Normalizar la ruta base (ya apunta a Data_Flow)
+    // Optimización: si ya sabemos qué ruta funciona, intentar esa primero
+    const rutasOrdenadas = this._workingDataPath 
+      ? [this._workingDataPath, ...this.dataPaths.filter(p => p !== this._workingDataPath)]
+      : this.dataPaths;
+
+    for (const basePath of rutasOrdenadas) {
       const normalizedBase = this.normalizarRutaWindows(basePath);
       const normalizedPath = normalizedBase.endsWith("\\")
         ? normalizedBase
         : normalizedBase + "\\";
       const filePath = normalizedPath + archivo;
 
-      console.log(`🔍 Intentando leer desde: ${filePath}`);
-
       try {
         const result = await window.api.readJson(filePath);
         if (result.success && result.data) {
-          console.log(`✅ [Pizarra] Archivo encontrado en: ${filePath}`);
+          // Recordar esta ruta como la que funciona
+          this._workingDataPath = basePath;
+          console.log(`✅ [Pizarra] ${archivo} cargado desde: ${filePath}`);
           return {
             path: filePath,
             data: result.data,
             basePath: normalizedPath,
           };
-        } else {
-          console.log(
-            `⚠️ [Pizarra] Archivo sin datos en: ${filePath}`,
-            result.error || 'Sin datos'
-          );
         }
       } catch (error) {
-        console.warn(`⚠️ Error leyendo ${filePath}:`, error.message);
-        // Continuar con la siguiente ruta
         continue;
       }
     }
 
-    console.warn(
-      `❌ [Pizarra] No se pudo encontrar ${archivo} en ninguna ruta compartida. Rutas intentadas:`,
-      this.dataPaths
-    );
+    console.warn(`❌ [Pizarra] No se encontró ${archivo} en ninguna ruta`);
     return null;
   }
 
@@ -286,36 +296,27 @@ class PizarraController {
 
   async cargarDatos() {
     try {
-      // Cargar puestos desde ruta compartida
+      // Cargar puestos desde ruta compartida (red)
       const puestosResult = await this.obtenerRutaCompartida("puestos.json");
       if (puestosResult) {
         this.puestosData = puestosResult.data;
         console.log("✅ Puestos cargados desde:", puestosResult.path);
       } else {
-        // Cargar desde archivo local como fallback
-        const localPuestosPath = `${window.location.origin}/apps/utilidades/Pizarra/data/puestos.json`;
-        try {
-          const response = await fetch(localPuestosPath);
-          if (response.ok) {
-            this.puestosData = await response.json();
-            // Guardar en ruta compartida
-            await this.guardarEnRutaCompartida(
-              "puestos.json",
-              this.puestosData
-            );
-          } else {
-            throw new Error("Archivo local no encontrado");
-          }
-        } catch (error) {
-          console.warn("No se pudo cargar puestos, usando datos por defecto");
-          // Datos por defecto (ya están en el archivo local)
-          this.puestosData = {
-            puestos_predefinidos: [],
-            puestos_personalizados: [],
-          };
-          await this.guardarEnRutaCompartida("puestos.json", this.puestosData);
-        }
+        console.warn("⚠️ No se encontró puestos.json, usando estructura vacía");
+        this.puestosData = { puestos_predefinidos: [], puestos_personalizados: [] };
       }
+
+      // Cargar mapping_qr.json para resolución de QR (archivo separado, no toca puestos.json)
+      const qrResult = await this.obtenerRutaCompartida("mapping_qr.json");
+      if (qrResult && qrResult.data) {
+        this.puestosData.qr_mapping = qrResult.data;
+        console.log(`✅ QR mapping cargado: ${Object.keys(qrResult.data).length} entradas`);
+      } else {
+        console.warn("⚠️ No se encontró mapping_qr.json, escaneo de QR no disponible");
+      }
+
+      // Normalizar estructura: si viene con departamentos[], generar puestos_predefinidos[]
+      this._buildPuestosMap();
 
       // Cargar skillmatrix desde ruta compartida
       const skillResult = await this.obtenerRutaCompartida("skillmatrix.json");
@@ -324,37 +325,23 @@ class PizarraController {
         console.log("✅ Skillmatrix cargada desde:", skillResult.path);
       } else {
         this.skillmatrixData = { usuarios: {}, ultima_actualizacion: null };
-        await this.guardarEnRutaCompartida(
-          "skillmatrix.json",
-          this.skillmatrixData
+        this.guardarEnRutaCompartida("skillmatrix.json", this.skillmatrixData).catch(e =>
+          console.warn("⚠️ No se pudo guardar skillmatrix:", e.message)
         );
       }
 
       // Cargar pizarra actual desde ruta compartida
-      const pizarraResult = await this.obtenerRutaCompartida(
-        "pizarra_actual.json"
-      );
+      const pizarraResult = await this.obtenerRutaCompartida("pizarra_actual.json");
       if (pizarraResult && pizarraResult.data) {
         this.pizarraActual = pizarraResult.data;
-        // Asegurar que tiene la estructura correcta
-        if (!this.pizarraActual.asignaciones) {
-          this.pizarraActual.asignaciones = [];
-        }
-        if (!this.pizarraActual.historial_cambios) {
-          this.pizarraActual.historial_cambios = [];
-        }
-        // Normalizar tiene_formacion en todas las asignaciones (asegurar que sea boolean)
-        this.pizarraActual.asignaciones.forEach((asignacion) => {
-          if (
-            asignacion.tiene_formacion === undefined ||
-            asignacion.tiene_formacion === null
-          ) {
-            asignacion.tiene_formacion = false;
+        if (!this.pizarraActual.asignaciones) this.pizarraActual.asignaciones = [];
+        if (!this.pizarraActual.historial_cambios) this.pizarraActual.historial_cambios = [];
+        this.pizarraActual.asignaciones.forEach((a) => {
+          if (a.tiene_formacion === undefined || a.tiene_formacion === null) {
+            a.tiene_formacion = false;
           }
         });
-        console.log(
-          `✅ Pizarra actual cargada desde: ${pizarraResult.path} (${this.pizarraActual.asignaciones.length} asignaciones)`
-        );
+        console.log(`✅ Pizarra actual cargada (${this.pizarraActual.asignaciones.length} asignaciones)`);
       } else {
         console.log("⚠️ No se encontró pizarra_actual.json, creando nueva");
         this.pizarraActual = {
@@ -362,13 +349,11 @@ class PizarraController {
           asignaciones: [],
           historial_cambios: [],
         };
-        await this.guardarEnRutaCompartida(
-          "pizarra_actual.json",
-          this.pizarraActual
+        this.guardarEnRutaCompartida("pizarra_actual.json", this.pizarraActual).catch(e =>
+          console.warn("⚠️ No se pudo guardar pizarra_actual:", e.message)
         );
       }
 
-      // Emitir evento de datos cargados
       this.eventBus.emit(PIZARRA_EVENTS.DATOS_CARGADOS, {
         puestos: this.puestosData,
         skillmatrix: this.skillmatrixData,
@@ -379,19 +364,30 @@ class PizarraController {
     } catch (error) {
       console.error("❌ Error cargando datos:", error);
 
-      // Emitir evento de error
       this.eventBus.emit(PIZARRA_EVENTS.DATOS_ERROR, {
         error: error.message,
         stack: error.stack,
       });
 
-      throw error;
+      // Asegurar datos mínimos para que la app funcione
+      if (!this.puestosData) {
+        this.puestosData = { puestos_predefinidos: [], puestos_personalizados: [] };
+      }
+      if (!this.skillmatrixData) {
+        this.skillmatrixData = { usuarios: {}, ultima_actualizacion: null };
+      }
+      if (!this.pizarraActual) {
+        this.pizarraActual = { fecha: new Date().toISOString().split("T")[0], asignaciones: [], historial_cambios: [] };
+      }
+
+      // NO hacer throw — permitir que init continúe con datos vacíos
+      console.warn("⚠️ Continuando con datos por defecto");
     }
   }
 
   async cargarRoster() {
     try {
-      // Intentar cargar roster.json desde ruta compartida
+      // 1. Intentar cargar roster.json desde pizarra_paths (Data_Flow)
       const rosterResult = await this.obtenerRutaCompartida("roster.json");
 
       if (rosterResult && rosterResult.data && rosterResult.data.roster) {
@@ -399,8 +395,40 @@ class PizarraController {
         console.log(
           `✅ Roster cargado desde: ${rosterResult.path} (${this.rosterData.length} usuarios)`
         );
+      } else {
+        // 2. Fallback: buscar roster.json en data_paths (raíz de Data)
+        console.log("⚠️ Roster no encontrado en pizarra_paths, buscando en data_paths...");
+        const dataPathsList = this._config?.data_paths || [];
 
-        // Si la skillmatrix está vacía, generar una inicial
+        let encontrado = false;
+        for (const basePath of dataPathsList) {
+          const normalizedBase = this.normalizarRutaWindows(basePath);
+          const normalizedPath = normalizedBase.endsWith("\\") ? normalizedBase : normalizedBase + "\\";
+          const filePath = normalizedPath + "roster.json";
+
+          console.log(`🔍 Buscando roster en: ${filePath}`);
+          try {
+            const result = await window.api.readJson(filePath);
+            if (result.success && result.data && result.data.roster) {
+              this.rosterData = result.data.roster;
+              console.log(`✅ Roster cargado desde data_paths: ${filePath} (${this.rosterData.length} usuarios)`);
+              encontrado = true;
+              break;
+            }
+          } catch (error) {
+            console.warn(`⚠️ No se pudo leer roster en ${filePath}:`, error.message);
+            continue;
+          }
+        }
+
+        if (!encontrado) {
+          this.rosterData = null;
+          console.log("⚠️ Roster JSON no encontrado en ninguna ruta, usando asignaciones actuales como fuente");
+        }
+      }
+
+      // Si se cargó roster y la skillmatrix está vacía, generar una inicial
+      if (this.rosterData && this.rosterData.length > 0) {
         if (
           !this.skillmatrixData ||
           Object.keys(this.skillmatrixData.usuarios || {}).length === 0
@@ -408,12 +436,6 @@ class PizarraController {
           console.log("📋 Generando skillmatrix inicial desde roster...");
           await this.generarSkillMatrixDesdeRoster();
         }
-      } else {
-        // Fallback: usar asignaciones actuales
-        this.rosterData = null;
-        console.log(
-          "⚠️ Roster JSON no encontrado en rutas compartidas, usando asignaciones actuales como fuente"
-        );
       }
     } catch (error) {
       console.warn(
@@ -562,16 +584,12 @@ class PizarraController {
 
   async guardarDatos() {
     try {
-      // Guardar en rutas compartidas
-      await this.guardarEnRutaCompartida("puestos.json", this.puestosData);
-      await this.guardarEnRutaCompartida(
-        "skillmatrix.json",
-        this.skillmatrixData
-      );
-      await this.guardarEnRutaCompartida(
-        "pizarra_actual.json",
-        this.pizarraActual
-      );
+      // Guardar en rutas compartidas EN PARALELO
+      await Promise.all([
+        this.guardarEnRutaCompartida("puestos.json", this.puestosData),
+        this.guardarEnRutaCompartida("skillmatrix.json", this.skillmatrixData),
+        this.guardarEnRutaCompartida("pizarra_actual.json", this.pizarraActual),
+      ]);
 
       // Emitir evento de datos guardados
       this.eventBus.emit(PIZARRA_EVENTS.DATOS_GUARDADOS, {
@@ -760,15 +778,18 @@ class PizarraController {
   async procesarEscaneo(valor) {
     if (!valor) return;
 
-    // Intentar primero como puesto
+    // Intentar primero como puesto (incluye QR mapping)
     const puesto = this.buscarPuesto(valor);
 
     if (puesto) {
-      // Es un puesto
+      // Es un puesto / QR de puesto
       this.puestoActual = puesto;
-      this.mostrarInfoEscaneo(`Puesto: ${puesto.funcion}`, "success");
+      this.mostrarInfoEscaneo(
+        `${puesto.departamento_secundario} → ${puesto.funcion}`, 
+        "success"
+      );
 
-      // ACTUALIZAR DASHBOARD INMEDIATAMENTE para mostrar el puesto (aunque esté vacío)
+      // ACTUALIZAR DASHBOARD INMEDIATAMENTE para mostrar el puesto
       await this.actualizarDashboard();
 
       // Emitir evento
@@ -792,23 +813,33 @@ class PizarraController {
    * Busca un puesto por valor escaneado
    */
   buscarPuesto(valor) {
-    // Buscar en predefinidos
-    let puesto = this.puestosData.puestos_predefinidos.find(
-      (p) =>
-        p.id === valor.toLowerCase().replace(/\s+/g, "-") ||
-        p.funcion?.toLowerCase() === valor.toLowerCase()
-    );
+    // Asegurar que el mapa de puestos está construido
+    if (!this._puestosMap) this._buildPuestosMap();
 
-    // Si no se encuentra, buscar en personalizados
-    if (!puesto) {
-      puesto = this.puestosData.puestos_personalizados.find(
-        (p) =>
-          p.id === valor.toLowerCase().replace(/\s+/g, "-") ||
-          p.funcion?.toLowerCase() === valor.toLowerCase()
-      );
+    // 1. Buscar en qr_mapping (QR escaneado → id de puesto)
+    if (this.puestosData.qr_mapping) {
+      const scanKey = valor.trim().toUpperCase();
+      const puestoId = this.puestosData.qr_mapping[scanKey];
+      if (puestoId) {
+        const puesto = this.obtenerPuestoPorId(puestoId);
+        if (puesto) {
+          console.log(`📱 QR detectado: "${valor}" → ${puesto.funcion} (${puesto.departamento_secundario})`);
+          return puesto;
+        }
+      }
     }
 
-    return puesto;
+    // 2. Buscar por id o función en el mapa (cubre predefinidos + personalizados)
+    const valorNorm = valor.toLowerCase().replace(/\s+/g, "-");
+    const valorLower = valor.toLowerCase().trim();
+
+    for (const [id, p] of this._puestosMap) {
+      if (id === valorNorm || p.funcion?.toLowerCase() === valorLower) {
+        return p;
+      }
+    }
+
+    return null;
   }
 
   mostrarInfoEscaneo(mensaje, tipo = "info") {
@@ -961,16 +992,61 @@ class PizarraController {
     }
   }
 
-  obtenerPuestoPorId(puestoId) {
-    let puesto = this.puestosData.puestos_predefinidos.find(
-      (p) => p.id === puestoId
-    );
-    if (!puesto) {
-      puesto = this.puestosData.puestos_personalizados.find(
-        (p) => p.id === puestoId
-      );
+  /**
+   * Construye/actualiza el Map de puestos para búsquedas O(1)
+   * Soporta ambos formatos: puestos_predefinidos[] o departamentos[].puestos[]
+   */
+  _buildPuestosMap() {
+    this._puestosMap = new Map();
+
+    // Si hay puestos_predefinidos (formato plano), usarlos directamente
+    if (this.puestosData.puestos_predefinidos && this.puestosData.puestos_predefinidos.length > 0) {
+      for (const p of this.puestosData.puestos_predefinidos) {
+        this._puestosMap.set(p.id, p);
+      }
+    } 
+    // Si no hay predefinidos pero hay departamentos (formato jerárquico), extraer
+    else if (this.puestosData.departamentos && this.puestosData.departamentos.length > 0) {
+      const predefinidos = [];
+      for (const dept of this.puestosData.departamentos) {
+        if (!dept.puestos) continue;
+        for (const p of dept.puestos) {
+          const puestoPlano = {
+            id: p.id,
+            departamento_principal: dept.area || 'Support',
+            departamento_secundario: dept.nombre || dept.id,
+            funcion: p.nombre || p.id,
+            skills_needed: p.skills_needed || [],
+            tipo_tarea: p.tipo_tarea || 'directa',
+            red_task: p.red_task || false,
+            activo: true,
+            qr_codes: p.qr_codes || []
+          };
+          predefinidos.push(puestoPlano);
+          this._puestosMap.set(p.id, puestoPlano);
+        }
+      }
+      // Guardar como puestos_predefinidos para que el resto del código funcione
+      this.puestosData.puestos_predefinidos = predefinidos;
     }
-    return puesto;
+
+    // Personalizados
+    if (this.puestosData.puestos_personalizados) {
+      for (const p of this.puestosData.puestos_personalizados) {
+        this._puestosMap.set(p.id, p);
+      }
+    } else {
+      this.puestosData.puestos_personalizados = [];
+    }
+  }
+
+  _invalidatePuestosMap() {
+    this._puestosMap = null;
+  }
+
+  obtenerPuestoPorId(puestoId) {
+    if (!this._puestosMap) this._buildPuestosMap();
+    return this._puestosMap.get(puestoId) || null;
   }
 
   mostrarModalPuestoPersonalizado(valorPrellenado = null) {
@@ -1032,6 +1108,7 @@ class PizarraController {
     }
 
     this.puestosData.puestos_personalizados.push(nuevoPuesto);
+    this._invalidatePuestosMap();
 
     // ACTUALIZAR DASHBOARD INMEDIATAMENTE (sin esperar guardado)
     await this.actualizarDashboard();
@@ -1043,7 +1120,7 @@ class PizarraController {
     });
 
     this.cerrarModal("modal-puesto-personalizado");
-    this.mostrarToast(`Puesto "${nombre}" agregado correctamente`, "success");
+    this.mostrarToast(`Puesto "${funcion}" agregado correctamente`, "success");
 
     // Asignar el puesto recién creado
     this.puestoActual = nuevoPuesto;
@@ -1172,108 +1249,94 @@ class PizarraController {
         });
 
       // Calcular compensación para IB (Stow vs Receive) antes de generar HTML
+      // Los objetivos reales se calculan en paralelo y se reutilizan en las secciones de proceso
       let compensacionHtml = '';
+      // Cache de objetivos reales por proceso para reutilizar en headers de proceso
+      if (!this._objetivosRealesCache) this._objetivosRealesCache = {};
+      
       if (depto === "IB") {
-        let stowObjetivoIdeal = 0;
-        let receiveObjetivoIdeal = 0;
-        let stowObjetivoReal = 0;
-        let receiveObjetivoReal = 0;
-        
-        // Calcular Stow (Ideal y Real)
-        if (jerarquia[depto]["Stow"]) {
-          // Ideal (aritmético)
-          Object.values(jerarquia[depto]["Stow"]).forEach((funcionData) => {
-            const puesto = this.obtenerPuestoPorId(funcionData.puesto_id);
-            if (puesto && puesto.rate) {
-              stowObjetivoIdeal += funcionData.asignaciones.length * puesto.rate;
-            }
-          });
-          
-          // Real (basado en historial + base cuando no hay datos)
-          const stowReal = await this.calcularObjetivoReal(jerarquia[depto]["Stow"], "stow");
-          stowObjetivoReal = stowReal.objetivoReal; // Ya incluye real + base
-        }
-        
-        // Calcular Receive (Ideal y Real)
-        if (jerarquia[depto]["Receive"]) {
-          // Ideal (aritmético)
-          Object.values(jerarquia[depto]["Receive"]).forEach((funcionData) => {
-            const puesto = this.obtenerPuestoPorId(funcionData.puesto_id);
-            if (puesto && puesto.rate) {
-              receiveObjetivoIdeal += funcionData.asignaciones.length * puesto.rate;
-            }
-          });
-          
-          // Real (basado en historial + base cuando no hay datos)
-          const receiveReal = await this.calcularObjetivoReal(jerarquia[depto]["Receive"], "receive");
-          receiveObjetivoReal = receiveReal.objetivoReal; // Ya incluye real + base
-        }
-        
-        // Calcular compensación usando el objetivo REAL
-        const objetivoStow = stowObjetivoReal > 0 ? stowObjetivoReal : stowObjetivoIdeal;
-        const objetivoReceive = receiveObjetivoReal > 0 ? receiveObjetivoReal : receiveObjetivoIdeal;
-        
-        if (objetivoStow > 0 || objetivoReceive > 0) {
-          const diferencia = Math.abs(objetivoStow - objetivoReceive);
-          const procesoMenor = objetivoStow < objetivoReceive ? "Stow" : "Receive";
-          
-          // Obtener rate promedio del proceso menor (usar real si está disponible)
-          let rateMenor = 100; // Default
-          if (procesoMenor === "Stow" && jerarquia[depto]["Stow"]) {
-            if (stowObjetivoReal > 0) {
-              // Calcular promedio real
-              const totalPersonas = Object.values(jerarquia[depto]["Stow"]).reduce((sum, f) => sum + f.asignaciones.length, 0);
-              rateMenor = totalPersonas > 0 ? stowObjetivoReal / totalPersonas : 100;
-            } else {
-              rateMenor = this.obtenerRatePromedioStow(jerarquia[depto]["Stow"]);
-            }
-          } else if (procesoMenor === "Receive" && jerarquia[depto]["Receive"]) {
-            if (receiveObjetivoReal > 0) {
-              // Calcular promedio real
-              const totalPersonas = Object.values(jerarquia[depto]["Receive"]).reduce((sum, f) => sum + f.asignaciones.length, 0);
-              rateMenor = totalPersonas > 0 ? receiveObjetivoReal / totalPersonas : 60;
-            } else {
-              rateMenor = this.obtenerRatePromedioReceive(jerarquia[depto]["Receive"]);
+        try {
+          // Calcular Stow y Receive en PARALELO
+          const [stowResult, receiveResult] = await Promise.all([
+            jerarquia[depto]["Stow"] ? this.calcularObjetivoReal(jerarquia[depto]["Stow"], "stow") : null,
+            jerarquia[depto]["Receive"] ? this.calcularObjetivoReal(jerarquia[depto]["Receive"], "receive") : null,
+          ]);
+
+          // Guardar en cache para reutilizar en headers de proceso
+          if (stowResult) this._objetivosRealesCache["Stow"] = stowResult;
+          if (receiveResult) this._objetivosRealesCache["Receive"] = receiveResult;
+
+          let stowObjetivoIdeal = 0, receiveObjetivoIdeal = 0;
+          if (jerarquia[depto]["Stow"]) {
+            for (const fd of Object.values(jerarquia[depto]["Stow"])) {
+              const p = this.obtenerPuestoPorId(fd.puesto_id);
+              if (p?.rate) stowObjetivoIdeal += fd.asignaciones.length * p.rate;
             }
           }
-          
-          const personasNecesarias = rateMenor > 0 ? Math.ceil(diferencia / rateMenor) : 0;
-          const estaCompensado = diferencia <= 50; // Tolerancia de 50 unidades
-          
-          // Calcular variaciones porcentuales
-          const variacionEstándar = stowObjetivoIdeal > 0 && receiveObjetivoIdeal > 0
-            ? ((Math.abs(stowObjetivoIdeal - receiveObjetivoIdeal) / Math.max(stowObjetivoIdeal, receiveObjetivoIdeal)) * 100).toFixed(1)
-            : null;
-          
-          const variacionHistorico = stowObjetivoReal > 0 && receiveObjetivoReal > 0
-            ? ((Math.abs(stowObjetivoReal - receiveObjetivoReal) / Math.max(stowObjetivoReal, receiveObjetivoReal)) * 100).toFixed(1)
-            : null;
-          
-          compensacionHtml = `
-            <div class="compensacion-info">
-              <span class="compensacion-badge ${estaCompensado ? 'compensado' : 'no-compensado'}" title="${estaCompensado ? 'Compensado' : `Faltan ${personasNecesarias} persona(s) en ${procesoMenor}`}">
-                ${estaCompensado ? '✓' : '⚠'} ${estaCompensado ? 'Compensado' : `${personasNecesarias} en ${procesoMenor}`}
-              </span>
-              ${(stowObjetivoIdeal > 0 || receiveObjetivoIdeal > 0) ? `
-                <div class="rate-comparison">
-                  <span class="rate-comparison-label">Estándar:</span>
-                  <span class="rate-value">Stow ${stowObjetivoIdeal.toLocaleString()}</span>
-                  <span class="rate-separator">vs</span>
-                  <span class="rate-value">Receive ${receiveObjetivoIdeal.toLocaleString()}</span>
-                  ${variacionEstándar ? `<span class="rate-variacion">${variacionEstándar}%</span>` : ''}
-                </div>
-              ` : ''}
-              ${(stowObjetivoReal > 0 || receiveObjetivoReal > 0) ? `
-                <div class="rate-comparison">
-                  <span class="rate-comparison-label">Histórico:</span>
-                  <span class="rate-value">Stow ${stowObjetivoReal.toLocaleString()}</span>
-                  <span class="rate-separator">vs</span>
-                  <span class="rate-value">Receive ${receiveObjetivoReal.toLocaleString()}</span>
-                  ${variacionHistorico ? `<span class="rate-variacion">${variacionHistorico}%</span>` : ''}
-                </div>
-              ` : ''}
-            </div>
-          `;
+          if (jerarquia[depto]["Receive"]) {
+            for (const fd of Object.values(jerarquia[depto]["Receive"])) {
+              const p = this.obtenerPuestoPorId(fd.puesto_id);
+              if (p?.rate) receiveObjetivoIdeal += fd.asignaciones.length * p.rate;
+            }
+          }
+
+          const stowObjetivoReal = stowResult?.objetivoReal || 0;
+          const receiveObjetivoReal = receiveResult?.objetivoReal || 0;
+          const objetivoStow = stowObjetivoReal > 0 ? stowObjetivoReal : stowObjetivoIdeal;
+          const objetivoReceive = receiveObjetivoReal > 0 ? receiveObjetivoReal : receiveObjetivoIdeal;
+
+          if (objetivoStow > 0 || objetivoReceive > 0) {
+            const diferencia = Math.abs(objetivoStow - objetivoReceive);
+            const procesoMenor = objetivoStow < objetivoReceive ? "Stow" : "Receive";
+            const defaultRate = procesoMenor === "Stow" ? 100 : 60;
+            const funcionesMenor = jerarquia[depto][procesoMenor];
+            const objetivoRealMenor = procesoMenor === "Stow" ? stowObjetivoReal : receiveObjetivoReal;
+
+            let rateMenor = defaultRate;
+            if (funcionesMenor) {
+              if (objetivoRealMenor > 0) {
+                const totalPersonas = Object.values(funcionesMenor).reduce((s, f) => s + f.asignaciones.length, 0);
+                rateMenor = totalPersonas > 0 ? objetivoRealMenor / totalPersonas : defaultRate;
+              } else {
+                rateMenor = this.obtenerRatePromedio(funcionesMenor, defaultRate);
+              }
+            }
+
+            const personasNecesarias = rateMenor > 0 ? Math.ceil(diferencia / rateMenor) : 0;
+            const estaCompensado = diferencia <= 50;
+            const variacionEstándar = stowObjetivoIdeal > 0 && receiveObjetivoIdeal > 0
+              ? ((Math.abs(stowObjetivoIdeal - receiveObjetivoIdeal) / Math.max(stowObjetivoIdeal, receiveObjetivoIdeal)) * 100).toFixed(1) : null;
+            const variacionHistorico = stowObjetivoReal > 0 && receiveObjetivoReal > 0
+              ? ((Math.abs(stowObjetivoReal - receiveObjetivoReal) / Math.max(stowObjetivoReal, receiveObjetivoReal)) * 100).toFixed(1) : null;
+
+            compensacionHtml = `
+              <div class="compensacion-info">
+                <span class="compensacion-badge ${estaCompensado ? 'compensado' : 'no-compensado'}" title="${estaCompensado ? 'Compensado' : `Faltan ${personasNecesarias} persona(s) en ${procesoMenor}`}">
+                  ${estaCompensado ? '✓' : '⚠'} ${estaCompensado ? 'Compensado' : `${personasNecesarias} en ${procesoMenor}`}
+                </span>
+                ${(stowObjetivoIdeal > 0 || receiveObjetivoIdeal > 0) ? `
+                  <div class="rate-comparison">
+                    <span class="rate-comparison-label">Estándar:</span>
+                    <span class="rate-value">Stow ${stowObjetivoIdeal.toLocaleString()}</span>
+                    <span class="rate-separator">vs</span>
+                    <span class="rate-value">Receive ${receiveObjetivoIdeal.toLocaleString()}</span>
+                    ${variacionEstándar ? `<span class="rate-variacion">${variacionEstándar}%</span>` : ''}
+                  </div>
+                ` : ''}
+                ${(stowObjetivoReal > 0 || receiveObjetivoReal > 0) ? `
+                  <div class="rate-comparison">
+                    <span class="rate-comparison-label">Histórico:</span>
+                    <span class="rate-value">Stow ${stowObjetivoReal.toLocaleString()}</span>
+                    <span class="rate-separator">vs</span>
+                    <span class="rate-value">Receive ${receiveObjetivoReal.toLocaleString()}</span>
+                    ${variacionHistorico ? `<span class="rate-variacion">${variacionHistorico}%</span>` : ''}
+                  </div>
+                ` : ''}
+              </div>
+            `;
+          }
+        } catch (compensacionError) {
+          console.warn("Error calculando compensación IB:", compensacionError);
         }
       }
 
@@ -1292,7 +1355,7 @@ class PizarraController {
               ${compensacionHtml}
             </div>
           </div>
-          <div class="section-content" id="section-${depto}" style="display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: flex-start; flex-direction: row;">
+          <div class="section-content" id="section-${depto}">
       `;
 
       // Ordenar procesos dentro del departamento según orden definido
@@ -1330,17 +1393,17 @@ class PizarraController {
           }
         });
 
-        // Calcular objetivo real basado en historial (solo si hay puestos con rate)
-        let tipoProceso = null;
-        if (proceso === "Stow") {
-          tipoProceso = "stow";
-        } else if (proceso === "Receive") {
-          tipoProceso = "receive";
-        }
-        
+        // Reutilizar objetivo real del cache (ya calculado en compensación) o calcular
+        const tipoProceso = proceso === "Stow" ? "stow" : proceso === "Receive" ? "receive" : null;
         let objetivoReal = { objetivoReal: 0, objetivoRealPuro: 0, objetivoBase: 0, usuariosConRate: 0, usuariosSinRate: 0 };
         if (tipoProceso) {
-          objetivoReal = await this.calcularObjetivoReal(funciones, tipoProceso);
+          if (this._objetivosRealesCache[proceso]) {
+            objetivoReal = this._objetivosRealesCache[proceso];
+          } else {
+            try {
+              objetivoReal = await this.calcularObjetivoReal(funciones, tipoProceso);
+            } catch (e) { console.warn(`Error calculando objetivo real para ${proceso}:`, e); }
+          }
         }
         
         // Generar HTML de objetivos
@@ -1428,39 +1491,10 @@ class PizarraController {
       `;
     }
 
+    // Limpiar cache de objetivos reales (solo válido durante este render)
+    this._objetivosRealesCache = {};
+
     dashboardContent.innerHTML = html;
-    
-    // Aplicar estilos inline inmediatamente y también en el siguiente frame
-    const applyFlexLayout = () => {
-      const sectionContents = dashboardContent.querySelectorAll('.section-content');
-      sectionContents.forEach(section => {
-        section.style.display = 'flex';
-        section.style.flexWrap = 'wrap';
-        section.style.flexDirection = 'row';
-        section.style.gap = '0.5rem';
-        section.style.alignItems = 'flex-start';
-        section.style.width = '100%';
-        section.style.padding = '0.5rem 0';
-        section.style.boxSizing = 'border-box';
-      });
-      
-      const processGroups = dashboardContent.querySelectorAll('.process-group');
-      processGroups.forEach(group => {
-        group.style.flex = '0 1 auto';
-        group.style.display = 'flex';
-        group.style.flexDirection = 'column';
-        group.style.marginBottom = '0';
-        group.style.width = 'auto';
-      });
-    };
-    
-    // Aplicar inmediatamente
-    applyFlexLayout();
-    
-    // Aplicar también en el siguiente frame para asegurar
-    requestAnimationFrame(() => {
-      applyFlexLayout();
-    });
   }
 
   /**
@@ -1554,87 +1588,59 @@ class PizarraController {
 
   /**
    * Calcula el objetivo real basado en historial de usuarios
-   * Solo calcula para puestos que tienen rate definido
-   * Suma los rates reales de cada usuario asignado
-   * Si no hay rate real, usa el rate base del puesto
+   * Usa Promise.all para obtener rates en paralelo
    */
   async calcularObjetivoReal(funciones, tipoProceso = "stow") {
-    let objetivoReal = 0;
-    let objetivoBase = 0; // Suma de rates base cuando no hay datos históricos
-    let usuariosConRate = 0;
-    let usuariosSinRate = 0;
+    // Recopilar todas las peticiones de rate en paralelo
+    const rateRequests = [];
+    for (const funcionData of Object.values(funciones)) {
+      const puesto = this.obtenerPuestoPorId(funcionData.puesto_id);
+      const rateBase = puesto?.rate || 0;
+      if (rateBase === 0) continue;
 
-      for (const funcionData of Object.values(funciones)) {
-        const puesto = this.obtenerPuestoPorId(funcionData.puesto_id);
-        const rateBase = puesto?.rate || 0;
-        
-        // Solo procesar si el puesto tiene rate definido
-        if (rateBase === 0) continue;
-
-        for (const asignacion of funcionData.asignaciones) {
-          // Pasar el puesto_id para obtener el analytics_key correcto
-          const rateReal = await this.obtenerRateRealUsuario(
-            asignacion.usuario_login, 
-            tipoProceso, 
-            funcionData.puesto_id
-          );
-          if (rateReal && rateReal > 0) {
-            objetivoReal += rateReal;
-            usuariosConRate++;
-          } else {
-            // Usar rate base si no hay datos históricos
-            objetivoBase += rateBase;
-            usuariosSinRate++;
-          }
-        }
+      for (const asignacion of funcionData.asignaciones) {
+        rateRequests.push({
+          promise: this.obtenerRateRealUsuario(asignacion.usuario_login, tipoProceso, funcionData.puesto_id),
+          rateBase
+        });
       }
+    }
 
-    // El objetivo total incluye real + base
-    const objetivoTotal = objetivoReal + objetivoBase;
+    const results = await Promise.all(rateRequests.map(r => r.promise));
+
+    let objetivoReal = 0, objetivoBase = 0, usuariosConRate = 0, usuariosSinRate = 0;
+    results.forEach((rateReal, i) => {
+      if (rateReal && rateReal > 0) {
+        objetivoReal += rateReal;
+        usuariosConRate++;
+      } else {
+        objetivoBase += rateRequests[i].rateBase;
+        usuariosSinRate++;
+      }
+    });
 
     return {
-      objetivoReal: objetivoTotal,
-      objetivoRealPuro: objetivoReal, // Solo rates históricos
-      objetivoBase: objetivoBase, // Solo rates base usados
+      objetivoReal: objetivoReal + objetivoBase,
+      objetivoRealPuro: objetivoReal,
+      objetivoBase,
       usuariosConRate,
       usuariosSinRate
     };
   }
 
   /**
-   * Obtiene el rate promedio de Stow para calcular compensación
+   * Obtiene el rate promedio de un conjunto de funciones
    */
-  obtenerRatePromedioStow(funcionesStow) {
-    let totalRate = 0;
-    let totalPersonas = 0;
-    
-    Object.values(funcionesStow).forEach((funcionData) => {
+  obtenerRatePromedio(funciones, defaultRate = 100) {
+    let totalRate = 0, totalPersonas = 0;
+    for (const funcionData of Object.values(funciones)) {
       const puesto = this.obtenerPuestoPorId(funcionData.puesto_id);
-      if (puesto && puesto.rate && funcionData.asignaciones.length > 0) {
+      if (puesto?.rate && funcionData.asignaciones.length > 0) {
         totalRate += puesto.rate * funcionData.asignaciones.length;
         totalPersonas += funcionData.asignaciones.length;
       }
-    });
-    
-    return totalPersonas > 0 ? totalRate / totalPersonas : 100; // Default 100 si no hay
-  }
-
-  /**
-   * Obtiene el rate promedio de Receive para calcular compensación
-   */
-  obtenerRatePromedioReceive(funcionesReceive) {
-    let totalRate = 0;
-    let totalPersonas = 0;
-    
-    Object.values(funcionesReceive).forEach((funcionData) => {
-      const puesto = this.obtenerPuestoPorId(funcionData.puesto_id);
-      if (puesto && puesto.rate && funcionData.asignaciones.length > 0) {
-        totalRate += puesto.rate * funcionData.asignaciones.length;
-        totalPersonas += funcionData.asignaciones.length;
-      }
-    });
-    
-    return totalPersonas > 0 ? totalRate / totalPersonas : 60; // Default 60 si no hay
+    }
+    return totalPersonas > 0 ? totalRate / totalPersonas : defaultRate;
   }
 
   toggleSection(depto) {
@@ -2095,6 +2101,12 @@ class PizarraController {
       login,
       this.puestoSeleccionadoParaAgregar
     );
+
+    // Asegurar que puestoActual apunta al puesto correcto para asignarUsuario
+    const puestoObj = this.obtenerPuestoPorId(this.puestoSeleccionadoParaAgregar);
+    if (puestoObj) {
+      this.puestoActual = puestoObj;
+    }
 
     // Asignar
     await this.asignarUsuario(login, tieneSkill);
@@ -2685,7 +2697,7 @@ class PizarraController {
               </div>
               ${rateHtml}
               <div class="personal-actions">
-                <button class="btn-icon-small" onclick="pizarraController.mostrarSkillMatrix('${a.usuario_login}')" title="Ver formaciones">
+                <button class="btn-icon-small" onclick="pizarraController.mostrarModalSkillMatrix('${a.usuario_login}')" title="Ver formaciones">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
                     <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
@@ -2795,6 +2807,18 @@ class PizarraController {
   }
 
   /**
+   * Limpia recursos al destruir el controlador (para reinicialización SPA)
+   */
+  destroy() {
+    if (this.saveTimeout) {
+      clearTimeout(this.saveTimeout);
+    }
+    this.eventBus.clear();
+    this.userRatesCache = {};
+    console.log("🧹 PizarraController destruido");
+  }
+
+  /**
    * Exporta la pizarra a XLSX
    */
   async exportarPizarra() {
@@ -2815,7 +2839,7 @@ class PizarraController {
           SubDepartamento: a.departamento_secundario,
           Puesto: a.puesto_nombre,
           Formacion: a.tiene_formacion ? "Sí" : "No",
-          Hora: new Date(a.hora_asignacion).toLocaleTimeString()
+          Hora: new Date(a.fecha_asignacion).toLocaleTimeString()
         };
       });
 
@@ -2851,16 +2875,34 @@ class PizarraController {
 }
 
 // SPA: inicializar solo con app:ready (primera carga y al volver).
+// Proteger contra múltiples registros del listener (el router re-inyecta el script)
 let pizarraController;
+let _pizarraInitializing = false;
+
 function initPizarra() {
+  // Evitar inicialización concurrente (doble disparo de app:ready)
+  if (_pizarraInitializing) {
+    console.log("⚠️ PizarraController ya se está inicializando, ignorando...");
+    return;
+  }
+  _pizarraInitializing = true;
+
   if (window.pizarraController && typeof window.pizarraController.destroy === "function") {
     window.pizarraController.destroy();
   }
   pizarraController = new PizarraController();
   window.pizarraController = pizarraController;
+
+  // init ya se llamó en el constructor, resetear flag tras un delay prudente
+  setTimeout(() => { _pizarraInitializing = false; }, 2000);
 }
-window.addEventListener("app:ready", (e) => {
-  if (e.detail && e.detail.app === "pizarra") {
-    initPizarra();
-  }
-});
+
+// Solo registrar el listener UNA vez
+if (!window._pizarraListenerRegistered) {
+  window._pizarraListenerRegistered = true;
+  window.addEventListener("app:ready", (e) => {
+    if (e.detail && e.detail.app === "pizarra") {
+      initPizarra();
+    }
+  });
+}

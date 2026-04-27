@@ -166,6 +166,8 @@ let state = {
   modalLineasPuestoIndex: null,
   modalCertificadosDeptIndex: null,
   modalCertificadosPuestoIndex: null,
+  modalQRDeptIndex: null,
+  modalQRPuestoIndex: null,
 };
 
 const el = {
@@ -305,6 +307,8 @@ async function savePuestosToDataFlow() {
     if (result && result.success) {
       state.lastSavedPuestos = Date.now();
       updateSyncStatus("puestos", true);
+      // Regenerar mapping_qr.json automáticamente
+      saveQRMappingFromPuestos();
     } else {
       updateSyncStatus("puestos", false, true);
     }
@@ -816,10 +820,97 @@ function renderPuestosTable() {
     tr.appendChild(redTaskCell);
     tr.appendChild(document.createElement("td")).appendChild(storageAreaSelect);
     tr.appendChild(lineasCell);
+    // QR Codes cell
+    const qrCodes = Array.isArray(puesto.qr_codes) ? puesto.qr_codes : [];
+    const qrCell = document.createElement("td");
+    qrCell.className = "pm-qr-cell";
+    if (qrCodes.length === 0) {
+      const btnQrAdd = document.createElement("button");
+      btnQrAdd.type = "button";
+      btnQrAdd.className = "pm-btn pm-btn-small pm-btn-link";
+      btnQrAdd.textContent = "Agregar QR";
+      btnQrAdd.addEventListener("click", () => openModalQR(deptIndex, puestoIndex));
+      qrCell.appendChild(btnQrAdd);
+    } else {
+      const qrText = document.createElement("span");
+      qrText.className = "pm-qr-text";
+      qrText.title = qrCodes.join("\n");
+      qrText.textContent = qrCodes.length === 1 ? qrCodes[0] : `${qrCodes.length} QRs`;
+      const btnQrEdit = document.createElement("button");
+      btnQrEdit.type = "button";
+      btnQrEdit.className = "pm-btn pm-btn-small pm-btn-link";
+      btnQrEdit.textContent = "Editar";
+      btnQrEdit.addEventListener("click", () => openModalQR(deptIndex, puestoIndex));
+      qrCell.appendChild(qrText);
+      qrCell.appendChild(document.createTextNode(" "));
+      qrCell.appendChild(btnQrEdit);
+    }
+    tr.appendChild(qrCell);
     tr.appendChild(certCell);
     tr.appendChild(document.createElement("td")).appendChild(btnRemove);
     el.puestosTbody.appendChild(tr);
   });
+}
+
+// ─── QR Modal ──────────────────────────────────────────────────────────────
+
+function openModalQR(deptIndex, puestoIndex) {
+  const modal = document.getElementById("pm-modal-qr");
+  if (!modal) return;
+  const puesto = state.puestosData?.departamentos?.[deptIndex]?.puestos?.[puestoIndex];
+  if (!puesto) return;
+  state.modalQRDeptIndex = deptIndex;
+  state.modalQRPuestoIndex = puestoIndex;
+  const titleEl = document.getElementById("pm-modal-qr-title");
+  if (titleEl) titleEl.textContent = puesto.nombre || puesto.id;
+  const textarea = document.getElementById("pm-modal-qr-textarea");
+  if (textarea) textarea.value = (puesto.qr_codes || []).join("\n");
+  modal.hidden = false;
+  if (textarea) setTimeout(() => textarea.focus(), 50);
+}
+
+function closeModalQR() {
+  const modal = document.getElementById("pm-modal-qr");
+  if (modal) modal.hidden = true;
+}
+
+function saveModalQR() {
+  const textarea = document.getElementById("pm-modal-qr-textarea");
+  if (!textarea) return;
+  const qrCodes = textarea.value
+    .split("\n")
+    .map((s) => s.trim().toUpperCase())
+    .filter(Boolean);
+  const { modalQRDeptIndex: di, modalQRPuestoIndex: pi } = state;
+  if (di == null || pi == null) return;
+  state.puestosData.departamentos[di].puestos[pi].qr_codes = qrCodes;
+  closeModalQR();
+  renderPuestosTable();
+  scheduleSavePuestos();
+}
+
+/** Regenera mapping_qr.json desde los qr_codes de todos los puestos */
+async function saveQRMappingFromPuestos() {
+  if (!state.dataFlowPath || !window.api?.saveJson || !state.puestosData) return;
+  const mapping = {};
+  (state.puestosData.departamentos || []).forEach((dept) => {
+    (dept.puestos || []).forEach((puesto) => {
+      if (!Array.isArray(puesto.qr_codes) || puesto.qr_codes.length === 0) return;
+      puesto.qr_codes.forEach((qr) => {
+        if (qr) mapping[qr.toUpperCase().trim()] = {
+          dept: dept.area || "",
+          process: dept.nombre || dept.id || "",
+          task: puesto.nombre || puesto.id || "",
+        };
+      });
+    });
+  });
+  try {
+    await window.api.saveJson(state.dataFlowPath + "mapping_qr.json", mapping);
+    console.log(`✅ mapping_qr.json regenerado: ${Object.keys(mapping).length} entradas`);
+  } catch (e) {
+    console.warn("⚠️ No se pudo guardar mapping_qr.json:", e);
+  }
 }
 
 function removePuesto(deptIndex, puestoIndex) {
@@ -1339,6 +1430,13 @@ async function init() {
     document.getElementById("pm-modal-agregar-cert-done")?.addEventListener("click", modalAgregarCertificadoDone);
   }
   document.getElementById("pm-agregar-certificado")?.addEventListener("click", openModalAgregarCertificado);
+  // Modal QR
+  const modalQR = document.getElementById("pm-modal-qr");
+  if (modalQR) {
+    modalQR.querySelector(".pm-modal-backdrop")?.addEventListener("click", closeModalQR);
+    modalQR.querySelector(".pm-modal-close")?.addEventListener("click", closeModalQR);
+    document.getElementById("pm-modal-qr-guardar")?.addEventListener("click", saveModalQR);
+  }
   el.tabs.forEach((t) => {
     t.addEventListener("click", () => switchTab(t.dataset.tab));
   });

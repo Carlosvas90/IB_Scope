@@ -86,6 +86,11 @@ class Router {
         path: "../apps/utilidades/Pizarra/views/pizarra.html",
         scripts: ["../apps/utilidades/Pizarra/js/pizarra.js"],
       },
+      "flowtask": {
+        path: "../apps/utilidades/FlowTask/views/flowtask.html",
+        scripts: ["../apps/utilidades/FlowTask/js/flowtask.js"],
+        styles: ["../apps/utilidades/FlowTask/css/flowtask.css"],
+      },
       "skillmatrix": {
         path: "../apps/utilidades/SkillMatrix/views/skillmatrix.html",
         scripts: ["../apps/utilidades/SkillMatrix/js/skillmatrix.js"],

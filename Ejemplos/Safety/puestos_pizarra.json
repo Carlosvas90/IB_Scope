@@ -1,0 +1,1108 @@
+{
+  "version": "2.0",
+  "generado_desde": "Mapping_Qr.csv",
+  "fecha_generacion": "2026-04-23T20:24:27.344Z",
+  "qr_mapping": {
+    "OCEAN": "dock-ocean",
+    "DOCK CLERK": "dock-clerk",
+    "DOCK UNLOADERS": "dock-unloader",
+    "PALLET REPALLETIZE": "dock-repalletize",
+    "ISS FUD/AGING": "stow-fudhunter",
+    "IB FUD HUNTER": "stow-fudhunter",
+    "JACKPOT - RCV": "receive-noncon",
+    "RCV L2 -01": "receive-noncon",
+    "RCV L2 -02": "receive-noncon",
+    "RCV L2 -03": "receive-noncon",
+    "RCV L2 -04": "receive-noncon",
+    "RCV L2 -05": "receive-noncon",
+    "RCV L2 -06": "receive-noncon",
+    "RCV L2 -07": "receive-noncon",
+    "RCV L2 -08": "receive-noncon",
+    "RCV L2 -09": "receive-noncon",
+    "RCV L2 -10": "receive-noncon",
+    "RCV L3 -01": "receive-noncon",
+    "RCV L3 -03": "receive-noncon",
+    "RCV L3 -05": "receive-noncon",
+    "RCV L3 -07": "receive-noncon",
+    "RCV L3 -09": "receive-noncon",
+    "CORRAL": "dock-corral",
+    "PALLET RECEIVE": "receive-palletreceive",
+    "PREP  L1 - 07": "receive-prep",
+    "PREP L1-08": "receive-prep",
+    "PREP L1-09": "receive-prep",
+    "PREP L1-10": "receive-prep",
+    "RCV L1-01": "receive-prep",
+    "RCV L1-02": "receive-prep",
+    "RCV L1-03": "receive-prep",
+    "RCV L1-04": "receive-prep",
+    "RCV L1-05": "receive-prep",
+    "RCV L1-06": "receive-prep",
+    "RCV NON-CON": "receive-noncon",
+    "RECEIVE TEAM LIFT #1": "receive-teamlift",
+    "RECEIVE TEAM LIFT #2": "receive-teamlift",
+    "RECEIVE TEAM LIFT #3": "receive-teamlift",
+    "TSI DECANT 1": "receive-decanttsi",
+    "TSI DECANT 2": "receive-decanttsi",
+    "TSI DECANT 3": "receive-decanttsi",
+    "TSI DECANT 4": "receive-decanttsi",
+    "TSI DECANT 5": "receive-decanttsi",
+    "RECEIVE TEAM LIFT ASSISTANT #1": "receive-tlassistant",
+    "RECEIVE TEAM LIFT ASSISTANT #2": "receive-tlassistant",
+    "RECEIVE TEAM LIFT ASSISTANT #3": "receive-tlassistant",
+    "RECEIVE WATERSPIDER": "receive-waterspider",
+    "CUBIS": "receive-cubis",
+    "QUARTERBACK - STOW CART RUNNER": "stow-cartrunner",
+    "STOW CART RUNNER": "stow-cartrunner",
+    "STOW PICK TOWER": "stow-stowpicktower",
+    "STOW TEAM LIFT #1": "stow-teamlift",
+    "STOW TEAM LIFT #2": "stow-teamlift",
+    "STOW TEAM LIFT #3": "stow-teamlift",
+    "STOW TEAM LIFT #4": "stow-teamlift",
+    "STOW TEAM LIFT ASSISTANT #1": "stow-tlassistant",
+    "STOW TEAM LIFT ASSISTANT #2": "stow-tlassistant",
+    "STOW TEAM LIFT ASSISTANT #3": "stow-tlassistant",
+    "STOW TEAM LIFT ASSISTANT #4": "stow-tlassistant",
+    "STOW HR - PITC": "stow-pit-c",
+    "STOW PIT B HR": "stow-pit-b",
+    "HR EMPTY PALLETS": "stow-pit-c",
+    "VRET PACK": "v-ret-v-retpack",
+    "VRET PICK": "v-ret-v-retpick",
+    "VRET PROBLEM SOLVE": "v-ret-v-retps",
+    "ICQA": "icqa-icqa",
+    "ISS RCV PS": "iss-receiveps",
+    "ISS SWEEPER": "iss-sweeper",
+    "ISS TICKETS + POUT": "iss-tickets",
+    "ISS TICKETS": "iss-tickets",
+    "LEARNING - TRAINING": "learning-training",
+    "PACK BUFFER OPERATOR": "pack-bufferoperator",
+    "PACK L1 -01": "pack-packnoncon",
+    "PACK L1 -02": "pack-packnoncon",
+    "PACK L1 -03": "pack-packnoncon",
+    "PACK L1 -04 - HOV": "pack-packhov",
+    "PACK L1 -05 - HOV": "pack-packhov",
+    "PACK L1 -06 - HOV": "pack-packhov",
+    "PACK L1 -07 - HOV": "pack-packhov",
+    "PACK L1 -08 - HOV": "pack-packhov",
+    "PACK L2 -01": "pack-packnoncon",
+    "PACK L2 -02": "pack-packnoncon",
+    "PACK L2 -03": "pack-packnoncon",
+    "PACK L2 -04": "pack-packnoncon",
+    "PACK L2 -05": "pack-packnoncon",
+    "PACK L2 -06": "pack-packnoncon",
+    "PACK L2 -07": "pack-packnoncon",
+    "PACK L2 -08": "pack-packnoncon",
+    "PACK L3 -01": "pack-packnoncon",
+    "PACK L3 -02": "pack-packnoncon",
+    "PACK L3 -03": "pack-packnoncon",
+    "PACK L3 -04": "pack-packnoncon",
+    "PACK L3 -05": "pack-packnoncon",
+    "PACK L3 -06": "pack-packnoncon",
+    "PACK L3 -07": "pack-packnoncon",
+    "PACK L3 -08": "pack-packnoncon",
+    "PACK L4 -01": "pack-packnoncon",
+    "PACK L4 -02": "pack-packnoncon",
+    "PACK L4 -03": "pack-packnoncon",
+    "PACK L4 -04": "pack-packnoncon",
+    "PACK L4 -05": "pack-packnoncon",
+    "PACK L4 -07": "pack-packnoncon",
+    "PACK L5 -01": "pack-exceptionsort",
+    "PACK L5 -02": "pack-exceptionsort",
+    "PACK L5 -03": "pack-exceptionsort",
+    "PACK L5 -04": "pack-exceptionsort",
+    "PACK L5 -05": "pack-exceptionsort",
+    "PACK L5 -06": "pack-exceptionsort",
+    "PACK L5 -07": "pack-exceptionsort",
+    "PACK L5 -08": "pack-exceptionsort",
+    "PACK L6 -01": "pack-packnoncon",
+    "PACK L6 -02": "pack-packnoncon",
+    "PACK L6 -03": "pack-packnoncon",
+    "PACK L6 -04": "pack-packnoncon",
+    "PACK L6 -05 - HOV": "pack-packhov",
+    "PACK L6 -06 - HOV": "pack-packhov",
+    "PACK L6 -07 - HOV": "pack-packhov",
+    "PACK L6 -08 - HOV": "pack-packhov",
+    "PACK L7 -01": "pack-packnoncon",
+    "PACK L7 -02": "pack-packnoncon",
+    "PACK L7 -03": "pack-packnoncon",
+    "PACK L7 -04": "pack-packnoncon",
+    "PACK L7 -05": "pack-packnoncon",
+    "PACK L7 -06": "pack-packnoncon",
+    "PACK L7 -07": "pack-packnoncon",
+    "PACK L7 -08": "pack-packnoncon",
+    "PACK L8 -01": "pack-packnoncon",
+    "PACK L8 -02": "pack-packnoncon",
+    "PACK L8 -03": "pack-packnoncon",
+    "PACK L8 -04": "pack-packnoncon",
+    "PACK L8 -05": "pack-packnoncon",
+    "PACK L8 -06": "pack-packnoncon",
+    "PACK L8 -07": "pack-packnoncon",
+    "PACK L8 -08": "pack-packnoncon",
+    "PACK L9": "pack-l9",
+    "PACK PROBLEM SOLVE": "pack-problemsolve",
+    "PACK WATERSPIDER": "pack-waterspider",
+    "SLAM OPERATOR 1": "ship-slamoperator",
+    "SLAM OPERATOR 2": "ship-slamoperator",
+    "LANZAR SPOO": "pack-lanzarspoo",
+    "PICK - CART RUNNER": "pick-cartrunner",
+    "PICK - HOV": "pick-hov",
+    "PICK - HR - PIT A": "pick-pit-a",
+    "PICK - PG": "pick-pg",
+    "PICK - PICK TOWER": "pick-picktower",
+    "PICK - TUGGER": "pick-tugger",
+    "PICK TEAM LIFT #1": "pick-teamlift",
+    "PICK TEAM LIFT #2": "pick-teamlift",
+    "PICK TEAM LIFT #3": "pick-teamlift",
+    "PICK TEAM LIFT ASSISTANT #1": "pick-tlassistant",
+    "PICK TEAM LIFT ASSISTANT #2": "pick-tlassistant",
+    "PICK TEAM LIFT ASSISTANT #3": "pick-tlassistant",
+    "PICK TEAM LIFT HR": "pick-teamlifthr",
+    "PICK TO SPOO - HR": "pick-picktospoohr",
+    "SIOC AMBASSADOR": "pick-siocambassador",
+    "PICK TO SPOO - LOADER L4": "pick-picktospooloader",
+    "PICK TO SPOO - LOADER L8": "pick-picktospooloader",
+    "PICK TO SPOO - PICK TOWER": "pick-picktospoopt",
+    "PICK TO SPOO - HR - PIT 01": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 02": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 03": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 04": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 05": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 06": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 07": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 08": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 09": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 10": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 11": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 12": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 13": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 14": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 15": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 16": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 17": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 18": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 19": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 20": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 21": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 22": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 23": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 24": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 25": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 26": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 27": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 28": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 29": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 30": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 31": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 32": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 33": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 34": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 35": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 36": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 37": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 38": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 39": "pick-picktospoohr",
+    "PICK TO SPOO - HR - PIT 40": "pick-picktospoohr",
+    "SHIP - AREA A": "ship-areaa",
+    "SHIP - AREA B": "ship-areab",
+    "SHIP - AREA D": "ship-aread",
+    "SHIP - AUDITOR": "ship-auditor",
+    "SHIP - CLERK": "ship-clerk",
+    "SHIP - INDOOR": "ship-idm",
+    "SHIP - SPIRAL - LOOSE LOAD": "ship-caracolas",
+    "SHIP - SUPPLIES": "ship-supplies",
+    "SHIP TEAM LIFT": "ship-teamlift",
+    "SIAT - L1": "pack-siat",
+    "SIAT - L2": "pack-siat",
+    "SIAT - L3": "pack-siat",
+    "SIAT - L6": "pack-siat",
+    "SIAT - L7": "pack-siat",
+    "SIAT - L8": "pack-siat",
+    "SUPPORT - TUGGER": "pick-supporttugger",
+    "HR AMBASSADOR": "ops-hrambassador",
+    "HR JANITOR": "ops-hrjanitor",
+    "POUT": "iss-poutps",
+    "POUT SUPPORT": "iss-poutsupport",
+    "SPACE": "space-space",
+    "TOM - GATEHOUSE": "tom-garitas",
+    "TOM - OUTDOOR MARSHAL": "tom-odm",
+    "VRET CAR RUNNER": "v-ret-v-retcartrunner",
+    "GRADING - PICK": "grading-whdpick",
+    "GRADING - PACK": "grading-whdpack",
+    "GRADING - PS": "grading-whdps"
+  },
+  "puestos_predefinidos": [
+    {
+      "id": "dock-ocean",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Dock",
+      "funcion": "Ocean",
+      "activo": true,
+      "qr_codes": [
+        "OCEAN"
+      ]
+    },
+    {
+      "id": "dock-clerk",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Dock",
+      "funcion": "Clerk",
+      "activo": true,
+      "qr_codes": [
+        "DOCK CLERK"
+      ]
+    },
+    {
+      "id": "dock-unloader",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Dock",
+      "funcion": "Unloader",
+      "activo": true,
+      "qr_codes": [
+        "DOCK UNLOADERS"
+      ]
+    },
+    {
+      "id": "dock-repalletize",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Dock",
+      "funcion": "Repalletize",
+      "activo": true,
+      "qr_codes": [
+        "PALLET REPALLETIZE"
+      ]
+    },
+    {
+      "id": "stow-fudhunter",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Stow",
+      "funcion": "FUDHunter",
+      "activo": true,
+      "qr_codes": [
+        "ISS FUD/AGING",
+        "IB FUD HUNTER"
+      ]
+    },
+    {
+      "id": "receive-noncon",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Receive",
+      "funcion": "NonCon",
+      "activo": true,
+      "qr_codes": [
+        "JACKPOT - RCV",
+        "RCV L2 -01",
+        "RCV L2 -02",
+        "RCV L2 -03",
+        "RCV L2 -04",
+        "RCV L2 -05",
+        "RCV L2 -06",
+        "RCV L2 -07",
+        "RCV L2 -08",
+        "RCV L2 -09",
+        "RCV L2 -10",
+        "RCV L3 -01",
+        "RCV L3 -03",
+        "RCV L3 -05",
+        "RCV L3 -07",
+        "RCV L3 -09",
+        "RCV NON-CON"
+      ]
+    },
+    {
+      "id": "dock-corral",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Dock",
+      "funcion": "Corral",
+      "activo": true,
+      "qr_codes": [
+        "CORRAL"
+      ]
+    },
+    {
+      "id": "receive-palletreceive",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Receive",
+      "funcion": "PalletReceive",
+      "activo": true,
+      "qr_codes": [
+        "PALLET RECEIVE"
+      ]
+    },
+    {
+      "id": "receive-prep",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Receive",
+      "funcion": "Prep",
+      "activo": true,
+      "qr_codes": [
+        "PREP  L1 - 07",
+        "PREP L1-08",
+        "PREP L1-09",
+        "PREP L1-10",
+        "RCV L1-01",
+        "RCV L1-02",
+        "RCV L1-03",
+        "RCV L1-04",
+        "RCV L1-05",
+        "RCV L1-06"
+      ]
+    },
+    {
+      "id": "receive-teamlift",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Receive",
+      "funcion": "TeamLift",
+      "activo": true,
+      "qr_codes": [
+        "RECEIVE TEAM LIFT #1",
+        "RECEIVE TEAM LIFT #2",
+        "RECEIVE TEAM LIFT #3"
+      ]
+    },
+    {
+      "id": "receive-decanttsi",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Receive",
+      "funcion": "DecantTSI",
+      "activo": true,
+      "qr_codes": [
+        "TSI DECANT 1",
+        "TSI DECANT 2",
+        "TSI DECANT 3",
+        "TSI DECANT 4",
+        "TSI DECANT 5"
+      ]
+    },
+    {
+      "id": "receive-tlassistant",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Receive",
+      "funcion": "TLAssistant",
+      "activo": true,
+      "qr_codes": [
+        "RECEIVE TEAM LIFT ASSISTANT #1",
+        "RECEIVE TEAM LIFT ASSISTANT #2",
+        "RECEIVE TEAM LIFT ASSISTANT #3"
+      ]
+    },
+    {
+      "id": "receive-waterspider",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Receive",
+      "funcion": "WaterSpider",
+      "activo": true,
+      "qr_codes": [
+        "RECEIVE WATERSPIDER"
+      ]
+    },
+    {
+      "id": "receive-cubis",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Receive",
+      "funcion": "Cubis",
+      "activo": true,
+      "qr_codes": [
+        "CUBIS"
+      ]
+    },
+    {
+      "id": "stow-cartrunner",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Stow",
+      "funcion": "CartRunner",
+      "activo": true,
+      "qr_codes": [
+        "QUARTERBACK - STOW CART RUNNER",
+        "STOW CART RUNNER"
+      ]
+    },
+    {
+      "id": "stow-stowpicktower",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Stow",
+      "funcion": "StowPickTower",
+      "activo": true,
+      "qr_codes": [
+        "STOW PICK TOWER"
+      ]
+    },
+    {
+      "id": "stow-teamlift",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Stow",
+      "funcion": "TeamLift",
+      "activo": true,
+      "qr_codes": [
+        "STOW TEAM LIFT #1",
+        "STOW TEAM LIFT #2",
+        "STOW TEAM LIFT #3",
+        "STOW TEAM LIFT #4"
+      ]
+    },
+    {
+      "id": "stow-tlassistant",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Stow",
+      "funcion": "TLAssistant",
+      "activo": true,
+      "qr_codes": [
+        "STOW TEAM LIFT ASSISTANT #1",
+        "STOW TEAM LIFT ASSISTANT #2",
+        "STOW TEAM LIFT ASSISTANT #3",
+        "STOW TEAM LIFT ASSISTANT #4"
+      ]
+    },
+    {
+      "id": "stow-pit-c",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Stow",
+      "funcion": "PIT-C",
+      "activo": true,
+      "qr_codes": [
+        "STOW HR - PITC",
+        "HR EMPTY PALLETS"
+      ]
+    },
+    {
+      "id": "stow-pit-b",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Stow",
+      "funcion": "PIT-B",
+      "activo": true,
+      "qr_codes": [
+        "STOW PIT B HR"
+      ]
+    },
+    {
+      "id": "v-ret-v-retpack",
+      "departamento_principal": "IB",
+      "departamento_secundario": "V-ret",
+      "funcion": "V-retPack",
+      "activo": true,
+      "qr_codes": [
+        "VRET PACK"
+      ]
+    },
+    {
+      "id": "v-ret-v-retpick",
+      "departamento_principal": "IB",
+      "departamento_secundario": "V-ret",
+      "funcion": "V-retPick",
+      "activo": true,
+      "qr_codes": [
+        "VRET PICK"
+      ]
+    },
+    {
+      "id": "v-ret-v-retps",
+      "departamento_principal": "IB",
+      "departamento_secundario": "V-ret",
+      "funcion": "V-retPS",
+      "activo": true,
+      "qr_codes": [
+        "VRET PROBLEM SOLVE"
+      ]
+    },
+    {
+      "id": "icqa-icqa",
+      "departamento_principal": "Support",
+      "departamento_secundario": "ICQA",
+      "funcion": "ICQA",
+      "activo": true,
+      "qr_codes": [
+        "ICQA"
+      ]
+    },
+    {
+      "id": "iss-receiveps",
+      "departamento_principal": "Support",
+      "departamento_secundario": "ISS",
+      "funcion": "ReceivePS",
+      "activo": true,
+      "qr_codes": [
+        "ISS RCV PS"
+      ]
+    },
+    {
+      "id": "iss-sweeper",
+      "departamento_principal": "Support",
+      "departamento_secundario": "ISS",
+      "funcion": "Sweeper",
+      "activo": true,
+      "qr_codes": [
+        "ISS SWEEPER"
+      ]
+    },
+    {
+      "id": "iss-tickets",
+      "departamento_principal": "Support",
+      "departamento_secundario": "ISS",
+      "funcion": "Tickets",
+      "activo": true,
+      "qr_codes": [
+        "ISS TICKETS + POUT",
+        "ISS TICKETS"
+      ]
+    },
+    {
+      "id": "learning-training",
+      "departamento_principal": "Support",
+      "departamento_secundario": "Learning",
+      "funcion": "Training",
+      "activo": true,
+      "qr_codes": [
+        "LEARNING - TRAINING"
+      ]
+    },
+    {
+      "id": "pack-bufferoperator",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Pack",
+      "funcion": "BufferOperator",
+      "activo": true,
+      "qr_codes": [
+        "PACK BUFFER OPERATOR"
+      ]
+    },
+    {
+      "id": "pack-packnoncon",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Pack",
+      "funcion": "PackNonCon",
+      "activo": true,
+      "qr_codes": [
+        "PACK L1 -01",
+        "PACK L1 -02",
+        "PACK L1 -03",
+        "PACK L2 -01",
+        "PACK L2 -02",
+        "PACK L2 -03",
+        "PACK L2 -04",
+        "PACK L2 -05",
+        "PACK L2 -06",
+        "PACK L2 -07",
+        "PACK L2 -08",
+        "PACK L3 -01",
+        "PACK L3 -02",
+        "PACK L3 -03",
+        "PACK L3 -04",
+        "PACK L3 -05",
+        "PACK L3 -06",
+        "PACK L3 -07",
+        "PACK L3 -08",
+        "PACK L4 -01",
+        "PACK L4 -02",
+        "PACK L4 -03",
+        "PACK L4 -04",
+        "PACK L4 -05",
+        "PACK L4 -07",
+        "PACK L6 -01",
+        "PACK L6 -02",
+        "PACK L6 -03",
+        "PACK L6 -04",
+        "PACK L7 -01",
+        "PACK L7 -02",
+        "PACK L7 -03",
+        "PACK L7 -04",
+        "PACK L7 -05",
+        "PACK L7 -06",
+        "PACK L7 -07",
+        "PACK L7 -08",
+        "PACK L8 -01",
+        "PACK L8 -02",
+        "PACK L8 -03",
+        "PACK L8 -04",
+        "PACK L8 -05",
+        "PACK L8 -06",
+        "PACK L8 -07",
+        "PACK L8 -08"
+      ]
+    },
+    {
+      "id": "pack-packhov",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Pack",
+      "funcion": "PackHOV",
+      "activo": true,
+      "qr_codes": [
+        "PACK L1 -04 - HOV",
+        "PACK L1 -05 - HOV",
+        "PACK L1 -06 - HOV",
+        "PACK L1 -07 - HOV",
+        "PACK L1 -08 - HOV",
+        "PACK L6 -05 - HOV",
+        "PACK L6 -06 - HOV",
+        "PACK L6 -07 - HOV",
+        "PACK L6 -08 - HOV"
+      ]
+    },
+    {
+      "id": "pack-exceptionsort",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Pack",
+      "funcion": "ExceptionSort",
+      "activo": true,
+      "qr_codes": [
+        "PACK L5 -01",
+        "PACK L5 -02",
+        "PACK L5 -03",
+        "PACK L5 -04",
+        "PACK L5 -05",
+        "PACK L5 -06",
+        "PACK L5 -07",
+        "PACK L5 -08"
+      ]
+    },
+    {
+      "id": "pack-l9",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Pack",
+      "funcion": "L9",
+      "activo": true,
+      "qr_codes": [
+        "PACK L9"
+      ]
+    },
+    {
+      "id": "pack-problemsolve",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Pack",
+      "funcion": "ProblemSolve",
+      "activo": true,
+      "qr_codes": [
+        "PACK PROBLEM SOLVE"
+      ]
+    },
+    {
+      "id": "pack-waterspider",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Pack",
+      "funcion": "WaterSpider",
+      "activo": true,
+      "qr_codes": [
+        "PACK WATERSPIDER"
+      ]
+    },
+    {
+      "id": "ship-slamoperator",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Ship",
+      "funcion": "SlamOperator",
+      "activo": true,
+      "qr_codes": [
+        "SLAM OPERATOR 1",
+        "SLAM OPERATOR 2"
+      ]
+    },
+    {
+      "id": "pack-lanzarspoo",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Pack",
+      "funcion": "LanzarSPOO",
+      "activo": true,
+      "qr_codes": [
+        "LANZAR SPOO"
+      ]
+    },
+    {
+      "id": "pick-cartrunner",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Pick",
+      "funcion": "CartRunner",
+      "activo": true,
+      "qr_codes": [
+        "PICK - CART RUNNER"
+      ]
+    },
+    {
+      "id": "pick-hov",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Pick",
+      "funcion": "HOV",
+      "activo": true,
+      "qr_codes": [
+        "PICK - HOV"
+      ]
+    },
+    {
+      "id": "pick-pit-a",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Pick",
+      "funcion": "PIT-A",
+      "activo": true,
+      "qr_codes": [
+        "PICK - HR - PIT A"
+      ]
+    },
+    {
+      "id": "pick-pg",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Pick",
+      "funcion": "PG",
+      "activo": true,
+      "qr_codes": [
+        "PICK - PG"
+      ]
+    },
+    {
+      "id": "pick-picktower",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Pick",
+      "funcion": "PickTower",
+      "activo": true,
+      "qr_codes": [
+        "PICK - PICK TOWER"
+      ]
+    },
+    {
+      "id": "pick-tugger",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Pick",
+      "funcion": "Tugger",
+      "activo": true,
+      "qr_codes": [
+        "PICK - TUGGER"
+      ]
+    },
+    {
+      "id": "pick-teamlift",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Pick",
+      "funcion": "TeamLift",
+      "activo": true,
+      "qr_codes": [
+        "PICK TEAM LIFT #1",
+        "PICK TEAM LIFT #2",
+        "PICK TEAM LIFT #3"
+      ]
+    },
+    {
+      "id": "pick-tlassistant",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Pick",
+      "funcion": "TLAssistant",
+      "activo": true,
+      "qr_codes": [
+        "PICK TEAM LIFT ASSISTANT #1",
+        "PICK TEAM LIFT ASSISTANT #2",
+        "PICK TEAM LIFT ASSISTANT #3"
+      ]
+    },
+    {
+      "id": "pick-teamlifthr",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Pick",
+      "funcion": "TeamLiftHR",
+      "activo": true,
+      "qr_codes": [
+        "PICK TEAM LIFT HR"
+      ]
+    },
+    {
+      "id": "pick-picktospoohr",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Pick",
+      "funcion": "PicktoSPOOHR",
+      "activo": true,
+      "qr_codes": [
+        "PICK TO SPOO - HR",
+        "PICK TO SPOO - HR - PIT 01",
+        "PICK TO SPOO - HR - PIT 02",
+        "PICK TO SPOO - HR - PIT 03",
+        "PICK TO SPOO - HR - PIT 04",
+        "PICK TO SPOO - HR - PIT 05",
+        "PICK TO SPOO - HR - PIT 06",
+        "PICK TO SPOO - HR - PIT 07",
+        "PICK TO SPOO - HR - PIT 08",
+        "PICK TO SPOO - HR - PIT 09",
+        "PICK TO SPOO - HR - PIT 10",
+        "PICK TO SPOO - HR - PIT 11",
+        "PICK TO SPOO - HR - PIT 12",
+        "PICK TO SPOO - HR - PIT 13",
+        "PICK TO SPOO - HR - PIT 14",
+        "PICK TO SPOO - HR - PIT 15",
+        "PICK TO SPOO - HR - PIT 16",
+        "PICK TO SPOO - HR - PIT 17",
+        "PICK TO SPOO - HR - PIT 18",
+        "PICK TO SPOO - HR - PIT 19",
+        "PICK TO SPOO - HR - PIT 20",
+        "PICK TO SPOO - HR - PIT 21",
+        "PICK TO SPOO - HR - PIT 22",
+        "PICK TO SPOO - HR - PIT 23",
+        "PICK TO SPOO - HR - PIT 24",
+        "PICK TO SPOO - HR - PIT 25",
+        "PICK TO SPOO - HR - PIT 26",
+        "PICK TO SPOO - HR - PIT 27",
+        "PICK TO SPOO - HR - PIT 28",
+        "PICK TO SPOO - HR - PIT 29",
+        "PICK TO SPOO - HR - PIT 30",
+        "PICK TO SPOO - HR - PIT 31",
+        "PICK TO SPOO - HR - PIT 32",
+        "PICK TO SPOO - HR - PIT 33",
+        "PICK TO SPOO - HR - PIT 34",
+        "PICK TO SPOO - HR - PIT 35",
+        "PICK TO SPOO - HR - PIT 36",
+        "PICK TO SPOO - HR - PIT 37",
+        "PICK TO SPOO - HR - PIT 38",
+        "PICK TO SPOO - HR - PIT 39",
+        "PICK TO SPOO - HR - PIT 40"
+      ]
+    },
+    {
+      "id": "pick-siocambassador",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Pick",
+      "funcion": "SIOCAmbassador",
+      "activo": true,
+      "qr_codes": [
+        "SIOC AMBASSADOR"
+      ]
+    },
+    {
+      "id": "pick-picktospooloader",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Pick",
+      "funcion": "PicktoSPOOLoader",
+      "activo": true,
+      "qr_codes": [
+        "PICK TO SPOO - LOADER L4",
+        "PICK TO SPOO - LOADER L8"
+      ]
+    },
+    {
+      "id": "pick-picktospoopt",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Pick",
+      "funcion": "PicktoSPOOPT",
+      "activo": true,
+      "qr_codes": [
+        "PICK TO SPOO - PICK TOWER"
+      ]
+    },
+    {
+      "id": "ship-areaa",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Ship",
+      "funcion": "AreaA",
+      "activo": true,
+      "qr_codes": [
+        "SHIP - AREA A"
+      ]
+    },
+    {
+      "id": "ship-areab",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Ship",
+      "funcion": "AreaB",
+      "activo": true,
+      "qr_codes": [
+        "SHIP - AREA B"
+      ]
+    },
+    {
+      "id": "ship-aread",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Ship",
+      "funcion": "AreaD",
+      "activo": true,
+      "qr_codes": [
+        "SHIP - AREA D"
+      ]
+    },
+    {
+      "id": "ship-auditor",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Ship",
+      "funcion": "Auditor",
+      "activo": true,
+      "qr_codes": [
+        "SHIP - AUDITOR"
+      ]
+    },
+    {
+      "id": "ship-clerk",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Ship",
+      "funcion": "Clerk",
+      "activo": true,
+      "qr_codes": [
+        "SHIP - CLERK"
+      ]
+    },
+    {
+      "id": "ship-idm",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Ship",
+      "funcion": "IDM",
+      "activo": true,
+      "qr_codes": [
+        "SHIP - INDOOR"
+      ]
+    },
+    {
+      "id": "ship-caracolas",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Ship",
+      "funcion": "Caracolas",
+      "activo": true,
+      "qr_codes": [
+        "SHIP - SPIRAL - LOOSE LOAD"
+      ]
+    },
+    {
+      "id": "ship-supplies",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Ship",
+      "funcion": "Supplies",
+      "activo": true,
+      "qr_codes": [
+        "SHIP - SUPPLIES"
+      ]
+    },
+    {
+      "id": "ship-teamlift",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Ship",
+      "funcion": "TeamLift",
+      "activo": true,
+      "qr_codes": [
+        "SHIP TEAM LIFT"
+      ]
+    },
+    {
+      "id": "pack-siat",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Pack",
+      "funcion": "SIAT",
+      "activo": true,
+      "qr_codes": [
+        "SIAT - L1",
+        "SIAT - L2",
+        "SIAT - L3",
+        "SIAT - L6",
+        "SIAT - L7",
+        "SIAT - L8"
+      ]
+    },
+    {
+      "id": "pick-supporttugger",
+      "departamento_principal": "OB",
+      "departamento_secundario": "Pick",
+      "funcion": "SupportTugger",
+      "activo": true,
+      "qr_codes": [
+        "SUPPORT - TUGGER"
+      ]
+    },
+    {
+      "id": "ops-hrambassador",
+      "departamento_principal": "Support",
+      "departamento_secundario": "Ops",
+      "funcion": "HRAmbassador",
+      "activo": true,
+      "qr_codes": [
+        "HR AMBASSADOR"
+      ]
+    },
+    {
+      "id": "ops-hrjanitor",
+      "departamento_principal": "Support",
+      "departamento_secundario": "Ops",
+      "funcion": "HRJanitor",
+      "activo": true,
+      "qr_codes": [
+        "HR JANITOR"
+      ]
+    },
+    {
+      "id": "iss-poutps",
+      "departamento_principal": "Support",
+      "departamento_secundario": "ISS",
+      "funcion": "POUTPS",
+      "activo": true,
+      "qr_codes": [
+        "POUT"
+      ]
+    },
+    {
+      "id": "iss-poutsupport",
+      "departamento_principal": "Support",
+      "departamento_secundario": "ISS",
+      "funcion": "POUTSupport",
+      "activo": true,
+      "qr_codes": [
+        "POUT SUPPORT"
+      ]
+    },
+    {
+      "id": "space-space",
+      "departamento_principal": "Support",
+      "departamento_secundario": "Space",
+      "funcion": "Space",
+      "activo": true,
+      "qr_codes": [
+        "SPACE"
+      ]
+    },
+    {
+      "id": "tom-garitas",
+      "departamento_principal": "OB",
+      "departamento_secundario": "TOM",
+      "funcion": "Garitas",
+      "activo": true,
+      "qr_codes": [
+        "TOM - GATEHOUSE"
+      ]
+    },
+    {
+      "id": "tom-odm",
+      "departamento_principal": "OB",
+      "departamento_secundario": "TOM",
+      "funcion": "ODM",
+      "activo": true,
+      "qr_codes": [
+        "TOM - OUTDOOR MARSHAL"
+      ]
+    },
+    {
+      "id": "v-ret-v-retcartrunner",
+      "departamento_principal": "OB",
+      "departamento_secundario": "V-ret",
+      "funcion": "V-retCartRunner",
+      "activo": true,
+      "qr_codes": [
+        "VRET CAR RUNNER"
+      ]
+    },
+    {
+      "id": "grading-whdpick",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Grading",
+      "funcion": "WHDPick",
+      "activo": true,
+      "qr_codes": [
+        "GRADING - PICK"
+      ]
+    },
+    {
+      "id": "grading-whdpack",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Grading",
+      "funcion": "WHDPack",
+      "activo": true,
+      "qr_codes": [
+        "GRADING - PACK"
+      ]
+    },
+    {
+      "id": "grading-whdps",
+      "departamento_principal": "IB",
+      "departamento_secundario": "Grading",
+      "funcion": "WHDPS",
+      "activo": true,
+      "qr_codes": [
+        "GRADING - PS"
+      ]
+    }
+  ],
+  "puestos_personalizados": []
+}

@@ -1433,3 +1433,23 @@
     width: 95%;
   }
 }
+
+/* Layout: section-content y process-group (antes aplicado via JS) */
+.section-content {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: flex-start;
+  width: 100%;
+  padding: 0.5rem 0;
+  box-sizing: border-box;
+}
+
+.process-group {
+  flex: 0 1 auto;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0;
+  width: auto;
+}

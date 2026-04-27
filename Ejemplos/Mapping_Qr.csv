@@ -1,0 +1,227 @@
+﻿Scan,Departamento,Puesto,Departamento_Dashboard,Process_dashboard,Task_dashboard
+OCEAN,IB - Dock,Ocean,IB,Dock,Ocean
+DOCK CLERK,IB - Dock,Clerk,IB,Dock,Clerk
+DOCK UNLOADERS,IB - Dock,Unloader,IB,Dock,Unloader
+PALLET REPALLETIZE,IB - Dock,Repalletize,IB,Dock,Repalletize
+ISS FUD/AGING,IB - PS,FUD Hunter,IB,Stow,FUDHunter
+IB FUD Hunter,IB - PS,FUD Hunter,IB,Stow,FUDHunter
+JACKPOT - RCV,IB - Rcv,Jackpot Rcv,IB,Receive,NonCon
+RCV L2 -01,IB - Rcv,Receive L2-01,IB,Receive,NonCon
+RCV L2 -02,IB - Rcv,Receive L2-02,IB,Receive,NonCon
+RCV L2 -03,IB - Rcv,Receive L2-03,IB,Receive,NonCon
+RCV L2 -04,IB - Rcv,Receive L2-04,IB,Receive,NonCon
+RCV L2 -05,IB - Rcv,Receive L2-05,IB,Receive,NonCon
+RCV L2 -06,IB - Rcv,Receive L2-06,IB,Receive,NonCon
+RCV L2 -07,IB - Rcv,Receive L2-07,IB,Receive,NonCon
+RCV L2 -08,IB - Rcv,Receive L2-08,IB,Receive,NonCon
+RCV L2 -09,IB - Rcv,Receive L2-09,IB,Receive,NonCon
+RCV L2 -10,IB - Rcv,Receive L2-10,IB,Receive,NonCon
+RCV L3 -01,IB - Rcv,Receive L3-01,IB,Receive,NonCon
+RCV L3 -03,IB - Rcv,Receive L3-03,IB,Receive,NonCon
+RCV L3 -05,IB - Rcv,Receive L3-05,IB,Receive,NonCon
+RCV L3 -07,IB - Rcv,Receive L3-07,IB,Receive,NonCon
+RCV L3 -09,IB - Rcv,Receive L3-09,IB,Receive,NonCon
+CORRAL,IB - Rcv,Corral,IB,Dock,Corral
+PALLET RECEIVE,IB - Rcv,Pallet Receive,IB,Receive,PalletReceive
+PREP  L1 - 07,IB - Rcv,Prep,IB,Receive,Prep
+PREP L1-08,IB - Rcv,Prep,IB,Receive,Prep
+PREP L1-09,IB - Rcv,Prep,IB,Receive,Prep
+PREP L1-10,IB - Rcv,Prep,IB,Receive,Prep
+RCV L1-01,IB - Rcv,Prep,IB,Receive,Prep
+RCV L1-02,IB - Rcv,Prep,IB,Receive,Prep
+RCV L1-03,IB - Rcv,Prep,IB,Receive,Prep
+RCV L1-04,IB - Rcv,Prep,IB,Receive,Prep
+RCV L1-05,IB - Rcv,Prep,IB,Receive,Prep
+RCV L1-06,IB - Rcv,Prep,IB,Receive,Prep
+RCV NON-CON,IB - Rcv,Receive NON-CON,IB,Receive,NonCon
+RECEIVE TEAM LIFT #1,IB - Rcv,RECEIVE TEAM LIFT #1,IB,Receive,TeamLift
+RECEIVE TEAM LIFT #2,IB - Rcv,RECEIVE TEAM LIFT #2,IB,Receive,TeamLift
+RECEIVE TEAM LIFT #3,IB - Rcv,RECEIVE TEAM LIFT #3,IB,Receive,TeamLift
+TSI DECANT 1,IB - Rcv,TSI Decant,IB,Receive,DecantTSI
+TSI DECANT 2,IB - Rcv,TSI Decant,IB,Receive,DecantTSI
+TSI DECANT 3,IB - Rcv,TSI Decant,IB,Receive,DecantTSI
+TSI DECANT 4,IB - Rcv,TSI Decant,IB,Receive,DecantTSI
+TSI DECANT 5,IB - Rcv,TSI Decant,IB,Receive,DecantTSI
+RECEIVE TEAM LIFT ASSISTANT #1,IB - Rcv,RECEIVE TEAM LIFT ASSISTANT #1,IB,Receive,TLAssistant
+RECEIVE TEAM LIFT ASSISTANT #2,IB - Rcv,RECEIVE TEAM LIFT ASSISTANT #2,IB,Receive,TLAssistant
+RECEIVE TEAM LIFT ASSISTANT #3,IB - Rcv,RECEIVE TEAM LIFT ASSISTANT #3,IB,Receive,TLAssistant
+RECEIVE WATERSPIDER,IB - Rcv,Water spider,IB,Receive,WaterSpider
+Cubis,IB - Rcv,Cubis,IB,Receive,Cubis
+QUARTERBACK - STOW CART RUNNER,IB - Stow,Cart Runner,IB,Stow,CartRunner
+STOW CART RUNNER,IB - Stow,Cart Runner,IB,Stow,CartRunner
+STOW PICK TOWER,IB - Stow,Stow Pick Tower,IB,Stow,StowPickTower
+STOW TEAM LIFT #1,IB - Stow,STOW TEAM LIFT #1,IB,Stow,TeamLift
+STOW TEAM LIFT #1,IB - Stow,STOW TEAM LIFT #1,IB,Stow,TeamLift
+STOW TEAM LIFT #2,IB - Stow,STOW TEAM LIFT #2,IB,Stow,TeamLift
+STOW TEAM LIFT #3,IB - Stow,STOW TEAM LIFT #3,IB,Stow,TeamLift
+STOW TEAM LIFT #4,IB - Stow,STOW TEAM LIFT #4,IB,Stow,TeamLift
+STOW TEAM LIFT ASSISTANT #1,IB - Stow,STOW TEAM LIFT ASSISTANT #1,IB,Stow,TLAssistant
+STOW TEAM LIFT ASSISTANT #2,IB - Stow,STOW TEAM LIFT ASSISTANT #2,IB,Stow,TLAssistant
+STOW TEAM LIFT ASSISTANT #3,IB - Stow,STOW TEAM LIFT ASSISTANT #3,IB,Stow,TLAssistant
+STOW TEAM LIFT ASSISTANT #4,IB - Stow,STOW TEAM LIFT ASSISTANT #4,IB,Stow,TLAssistant
+STOW HR - PITC,IB - Stow,Pit-C,IB,Stow,PIT-C
+STOW PIT B HR,IB - Stow,PIT-B,IB,Stow,PIT-B
+HR EMPTY PALLETS,IB - Support,PIT-C - Empty Pallets,IB,Stow,PIT-C
+VRET PACK,IB Vret,V-ret Pack,IB,V-ret,V-retPack
+VRET PICK,IB Vret,V-ret Pick,IB,V-ret,V-retPick
+VRET PROBLEM SOLVE,IB Vret,V-ret Problem Solve,IB,V-ret,V-retPS
+ICQA,ICQA,ICQA,Support,ICQA,ICQA
+ISS RCV PS,ISS,Receive Problem,Support,ISS,ReceivePS
+ISS SWEEPER,ISS,Sweeper,Support,ISS,Sweeper
+ISS TICKETS + POUT,ISS,TICKETS,Support,ISS,Tickets
+ISS Tickets,ISS,TICKETS,Support,ISS,Tickets
+LEARNING - TRAINING,Learning,Training,Support,Learning,Training
+PACK BUFFER OPERATOR,OB - Pack,Buffer Operator,OB,Pack,BufferOperator
+PACK L1 -01,OB - Pack,L1 -01,OB,Pack,PackNonCon
+PACK L1 -02,OB - Pack,L1 -02,OB,Pack,PackNonCon
+PACK L1 -03,OB - Pack,L1 -03,OB,Pack,PackNonCon
+PACK L1 -04 - HOV,OB - Pack,L1 -04 - HOV,OB,Pack,PackHOV
+PACK L1 -05 - HOV,OB - Pack,L1 -05 - HOV,OB,Pack,PackHOV
+PACK L1 -06 - HOV,OB - Pack,L1 -06 - HOV,OB,Pack,PackHOV
+PACK L1 -07 - HOV,OB - Pack,L1 -07 - HOV,OB,Pack,PackHOV
+PACK L1 -08 - HOV,OB - Pack,L1 -08 - HOV,OB,Pack,PackHOV
+PACK L2 -01,OB - Pack,L2 -01,OB,Pack,PackNonCon
+PACK L2 -02,OB - Pack,L2 -02,OB,Pack,PackNonCon
+PACK L2 -03,OB - Pack,L2 -03,OB,Pack,PackNonCon
+PACK L2 -04,OB - Pack,L2 -04,OB,Pack,PackNonCon
+PACK L2 -05,OB - Pack,L2 -05,OB,Pack,PackNonCon
+PACK L2 -06,OB - Pack,L2 -06,OB,Pack,PackNonCon
+PACK L2 -07,OB - Pack,L2 -07,OB,Pack,PackNonCon
+PACK L2 -08,OB - Pack,L2 -08,OB,Pack,PackNonCon
+PACK L3 -01,OB - Pack,L3 -01,OB,Pack,PackNonCon
+PACK L3 -02,OB - Pack,L3 -02,OB,Pack,PackNonCon
+PACK L3 -03,OB - Pack,L3 -03,OB,Pack,PackNonCon
+PACK L3 -04,OB - Pack,L3 -04,OB,Pack,PackNonCon
+PACK L3 -05,OB - Pack,L3 -05,OB,Pack,PackNonCon
+PACK L3 -06,OB - Pack,L3 -06,OB,Pack,PackNonCon
+PACK L3 -07,OB - Pack,L3 -07,OB,Pack,PackNonCon
+PACK L3 -08,OB - Pack,L3 -08,OB,Pack,PackNonCon
+PACK L4 -01,OB - Pack,L4 -01,OB,Pack,PackNonCon
+PACK L4 -02,OB - Pack,L4 -02,OB,Pack,PackNonCon
+PACK L4 -03,OB - Pack,L4 -03,OB,Pack,PackNonCon
+PACK L4 -04,OB - Pack,L4 -04,OB,Pack,PackNonCon
+PACK L4 -05,OB - Pack,L4 -05,OB,Pack,PackNonCon
+PACK L4 -07,OB - Pack,L4 -07,OB,Pack,PackNonCon
+PACK L5 -01,OB - Pack,L5 -01,OB,Pack,ExceptionSort
+PACK L5 -02,OB - Pack,L5 -02,OB,Pack,ExceptionSort
+PACK L5 -03,OB - Pack,L5 -03,OB,Pack,ExceptionSort
+PACK L5 -04,OB - Pack,L5 -04,OB,Pack,ExceptionSort
+PACK L5 -05,OB - Pack,L5 -05,OB,Pack,ExceptionSort
+PACK L5 -06,OB - Pack,L5 -06,OB,Pack,ExceptionSort
+PACK L5 -07,OB - Pack,L5 -07,OB,Pack,ExceptionSort
+PACK L5 -08,OB - Pack,L5 -08,OB,Pack,ExceptionSort
+PACK L6 -01,OB - Pack,L6 -01,OB,Pack,PackNonCon
+PACK L6 -02,OB - Pack,L6 -02,OB,Pack,PackNonCon
+PACK L6 -03,OB - Pack,L6 -03,OB,Pack,PackNonCon
+PACK L6 -04,OB - Pack,L6 -04,OB,Pack,PackNonCon
+PACK L6 -05 - HOV,OB - Pack,L6 -05 - HOV,OB,Pack,PackHOV
+PACK L6 -06 - HOV,OB - Pack,L6 -06 - HOV,OB,Pack,PackHOV
+PACK L6 -07 - HOV,OB - Pack,L6 -07 - HOV,OB,Pack,PackHOV
+PACK L6 -08 - HOV,OB - Pack,L6 -08 - HOV,OB,Pack,PackHOV
+PACK L7 -01,OB - Pack,L7 -01,OB,Pack,PackNonCon
+PACK L7 -02,OB - Pack,L7 -02,OB,Pack,PackNonCon
+PACK L7 -03,OB - Pack,L7 -03,OB,Pack,PackNonCon
+PACK L7 -04,OB - Pack,L7 -04,OB,Pack,PackNonCon
+PACK L7 -05,OB - Pack,L7 -05,OB,Pack,PackNonCon
+PACK L7 -06,OB - Pack,L7 -06,OB,Pack,PackNonCon
+PACK L7 -07,OB - Pack,L7 -07,OB,Pack,PackNonCon
+PACK L7 -08,OB - Pack,L7 -08,OB,Pack,PackNonCon
+PACK L8 -01,OB - Pack,L8 -01,OB,Pack,PackNonCon
+PACK L8 -02,OB - Pack,L8 -02,OB,Pack,PackNonCon
+PACK L8 -03,OB - Pack,L8 -03,OB,Pack,PackNonCon
+PACK L8 -04,OB - Pack,L8 -04,OB,Pack,PackNonCon
+PACK L8 -05,OB - Pack,L8 -05,OB,Pack,PackNonCon
+PACK L8 -06,OB - Pack,L8 -06,OB,Pack,PackNonCon
+PACK L8 -07,OB - Pack,L8 -07,OB,Pack,PackNonCon
+PACK L8 -08,OB - Pack,L8 -08,OB,Pack,PackNonCon
+PACK L9,OB - Pack,L9,OB,Pack,L9
+PACK PROBLEM SOLVE,OB - Pack,Problem Solve,OB,Pack,ProblemSolve
+PACK WATERSPIDER,OB - Pack,Waterspider,OB,Pack,WaterSpider
+SLAM OPERATOR 1,OB - Pack,Slam Operator 1,OB,Ship,SlamOperator
+SLAM OPERATOR 2,OB - Pack,Slam Operator 2,OB,Ship,SlamOperator
+LANZAR SPOO,OB - Pack,LANZAR SPOO,OB,Pack,LanzarSPOO
+PICK - CART RUNNER,OB - Pick,Cart Runner,OB,Pick,CartRunner
+PICK - HOV,OB - Pick,HOV,OB,Pick,HOV
+PICK - HR - PIT A,OB - Pick,PIT-A,OB,Pick,PIT-A
+PICK - PG,OB - Pick,PG,OB,Pick,PG
+PICK - PICK TOWER,OB - Pick,Pick Tower,OB,Pick,PickTower
+PICK - TUGGER,OB - Pick,Tugger,OB,Pick,Tugger
+PICK TEAM LIFT #1,OB - Pick,PICK TEAM LIFT #1,OB,Pick,TeamLift
+PICK TEAM LIFT #2,OB - Pick,PICK TEAM LIFT #2,OB,Pick,TeamLift
+PICK TEAM LIFT #3,OB - Pick,PICK TEAM LIFT #3,OB,Pick,TeamLift
+PICK TEAM LIFT ASSISTANT #1,OB - Pick,PICK TEAM LIFT ASSISTANT #1,OB,Pick,TLAssistant
+PICK TEAM LIFT ASSISTANT #2,OB - Pick,PICK TEAM LIFT ASSISTANT #2,OB,Pick,TLAssistant
+PICK TEAM LIFT ASSISTANT #3,OB - Pick,PICK TEAM LIFT ASSISTANT #3,OB,Pick,TLAssistant
+Pick Team Lift HR,OB - Pick,High Rack Team Lift,OB,Pick,TeamLiftHR
+PICK TO SPOO - HR,OB - Pick,High Rack - Pick to SPOO,OB,Pick,PicktoSPOOHR
+SIOC AMBASSADOR,OB - Pick,SIOC Ambassador,OB,Pick,SIOCAmbassador
+PICK TO SPOO - LOADER L4,OB - PICK,Pick To SPOO - L4,OB,Pick,PicktoSPOOLoader
+PICK TO SPOO - LOADER L8,OB - Pick,Pick To SPOO - L8,OB,Pick,PicktoSPOOLoader
+PICK TO SPOO - PICK TOWER,OB - Pick,Pick Tower - Pick to SPOO,OB,Pick,PicktoSPOOPT
+PICK TO SPOO - HR - PIT 01,OB - Pick,Pick to SPOO - PIT 01,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 02,OB - Pick,Pick to SPOO - PIT 02,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 03,OB - Pick,Pick to SPOO - PIT 03,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 04,OB - Pick,Pick to SPOO - PIT 04,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 05,OB - Pick,Pick to SPOO - PIT 05,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 06,OB - Pick,Pick to SPOO - PIT 06,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 07,OB - Pick,Pick to SPOO - PIT 07,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 08,OB - Pick,Pick to SPOO - PIT 08,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 09,OB - Pick,Pick to SPOO - PIT 09,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 10,OB - Pick,Pick to SPOO - PIT 10,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 11,OB - Pick,Pick to SPOO - PIT 11,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 12,OB - Pick,Pick to SPOO - PIT 12,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 13,OB - Pick,Pick to SPOO - PIT 13,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 14,OB - Pick,Pick to SPOO - PIT 14,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 15,OB - Pick,Pick to SPOO - PIT 15,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 16,OB - Pick,Pick to SPOO - PIT 16,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 17,OB - Pick,Pick to SPOO - PIT 17,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 18,OB - Pick,Pick to SPOO - PIT 18,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 19,OB - Pick,Pick to SPOO - PIT 19,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 20,OB - Pick,Pick to SPOO - PIT 20,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 21,OB - Pick,Pick to SPOO - PIT 21,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 22,OB - Pick,Pick to SPOO - PIT 22,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 23,OB - Pick,Pick to SPOO - PIT 23,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 24,OB - Pick,Pick to SPOO - PIT 24,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 25,OB - Pick,Pick to SPOO - PIT 25,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 26,OB - Pick,Pick to SPOO - PIT 26,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 27,OB - Pick,Pick to SPOO - PIT 27,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 28,OB - Pick,Pick to SPOO - PIT 28,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 29,OB - Pick,Pick to SPOO - PIT 29,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 30,OB - Pick,Pick to SPOO - PIT 30,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 31,OB - Pick,Pick to SPOO - PIT 31,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 32,OB - Pick,Pick to SPOO - PIT 32,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 33,OB - Pick,Pick to SPOO - PIT 33,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 34,OB - Pick,Pick to SPOO - PIT 34,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 35,OB - Pick,Pick to SPOO - PIT 35,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 36,OB - Pick,Pick to SPOO - PIT 36,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 37,OB - Pick,Pick to SPOO - PIT 37,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 38,OB - Pick,Pick to SPOO - PIT 38,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 39,OB - Pick,Pick to SPOO - PIT 39,OB,Pick,PicktoSPOOHR
+PICK TO SPOO - HR - PIT 40,OB - Pick,Pick to SPOO - PIT 40,OB,Pick,PicktoSPOOHR
+SHIP - AREA A,OB - Ship,Area A,OB,Ship,AreaA
+SHIP - AREA B,OB - Ship,Area B,OB,Ship,AreaB
+SHIP - AREA D,OB - Ship,Area D,OB,Ship,AreaD
+SHIP - AUDITOR,OB - Ship,Auditor,OB,Ship,Auditor
+SHIP - CLERK,OB - Ship,Clerk,OB,Ship,Clerk
+SHIP - INDOOR,OB - Ship,IDM,OB,Ship,IDM
+SHIP - SPIRAL - LOOSE LOAD,OB - Ship,Caracolas,OB,Ship,Caracolas
+SHIP - SUPPLIES,OB - Ship,Supplies,OB,Ship,Supplies
+SHIP TEAM LIFT,OB - Ship,Team Lift,OB,Ship,TeamLift
+SIAT - L1,OB - SIAT,L1,OB,Pack,SIAT
+SIAT - L2,OB - SIAT,L2,OB,Pack,SIAT
+SIAT - L3,OB - SIAT,L3,OB,Pack,SIAT
+SIAT - L6,OB - SIAT,L6,OB,Pack,SIAT
+SIAT - L7,OB - SIAT,L7,OB,Pack,SIAT
+SIAT - L8,OB - SIAT,L8,OB,Pack,SIAT
+SUPPORT - TUGGER,OB Pick,Support Tugger,OB,Pick,SupportTugger
+HR AMBASSADOR,Ops - Support,High Rack Ambassador,Support,Ops,HRAmbassador
+HR JANITOR,Ops - Support,High Rack Janitor,Support,Ops,HRJanitor
+POUT,POUT,POUT Problem Solve,Support,ISS,POUTPS
+POUT Support,POUT,Support POUT,Support,ISS,POUTSupport
+SPACE,Space,Space,Support,Space,Space
+TOM - GATEHOUSE,TOM,Garitas,OB,TOM,Garitas
+TOM - OUTDOOR MARSHAL,TOM,ODM,OB,TOM,ODM
+VRET CAR RUNNER,V-ret,Cart Runner,OB,V-ret,V-retCartRunner
+Grading - Pick,WHD Grading,WHD Pick,IB,Grading,WHDPick
+Grading - Pack,WHD Grading,WHD Pack,IB,Grading,WHDPack
+Grading - PS,WHD Grading,WHD Problem Solve,IB,Grading,WHDPS

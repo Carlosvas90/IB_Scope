@@ -516,3 +516,24 @@
   font-size: var(--font-size-xs);
   color: var(--Color-gray-5);
 }
+
+/* QR Codes cell */
+.pm-qr-cell {
+  white-space: nowrap;
+  max-width: 160px;
+}
+.pm-qr-text {
+  font-size: 0.78rem;
+  color: var(--texto-tabla, #374151);
+  background: rgba(6,65,130,0.07);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  cursor: help;
+  margin-right: 0.3rem;
+}
+#pm-modal-qr-textarea {
+  width: 100%;
+  font-family: monospace;
+  font-size: 0.85rem;
+  resize: vertical;
+}

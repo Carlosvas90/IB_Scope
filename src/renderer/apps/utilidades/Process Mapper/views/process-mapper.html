@@ -46,6 +46,7 @@
                 <th>Red Task</th>
                 <th>Storage Area</th>
                 <th>Líneas / WS</th>
+                <th>QR Codes</th>
                 <th>Certificados</th>
                 <th></th>
               </tr>
@@ -201,6 +202,23 @@
         <button type="button" id="pm-modal-certificados-add-grupo" class="pm-btn pm-btn-secondary">+ Añadir grupo (otra formación requerida)</button>
         <div class="pm-modal-actions">
           <button type="button" id="pm-modal-certificados-guardar" class="pm-btn pm-btn-primary">Guardar</button>
+        </div>
+        <button type="button" class="pm-modal-close" aria-label="Cerrar">&times;</button>
+      </div>
+    </div>
+
+    <!-- Modal: QR Codes del puesto -->
+    <div id="pm-modal-qr" class="pm-modal" role="dialog" aria-label="QR Codes del puesto" hidden>
+      <div class="pm-modal-backdrop"></div>
+      <div class="pm-modal-box">
+        <h2 class="pm-modal-title">QR Codes — <span id="pm-modal-qr-title"></span></h2>
+        <p class="pm-modal-hint">Añade los textos de QR que activan este puesto (uno por línea). Al escanear cualquiera de ellos en FlowTask o Pizarra, se asignará a este puesto.</p>
+        <div class="pm-modal-step">
+          <label><strong>QR Codes</strong> (uno por línea)</label>
+          <textarea id="pm-modal-qr-textarea" class="pm-modal-input" rows="8" placeholder="DOCK CLERK&#10;OCEAN&#10;RCV L2 -01"></textarea>
+        </div>
+        <div class="pm-modal-actions">
+          <button type="button" id="pm-modal-qr-guardar" class="pm-btn pm-btn-primary">Guardar</button>
         </div>
         <button type="button" class="pm-modal-close" aria-label="Cerrar">&times;</button>
       </div>

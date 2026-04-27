@@ -1,0 +1,1390 @@
+{
+  "OCEAN": {
+    "dept": "IB",
+    "process": "Dock",
+    "task": "Ocean"
+  },
+  "DOCK CLERK": {
+    "dept": "IB",
+    "process": "Dock",
+    "task": "Clerk"
+  },
+  "DOCK UNLOADERS": {
+    "dept": "IB",
+    "process": "Dock",
+    "task": "Unloader"
+  },
+  "PALLET REPALLETIZE": {
+    "dept": "IB",
+    "process": "Dock",
+    "task": "Repalletize"
+  },
+  "ISS FUD/AGING": {
+    "dept": "IB",
+    "process": "Stow",
+    "task": "FUDHunter"
+  },
+  "IB FUD HUNTER": {
+    "dept": "IB",
+    "process": "Stow",
+    "task": "FUDHunter"
+  },
+  "JACKPOT - RCV": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "NonCon"
+  },
+  "RCV L2 -01": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "NonCon",
+    "linea": "L2",
+    "ws": "L2-01"
+  },
+  "RCV L2 -02": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "NonCon",
+    "linea": "L2",
+    "ws": "L2-02"
+  },
+  "RCV L2 -03": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "NonCon",
+    "linea": "L2",
+    "ws": "L2-03"
+  },
+  "RCV L2 -04": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "NonCon",
+    "linea": "L2",
+    "ws": "L2-04"
+  },
+  "RCV L2 -05": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "NonCon",
+    "linea": "L2",
+    "ws": "L2-05"
+  },
+  "RCV L2 -06": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "NonCon",
+    "linea": "L2",
+    "ws": "L2-06"
+  },
+  "RCV L2 -07": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "NonCon",
+    "linea": "L2",
+    "ws": "L2-07"
+  },
+  "RCV L2 -08": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "NonCon",
+    "linea": "L2",
+    "ws": "L2-08"
+  },
+  "RCV L2 -09": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "NonCon",
+    "linea": "L2",
+    "ws": "L2-09"
+  },
+  "RCV L2 -10": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "NonCon",
+    "linea": "L2",
+    "ws": "L2-10"
+  },
+  "RCV L3 -01": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "NonCon",
+    "linea": "L3",
+    "ws": "L3-01"
+  },
+  "RCV L3 -03": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "NonCon",
+    "linea": "L3",
+    "ws": "L3-03"
+  },
+  "RCV L3 -05": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "NonCon",
+    "linea": "L3",
+    "ws": "L3-05"
+  },
+  "RCV L3 -07": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "NonCon",
+    "linea": "L3",
+    "ws": "L3-07"
+  },
+  "RCV L3 -09": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "NonCon",
+    "linea": "L3",
+    "ws": "L3-09"
+  },
+  "CORRAL": {
+    "dept": "IB",
+    "process": "Dock",
+    "task": "Corral"
+  },
+  "PALLET RECEIVE": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "PalletReceive"
+  },
+  "PREP  L1 - 07": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "Prep",
+    "linea": "L1",
+    "ws": "L1-07"
+  },
+  "PREP L1-08": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "Prep",
+    "linea": "L1",
+    "ws": "L1-08"
+  },
+  "PREP L1-09": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "Prep",
+    "linea": "L1",
+    "ws": "L1-09"
+  },
+  "PREP L1-10": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "Prep",
+    "linea": "L1",
+    "ws": "L1-10"
+  },
+  "RCV L1-01": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "Prep",
+    "linea": "L1",
+    "ws": "L1-01"
+  },
+  "RCV L1-02": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "Prep",
+    "linea": "L1",
+    "ws": "L1-02"
+  },
+  "RCV L1-03": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "Prep",
+    "linea": "L1",
+    "ws": "L1-03"
+  },
+  "RCV L1-04": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "Prep",
+    "linea": "L1",
+    "ws": "L1-04"
+  },
+  "RCV L1-05": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "Prep",
+    "linea": "L1",
+    "ws": "L1-05"
+  },
+  "RCV L1-06": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "Prep",
+    "linea": "L1",
+    "ws": "L1-06"
+  },
+  "RCV NON-CON": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "NonCon"
+  },
+  "RECEIVE TEAM LIFT #1": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "TeamLift"
+  },
+  "RECEIVE TEAM LIFT #2": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "TeamLift"
+  },
+  "RECEIVE TEAM LIFT #3": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "TeamLift"
+  },
+  "TSI DECANT 1": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "DecantTSI"
+  },
+  "TSI DECANT 2": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "DecantTSI"
+  },
+  "TSI DECANT 3": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "DecantTSI"
+  },
+  "TSI DECANT 4": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "DecantTSI"
+  },
+  "TSI DECANT 5": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "DecantTSI"
+  },
+  "RECEIVE TEAM LIFT ASSISTANT #1": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "TLAssistant"
+  },
+  "RECEIVE TEAM LIFT ASSISTANT #2": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "TLAssistant"
+  },
+  "RECEIVE TEAM LIFT ASSISTANT #3": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "TLAssistant"
+  },
+  "RECEIVE WATERSPIDER": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "WaterSpider"
+  },
+  "CUBIS": {
+    "dept": "IB",
+    "process": "Receive",
+    "task": "Cubis"
+  },
+  "QUARTERBACK - STOW CART RUNNER": {
+    "dept": "IB",
+    "process": "Stow",
+    "task": "CartRunner"
+  },
+  "STOW CART RUNNER": {
+    "dept": "IB",
+    "process": "Stow",
+    "task": "CartRunner"
+  },
+  "STOW PICK TOWER": {
+    "dept": "IB",
+    "process": "Stow",
+    "task": "StowPickTower"
+  },
+  "STOW TEAM LIFT #1": {
+    "dept": "IB",
+    "process": "Stow",
+    "task": "TeamLift"
+  },
+  "STOW TEAM LIFT #2": {
+    "dept": "IB",
+    "process": "Stow",
+    "task": "TeamLift"
+  },
+  "STOW TEAM LIFT #3": {
+    "dept": "IB",
+    "process": "Stow",
+    "task": "TeamLift"
+  },
+  "STOW TEAM LIFT #4": {
+    "dept": "IB",
+    "process": "Stow",
+    "task": "TeamLift"
+  },
+  "STOW TEAM LIFT ASSISTANT #1": {
+    "dept": "IB",
+    "process": "Stow",
+    "task": "TLAssistant"
+  },
+  "STOW TEAM LIFT ASSISTANT #2": {
+    "dept": "IB",
+    "process": "Stow",
+    "task": "TLAssistant"
+  },
+  "STOW TEAM LIFT ASSISTANT #3": {
+    "dept": "IB",
+    "process": "Stow",
+    "task": "TLAssistant"
+  },
+  "STOW TEAM LIFT ASSISTANT #4": {
+    "dept": "IB",
+    "process": "Stow",
+    "task": "TLAssistant"
+  },
+  "STOW HR - PITC": {
+    "dept": "IB",
+    "process": "Stow",
+    "task": "PIT-C"
+  },
+  "STOW PIT B HR": {
+    "dept": "IB",
+    "process": "Stow",
+    "task": "PIT-B"
+  },
+  "HR EMPTY PALLETS": {
+    "dept": "IB",
+    "process": "Stow",
+    "task": "PIT-C"
+  },
+  "VRET PACK": {
+    "dept": "IB",
+    "process": "V-ret",
+    "task": "V-retPack"
+  },
+  "VRET PICK": {
+    "dept": "IB",
+    "process": "V-ret",
+    "task": "V-retPick"
+  },
+  "VRET PROBLEM SOLVE": {
+    "dept": "IB",
+    "process": "V-ret",
+    "task": "V-retPS"
+  },
+  "ICQA": {
+    "dept": "Support",
+    "process": "ICQA",
+    "task": "ICQA"
+  },
+  "ISS RCV PS": {
+    "dept": "Support",
+    "process": "ISS",
+    "task": "ReceivePS"
+  },
+  "ISS SWEEPER": {
+    "dept": "Support",
+    "process": "ISS",
+    "task": "Sweeper"
+  },
+  "ISS TICKETS + POUT": {
+    "dept": "Support",
+    "process": "ISS",
+    "task": "Tickets"
+  },
+  "ISS TICKETS": {
+    "dept": "Support",
+    "process": "ISS",
+    "task": "Tickets"
+  },
+  "LEARNING - TRAINING": {
+    "dept": "Support",
+    "process": "Learning",
+    "task": "Training"
+  },
+  "PACK BUFFER OPERATOR": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "BufferOperator"
+  },
+  "PACK L1 -01": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L1",
+    "ws": "L1-01"
+  },
+  "PACK L1 -02": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L1",
+    "ws": "L1-02"
+  },
+  "PACK L1 -03": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L1",
+    "ws": "L1-03"
+  },
+  "PACK L1 -04 - HOV": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackHOV",
+    "linea": "L1",
+    "ws": "L1-04"
+  },
+  "PACK L1 -05 - HOV": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackHOV",
+    "linea": "L1",
+    "ws": "L1-05"
+  },
+  "PACK L1 -06 - HOV": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackHOV",
+    "linea": "L1",
+    "ws": "L1-06"
+  },
+  "PACK L1 -07 - HOV": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackHOV",
+    "linea": "L1",
+    "ws": "L1-07"
+  },
+  "PACK L1 -08 - HOV": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackHOV",
+    "linea": "L1",
+    "ws": "L1-08"
+  },
+  "PACK L2 -01": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L2",
+    "ws": "L2-01"
+  },
+  "PACK L2 -02": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L2",
+    "ws": "L2-02"
+  },
+  "PACK L2 -03": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L2",
+    "ws": "L2-03"
+  },
+  "PACK L2 -04": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L2",
+    "ws": "L2-04"
+  },
+  "PACK L2 -05": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L2",
+    "ws": "L2-05"
+  },
+  "PACK L2 -06": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L2",
+    "ws": "L2-06"
+  },
+  "PACK L2 -07": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L2",
+    "ws": "L2-07"
+  },
+  "PACK L2 -08": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L2",
+    "ws": "L2-08"
+  },
+  "PACK L3 -01": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L3",
+    "ws": "L3-01"
+  },
+  "PACK L3 -02": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L3",
+    "ws": "L3-02"
+  },
+  "PACK L3 -03": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L3",
+    "ws": "L3-03"
+  },
+  "PACK L3 -04": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L3",
+    "ws": "L3-04"
+  },
+  "PACK L3 -05": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L3",
+    "ws": "L3-05"
+  },
+  "PACK L3 -06": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L3",
+    "ws": "L3-06"
+  },
+  "PACK L3 -07": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L3",
+    "ws": "L3-07"
+  },
+  "PACK L3 -08": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L3",
+    "ws": "L3-08"
+  },
+  "PACK L4 -01": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L4",
+    "ws": "L4-01"
+  },
+  "PACK L4 -02": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L4",
+    "ws": "L4-02"
+  },
+  "PACK L4 -03": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L4",
+    "ws": "L4-03"
+  },
+  "PACK L4 -04": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L4",
+    "ws": "L4-04"
+  },
+  "PACK L4 -05": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L4",
+    "ws": "L4-05"
+  },
+  "PACK L4 -07": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L4",
+    "ws": "L4-07"
+  },
+  "PACK L5 -01": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "ExceptionSort",
+    "linea": "L5",
+    "ws": "L5-01"
+  },
+  "PACK L5 -02": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "ExceptionSort",
+    "linea": "L5",
+    "ws": "L5-02"
+  },
+  "PACK L5 -03": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "ExceptionSort",
+    "linea": "L5",
+    "ws": "L5-03"
+  },
+  "PACK L5 -04": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "ExceptionSort",
+    "linea": "L5",
+    "ws": "L5-04"
+  },
+  "PACK L5 -05": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "ExceptionSort",
+    "linea": "L5",
+    "ws": "L5-05"
+  },
+  "PACK L5 -06": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "ExceptionSort",
+    "linea": "L5",
+    "ws": "L5-06"
+  },
+  "PACK L5 -07": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "ExceptionSort",
+    "linea": "L5",
+    "ws": "L5-07"
+  },
+  "PACK L5 -08": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "ExceptionSort",
+    "linea": "L5",
+    "ws": "L5-08"
+  },
+  "PACK L6 -01": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L6",
+    "ws": "L6-01"
+  },
+  "PACK L6 -02": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L6",
+    "ws": "L6-02"
+  },
+  "PACK L6 -03": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L6",
+    "ws": "L6-03"
+  },
+  "PACK L6 -04": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L6",
+    "ws": "L6-04"
+  },
+  "PACK L6 -05 - HOV": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackHOV",
+    "linea": "L6",
+    "ws": "L6-05"
+  },
+  "PACK L6 -06 - HOV": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackHOV",
+    "linea": "L6",
+    "ws": "L6-06"
+  },
+  "PACK L6 -07 - HOV": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackHOV",
+    "linea": "L6",
+    "ws": "L6-07"
+  },
+  "PACK L6 -08 - HOV": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackHOV",
+    "linea": "L6",
+    "ws": "L6-08"
+  },
+  "PACK L7 -01": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L7",
+    "ws": "L7-01"
+  },
+  "PACK L7 -02": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L7",
+    "ws": "L7-02"
+  },
+  "PACK L7 -03": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L7",
+    "ws": "L7-03"
+  },
+  "PACK L7 -04": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L7",
+    "ws": "L7-04"
+  },
+  "PACK L7 -05": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L7",
+    "ws": "L7-05"
+  },
+  "PACK L7 -06": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L7",
+    "ws": "L7-06"
+  },
+  "PACK L7 -07": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L7",
+    "ws": "L7-07"
+  },
+  "PACK L7 -08": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L7",
+    "ws": "L7-08"
+  },
+  "PACK L8 -01": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L8",
+    "ws": "L8-01"
+  },
+  "PACK L8 -02": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L8",
+    "ws": "L8-02"
+  },
+  "PACK L8 -03": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L8",
+    "ws": "L8-03"
+  },
+  "PACK L8 -04": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L8",
+    "ws": "L8-04"
+  },
+  "PACK L8 -05": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L8",
+    "ws": "L8-05"
+  },
+  "PACK L8 -06": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L8",
+    "ws": "L8-06"
+  },
+  "PACK L8 -07": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L8",
+    "ws": "L8-07"
+  },
+  "PACK L8 -08": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "PackNonCon",
+    "linea": "L8",
+    "ws": "L8-08"
+  },
+  "PACK L9": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "L9",
+    "linea": "L9"
+  },
+  "PACK PROBLEM SOLVE": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "ProblemSolve"
+  },
+  "PACK WATERSPIDER": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "WaterSpider"
+  },
+  "SLAM OPERATOR 1": {
+    "dept": "OB",
+    "process": "Ship",
+    "task": "SlamOperator"
+  },
+  "SLAM OPERATOR 2": {
+    "dept": "OB",
+    "process": "Ship",
+    "task": "SlamOperator"
+  },
+  "LANZAR SPOO": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "LanzarSPOO"
+  },
+  "PICK - CART RUNNER": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "CartRunner"
+  },
+  "PICK - HOV": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "HOV"
+  },
+  "PICK - HR - PIT A": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PIT-A"
+  },
+  "PICK - PG": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PG"
+  },
+  "PICK - PICK TOWER": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PickTower"
+  },
+  "PICK - TUGGER": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "Tugger"
+  },
+  "PICK TEAM LIFT #1": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "TeamLift"
+  },
+  "PICK TEAM LIFT #2": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "TeamLift"
+  },
+  "PICK TEAM LIFT #3": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "TeamLift"
+  },
+  "PICK TEAM LIFT ASSISTANT #1": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "TLAssistant"
+  },
+  "PICK TEAM LIFT ASSISTANT #2": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "TLAssistant"
+  },
+  "PICK TEAM LIFT ASSISTANT #3": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "TLAssistant"
+  },
+  "PICK TEAM LIFT HR": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "TeamLiftHR"
+  },
+  "PICK TO SPOO - HR": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR"
+  },
+  "SIOC AMBASSADOR": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "SIOCAmbassador"
+  },
+  "PICK TO SPOO - LOADER L4": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOLoader",
+    "linea": "L4"
+  },
+  "PICK TO SPOO - LOADER L8": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOLoader",
+    "linea": "L8"
+  },
+  "PICK TO SPOO - PICK TOWER": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOPT"
+  },
+  "PICK TO SPOO - HR - PIT 01": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 01",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 02": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 02",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 03": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 03",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 04": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 04",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 05": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 05",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 06": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 06",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 07": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 07",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 08": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 08",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 09": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 09",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 10": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 10",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 11": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 11",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 12": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 12",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 13": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 13",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 14": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 14",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 15": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 15",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 16": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 16",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 17": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 17",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 18": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 18",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 19": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 19",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 20": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 20",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 21": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 21",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 22": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 22",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 23": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 23",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 24": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 24",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 25": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 25",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 26": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 26",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 27": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 27",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 28": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 28",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 29": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 29",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 30": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 30",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 31": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 31",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 32": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 32",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 33": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 33",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 34": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 34",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 35": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 35",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 36": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 36",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 37": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 37",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 38": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 38",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 39": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 39",
+    "tiene_maquinas": true
+  },
+  "PICK TO SPOO - HR - PIT 40": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "PicktoSPOOHR",
+    "ws": "PIT 40",
+    "tiene_maquinas": true
+  },
+  "SHIP - AREA A": {
+    "dept": "OB",
+    "process": "Ship",
+    "task": "AreaA"
+  },
+  "SHIP - AREA B": {
+    "dept": "OB",
+    "process": "Ship",
+    "task": "AreaB"
+  },
+  "SHIP - AREA D": {
+    "dept": "OB",
+    "process": "Ship",
+    "task": "AreaD"
+  },
+  "SHIP - AUDITOR": {
+    "dept": "OB",
+    "process": "Ship",
+    "task": "Auditor"
+  },
+  "SHIP - CLERK": {
+    "dept": "OB",
+    "process": "Ship",
+    "task": "Clerk"
+  },
+  "SHIP - INDOOR": {
+    "dept": "OB",
+    "process": "Ship",
+    "task": "IDM"
+  },
+  "SHIP - SPIRAL - LOOSE LOAD": {
+    "dept": "OB",
+    "process": "Ship",
+    "task": "Caracolas"
+  },
+  "SHIP - SUPPLIES": {
+    "dept": "OB",
+    "process": "Ship",
+    "task": "Supplies"
+  },
+  "SHIP TEAM LIFT": {
+    "dept": "OB",
+    "process": "Ship",
+    "task": "TeamLift"
+  },
+  "SIAT - L1": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "SIAT",
+    "linea": "L1"
+  },
+  "SIAT - L2": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "SIAT",
+    "linea": "L2"
+  },
+  "SIAT - L3": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "SIAT",
+    "linea": "L3"
+  },
+  "SIAT - L6": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "SIAT",
+    "linea": "L6"
+  },
+  "SIAT - L7": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "SIAT",
+    "linea": "L7"
+  },
+  "SIAT - L8": {
+    "dept": "OB",
+    "process": "Pack",
+    "task": "SIAT",
+    "linea": "L8"
+  },
+  "SUPPORT - TUGGER": {
+    "dept": "OB",
+    "process": "Pick",
+    "task": "SupportTugger"
+  },
+  "HR AMBASSADOR": {
+    "dept": "Support",
+    "process": "Ops",
+    "task": "HRAmbassador"
+  },
+  "HR JANITOR": {
+    "dept": "Support",
+    "process": "Ops",
+    "task": "HRJanitor"
+  },
+  "POUT": {
+    "dept": "Support",
+    "process": "ISS",
+    "task": "POUTPS"
+  },
+  "POUT SUPPORT": {
+    "dept": "Support",
+    "process": "ISS",
+    "task": "POUTSupport"
+  },
+  "SPACE": {
+    "dept": "Support",
+    "process": "Space",
+    "task": "Space"
+  },
+  "TOM - GATEHOUSE": {
+    "dept": "OB",
+    "process": "TOM",
+    "task": "Garitas"
+  },
+  "TOM - OUTDOOR MARSHAL": {
+    "dept": "OB",
+    "process": "TOM",
+    "task": "ODM"
+  },
+  "VRET CAR RUNNER": {
+    "dept": "OB",
+    "process": "V-ret",
+    "task": "V-retCartRunner"
+  },
+  "GRADING - PICK": {
+    "dept": "IB",
+    "process": "Grading",
+    "task": "WHDPick"
+  },
+  "GRADING - PACK": {
+    "dept": "IB",
+    "process": "Grading",
+    "task": "WHDPack"
+  },
+  "GRADING - PS": {
+    "dept": "IB",
+    "process": "Grading",
+    "task": "WHDPS"
+  }
+}
